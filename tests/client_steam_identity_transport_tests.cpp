@@ -22,8 +22,10 @@ struct Probe {
     unsigned reads=0,headers=0,options=0,closed=0,opened=0;
     std::uintptr_t next_handle=0x1000;
     HINTERNET fixed_connection=nullptr;
+    INTERNET_PORT fixture_port=0;
     std::wstring header;
     bool no_proxy=false,no_redirect=false,header_before_options=false;
+    explicit Probe(int port=0):fixture_port(static_cast<INTERNET_PORT>(port)) {}
 };
 thread_local Probe* current=nullptr;
 bool read_identity(void* context,std::uint64_t* value) noexcept {
@@ -32,7 +34,15 @@ bool read_identity(void* context,std::uint64_t* value) noexcept {
     return !probe.unavailable;
 }
 HINTERNET WINAPI connect(HINTERNET session,LPCWSTR host,INTERNET_PORT port,DWORD reserved) {
-    if (!current->boundary) return WinHttpConnect(session,host,port,reserved);
+    if (!current->boundary) {
+        // Transport still classifies the ORIGINAL logical host/port. Only its
+        // injected native adapter redirects these local fixtures physically.
+        const bool fixture_host=host && (std::wstring_view(host)==L"127.0.0.1"
+            || std::wstring_view(host)==L"localhost");
+        const auto physical_port=current->fixture_port && fixture_host && (port==0 || port==80)
+            ? current->fixture_port : port;
+        return WinHttpConnect(session,host,physical_port,reserved);
+    }
     if (current->fixed_connection) return current->fixed_connection;
     return reinterpret_cast<HINTERNET>(++current->next_handle);
 }
@@ -85,7 +95,7 @@ class Listener {
 public:
     std::atomic<unsigned> redirected{0};
     std::atomic<unsigned> requests{0};
-    explicit Listener(bool redirect=false,int port=80) {
+    explicit Listener(bool redirect=false) {
         const auto handler=[this,redirect](const httplib::Request& request,httplib::Response& response) {
             ++requests;
             if(request.path=="/redirect-target") ++redirected;
@@ -93,14 +103,13 @@ public:
                 ? request.get_header_value("X-Hawken-SteamID") : "none");
             if(redirect && request.path=="/steam/login") {
                 response.status=302;
-                response.set_header("Location","http://127.0.0.1/redirect-target");
+                response.set_header("Location","http://127.0.0.1:"+std::to_string(port_)+"/redirect-target");
             } else response.set_content(request.body,"application/json");
         };
         server_.Get(".*",handler); server_.Post(".*",handler);
-        // Identity policy is port0/80 ONLY. Occupancy is an explicit fixture
-        // failure, never an excuse to kill a service, request UAC or skip.
-        if(port==0) port_=server_.bind_to_any_port("127.0.0.1");
-        else if(server_.bind_to_port("127.0.0.1",port)) port_=port;
+        // Always isolated from a live backend on80. Logical port0/80 policy
+        // remains in Transport; the test adapter maps it to this real listener.
+        port_=server_.bind_to_any_port("127.0.0.1");
         if(port_<1) throw std::runtime_error("Loopback fixture port unavailable.");
         worker_=std::jthread([this]{server_.listen_after_bind();});
         server_.wait_until_ready();
@@ -155,17 +164,18 @@ void expect_configuration_error(const identity::Config& conf) {
 }
 
 TEST_CASE("Identity transport real HTTP exact login header and unchanged original body") {
-    Listener listener; Probe probe; Scope scope(probe); identity::Transport transport(config(probe));
+    Listener listener; Probe probe(listener.port()); Scope scope(probe); identity::Transport transport(config(probe));
     auto sess=session(); Handle conn(transport.connect(sess.value,L"127.0.0.1",0,0),&transport); REQUIRE(conn.value);
     Handle request(transport.open_request(conn.value,L"POST",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
     REQUIRE(request.value); const auto response=send(request.value);
     CHECK(response.status==200); CHECK(response.claim==L"76561197960265729"); CHECK(response.body==body);
     CHECK(probe.reads==1); CHECK(probe.headers==1); CHECK(probe.no_proxy); CHECK(probe.no_redirect);
     CHECK_FALSE(probe.header_before_options); CHECK(probe.options==2);
+    CHECK(listener.requests==1); CHECK(listener.port()!=80);
     CHECK(probe.header==L"X-Hawken-SteamID: 76561197960265729\r\n");
 }
 TEST_CASE("Identity transport real HTTP exact path excludes slash query case and other routes") {
-    Listener listener; Probe probe; Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
+    Listener listener; Probe probe(listener.port()); Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
     Handle conn(transport.connect(sess.value,L"127.0.0.1",80,0),&transport); REQUIRE(conn.value);
     for(auto path:std::array<LPCWSTR,5>{L"/steam/login/",L"/steam/login?x=1",L"/Steam/login",L"/version",L"/steam/create-account"}) {
         Handle request(transport.open_request(conn.value,L"POST",path,nullptr,nullptr,nullptr,0),&transport);
@@ -173,29 +183,44 @@ TEST_CASE("Identity transport real HTTP exact path excludes slash query case and
         CHECK(response.status==200); CHECK(response.claim==L"none"); CHECK(response.body==body);
     }
     CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+    CHECK(listener.requests==5);
 }
 TEST_CASE("Identity transport real HTTP GET login is passthrough without identity") {
-    Listener listener; Probe probe; Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
+    Listener listener; Probe probe(listener.port()); Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
     Handle conn(transport.connect(sess.value,L"127.0.0.1",80,0),&transport); REQUIRE(conn.value);
     Handle request(transport.open_request(conn.value,L"GET",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
     REQUIRE(request.value); const auto response=send(request.value);
     CHECK(response.claim==L"none"); CHECK(probe.reads==0); CHECK(probe.options==0); CHECK(probe.headers==0);
+    CHECK(listener.requests==1);
 }
 TEST_CASE("Identity transport real HTTP localhost alias is not the exact literal host") {
-    Listener listener; Probe probe; Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
+    Listener listener; Probe probe(listener.port()); Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
     Handle conn(transport.connect(sess.value,L"localhost",80,0),&transport); REQUIRE(conn.value);
     Handle request(transport.open_request(conn.value,L"POST",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
     REQUIRE(request.value); CHECK(send(request.value).claim==L"none"); CHECK(probe.reads==0); CHECK(probe.headers==0);
+    CHECK(listener.requests==1);
+}
+TEST_CASE("Identity transport real HTTP nondefault port reaches fixture without selecting claim") {
+    Listener listener; Probe probe(listener.port()); Scope scope(probe);
+    identity::Transport transport(config(probe)); auto sess=session();
+    REQUIRE(listener.port()!=80);
+    Handle conn(transport.connect(sess.value,L"127.0.0.1",static_cast<INTERNET_PORT>(listener.port()),0),&transport);
+    REQUIRE(conn.value);
+    Handle request(transport.open_request(conn.value,L"POST",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
+    REQUIRE(request.value); const auto response=send(request.value);
+    CHECK(response.status==200); CHECK(response.claim==L"none"); CHECK(response.body==body);
+    CHECK(listener.requests==1); CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
 }
 TEST_CASE("Identity transport real HTTP redirect is returned without following") {
-    Listener listener(true); Probe probe; Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
+    Listener listener(true); Probe probe(listener.port()); Scope scope(probe); identity::Transport transport(config(probe)); auto sess=session();
     Handle conn(transport.connect(sess.value,L"127.0.0.1",80,0),&transport); REQUIRE(conn.value);
     Handle request(transport.open_request(conn.value,L"POST",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
     REQUIRE(request.value); const auto response=send(request.value);
     CHECK(response.status==302); CHECK(response.claim==L"76561197960265729"); CHECK(listener.redirected==0);
+    CHECK(listener.requests==1);
 }
 TEST_CASE("Identity transport real HTTP selected request overrides local named proxy") {
-    Listener listener; Listener proxy(false,0); Probe probe; Scope scope(probe);
+    Listener listener; Listener proxy; Probe probe(listener.port()); Scope scope(probe);
     identity::Transport transport(config(probe));
     const auto address=L"127.0.0.1:"+std::to_wstring(proxy.port());
     Handle sess(WinHttpOpen(L"HawkenPublicIdentityFixture/1.0",WINHTTP_ACCESS_TYPE_NAMED_PROXY,
@@ -210,7 +235,7 @@ TEST_CASE("Identity transport real HTTP selected request overrides local named p
 TEST_CASE("Identity transport missing or zero fixture identity closes selected real request") {
     Listener listener;
     for(bool zero:std::array<bool,2>{false,true}) {
-        Probe probe; probe.unavailable=!zero; probe.zero_id=zero; Scope scope(probe);
+        Probe probe(listener.port()); probe.unavailable=!zero; probe.zero_id=zero; Scope scope(probe);
         identity::Transport transport(config(probe)); auto sess=session();
         Handle conn(transport.connect(sess.value,L"127.0.0.1",80,0),&transport); REQUIRE(conn.value);
         SetLastError(0);
@@ -222,7 +247,7 @@ TEST_CASE("Identity transport missing or zero fixture identity closes selected r
 TEST_CASE("Identity transport options or header failure closes selected real request") {
     Listener listener;
     for(unsigned failure:std::array<unsigned,3>{1,2,3}) {
-        Probe probe; probe.fail_option_number=failure<3 ? failure : 0;
+        Probe probe(listener.port()); probe.fail_option_number=failure<3 ? failure : 0;
         probe.fail_headers=failure==3; Scope scope(probe);
         identity::Transport transport(config(probe)); auto sess=session();
         Handle conn(transport.connect(sess.value,L"127.0.0.1",80,0),&transport); REQUIRE(conn.value);
