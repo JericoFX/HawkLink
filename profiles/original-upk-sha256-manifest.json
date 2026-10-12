@@ -1,0 +1,2906 @@
+{
+  "schema": "hawken.original-package-sha256-baseline.v1",
+  "generated_at_utc": "2026-10-11T00:34:15.913531+00:00",
+  "source_root": "F:\\SteamLibrary\\steamapps\\common\\Hawken",
+  "hash_algorithm": "SHA-256",
+  "scope": "Original package files .upk/.u/.udk; no file modifications or package loading",
+  "authority": "Observed local installation and prior research inventory; not a Valve-signed manifest or runtime attestation",
+  "signature": null,
+  "proposed_use": "Input to future signed per-build allowlist; no Creator/client enforcement implemented",
+  "inventory_source": {
+    "path": "evidence/inventory.csv",
+    "sha256": "e275ba3e4de40808e3a28925de8ae656a815bde7430362c2f36e3092004ded53"
+  },
+  "package_count": 360,
+  "entries": [
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\AI-TrainingFacility.upk",
+      "sha256": "f81269e1846d31e6df84a25f1ce6d6fd9b296eb91eb862528628db36a98ca822",
+      "size_bytes": 13248709,
+      "observed_sha256": "f81269e1846d31e6df84a25f1ce6d6fd9b296eb91eb862528628db36a98ca822",
+      "observed_size_bytes": 13248709,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\AI_COMMON_SF.upk",
+      "sha256": "7b47574bed463f90b2e19f654342d3ff534f46aa8d7da373790903b0b7fcaae1",
+      "size_bytes": 1311523,
+      "observed_sha256": "7b47574bed463f90b2e19f654342d3ff534f46aa8d7da373790903b0b7fcaae1",
+      "observed_size_bytes": 1311523,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alley_Carousel.upk",
+      "sha256": "22204d4159b6a96c90896691db4c1dea9b03f5b87e625b2c4ce4266b459bdf76",
+      "size_bytes": 349820,
+      "observed_sha256": "22204d4159b6a96c90896691db4c1dea9b03f5b87e625b2c4ce4266b459bdf76",
+      "observed_size_bytes": 349820,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alley_Effects.upk",
+      "sha256": "1c90ca327202c88b674ca855c93cb4670c1000633e27ebd98037cc2df48bae7c",
+      "size_bytes": 9520,
+      "observed_sha256": "1c90ca327202c88b674ca855c93cb4670c1000633e27ebd98037cc2df48bae7c",
+      "observed_size_bytes": 9520,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alley_LightVolume.upk",
+      "sha256": "fdfac37cf828602a6ec43e3ec1e6b13cc7fc77fd21963f3c50a00338e7c13b42",
+      "size_bytes": 2154,
+      "observed_sha256": "fdfac37cf828602a6ec43e3ec1e6b13cc7fc77fd21963f3c50a00338e7c13b42",
+      "observed_size_bytes": 2154,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alley_Pylons.upk",
+      "sha256": "21ab2f78caebf23c5d1bdf0abc71ecac77d1bd7c96b102cd52be1b21196ac346",
+      "size_bytes": 275255,
+      "observed_sha256": "21ab2f78caebf23c5d1bdf0abc71ecac77d1bd7c96b102cd52be1b21196ac346",
+      "observed_size_bytes": 275255,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_Boundaries.upk",
+      "sha256": "3c56ff3b11d38cfab61dba5491a23bc0fcaae64db5788f58869856a71405674c",
+      "size_bytes": 14762,
+      "observed_sha256": "3c56ff3b11d38cfab61dba5491a23bc0fcaae64db5788f58869856a71405674c",
+      "observed_size_bytes": 14762,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_CollisionCubes.upk",
+      "sha256": "23f33e75df6296aa4f5a336cec17d2e4e4a384b93d99196596b878151b370fc2",
+      "size_bytes": 223491,
+      "observed_sha256": "23f33e75df6296aa4f5a336cec17d2e4e4a384b93d99196596b878151b370fc2",
+      "observed_size_bytes": 223491,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_Hangar.upk",
+      "sha256": "0d5d2e8e37f1c7de6cd9ff832a0ddbb82a86ac7d5441ce92961b8a3d674d2217",
+      "size_bytes": 1968385,
+      "observed_sha256": "0d5d2e8e37f1c7de6cd9ff832a0ddbb82a86ac7d5441ce92961b8a3d674d2217",
+      "observed_size_bytes": 1968385,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_MassiveLODs.upk",
+      "sha256": "1be3b9d359158df9231636c78fac24a2ef0db2300964dc95115db6235fb1bb42",
+      "size_bytes": 7306659,
+      "observed_sha256": "1be3b9d359158df9231636c78fac24a2ef0db2300964dc95115db6235fb1bb42",
+      "observed_size_bytes": 7306659,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_SiegeWalls.upk",
+      "sha256": "abeb3bc5f5b9487b8f8f09ea4393a9cd8b1375c4eb377ffe62bcbc75ddd597b3",
+      "size_bytes": 4723,
+      "observed_sha256": "abeb3bc5f5b9487b8f8f09ea4393a9cd8b1375c4eb377ffe62bcbc75ddd597b3",
+      "observed_size_bytes": 4723,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_Sound.upk",
+      "sha256": "3bd2eb8de567ced0ac0c83cffc59ae289eb5c2a709bf7b4509eb924edf968173",
+      "size_bytes": 1603336,
+      "observed_sha256": "3bd2eb8de567ced0ac0c83cffc59ae289eb5c2a709bf7b4509eb924edf968173",
+      "observed_size_bytes": 1603336,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_VFX.upk",
+      "sha256": "741221877af0b164b7683353d100adf65333d1cca834297983e5b725588aad9e",
+      "size_bytes": 12930,
+      "observed_sha256": "741221877af0b164b7683353d100adf65333d1cca834297983e5b725588aad9e",
+      "observed_size_bytes": 12930,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_Visibility.upk",
+      "sha256": "3a4baaa6ada7b9cadcbc22ff00e20f0346456349291f15be6ab51f0fc0400e9d",
+      "size_bytes": 12706,
+      "observed_sha256": "3a4baaa6ada7b9cadcbc22ff00e20f0346456349291f15be6ab51f0fc0400e9d",
+      "observed_size_bytes": 12706,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_World_Info.upk",
+      "sha256": "d26bd6029402f807b3a7ef7083e41fd6071baa6f9c94802223fa23f740ce05b4",
+      "size_bytes": 214530,
+      "observed_sha256": "d26bd6029402f807b3a7ef7083e41fd6071baa6f9c94802223fa23f740ce05b4",
+      "observed_size_bytes": 214530,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Alleys_Zone_A.upk",
+      "sha256": "56969bc89ab64a90e658c6b00b282a4dec3d738cd0e62acc21355192e66ed77d",
+      "size_bytes": 22462146,
+      "observed_sha256": "56969bc89ab64a90e658c6b00b282a4dec3d738cd0e62acc21355192e66ed77d",
+      "observed_size_bytes": 22462146,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Carousel.upk",
+      "sha256": "51e9caf13e9c9ae81b52decf3fe1902813a3064a17f3ea5698b3fe485b1fdaca",
+      "size_bytes": 350652,
+      "observed_sha256": "51e9caf13e9c9ae81b52decf3fe1902813a3064a17f3ea5698b3fe485b1fdaca",
+      "observed_size_bytes": 350652,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_CullVolume.upk",
+      "sha256": "f9aecd611554228afd43e856f2ea5c3f195b5704e3cfe5c93486b3ad497cce1d",
+      "size_bytes": 2287,
+      "observed_sha256": "f9aecd611554228afd43e856f2ea5c3f195b5704e3cfe5c93486b3ad497cce1d",
+      "observed_size_bytes": 2287,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Effects.upk",
+      "sha256": "4b80fa13f0209f20ba54dad3498c4152dafca8f417a8e9e5148c5ce325ff1894",
+      "size_bytes": 21634,
+      "observed_sha256": "4b80fa13f0209f20ba54dad3498c4152dafca8f417a8e9e5148c5ce325ff1894",
+      "observed_size_bytes": 21634,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Facade.upk",
+      "sha256": "92740807238082f29ef31b5fa18c414d1dbc20920e01b65b67f085c952f2c39e",
+      "size_bytes": 1365848,
+      "observed_sha256": "92740807238082f29ef31b5fa18c414d1dbc20920e01b65b67f085c952f2c39e",
+      "observed_size_bytes": 1365848,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Hangar.upk",
+      "sha256": "f8779b4ef6f0c6745d2af36cdb418f77fff892d62191499cb52db53411246c3a",
+      "size_bytes": 1999804,
+      "observed_sha256": "f8779b4ef6f0c6745d2af36cdb418f77fff892d62191499cb52db53411246c3a",
+      "observed_size_bytes": 1999804,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Massive_LOD.upk",
+      "sha256": "cbf4eec2e91d160bef0af85e3b6c8273120dbc3644bcc598b08d630ead103b14",
+      "size_bytes": 16215160,
+      "observed_sha256": "cbf4eec2e91d160bef0af85e3b6c8273120dbc3644bcc598b08d630ead103b14",
+      "observed_size_bytes": 16215160,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Pylons.upk",
+      "sha256": "49ff23ca66d4c83a294d3335655e74ad5eef984c0857e62502b463d26486cf23",
+      "size_bytes": 382751,
+      "observed_sha256": "49ff23ca66d4c83a294d3335655e74ad5eef984c0857e62502b463d26486cf23",
+      "observed_size_bytes": 382751,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_SiegeWalls.upk",
+      "sha256": "313c5aa8aa2e569d3b90b76b3a90a00f2f8c2495e39557ae04d48fa166289413",
+      "size_bytes": 3693,
+      "observed_sha256": "313c5aa8aa2e569d3b90b76b3a90a00f2f8c2495e39557ae04d48fa166289413",
+      "observed_size_bytes": 3693,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Sounds.upk",
+      "sha256": "e807af4add634ac1f4e334de65ca534f80a9a900d52bceaa8c51e62898624338",
+      "size_bytes": 2093529,
+      "observed_sha256": "e807af4add634ac1f4e334de65ca534f80a9a900d52bceaa8c51e62898624338",
+      "observed_size_bytes": 2093529,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Team_Boundaries.upk",
+      "sha256": "cd73782ecbea9eeb823b81a42487b4a2e6d5b1f57c2b2ec430094cd2787dafeb",
+      "size_bytes": 26368,
+      "observed_sha256": "cd73782ecbea9eeb823b81a42487b4a2e6d5b1f57c2b2ec430094cd2787dafeb",
+      "observed_size_bytes": 26368,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Team_CollisionCubes.upk",
+      "sha256": "9b8f946011520f5da75cb6987f9033776c2868116d0d2d3063c0cce2edefaa92",
+      "size_bytes": 177340,
+      "observed_sha256": "9b8f946011520f5da75cb6987f9033776c2868116d0d2d3063c0cce2edefaa92",
+      "observed_size_bytes": 177340,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Visibility.upk",
+      "sha256": "1084ddc754b161d2757a26bb5b59856ec1ceaaafe38325415ca735dd271b068b",
+      "size_bytes": 5110,
+      "observed_sha256": "1084ddc754b161d2757a26bb5b59856ec1ceaaafe38325415ca735dd271b068b",
+      "observed_size_bytes": 5110,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_WorldInfo.upk",
+      "sha256": "c7001b35e27134de912c898457292bb6559112185f0b5fccc5752d617c93ea63",
+      "size_bytes": 2379344,
+      "observed_sha256": "c7001b35e27134de912c898457292bb6559112185f0b5fccc5752d617c93ea63",
+      "observed_size_bytes": 2379344,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Zone_A.upk",
+      "sha256": "88c95a71343ff1ec59ade6bd12900a62db2ae2f5021c30320eb8bdebb46c36e2",
+      "size_bytes": 9165868,
+      "observed_sha256": "88c95a71343ff1ec59ade6bd12900a62db2ae2f5021c30320eb8bdebb46c36e2",
+      "observed_size_bytes": 9165868,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Zone_B.upk",
+      "sha256": "cf9379a6bd27a1d05cf33d740880d6eadb1c72b184e193382f46ba9be0d90e4f",
+      "size_bytes": 12377923,
+      "observed_sha256": "cf9379a6bd27a1d05cf33d740880d6eadb1c72b184e193382f46ba9be0d90e4f",
+      "observed_size_bytes": 12377923,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Andromeda_Zone_C.upk",
+      "sha256": "f063ba916fd59a57bcea89c8655127ca33a60e2784ae08c29fd181c7ce75928a",
+      "size_bytes": 8417890,
+      "observed_sha256": "f063ba916fd59a57bcea89c8655127ca33a60e2784ae08c29fd181c7ce75928a",
+      "observed_size_bytes": 8417890,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\BaseAI.upk",
+      "sha256": "c163a8a388d85ad3bc4e78fd1a3b56eff974be7018315ebf7c599ff4df41128c",
+      "size_bytes": 85471,
+      "observed_sha256": "c163a8a388d85ad3bc4e78fd1a3b56eff974be7018315ebf7c599ff4df41128c",
+      "observed_size_bytes": 85471,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Architecture.upk",
+      "sha256": "1bfa6e10fd97771cbbff7615ce9c5db99bd01f76f2c752879272520713183bd8",
+      "size_bytes": 3199985,
+      "observed_sha256": "1bfa6e10fd97771cbbff7615ce9c5db99bd01f76f2c752879272520713183bd8",
+      "observed_size_bytes": 3199985,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Atmosphere.upk",
+      "sha256": "c39e0f981e2845db2843a8de324599e0d6120598e94a39f7cddae8d3de3f59e9",
+      "size_bytes": 23629,
+      "observed_sha256": "c39e0f981e2845db2843a8de324599e0d6120598e94a39f7cddae8d3de3f59e9",
+      "observed_size_bytes": 23629,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Audio.upk",
+      "sha256": "3b4bce4874c490fbfb91aeaca7470549d13895ff5711d8cfd53d6d96cd8bf965",
+      "size_bytes": 1238254,
+      "observed_sha256": "3b4bce4874c490fbfb91aeaca7470549d13895ff5711d8cfd53d6d96cd8bf965",
+      "observed_size_bytes": 1238254,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Blockout.upk",
+      "sha256": "5bf513d0afa97bf568eb023a6499512cbd4746cb502ef44ac1254d0a3d70c3e5",
+      "size_bytes": 29052,
+      "observed_sha256": "5bf513d0afa97bf568eb023a6499512cbd4746cb502ef44ac1254d0a3d70c3e5",
+      "observed_size_bytes": 29052,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Boundaries.upk",
+      "sha256": "e78cb884a2a43c7c74b8dbdcd40509de180fb3d76703834fa4e80d102258c88d",
+      "size_bytes": 5456,
+      "observed_sha256": "e78cb884a2a43c7c74b8dbdcd40509de180fb3d76703834fa4e80d102258c88d",
+      "observed_size_bytes": 5456,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Carousel.upk",
+      "sha256": "aad6e200e51491af6e46057c2a98248ac094d308d1fa8f35f5482bdcbecfd5de",
+      "size_bytes": 363514,
+      "observed_sha256": "aad6e200e51491af6e46057c2a98248ac094d308d1fa8f35f5482bdcbecfd5de",
+      "observed_size_bytes": 363514,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Destructibles.upk",
+      "sha256": "c41a9162ae99b35713eae8da12ea671213d3f4ff9a7c84db102ecfeebd2e46f8",
+      "size_bytes": 731050,
+      "observed_sha256": "c41a9162ae99b35713eae8da12ea671213d3f4ff9a7c84db102ecfeebd2e46f8",
+      "observed_size_bytes": 731050,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Facade.upk",
+      "sha256": "b0da0e86fd074fc887b88c4ed6a2bba31806634942f5bc5e55b9bff16b5d035a",
+      "size_bytes": 1564856,
+      "observed_sha256": "b0da0e86fd074fc887b88c4ed6a2bba31806634942f5bc5e55b9bff16b5d035a",
+      "observed_size_bytes": 1564856,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Hangar.upk",
+      "sha256": "db37485cd05273844eb31a6e857cb3c15ec930f5d08e473bbfd5585c32b58dfd",
+      "size_bytes": 1993637,
+      "observed_sha256": "db37485cd05273844eb31a6e857cb3c15ec930f5d08e473bbfd5585c32b58dfd",
+      "observed_size_bytes": 1993637,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_JLee.upk",
+      "sha256": "7590a189c9c98108dd40e99a8a26a68bc9a9cc40d366730c31b980531cd1feb6",
+      "size_bytes": 822,
+      "observed_sha256": "7590a189c9c98108dd40e99a8a26a68bc9a9cc40d366730c31b980531cd1feb6",
+      "observed_size_bytes": 822,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Lights.upk",
+      "sha256": "90f8bd3e2116ba79b2f7f5a4b55b2582eb1aaf0e9cfde4e4569ab1ccbc537f83",
+      "size_bytes": 16149,
+      "observed_sha256": "90f8bd3e2116ba79b2f7f5a4b55b2582eb1aaf0e9cfde4e4569ab1ccbc537f83",
+      "observed_size_bytes": 16149,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_MA.upk",
+      "sha256": "d0721df273a710b8f4105d3b2f12d65e9406d92b36b350a9850591c947726513",
+      "size_bytes": 499262,
+      "observed_sha256": "d0721df273a710b8f4105d3b2f12d65e9406d92b36b350a9850591c947726513",
+      "observed_size_bytes": 499262,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Pylon.upk",
+      "sha256": "e415b8e7a99bb8833f02a1e950608d7e04cadd6a8b325e22d503757a401dce9d",
+      "size_bytes": 264567,
+      "observed_sha256": "e415b8e7a99bb8833f02a1e950608d7e04cadd6a8b325e22d503757a401dce9d",
+      "observed_size_bytes": 264567,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_SG.upk",
+      "sha256": "80eed31a5806e2b2fd818be0adeeda6e678a2704dacea52ca288cd849dc282f5",
+      "size_bytes": 2164860,
+      "observed_sha256": "80eed31a5806e2b2fd818be0adeeda6e678a2704dacea52ca288cd849dc282f5",
+      "observed_size_bytes": 2164860,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_SGDM.upk",
+      "sha256": "c7ab10872c4fa7f3d4d685a11eb0dd8ab36f8e272ca36a12c5077573c33d7ce9",
+      "size_bytes": 137134,
+      "observed_sha256": "c7ab10872c4fa7f3d4d685a11eb0dd8ab36f8e272ca36a12c5077573c33d7ce9",
+      "observed_size_bytes": 137134,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Volumes.upk",
+      "sha256": "d72e687504cc33a3ad112fa2679324196cc743259c4cae49b5e24ca3d8e09dde",
+      "size_bytes": 2976,
+      "observed_sha256": "d72e687504cc33a3ad112fa2679324196cc743259c4cae49b5e24ca3d8e09dde",
+      "observed_size_bytes": 2976,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_Wesley.upk",
+      "sha256": "282592baac3deffd307b02ed34fc2009f88300d3719c04ced2449d4bdf8a7e03",
+      "size_bytes": 1722384,
+      "observed_sha256": "282592baac3deffd307b02ed34fc2009f88300d3719c04ced2449d4bdf8a7e03",
+      "observed_size_bytes": 1722384,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Bunker_World.upk",
+      "sha256": "2a15da578aef23fbb462e399cb4bfafd1c38a379fab67ece5faed3b12f85d2e6",
+      "size_bytes": 156942,
+      "observed_sha256": "2a15da578aef23fbb462e399cb4bfafd1c38a379fab67ece5faed3b12f85d2e6",
+      "observed_size_bytes": 156942,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Decal_Valkirie.upk",
+      "sha256": "63c99f6e7f333d1ffed6880727f62173bfab692ac0ae7e79c71217c76f469c92",
+      "size_bytes": 925,
+      "observed_sha256": "63c99f6e7f333d1ffed6880727f62173bfab692ac0ae7e79c71217c76f469c92",
+      "observed_size_bytes": 925,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility.upk",
+      "sha256": "95673fcab89b49bbd99ab08c3d131d4911514bab630c1ea59b607f31dfb7f1bd",
+      "size_bytes": 5428746,
+      "observed_sha256": "95673fcab89b49bbd99ab08c3d131d4911514bab630c1ea59b607f31dfb7f1bd",
+      "observed_size_bytes": 5428746,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_AI.upk",
+      "sha256": "cb3f3465d09b3e11aeb32c66b66d6aa07c58fe8467dc138465e3eea6004ce147",
+      "size_bytes": 1038171,
+      "observed_sha256": "cb3f3465d09b3e11aeb32c66b66d6aa07c58fe8467dc138465e3eea6004ce147",
+      "observed_size_bytes": 1038171,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Atmosphere.upk",
+      "sha256": "9de598e2f293cdcdc3b43d2c969ffcad96cba8005a05708d7340422625253cfa",
+      "size_bytes": 14367,
+      "observed_sha256": "9de598e2f293cdcdc3b43d2c969ffcad96cba8005a05708d7340422625253cfa",
+      "observed_size_bytes": 14367,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Audio.upk",
+      "sha256": "84cce623f46beb8b94dce413733f59185ad9540c9687cafc7ed29cbf48e09094",
+      "size_bytes": 838567,
+      "observed_sha256": "84cce623f46beb8b94dce413733f59185ad9540c9687cafc7ed29cbf48e09094",
+      "observed_size_bytes": 838567,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Blockout.upk",
+      "sha256": "721df62216d5d3b678b37c48cab8a5a4a6204f82731ecbf6ca5957cd5aa1bcd5",
+      "size_bytes": 173066,
+      "observed_sha256": "721df62216d5d3b678b37c48cab8a5a4a6204f82731ecbf6ca5957cd5aa1bcd5",
+      "observed_size_bytes": 173066,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Boundaries.upk",
+      "sha256": "d9ea84876603c9c751a66b41e4cc185121a9c8ffb8b8760e9e3ece1e4a5c6ef8",
+      "size_bytes": 18773,
+      "observed_sha256": "d9ea84876603c9c751a66b41e4cc185121a9c8ffb8b8760e9e3ece1e4a5c6ef8",
+      "observed_size_bytes": 18773,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Carousel.upk",
+      "sha256": "c5155215c937984f6b7f94a2cd854cec0c40c78b01c43b8c50de4a07d9ca810e",
+      "size_bytes": 1940777,
+      "observed_sha256": "c5155215c937984f6b7f94a2cd854cec0c40c78b01c43b8c50de4a07d9ca810e",
+      "observed_size_bytes": 1940777,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Cinematics.upk",
+      "sha256": "12c01e97b39d9c6205337c3fc8c77b4107cd3a5c92de6028ada2c85fcd5fd9b6",
+      "size_bytes": 5836020,
+      "observed_sha256": "12c01e97b39d9c6205337c3fc8c77b4107cd3a5c92de6028ada2c85fcd5fd9b6",
+      "observed_size_bytes": 5836020,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Collisions.upk",
+      "sha256": "39cf10021d88268d18f045b4d126b7735a20ba30c996583c836e31f866a428bf",
+      "size_bytes": 850,
+      "observed_sha256": "39cf10021d88268d18f045b4d126b7735a20ba30c996583c836e31f866a428bf",
+      "observed_size_bytes": 850,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Darren.upk",
+      "sha256": "880435ab05344d4720567367c14c0f29c6b111af9666e4c7235a702c8a2b3660",
+      "size_bytes": 170029,
+      "observed_sha256": "880435ab05344d4720567367c14c0f29c6b111af9666e4c7235a702c8a2b3660",
+      "observed_size_bytes": 170029,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_FlyingVehicles.upk",
+      "sha256": "f7d60bf21fb62babb17db753da4b5e4289c9ae72a1faeecc3b65a1a8d15f7ba2",
+      "size_bytes": 47516,
+      "observed_sha256": "f7d60bf21fb62babb17db753da4b5e4289c9ae72a1faeecc3b65a1a8d15f7ba2",
+      "observed_size_bytes": 47516,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_FoliagePropsTest.upk",
+      "sha256": "86da42f13a26ec7d17a56a150e9c45769a5ea918846132e87fe4ce077ac0736d",
+      "size_bytes": 837,
+      "observed_sha256": "86da42f13a26ec7d17a56a150e9c45769a5ea918846132e87fe4ce077ac0736d",
+      "observed_size_bytes": 837,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Hangar.upk",
+      "sha256": "75b0d5c3149764b36e800683a39e655ed5a0cd4fdd0b723fa65447ee6dba0b83",
+      "size_bytes": 2003629,
+      "observed_sha256": "75b0d5c3149764b36e800683a39e655ed5a0cd4fdd0b723fa65447ee6dba0b83",
+      "observed_size_bytes": 2003629,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_James.upk",
+      "sha256": "8459f3671fe89857465f715367862c70910ee30e7d080a0e1cf4de836c4cef15",
+      "size_bytes": 2659194,
+      "observed_sha256": "8459f3671fe89857465f715367862c70910ee30e7d080a0e1cf4de836c4cef15",
+      "observed_size_bytes": 2659194,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_JP.upk",
+      "sha256": "ac19da167d431cbeaa0cfa06149203bdab504c258e5e3d7242f9e2da80e9bcba",
+      "size_bytes": 1266951,
+      "observed_sha256": "ac19da167d431cbeaa0cfa06149203bdab504c258e5e3d7242f9e2da80e9bcba",
+      "observed_size_bytes": 1266951,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Khang_01.upk",
+      "sha256": "2588d8c8582fb3fcf99ce428b5eee5b8b71ea677b564b1dead6a4b00389bf471",
+      "size_bytes": 876888,
+      "observed_sha256": "2588d8c8582fb3fcf99ce428b5eee5b8b71ea677b564b1dead6a4b00389bf471",
+      "observed_size_bytes": 876888,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Landscape.upk",
+      "sha256": "a48c2643e44648b30499b0f0ac675c1c0c2b3da6a954bc81c7e266d03b800325",
+      "size_bytes": 798,
+      "observed_sha256": "a48c2643e44648b30499b0f0ac675c1c0c2b3da6a954bc81c7e266d03b800325",
+      "observed_size_bytes": 798,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Light_Under.upk",
+      "sha256": "144fcbe7dc7dd6b9fbf894049921f69f87fd402c983484a265dfca720256f1fc",
+      "size_bytes": 3448,
+      "observed_sha256": "144fcbe7dc7dd6b9fbf894049921f69f87fd402c983484a265dfca720256f1fc",
+      "observed_size_bytes": 3448,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Miles.upk",
+      "sha256": "23be175b98f78c1b46f81eaa3c22ccf935417585cb7fdbc5088cff9c3f0db551",
+      "size_bytes": 813,
+      "observed_sha256": "23be175b98f78c1b46f81eaa3c22ccf935417585cb7fdbc5088cff9c3f0db551",
+      "observed_size_bytes": 813,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Nhat.upk",
+      "sha256": "b348cc4a3ba52d1e54cb33dc896e25a2b1ca750daa605a954c9ae0f53e82a2e1",
+      "size_bytes": 939623,
+      "observed_sha256": "b348cc4a3ba52d1e54cb33dc896e25a2b1ca750daa605a954c9ae0f53e82a2e1",
+      "observed_size_bytes": 939623,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_OBT.upk",
+      "sha256": "f0164ad68a1dc30cb747fec7a7ab8773b312bb2776c79327db73cc85626f99bb",
+      "size_bytes": 1025682,
+      "observed_sha256": "f0164ad68a1dc30cb747fec7a7ab8773b312bb2776c79327db73cc85626f99bb",
+      "observed_size_bytes": 1025682,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_OTDM.upk",
+      "sha256": "2e6f9938f41feb9d97d0c2f4b575e509aa6a75c267efd900ed458cf1ef45ff08",
+      "size_bytes": 12516,
+      "observed_sha256": "2e6f9938f41feb9d97d0c2f4b575e509aa6a75c267efd900ed458cf1ef45ff08",
+      "observed_size_bytes": 12516,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Pylons.upk",
+      "sha256": "7111b857ecf0c12b60d4935dd683154fa128e31ba17cd16863631053d5a47a6c",
+      "size_bytes": 144686,
+      "observed_sha256": "7111b857ecf0c12b60d4935dd683154fa128e31ba17cd16863631053d5a47a6c",
+      "observed_size_bytes": 144686,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Team_Bases.upk",
+      "sha256": "ceb630e1e8681473d6f360c9a4b19e8ee52c87a9c53a841f8ec4431887044ce7",
+      "size_bytes": 853,
+      "observed_sha256": "ceb630e1e8681473d6f360c9a4b19e8ee52c87a9c53a841f8ec4431887044ce7",
+      "observed_size_bytes": 853,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Terrain.upk",
+      "sha256": "4c882cf6ba5af0d7fa962fe92bc1c879cfc0baeb775733eb42c6f25a37dd3a3a",
+      "size_bytes": 9522,
+      "observed_sha256": "4c882cf6ba5af0d7fa962fe92bc1c879cfc0baeb775733eb42c6f25a37dd3a3a",
+      "observed_size_bytes": 9522,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Volumes.upk",
+      "sha256": "26809bef1396b93ec12d6d6f3b55ad36de2aff7c881401877216474ab64d6095",
+      "size_bytes": 4424,
+      "observed_sha256": "26809bef1396b93ec12d6d6f3b55ad36de2aff7c881401877216474ab64d6095",
+      "observed_size_bytes": 4424,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_Wes.upk",
+      "sha256": "54a1c3becd8c4c8010a19124dea2814a5e1d0dd13db188ce13e7987f5952556c",
+      "size_bytes": 4401454,
+      "observed_sha256": "54a1c3becd8c4c8010a19124dea2814a5e1d0dd13db188ce13e7987f5952556c",
+      "observed_size_bytes": 4401454,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Facility_World_Info.upk",
+      "sha256": "3dbf1134d09033cc352d6f082dc32cf5ecab2a9c58abb2397898f6ee432baa6b",
+      "size_bytes": 1016286,
+      "observed_sha256": "3dbf1134d09033cc352d6f082dc32cf5ecab2a9c58abb2397898f6ee432baa6b",
+      "observed_size_bytes": 1016286,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valk_FlyingVehicles.upk",
+      "sha256": "0518825563819b09d0ce30d7473fba4e2f2f1de2ed9598ab713a5cb87c78c904",
+      "size_bytes": 53038,
+      "observed_sha256": "0518825563819b09d0ce30d7473fba4e2f2f1de2ed9598ab713a5cb87c78c904",
+      "observed_size_bytes": 53038,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie.upk",
+      "sha256": "17d566926252d2a2958c03ca3cb5b98e537ea8e1a847ec80b578b673ed205df5",
+      "size_bytes": 10943330,
+      "observed_sha256": "17d566926252d2a2958c03ca3cb5b98e537ea8e1a847ec80b578b673ed205df5",
+      "observed_size_bytes": 10943330,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_AI.upk",
+      "sha256": "61384e3743f9f9fcd436b404fea15c995aace9a276b60c2b5da617399beb45f2",
+      "size_bytes": 1148504,
+      "observed_sha256": "61384e3743f9f9fcd436b404fea15c995aace9a276b60c2b5da617399beb45f2",
+      "observed_size_bytes": 1148504,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Atmosphere.upk",
+      "sha256": "0f22e4c9316c9dfe6e89719de6b72c71926b43fc387482bb2e72141975d5a135",
+      "size_bytes": 25980,
+      "observed_sha256": "0f22e4c9316c9dfe6e89719de6b72c71926b43fc387482bb2e72141975d5a135",
+      "observed_size_bytes": 25980,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_BasesMassiveLOD.upk",
+      "sha256": "1d08ac481377db0f1eaf2dafd2e85132befb8b372bb1050175588637f7662b02",
+      "size_bytes": 1587810,
+      "observed_sha256": "1d08ac481377db0f1eaf2dafd2e85132befb8b372bb1050175588637f7662b02",
+      "observed_size_bytes": 1587810,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Borders.upk",
+      "sha256": "063cbe8ce6571c8e02ac0a84f802c1288cefb5ece4be41163f6383de278122a3",
+      "size_bytes": 83548,
+      "observed_sha256": "063cbe8ce6571c8e02ac0a84f802c1288cefb5ece4be41163f6383de278122a3",
+      "observed_size_bytes": 83548,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Carousel.upk",
+      "sha256": "021619341a8287dcc4dceb385ff4bd11caeba259970148f4e46411864ab5439b",
+      "size_bytes": 804017,
+      "observed_sha256": "021619341a8287dcc4dceb385ff4bd11caeba259970148f4e46411864ab5439b",
+      "observed_size_bytes": 804017,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Cinematics.upk",
+      "sha256": "50d55366a8d0a5d0bd36faa4c45660e1b2bf1bb1c28b2feaa103c586e74408d7",
+      "size_bytes": 5468639,
+      "observed_sha256": "50d55366a8d0a5d0bd36faa4c45660e1b2bf1bb1c28b2feaa103c586e74408d7",
+      "observed_size_bytes": 5468639,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Collision.upk",
+      "sha256": "804f8938d53cd0f6a7d9ee86133e8ee58f132749e7ca8a1d00c8a1313470f1d7",
+      "size_bytes": 383623,
+      "observed_sha256": "804f8938d53cd0f6a7d9ee86133e8ee58f132749e7ca8a1d00c8a1313470f1d7",
+      "observed_size_bytes": 383623,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Darren.upk",
+      "sha256": "caa33a7282b3cbedaba257c19caa83da1a027d952b60e4d522d0fa9555c1f100",
+      "size_bytes": 923,
+      "observed_sha256": "caa33a7282b3cbedaba257c19caa83da1a027d952b60e4d522d0fa9555c1f100",
+      "observed_size_bytes": 923,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_DecalMarkings.upk",
+      "sha256": "b8303b237c7c2d170c6114d416935219546e8c4491a1884a4358ddb738dfd95e",
+      "size_bytes": 124789,
+      "observed_sha256": "b8303b237c7c2d170c6114d416935219546e8c4491a1884a4358ddb738dfd95e",
+      "observed_size_bytes": 124789,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Decals.upk",
+      "sha256": "bf521d9e78f371c01d1c511e57c4ab2058d70b9ab4af651e67d060cb0db1b21d",
+      "size_bytes": 77020,
+      "observed_sha256": "bf521d9e78f371c01d1c511e57c4ab2058d70b9ab4af651e67d060cb0db1b21d",
+      "observed_size_bytes": 77020,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Facade.upk",
+      "sha256": "4218624b2f267edfe1dbf9bf24a7a4c6c53c6ea5e85b2d03c8fdd0f5d01f3601",
+      "size_bytes": 1429726,
+      "observed_sha256": "4218624b2f267edfe1dbf9bf24a7a4c6c53c6ea5e85b2d03c8fdd0f5d01f3601",
+      "observed_size_bytes": 1429726,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_GroundPropsSmall.upk",
+      "sha256": "a6856c92acb42e62bc8eee2d7f859e81ebbcd7a149c363c57f46a724b4e86320",
+      "size_bytes": 2024642,
+      "observed_sha256": "a6856c92acb42e62bc8eee2d7f859e81ebbcd7a149c363c57f46a724b4e86320",
+      "observed_size_bytes": 2024642,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_GroundTechy.upk",
+      "sha256": "3310cec837becddc1871c24002d481d6efc19ddb51355e32176919d77a2afbd1",
+      "size_bytes": 1189213,
+      "observed_sha256": "3310cec837becddc1871c24002d481d6efc19ddb51355e32176919d77a2afbd1",
+      "observed_size_bytes": 1189213,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Hangar.upk",
+      "sha256": "c925970c03c9c0fdda1e0a81d1b603fb3f120ca355857230deca1de88bbf0d18",
+      "size_bytes": 1965583,
+      "observed_sha256": "c925970c03c9c0fdda1e0a81d1b603fb3f120ca355857230deca1de88bbf0d18",
+      "observed_size_bytes": 1965583,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Lights2.upk",
+      "sha256": "2619e2ee5fcc4a70961dc95b46a176ec0d1cdd6954c3fd906b92de692e947d76",
+      "size_bytes": 459339,
+      "observed_sha256": "2619e2ee5fcc4a70961dc95b46a176ec0d1cdd6954c3fd906b92de692e947d76",
+      "observed_size_bytes": 459339,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Prosk.upk",
+      "sha256": "ef30ff7ed09c3852c7e13aa49ed4ff6d7d0fa8cfe3d788098239e30bcc3fd6e8",
+      "size_bytes": 3269695,
+      "observed_sha256": "ef30ff7ed09c3852c7e13aa49ed4ff6d7d0fa8cfe3d788098239e30bcc3fd6e8",
+      "observed_size_bytes": 3269695,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_ProskMassLOD_01.upk",
+      "sha256": "17138c1aaa92fd39802364263016173ae8336213d363a765ac69b82173d0d771",
+      "size_bytes": 4258584,
+      "observed_sha256": "17138c1aaa92fd39802364263016173ae8336213d363a765ac69b82173d0d771",
+      "observed_size_bytes": 4258584,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_ProskMassLOD_02.upk",
+      "sha256": "d177292488f18ca0b0fd1bbd561d6824b7bb0ce4ebccb965e0d70e690f0aa044",
+      "size_bytes": 3717129,
+      "observed_sha256": "d177292488f18ca0b0fd1bbd561d6824b7bb0ce4ebccb965e0d70e690f0aa044",
+      "observed_size_bytes": 3717129,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Pylons.upk",
+      "sha256": "a8cb8f39a210d3bca1e3a240df851263fd124b418356f6928eb5bb1c9b5465ac",
+      "size_bytes": 128371,
+      "observed_sha256": "a8cb8f39a210d3bca1e3a240df851263fd124b418356f6928eb5bb1c9b5465ac",
+      "observed_size_bytes": 128371,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Sentium.upk",
+      "sha256": "1cfb1c5769f4ae9551794565fbc3df031eea3d4dc345b17925a1e917255d22c0",
+      "size_bytes": 2695868,
+      "observed_sha256": "1cfb1c5769f4ae9551794565fbc3df031eea3d4dc345b17925a1e917255d22c0",
+      "observed_size_bytes": 2695868,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_SentMassLOD_01.upk",
+      "sha256": "a79b8e0d11bac4a560ff0651658497302fdfb896eda8d1f7a5e368c036913e7e",
+      "size_bytes": 3038495,
+      "observed_sha256": "a79b8e0d11bac4a560ff0651658497302fdfb896eda8d1f7a5e368c036913e7e",
+      "observed_size_bytes": 3038495,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_SentMassLOD_02.upk",
+      "sha256": "269d2563024b9d9df7c7ec2ec5752da2641457159993293fcc8c696b1d08a80a",
+      "size_bytes": 4082805,
+      "observed_sha256": "269d2563024b9d9df7c7ec2ec5752da2641457159993293fcc8c696b1d08a80a",
+      "observed_size_bytes": 4082805,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Sounds.upk",
+      "sha256": "448671948c04c9133a68e3a884e890e45a82cd81690591cb4fed6371954ff60e",
+      "size_bytes": 1015162,
+      "observed_sha256": "448671948c04c9133a68e3a884e890e45a82cd81690591cb4fed6371954ff60e",
+      "observed_size_bytes": 1015162,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_StoreFronts.upk",
+      "sha256": "5cb16325983d1f39cfebd59e42537f3faadaa75fe32cb6eb43512a5e7290dd2f",
+      "size_bytes": 8289,
+      "observed_sha256": "5cb16325983d1f39cfebd59e42537f3faadaa75fe32cb6eb43512a5e7290dd2f",
+      "observed_size_bytes": 8289,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Terrain.upk",
+      "sha256": "f2e5d12cee4fff41a5560e35f0e25266c4d8a7abefc83910e7b2be31821687b0",
+      "size_bytes": 1519708,
+      "observed_sha256": "f2e5d12cee4fff41a5560e35f0e25266c4d8a7abefc83910e7b2be31821687b0",
+      "observed_size_bytes": 1519708,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Volumes.upk",
+      "sha256": "2c1c9544b1f5c16d7e8ab9f38310b2aff46218b4da3159bd99eb60bb764c6c45",
+      "size_bytes": 4546,
+      "observed_sha256": "2c1c9544b1f5c16d7e8ab9f38310b2aff46218b4da3159bd99eb60bb764c6c45",
+      "observed_size_bytes": 4546,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Wesley.upk",
+      "sha256": "5e9319fb14c1e69f0a4036605dfcefe3b1f6b19fb41f358266e1834bebc23a1b",
+      "size_bytes": 6303029,
+      "observed_sha256": "5e9319fb14c1e69f0a4036605dfcefe3b1f6b19fb41f358266e1834bebc23a1b",
+      "observed_size_bytes": 6303029,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\CO-Valkirie_Wires.upk",
+      "sha256": "e68955f711a95a2be5fbb1bc666eb93c5713f319e668ae4daf5b1abeb822c4c4",
+      "size_bytes": 96992,
+      "observed_sha256": "e68955f711a95a2be5fbb1bc666eb93c5713f319e668ae4daf5b1abeb822c4c4",
+      "observed_size_bytes": 96992,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Core.upk",
+      "sha256": "c6351b52aae3a78f0819963518be8bfcac93864fe73b8cdd5d07990662474375",
+      "size_bytes": 39092,
+      "observed_sha256": "c6351b52aae3a78f0819963518be8bfcac93864fe73b8cdd5d07990662474375",
+      "observed_size_bytes": 39092,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Decal_Valkirie.upk",
+      "sha256": "3befb5bdbae65be3ea0bf427298b07a11ac40cf0e2b1afc609ba8109a05818fb",
+      "size_bytes": 921,
+      "observed_sha256": "3befb5bdbae65be3ea0bf427298b07a11ac40cf0e2b1afc609ba8109a05818fb",
+      "observed_size_bytes": 921,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\DM-Highways_V2.upk",
+      "sha256": "16b36c1d86bbbb0077e8798bdc26f90c3664e5189638c986c519a71ea5c5f8d9",
+      "size_bytes": 12877536,
+      "observed_sha256": "16b36c1d86bbbb0077e8798bdc26f90c3664e5189638c986c519a71ea5c5f8d9",
+      "observed_size_bytes": 12877536,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Engine.upk",
+      "sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "size_bytes": 1097168,
+      "observed_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "observed_size_bytes": 1097168,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Atmosphere.upk",
+      "sha256": "0c4791ab9315ba82ea0a7004846cb19dad363714004936c9810f7483afd91ddd",
+      "size_bytes": 15743,
+      "observed_sha256": "0c4791ab9315ba82ea0a7004846cb19dad363714004936c9810f7483afd91ddd",
+      "observed_size_bytes": 15743,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Audio.upk",
+      "sha256": "eda4915b70d5080d43c6ade35fa46e4af8861384a5a6e4e001f926c2245191ab",
+      "size_bytes": 1236812,
+      "observed_sha256": "eda4915b70d5080d43c6ade35fa46e4af8861384a5a6e4e001f926c2245191ab",
+      "observed_size_bytes": 1236812,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Blockout.upk",
+      "sha256": "2cce421379b4bb1b98e4fdb77a2746271d4714e39cf3842aadcf10837f5857ce",
+      "size_bytes": 204512,
+      "observed_sha256": "2cce421379b4bb1b98e4fdb77a2746271d4714e39cf3842aadcf10837f5857ce",
+      "observed_size_bytes": 204512,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Boundaries.upk",
+      "sha256": "a71761b1e4eb4d282a171acdcb48bb05f1bd3def8c8552554c55da5f835dc6b1",
+      "size_bytes": 8622,
+      "observed_sha256": "a71761b1e4eb4d282a171acdcb48bb05f1bd3def8c8552554c55da5f835dc6b1",
+      "observed_size_bytes": 8622,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Carousel.upk",
+      "sha256": "eea0e5d0c39cb29ea5c2c8217aaad30055674ca54b81d673b8262ed7ca1454ba",
+      "size_bytes": 1944407,
+      "observed_sha256": "eea0e5d0c39cb29ea5c2c8217aaad30055674ca54b81d673b8262ed7ca1454ba",
+      "observed_size_bytes": 1944407,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Darren.upk",
+      "sha256": "3eba51df9189ee4c865c3fa490581a9255b8ce6e30addbb97c3159a0d9e064f2",
+      "size_bytes": 2381607,
+      "observed_sha256": "3eba51df9189ee4c865c3fa490581a9255b8ce6e30addbb97c3159a0d9e064f2",
+      "observed_size_bytes": 2381607,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_DM.upk",
+      "sha256": "979bcba728bb5e35fe29ad27d9daeeb72d453ee60e37aaf80444a04b152fc88d",
+      "size_bytes": 137148,
+      "observed_sha256": "979bcba728bb5e35fe29ad27d9daeeb72d453ee60e37aaf80444a04b152fc88d",
+      "observed_size_bytes": 137148,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_FlyingVehicles.upk",
+      "sha256": "3f4cce5de9d1d62131193b0db88608f2edabbc123bae78453d4678a102cf64c4",
+      "size_bytes": 57724,
+      "observed_sha256": "3f4cce5de9d1d62131193b0db88608f2edabbc123bae78453d4678a102cf64c4",
+      "observed_size_bytes": 57724,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_FoliagePropsTest.upk",
+      "sha256": "51bb60897b9775bee6ab7a6ed1ba8e385e91d79a0012839e2fa5ed8fef6b5298",
+      "size_bytes": 888,
+      "observed_sha256": "51bb60897b9775bee6ab7a6ed1ba8e385e91d79a0012839e2fa5ed8fef6b5298",
+      "observed_size_bytes": 888,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Hangar.upk",
+      "sha256": "80296add580c1e4609368ec07671da48f688a171c566b153fc40aec5acbf93cf",
+      "size_bytes": 1997895,
+      "observed_sha256": "80296add580c1e4609368ec07671da48f688a171c566b153fc40aec5acbf93cf",
+      "observed_size_bytes": 1997895,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_James.upk",
+      "sha256": "b2fbb0e276237c3636cfccb113242dadb8cbd16c2836e17814a9989f901df273",
+      "size_bytes": 4112092,
+      "observed_sha256": "b2fbb0e276237c3636cfccb113242dadb8cbd16c2836e17814a9989f901df273",
+      "observed_size_bytes": 4112092,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_JP.upk",
+      "sha256": "404ea07fcb64c84af4dc7b9ec4fac840c38c6e098a408e2e515bf28b9a19bbec",
+      "size_bytes": 1305550,
+      "observed_sha256": "404ea07fcb64c84af4dc7b9ec4fac840c38c6e098a408e2e515bf28b9a19bbec",
+      "observed_size_bytes": 1305550,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Khang_01.upk",
+      "sha256": "fe5ebe2b0c9ad29ac6e7d0793ee09cb210097de0097da862973529b505e20571",
+      "size_bytes": 1122520,
+      "observed_sha256": "fe5ebe2b0c9ad29ac6e7d0793ee09cb210097de0097da862973529b505e20571",
+      "observed_size_bytes": 1122520,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Light_Under.upk",
+      "sha256": "da7414f80be3a6d586970df020d659718a4ca1a8343c3e68673e82d7f00d875c",
+      "size_bytes": 18663,
+      "observed_sha256": "da7414f80be3a6d586970df020d659718a4ca1a8343c3e68673e82d7f00d875c",
+      "observed_size_bytes": 18663,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_MA.upk",
+      "sha256": "385681b8939d310fb9b9dcfc46db5f0440ca9fcadccad3f1c882fc9b0975b310",
+      "size_bytes": 486529,
+      "observed_sha256": "385681b8939d310fb9b9dcfc46db5f0440ca9fcadccad3f1c882fc9b0975b310",
+      "observed_size_bytes": 486529,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Nhat.upk",
+      "sha256": "164df9310af893170c30bbdcb2b21a0c88194f92561fe0fe577b577b45b91c0d",
+      "size_bytes": 1013553,
+      "observed_sha256": "164df9310af893170c30bbdcb2b21a0c88194f92561fe0fe577b577b45b91c0d",
+      "observed_size_bytes": 1013553,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Pylons.upk",
+      "sha256": "e71d2493cc5c1f2df801276af5557f50d7ff97b0202a3391996a1486210a5573",
+      "size_bytes": 376776,
+      "observed_sha256": "e71d2493cc5c1f2df801276af5557f50d7ff97b0202a3391996a1486210a5573",
+      "observed_size_bytes": 376776,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_SG.upk",
+      "sha256": "9154caf4a6b9e33e4924603f8b6808f3d0a4be94fd6102238e72255b9e9d9305",
+      "size_bytes": 1023491,
+      "observed_sha256": "9154caf4a6b9e33e4924603f8b6808f3d0a4be94fd6102238e72255b9e9d9305",
+      "observed_size_bytes": 1023491,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_SiegeWalls.upk",
+      "sha256": "91e87297514c60ff58e31eb5103a8166d99dfc61d4fa149a7cfa8efa26121e0e",
+      "size_bytes": 3830,
+      "observed_sha256": "91e87297514c60ff58e31eb5103a8166d99dfc61d4fa149a7cfa8efa26121e0e",
+      "observed_size_bytes": 3830,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Team_Bases.upk",
+      "sha256": "3c65dc3c213deaeb1735f3ec71603340ac4cea17f2ee651f4bf01560bb985966",
+      "size_bytes": 2001359,
+      "observed_sha256": "3c65dc3c213deaeb1735f3ec71603340ac4cea17f2ee651f4bf01560bb985966",
+      "observed_size_bytes": 2001359,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Terrain.upk",
+      "sha256": "33f2c0368bbc44979d4a6fc7c1c534c89acaa542b603fc6ba760241f2a2bd1a8",
+      "size_bytes": 37672,
+      "observed_sha256": "33f2c0368bbc44979d4a6fc7c1c534c89acaa542b603fc6ba760241f2a2bd1a8",
+      "observed_size_bytes": 37672,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Volumes.upk",
+      "sha256": "d6012e425db9191d92f56a6eafbc5d107548a096a3351e55dba5ebe7928a3f66",
+      "size_bytes": 4365,
+      "observed_sha256": "d6012e425db9191d92f56a6eafbc5d107548a096a3351e55dba5ebe7928a3f66",
+      "observed_size_bytes": 4365,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_Wes.upk",
+      "sha256": "a0830e633c1811a39c5440b7a1f857a58f96e33fc2f5ffd234e095808c0f41b2",
+      "size_bytes": 2124427,
+      "observed_sha256": "a0830e633c1811a39c5440b7a1f857a58f96e33fc2f5ffd234e095808c0f41b2",
+      "observed_size_bytes": 2124427,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Facility_World_Info.upk",
+      "sha256": "2a016668c2c1f6266567699b1a7cb377f5a4c3c168e5b1fc918b4993392a6335",
+      "size_bytes": 4420,
+      "observed_sha256": "2a016668c2c1f6266567699b1a7cb377f5a4c3c168e5b1fc918b4993392a6335",
+      "observed_size_bytes": 4420,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\GameFramework.upk",
+      "sha256": "d51275d3d52e4461feb98b34e3bc64264130efb0618f1fe6b7981730ad63ab8b",
+      "size_bytes": 145213,
+      "observed_sha256": "d51275d3d52e4461feb98b34e3bc64264130efb0618f1fe6b7981730ad63ab8b",
+      "observed_size_bytes": 145213,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\GFxUI.upk",
+      "sha256": "513b2c2f7fc768bd40a4c898c33fcbf9e67bf04a1b6969e0b1f7041aa3b408f1",
+      "size_bytes": 24675,
+      "observed_sha256": "513b2c2f7fc768bd40a4c898c33fcbf9e67bf04a1b6969e0b1f7041aa3b408f1",
+      "observed_size_bytes": 24675,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\GlobalPersistentCookerData.upk",
+      "sha256": "9a40c57a8af59fde160e657ae78b159e72a0f32c8bb5970afcdd6527cf300cd2",
+      "size_bytes": 62867489,
+      "observed_sha256": "9a40c57a8af59fde160e657ae78b159e72a0f32c8bb5970afcdd6527cf300cd2",
+      "observed_size_bytes": 62867489,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\GuidCache.upk",
+      "sha256": "078c1e84076af28d43cf94524e8209a7facf1ff3c748002bdb755d7a77699bbc",
+      "size_bytes": 44195,
+      "observed_sha256": "078c1e84076af28d43cf94524e8209a7facf1ff3c748002bdb755d7a77699bbc",
+      "observed_size_bytes": 44195,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenASYMSIEGE_SF.upk",
+      "sha256": "db0ece4f842b7dce5dd1a2906b183b88218c0252b2a633b7311494aeca1936c9",
+      "size_bytes": 7609668,
+      "observed_sha256": "db0ece4f842b7dce5dd1a2906b183b88218c0252b2a633b7311494aeca1936c9",
+      "observed_size_bytes": 7609668,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenBotsTDM_FTUX_SF.upk",
+      "sha256": "8195127b4034cc049c0edb72e8315a06060e775ca7dfe72f46637fb2ed5e76b7",
+      "size_bytes": 1129819,
+      "observed_sha256": "8195127b4034cc049c0edb72e8315a06060e775ca7dfe72f46637fb2ed5e76b7",
+      "observed_size_bytes": 1129819,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenBotsTDM_SF.upk",
+      "sha256": "6851bd29d328b7c7c718ec9506b3b608661f3357cab84b12d542ec7a96028fc7",
+      "size_bytes": 1129834,
+      "observed_sha256": "6851bd29d328b7c7c718ec9506b3b608661f3357cab84b12d542ec7a96028fc7",
+      "observed_size_bytes": 1129834,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenConquest_SF.upk",
+      "sha256": "a0c7575d22d86c3c0971709fa6cbada19c1cd711b26935b13804c1e4c6c30516",
+      "size_bytes": 1110903,
+      "observed_sha256": "a0c7575d22d86c3c0971709fa6cbada19c1cd711b26935b13804c1e4c6c30516",
+      "observed_size_bytes": 1110903,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenCoOp_SF.upk",
+      "sha256": "db7aa7ee75524a3423aa29a09fa93736ea6039c0221b6db73b957b87fb204bfc",
+      "size_bytes": 1110880,
+      "observed_sha256": "db7aa7ee75524a3423aa29a09fa93736ea6039c0221b6db73b957b87fb204bfc",
+      "observed_size_bytes": 1110880,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenCoOpOffline_SF.upk",
+      "sha256": "3d1671afe385926ad97f6878e24463b16afd9de25aac780370ea92ac47033f32",
+      "size_bytes": 1110902,
+      "observed_sha256": "3d1671afe385926ad97f6878e24463b16afd9de25aac780370ea92ac47033f32",
+      "observed_size_bytes": 1110902,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenCTF_SF.upk",
+      "sha256": "158ec36d3006feeedd4042e4cf7063e8296fc5f1056730b54e12e13a7d624b05",
+      "size_bytes": 1110891,
+      "observed_sha256": "158ec36d3006feeedd4042e4cf7063e8296fc5f1056730b54e12e13a7d624b05",
+      "observed_size_bytes": 1110891,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenDM_SF.upk",
+      "sha256": "20d88294963654ad2cda3f3a94987d1428b7e0807f238faab5979cf23cb85155",
+      "size_bytes": 1110917,
+      "observed_sha256": "20d88294963654ad2cda3f3a94987d1428b7e0807f238faab5979cf23cb85155",
+      "observed_size_bytes": 1110917,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenEntry.upk",
+      "sha256": "cd27b275c995927d50aab4d59c7fb68c109cf70040613a6f68d0bf2f7489f617",
+      "size_bytes": 5354,
+      "observed_sha256": "cd27b275c995927d50aab4d59c7fb68c109cf70040613a6f68d0bf2f7489f617",
+      "observed_size_bytes": 5354,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenExplore_SF.upk",
+      "sha256": "57a447398ef8d26357f1349d54b352ed46b0b528499856e4ac9ea985fa3c71cd",
+      "size_bytes": 1110916,
+      "observed_sha256": "57a447398ef8d26357f1349d54b352ed46b0b528499856e4ac9ea985fa3c71cd",
+      "observed_size_bytes": 1110916,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "size_bytes": 101014208,
+      "observed_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "observed_size_bytes": 101014208,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenMA_SF.upk",
+      "sha256": "58c0954b34b7f1df32e35980a8068c8e6073b61e108141be888061a400876b06",
+      "size_bytes": 1906651,
+      "observed_sha256": "58c0954b34b7f1df32e35980a8068c8e6073b61e108141be888061a400876b06",
+      "observed_size_bytes": 1906651,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenSG2_SF.upk",
+      "sha256": "21bdd500d25376214b8a92e6312453bcfd59bbc096cb00769bdb6a07889feb18",
+      "size_bytes": 7609667,
+      "observed_sha256": "21bdd500d25376214b8a92e6312453bcfd59bbc096cb00769bdb6a07889feb18",
+      "observed_size_bytes": 7609667,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenSG_SF.upk",
+      "sha256": "4683bd667318367c12c004626fa5bbe8d4fde21aa06652bb669f927a525cec7d",
+      "size_bytes": 7612688,
+      "observed_sha256": "4683bd667318367c12c004626fa5bbe8d4fde21aa06652bb669f927a525cec7d",
+      "observed_size_bytes": 7612688,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenTDM_SF.upk",
+      "sha256": "86f58c9b5a7d484495a7e18012132df1e5d738298b3b7b5556321d90510ed2c2",
+      "size_bytes": 1110920,
+      "observed_sha256": "86f58c9b5a7d484495a7e18012132df1e5d738298b3b7b5556321d90510ed2c2",
+      "observed_size_bytes": 1110920,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\HawkenTR_SF.upk",
+      "sha256": "3e0eb2030ec7a1c465800a98023df16d02b0a1d35c47fdb6ca45bd02ebc46c1c",
+      "size_bytes": 1117222,
+      "observed_sha256": "3e0eb2030ec7a1c465800a98023df16d02b0a1d35c47fdb6ca45bd02ebc46c1c",
+      "observed_size_bytes": 1117222,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_01.upk",
+      "sha256": "eb90b90b3e0e900e7b376d6ac2fc6dac9c936e0fc28a3abc99345a114f180803",
+      "size_bytes": 3138571,
+      "observed_sha256": "eb90b90b3e0e900e7b376d6ac2fc6dac9c936e0fc28a3abc99345a114f180803",
+      "observed_size_bytes": 3138571,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_02.upk",
+      "sha256": "1551f6034927f5661c73ed0595e2028c3c68e813837bde3c7c5d054a857c6734",
+      "size_bytes": 4155661,
+      "observed_sha256": "1551f6034927f5661c73ed0595e2028c3c68e813837bde3c7c5d054a857c6734",
+      "observed_size_bytes": 4155661,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_03.upk",
+      "sha256": "4fa10f03903905c3f958d42e5253e1fb307cbb8db93f1ff85b824c6d38b4b707",
+      "size_bytes": 5205546,
+      "observed_sha256": "4fa10f03903905c3f958d42e5253e1fb307cbb8db93f1ff85b824c6d38b4b707",
+      "observed_size_bytes": 5205546,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_04.upk",
+      "sha256": "508e33b92522b31865a6874c353a5339e7443aa7b0deb6ba6f0f66ec64b5dd37",
+      "size_bytes": 5971186,
+      "observed_sha256": "508e33b92522b31865a6874c353a5339e7443aa7b0deb6ba6f0f66ec64b5dd37",
+      "observed_size_bytes": 5971186,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_05.upk",
+      "sha256": "8024a8ce7f7a2fff1da3afd591af02209d0b53184c35e9164b35d1e536b6adb6",
+      "size_bytes": 1571067,
+      "observed_sha256": "8024a8ce7f7a2fff1da3afd591af02209d0b53184c35e9164b35d1e536b6adb6",
+      "observed_size_bytes": 1571067,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_06.upk",
+      "sha256": "0f4085424940db193916ed2e72fe0d70c0c219e21c5ed99e930c9f4d9b5eb236",
+      "size_bytes": 4639691,
+      "observed_sha256": "0f4085424940db193916ed2e72fe0d70c0c219e21c5ed99e930c9f4d9b5eb236",
+      "observed_size_bytes": 4639691,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_07.upk",
+      "sha256": "1ae2121ab3266d18f0daca21537212e76f4926b8c42238ab8e5a9e6661833a5e",
+      "size_bytes": 2808222,
+      "observed_sha256": "1ae2121ab3266d18f0daca21537212e76f4926b8c42238ab8e5a9e6661833a5e",
+      "observed_size_bytes": 2808222,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Area_08.upk",
+      "sha256": "0249f0152df968e1ebe8f84fe43dc61602d1dd6490384485fb280218f26623c0",
+      "size_bytes": 1710143,
+      "observed_sha256": "0249f0152df968e1ebe8f84fe43dc61602d1dd6490384485fb280218f26623c0",
+      "observed_size_bytes": 1710143,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_CullDistanceVolume.upk",
+      "sha256": "42b3ac67f170178ba007f4dccebebae5a336dfafb8f324c21832ef52dea9ea50",
+      "size_bytes": 2155,
+      "observed_sha256": "42b3ac67f170178ba007f4dccebebae5a336dfafb8f324c21832ef52dea9ea50",
+      "observed_size_bytes": 2155,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Facade.upk",
+      "sha256": "9c1d78a9e33f65b50c48ef3d970f30aff9e667e7da8cd9e18f7045ff9e0c2f11",
+      "size_bytes": 1049268,
+      "observed_sha256": "9c1d78a9e33f65b50c48ef3d970f30aff9e667e7da8cd9e18f7045ff9e0c2f11",
+      "observed_size_bytes": 1049268,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Flying_Vehicles.upk",
+      "sha256": "81de19d11535b030b61a923be7277f8fb6a66c8ddb2c3caba7df2b0f9f214a6b",
+      "size_bytes": 1008675,
+      "observed_sha256": "81de19d11535b030b61a923be7277f8fb6a66c8ddb2c3caba7df2b0f9f214a6b",
+      "observed_size_bytes": 1008675,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Fog.upk",
+      "sha256": "6a9918449b0de545036b1f6d5b5fdda4367c2f845ce7544cc8bce8ddeb82cb52",
+      "size_bytes": 1221,
+      "observed_sha256": "6a9918449b0de545036b1f6d5b5fdda4367c2f845ce7544cc8bce8ddeb82cb52",
+      "observed_size_bytes": 1221,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_JumpNodes.upk",
+      "sha256": "745406ae30235f2dd3a54afa5e39420899d14916049367a0fb1860d00823f150",
+      "size_bytes": 21648,
+      "observed_sha256": "745406ae30235f2dd3a54afa5e39420899d14916049367a0fb1860d00823f150",
+      "observed_size_bytes": 21648,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Light_01.upk",
+      "sha256": "876acd207606aea475694b3c184c533c7f2844668c3debfbe67fded3e00de1a1",
+      "size_bytes": 857,
+      "observed_sha256": "876acd207606aea475694b3c184c533c7f2844668c3debfbe67fded3e00de1a1",
+      "observed_size_bytes": 857,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Lynn.upk",
+      "sha256": "2c4259f7524b0f3f89d49e7e7346f562183a3b2ee5a5102c8651834cea2bd266",
+      "size_bytes": 82953,
+      "observed_sha256": "2c4259f7524b0f3f89d49e7e7346f562183a3b2ee5a5102c8651834cea2bd266",
+      "observed_size_bytes": 82953,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Miles.upk",
+      "sha256": "1d6cd8eb8cd2bcd35d1f9038f6d63a0d730f1f097bd99566e2b2526189f7b044",
+      "size_bytes": 1434519,
+      "observed_sha256": "1d6cd8eb8cd2bcd35d1f9038f6d63a0d730f1f097bd99566e2b2526189f7b044",
+      "observed_size_bytes": 1434519,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Miles_Props.upk",
+      "sha256": "bc96e1a4db8b57bec134444d98179115801546697198c8f62c917cb3926d75e0",
+      "size_bytes": 1864192,
+      "observed_sha256": "bc96e1a4db8b57bec134444d98179115801546697198c8f62c917cb3926d75e0",
+      "observed_size_bytes": 1864192,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Miles_SmallProps.upk",
+      "sha256": "4737b397c0351772fe2e2a5e61194959c55a4c39a3daa157522591f0b9c03939",
+      "size_bytes": 1398693,
+      "observed_sha256": "4737b397c0351772fe2e2a5e61194959c55a4c39a3daa157522591f0b9c03939",
+      "observed_size_bytes": 1398693,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Roads.upk",
+      "sha256": "e071a29bc824fea450f3e7bf63c34f31fe5caf9b9b1b7e22721560e4733911f6",
+      "size_bytes": 3457595,
+      "observed_sha256": "e071a29bc824fea450f3e7bf63c34f31fe5caf9b9b1b7e22721560e4733911f6",
+      "observed_size_bytes": 3457595,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Team_AATurret.upk",
+      "sha256": "6e472b60fdcc5f71ebd6dded35099bab6403b4cf831fc8796dbad344c74cf6d7",
+      "size_bytes": 2826055,
+      "observed_sha256": "6e472b60fdcc5f71ebd6dded35099bab6403b4cf831fc8796dbad344c74cf6d7",
+      "observed_size_bytes": 2826055,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Team_Terrain.upk",
+      "sha256": "49f47f0f9da8d8547bb41d429bc1e43cdf6c6afa8f03fd81e8b47b6a6c35e2dd",
+      "size_bytes": 2466871,
+      "observed_sha256": "49f47f0f9da8d8547bb41d429bc1e43cdf6c6afa8f03fd81e8b47b6a6c35e2dd",
+      "observed_size_bytes": 2466871,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_Team_Virus.upk",
+      "sha256": "f69e42e0b87b57b96cb93053018e8f2d704c0884ae8c8eb605f868fe06a30024",
+      "size_bytes": 296649,
+      "observed_sha256": "f69e42e0b87b57b96cb93053018e8f2d704c0884ae8c8eb605f868fe06a30024",
+      "observed_size_bytes": 296649,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_V2_Audio.upk",
+      "sha256": "8cbbd1d1f3a50f20b7ebff9537bd75f8845d47b33aa477b89ce82ed2ba1d7c2e",
+      "size_bytes": 1166,
+      "observed_sha256": "8cbbd1d1f3a50f20b7ebff9537bd75f8845d47b33aa477b89ce82ed2ba1d7c2e",
+      "observed_size_bytes": 1166,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_v2_Boundaries.upk",
+      "sha256": "48afc5f8dfe2df1ed29243d7e2117aa2e1672b3be50b66077f87e9a24191670f",
+      "size_bytes": 10220,
+      "observed_sha256": "48afc5f8dfe2df1ed29243d7e2117aa2e1672b3be50b66077f87e9a24191670f",
+      "observed_size_bytes": 10220,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_V2_Hangar.upk",
+      "sha256": "9035147fac8cdae25f19324dc44bfd6d5392c563416949a57ab9b0b5e3e351e4",
+      "size_bytes": 1332879,
+      "observed_sha256": "9035147fac8cdae25f19324dc44bfd6d5392c563416949a57ab9b0b5e3e351e4",
+      "observed_size_bytes": 1332879,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Highways_V2_Optimization.upk",
+      "sha256": "fb09d96d7d5f23a79fa5c9441902fc1635f6ca4325560a8fffe380e29dc12bbe",
+      "size_bytes": 6181226,
+      "observed_sha256": "fb09d96d7d5f23a79fa5c9441902fc1635f6ca4325560a8fffe380e29dc12bbe",
+      "observed_size_bytes": 6181226,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\IpDrv.upk",
+      "sha256": "432087362da101de1189e88a260e4a18c016320b8b9ccd9911df59eebe04b4ef",
+      "size_bytes": 119552,
+      "observed_sha256": "432087362da101de1189e88a260e4a18c016320b8b9ccd9911df59eebe04b4ef",
+      "observed_size_bytes": 119552,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Atmosphere-Winter.upk",
+      "sha256": "5726f05722f9fe645c783c96bc8101b5e23115f757a5c4182324f757d840b981",
+      "size_bytes": 13661,
+      "observed_sha256": "5726f05722f9fe645c783c96bc8101b5e23115f757a5c4182324f757d840b981",
+      "observed_size_bytes": 13661,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Atmosphere.upk",
+      "sha256": "9e2492da5d0f3249d0f2763052a39757fd6f2d802a3543c16b9494315a7fb78d",
+      "size_bytes": 26130,
+      "observed_sha256": "9e2492da5d0f3249d0f2763052a39757fd6f2d802a3543c16b9494315a7fb78d",
+      "observed_size_bytes": 26130,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Audio-Winter.upk",
+      "sha256": "23862d988ab3f7c69e297566e157d9d7f6bdaa15b7cba705cf7fcb0bd516e406",
+      "size_bytes": 1820610,
+      "observed_sha256": "23862d988ab3f7c69e297566e157d9d7f6bdaa15b7cba705cf7fcb0bd516e406",
+      "observed_size_bytes": 1820610,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Audio.upk",
+      "sha256": "6c331864062e5cd03308b7609eae3a0ecb254f40f77600f0b31c9844828d89e0",
+      "size_bytes": 1568043,
+      "observed_sha256": "6c331864062e5cd03308b7609eae3a0ecb254f40f77600f0b31c9844828d89e0",
+      "observed_size_bytes": 1568043,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Boundaries-Winter.upk",
+      "sha256": "843dc3bb94c3f0b08f361a833383fee37dc05a66fe9890ba56b4be903d91042f",
+      "size_bytes": 11215,
+      "observed_sha256": "843dc3bb94c3f0b08f361a833383fee37dc05a66fe9890ba56b4be903d91042f",
+      "observed_size_bytes": 11215,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Boundaries.upk",
+      "sha256": "e91bb6099970a4e94b82f38369e45145db191ed4fe7a6dc5128a155973b088b0",
+      "size_bytes": 9672,
+      "observed_sha256": "e91bb6099970a4e94b82f38369e45145db191ed4fe7a6dc5128a155973b088b0",
+      "observed_size_bytes": 9672,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Buildings-Winter.upk",
+      "sha256": "62c62c24509b22024306b0d2402cc434d3bd60ee1dc6a80285f263d632ebf5a0",
+      "size_bytes": 2519245,
+      "observed_sha256": "62c62c24509b22024306b0d2402cc434d3bd60ee1dc6a80285f263d632ebf5a0",
+      "observed_size_bytes": 2519245,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Buildings.upk",
+      "sha256": "c78c1f5c7d647546f1ca99bec26eaf9c10c934d0668363ca479e8b21748e9948",
+      "size_bytes": 2571952,
+      "observed_sha256": "c78c1f5c7d647546f1ca99bec26eaf9c10c934d0668363ca479e8b21748e9948",
+      "observed_size_bytes": 2571952,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Canopy-Winter.upk",
+      "sha256": "c01d05fa4f00e1e69e81391dd28f60fbfdb4d965b41435d2e3a77e9821261510",
+      "size_bytes": 503853,
+      "observed_sha256": "c01d05fa4f00e1e69e81391dd28f60fbfdb4d965b41435d2e3a77e9821261510",
+      "observed_size_bytes": 503853,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Canopy.upk",
+      "sha256": "9b629afb87322866963a4f8585849169cd3b973e825b57b05e78a64f5573be8a",
+      "size_bytes": 415158,
+      "observed_sha256": "9b629afb87322866963a4f8585849169cd3b973e825b57b05e78a64f5573be8a",
+      "observed_size_bytes": 415158,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Carousel-Winter.upk",
+      "sha256": "adc499cd414be0fe03b4e7958758101b0bba92667565915e300efcce38dff32c",
+      "size_bytes": 351084,
+      "observed_sha256": "adc499cd414be0fe03b4e7958758101b0bba92667565915e300efcce38dff32c",
+      "observed_size_bytes": 351084,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Carousel.upk",
+      "sha256": "37bdf13d46ac895623bc95611c4de856f27aecab51f80ad22ff4196ec1d70a95",
+      "size_bytes": 351280,
+      "observed_sha256": "37bdf13d46ac895623bc95611c4de856f27aecab51f80ad22ff4196ec1d70a95",
+      "observed_size_bytes": 351280,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_ChristmasYeti.upk",
+      "sha256": "fc693dd0b3e44972f5f4c21c00926d765f6ca8edf2daffbb250fea0ad50059d7",
+      "size_bytes": 759060,
+      "observed_sha256": "fc693dd0b3e44972f5f4c21c00926d765f6ca8edf2daffbb250fea0ad50059d7",
+      "observed_size_bytes": 759060,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Collision-Winter.upk",
+      "sha256": "a63794874bddafb7ac0a8d78c800e94fdbabe0cfd431275eb789db1057f68614",
+      "size_bytes": 204898,
+      "observed_sha256": "a63794874bddafb7ac0a8d78c800e94fdbabe0cfd431275eb789db1057f68614",
+      "observed_size_bytes": 204898,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Collision.upk",
+      "sha256": "2743fbcb71dd3ce6a626a0e6853592b6d0147f601c779d4924e9c4707e182b2a",
+      "size_bytes": 232726,
+      "observed_sha256": "2743fbcb71dd3ce6a626a0e6853592b6d0147f601c779d4924e9c4707e182b2a",
+      "observed_size_bytes": 232726,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Facade_Trees-Winter.upk",
+      "sha256": "d232b2c755e01417f3bd7132deb6a98d5f31bb27a66f3b81a6e34ba20dade474",
+      "size_bytes": 582285,
+      "observed_sha256": "d232b2c755e01417f3bd7132deb6a98d5f31bb27a66f3b81a6e34ba20dade474",
+      "observed_size_bytes": 582285,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Facade_Trees.upk",
+      "sha256": "5a12137b8314bcfb84a3b143d740e057577c062bbde2f85d5bee50c92db4a4ad",
+      "size_bytes": 459714,
+      "observed_sha256": "5a12137b8314bcfb84a3b143d740e057577c062bbde2f85d5bee50c92db4a4ad",
+      "observed_size_bytes": 459714,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_ForceFields-Winter.upk",
+      "sha256": "03ebc80ff038cd858705659f32e9f718a876bb94a852801a674a3c2860425666",
+      "size_bytes": 4347,
+      "observed_sha256": "03ebc80ff038cd858705659f32e9f718a876bb94a852801a674a3c2860425666",
+      "observed_size_bytes": 4347,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_ForceFields.upk",
+      "sha256": "4483bce0ffcc71df8373a6e899636e926025359b36aad5e308c28909b7afc2cb",
+      "size_bytes": 4296,
+      "observed_sha256": "4483bce0ffcc71df8373a6e899636e926025359b36aad5e308c28909b7afc2cb",
+      "observed_size_bytes": 4296,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Hangar-Winter.upk",
+      "sha256": "b13dd0fdd8014db52075eb32048a1907b4cc8e63351d2653cab0f0792238380d",
+      "size_bytes": 1974557,
+      "observed_sha256": "b13dd0fdd8014db52075eb32048a1907b4cc8e63351d2653cab0f0792238380d",
+      "observed_size_bytes": 1974557,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Hangar.upk",
+      "sha256": "6f2e37c6fab6103d0d413251bc1b66884cd5b5f2c23b31c6584d935857a627e9",
+      "size_bytes": 1986717,
+      "observed_sha256": "6f2e37c6fab6103d0d413251bc1b66884cd5b5f2c23b31c6584d935857a627e9",
+      "observed_size_bytes": 1986717,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Lights-Winter.upk",
+      "sha256": "b422ba963d003f9194cee3f96febbe6fe4f7ea73161556cf5c2aaa6fabac859a",
+      "size_bytes": 47919,
+      "observed_sha256": "b422ba963d003f9194cee3f96febbe6fe4f7ea73161556cf5c2aaa6fabac859a",
+      "observed_size_bytes": 47919,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Lights.upk",
+      "sha256": "3c86c781c5e753ba778a43f635f3e057a5d7157f52cc5d28c81cf7d7593fca22",
+      "size_bytes": 47896,
+      "observed_sha256": "3c86c781c5e753ba778a43f635f3e057a5d7157f52cc5d28c81cf7d7593fca22",
+      "observed_size_bytes": 47896,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_MA-Winter.upk",
+      "sha256": "7e68a33418f0d593f7c468c4bc3685109224e9518e191e56faa72f9803506727",
+      "size_bytes": 465683,
+      "observed_sha256": "7e68a33418f0d593f7c468c4bc3685109224e9518e191e56faa72f9803506727",
+      "observed_size_bytes": 465683,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_MA.upk",
+      "sha256": "7c795112b7429015277c10fb417a4e5d21519f65711199c8cf8e2ddb936613fc",
+      "size_bytes": 465693,
+      "observed_sha256": "7c795112b7429015277c10fb417a4e5d21519f65711199c8cf8e2ddb936613fc",
+      "observed_size_bytes": 465693,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_MechWrecks-Winter.upk",
+      "sha256": "54f0615451baa7db5135f2f8af0b92de8e4f39bbad6e836a740cd46b22d98875",
+      "size_bytes": 920944,
+      "observed_sha256": "54f0615451baa7db5135f2f8af0b92de8e4f39bbad6e836a740cd46b22d98875",
+      "observed_size_bytes": 920944,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_MechWrecks.upk",
+      "sha256": "f28351fad53d1048f7f375e7aaff01cad0a2d6ba59eca952718180bdd79cd494",
+      "size_bytes": 924199,
+      "observed_sha256": "f28351fad53d1048f7f375e7aaff01cad0a2d6ba59eca952718180bdd79cd494",
+      "observed_size_bytes": 924199,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Rocks-Winter.upk",
+      "sha256": "e0980078e23626d42fc1f30043a9cbc08522f81d039682648e27edcd1e935123",
+      "size_bytes": 5303191,
+      "observed_sha256": "e0980078e23626d42fc1f30043a9cbc08522f81d039682648e27edcd1e935123",
+      "observed_size_bytes": 5303191,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Rocks.upk",
+      "sha256": "f6c110478899e5a6b708623153595b1c38b7cd477b2a7aadcb03353d8d62cdd2",
+      "size_bytes": 4094318,
+      "observed_sha256": "f6c110478899e5a6b708623153595b1c38b7cd477b2a7aadcb03353d8d62cdd2",
+      "observed_size_bytes": 4094318,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_SG-Winter.upk",
+      "sha256": "914f34d3f0407bbf64e7935f5d31db53575749e74ac8443931dd34ecde0921a3",
+      "size_bytes": 1756998,
+      "observed_sha256": "914f34d3f0407bbf64e7935f5d31db53575749e74ac8443931dd34ecde0921a3",
+      "observed_size_bytes": 1756998,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_SG.upk",
+      "sha256": "8499cfd04833f0f2d66c0c5858487930d431b1751ae95ae7c437589fb65f8640",
+      "size_bytes": 1756628,
+      "observed_sha256": "8499cfd04833f0f2d66c0c5858487930d431b1751ae95ae7c437589fb65f8640",
+      "observed_size_bytes": 1756628,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Trees-Winter.upk",
+      "sha256": "1c24a1812ec89b01694dce239cabf10c4db903a0ff0d641eeac28d8d6c93eb7d",
+      "size_bytes": 5829147,
+      "observed_sha256": "1c24a1812ec89b01694dce239cabf10c4db903a0ff0d641eeac28d8d6c93eb7d",
+      "observed_size_bytes": 5829147,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Trees.upk",
+      "sha256": "25c79511689a2b29ca9d55d68f16128a1cbc03725099cfb0ec9ff46b14123916",
+      "size_bytes": 6131386,
+      "observed_sha256": "25c79511689a2b29ca9d55d68f16128a1cbc03725099cfb0ec9ff46b14123916",
+      "observed_size_bytes": 6131386,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Turrets.upk",
+      "sha256": "493da51d857cdbf0584fd2bc337d471ab699071ba0279ff11bc559ae21380db0",
+      "size_bytes": 212734,
+      "observed_sha256": "493da51d857cdbf0584fd2bc337d471ab699071ba0279ff11bc559ae21380db0",
+      "observed_size_bytes": 212734,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Volumes-Winter.upk",
+      "sha256": "a253ccd4f080e5ead394541043a08ca9e9fca0b87a9f27364d23de0770727d29",
+      "size_bytes": 2191,
+      "observed_sha256": "a253ccd4f080e5ead394541043a08ca9e9fca0b87a9f27364d23de0770727d29",
+      "observed_size_bytes": 2191,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_Volumes.upk",
+      "sha256": "2666fa192240b5f25422bbf5cc743521e4585db71182492b7508c1aa70232946",
+      "size_bytes": 2170,
+      "observed_sha256": "2666fa192240b5f25422bbf5cc743521e4585db71182492b7508c1aa70232946",
+      "observed_size_bytes": 2170,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_World-Winter.upk",
+      "sha256": "17102a42f21aed69345018d271d7bc9d583e18b2921a1a56df00cc2554c5dfbb",
+      "size_bytes": 4864,
+      "observed_sha256": "17102a42f21aed69345018d271d7bc9d583e18b2921a1a56df00cc2554c5dfbb",
+      "observed_size_bytes": 4864,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\LastEco_World.upk",
+      "sha256": "86202604cd2e948f87944ae9df6dd10a915fc20a252651c23fd48b57ca765bb9",
+      "size_bytes": 3830,
+      "observed_sha256": "86202604cd2e948f87944ae9df6dd10a915fc20a252651c23fd48b57ca765bb9",
+      "observed_size_bytes": 3830,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\OnlineSubsystemMeteor.upk",
+      "sha256": "bab9ad82bd5fae5afe30707513caa27605c7ece8f296461678ae07cd759ed310",
+      "size_bytes": 99223,
+      "observed_sha256": "bab9ad82bd5fae5afe30707513caa27605c7ece8f296461678ae07cd759ed310",
+      "observed_size_bytes": 99223,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\RefShaderCache-PC-D3D-SM3.upk",
+      "sha256": "80c4a3d79a709de860e46453e56d6fb1a17f78a5c71ff9bfc0c4fbdb6ad2b14c",
+      "size_bytes": 6531174,
+      "observed_sha256": "80c4a3d79a709de860e46453e56d6fb1a17f78a5c71ff9bfc0c4fbdb6ad2b14c",
+      "observed_size_bytes": 6531174,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\RefShaderCache-PC-D3D-SM5.upk",
+      "sha256": "108ae7fbb0ca471c66ecea11179abeaba23579f2714bcbce5a9b11667aa44ecb",
+      "size_bytes": 59366434,
+      "observed_sha256": "108ae7fbb0ca471c66ecea11179abeaba23579f2714bcbce5a9b11667aa44ecb",
+      "observed_size_bytes": 59366434,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\RefShaderCache-PC-OpenGL.upk",
+      "sha256": "9ba1abc06f6e25950e9703882bea047f88baacea744ca7446900e194a0974651",
+      "size_bytes": 200783,
+      "observed_sha256": "9ba1abc06f6e25950e9703882bea047f88baacea744ca7446900e194a0974651",
+      "observed_size_bytes": 200783,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\RobotsMainMenu.upk",
+      "sha256": "01a18b08e63726f55db64201ea6bf0d4ceb42202b3ae1f74e8fa56c1c186186d",
+      "size_bytes": 36888301,
+      "observed_sha256": "01a18b08e63726f55db64201ea6bf0d4ceb42202b3ae1f74e8fa56c1c186186d",
+      "observed_size_bytes": 36888301,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\RobotsMainMenu_Fog.upk",
+      "sha256": "6e054d3bdce939d771e202e6f7c056d0a2062b64d32badd002a0ebbb15793a2a",
+      "size_bytes": 2205,
+      "observed_sha256": "6e054d3bdce939d771e202e6f7c056d0a2062b64d32badd002a0ebbb15793a2a",
+      "observed_size_bytes": 2205,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Bases.upk",
+      "sha256": "8005711f36418d16e4482e52022065331fd6232f4869b9f1ba5823d414eacb95",
+      "size_bytes": 6012163,
+      "observed_sha256": "8005711f36418d16e4482e52022065331fd6232f4869b9f1ba5823d414eacb95",
+      "observed_size_bytes": 6012163,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Carousel.upk",
+      "sha256": "62a4c640e1f7b5d53e70f204fe4d9bd05a619923ee8c3b1b8f1871da08534a18",
+      "size_bytes": 349608,
+      "observed_sha256": "62a4c640e1f7b5d53e70f204fe4d9bd05a619923ee8c3b1b8f1871da08534a18",
+      "observed_size_bytes": 349608,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_DM.upk",
+      "sha256": "b536893232e2d3cc374058ffa58e7c913c39604d290253921797bfe4821d82c5",
+      "size_bytes": 1062767,
+      "observed_sha256": "b536893232e2d3cc374058ffa58e7c913c39604d290253921797bfe4821d82c5",
+      "observed_size_bytes": 1062767,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_DMSG_MiddleAA.upk",
+      "sha256": "7bf9025391bc953fb55eff24189eaafe53d33a198bf758f02ba64e9cbe388b82",
+      "size_bytes": 11432,
+      "observed_sha256": "7bf9025391bc953fb55eff24189eaafe53d33a198bf758f02ba64e9cbe388b82",
+      "observed_size_bytes": 11432,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Hangar.upk",
+      "sha256": "34b35dbd5b513e0359acbec46ce6f98656518fcb3b7811ea757bb945360d39af",
+      "size_bytes": 1975028,
+      "observed_sha256": "34b35dbd5b513e0359acbec46ce6f98656518fcb3b7811ea757bb945360d39af",
+      "observed_size_bytes": 1975028,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_MA.upk",
+      "sha256": "4812007778ab6107dbfd2bf00fc6c932789581939095af1ead13d9aacbf9cbea",
+      "size_bytes": 518472,
+      "observed_sha256": "4812007778ab6107dbfd2bf00fc6c932789581939095af1ead13d9aacbf9cbea",
+      "observed_size_bytes": 518472,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_MassiveLODs.upk",
+      "sha256": "1d2aad4f39a95ac55a3ef3fb832347b14fb50318f827d272f0e40f1843b1f6a2",
+      "size_bytes": 8702990,
+      "observed_sha256": "1d2aad4f39a95ac55a3ef3fb832347b14fb50318f827d272f0e40f1843b1f6a2",
+      "observed_size_bytes": 8702990,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_SG.upk",
+      "sha256": "b49e40badb573b57901970a2a0e755be469e54bcfec6fdfb0edc6bb1d8ec1ccc",
+      "size_bytes": 1320494,
+      "observed_sha256": "b49e40badb573b57901970a2a0e755be469e54bcfec6fdfb0edc6bb1d8ec1ccc",
+      "observed_size_bytes": 1320494,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_SiegeWalls.upk",
+      "sha256": "953037cc44ca0a7115967db5c4f3083cc5117731e954e2bd7c5addbeb373441e",
+      "size_bytes": 4224,
+      "observed_sha256": "953037cc44ca0a7115967db5c4f3083cc5117731e954e2bd7c5addbeb373441e",
+      "observed_size_bytes": 4224,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Sounds.upk",
+      "sha256": "dac166adf86384e463024eb7a2fbd9ed1aea58b1dbc51659bcda6c58807282f5",
+      "size_bytes": 1193383,
+      "observed_sha256": "dac166adf86384e463024eb7a2fbd9ed1aea58b1dbc51659bcda6c58807282f5",
+      "observed_size_bytes": 1193383,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Team_Boundaries.upk",
+      "sha256": "8ea2eab23ed5e24e9c44f085757f494cf8052685bbfba33e9a9bcbc5b50832c9",
+      "size_bytes": 33344,
+      "observed_sha256": "8ea2eab23ed5e24e9c44f085757f494cf8052685bbfba33e9a9bcbc5b50832c9",
+      "observed_size_bytes": 33344,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Team_CollisionCubes.upk",
+      "sha256": "bf1af2d6f487935147c920aa561b6db0eb421a093649ad812a2a2e529c6eda1c",
+      "size_bytes": 105319,
+      "observed_sha256": "bf1af2d6f487935147c920aa561b6db0eb421a093649ad812a2a2e529c6eda1c",
+      "observed_size_bytes": 105319,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Team_FX.upk",
+      "sha256": "324367bbb20114f028d65f6e8085d514fb7ed28ef0e6a0ecb20915647395f5f7",
+      "size_bytes": 19878,
+      "observed_sha256": "324367bbb20114f028d65f6e8085d514fb7ed28ef0e6a0ecb20915647395f5f7",
+      "observed_size_bytes": 19878,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Team_Map.upk",
+      "sha256": "6cd34cd31cc67c499891a0a0014a74220a851d2616b6fca71c22fe86e93b3a65",
+      "size_bytes": 1601376,
+      "observed_sha256": "6cd34cd31cc67c499891a0a0014a74220a851d2616b6fca71c22fe86e93b3a65",
+      "observed_size_bytes": 1601376,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Turrets.upk",
+      "sha256": "9db66457ad740a26bb28dd3d3c66d739d5ef94387baecfb9d4ad24d243c4a6fd",
+      "size_bytes": 211152,
+      "observed_sha256": "9db66457ad740a26bb28dd3d3c66d739d5ef94387baecfb9d4ad24d243c4a6fd",
+      "observed_size_bytes": 211152,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Visibility.upk",
+      "sha256": "9c4e9fc3f0eb4d1ff3053662e27b4198f46ec8bdc6c8eb109bd46db1f406b2f5",
+      "size_bytes": 6190,
+      "observed_sha256": "9c4e9fc3f0eb4d1ff3053662e27b4198f46ec8bdc6c8eb109bd46db1f406b2f5",
+      "observed_size_bytes": 6190,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_World_Info.upk",
+      "sha256": "1e61046166902493ce93fed757444816b3cd5ce9ed322e603482baca7986b085",
+      "size_bytes": 110504,
+      "observed_sha256": "1e61046166902493ce93fed757444816b3cd5ce9ed322e603482baca7986b085",
+      "observed_size_bytes": 110504,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Zone_A.upk",
+      "sha256": "6e5a79f0bd44e733ccbae3ecc1cabe141d852640848e4eb4c325f26e01bfa111",
+      "size_bytes": 7886488,
+      "observed_sha256": "6e5a79f0bd44e733ccbae3ecc1cabe141d852640848e4eb4c325f26e01bfa111",
+      "observed_size_bytes": 7886488,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Zone_B.upk",
+      "sha256": "e8665398f00499f1b2d5d30237013011da11e097b427924688fd133c7077a622",
+      "size_bytes": 8347506,
+      "observed_sha256": "e8665398f00499f1b2d5d30237013011da11e097b427924688fd133c7077a622",
+      "observed_size_bytes": 8347506,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Sahara_Zone_C.upk",
+      "sha256": "691151c8e3db7cb7eef785662eac595aff2119a233305b9685c10caf4c4dee5b",
+      "size_bytes": 8513509,
+      "observed_sha256": "691151c8e3db7cb7eef785662eac595aff2119a233305b9685c10caf4c4dee5b",
+      "observed_size_bytes": 8513509,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Startup.upk",
+      "sha256": "53120817c845db95273b7d0761830e85241bf8b49d8f7bbe0956df4d7c0963a4",
+      "size_bytes": 19311852,
+      "observed_sha256": "53120817c845db95273b7d0761830e85241bf8b49d8f7bbe0956df4d7c0963a4",
+      "observed_size_bytes": 19311852,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Startup_LOC_DEU.upk",
+      "sha256": "acffec63fd935e6639156fa94af38808031ffaf5fd7a954533ebeb7c8598d746",
+      "size_bytes": 49449,
+      "observed_sha256": "acffec63fd935e6639156fa94af38808031ffaf5fd7a954533ebeb7c8598d746",
+      "observed_size_bytes": 49449,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Startup_LOC_ESN.upk",
+      "sha256": "37e56b5349c66b5529ecd604dcfcf241acb99b1f8640827a0e9e544ebb41ba3e",
+      "size_bytes": 49450,
+      "observed_sha256": "37e56b5349c66b5529ecd604dcfcf241acb99b1f8640827a0e9e544ebb41ba3e",
+      "observed_size_bytes": 49450,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Startup_LOC_FRA.upk",
+      "sha256": "567074fc66a8cca70319dc412c722e32ea83dd3f2e0309705770699c28b4ee08",
+      "size_bytes": 49450,
+      "observed_sha256": "567074fc66a8cca70319dc412c722e32ea83dd3f2e0309705770699c28b4ee08",
+      "observed_size_bytes": 49450,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Startup_LOC_INT.upk",
+      "sha256": "9f1f9f9a5b2431fda5dd6a04f49048840be0557348cc03493cd25f898ed8fe24",
+      "size_bytes": 49452,
+      "observed_sha256": "9f1f9f9a5b2431fda5dd6a04f49048840be0557348cc03493cd25f898ed8fe24",
+      "observed_size_bytes": 49452,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Startup_LOC_JPN.upk",
+      "sha256": "0156d7ff5decfdc251745b290b5d9c8fd379e3257ff331eb389bb0bcb344c593",
+      "size_bytes": 49451,
+      "observed_sha256": "0156d7ff5decfdc251745b290b5d9c8fd379e3257ff331eb389bb0bcb344c593",
+      "observed_size_bytes": 49451,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Startup_LOC_RUS.upk",
+      "sha256": "fb39f078c5ef5c3e0fdda7a234c3ea9a643b5ba66d557e14dc494fd030936da7",
+      "size_bytes": 49450,
+      "observed_sha256": "fb39f078c5ef5c3e0fdda7a234c3ea9a643b5ba66d557e14dc494fd030936da7",
+      "observed_size_bytes": 49450,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Antennas.upk",
+      "sha256": "be48d02888dc510374fbb985bceb331a957b58f40e2caddc4df4487427e4ae41",
+      "size_bytes": 183783,
+      "observed_sha256": "be48d02888dc510374fbb985bceb331a957b58f40e2caddc4df4487427e4ae41",
+      "observed_size_bytes": 183783,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Carousel.upk",
+      "sha256": "96366029a1b57a493b48b1826908a457b3633977c76578e796c77ccebb360a6a",
+      "size_bytes": 351037,
+      "observed_sha256": "96366029a1b57a493b48b1826908a457b3633977c76578e796c77ccebb360a6a",
+      "observed_size_bytes": 351037,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_DM.upk",
+      "sha256": "6d98b2301d0753e5a43c4c4d45e5be2e95eaea194a4a607a9a55a0f14ddfd3f9",
+      "size_bytes": 779239,
+      "observed_sha256": "6d98b2301d0753e5a43c4c4d45e5be2e95eaea194a4a607a9a55a0f14ddfd3f9",
+      "observed_size_bytes": 779239,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_DMSG_MiddleAA.upk",
+      "sha256": "7e3c10ae4bba7e0c40f183b0b70302a8a712ebb0bc20c3e01970175327cc14a6",
+      "size_bytes": 50218,
+      "observed_sha256": "7e3c10ae4bba7e0c40f183b0b70302a8a712ebb0bc20c3e01970175327cc14a6",
+      "observed_size_bytes": 50218,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Effects.upk",
+      "sha256": "ed654865bd193b6a30b43c33fd8a2b93c9088418fdfd954e659354fc2385f52b",
+      "size_bytes": 18066,
+      "observed_sha256": "ed654865bd193b6a30b43c33fd8a2b93c9088418fdfd954e659354fc2385f52b",
+      "observed_size_bytes": 18066,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Facade.upk",
+      "sha256": "5415e40bee55664edcf13ed6d5b2da6965d042b66fed8bd6e9e17ccbe4e4b019",
+      "size_bytes": 2792736,
+      "observed_sha256": "5415e40bee55664edcf13ed6d5b2da6965d042b66fed8bd6e9e17ccbe4e4b019",
+      "observed_size_bytes": 2792736,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Flying_Vehicles.upk",
+      "sha256": "dd6129ea336393cb0752f1aed591480440a4c265abd63fa43626a2cdcc85cd2e",
+      "size_bytes": 57119,
+      "observed_sha256": "dd6129ea336393cb0752f1aed591480440a4c265abd63fa43626a2cdcc85cd2e",
+      "observed_size_bytes": 57119,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Hangar.upk",
+      "sha256": "46c887991dbf607a8cd7505d0d7a41af9f6fe979d6b52fd615613c97546d77e8",
+      "size_bytes": 1996613,
+      "observed_sha256": "46c887991dbf607a8cd7505d0d7a41af9f6fe979d6b52fd615613c97546d77e8",
+      "observed_size_bytes": 1996613,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Landmarks.upk",
+      "sha256": "a3aa85ec12fba04eedb3ca7b903f179626d6267396be59aa0cc4c4a404b863da",
+      "size_bytes": 693870,
+      "observed_sha256": "a3aa85ec12fba04eedb3ca7b903f179626d6267396be59aa0cc4c4a404b863da",
+      "observed_size_bytes": 693870,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_MA.upk",
+      "sha256": "078327872a6028150496bfbe8b43b68b1ca9480f65a96385df36f121160991ee",
+      "size_bytes": 473023,
+      "observed_sha256": "078327872a6028150496bfbe8b43b68b1ca9480f65a96385df36f121160991ee",
+      "observed_size_bytes": 473023,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_MassiveLODs.upk",
+      "sha256": "a148cbba4918f5fcbfac44e173135cb3453ef2972ced50585ae8701e74140096",
+      "size_bytes": 3912466,
+      "observed_sha256": "a148cbba4918f5fcbfac44e173135cb3453ef2972ced50585ae8701e74140096",
+      "observed_size_bytes": 3912466,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Pylons.upk",
+      "sha256": "09e2c1ca7e96f4232bd433b3053ceeec8cb8f789172682a5ecc6860dc039df00",
+      "size_bytes": 1413957,
+      "observed_sha256": "09e2c1ca7e96f4232bd433b3053ceeec8cb8f789172682a5ecc6860dc039df00",
+      "observed_size_bytes": 1413957,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_SG.upk",
+      "sha256": "6681b3a30935145d06c5d45710704ae4af04f0d304e1c8406c0c731b87e32e7c",
+      "size_bytes": 1029539,
+      "observed_sha256": "6681b3a30935145d06c5d45710704ae4af04f0d304e1c8406c0c731b87e32e7c",
+      "observed_size_bytes": 1029539,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_SiegeWalls.upk",
+      "sha256": "7d73051a95475e871461011f59858c10b16dfda0ccfa07ad03afbcd99b2be4de",
+      "size_bytes": 4372,
+      "observed_sha256": "7d73051a95475e871461011f59858c10b16dfda0ccfa07ad03afbcd99b2be4de",
+      "observed_size_bytes": 4372,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Sounds.upk",
+      "sha256": "fa150ddd55be6a8e7a6884896fc8d932eafe1fec05a5ef42ce2ab199b3d5e73d",
+      "size_bytes": 910396,
+      "observed_sha256": "fa150ddd55be6a8e7a6884896fc8d932eafe1fec05a5ef42ce2ab199b3d5e73d",
+      "observed_size_bytes": 910396,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Team_Bases.upk",
+      "sha256": "2738ae5b89ca6b2bdb4cc28db55c030be3c01019e960386def3ee0f5d882275a",
+      "size_bytes": 6480364,
+      "observed_sha256": "2738ae5b89ca6b2bdb4cc28db55c030be3c01019e960386def3ee0f5d882275a",
+      "observed_size_bytes": 6480364,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Team_Boundaries.upk",
+      "sha256": "6a3e5dc1f73ba9d2e3509772f871969e5219a51531e71af62bcc54d205a9aa75",
+      "size_bytes": 25290,
+      "observed_sha256": "6a3e5dc1f73ba9d2e3509772f871969e5219a51531e71af62bcc54d205a9aa75",
+      "observed_size_bytes": 25290,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Team_Collisions.upk",
+      "sha256": "232d4a4c83d7c75719e6a35e3a609d44fa302cffb3df73a79904cf646a842f82",
+      "size_bytes": 250827,
+      "observed_sha256": "232d4a4c83d7c75719e6a35e3a609d44fa302cffb3df73a79904cf646a842f82",
+      "observed_size_bytes": 250827,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Turrets.upk",
+      "sha256": "fd343c84312bdad829477947f36d68a8bf896e720d47e15458ca9d1e469c06ea",
+      "size_bytes": 211171,
+      "observed_sha256": "fd343c84312bdad829477947f36d68a8bf896e720d47e15458ca9d1e469c06ea",
+      "observed_size_bytes": 211171,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_Visibility.upk",
+      "sha256": "e1da4380c8845bf7ff33a2f746e9974b40a58b3494e10d9ece4c331de3736450",
+      "size_bytes": 4999,
+      "observed_sha256": "e1da4380c8845bf7ff33a2f746e9974b40a58b3494e10d9ece4c331de3736450",
+      "observed_size_bytes": 4999,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Titan_World_Info.upk",
+      "sha256": "f6b4d76f4ab1fdc621d5ca7720a486d4db2798857ff6d9ed60a738636ee0cc6d",
+      "size_bytes": 753681,
+      "observed_sha256": "f6b4d76f4ab1fdc621d5ca7720a486d4db2798857ff6d9ed60a738636ee0cc6d",
+      "observed_size_bytes": 753681,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\TR-TutorialVR.upk",
+      "sha256": "f17df9b775c02b24b29cc624cfea170e193fe9d56c9c8fb698c6cb426ee92fda",
+      "size_bytes": 2048948,
+      "observed_sha256": "f17df9b775c02b24b29cc624cfea170e193fe9d56c9c8fb698c6cb426ee92fda",
+      "observed_size_bytes": 2048948,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\TutorialVR_Deco.upk",
+      "sha256": "7a184ca70bbaa26b51b379f6fe0d292a8112a9399ca38d70ae2d970abb2ffadc",
+      "size_bytes": 990328,
+      "observed_sha256": "7a184ca70bbaa26b51b379f6fe0d292a8112a9399ca38d70ae2d970abb2ffadc",
+      "observed_size_bytes": 990328,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\TutorialVR_Movement.upk",
+      "sha256": "09bb6d6445e60cb0cafd24c2e1cd13be078091297851a3f39a21c32b4c242506",
+      "size_bytes": 3893145,
+      "observed_sha256": "09bb6d6445e60cb0cafd24c2e1cd13be078091297851a3f39a21c32b4c242506",
+      "observed_size_bytes": 3893145,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\TutorialVR_Obstacle.upk",
+      "sha256": "22c6aa387c6c9c2fb01a08500f9bdbf4593aa2ccf2d828e5549a17e6e7ef208c",
+      "size_bytes": 2062345,
+      "observed_sha256": "22c6aa387c6c9c2fb01a08500f9bdbf4593aa2ccf2d828e5549a17e6e7ef208c",
+      "observed_size_bytes": 2062345,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\TutorialVR_Turret.upk",
+      "sha256": "5174e636cb24a8a04bc0d1404d56108c78da285b2a6aa47368dfe37367dbb548",
+      "size_bytes": 212950,
+      "observed_sha256": "5174e636cb24a8a04bc0d1404d56108c78da285b2a6aa47368dfe37367dbb548",
+      "observed_size_bytes": 212950,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\TutorialVR_Weapons.upk",
+      "sha256": "67a6d3ec8dd9552b4488764a3335071d174515c18f38b72f0fde7b53c7c952c0",
+      "size_bytes": 4344489,
+      "observed_sha256": "67a6d3ec8dd9552b4488764a3335071d174515c18f38b72f0fde7b53c7c952c0",
+      "observed_size_bytes": 4344489,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\TutorialVR_Weapons2.upk",
+      "sha256": "fef260c3464da6f6929ba8d7ee826802b9a15b64b378e065f2dd61a8043b88ff",
+      "size_bytes": 3396150,
+      "observed_sha256": "fef260c3464da6f6929ba8d7ee826802b9a15b64b378e065f2dd61a8043b88ff",
+      "observed_size_bytes": 3396150,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UDKBase.upk",
+      "sha256": "4e2e6caf4141f8f01d6d1f45c9bcb570991b63c37b3d89eb1e0ba79f55d14064",
+      "size_bytes": 100527,
+      "observed_sha256": "4e2e6caf4141f8f01d6d1f45c9bcb570991b63c37b3d89eb1e0ba79f55d14064",
+      "observed_size_bytes": 100527,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UDKBase_LOC_DEU.upk",
+      "sha256": "3a2ad59e008a8de8cd40549ba0e4333c6fdbf3120d77a5a4fdfc1f4176a0fdba",
+      "size_bytes": 129784,
+      "observed_sha256": "3a2ad59e008a8de8cd40549ba0e4333c6fdbf3120d77a5a4fdfc1f4176a0fdba",
+      "observed_size_bytes": 129784,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UDKBase_LOC_ESN.upk",
+      "sha256": "a0b166a88682b8940f2958aa85b3b81a4a755ec400e6b7cc001e9ad9eb461715",
+      "size_bytes": 129781,
+      "observed_sha256": "a0b166a88682b8940f2958aa85b3b81a4a755ec400e6b7cc001e9ad9eb461715",
+      "observed_size_bytes": 129781,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UDKBase_LOC_FRA.upk",
+      "sha256": "2e132407ce8fb484610a2d1365a834877693900e4b9002d9d5b57df746e97aaa",
+      "size_bytes": 129782,
+      "observed_sha256": "2e132407ce8fb484610a2d1365a834877693900e4b9002d9d5b57df746e97aaa",
+      "observed_size_bytes": 129782,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UDKBase_LOC_INT.upk",
+      "sha256": "759e374dc091ca20b561aa76ef4d4b40901f9a95b486762ec8c60071f3450761",
+      "size_bytes": 129780,
+      "observed_sha256": "759e374dc091ca20b561aa76ef4d4b40901f9a95b486762ec8c60071f3450761",
+      "observed_size_bytes": 129780,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UDKBase_LOC_JPN.upk",
+      "sha256": "a955ae4cfa95090ed05332a3886815055582ce33abef2c22713d335c9a89820f",
+      "size_bytes": 129782,
+      "observed_sha256": "a955ae4cfa95090ed05332a3886815055582ce33abef2c22713d335c9a89820f",
+      "observed_size_bytes": 129782,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UDKBase_LOC_RUS.upk",
+      "sha256": "8082cc6552134504bde8609d6a3590ad72994202b08c9346f162c9201e3e3771",
+      "size_bytes": 129782,
+      "observed_sha256": "8082cc6552134504bde8609d6a3590ad72994202b08c9346f162c9201e3e3771",
+      "observed_size_bytes": 129782,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UI_Menus_SF.upk",
+      "sha256": "9f8259c44e2aa60913e493b700d72d4122d458d38d3273964e2e5865ecb907f0",
+      "size_bytes": 20489423,
+      "observed_sha256": "9f8259c44e2aa60913e493b700d72d4122d458d38d3273964e2e5865ecb907f0",
+      "observed_size_bytes": 20489423,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\UI_SF.upk",
+      "sha256": "08e712bfcde549b6e836bdda1d434fc275c394515e97720e8f5a38142f1cd83d",
+      "size_bytes": 2946114,
+      "observed_sha256": "08e712bfcde549b6e836bdda1d434fc275c394515e97720e8f5a38142f1cd83d",
+      "observed_size_bytes": 2946114,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valk_FlyingVehicles.upk",
+      "sha256": "4f24f0189c6a0137f0cfd8024d236d10218191b304f761a764c4c2be4865a02c",
+      "size_bytes": 53016,
+      "observed_sha256": "4f24f0189c6a0137f0cfd8024d236d10218191b304f761a764c4c2be4865a02c",
+      "observed_size_bytes": 53016,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Atmosphere.upk",
+      "sha256": "4aec990deba652aec1e6534863bbe679f40e9175d174ca3adda202d9897ecea1",
+      "size_bytes": 16367,
+      "observed_sha256": "4aec990deba652aec1e6534863bbe679f40e9175d174ca3adda202d9897ecea1",
+      "observed_size_bytes": 16367,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_BasesMassiveLOD.upk",
+      "sha256": "7dc058f56e45e5a5fce8b9feb693812dd88b7f1113a61b1990dafd2b8970a5dd",
+      "size_bytes": 1992386,
+      "observed_sha256": "7dc058f56e45e5a5fce8b9feb693812dd88b7f1113a61b1990dafd2b8970a5dd",
+      "observed_size_bytes": 1992386,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Borders.upk",
+      "sha256": "e3254c436f66c688ea2ea753233915119a122281f74cd192894233e633bfe582",
+      "size_bytes": 85876,
+      "observed_sha256": "e3254c436f66c688ea2ea753233915119a122281f74cd192894233e633bfe582",
+      "observed_size_bytes": 85876,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Carousel.upk",
+      "sha256": "3bdafddc3c144f5aed222f6fe76f8435500d6a76e766909f19004fbfc70e4a64",
+      "size_bytes": 1991733,
+      "observed_sha256": "3bdafddc3c144f5aed222f6fe76f8435500d6a76e766909f19004fbfc70e4a64",
+      "observed_size_bytes": 1991733,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Collision.upk",
+      "sha256": "3627680bca22a426abf43d568dbf536d92cb55ccd79d80d697b68d516d52bfc5",
+      "size_bytes": 440606,
+      "observed_sha256": "3627680bca22a426abf43d568dbf536d92cb55ccd79d80d697b68d516d52bfc5",
+      "observed_size_bytes": 440606,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Darren.upk",
+      "sha256": "be05c93b0a20c636219b05bff7851d3335678607faf29eb741133e4a3c72b692",
+      "size_bytes": 918,
+      "observed_sha256": "be05c93b0a20c636219b05bff7851d3335678607faf29eb741133e4a3c72b692",
+      "observed_size_bytes": 918,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_DecalMarkings.upk",
+      "sha256": "481e47719ec379b84921846138af7e074ef53cefed73c78d55cc51bf890f4f33",
+      "size_bytes": 371577,
+      "observed_sha256": "481e47719ec379b84921846138af7e074ef53cefed73c78d55cc51bf890f4f33",
+      "observed_size_bytes": 371577,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Decals.upk",
+      "sha256": "e13e8294122cf4b52a57368120840aa25468d1a9b9dd91dbd9ed3123c623deb9",
+      "size_bytes": 101788,
+      "observed_sha256": "e13e8294122cf4b52a57368120840aa25468d1a9b9dd91dbd9ed3123c623deb9",
+      "observed_size_bytes": 101788,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_DM.upk",
+      "sha256": "0b086e24ad8a5385aa0eabe41f2c408b5e2e656a049d72f0f1b49d7da78775e4",
+      "size_bytes": 635939,
+      "observed_sha256": "0b086e24ad8a5385aa0eabe41f2c408b5e2e656a049d72f0f1b49d7da78775e4",
+      "observed_size_bytes": 635939,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_DMSG_MiddleAA.upk",
+      "sha256": "48ee22a1337491710d7d1b3f39cb7d926c5fb3172720ebd42809a5c1e3ccc7cf",
+      "size_bytes": 808,
+      "observed_sha256": "48ee22a1337491710d7d1b3f39cb7d926c5fb3172720ebd42809a5c1e3ccc7cf",
+      "observed_size_bytes": 808,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Facade.upk",
+      "sha256": "ed4a5c55ef1715577a71acb04f3c8be47b905e4e292c967217316d0bef092bce",
+      "size_bytes": 1420766,
+      "observed_sha256": "ed4a5c55ef1715577a71acb04f3c8be47b905e4e292c967217316d0bef092bce",
+      "observed_size_bytes": 1420766,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_GroundPropsSmall.upk",
+      "sha256": "78cd5c3d090adb7b45dd6e6cd09d8909b9bab1e1aa56e666bca0e38ab9a15fb3",
+      "size_bytes": 2212116,
+      "observed_sha256": "78cd5c3d090adb7b45dd6e6cd09d8909b9bab1e1aa56e666bca0e38ab9a15fb3",
+      "observed_size_bytes": 2212116,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_GroundTechy.upk",
+      "sha256": "d792c8b326d2f63362ae8aa0bf1c6111d289d5854b2833be4ec9df73964dfc2e",
+      "size_bytes": 1801621,
+      "observed_sha256": "d792c8b326d2f63362ae8aa0bf1c6111d289d5854b2833be4ec9df73964dfc2e",
+      "observed_size_bytes": 1801621,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Hangar.upk",
+      "sha256": "7217829cdab682918cd31b30292e27bc342063bf978fb22e013b7e291021c684",
+      "size_bytes": 1997212,
+      "observed_sha256": "7217829cdab682918cd31b30292e27bc342063bf978fb22e013b7e291021c684",
+      "observed_size_bytes": 1997212,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Lights.upk",
+      "sha256": "11089c63a468a339ea1795d84f0109c1e10e110b467c76cd13b9f9f00c28939c",
+      "size_bytes": 101932,
+      "observed_sha256": "11089c63a468a339ea1795d84f0109c1e10e110b467c76cd13b9f9f00c28939c",
+      "observed_size_bytes": 101932,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Lights2.upk",
+      "sha256": "0dc78cb0e283d78d03186626670ceb0a753565fea0937760969d8e3a14cd46a1",
+      "size_bytes": 382873,
+      "observed_sha256": "0dc78cb0e283d78d03186626670ceb0a753565fea0937760969d8e3a14cd46a1",
+      "observed_size_bytes": 382873,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_MA.upk",
+      "sha256": "a42043d04fc22b6db775c3b0cb62cd1dd2c51872c9a4f98eadb6df1a2fb52769",
+      "size_bytes": 454398,
+      "observed_sha256": "a42043d04fc22b6db775c3b0cb62cd1dd2c51872c9a4f98eadb6df1a2fb52769",
+      "observed_size_bytes": 454398,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Prosk.upk",
+      "sha256": "9fcb3edbf41845bf241da8e14d72dad7108e8eca7dce4bc99313e2568fa07a71",
+      "size_bytes": 4103898,
+      "observed_sha256": "9fcb3edbf41845bf241da8e14d72dad7108e8eca7dce4bc99313e2568fa07a71",
+      "observed_size_bytes": 4103898,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_ProskMassiveLOD_01.upk",
+      "sha256": "50aef0950682a758908472ab62db86dbd677ed6a59157a4a21bc6f791e1c9c0e",
+      "size_bytes": 5469986,
+      "observed_sha256": "50aef0950682a758908472ab62db86dbd677ed6a59157a4a21bc6f791e1c9c0e",
+      "observed_size_bytes": 5469986,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_ProskMassiveLOD_02.upk",
+      "sha256": "627f5be5ba5f0c26b8ef5f4560d9e5eea471fa02479d8c308c03281b4ed4fdb2",
+      "size_bytes": 4712746,
+      "observed_sha256": "627f5be5ba5f0c26b8ef5f4560d9e5eea471fa02479d8c308c03281b4ed4fdb2",
+      "observed_size_bytes": 4712746,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Sentium.upk",
+      "sha256": "f0406d3cb690ab91fae5a54d60c0b4b5dba7e4d4ea289cdf3ad9a9a53af805d5",
+      "size_bytes": 2950689,
+      "observed_sha256": "f0406d3cb690ab91fae5a54d60c0b4b5dba7e4d4ea289cdf3ad9a9a53af805d5",
+      "observed_size_bytes": 2950689,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_SentiumMassiveLOD_01.upk",
+      "sha256": "24b9e127f6ef1f279591cf538d9e5f63da9aa9587ef37e5878ce6cb18d3717e7",
+      "size_bytes": 4622338,
+      "observed_sha256": "24b9e127f6ef1f279591cf538d9e5f63da9aa9587ef37e5878ce6cb18d3717e7",
+      "observed_size_bytes": 4622338,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_SentiumMassiveLOD_02.upk",
+      "sha256": "cad48bcf285c6e6c8dfdde5c4faf7646e3728d011ed788592e8b3cc65f176a8c",
+      "size_bytes": 4712802,
+      "observed_sha256": "cad48bcf285c6e6c8dfdde5c4faf7646e3728d011ed788592e8b3cc65f176a8c",
+      "observed_size_bytes": 4712802,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_SG.upk",
+      "sha256": "bca9d01f9d8a6d4a925ec8d1dadd855c28def857d08a17ac7b8921cb10105c17",
+      "size_bytes": 1030098,
+      "observed_sha256": "bca9d01f9d8a6d4a925ec8d1dadd855c28def857d08a17ac7b8921cb10105c17",
+      "observed_size_bytes": 1030098,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_SiegeWalls.upk",
+      "sha256": "5375f096a92801f89c7ca5cf9c049a99b77cc13c41fe4f566c9154a5a4d19684",
+      "size_bytes": 2245,
+      "observed_sha256": "5375f096a92801f89c7ca5cf9c049a99b77cc13c41fe4f566c9154a5a4d19684",
+      "observed_size_bytes": 2245,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Sounds.upk",
+      "sha256": "c27697af978d86eb336924b0cd94a5bdd888dada754ce185891e9f948c417cc0",
+      "size_bytes": 1792199,
+      "observed_sha256": "c27697af978d86eb336924b0cd94a5bdd888dada754ce185891e9f948c417cc0",
+      "observed_size_bytes": 1792199,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_StoreFronts.upk",
+      "sha256": "6a1ce51802dbf01eceafe70df68ec4100a0f602bf50cd79b18ce915a4a973c89",
+      "size_bytes": 19141,
+      "observed_sha256": "6a1ce51802dbf01eceafe70df68ec4100a0f602bf50cd79b18ce915a4a973c89",
+      "observed_size_bytes": 19141,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Terrain.upk",
+      "sha256": "c4d0240a6611114f1b343ccf4c4ff56f42dc05ef6663bc00f4dbc6481c87bc7b",
+      "size_bytes": 1499283,
+      "observed_sha256": "c4d0240a6611114f1b343ccf4c4ff56f42dc05ef6663bc00f4dbc6481c87bc7b",
+      "observed_size_bytes": 1499283,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Turrets.upk",
+      "sha256": "cc267fee68279d21f9ade22d4a11eca7e82f5e5706ca1e2eaac81bb85fc7e68f",
+      "size_bytes": 252198,
+      "observed_sha256": "cc267fee68279d21f9ade22d4a11eca7e82f5e5706ca1e2eaac81bb85fc7e68f",
+      "observed_size_bytes": 252198,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Volumes.upk",
+      "sha256": "5eb094b09b62e5db25353bd23504dcc0213294fd39c838299c78ecaad811da7f",
+      "size_bytes": 5665,
+      "observed_sha256": "5eb094b09b62e5db25353bd23504dcc0213294fd39c838299c78ecaad811da7f",
+      "observed_size_bytes": 5665,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_Wires.upk",
+      "sha256": "3158e14d59323dc1ddbf721c3da0025cdb259995aea900f759dedf502034d9fe",
+      "size_bytes": 140012,
+      "observed_sha256": "3158e14d59323dc1ddbf721c3da0025cdb259995aea900f759dedf502034d9fe",
+      "observed_size_bytes": 140012,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Valkirie_World.upk",
+      "sha256": "725c89048c924a25ff006a0a5383218cb4d10462eadd570756e02973739675a8",
+      "size_bytes": 810052,
+      "observed_sha256": "725c89048c924a25ff006a0a5383218cb4d10462eadd570756e02973739675a8",
+      "observed_size_bytes": 810052,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Alleys.upk",
+      "sha256": "b23ab8b42b893ee9e25661dee55f31526981aa2f1ea2d8c6a965bc85375e9bcd",
+      "size_bytes": 1868404,
+      "observed_sha256": "b23ab8b42b893ee9e25661dee55f31526981aa2f1ea2d8c6a965bc85375e9bcd",
+      "observed_size_bytes": 1868404,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Andromeda.upk",
+      "sha256": "461c4060116f3ceee242e58ea69950cfd61ff5a8d87970f7199ecfa967c90db9",
+      "size_bytes": 1753043,
+      "observed_sha256": "461c4060116f3ceee242e58ea69950cfd61ff5a8d87970f7199ecfa967c90db9",
+      "observed_size_bytes": 1753043,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Bunker.upk",
+      "sha256": "b056d7aa65c09a2dd306b48e1afb0a41c0dc4a830722b297e59bd40a9b4945c6",
+      "size_bytes": 6227748,
+      "observed_sha256": "b056d7aa65c09a2dd306b48e1afb0a41c0dc4a830722b297e59bd40a9b4945c6",
+      "observed_size_bytes": 6227748,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Facility.upk",
+      "sha256": "337b48bbaa34d5509354cc09bf3994d64a27889b84a3516dd5d3eacc92c74116",
+      "size_bytes": 4810948,
+      "observed_sha256": "337b48bbaa34d5509354cc09bf3994d64a27889b84a3516dd5d3eacc92c74116",
+      "observed_size_bytes": 4810948,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Fightclub-CarouselB.upk",
+      "sha256": "9a0798d3ee405d5bcf8eb03d60d58b5b2eccfd54a19472fa6628819d6fa41ef1",
+      "size_bytes": 271397,
+      "observed_sha256": "9a0798d3ee405d5bcf8eb03d60d58b5b2eccfd54a19472fa6628819d6fa41ef1",
+      "observed_size_bytes": 271397,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Fightclub-Hangar.upk",
+      "sha256": "65c8fd07231f963f7dda930cf35a6c0120dd7352dc70f3b7895562b8779f5e65",
+      "size_bytes": 1995275,
+      "observed_sha256": "65c8fd07231f963f7dda930cf35a6c0120dd7352dc70f3b7895562b8779f5e65",
+      "observed_size_bytes": 1995275,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Fightclub.upk",
+      "sha256": "0534fffbfac1c392fb9541fa27f61b78796f149097ec97466c62460a339ce819",
+      "size_bytes": 1238848,
+      "observed_sha256": "0534fffbfac1c392fb9541fa27f61b78796f149097ec97466c62460a339ce819",
+      "observed_size_bytes": 1238848,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-LastEco-Winter.upk",
+      "sha256": "ab159555a5d2bd64c8f068f9ea7fe1f8074b8c79e9c1a5e8014db760b951c017",
+      "size_bytes": 15773543,
+      "observed_sha256": "ab159555a5d2bd64c8f068f9ea7fe1f8074b8c79e9c1a5e8014db760b951c017",
+      "observed_size_bytes": 15773543,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-LastEco.upk",
+      "sha256": "c063b8264de48d522d5e1259d476ddd90aef9831ab800cf210756136cec6b1ef",
+      "size_bytes": 15333085,
+      "observed_sha256": "c063b8264de48d522d5e1259d476ddd90aef9831ab800cf210756136cec6b1ef",
+      "observed_size_bytes": 15333085,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Sahara.upk",
+      "sha256": "d16fa3de9a325a2a333d61bb16fbe4c0e757b1a404d1a7f2209384880db5030b",
+      "size_bytes": 4615019,
+      "observed_sha256": "d16fa3de9a325a2a333d61bb16fbe4c0e757b1a404d1a7f2209384880db5030b",
+      "observed_size_bytes": 4615019,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Titan.upk",
+      "sha256": "8996fda643ef81ec9224737949f4e58ecc5ee839eeb6d6a107517486f16ca018",
+      "size_bytes": 3392237,
+      "observed_sha256": "8996fda643ef81ec9224737949f4e58ecc5ee839eeb6d6a107517486f16ca018",
+      "observed_size_bytes": 3392237,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Valkirie.upk",
+      "sha256": "63d1ac4980edc4448fffeb39a2f975c66dd6911dacd707ca5ddb14f49a5a93b9",
+      "size_bytes": 11083651,
+      "observed_sha256": "63d1ac4980edc4448fffeb39a2f975c66dd6911dacd707ca5ddb14f49a5a93b9",
+      "observed_size_bytes": 11083651,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS-Wreckage.upk",
+      "sha256": "4de4929cec5201efca5403fc264063b25bb8b507bb9befbbc67f2c8b5713d0b7",
+      "size_bytes": 13531876,
+      "observed_sha256": "4de4929cec5201efca5403fc264063b25bb8b507bb9befbbc67f2c8b5713d0b7",
+      "observed_size_bytes": 13531876,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\VS_COMMON_SF.upk",
+      "sha256": "c6a81a5133da03f69189528ec2001e7c4b322c072d5783cb09bdd1a007cf4e3d",
+      "size_bytes": 1311535,
+      "observed_sha256": "c6a81a5133da03f69189528ec2001e7c4b322c072d5783cb09bdd1a007cf4e3d",
+      "observed_size_bytes": 1311535,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Atmosphere.upk",
+      "sha256": "42b6ec74458aff36db87b1306a985fa553b0cb4ddcb538b63224050ccb2fc9f2",
+      "size_bytes": 19081,
+      "observed_sha256": "42b6ec74458aff36db87b1306a985fa553b0cb4ddcb538b63224050ccb2fc9f2",
+      "observed_size_bytes": 19081,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Audio.upk",
+      "sha256": "827ebf9eb484628c2b5ea86d3569fa1c5e3d7e8211df5e5b3cfe2faff3c5a097",
+      "size_bytes": 821306,
+      "observed_sha256": "827ebf9eb484628c2b5ea86d3569fa1c5e3d7e8211df5e5b3cfe2faff3c5a097",
+      "observed_size_bytes": 821306,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Boundaries.upk",
+      "sha256": "23d1fd1c7441ed0136728e1719f314c2b25a6c384de40a0cda24ccf961cabb72",
+      "size_bytes": 12546,
+      "observed_sha256": "23d1fd1c7441ed0136728e1719f314c2b25a6c384de40a0cda24ccf961cabb72",
+      "observed_size_bytes": 12546,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Carousel.upk",
+      "sha256": "3e34a7d16b76a804a3e93f271ce2e5e9033dbd08f4f1ea42f5550bea86fea2d7",
+      "size_bytes": 274252,
+      "observed_sha256": "3e34a7d16b76a804a3e93f271ce2e5e9033dbd08f4f1ea42f5550bea86fea2d7",
+      "observed_size_bytes": 274252,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Collision.upk",
+      "sha256": "1afc72d3cc07f1ac75fdd9b291d825d728143d9e4d40748ec5c37dde04a20162",
+      "size_bytes": 230235,
+      "observed_sha256": "1afc72d3cc07f1ac75fdd9b291d825d728143d9e4d40748ec5c37dde04a20162",
+      "observed_size_bytes": 230235,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Destructibles.upk",
+      "sha256": "fe95c86acd45c51a3b92f6fef38d68e5bd969a4ab0479e6abb9ede6218ace9b7",
+      "size_bytes": 529624,
+      "observed_sha256": "fe95c86acd45c51a3b92f6fef38d68e5bd969a4ab0479e6abb9ede6218ace9b7",
+      "observed_size_bytes": 529624,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Facades.upk",
+      "sha256": "cfb58972514cfd9a6766c363e4db28d2e4ff438a6a9202979817304fdbf11dea",
+      "size_bytes": 3259144,
+      "observed_sha256": "cfb58972514cfd9a6766c363e4db28d2e4ff438a6a9202979817304fdbf11dea",
+      "observed_size_bytes": 3259144,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Hangar.upk",
+      "sha256": "032e0433304b7a91159f9369d003be10944dca41dff58d074d923bf06267f7dc",
+      "size_bytes": 1994211,
+      "observed_sha256": "032e0433304b7a91159f9369d003be10944dca41dff58d074d923bf06267f7dc",
+      "observed_size_bytes": 1994211,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Hawkins.upk",
+      "sha256": "7d17c574124d0dd672b49710cc83ac9e0635492c993c8e30ba8fc950bf74bf11",
+      "size_bytes": 1440254,
+      "observed_sha256": "7d17c574124d0dd672b49710cc83ac9e0635492c993c8e30ba8fc950bf74bf11",
+      "observed_size_bytes": 1440254,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_JLee.upk",
+      "sha256": "bae3b41370d8a47f751704315462e38f4fd0d9f7789ad3f7ca20e9c283a80067",
+      "size_bytes": 6086532,
+      "observed_sha256": "bae3b41370d8a47f751704315462e38f4fd0d9f7789ad3f7ca20e9c283a80067",
+      "observed_size_bytes": 6086532,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Lights.upk",
+      "sha256": "2c879ae3ee7b7cf7bdd20285b0507a678834b440867e6dd695cd057ef2bd632f",
+      "size_bytes": 185953,
+      "observed_sha256": "2c879ae3ee7b7cf7bdd20285b0507a678834b440867e6dd695cd057ef2bd632f",
+      "observed_size_bytes": 185953,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_MA.upk",
+      "sha256": "bd8701d9f1bf10021b1a944f0f59afab555f80fee291604ca267c8261057db92",
+      "size_bytes": 458743,
+      "observed_sha256": "bd8701d9f1bf10021b1a944f0f59afab555f80fee291604ca267c8261057db92",
+      "observed_size_bytes": 458743,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Pylon.upk",
+      "sha256": "f46bde77a08ea03b9d23d40156aa2ea686aa9a3ce256da4305d6569aedef180b",
+      "size_bytes": 405101,
+      "observed_sha256": "f46bde77a08ea03b9d23d40156aa2ea686aa9a3ce256da4305d6569aedef180b",
+      "observed_size_bytes": 405101,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_SG.upk",
+      "sha256": "b6eaa29faf798966f15a3fc24c73e4dc868bd1a99258f90dbbd907aa84d87431",
+      "size_bytes": 1308331,
+      "observed_sha256": "b6eaa29faf798966f15a3fc24c73e4dc868bd1a99258f90dbbd907aa84d87431",
+      "observed_size_bytes": 1308331,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_SpawnTest.upk",
+      "sha256": "80f7eacc7e5df4a14ae04b0d2fe7ce1cf330e17cefd99b9a12c7796db6a8090f",
+      "size_bytes": 799,
+      "observed_sha256": "80f7eacc7e5df4a14ae04b0d2fe7ce1cf330e17cefd99b9a12c7796db6a8090f",
+      "observed_size_bytes": 799,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Turrets.upk",
+      "sha256": "50c59c98caa974b0da11ec3a4d56a13cc1cda6999f70b5b4e747140ecf2a5358",
+      "size_bytes": 212160,
+      "observed_sha256": "50c59c98caa974b0da11ec3a4d56a13cc1cda6999f70b5b4e747140ecf2a5358",
+      "observed_size_bytes": 212160,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Volumes.upk",
+      "sha256": "499da075907e015dcef4cd63f723c454ea2b47e301ca24ee6ee4e22ecbeaf01c",
+      "size_bytes": 3737,
+      "observed_sha256": "499da075907e015dcef4cd63f723c454ea2b47e301ca24ee6ee4e22ecbeaf01c",
+      "observed_size_bytes": 3737,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_Wes.upk",
+      "sha256": "fe9fbef0e69182e0133769c893e400f8a7a5d8b647eabf09e829dee2562e6a5f",
+      "size_bytes": 6256908,
+      "observed_sha256": "fe9fbef0e69182e0133769c893e400f8a7a5d8b647eabf09e829dee2562e6a5f",
+      "observed_size_bytes": 6256908,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Wreckage_World.upk",
+      "sha256": "0aad6d08cf93be171857be3117045bf06cf9dbbb938e910e60e20e86da315c92",
+      "size_bytes": 6129,
+      "observed_sha256": "0aad6d08cf93be171857be3117045bf06cf9dbbb938e910e60e20e86da315c92",
+      "observed_size_bytes": 6129,
+      "matches_baseline": true
+    },
+    {
+      "relative_path": "HawkenGame\\CookedPCConsole\\Zone_A.upk",
+      "sha256": "8d2a19a3f679d8909fea5f50130b6f6aa4f5b727b09659fa0260de4e81d36e21",
+      "size_bytes": 13421834,
+      "observed_sha256": "8d2a19a3f679d8909fea5f50130b6f6aa4f5b727b09659fa0260de4e81d36e21",
+      "observed_size_bytes": 13421834,
+      "matches_baseline": true
+    }
+  ],
+  "verification": {
+    "expected_count": 360,
+    "actual_count": 360,
+    "added": [],
+    "missing": [],
+    "changed": [],
+    "errors": [],
+    "status": "PASS"
+  }
+}

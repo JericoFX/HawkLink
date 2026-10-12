@@ -1,0 +1,36 @@
+{
+  "Version": "starter.local2",
+  "StarterOfferGuid": "20000000-0000-0000-0000-000000000001",
+  "Types": {
+    "Mech": "10000000-0000-0000-0000-000000000001",
+    "Primary": "10000000-0000-0000-0000-000000000002",
+    "Secondary": "10000000-0000-0000-0000-000000000003",
+    "Upper": "10000000-0000-0000-0000-000000000004",
+    "Middle": "10000000-0000-0000-0000-000000000005",
+    "Arms": "10000000-0000-0000-0000-000000000006",
+    "Lower": "10000000-0000-0000-0000-000000000007",
+    "Drone": "10000000-0000-0000-0000-000000000008",
+    "Ability": "10000000-0000-0000-0000-000000000009"
+  },
+  "PrimaryWeapon": {
+    "HeatPerShot": 2, "Spread": 0.25, "RefireRate": 0.1, "WeaponRange": 10000,
+    "InstantHitDamage": 8, "AimHelpdist": 0, "DamageForUI": 8, "RefireRateForUI": 10,
+    "HeatForUI": 2, "EffectiveRangeForUI": 10000, "AccuracyForUI": 90
+  },
+  "SecondaryWeapon": {
+    "HeatPerShot": 20, "Spread": 0, "RefireRate": 1.5, "WeaponRange": 16000,
+    "InstantHitDamage": 80, "AimHelpdist": 0, "DamageForUI": 80, "RefireRateForUI": 1.5,
+    "HeatForUI": 20, "EffectiveRangeForUI": 16000, "AccuracyForUI": 100
+  },
+  "Coolant": { "RegenerationSeconds": 30, "ModeActiveTime": 1, "HeatReductionRate": 100 },
+  "SecondaryProjectile": {
+    "Speed": 2500, "MaxSpeed": 2500, "AccelRate": 0, "Damage": 80,
+    "DamageRadius": 300, "InnerDamageRadius": 100, "MinDamage": 20
+  },
+  "FtuxTest": {
+    "GlobalsGuid": "10000000-0000-0000-0000-00000000000a",
+    "Version": "ftux.local1",
+    "MatchTimeMinutes": 1,
+    "MatchGoal": 20
+  }
+}

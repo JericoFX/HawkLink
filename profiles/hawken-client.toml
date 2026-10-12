@@ -1,0 +1,5 @@
+# Configuracion propia de la DLL auxiliar; no es un archivo original de Hawken.
+# Base Meteor de la API compatible. Para el ensayo del Master local: HTTP/puerto80.
+# El Master vacio permite probar el destino; aun no ofrece login ni partidas.
+[network]
+meteor_uri = "http://127.0.0.1"

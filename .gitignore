@@ -1,0 +1,34 @@
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+/implementation/tools/*
+!/implementation/tools/*.ps1
+!/implementation/tools/*.py
+/implementation/packages/
+/implementation/runtime-home/
+**/bin/
+**/obj/
+/build/
+
+# Original game material, extracted assets, tool installs and runtime evidence
+# remain local. Source, profiles, research reports and authored helpers are tracked.
+/research/*/analysis/
+/research/*/evidence/
+/research/*/tools/
+/implementation/analysis/
+/implementation/evidence/
+/implementation/local-runtime/
+/implementation/superseded-csharp-2026-10-10/
+*.obj
+*.exe
+*.dll
+*.pdb
+*.dmp
+*.upk
+*.sqlite*
+*.db
+*.db-*
+*.log
+.env
+.env.*
+!.env.example
+
