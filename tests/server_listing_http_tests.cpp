@@ -99,7 +99,8 @@ public:
             // Synthetic caller plan; no original assets or gameplay are claimed.
             directory.emplace(std::vector<master::ServerMetadata>{{
                 config.server_guid,config.region,"547429238","HawkLink Local Wreckage Trial",
-                "VS-Wreckage","HawkenDM","127.0.0.1",runtime.port(),1,true,false}});
+                "VS-Wreckage","HawkenDM","127.0.0.1",runtime.port(),1,true,false,
+                master::MatchState::prematch}});
         }
         server::configure_server_http(server_, &auth, nullptr, nullptr, nullptr,
             &runtime.assignment(), directory ? &*directory : nullptr);
@@ -154,6 +155,7 @@ TEST_CASE("Listing collection exposes public directory metadata without granting
     REQUIRE(all.is_array()); REQUIRE(all.size()==2);
     CHECK(all[0].at("Guid")==std::string(local_guid)); CHECK(all[0].at("Port")=="27015");
     CHECK(all[0].at("Users")==Json::array());
+    CHECK(all[0].at("DeveloperData")==Json{{"MatchState","0"}});
     CHECK_FALSE(all[0].contains("SessionKey")); CHECK_FALSE(all[0].contains("AccessGrant"));
     const auto filtered = result(client.Get("/gameServerListings?Region=NA&GameVersion=1.6.0.154767"),200);
     REQUIRE(filtered.size()==1); CHECK(filtered[0].at("Guid")==std::string(foreign_guid));
@@ -167,6 +169,7 @@ TEST_CASE("Listing individual selection requires server authorization and reuses
     CHECK(result(client.Get("/session",authorization),404).is_null());
     const auto listing = result(client.Get(individual,authorization),200);
     CHECK(listing==listener.directory.respond("GET",individual).body.at("Result"));
+    CHECK(listing.at("DeveloperData")==Json{{"MatchState","0"}});
     const auto session = result(client.Get("/session",authorization),200);
     CHECK(session.at("AssignedServerGuid")==std::string(local_guid));
     CHECK(session.at("ClientAdvertisementGuid")=="");
@@ -233,6 +236,7 @@ TEST_CASE("Local trial listing selects the actual bound UDP destination and pres
     CHECK(all[0].at("MaxUsers")==1);
     CHECK(all[0].at("IsPublicVisible")==true);
     CHECK(all[0].at("IsMatchmakingVisible")==false);
+    CHECK(all[0].at("DeveloperData")==Json{{"MatchState","1"}});
     CHECK(all[0].at("Users")==Json::array());
     CHECK_FALSE(all[0].contains("SessionKey"));
     CHECK(listener.verifier.calls==0);

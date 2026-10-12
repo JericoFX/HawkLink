@@ -13,6 +13,9 @@ public:
     std::string code;
 };
 
+// Values consumed by the original browser; metadata alone does not prove gameplay.
+enum class MatchState : std::int32_t { unavailable = 0, prematch = 1, in_progress = 2, postmatch = 3 };
+
 // This directory has no account, inventory, balance, session or player-ID fields.
 struct ServerMetadata {
     std::string guid;
@@ -26,6 +29,7 @@ struct ServerMetadata {
     std::int32_t max_users = 0;
     bool is_public_visible = true;
     bool is_matchmaking_visible = false;
+    MatchState match_state = MatchState::unavailable;
 };
 
 struct DirectoryResponse {

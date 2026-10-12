@@ -2,6 +2,7 @@
 # Ejecutar elevado; iniciar Hawken normalmente desde Steam tras ready.json.
 # Los servicios y el guard permanecen hasta stop.request, incluso entre reinicios del cliente.
 # -StopWhenClientCloses conserva el ensayo acotado y su espera inicial máxima de 10 minutos.
+# -AttachExistingServices instala sólo routing/guard; nunca detiene servicios prestados.
 param(
     [ValidatePattern('^local-steam-routing-[0-9]{8}-[0-9]{6}$')]
     [string]$SessionName = ('local-steam-routing-' + [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')),
@@ -14,12 +15,17 @@ param(
     [int]$UdpPort = 7777,
     [ValidatePattern('^[A-Za-z0-9_.-]{1,64}$')]
     [string]$UdpRegion = 'EU',
-    [switch]$StopWhenClientCloses
+    [switch]$StopWhenClientCloses,
+    [switch]$AttachExistingServices,
+    [int]$ServerPid = 0,
+    [int]$MasterPid = 0
 )
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
+$ownsServices = -not $AttachExistingServices.IsPresent
+$attachedIdentity = $null
 $workspace = 'F:\HawkenServer'
 $gameDirectory = 'F:\SteamLibrary\steamapps\common\Hawken\Binaries\Win64'
 $gameExecutable = Join-Path $gameDirectory 'HawkenGame-Win64-Shipping.exe'
@@ -43,11 +49,12 @@ $masterProcess = $null
 $serverProcess = $null
 $serverLogName = if ($SteamLocalAuth) { 'server.diagnostics.log' } else { 'server.stdout.log' }
 $serverStopFile = Join-Path $sessionDirectory 'server.stop'
-$udpServerGuid = if ($UdpTrial) { [Guid]::NewGuid().ToString('D') } else { $null }
+$udpServerGuid = if ($ownsServices -and $UdpTrial) { [Guid]::NewGuid().ToString('D') } else { $null }
 $phase = 'preflight'
 $result = [ordered]@{
     schema = 'hawken.local-steam-routing.v2'
     status = 'NOT_STARTED'
+    servicesOwned = $ownsServices
     steamStartedByHelper = $false
     gameStartedByHelper = $false
     gameObserved = $false
@@ -83,6 +90,51 @@ function Assert-Hash([string]$Path, [string]$Expected) {
     }
 }
 
+function Assert-ServiceMode([bool]$Attach, [int]$ServerId, [int]$MasterId, [Collections.IDictionary]$Options) {
+    if ($Attach) {
+        if ($ServerId -le 0 -or $MasterId -le 0 -or $ServerId -eq $MasterId) {
+            throw 'Attached services require distinct positive process IDs.'
+        }
+        foreach ($name in @('SteamLocalAuth', 'StarterInventory', 'ShortFtuxTest',
+            'UdpTrial', 'WreckageTrial', 'UdpPort', 'UdpRegion')) {
+            if ($Options.Keys -contains $name) { throw 'Attached services cannot receive startup configuration.' }
+        }
+    } elseif (($Options.Keys -contains 'ServerPid') -or ($Options.Keys -contains 'MasterPid')) {
+        throw 'Service process IDs require AttachExistingServices.'
+    }
+}
+
+function Assert-AttachedServices($Server, $Master) {
+    if ($null -eq $Server -or $null -eq $Master -or $Server.HasExited -or $Master.HasExited -or
+        $Server.Id -le 0 -or $Master.Id -le 0 -or $Server.Id -eq $Master.Id -or
+        $Server.Path -cne $serverExecutable -or $Master.Path -cne $masterExecutable) {
+        throw 'Attached service identity precondition failed.'
+    }
+    $serverStart = $Server.StartTime
+    $masterStart = $Master.StartTime
+    Assert-Hash $Server.Path '43bfa17c8b6a35eca4f6cecf57196bf11818c7611f9ef8264f0b02eadedd44bf'
+    Assert-Hash $Master.Path '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
+    $serverTcp = @(Get-NetTCPConnection -State Listen -LocalPort 80 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
+    $serverUdp = @(Get-NetUDPEndpoint -LocalPort 7777 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
+    $masterTcp = @(Get-NetTCPConnection -State Listen -LocalPort 18080 -OwningProcess $Master.Id -ErrorAction SilentlyContinue)
+    if ($serverTcp.Count -ne 1 -or $serverTcp[0].LocalAddress -ne '127.0.0.1' -or
+        $serverTcp[0].LocalPort -ne 80 -or $serverTcp[0].OwningProcess -ne $Server.Id -or
+        $serverUdp.Count -ne 1 -or $serverUdp[0].LocalAddress -ne '127.0.0.1' -or
+        $serverUdp[0].LocalPort -ne 7777 -or $serverUdp[0].OwningProcess -ne $Server.Id -or
+        $masterTcp.Count -ne 1 -or $masterTcp[0].LocalAddress -ne '127.0.0.1' -or
+        $masterTcp[0].LocalPort -ne 18080 -or $masterTcp[0].OwningProcess -ne $Master.Id) {
+        throw 'Attached service loopback listener precondition failed.'
+    }
+    $Server.Refresh()
+    $Master.Refresh()
+    if ($Server.HasExited -or $Master.HasExited -or $Server.StartTime -ne $serverStart -or
+        $Master.StartTime -ne $masterStart -or $Server.Path -cne $serverExecutable -or
+        $Master.Path -cne $masterExecutable) {
+        throw 'Attached service identity changed during verification.'
+    }
+    return @{ serverStartTime = $serverStart; masterStartTime = $masterStart }
+}
+
 function Write-Evidence([string]$Name, $Value) {
     $text = $Value | ConvertTo-Json -Depth 6
     [IO.File]::WriteAllText((Join-Path $sessionDirectory $Name), $text, [Text.UTF8Encoding]::new($false))
@@ -101,6 +153,7 @@ function Add-TestFile([string]$Source, [string]$Name, [string]$Expected) {
 }
 
 try {
+    Assert-ServiceMode ([bool]$AttachExistingServices) $ServerPid $MasterPid $PSBoundParameters
     if ($WreckageTrial -and -not $UdpTrial) {
         throw 'Wreckage trial requires UdpTrial.'
     }
@@ -124,8 +177,10 @@ try {
     foreach ($original in $originals) {
         Assert-Hash (Join-Path $gameDirectory $original.name) $original.hash
     }
-    Assert-Hash $masterExecutable '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
-    Assert-Hash $serverExecutable 'c3aee8619b9f31259bd319db8b90608c673647ee761cd80b86679467f5f3ab0f'
+    if ($ownsServices) {
+        Assert-Hash $masterExecutable '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
+        Assert-Hash $serverExecutable '43bfa17c8b6a35eca4f6cecf57196bf11818c7611f9ef8264f0b02eadedd44bf'
+    }
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
     }
@@ -137,11 +192,20 @@ try {
         (Get-Service -Name MpsSvc).Status -ne 'Running') {
         throw 'Active firewall precondition failed.'
     }
-    if (@(Get-NetTCPConnection -State Listen -LocalPort 80,18080 -ErrorAction SilentlyContinue).Count -ne 0) {
-        throw 'A local test port is already in use.'
-    }
-    if ($UdpTrial -and @(Get-NetUDPEndpoint -LocalPort $UdpPort -ErrorAction SilentlyContinue).Count -ne 0) {
-        throw 'The UDP trial port is already in use.'
+    if ($ownsServices) {
+        if (@(Get-NetTCPConnection -State Listen -LocalPort 80,18080 -ErrorAction SilentlyContinue).Count -ne 0) {
+            throw 'A local test port is already in use.'
+        }
+        if ($UdpTrial -and @(Get-NetUDPEndpoint -LocalPort $UdpPort -ErrorAction SilentlyContinue).Count -ne 0) {
+            throw 'The UDP trial port is already in use.'
+        }
+    } else {
+        $serverProcess = Get-Process -Id $ServerPid -ErrorAction Stop
+        $null = $serverProcess.Handle
+        $masterProcess = Get-Process -Id $MasterPid -ErrorAction Stop
+        $null = $masterProcess.Handle
+        $attachedIdentity = Assert-AttachedServices $serverProcess $masterProcess
+        $result.udpLoopbackBound = $true
     }
     $null = New-Item -ItemType Directory -Path $sessionDirectory
     $sessionCreated = $true
@@ -169,75 +233,89 @@ try {
     Add-TestFile $bridgeSource 'dinput8.dll' 'fe45fe000189477aa884c680a63ca20340702b5d405bca92428ce51c076b5c16'
     Add-TestFile $configSource 'hawken-client.toml' '7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3'
 
-    $phase = 'master-startup'
-    $masterProcess = Start-Process -FilePath $masterExecutable -ArgumentList @('--port', '18080') `
-        -WorkingDirectory $workspace -WindowStyle Hidden -PassThru `
-        -RedirectStandardOutput (Join-Path $sessionDirectory 'master.stdout.log') `
-        -RedirectStandardError (Join-Path $sessionDirectory 'master.stderr.log')
-    $null = $masterProcess.Handle
-    $deadline = [DateTime]::UtcNow.AddSeconds(10)
-    do {
-        if ($masterProcess.HasExited) { throw 'Master exited before readiness.' }
-        $listeners = @(Get-NetTCPConnection -State Listen -OwningProcess $masterProcess.Id -ErrorAction SilentlyContinue)
-        if ($listeners.Count -eq 1 -and $listeners[0].LocalAddress -eq '127.0.0.1' -and $listeners[0].LocalPort -eq 18080) { break }
-        Start-Sleep -Milliseconds 200
-    } while ([DateTime]::UtcNow -lt $deadline)
-    if ($listeners.Count -ne 1 -or $listeners[0].LocalAddress -ne '127.0.0.1' -or $listeners[0].LocalPort -ne 18080) {
-        throw 'Master loopback listener not observed.'
-    }
-    $phase = 'server-startup'
-    $serverArguments = @('--port', '80')
-    if ($SteamLocalAuth) {
-        $dataDirectory = Join-Path $workspace 'implementation\local-runtime'
-        $null = [IO.Directory]::CreateDirectory($dataDirectory)
-        if ((Get-Item -LiteralPath $dataDirectory -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) {
-            throw 'Local account directory precondition failed.'
+    if ($ownsServices) {
+        $phase = 'master-startup'
+        $masterProcess = Start-Process -FilePath $masterExecutable -ArgumentList @('--port', '18080') `
+            -WorkingDirectory $workspace -WindowStyle Hidden -PassThru `
+            -RedirectStandardOutput (Join-Path $sessionDirectory 'master.stdout.log') `
+            -RedirectStandardError (Join-Path $sessionDirectory 'master.stderr.log')
+        $null = $masterProcess.Handle
+        $deadline = [DateTime]::UtcNow.AddSeconds(10)
+        do {
+            if ($masterProcess.HasExited) { throw 'Master exited before readiness.' }
+            $listeners = @(Get-NetTCPConnection -State Listen -OwningProcess $masterProcess.Id -ErrorAction SilentlyContinue)
+            if ($listeners.Count -eq 1 -and $listeners[0].LocalAddress -eq '127.0.0.1' -and $listeners[0].LocalPort -eq 18080) { break }
+            Start-Sleep -Milliseconds 200
+        } while ([DateTime]::UtcNow -lt $deadline)
+        if ($listeners.Count -ne 1 -or $listeners[0].LocalAddress -ne '127.0.0.1' -or $listeners[0].LocalPort -ne 18080) {
+            throw 'Master loopback listener not observed.'
         }
-        $databasePath = Join-Path $dataDirectory 'accounts.sqlite'
-        if ((Test-Path -LiteralPath $databasePath) -and
-            ((Get-Item -LiteralPath $databasePath -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) {
-            throw 'Local account database precondition failed.'
-        }
-        $serverArguments += @('--steam-local', '--database', $databasePath,
-            '--server-id', 'local-steam-first', '--diagnostics',
-            (Join-Path $sessionDirectory $serverLogName), '--stop-file', $serverStopFile)
-        if ($StarterInventory) { $serverArguments += @('--starter-profile', $starterProfileSource) }
-        if ($UdpTrial) {
-            $serverArguments += @('--udp-port', [string]$UdpPort,
-                '--udp-server-guid', $udpServerGuid, '--udp-region', $UdpRegion)
-            if ($WreckageTrial) {
-                $serverArguments += @('--udp-world-root', '"F:\SteamLibrary\steamapps\common\Hawken"')
+        $phase = 'server-startup'
+        $serverArguments = @('--port', '80')
+        if ($SteamLocalAuth) {
+            $dataDirectory = Join-Path $workspace 'implementation\local-runtime'
+            $null = [IO.Directory]::CreateDirectory($dataDirectory)
+            if ((Get-Item -LiteralPath $dataDirectory -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) {
+                throw 'Local account directory precondition failed.'
+            }
+            $databasePath = Join-Path $dataDirectory 'accounts.sqlite'
+            if ((Test-Path -LiteralPath $databasePath) -and
+                ((Get-Item -LiteralPath $databasePath -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+                throw 'Local account database precondition failed.'
+            }
+            $serverArguments += @('--steam-local', '--database', $databasePath,
+                '--server-id', 'local-steam-first', '--diagnostics',
+                (Join-Path $sessionDirectory $serverLogName), '--stop-file', $serverStopFile)
+            if ($StarterInventory) { $serverArguments += @('--starter-profile', $starterProfileSource) }
+            if ($UdpTrial) {
+                $serverArguments += @('--udp-port', [string]$UdpPort,
+                    '--udp-server-guid', $udpServerGuid, '--udp-region', $UdpRegion)
+                if ($WreckageTrial) {
+                    $serverArguments += @('--udp-world-root', '"F:\SteamLibrary\steamapps\common\Hawken"')
+                }
             }
         }
-    }
-    $serverProcess = Start-Process -FilePath $serverExecutable -ArgumentList $serverArguments `
-        -WorkingDirectory $workspace -WindowStyle Hidden -PassThru `
-        -RedirectStandardOutput (Join-Path $sessionDirectory 'server.stdout.log') `
-        -RedirectStandardError (Join-Path $sessionDirectory 'server.stderr.log')
-    $null = $serverProcess.Handle
-    $deadline = [DateTime]::UtcNow.AddSeconds($(if ($SteamLocalAuth) { 45 } else { 10 }))
-    do {
-        if ($serverProcess.HasExited) { throw 'Server exited before readiness.' }
-        # Steam also opens an owned loopback listener. Readiness concerns the
-        # backend port specifically; the independent listener is not HTTP/80.
-        $listeners = @(Get-NetTCPConnection -State Listen -LocalPort 80 -OwningProcess $serverProcess.Id -ErrorAction SilentlyContinue)
-        if ($listeners.Count -eq 1 -and $listeners[0].LocalAddress -eq '127.0.0.1' -and $listeners[0].LocalPort -eq 80) { break }
-        Start-Sleep -Milliseconds 200
-    } while ([DateTime]::UtcNow -lt $deadline)
-    if ($listeners.Count -ne 1 -or $listeners[0].LocalAddress -ne '127.0.0.1' -or $listeners[0].LocalPort -ne 80) {
-        throw 'Server loopback listener not observed.'
-    }
-    if ($UdpTrial) {
-        $udpListeners = @(Get-NetUDPEndpoint -LocalPort $UdpPort -OwningProcess $serverProcess.Id -ErrorAction SilentlyContinue)
-        if ($udpListeners.Count -ne 1 -or $udpListeners[0].LocalAddress -ne '127.0.0.1') {
-            throw 'UDP trial loopback listener not observed.'
+        $serverProcess = Start-Process -FilePath $serverExecutable -ArgumentList $serverArguments `
+            -WorkingDirectory $workspace -WindowStyle Hidden -PassThru `
+            -RedirectStandardOutput (Join-Path $sessionDirectory 'server.stdout.log') `
+            -RedirectStandardError (Join-Path $sessionDirectory 'server.stderr.log')
+        $null = $serverProcess.Handle
+        $deadline = [DateTime]::UtcNow.AddSeconds($(if ($SteamLocalAuth) { 45 } else { 10 }))
+        do {
+            if ($serverProcess.HasExited) { throw 'Server exited before readiness.' }
+            # Steam also opens an owned loopback listener. Readiness concerns the
+            # backend port specifically; the independent listener is not HTTP/80.
+            $listeners = @(Get-NetTCPConnection -State Listen -LocalPort 80 -OwningProcess $serverProcess.Id -ErrorAction SilentlyContinue)
+            if ($listeners.Count -eq 1 -and $listeners[0].LocalAddress -eq '127.0.0.1' -and $listeners[0].LocalPort -eq 80) { break }
+            Start-Sleep -Milliseconds 200
+        } while ([DateTime]::UtcNow -lt $deadline)
+        if ($listeners.Count -ne 1 -or $listeners[0].LocalAddress -ne '127.0.0.1' -or $listeners[0].LocalPort -ne 80) {
+            throw 'Server loopback listener not observed.'
         }
-        $result.udpLoopbackBound = $true
-        Write-Evidence 'udp-ready.json' @{ port = $UdpPort; region = $UdpRegion; serverGuid = $udpServerGuid; gameplay = $false }
+        if ($UdpTrial) {
+            $udpListeners = @(Get-NetUDPEndpoint -LocalPort $UdpPort -OwningProcess $serverProcess.Id -ErrorAction SilentlyContinue)
+            if ($udpListeners.Count -ne 1 -or $udpListeners[0].LocalAddress -ne '127.0.0.1') {
+                throw 'UDP trial loopback listener not observed.'
+            }
+            $result.udpLoopbackBound = $true
+            Write-Evidence 'udp-ready.json' @{ port = $UdpPort; region = $UdpRegion; serverGuid = $udpServerGuid; gameplay = $false }
+        }
+    } else {
+        $phase = 'attached-service-readiness'
+        $readyIdentity = Assert-AttachedServices $serverProcess $masterProcess
+        if ($readyIdentity.serverStartTime -ne $attachedIdentity.serverStartTime -or
+            $readyIdentity.masterStartTime -ne $attachedIdentity.masterStartTime) {
+            throw 'Attached service identity changed before readiness.'
+        }
+        Write-Evidence 'attached-services.json' @{ servicesOwned = $false;
+            serverPid = $serverProcess.Id; serverStartTime = $attachedIdentity.serverStartTime;
+            masterPid = $masterProcess.Id; masterStartTime = $attachedIdentity.masterStartTime;
+            serverPort = 80; masterPort = 18080; udpPort = 7777; serverGuid = $null }
+        Write-Evidence 'udp-ready.json' @{ port = 7777; servicesOwned = $false; serverGuid = $null; gameplay = $false }
     }
     $phase = 'awaiting-steam-client'
     $result.status = 'READY_FOR_MANUAL_STEAM_START'
-    Write-Evidence 'ready.json' @{ status = $result.status; masterPid = $masterProcess.Id; masterPort = 18080; serverPid = $serverProcess.Id; serverPort = 80; ruleName = $ruleName }
+    Write-Evidence 'ready.json' @{ status = $result.status; masterPid = $masterProcess.Id; masterPort = 18080; serverPid = $serverProcess.Id; serverPort = 80; ruleName = $ruleName; servicesOwned = $ownsServices }
     $launchDeadline = [DateTime]::UtcNow.AddMinutes(10)
     while ($true) {
         $games = @(Get-GameProcesses)
@@ -301,31 +379,35 @@ try {
     while ($ruleCreated -and @(Get-GameProcesses).Count -gt 0) { Start-Sleep -Seconds 1 }
     $cleanupOk = $true
     if ($null -ne $serverProcess) {
-        if ($SteamLocalAuth -and -not $serverProcess.HasExited) {
-            [IO.File]::WriteAllText($serverStopFile, "stop`n", [Text.UTF8Encoding]::new($false))
-            $result.serverGracefulStop = $serverProcess.WaitForExit(15000)
+        if ($ownsServices) {
+            if ($SteamLocalAuth -and -not $serverProcess.HasExited) {
+                [IO.File]::WriteAllText($serverStopFile, "stop`n", [Text.UTF8Encoding]::new($false))
+                $result.serverGracefulStop = $serverProcess.WaitForExit(15000)
+            }
+            if (-not $serverProcess.HasExited) {
+                $serverProcess.Kill()
+                $serverProcess.WaitForExit()
+                $result.serverStoppedByTestCleanup = $true
+                $result.serverForcedStop = $true
+            }
+            $result.serverExitCode = $serverProcess.ExitCode
         }
-        if (-not $serverProcess.HasExited) {
-            $serverProcess.Kill()
-            $serverProcess.WaitForExit()
-            $result.serverStoppedByTestCleanup = $true
-            $result.serverForcedStop = $true
-        }
-        $result.serverExitCode = $serverProcess.ExitCode
         $serverProcess.Dispose()
     }
     if ($null -ne $masterProcess) {
-        if (-not $masterProcess.HasExited) {
-            $masterProcess.Kill()
-            $masterProcess.WaitForExit()
-            $result.masterStoppedByTestCleanup = $true
+        if ($ownsServices) {
+            if (-not $masterProcess.HasExited) {
+                $masterProcess.Kill()
+                $masterProcess.WaitForExit()
+                $result.masterStoppedByTestCleanup = $true
+            }
         }
         $masterProcess.Dispose()
     }
     foreach ($serviceName in @('master', 'server')) {
         $logName = if ($serviceName -eq 'server') { $serverLogName } else { 'master.stdout.log' }
         $log = Join-Path $sessionDirectory $logName
-        if ($sessionCreated -and (Test-Path -LiteralPath $log)) {
+        if ($ownsServices -and $sessionCreated -and (Test-Path -LiteralPath $log)) {
             $categories = @([IO.File]::ReadAllLines($log) | Where-Object { $_ -match '^http status=[0-9]+ category=[a-z]+(?:-[a-z]+)* method=(GET|POST|HEAD|other)$' })
             $result[$serviceName + 'HttpStatusCategories'] = $categories
             if ($serviceName -eq 'server') {
@@ -333,7 +415,7 @@ try {
             }
         }
     }
-    if ($SteamLocalAuth -and $sessionCreated -and
+    if ($ownsServices -and $SteamLocalAuth -and $sessionCreated -and
         (Test-Path -LiteralPath (Join-Path $sessionDirectory $serverLogName))) {
         # These records are written by our typed observer only. Native DLL
         # stdout/stderr are discarded before loading Steam in the backend.

@@ -109,7 +109,9 @@ nlohmann::json project(const ServerMetadata& server) {
     listing.max_users = server.max_users;
     listing.is_public_visible = server.is_public_visible;
     listing.is_matchmaking_visible = server.is_matchmaking_visible;
-    return meteor::listing_json(listing);
+    auto result = meteor::listing_json(listing);
+    result["DeveloperData"]["MatchState"] = std::to_string(static_cast<std::int32_t>(server.match_state));
+    return result;
 }
 
 DirectoryResponse response(int status, const char* message, const nlohmann::json& result = nullptr) {
@@ -128,7 +130,9 @@ MasterDirectory::MasterDirectory(std::vector<ServerMetadata> servers) : servers_
     for (const auto& server : servers_) {
         if (!valid_id(server.guid) || !valid_text(server.region, 256) || !valid_text(server.game_version, 256) ||
             !valid_text(server.server_name, 256) || !valid_text(server.map, 256) || !valid_text(server.game_type, 256) ||
-            !ipv4(server.endpoint) || server.port == 0 || server.max_users < 1) fail("invalid_metadata");
+            !ipv4(server.endpoint) || server.port == 0 || server.max_users < 1 ||
+            server.match_state < MatchState::unavailable || server.match_state > MatchState::postmatch)
+            fail("invalid_metadata");
         if (!ids.insert(server.guid).second) fail("duplicate_id");
     }
 }

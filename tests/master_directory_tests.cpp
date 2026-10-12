@@ -40,10 +40,10 @@ TEST_CASE("Master lists server metadata without accounts profiles or progression
         {"VoiceChannelListing", ""}, {"MaxUsers", 12}, {"MinUsers", 0}, {"ServerScore", 0},
         {"ServerRanking", 0}, {"MatchCompletionPercent", 0}, {"IsPublicVisible", true},
         {"IsMatchmakingVisible", false}, {"Users", json::array()}, {"AllowedRoles", json::array()},
-        {"DeveloperData", json::object()}};
+        {"DeveloperData", {{"MatchState", "0"}}}};
     CHECK(result[0] == expected);
     CHECK(result[0].at("Users").empty());
-    CHECK(result[0].at("DeveloperData").empty());
+    CHECK(result[0].at("DeveloperData").at("MatchState") == "0");
 }
 
 TEST_CASE("Master returns an empty successful directory and filters public visibility") {
@@ -152,4 +152,32 @@ TEST_CASE("Master limits a snapshot to 1000 server records") {
     CHECK(boundary.respond("GET", "/gameServerListings").body.at("Result").size() == 1000);
     servers.push_back(sample("server-1000"));
     expect_code([&] { MasterDirectory excessive(servers); }, "directory_limit");
+}
+
+TEST_CASE("Master projects all supported match states as string DeveloperData metadata") {
+    using hawken::master::MatchState;
+    const std::array states = {MatchState::unavailable, MatchState::prematch,
+                              MatchState::in_progress, MatchState::postmatch};
+    const std::array expected = {"0", "1", "2", "3"};
+    for (std::size_t index = 0; index < states.size(); ++index) {
+        auto metadata = sample();
+        metadata.match_state = states[index];
+        const MasterDirectory directory({metadata});
+        for (const auto* target : {"/gameServerListings", "/gameServerListings/server-one"}) {
+            const auto reply = directory.respond("GET", target);
+            REQUIRE(reply.http_status == 200);
+            const auto& result = reply.body.at("Result");
+            const auto& listing = result.is_array() ? result.at(0) : result;
+            REQUIRE(listing.at("DeveloperData").is_object());
+            CHECK(listing.at("DeveloperData") == json{{"MatchState", expected[index]}});
+            CHECK(listing.at("DeveloperData").at("MatchState").is_string());
+        }
+    }
+}
+TEST_CASE("Master rejects match state outside the recovered enum range") {
+    for (const auto state : {-1, 4}) {
+        auto metadata = sample();
+        metadata.match_state = static_cast<hawken::master::MatchState>(state);
+        expect_code([&] { MasterDirectory directory({metadata}); }, "invalid_metadata");
+    }
 }

@@ -362,10 +362,11 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
         // Explicit loopback Wreckage trial visibility, not a public directory
         // registration or proof of a playable world. The original browser uses
         // short mode HawkenDM; Welcome retains HawkenGameContent.HawkenDM.
+        // Prematch describes this prepared publication and bound UDP trial, not gameplay proof.
         directory.emplace(std::vector<hawken::master::ServerMetadata>{{
             options.udp_trial->server_guid, options.udp_trial->region, hawken::udp::trial_game_version,
             "HawkLink Local Wreckage Trial", text(welcome.level), "HawkenDM",
-            "127.0.0.1", udp_trial->port(), 1, true, false}});
+            "127.0.0.1", udp_trial->port(), 1, true, false, hawken::master::MatchState::prematch}});
     }
     // The immutable directory outlives the HTTP server and all its handlers.
     httplib::Server server;

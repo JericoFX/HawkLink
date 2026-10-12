@@ -263,7 +263,8 @@ Sample mech_sample(Reader& reader,std::uint64_t module) {
     auto child=read.template operator()<std::uint64_t>(klass,0x80);
     std::uint64_t property=0;
     while (child) {
-        if (seen.size()==256) fail("mech_limit");
+        // pri-children-static.json verifies 291 own PRI children; retain bounded duplicate detection.
+        if (seen.size()==512) fail("mech_pri_children_limit");
         if (std::find(seen.begin(),seen.end(),child)!=seen.end()) fail("mech_cycle");
         seen.push_back(child);
         const auto name=names.get(child); instance_zero(name);
@@ -281,7 +282,7 @@ Sample mech_sample(Reader& reader,std::uint64_t module) {
             const auto array=read.template operator()<std::uint64_t>(map,0x60);
             const auto count=read.template operator()<std::int32_t>(map,0x68);
             if (count<0) fail("mech_invalid");
-            if (count>256) fail("mech_limit");
+            if (count>256) fail("mech_package_count_limit");
             if (count && !array) fail("mech_invalid");
             for (std::int32_t i=0;i<count;++i) {
                 const auto entry=add(array,static_cast<std::uint64_t>(i)*0x58);
@@ -499,14 +500,17 @@ int main(int argc,char** argv) {
     }
     catch (const std::runtime_error& error) {
         // Only locally fixed codes are allowed to escape: file hashing may throw its own errors.
-        constexpr std::array<std::string_view,31> codes={"invalid_address","read_limit","read_unavailable",
+        constexpr std::array<std::string_view,40> codes={"invalid_address","read_limit","read_unavailable",
             "names_unavailable","invalid_name_index","invalid_name","nonoriginal_name_instance",
             "cdo_unavailable_or_mismatch","class_chain_mismatch","class_cycle","field_array_limit",
             "field_identity_mismatch","field_cycle","field_type_mismatch","process_unavailable","unstable_sample",
             "connection_absent","world_identity_mismatch","driver_identity_mismatch","connection_identity_mismatch",
             "map_identity_mismatch","cache_identity_mismatch","cache_field_mismatch",
             "cache_invalid","cache_limit","cache_cycle","cache_class_mismatch",
-            "mech_invalid","mech_limit","mech_cycle","mech_identity"};
+            "mech_invalid","mech_cycle","mech_identity",
+            "mech_range_limit","mech_struct_limit","mech_children_limit","mech_total_children_limit",
+            "mech_array_dim_limit","mech_struct_target_null","mech_pending_limit","mech_enum_limit",
+            "mech_pri_children_limit","mech_package_count_limit"};
         std::string_view code="observation_unavailable";
         for (const auto allowed:codes) if (allowed==error.what()) code=allowed;
         if (std::string_view(error.what())=="original_identity_mismatch" ||

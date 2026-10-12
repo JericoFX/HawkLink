@@ -200,7 +200,7 @@ TEST_CASE("Mech reader rejects malformed or oversized negotiated range") {
     Fixture fixture;
     SUBCASE("negative base") { expect_error([&] { fixture.read(MechPackageRange{-1, 1}); }, "mech_invalid"); }
     SUBCASE("negative count") { expect_error([&] { fixture.read(MechPackageRange{0, -1}); }, "mech_invalid"); }
-    SUBCASE("coordinate overflow") { expect_error([&] { fixture.read(MechPackageRange{2147483647, 2}); }, "mech_limit"); }
+    SUBCASE("coordinate overflow") { expect_error([&] { fixture.read(MechPackageRange{2147483647, 2}); }, "mech_range_limit"); }
 }
 TEST_CASE("Mech reader detects a Next cycle") {
     Fixture fixture;
@@ -241,9 +241,14 @@ TEST_CASE("Mech reader validates dimensions and scalar metadata") {
 }
 TEST_CASE("Mech reader enforces array and enum policy bounds") {
     Fixture fixture;
-    SUBCASE("dimension over cap") { fixture.memory.put(ability + 0x68, std::int32_t{257}); }
-    SUBCASE("enum over cap") { fixture.memory.put(enum_address + 0x70, std::int32_t{257}); }
-    expect_error([&] { fixture.read(); }, "mech_limit");
+    SUBCASE("dimension over cap") {
+        fixture.memory.put(ability + 0x68, std::int32_t{257});
+        expect_error([&] { fixture.read(); }, "mech_array_dim_limit");
+    }
+    SUBCASE("enum over cap") {
+        fixture.memory.put(enum_address + 0x70, std::int32_t{257});
+        expect_error([&] { fixture.read(); }, "mech_enum_limit");
+    }
 }
 TEST_CASE("Mech reader propagates unavailable reads and shared byte budget") {
     Fixture fixture;

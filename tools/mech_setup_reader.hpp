@@ -77,7 +77,7 @@ MechSetupSnapshot read_mech_setup(Reader& reader, std::uint64_t property, Identi
     if (range) {
         if (range->base < 0 || range->count < 0) fail("mech_invalid");
         if (static_cast<std::uint64_t>(range->base) + static_cast<std::uint64_t>(range->count) > 0x80000000ULL)
-            fail("mech_limit");
+            fail("mech_range_limit");
     }
     MechSetupSnapshot out;
     const auto read = [&]<class T>(std::uint64_t address, std::uint64_t offset) {
@@ -106,7 +106,7 @@ MechSetupSnapshot read_mech_setup(Reader& reader, std::uint64_t property, Identi
         if (id.owner != (index < 2 ? "R_PlayerReplicationInfo" : "HawkenTypes") ||
             (next == 0 && index != 0)) fail("mech_identity");
         for (const auto& prior : out.structs) if (prior.identity.name == id.name) fail("mech_identity");
-        if (visited.size() == expected_struct_names.size()) fail("mech_limit");
+        if (visited.size() == expected_struct_names.size()) fail("mech_struct_limit");
         visited.push_back(address);
         MechStruct item{id, {}};
         if (module_base) {
@@ -124,7 +124,8 @@ MechSetupSnapshot read_mech_setup(Reader& reader, std::uint64_t property, Identi
         std::size_t own = 0;
         while (child) {
             if (std::find(nodes.begin(), nodes.end(), child) != nodes.end()) fail("mech_cycle");
-            if (++own > 256 || nodes.size() == 512) fail("mech_limit");
+            if (++own > 256) fail("mech_children_limit");
+            if (nodes.size() == 512) fail("mech_total_children_limit");
             nodes.push_back(child);
             const auto type = read.template operator()<std::uint64_t>(child, 0x50);
             if (!type) fail("mech_identity");
@@ -144,10 +145,11 @@ MechSetupSnapshot read_mech_setup(Reader& reader, std::uint64_t property, Identi
                     read.template operator()<std::int32_t>(child, 0x8c), {}, {}, {}, {}};
                 if (member.net_index < -1 || member.array_dim < 1 || member.element_size < 0 || member.offset < 0)
                     fail("mech_invalid");
-                if (member.array_dim > 256) fail("mech_limit");
+                if (member.array_dim > 256) fail("mech_array_dim_limit");
                 if (member_id.type == "StructProperty") {
                     const auto target = read.template operator()<std::uint64_t>(child, 0xa8);
-                    if (!target || pending.size() >= 512) fail("mech_limit");
+                    if (!target) fail("mech_struct_target_null");
+                    if (pending.size() >= 512) fail("mech_pending_limit");
                     member.referenced_type = identify(target);
                     pending.push_back(target);
                 } else if (member_id.type == "ByteProperty") {
@@ -159,7 +161,7 @@ MechSetupSnapshot read_mech_setup(Reader& reader, std::uint64_t property, Identi
                             member_id.name != "AbilityIndex" || id.name != "SMechSetupStruct") fail("mech_identity");
                         member.enum_count = read.template operator()<std::int32_t>(target, 0x70);
                         if (*member.enum_count < 0) fail("mech_invalid");
-                        if (*member.enum_count > 256) fail("mech_limit");
+                        if (*member.enum_count > 256) fail("mech_enum_limit");
                     }
                 } else if (member_id.type != "IntProperty" && member_id.type != "BoolProperty" &&
                            member_id.type != "ObjectProperty") fail("mech_identity");
