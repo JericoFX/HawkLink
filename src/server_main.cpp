@@ -371,11 +371,33 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
     httplib::Server server;
     hawken::server::configure_server_http(server, auth, sync, inventory, menu,
         udp_trial ? &udp_trial->assignment() : nullptr, directory ? &*directory : nullptr);
-    server.set_logger([&diagnostics](const httplib::Request& request, const httplib::Response& response) {
+    const auto trial_listing = directory
+        ? directory->respond("GET", "/gameServerListings").body.at("Result").at(0)
+        : nlohmann::json{};
+    server.set_logger([&diagnostics, trial_listing](const httplib::Request& request, const httplib::Response& response) {
         const auto diagnostic = hawken::http::classify_request(request.method, request.path);
         std::osyncstream(diagnostics.stream()) << "http status=" << response.status
             << " category=" << diagnostic.category << " method=" << diagnostic.method
             << '\n' << std::flush;
+        if (!trial_listing.is_null() && request.method == "GET"
+            && request.path == "/gameServerListings" && response.status == 200) {
+            const auto body = nlohmann::json::parse(response.body, nullptr, false);
+            if (body.is_object() && body.contains("Result") && body.at("Result").is_array()) {
+                std::osyncstream line(diagnostics.stream());
+                line << "listing_count=" << body.at("Result").size();
+                // Only fixed state labels are logged: no target, headers, query
+                // values or response objects. Comparisons use httplib-decoded
+                // params; they diagnose this trial, not native browser behavior.
+                for (const auto* key : {"Region", "GameVersion", "Map", "GameType", "ServerName"}) {
+                    const auto count = request.params.count(key);
+                    const auto value = request.get_param_value(key);
+                    const char* state = count == 0 ? "absent" : count != 1 ? "multiple"
+                        : value.empty() ? "empty" : trial_listing.at(key) == value ? "match" : "mismatch";
+                    line << ' ' << key << '=' << state;
+                }
+                line << '\n' << std::flush;
+            }
+        }
     });
     server.set_start_handler([&diagnostics, &options, auth, inventory, menu, udp_trial] {
         std::osyncstream(diagnostics.stream()) << "hawken-server http://127.0.0.1:" << options.port
