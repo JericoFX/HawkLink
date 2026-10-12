@@ -135,6 +135,7 @@ struct Names {
     std::uint64_t table=0;
     std::int32_t count=0;
     std::array<NameHit,3> hits{};
+    std::uint32_t null_entries=0;
     bool operator==(const Names&) const = default;
 };
 std::uint16_t name_unit(Reader& reader,std::uint64_t entry,bool wide,std::size_t position) {
@@ -213,7 +214,9 @@ Names find_names(Reader& reader,std::uint64_t module) {
         reader.read_into(result.table,static_cast<std::uint64_t>(first)*8,entries.data(),amount*8);
         for (std::size_t i=0;i<amount;++i) {
             const auto entry=entries[i];
-            if (!entry) fail(Error::name_entry_null);
+            // Discovery policy: an empty slot has no candidate name. Count it
+            // for two-sample equality; directly referenced entries stay strict.
+            if (!entry) { ++result.null_entries; continue; }
             const bool wide=(reader.read<std::uint8_t>(entry,8)&1)!=0;
             const int target=target_name(reader,entry,wide);
             if (target<0) continue;
