@@ -224,7 +224,7 @@ else()
 endif()
 
 add_library(hawken_local_udp STATIC src/local_udp_owner.cpp)
-target_link_libraries(hawken_local_udp PUBLIC hawken_game_connection hawken_session_assignment hawken_initial_controller Threads::Threads)
+target_link_libraries(hawken_local_udp PUBLIC hawken_game_connection hawken_session_assignment hawken_initial_controller hawken_initial_pawn Threads::Threads)
 if(WIN32)
     target_link_libraries(hawken_local_udp PRIVATE ws2_32)
 endif()

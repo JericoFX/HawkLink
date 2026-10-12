@@ -21,10 +21,13 @@ struct UdpTrialConfig {
     // validates it before starting the worker, then emits only after Join.
     // No inferred identity/transform defaults or gameplay/spawn guarantee.
     std::optional<InitialControllerPlan> controller = std::nullopt;
+    // Optional copied first-Pawn policy requires Controller and publication.
+    // No controller byte or inferred identity/transform defaults.
+    std::optional<InitialPawnPlan> pawn = std::nullopt;
 };
 // Pure preflight; no binding, randomness, SQL or Steam. Canonical lower-case
 // nonzero GUID36 and ASCII region[A-Za-z0-9_.-]1..64; port0 is API-valid.
-// Publication/controller are not validated by this identity preflight.
+// Publication/controller/Pawn are not validated by this identity preflight.
 bool validate_trial_config(const UdpTrialConfig& config) noexcept;
 
 // One local diagnostic session, not a world, public listing or game admission.

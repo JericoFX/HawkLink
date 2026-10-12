@@ -716,7 +716,8 @@ struct LoginAuthorityFixture {
     explicit LoginAuthorityFixture(Decision action={},bool with_validator=true,
                                    PublicationDecision publisher={},
                                    std::optional<udp::InitialControllerPlan> controller=std::nullopt,
-                                   std::optional<game::ConnectionConfig> config=std::nullopt)
+                                   std::optional<game::ConnectionConfig> config=std::nullopt,
+                                   std::optional<udp::InitialPawnPlan> pawn=std::nullopt)
         : decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
@@ -740,8 +741,8 @@ struct LoginAuthorityFixture {
                 const control::posthello::RawString& response) {
                 ++validations;
                 return decision ? decision(*this,id,response) : service->validate_login_response(id,response);
-            },std::move(publish),std::move(controller));
-        else owner.start(std::move(authorize),{},std::move(publish),std::move(controller));
+            },std::move(publish),std::move(controller),std::move(pawn));
+        else owner.start(std::move(authorize),{},std::move(publish),std::move(controller),std::move(pawn));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -1158,7 +1159,7 @@ struct ControllerOutput {
     std::vector<std::uint16_t> packet_ids;
 };
 ControllerOutput controller_output(Peer& peer,session::Context& client,
-                                   std::chrono::milliseconds budget=2000ms) {
+                                   std::chrono::milliseconds budget=2000ms,std::size_t expected=1) {
     ControllerOutput result;
     const auto deadline=std::chrono::steady_clock::now()+budget;
     while (std::chrono::steady_clock::now()<deadline) {
@@ -1167,7 +1168,7 @@ ControllerOutput controller_output(Peer& peer,session::Context& client,
         for (const auto& record:packet.records) if (!record.is_ack && record.bunch.channel!=0) {
             result.bunches.push_back(record.bunch); result.packet_ids.push_back(packet.packet_id);
         }
-        if (!result.bunches.empty()) break;
+        if (result.bunches.size()>=expected) break;
     }
     return result;
 }
@@ -1223,6 +1224,7 @@ TEST_CASE("UDP Join emits exact initial controller once through same session and
     REQUIRE(out.packet_ids.size()==1); CHECK(out.packet_ids.front()>11);
     CHECK(wait_until([&]{return f.owner.diagnostics().controller_sent;}));
     CHECK(f.owner.diagnostics().join_requested); CHECK_FALSE(f.owner.diagnostics().closed);
+    CHECK_FALSE(f.owner.diagnostics().pawn_sent); // Absent plan preserves Controller-only output.
     CHECK(f.service->authorize_udp(public_id)); CHECK(f.validations.load()==1); CHECK(f.publications.load()==1);
     peer.send(f.owner.port(),join); // Encrypted replay: no new Context counters.
     CHECK(controller_output(peer,client,200ms).bunches.empty());
@@ -1298,4 +1300,153 @@ TEST_CASE("UDP stopped owner never claims initial controller and absent plan sta
     CHECK(controller_output(absent_peer,absent_client,200ms).bunches.empty());
     CHECK_FALSE(absent.owner.diagnostics().controller_sent);
     absent.owner.stop(); CHECK_FALSE(absent.owner.diagnostics().controller_sent);
+}
+
+namespace {
+udp::InitialPawnPlan public_pawn_plan() {
+    // Synthetic FRoot/local2, separate channel and explicit reliable seed.
+    return {{8,71,0,false},{0x01020304U,0x12345678U,0x80000000U,0xffffffffU},
+        2,{0,0,0},std::nullopt};
+}
+}
+TEST_CASE("UDP Pawn plan requires Controller validator and publication with retryable prestart failure") {
+    for (unsigned missing=0;missing<3;++missing) {
+        CAPTURE(missing);
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        udp::LocalUdpOwner::LoginResponseValidator validator;
+        udp::LocalUdpOwner::PublicationProvider publisher;
+        std::optional<udp::InitialControllerPlan> controller=public_controller_plan();
+        if (missing!=0) validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        if (missing!=1) publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};};
+        if (missing==2) controller.reset();
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,publisher,
+            controller,public_pawn_plan());},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running()); CHECK_FALSE(owner.diagnostics().pawn_sent);
+        if (owner.running()) { owner.stop(); continue; } // Cleanup if RED ignores Pawn prerequisites.
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;}));
+        CHECK(owner.running()); owner.stop();
+    }
+}
+TEST_CASE("UDP Pawn malformed plan rejects before start without consuming lifecycle") {
+    for (unsigned invalid=0;invalid<7;++invalid) {
+        CAPTURE(invalid);
+        auto pawn=public_pawn_plan();
+        switch (invalid) {
+        case 0: pawn.channel.channel=0; break;
+        case 1: pawn.channel.channel=2048; break;
+        case 2: pawn.channel.channel=7; break; // Controller owns this channel.
+        case 3: pawn.archetype_local_net_index=-1; break;
+        case 4: pawn.position[0]=1048576; break;
+        case 5: pawn.position[2]=-1048577; break;
+        case 6: pawn.rotation=wire::actor::Rotation{1,0,0}; break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        auto validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        auto publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};};
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,publisher,
+            public_controller_plan(),pawn);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running()); CHECK_FALSE(owner.diagnostics().pawn_sent);
+        if (owner.running()) { owner.stop(); continue; }
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;},validator,publisher,
+            public_controller_plan(),public_pawn_plan()));
+        CHECK(owner.running()); owner.stop();
+    }
+}
+TEST_CASE("UDP Join emits Controller then exact Pawn once on the existing Context") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},public_pawn_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client);
+    CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+    const auto previous=client.last_received(); const auto join=controller_join(client);
+    peer.send(f.owner.port(),join);
+    const auto out=controller_output(peer,client,2000ms,2); REQUIRE(out.bunches.size()==2);
+    CHECK(out.bunches[0].channel==7); CHECK(out.bunches[0].sequence==42);
+    CHECK(out.bunches[0].payload==hex("04000000400500")); CHECK(out.bunches[0].payload_bits==51);
+    const auto& pawn=out.bunches[1];
+    // Independent32bit reference +11bit zero vector; no NetPlayerIndex byte.
+    CHECK(pawn.payload==hex("040000004005")); CHECK(pawn.payload_bits==43);
+    CHECK(pawn.channel==8); CHECK(pawn.sequence==72); CHECK(pawn.channel_type==2);
+    CHECK(pawn.reliable); CHECK(pawn.control); CHECK(pawn.open); CHECK_FALSE(pawn.close);
+    REQUIRE(out.packet_ids.size()==2); CHECK(out.packet_ids[0]>11);
+    CHECK(out.packet_ids[1]>out.packet_ids[0]); CHECK(client.last_received()>previous);
+    CHECK(wait_until([&]{return f.owner.diagnostics().pawn_sent;}));
+    CHECK(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().closed);
+    CHECK(f.service->authorize_udp(public_id));
+    peer.send(f.owner.port(),join);
+    CHECK(controller_output(peer,client,200ms).bunches.empty());
+    peer.send(f.owner.port(),controller_join(client)); // Fresh nonce, duplicate reliable Join.
+    CHECK(controller_output(peer,client,200ms).bunches.empty());
+    CHECK(f.validations.load()==1); CHECK(f.publications.load()==1);
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP Pawn plan is copied including nonzero optional rotation") {
+    auto pawn=public_pawn_plan(); pawn.position={8,-8,0};
+    pawn.rotation=wire::actor::Rotation{256,0,65280};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},pawn);
+    pawn.channel.channel=9; pawn.channel.outgoing_sequence=900;
+    pawn.archetype_package_guid={}; pawn.archetype_local_net_index=3;
+    pawn.position={0,0,0}; pawn.rotation.reset();
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client); peer.send(f.owner.port(),controller_join(client));
+    const auto out=controller_output(peer,client,2000ms,2); REQUIRE(out.bunches.size()==2);
+    CHECK(out.bunches[1].payload==hex("04000000032338c07f"));
+    CHECK(out.bunches[1].payload_bits==71); CHECK(out.bunches[1].channel==8);
+    CHECK(out.bunches[1].sequence==72);
+    CHECK(wait_until([&]{return f.owner.diagnostics().pawn_sent;}));
+}
+TEST_CASE("UDP Pawn never emits before Join after denial or after stop") {
+    for (const bool stopped:{false,true}) {
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},public_pawn_plan());
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        controller_publication(f,login,peer,client);
+        CHECK(controller_output(peer,client,200ms).bunches.empty());
+        CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+        if (stopped) {
+            f.owner.stop(); // No datagram to a closed port: Windows reports an ICMP reset.
+        } else {
+            f.verifier.active=false;
+            peer.send(f.owner.port(),controller_join(client));
+        }
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK(controller_output(peer,client,200ms).bunches.empty());
+        CHECK_FALSE(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+    }
+}
+TEST_CASE("UDP unknown Pawn package or unavailable local retires after successful Controller") {
+    for (const bool unknown_package:{false,true}) {
+        auto pawn=public_pawn_plan();
+        if (unknown_package) pawn.archetype_package_guid={1,2,3,4};
+        else pawn.archetype_local_net_index=3; // Synthetic FRoot owns only0..2.
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},pawn);
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        controller_publication(f,login,peer,client); peer.send(f.owner.port(),controller_join(client));
+        const auto out=controller_output(peer,client,200ms); REQUIRE(out.bunches.size()==1);
+        CHECK(out.bunches[0].channel==7);
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+        CHECK_FALSE(f.service->authorize_udp(public_id));
+        CHECK(controller_output(peer,client,200ms).bunches.empty());
+    }
+}
+TEST_CASE("UDP Pawn queue exhaustion retires without clearing already emitted Controller") {
+    auto cfg=authority_skeleton(); cfg.transport.limits.max_outgoing_bunches=6;
+    // Three challenges + Package + Welcome + Controller fit. Pawn needs seven.
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),cfg,public_pawn_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client); peer.send(f.owner.port(),controller_join(client));
+    const auto out=controller_output(peer,client,200ms); REQUIRE(out.bunches.size()==1);
+    CHECK(out.bunches[0].channel==7);
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+    CHECK(controller_output(peer,client,200ms).bunches.empty());
+}
+TEST_CASE("UDP failed Controller emission cannot send a Pawn") {
+    auto controller=public_controller_plan(); controller.archetype_package_guid={1,2,3,4};
+    LoginAuthorityFixture f({},true,controller_publisher(),controller,{},public_pawn_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client); peer.send(f.owner.port(),controller_join(client));
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK(controller_output(peer,client,200ms).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pawn_sent);
 }

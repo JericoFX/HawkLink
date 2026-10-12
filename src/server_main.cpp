@@ -438,6 +438,7 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                 << " world_published=" << observation.world_published
                 << " join_requested=" << observation.join_requested
                 << " controller_sent=" << observation.controller_sent
+                << " pawn_sent=" << observation.pawn_sent
                 << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
         }
         return result;
@@ -473,6 +474,12 @@ int main(int argc, char* argv[]) {
                 {1, 0, 0, false},
                 {0xbf5a6721U, 0x4933092bU, 0xe8522f80U, 0x238fc144U},
                 18053, {-1472, 2432, 193}, std::nullopt, 0};
+            // Explicit local Pawn trial policy. Loaded R_PawnContent CDO has
+            // NetIndex233/rotation bit0 clear; no collision/possession proof.
+            options.udp_trial->pawn = hawken::udp::InitialPawnPlan{
+                {2, 0, 0, false},
+                {0x5cd139c7U, 0x4aa73e14U, 0xbd1c8593U, 0xf86056ddU},
+                233, {-1472, 2432, 193}, std::nullopt};
         }
     } catch (...) {
         std::cerr << "Invalid Wreckage trial assets.\n";

@@ -599,7 +599,7 @@ void runtime_publish(udp::UdpTrialRuntime& runtime,const auth::AuthReply& login,
     REQUIRE(wait_until([&]{return runtime.diagnostics().world_published;}));
 }
 std::vector<wire::Bunch> runtime_actor_messages(Peer& peer,session::Context& client,
-                                              std::chrono::milliseconds budget=2000ms) {
+                                              std::chrono::milliseconds budget=2000ms,std::size_t expected=1) {
     std::vector<wire::Bunch> result;
     const auto deadline=std::chrono::steady_clock::now()+budget;
     while (std::chrono::steady_clock::now()<deadline) {
@@ -607,7 +607,7 @@ std::vector<wire::Bunch> runtime_actor_messages(Peer& peer,session::Context& cli
         const auto value=wire::decode_packet(client.decode(*data),512);
         for (const auto& record:value.records)
             if (!record.is_ack && record.bunch.channel!=0) result.push_back(record.bunch);
-        if (!result.empty()) break;
+        if (result.size()>=expected) break;
     }
     return result;
 }
@@ -639,6 +639,7 @@ TEST_CASE("UDP trial retains immutable controller plan and emits exact actor aft
     CHECK(client.last_received()>previous_nonce);
     CHECK(wait_until([&]{return runtime.diagnostics().controller_sent;}));
     CHECK(runtime.diagnostics().join_requested); CHECK_FALSE(runtime.diagnostics().closed);
+    CHECK_FALSE(runtime.diagnostics().pawn_sent); // No implicit Pawn is configured.
     CHECK(runtime.assignment().authorize_udp(id));
     peer.send(runtime.port(),join); // Replay does not emit a second controller.
     CHECK(runtime_actor_messages(peer,client,200ms).empty());
@@ -680,4 +681,66 @@ TEST_CASE("UDP trial controller configuration failures roll back before runtime 
     }
     auto valid=config(); valid.publication=public_publication(); valid.controller=runtime_controller_plan();
     udp::UdpTrialRuntime runtime(f.auth,valid); CHECK(runtime.running()); runtime.stop();
+}
+
+namespace {
+udp::InitialPawnPlan runtime_pawn_plan() {
+    return {{8,71,0,false},{0x01020304U,0x12345678U,0x80000000U,0xffffffffU},
+        2,{8,-8,0},wire::actor::Rotation{256,0,65280}};
+}
+}
+TEST_CASE("UDP trial copies Pawn plan and forwards literal emission after Controller on same session") {
+    Fixture f; auto selected=config(); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    udp::UdpTrialRuntime runtime(f.auth,selected);
+    selected.pawn->channel.channel=9; selected.pawn->channel.outgoing_sequence=900;
+    selected.pawn->archetype_package_guid={}; selected.pawn->archetype_local_net_index=3;
+    selected.pawn->position={0,0,0}; selected.pawn->rotation.reset(); selected.pawn.reset();
+    const auto login=f.login(); const auto dto=provision(runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    Peer peer; session::Context client(session::Role::client,id,key);
+    runtime_publish(runtime,login,peer,client);
+    CHECK_FALSE(runtime.diagnostics().pawn_sent);
+    const auto previous=client.last_received();
+    peer.send(runtime.port(),packet(client,4,5,public_hex("08040302017856341200000080ffffffff0200000009")));
+    const auto actors=runtime_actor_messages(peer,client,2000ms,2); REQUIRE(actors.size()==2);
+    CHECK(actors[0].channel==7); CHECK(actors[0].payload==public_hex("04000000400500"));
+    CHECK(actors[0].payload_bits==51); CHECK(actors[0].sequence==42);
+    CHECK(actors[1].channel==8); CHECK(actors[1].sequence==72);
+    CHECK(actors[1].payload==public_hex("04000000032338c07f")); CHECK(actors[1].payload_bits==71);
+    CHECK(actors[1].channel_type==2); CHECK(actors[1].reliable); CHECK(actors[1].control);
+    CHECK(actors[1].open); CHECK_FALSE(actors[1].close); CHECK(client.last_received()>previous);
+    CHECK(wait_until([&]{return runtime.diagnostics().pawn_sent;}));
+    CHECK(runtime.diagnostics().controller_sent); CHECK_FALSE(runtime.diagnostics().closed);
+    CHECK(runtime.assignment().authorize_udp(id));
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    runtime.stop(); CHECK(runtime.diagnostics().pawn_sent); CHECK_FALSE(runtime.running());
+}
+TEST_CASE("UDP trial invalid Pawn configuration rolls back and preserves later valid bind") {
+    Fixture f;
+    for (unsigned invalid=0;invalid<8;++invalid) {
+        CAPTURE(invalid);
+        auto selected=config(); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        switch (invalid) {
+        case 0: selected.controller.reset(); break;
+        case 1: selected.publication.reset(); break;
+        case 2: selected.pawn->channel.channel=0; break;
+        case 3: selected.pawn->channel.channel=2048; break;
+        case 4: selected.pawn->channel.channel=7; break;
+        case 5: selected.pawn->archetype_local_net_index=-1; break;
+        case 6: selected.pawn->position[0]=1048576; break;
+        case 7: selected.pawn->rotation=wire::actor::Rotation{1,0,0}; break;
+        }
+        CHECK(udp::validate_trial_config(selected)); // Identity preflight has no actor validation.
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        CHECK_FALSE(f.store.find_account("76561197960265729"));
+    }
+    auto selected=config(); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); runtime.stop();
 }

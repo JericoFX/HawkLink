@@ -89,6 +89,7 @@ struct UdpTrialRuntime::Impl {
     const std::chrono::steady_clock::time_point epoch = std::chrono::steady_clock::now();
     const std::optional<game::WorldPublication> publication;
     const std::optional<InitialControllerPlan> controller;
+    const std::optional<InitialPawnPlan> pawn;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -98,7 +99,7 @@ struct UdpTrialRuntime::Impl {
         return seconds;
     }
     Impl(auth::AuthService& auth, const UdpTrialConfig& config)
-        : publication(config.publication), controller(config.controller) {
+        : publication(config.publication), controller(config.controller), pawn(config.pawn) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -122,7 +123,7 @@ struct UdpTrialRuntime::Impl {
             owner->start([this](const session::SessionId& id) { return service->authorize_udp(id); },
                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
                     return service->validate_login_response(id, response);
-                }, std::move(publish), controller);
+                }, std::move(publish), controller, pawn);
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();

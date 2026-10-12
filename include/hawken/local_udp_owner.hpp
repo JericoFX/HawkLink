@@ -38,6 +38,8 @@ struct LocalUdpDiagnostics {
     // Sticky only after the explicit initial-controller datagrams were sent.
     // Payload transmission, NOT client actor creation, possession or gameplay.
     bool controller_sent = false;
+    // Sticky only after explicit Pawn datagrams were sent; not possession/gameplay.
+    bool pawn_sent = false;
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
 
@@ -48,6 +50,14 @@ struct InitialControllerPlan {
     wire::actor::QuantizedPosition position;
     std::optional<wire::actor::Rotation> rotation;
     std::uint8_t net_player_index;
+};
+
+struct InitialPawnPlan {
+    wire::reliable::ActorChannelConfig channel;
+    std::array<std::uint32_t,4> archetype_package_guid;
+    std::int32_t archetype_local_net_index;
+    wire::actor::QuantizedPosition position;
+    std::optional<wire::actor::Rotation> rotation;
 };
 
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
@@ -121,9 +131,16 @@ public:
     // controller_sent requires nonempty output, send success and no stopping
     // observed AFTER send; stopped send's no-op success must not set it.
     // Absence preserves observation-only Join behavior; no spawn claim.
+    // Optional copied Pawn plan requires Controller, validator and publication;
+    // its channel must differ from Controller and be1..2047, local index>=0,
+    // transforms encodable before worker/start commit. After successful Controller
+    // send, resolve/compose/register/send Pawn on the SAME connection and Use,
+    // reliable/type2/open with no controller byte. Failure retires after Use;
+    // controller_sent may be true while pawn_sent remains false. No possession.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
-               std::optional<InitialControllerPlan> controller = std::nullopt);
+               std::optional<InitialControllerPlan> controller = std::nullopt,
+               std::optional<InitialPawnPlan> pawn = std::nullopt);
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied
