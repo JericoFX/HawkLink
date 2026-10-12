@@ -36,12 +36,13 @@ public:
 class LocalListener {
 public:
     hawken::test::TempDirectory temporary;
-    hawken::store::LocalStore store{temporary.path() / "accounts.sqlite", "http-fixture"};
+    hawken::store::LocalStore store;
     TestVerifier verifier;
     std::int64_t now = 1000;
     hawken::auth::AuthService auth{store, verifier, [this] { return now; }};
     std::unique_ptr<hawken::sync::SyncService> sync;
-    explicit LocalListener(bool enable_sync = false) {
+    explicit LocalListener(bool enable_sync = false, const std::filesystem::path& database_path = {})
+        : store(database_path.empty() ? temporary.path() / "accounts.sqlite" : database_path, "http-fixture") {
         if (enable_sync) {
             sync = std::make_unique<hawken::sync::SyncService>(store, auth, 25000);
             hawken::server::configure_server_http(server_, &auth, sync.get());
@@ -309,5 +310,69 @@ TEST_CASE("Protected sync HTTP revalidates revocation for every initial-sync res
         REQUIRE(response);
         CHECK(response->status == 401);
         CHECK(nlohmann::json::parse(response->body).at("Result").is_null());
+    }
+}
+
+TEST_CASE("HTTP backend restart preserves its SQL account and requires a new verified grant") {
+    hawken::test::TempDirectory temporary;
+    const auto database_path = temporary.path() / "accounts.sqlite";
+    Credentials previous;
+    hawken::store::Account original_account;
+    // Synthetic opaque fixture data, not a client consent or tutorial-completion flag.
+    const hawken::store::GameSettings settings{{"RestartFixture", "opaque-value"}};
+    {
+        LocalListener listener(false, database_path);
+        httplib::Client client("127.0.0.1", listener.port());
+        previous = login(client);
+        CHECK(listener.verifier.calls == 1);
+        const auto profile = client.Get(previous.path, headers(previous));
+        REQUIRE(profile);
+        REQUIRE(profile->status == 200);
+        CHECK(nlohmann::json::parse(profile->body).at("Result").at("Guid") == previous.path.substr(7));
+        const auto account = listener.store.find_account("76561197960265729");
+        REQUIRE(account);
+        original_account = *account;
+        REQUIRE(listener.store.merge_game_settings(account->ref, settings));
+    }
+    {
+        LocalListener replacement(false, database_path);
+        httplib::Client client("127.0.0.1", replacement.port());
+        const auto account = replacement.store.find_account("76561197960265729");
+        REQUIRE(account);
+        CHECK(account->ref == original_account.ref);
+        CHECK(account->steam_id64 == original_account.steam_id64);
+        CHECK(account->created_at == original_account.created_at);
+        CHECK(replacement.store.game_settings(account->ref) == settings);
+        const auto availability = client.Get("/status/services/");
+        REQUIRE(availability);
+        CHECK(availability->status == 200);
+        CHECK(replacement.verifier.calls == 0);
+        const auto stale_before_login = client.Get(previous.path, headers(previous));
+        REQUIRE(stale_before_login);
+        CHECK(stale_before_login->status == 401);
+        const auto rejected = nlohmann::json::parse(stale_before_login->body);
+        CHECK(rejected.at("Status") == 401);
+        CHECK(rejected.at("Result").is_null());
+        CHECK(replacement.verifier.calls == 0);
+
+        const auto current = login(client);
+        CHECK(replacement.verifier.calls == 1);
+        CHECK(current.path == previous.path);
+        CHECK(current.token != previous.token);
+        const auto stale_after_login = client.Get(previous.path, headers(previous));
+        REQUIRE(stale_after_login);
+        CHECK(stale_after_login->status == 401);
+        CHECK(nlohmann::json::parse(stale_after_login->body).at("Result").is_null());
+        const auto profile = client.Get(current.path, headers(current));
+        REQUIRE(profile);
+        CHECK(profile->status == 200);
+        const auto restored = nlohmann::json::parse(profile->body);
+        CHECK(restored.at("Status") == 200);
+        CHECK(restored.at("Result").at("Guid") == previous.path.substr(7));
+        const auto unchanged = replacement.store.find_account("76561197960265729");
+        REQUIRE(unchanged);
+        CHECK(unchanged->ref == original_account.ref);
+        CHECK(unchanged->created_at == original_account.created_at);
+        CHECK(replacement.store.game_settings(unchanged->ref) == settings);
     }
 }

@@ -1,5 +1,7 @@
 # Ensayo temporal de destino. No inicia Steam ni el juego y no captura sus logs.
 # Ejecutar elevado; iniciar Hawken normalmente desde Steam tras ready.json.
+# Los servicios y el guard permanecen hasta stop.request, incluso entre reinicios del cliente.
+# -StopWhenClientCloses conserva el ensayo acotado y su espera inicial máxima de 10 minutos.
 param(
     [ValidatePattern('^local-steam-routing-[0-9]{8}-[0-9]{6}$')]
     [string]$SessionName = ('local-steam-routing-' + [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')),
@@ -11,7 +13,8 @@ param(
     [ValidateRange(1, 65535)]
     [int]$UdpPort = 7777,
     [ValidatePattern('^[A-Za-z0-9_.-]{1,64}$')]
-    [string]$UdpRegion = 'EU'
+    [string]$UdpRegion = 'EU',
+    [switch]$StopWhenClientCloses
 )
 
 $ErrorActionPreference = 'Stop'
@@ -264,7 +267,7 @@ try {
                     }
                 }
             }
-        } elseif ($result.gameObserved) {
+        } elseif ($StopWhenClientCloses -and $result.gameObserved) {
             $result.status = 'CLIENT_CLOSED'
             break
         }
@@ -272,7 +275,7 @@ try {
             $result.status = 'STOP_REQUESTED'
             break
         }
-        if (-not $result.gameObserved -and [DateTime]::UtcNow -gt $launchDeadline) {
+        if ($StopWhenClientCloses -and -not $result.gameObserved -and [DateTime]::UtcNow -gt $launchDeadline) {
             $result.status = 'NO_CLIENT_STARTED'
             break
         }
