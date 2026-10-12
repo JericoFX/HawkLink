@@ -163,7 +163,7 @@ try {
     Write-Evidence 'guard-active.json' @{ verified = $true; ruleName = $ruleName; program = $gameExecutable }
 
     $phase = 'temporary-files'
-    Add-TestFile $bridgeSource 'dinput8.dll' '5109aa029cb8be868b0c0b6cdac94f8630aee2e11f690ad2aeae71be8462feb1'
+    Add-TestFile $bridgeSource 'dinput8.dll' 'fe45fe000189477aa884c680a63ca20340702b5d405bca92428ce51c076b5c16'
     Add-TestFile $configSource 'hawken-client.toml' '7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3'
 
     $phase = 'master-startup'

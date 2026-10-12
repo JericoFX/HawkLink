@@ -19,7 +19,7 @@ constexpr std::string_view body=R"({"SteamAuthTicket":"public-synthetic-fixture-
 struct Probe {
     bool boundary=false,unavailable=false,zero_id=false,fail_headers=false;
     unsigned fail_option_number=0;
-    unsigned reads=0,headers=0,options=0,closed=0;
+    unsigned reads=0,headers=0,options=0,closed=0,opened=0;
     std::uintptr_t next_handle=0x1000;
     HINTERNET fixed_connection=nullptr;
     std::wstring header;
@@ -38,6 +38,7 @@ HINTERNET WINAPI connect(HINTERNET session,LPCWSTR host,INTERNET_PORT port,DWORD
 }
 HINTERNET WINAPI open_request(HINTERNET connection,LPCWSTR verb,LPCWSTR path,
     LPCWSTR version,LPCWSTR referrer,LPCWSTR* types,DWORD flags) {
+    ++current->opened;
     if (!current->boundary) return WinHttpOpenRequest(connection,verb,path,version,referrer,types,flags);
     return reinterpret_cast<HINTERNET>(++current->next_handle);
 }
@@ -329,4 +330,143 @@ TEST_CASE("Identity transport validates all saved functions and fixture callback
     c=config(probe); c.api.add_headers=nullptr; expect_configuration_error(c);
     c=config(probe); c.api.set_option=nullptr; expect_configuration_error(c);
     c=config(probe); c.identity.read=nullptr; expect_configuration_error(c);
+}
+
+// Diagnostic localhost trial policy: reject two GENERIC PlayFab APIs for this
+// title. The endpoint does not identify a calendar-only caller or grant rewards.
+// Boundary APIs below never perform egress, read a body, or create a real request.
+TEST_CASE("Local PlayFab API failure rejects both selected routes before request creation") {
+    for(auto port:std::array<INTERNET_PORT,2>{0,443}) {
+        for(auto path:std::array<LPCWSTR,2>{L"/Client/GetTitleData",L"/Client/ExecuteCloudScript"}) {
+            Probe probe; probe.boundary=true; probe.unavailable=true; Scope scope(probe);
+            identity::Transport transport(config(probe));
+            Handle conn(transport.connect(nullptr,L"3F09.playfabapi.com",port,0),&transport); REQUIRE(conn.value);
+            const auto prior_handle=probe.next_handle;
+            SetLastError(0);
+            Handle request(transport.open_request(conn.value,L"POST",path,nullptr,nullptr,nullptr,
+                WINHTTP_FLAG_SECURE),&transport);
+            CHECK(request.value==nullptr); CHECK(GetLastError()==ERROR_WINHTTP_CANNOT_CONNECT);
+            CHECK(probe.opened==0); CHECK(probe.next_handle==prior_handle);
+            CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+            CHECK(probe.closed==0); // The live connection belongs to its caller.
+        }
+    }
+}
+TEST_CASE("Local PlayFab API failure preserves unselected methods paths and secure flags") {
+    struct Input { LPCWSTR method; LPCWSTR path; DWORD flags; };
+    const std::array<Input,12> inputs{{
+        {L"GET",L"/Client/GetTitleData",WINHTTP_FLAG_SECURE},
+        {L"post",L"/Client/GetTitleData",WINHTTP_FLAG_SECURE},
+        {L"HEAD",L"/Client/ExecuteCloudScript",WINHTTP_FLAG_SECURE},
+        {nullptr,L"/Client/ExecuteCloudScript",WINHTTP_FLAG_SECURE},
+        {L"POST",L"/Client/GetTitleData",0},
+        {L"POST",L"/Client/ExecuteCloudScript",0},
+        {L"POST",L"/Client/GetTitleData/",WINHTTP_FLAG_SECURE},
+        {L"POST",L"/Client/GetTitleData?fixture=1",WINHTTP_FLAG_SECURE},
+        {L"POST",L"/client/GetTitleData",WINHTTP_FLAG_SECURE},
+        {L"POST",L"/Client/LoginWithCustomID",WINHTTP_FLAG_SECURE},
+        {L"POST",L"/Client/ExecuteCloudScript/",WINHTTP_FLAG_SECURE},
+        {L"POST",nullptr,WINHTTP_FLAG_SECURE}
+    }};
+    Probe probe; probe.boundary=true; Scope scope(probe); identity::Transport transport(config(probe));
+    Handle conn(transport.connect(nullptr,L"3F09.playfabapi.com",443,0),&transport); REQUIRE(conn.value);
+    for(const auto& input:inputs) {
+        const auto prior_opened=probe.opened;
+        Handle request(transport.open_request(conn.value,input.method,input.path,nullptr,nullptr,nullptr,
+            input.flags),&transport);
+        REQUIRE(request.value); CHECK(probe.opened==prior_opened+1);
+    }
+    CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+}
+TEST_CASE("Local PlayFab API failure preserves other hosts ports and routing roots") {
+    struct Input { const char* root; LPCWSTR host; INTERNET_PORT port; };
+    const std::array<Input,9> inputs{{
+        {"http://127.0.0.1",L"3f09.playfabapi.com",443},
+        {"http://127.0.0.1",L"OTHER.playfabapi.com",443},
+        {"http://127.0.0.1",L"3F09.playfabapi.com.",443},
+        {"http://127.0.0.1",nullptr,443},
+        {"http://127.0.0.1",L"3F09.playfabapi.com",80},
+        {"http://127.0.0.1",L"3F09.playfabapi.com",444},
+        {"http://localhost",L"3F09.playfabapi.com",443},
+        {"https://127.0.0.1",L"3F09.playfabapi.com",443},
+        {"http://127.0.0.1/",L"3F09.playfabapi.com",443}
+    }};
+    for(const auto& input:inputs) {
+        Probe probe; probe.boundary=true; Scope scope(probe);
+        identity::Transport transport(config(probe,input.root));
+        Handle conn(transport.connect(nullptr,input.host,input.port,0),&transport); REQUIRE(conn.value);
+        Handle request(transport.open_request(conn.value,L"POST",L"/Client/ExecuteCloudScript",
+            nullptr,nullptr,nullptr,WINHTTP_FLAG_SECURE),&transport);
+        REQUIRE(request.value); CHECK(probe.opened==1);
+        CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+    }
+}
+TEST_CASE("Local PlayFab API failure connection class stays distinct from identity local") {
+    Probe probe; probe.boundary=true; Scope scope(probe); identity::Transport transport(config(probe));
+    Handle api(transport.connect(nullptr,L"3F09.playfabapi.com",443,0),&transport); REQUIRE(api.value);
+    Handle local(transport.connect(nullptr,L"127.0.0.1",80,0),&transport); REQUIRE(local.value);
+    Handle api_login(transport.open_request(api.value,L"POST",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
+    REQUIRE(api_login.value); CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+    Handle local_api(transport.open_request(local.value,L"POST",L"/Client/GetTitleData",nullptr,nullptr,nullptr,
+        WINHTTP_FLAG_SECURE),&transport);
+    REQUIRE(local_api.value); CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+    Handle local_login(transport.open_request(local.value,L"POST",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
+    REQUIRE(local_login.value); CHECK(probe.reads==1); CHECK(probe.headers==1); CHECK(probe.options==2);
+    CHECK(probe.header==L"X-Hawken-SteamID: 76561197960265729\r\n");
+}
+TEST_CASE("Local PlayFab API failure shares quota128 and close recovery with identity local") {
+    Probe probe; probe.boundary=true; Scope scope(probe); identity::Transport transport(config(probe));
+    std::vector<HINTERNET> handles;
+    for(unsigned i=0;i<128;++i) {
+        auto handle=transport.connect(nullptr,i%2==0 ? L"3F09.playfabapi.com" : L"127.0.0.1",
+            i%2==0 ? static_cast<INTERNET_PORT>(443) : static_cast<INTERNET_PORT>(80),0);
+        REQUIRE(handle); handles.push_back(handle);
+    }
+    for(auto host:std::array<LPCWSTR,2>{L"3F09.playfabapi.com",L"127.0.0.1"}) {
+        SetLastError(0);
+        auto overflow=transport.connect(nullptr,host,0,0);
+        CHECK(overflow==nullptr); CHECK(GetLastError()==ERROR_ACCESS_DENIED);
+        if(overflow) transport.close_handle(overflow); // Dispose a RED passthrough handle.
+    }
+    CHECK(probe.closed==2);
+    auto foreign=transport.connect(nullptr,L"example.invalid",443,0); REQUIRE(foreign);
+    CHECK(transport.close_handle(foreign));
+    REQUIRE(transport.close_handle(handles.front())); handles.erase(handles.begin());
+    auto recovered=transport.connect(nullptr,L"3F09.playfabapi.com",0,0); REQUIRE(recovered);
+    const auto prior_opened=probe.opened;
+    SetLastError(0);
+    Handle request(transport.open_request(recovered,L"POST",L"/Client/GetTitleData",nullptr,nullptr,nullptr,
+        WINHTTP_FLAG_SECURE),&transport);
+    CHECK(request.value==nullptr); CHECK(GetLastError()==ERROR_WINHTTP_CANNOT_CONNECT);
+    CHECK(probe.opened==prior_opened); CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+    REQUIRE(transport.close_handle(recovered));
+    for(auto handle:handles) CHECK(transport.close_handle(handle));
+}
+TEST_CASE("Local PlayFab API failure recycled handle reclassifies API foreign and identity safely") {
+    Probe probe; probe.boundary=true; probe.fixed_connection=reinterpret_cast<HINTERNET>(0x1000u);
+    Scope scope(probe); identity::Transport transport(config(probe));
+    auto conn=transport.connect(nullptr,L"3F09.playfabapi.com",443,0); REQUIRE(conn);
+    const auto failure=[&] {
+        const auto prior_opened=probe.opened;
+        SetLastError(0);
+        Handle request(transport.open_request(conn,L"POST",L"/Client/ExecuteCloudScript",nullptr,nullptr,nullptr,
+            WINHTTP_FLAG_SECURE),&transport);
+        CHECK(request.value==nullptr); CHECK(GetLastError()==ERROR_WINHTTP_CANNOT_CONNECT);
+        CHECK(probe.opened==prior_opened);
+    };
+    failure();
+    // Simulate numeric reuse even without an observed close: the new Connect
+    // result must replace stale classification, rather than retaining a gate.
+    REQUIRE(transport.connect(nullptr,L"example.invalid",443,0)==conn);
+    { Handle request(transport.open_request(conn,L"POST",L"/Client/ExecuteCloudScript",nullptr,nullptr,nullptr,
+        WINHTTP_FLAG_SECURE),&transport); REQUIRE(request.value); }
+    CHECK(probe.reads==0); CHECK(probe.headers==0); CHECK(probe.options==0);
+    REQUIRE(transport.connect(nullptr,L"127.0.0.1",80,0)==conn);
+    { Handle request(transport.open_request(conn,L"POST",L"/steam/login",nullptr,nullptr,nullptr,0),&transport);
+        REQUIRE(request.value); }
+    CHECK(probe.reads==1); CHECK(probe.headers==1); CHECK(probe.options==2);
+    REQUIRE(transport.close_handle(conn));
+    REQUIRE(transport.connect(nullptr,L"3F09.playfabapi.com",0,0)==conn);
+    failure(); CHECK(probe.reads==1); CHECK(probe.headers==1); CHECK(probe.options==2);
+    CHECK(transport.close_handle(conn));
 }

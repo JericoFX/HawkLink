@@ -33,6 +33,7 @@ HINTERNET Transport::connect(HINTERNET session,LPCWSTR host,INTERNET_PORT port,D
         if(!created || config_.meteor_uri!="http://127.0.0.1") return created;
         const DWORD original_error=GetLastError();
         const bool local=exact(host,L"127.0.0.1") && (port==0 || port==80);
+        const bool playfab=exact(host,L"3F09.playfabapi.com") && (port==0 || port==443);
         std::lock_guard lock(mutex_);
         // A new Connect result supersedes any stale classification with the
         // same numeric handle, including a now-foreign connection.
@@ -41,10 +42,10 @@ HINTERNET Transport::connect(HINTERNET session,LPCWSTR host,INTERNET_PORT port,D
             if(entry.handle==created) entry={};
             if(entry.handle==nullptr && empty==nullptr) empty=&entry;
         }
-        if(local) {
+        if(local || playfab) {
             if(empty==nullptr || generation_==std::numeric_limits<std::uint64_t>::max())
                 return fail_created(config_.api,created);
-            *empty={created,++generation_};
+            *empty={created,++generation_,local ? ConnectionKind::identity_local : ConnectionKind::playfab_api};
         }
         SetLastError(original_error);
         return created;
@@ -56,6 +57,19 @@ HINTERNET Transport::open_request(HINTERNET connection,LPCWSTR verb,LPCWSTR obje
     LPCWSTR version,LPCWSTR referrer,LPCWSTR* accept_types,DWORD flags) noexcept {
     HINTERNET created=nullptr;
     try {
+        if(config_.meteor_uri=="http://127.0.0.1" && exact(verb,L"POST")
+            && (exact(object,L"/Client/GetTitleData") || exact(object,L"/Client/ExecuteCloudScript"))
+            && (flags&WINHTTP_FLAG_SECURE)!=0) {
+            std::lock_guard lock(mutex_);
+            for(const auto& entry:connections_) {
+                if(entry.handle==connection && connection!=nullptr && entry.kind==ConnectionKind::playfab_api) {
+                    // Fail before a request exists: the SDK cannot add PlayFab
+                    // authentication headers or send its original body here.
+                    SetLastError(ERROR_WINHTTP_CANNOT_CONNECT);
+                    return nullptr;
+                }
+            }
+        }
         if(config_.meteor_uri!="http://127.0.0.1" || !exact(verb,L"POST")
             || !exact(object,L"/steam/login") || (flags&WINHTTP_FLAG_SECURE)!=0)
             return config_.api.open_request(connection,verb,object,version,referrer,accept_types,flags);
@@ -63,7 +77,8 @@ HINTERNET Transport::open_request(HINTERNET connection,LPCWSTR verb,LPCWSTR obje
         {
             std::lock_guard lock(mutex_);
             for(const auto& entry:connections_)
-                if(entry.handle==connection && connection!=nullptr) generation=entry.generation;
+                if(entry.handle==connection && connection!=nullptr
+                    && entry.kind==ConnectionKind::identity_local) generation=entry.generation;
         }
         if(generation==0)
             return config_.api.open_request(connection,verb,object,version,referrer,accept_types,flags);
@@ -76,7 +91,8 @@ HINTERNET Transport::open_request(HINTERNET connection,LPCWSTR verb,LPCWSTR obje
         std::lock_guard lock(mutex_);
         bool live=false;
         for(const auto& entry:connections_)
-            if(entry.handle==connection && entry.generation==generation) live=true;
+            if(entry.handle==connection && entry.generation==generation
+                && entry.kind==ConnectionKind::identity_local) live=true;
         if(!live) return fail_created(config_.api,created);
         std::uint64_t identity=0;
         if(!config_.identity.read(config_.identity.context,&identity) || identity==0)
