@@ -419,6 +419,7 @@ TEST_CASE("FTUX section parser reads the explicit four-field integer DOM only") 
     const auto parsed = hawken::inventory::parse_ftux_test(ftux_section());
     CHECK(parsed.globals_guid == "40000000-0000-0000-0000-000000000001");
     CHECK(parsed.version == "trial.ftux-1"); CHECK(parsed.match_time_minutes == 1); CHECK(parsed.match_goal == 20);
+    CHECK_FALSE(parsed.enable_new_user_dialog.has_value());
     for (const auto* key : {"GlobalsGuid", "Version", "MatchTimeMinutes", "MatchGoal"}) {
         auto section = ftux_section(); section.erase(key);
         expect_ftux_parse_error(section, StarterCatalogueErrorCode::invalid_balance);
@@ -450,4 +451,48 @@ TEST_CASE("FTUX section parser rejects coercion fractions and integer overflow")
     expect_ftux_parse_error(identity, StarterCatalogueErrorCode::invalid_id);
     auto version = ftux_section(); version["Version"] = "private version";
     expect_ftux_parse_error(version, StarterCatalogueErrorCode::invalid_version);
+}
+
+TEST_CASE("FTUX original menu choice emits only an optional boolean string in Globals") {
+    for (const bool enabled : {true, false}) {
+        CAPTURE(enabled);
+        auto profile = first_profile(); profile.ftux_test = ftux_fixture();
+        profile.ftux_test->enable_new_user_dialog = enabled;
+        auto expected = first_expected();
+        expected.push_back(enabled
+            ? json::parse(R"({"GameItemsGuid":"40000000-0000-0000-0000-000000000001","ItemName":"Globals","Version":"trial.ftux-1","invType":"41","FTUXMatchTime":"1","FTUXMatchGoal":"20","EnableNewUserDialog":"true"})")
+            : json::parse(R"({"GameItemsGuid":"40000000-0000-0000-0000-000000000001","ItemName":"Globals","Version":"trial.ftux-1","invType":"41","FTUXMatchTime":"1","FTUXMatchGoal":"20","EnableNewUserDialog":"false"})"));
+        CHECK(starter_catalogue_result(fixture_ids(), profile) == expected);
+    }
+}
+
+TEST_CASE("FTUX parser retains both explicit original menu choices without defaulting absence") {
+    CHECK_FALSE(hawken::inventory::parse_ftux_test(ftux_section()).enable_new_user_dialog);
+    for (const bool enabled : {true, false}) {
+        CAPTURE(enabled);
+        auto section = ftux_section(); section["EnableNewUserDialog"] = enabled;
+        hawken::inventory::FtuxTest parsed;
+        CHECK_NOTHROW(parsed = hawken::inventory::parse_ftux_test(section));
+        REQUIRE(parsed.enable_new_user_dialog.has_value());
+        CHECK(parsed.enable_new_user_dialog.value() == enabled);
+        CHECK(parsed.globals_guid == "40000000-0000-0000-0000-000000000001");
+        CHECK(parsed.version == "trial.ftux-1");
+        CHECK(parsed.match_time_minutes == 1); CHECK(parsed.match_goal == 20);
+    }
+}
+
+TEST_CASE("FTUX optional menu choice rejects coercion and cannot hide unknown or missing fields") {
+    for (const json& invalid : {json(nullptr), json(0), json(1), json(1.0), json("true"),
+         json("false"), json::array(), json::object()}) {
+        auto section = ftux_section(); section["EnableNewUserDialog"] = invalid;
+        expect_ftux_parse_error(section, StarterCatalogueErrorCode::invalid_balance);
+    }
+    auto extra = ftux_section(); extra["EnableNewUserDialog"] = true; extra["Unknown"] = false;
+    expect_ftux_parse_error(extra, StarterCatalogueErrorCode::invalid_balance);
+    for (const auto* key : {"GlobalsGuid", "Version", "MatchTimeMinutes", "MatchGoal"}) {
+        auto missing = ftux_section(); missing.erase(key); missing["EnableNewUserDialog"] = false;
+        expect_ftux_parse_error(missing, StarterCatalogueErrorCode::invalid_balance);
+    }
+    auto wrong_key = ftux_section(); wrong_key["enableNewUserDialog"] = true;
+    expect_ftux_parse_error(wrong_key, StarterCatalogueErrorCode::invalid_balance);
 }

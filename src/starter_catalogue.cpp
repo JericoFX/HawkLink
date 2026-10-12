@@ -96,7 +96,9 @@ StarterCatalogueErrorCode StarterCatalogueError::code() const noexcept {
 }
 
 FtuxTest parse_ftux_test(const nlohmann::json& section) {
-    if (!section.is_object() || section.size() != 4 ||
+    if (!section.is_object() ||
+        section.size() != (section.contains("EnableNewUserDialog") ? 5U : 4U) ||
+        (section.contains("EnableNewUserDialog") && !section.at("EnableNewUserDialog").is_boolean()) ||
         !section.contains("GlobalsGuid") || !section.at("GlobalsGuid").is_string() ||
         !section.contains("Version") || !section.at("Version").is_string() ||
         !section.contains("MatchTimeMinutes") || !section.contains("MatchGoal")) {
@@ -117,6 +119,8 @@ FtuxTest parse_ftux_test(const nlohmann::json& section) {
         section.at("Version").get<std::string>(),
         bounded_integer(section.at("MatchTimeMinutes"), 60),
         bounded_integer(section.at("MatchGoal"), 1000)};
+    if (section.contains("EnableNewUserDialog"))
+        trial.enable_new_user_dialog = section.at("EnableNewUserDialog").get<bool>();
     validate_ftux(trial);
     return trial;
 }
@@ -203,6 +207,8 @@ nlohmann::json starter_catalogue_result(
             {"Version", trial.version}, {"invType", "41"},
             {"FTUXMatchTime", std::to_string(trial.match_time_minutes)},
             {"FTUXMatchGoal", std::to_string(trial.match_goal)}});
+        if (trial.enable_new_user_dialog.has_value())
+            result.back()["EnableNewUserDialog"] = *trial.enable_new_user_dialog ? "true" : "false";
     }
     return result;
 }

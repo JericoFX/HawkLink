@@ -29,8 +29,9 @@
   },
   "FtuxTest": {
     "GlobalsGuid": "10000000-0000-0000-0000-00000000000a",
-    "Version": "ftux.local1",
+    "Version": "ftux.local2",
     "MatchTimeMinutes": 1,
-    "MatchGoal": 20
+    "MatchGoal": 20,
+    "EnableNewUserDialog": true
   }
 }

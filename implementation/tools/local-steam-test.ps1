@@ -28,7 +28,7 @@ $starterProfileSource = Join-Path $workspace 'profiles\local-starter-catalogue.j
 $starterProfileHash = '528c9a7685ff6686a23c07cb4e62bb4cc7389ae2bd64a8ea1bf5dcd945e996fe'
 if ($ShortFtuxTest) {
     $starterProfileSource = Join-Path $workspace 'profiles\local-short-ftux-catalogue.json'
-    $starterProfileHash = 'c6811a6c6d7220e8c139e655466ae44064c52d7b6ff30b0bb21e31cfc7947117'
+    $starterProfileHash = '0fa39b4b034db73e757c237d66b3d64f8281c8cf3789ed22a6371b10e8e4d004'
 }
 $sessionDirectory = Join-Path $workspace ('implementation\evidence\' + $SessionName)
 $ruleName = 'HawkenLocalOnly-' + [Guid]::NewGuid().ToString('N')
@@ -122,7 +122,7 @@ try {
         Assert-Hash (Join-Path $gameDirectory $original.name) $original.hash
     }
     Assert-Hash $masterExecutable '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
-    Assert-Hash $serverExecutable 'e4213eb38b4e3f61f6c1c19ecfce44284e6a45dc1a5871a5bb67d4e71aa918f4'
+    Assert-Hash $serverExecutable '6af6021de832a4b01c21053f86288a183b75170ddcbc5e6fa402ada3a760ef29'
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
     }

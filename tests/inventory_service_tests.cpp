@@ -589,3 +589,33 @@ TEST_CASE("Optional FTUX Globals is catalogue configuration never an owned start
     CHECK(sqlite3_column_int64(statement.get(), 1) == 0);
     CHECK(sqlite3_step(statement.get()) == SQLITE_DONE);
 }
+
+TEST_CASE("FTUX optional original menu choice never seeds account decisions or changes owned inventory") {
+    for (const bool enabled : {true, false}) {
+        CAPTURE(enabled);
+        Fixture f;
+        auto profile = balance();
+        profile.ftux_test = hawken::inventory::FtuxTest{
+            "40000000-0000-0000-0000-000000000001", "trial.ftux-1", 1, 20};
+        profile.ftux_test->enable_new_user_dialog = enabled;
+        InventoryService trial(f.store, f.auth, ids(), profile, offer_id);
+        const auto login = f.login(); REQUIRE(login.status == 200);
+        const auto account = f.store.find_account(fixture_id_text); REQUIRE(account);
+        const auto before = f.store.wallet(account->ref);
+        const auto catalogue = trial.get(catalogue_path, header(login)); REQUIRE(catalogue.status == 200);
+        REQUIRE(catalogue.result.size() == 10);
+        CHECK(catalogue.result.at(9) == (enabled
+            ? nlohmann::json::parse(R"({"GameItemsGuid":"40000000-0000-0000-0000-000000000001","ItemName":"Globals","Version":"trial.ftux-1","invType":"41","FTUXMatchTime":"1","FTUXMatchGoal":"20","EnableNewUserDialog":"true"})")
+            : nlohmann::json::parse(R"({"GameItemsGuid":"40000000-0000-0000-0000-000000000001","ItemName":"Globals","Version":"trial.ftux-1","invType":"41","FTUXMatchTime":"1","FTUXMatchGoal":"20","EnableNewUserDialog":"false"})")));
+        CHECK_FALSE(f.store.starter_items(account->ref));
+        CHECK(f.store.game_settings(account->ref).empty());
+        const auto owned = trial.get(owned_path(login), header(login)); REQUIRE(owned.status == 200);
+        check_owned(owned.result);
+        CHECK(f.store.starter_items(account->ref) == persisted_expected());
+        CHECK(f.store.wallet(account->ref) == before);
+        CHECK(f.store.game_settings(account->ref).empty());
+        const auto offers = trial.get(offers_path, header(login)); REQUIRE(offers.status == 200);
+        REQUIRE(offers.result.size() == 1);
+        CHECK(offers.result.at(0).at("GameItems").size() == 9);
+    }
+}

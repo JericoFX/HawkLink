@@ -58,6 +58,7 @@ struct FtuxTest {
     std::string version;
     std::int32_t match_time_minutes{};
     std::int32_t match_goal{};
+    std::optional<bool> enable_new_user_dialog = std::nullopt;
 };
 
 struct StarterBalanceProfile {
@@ -81,8 +82,10 @@ private:
     StarterCatalogueErrorCode code_;
 };
 
-// Parse a strict FtuxTest DOM section with exactly GlobalsGuid, Version,
-// MatchTimeMinutes and MatchGoal. A DOM cannot retain duplicate raw keys;
+// Parse a strict FtuxTest DOM section with GlobalsGuid, Version,
+// MatchTimeMinutes and MatchGoal, plus optional boolean EnableNewUserDialog.
+// The option offers the original user choice; it does not record completion.
+// A DOM cannot retain duplicate raw keys;
 // this helper adds no raw-JSON duplicate-key rejection policy.
 // New policy: minutes integer1..60, goal integer1..1000; canonical nonzero GUID
 // and explicit Version token. Errors are fixed StarterCatalogueError messages.
@@ -110,6 +113,8 @@ FtuxTest parse_ftux_test(const nlohmann::json& section);
 // auto-selection or generation of any ID. Globals uses its own unique caller
 // GUID/version and string invType41/FTUXMatchTime/FTUXMatchGoal; its GUID must
 // differ from all nine type IDs. It is never an owned item or preset child.
+// Optional EnableNewUserDialog emits only the string "true" or "false";
+// absence emits no attribute and preserves the existing catalogue.
 // Secondary projectile fields use the original Proj.* keys, independently of
 // instant-hit and UI damage. Other missing weapon properties use setter fallbacks;
 // mech uses original class defaults. Neither implies gameplay acceptance.
