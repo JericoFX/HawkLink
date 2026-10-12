@@ -31,6 +31,7 @@ RequestDiagnostic classify_request(std::string_view method, std::string_view pat
         {"/gameCurrency", "game-currency", "/gameCurrency/", "game-currency-unexpected-slash"},
         {"/meteorCurrency", "meteor-currency", "/meteorCurrency/", "meteor-currency-unexpected-slash"},
         {"/bulk", "bulk", "/bulk/", "bulk-unexpected-slash"},
+        {"/gameClientEvent", "game-client-event", "/gameClientEvent/", "game-client-event-unexpected-slash"},
         {"/achievementsBatch", "achievements-batch", "/achievementsBatch/", "achievements-batch-unexpected-slash"},
         {"/gameItemsBatch", "game-items-batch", "/gameItemsBatch/", "game-items-batch-unexpected-slash"},
         {"/gameOffersBatch", "game-offers-batch", "/gameOffersBatch/", "game-offers-batch-unexpected-slash"},

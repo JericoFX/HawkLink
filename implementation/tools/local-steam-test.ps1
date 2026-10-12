@@ -121,8 +121,8 @@ try {
     foreach ($original in $originals) {
         Assert-Hash (Join-Path $gameDirectory $original.name) $original.hash
     }
-    Assert-Hash $masterExecutable 'a54f5163d16f0309ad2f0b829990c046a203fe6d399da9a04eb9251e85e6ffa5'
-    Assert-Hash $serverExecutable '437e69de9f99e47820aa2c1c3d76b6d31527bfb5e3c0a382caf94217b83bcbc8'
+    Assert-Hash $masterExecutable '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
+    Assert-Hash $serverExecutable 'e4213eb38b4e3f61f6c1c19ecfce44284e6a45dc1a5871a5bb67d4e71aa918f4'
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
     }
@@ -163,7 +163,7 @@ try {
     Write-Evidence 'guard-active.json' @{ verified = $true; ruleName = $ruleName; program = $gameExecutable }
 
     $phase = 'temporary-files'
-    Add-TestFile $bridgeSource 'dinput8.dll' '7d90edf5ed672e6c498954f73420c94c4cf324f9ffe7dc9ad98de9cc924263c7'
+    Add-TestFile $bridgeSource 'dinput8.dll' '5109aa029cb8be868b0c0b6cdac94f8630aee2e11f690ad2aeae71be8462feb1'
     Add-TestFile $configSource 'hawken-client.toml' '7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3'
 
     $phase = 'master-startup'

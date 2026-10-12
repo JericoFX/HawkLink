@@ -9,6 +9,24 @@
 
 using hawken::http::classify_request;
 
+TEST_CASE("Client event diagnostics identify only the original fixed endpoint") {
+    std::string path = "/gameClientEvent";
+    const auto result = classify_request("POST", path);
+    path.assign(100, 'x');
+    CHECK(result.category == "game-client-event");
+    CHECK(result.method == "POST");
+    CHECK(classify_request("POST", "/gameClientEvent/").category
+        == "game-client-event-unexpected-slash");
+    for (const auto invalid : {"/gameClientEvent/private", "/gameClientEvents",
+        "/GameClientEvent", "/gameClientEvent?ticket=private",
+        "/gameClientEvent#private", "/gameClient%45vent"})
+        CHECK(classify_request("POST", invalid).category == "other");
+    path = "/gameClientEvent";
+    path.push_back('\0');
+    path += "private";
+    CHECK(classify_request("POST", path).category == "other");
+}
+
 TEST_CASE("Batch diagnostics distinguish catalogue operations without exposing suffixes") {
     for (const auto& [path, category] : std::array{
         std::pair{"/achievementsBatch", "achievements-batch"},
