@@ -156,3 +156,17 @@ Las decompilaciones son lectura estática, con proyecto y derivados fuera del ju
 El control de la entrega estática anterior se conserva en [final-research-validation.json](evidence/final-research-validation.json): 31 PASS/0 FAIL, 946 originales rehashados, identidades Ghidra y nueve informes congelados en ese momento. Sus hashes de documentos son históricos tras esta revisión. La [validación de la revisión Creator](evidence/creator-revision-validation.json) registra hashes/enlaces de los diez documentos actuales y evidencia añadida; el manifiesto SHA conserva la nueva comprobación360/360 de paquetes y EXE/SDK/INI se cotejaron nuevamente. Se reutiliza el control previo de los demás originales sin fingir otro rehash946. Ninguno prueba autenticación, gameplay, enforcement cliente o soporte Linux.
 
 La investigación preserva preguntas abiertas; la existencia de los informes y un inventario completo no se interpreta como cierre exhaustivo de protocolos o aceptación de servidores compatibles.
+
+## Pendientes de interfaz reportados por el usuario — 2026-10-12
+
+Aplazados por instrucción explícita del usuario («anótalo para futuro»). La prioridad continúa siendo la partida local del servidor propio.
+
+Evidencia: [captura original del usuario](../../implementation/evidence/menu-ui-followups/user-menu-20261012.png), SHA-256 `68e89db090788bb4a0ba071d4c205a8cb45a464eafc3be7b053ac4e7684ab449`. Se conservó una copia idéntica fuera del juego; no se modificaron binarios ni configuración para este registro.
+
+| Pendiente | Observación confirmada en la captura | Verificación futura |
+|---|---|---|
+| Nombre del jugador | El perfil muestra «Recruit 53»; el usuario indica que no toma su nombre de Steam. | Investigar de dónde obtiene el cliente el nombre visible y cómo vincularlo al perfil autenticado. La captura no prueba la causa ni un fallo de autenticación. |
+| Noticias del menú | El panel muestra el texto «Label» sin noticias visibles. | Recuperar y completar el contrato de contenido del panel; comprobar título, contenido y ausencia de noticias sin texto de plantilla. Causa no verificada. |
+| Conexión del chat | El área inferior permanece en «CONNECTING», según el reporte del usuario y la captura. | Investigar el servicio/protocolo de chat y su autenticación; comprobar conexión y envío/recepción entre clientes autorizados. Causa y servicio compatible no verificados. |
+
+No se consideran reparados ni se asignan causas a partir de la imagen. Estos pendientes de menú no sustituyen la aceptación de una partida alojada por Core.
