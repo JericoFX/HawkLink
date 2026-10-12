@@ -90,8 +90,10 @@ public:
     // never chooses via query. Identical selection preserves Context/counters.
     auth::AuthReply select(std::string_view authorization, std::string_view server_guid);
     // Exact GET /session and POST /hawkenClientMatchmakingAdvertisements;
-    // GET /hawkenClientMatchmakingAdvertisements/{canonical lower UUID}.
-    // All GET bodies must be empty. POST is one authenticated participant:
+    // GET/DELETE /hawkenClientMatchmakingAdvertisements/{canonical lower UUID}.
+    // GET/DELETE bodies must be empty. DELETE retires only the matching account/
+    // grant advertisement and session before its void ACK; unknown/repeated 404
+    // and this lifecycle are local policy. POST is one authenticated participant:
     // exactly OwnerGuid, Region, GameVersion, Users=[OwnerGuid], plus optional
     // RequestedServerGuid. Metadata must match destination. No other filters.
     // Omitted RequestedServerGuid requires prior same-grant selection. Equivalent

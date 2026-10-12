@@ -302,6 +302,9 @@ struct AuthFixture {
             [](std::span<std::uint8_t> bytes) {
                 if (bytes.size()==public_id.size()) std::copy(public_id.begin(),public_id.end(),bytes.begin());
                 else if (bytes.size()==public_key.size()) std::copy(public_key.begin(),public_key.end(),bytes.begin());
+                else if (bytes.size()==16) {
+                    for (std::size_t i=0;i<bytes.size();++i) bytes[i]=static_cast<std::uint8_t>(i*0x11);
+                }
                 else return false;
                 return true;
             },[this](const assignment::Destination& d){return owner.destination_bound(d);},
@@ -1449,4 +1452,37 @@ TEST_CASE("UDP failed Controller emission cannot send a Pawn") {
     CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
     CHECK(controller_output(peer,client,200ms).bunches.empty());
     CHECK_FALSE(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+}
+
+// Original DELETE/void framing; retirement/status behavior is new local policy.
+TEST_CASE("UDP real advertisement DELETE retires accepted transport while listener survives") {
+    AuthFixture f; REQUIRE(f.owner.port()>0); f.construct_assignment();
+    const auto login=f.login(); REQUIRE(login.status==200);
+    const auto header=authorization(login);
+    const auto guid=login.result.at("UserId").get<std::string>();
+    const nlohmann::json body{{"OwnerGuid",guid},{"Region","EU"},
+        {"GameVersion","1.6.0.154767"},{"Users",nlohmann::json::array({guid})},
+        {"RequestedServerGuid",server_guid}};
+    const auto posted=f.service->handle("POST","/hawkenClientMatchmakingAdvertisements",header,body.dump());
+    REQUIRE(posted.status==200);
+    REQUIRE(posted.result==nlohmann::json("00112233-4455-6677-8899-aabbccddeeff"));
+    REQUIRE(f.service->handle("GET","/session",header).status==200);
+    Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    CHECK(request(client,0,1,hex("1a07000000"))==initial_oracle());
+    peer.send(f.owner.port(),initial_oracle());
+    const auto ack=peer.receive(); REQUIRE(ack); CHECK(*ack==ack_oracle());
+    const auto challenge=peer.receive(); REQUIRE(challenge);
+    CHECK(client.decode(*ack)==hex("00400020"));
+    CHECK(client.decode(*challenge)==hex("0100011040506c0000000004"));
+    REQUIRE(f.owner.diagnostics().authenticated_datagrams==1);
+    peer.drain();
+    const auto cancelled=f.service->handle("DELETE",
+        "/hawkenClientMatchmakingAdvertisements/00112233-4455-6677-8899-aabbccddeeff",header);
+    REQUIRE(cancelled.status==200); CHECK(cancelled.result.is_null());
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+    CHECK(f.service->handle("GET","/session",header).status==404);
+    peer.drain(); // Clear datagrams emitted before the synchronous retirement ACK.
+    peer.send(f.owner.port(),request(client,1,2,hex("1cc3363f8d"),false));
+    CHECK_FALSE(peer.receive(200ms));
+    CHECK(f.owner.running()); CHECK(f.owner.diagnostics().authenticated_datagrams==1);
 }

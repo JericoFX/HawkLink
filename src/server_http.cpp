@@ -182,16 +182,19 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
             || request.target.starts_with("/gameServerListings/"));
         const bool advertisement_post = assignment_route
             && request.target == "/hawkenClientMatchmakingAdvertisements";
+        const bool advertisement_resource = assignment_route
+            && request.target.starts_with("/hawkenClientMatchmakingAdvertisements/");
+        const bool advertisement_delete = advertisement_resource && request.method == "DELETE";
         const std::string_view method = login || advertisement_post ? "POST" : (logout || inventory_update) ? "PUT" : "GET";
         if (!services && !client && !version && !login && !profile && !logout
             && !initial_sync && !inventory_read && !inventory_update && !menu_read && !assignment_route && !listing_route) {
             reply(response, 404, "Route not found.", nullptr);
-        } else if ((request.method == "GET" || request.method == "HEAD") &&
+        } else if ((request.method == "GET" || request.method == "HEAD" || advertisement_delete) &&
                    (length != 0 || request.has_header("Transfer-Encoding"))) {
-            // GET resources have no request body. Do not drain rejected framing.
+            // GET and advertisement DELETE have no body. Do not drain rejected framing.
             reply(response, 400, "Invalid request.", nullptr);
-        } else if (request.method != method && !settings_put) {
-            response.set_header("Allow", settings ? "GET, PUT" : std::string(method));
+        } else if (request.method != method && !settings_put && !advertisement_delete) {
+            response.set_header("Allow", settings ? "GET, PUT" : advertisement_resource ? "GET, DELETE" : std::string(method));
             reply(response, 405, "Method not allowed.", nullptr);
         } else if (settings_put || inventory_put || advertisement_post) {
             return httplib::Server::HandlerResponse::Unhandled;

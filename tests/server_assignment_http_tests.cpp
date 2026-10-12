@@ -33,10 +33,13 @@ public:
 // This fixture confirms only an in-memory owner, never a bound UDP GameServer.
 class Lease final : public hawken::assignment::UdpSessionLease {
 public:
-    explicit Lease(const hawken::assignment::SessionProvision& provision)
-        : context(hawken::session::Role::server, provision.id, provision.key) {}
+    Lease(const hawken::assignment::SessionProvision& provision, std::atomic<int>& retired)
+        : context(hawken::session::Role::server, provision.id, provision.key), retired_(retired) {}
+    ~Lease() override { ++retired_; }
     bool active() const noexcept override { return true; }
     hawken::session::Context context;
+private:
+    std::atomic<int>& retired_;
 };
 class Listener {
 public:
@@ -45,7 +48,7 @@ public:
     Verifier verifier;
     std::atomic<std::int64_t> now{1000}, monotonic{100};
     std::atomic<bool> bound{true};
-    std::atomic<int> installs{0};
+    std::atomic<int> installs{0}, retired{0};
     hawken::auth::AuthService auth{store, verifier, [this] { return now.load(); }};
     hawken::assignment::SessionAssignmentService assignment{
         auth, {std::string(server_guid), "127.0.0.1", 27015, "EU", "1.6.0.154767"},
@@ -56,7 +59,7 @@ public:
             return true;
         }, [this](const hawken::assignment::Destination&) { return bound.load(); },
         [this](const hawken::assignment::SessionProvision& provision) {
-            ++installs; return std::make_unique<Lease>(provision);
+            ++installs; return std::make_unique<Lease>(provision, retired);
         }};
     explicit Listener(bool enabled = true) {
         hawken::server::configure_server_http(server_, &auth, nullptr, nullptr, nullptr,
@@ -163,4 +166,73 @@ TEST_CASE("Assignment HTTP optional facade keeps startup login and absent sessio
     const auto credentials = login(client);
     CHECK(body(client.Get("/session",headers(credentials)),404).is_null());
     CHECK(listener.installs == 0); CHECK(listener.verifier.calls == 1);
+}
+
+// HTTP DELETE/ApiResult<void> is original; complete local session retirement
+// and repeated404 are explicit policy, not recovered remote status behavior.
+TEST_CASE("Assignment HTTP DELETE returns a void ACK only after owner retirement") {
+    Listener listener; httplib::Client client("127.0.0.1",listener.port());
+    const auto credentials = login(client); const auto auth = headers(credentials);
+    REQUIRE(body(client.Post(std::string(ads),auth,request(credentials),"application/json"),200) == Json(ad_guid));
+    const auto account = listener.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto balances = listener.store.wallet(account->ref);
+    CHECK(body(client.Delete(poll(),auth),200).is_null());
+    CHECK(listener.retired == 1); CHECK(listener.installs == 1);
+    CHECK_FALSE(listener.assignment.authorize_udp({0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77}));
+    CHECK(body(client.Get(poll(),auth),404).is_null());
+    CHECK(body(client.Get("/session",auth),404).is_null());
+    CHECK(body(client.Delete(poll(),auth),404).is_null());
+    CHECK(listener.auth.access(auth.begin()->second).status == 200);
+    CHECK(listener.store.wallet(account->ref) == balances);
+    CHECK_FALSE(listener.store.starter_items(account->ref));
+    CHECK(listener.verifier.calls == 1);
+}
+TEST_CASE("Assignment HTTP DELETE invalid credentials and unknown IDs cannot cancel a valid session") {
+    Listener listener; httplib::Client client("127.0.0.1",listener.port());
+    const auto credentials = login(client); const auto auth = headers(credentials);
+    REQUIRE(body(client.Post(std::string(ads),auth,request(credentials),"application/json"),200) == Json(ad_guid));
+    const auto before = body(client.Get("/session",auth),200);
+    CHECK(body(client.Delete(poll()),401).is_null());
+    CHECK(body(client.Delete(poll(),httplib::Headers{{"Authorization","Basic foreign"}}),401).is_null());
+    CHECK(body(client.Delete(std::string(ads)+"/abcdef01-2345-6789-abcd-ef0123456789",auth),404).is_null());
+    CHECK(body(client.Get("/session",auth),200) == before);
+    CHECK(listener.retired == 0); CHECK(listener.installs == 1);
+    CHECK(listener.assignment.authorize_udp({0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77}));
+}
+TEST_CASE("Assignment HTTP DELETE validates aliases bodies and methods without evicting") {
+    Listener listener; httplib::Client client("127.0.0.1",listener.port());
+    const auto credentials = login(client); const auto auth = headers(credentials);
+    REQUIRE(body(client.Post(std::string(ads),auth,request(credentials),"application/json"),200) == Json(ad_guid));
+    client.set_path_encode(false);
+    for (const auto& path : {poll()+"/", poll()+"?x=1",
+        std::string(ads)+"/00112233-4455-6677-8899-AABBCCDDEEFF",
+        std::string(ads)+"/%30"+std::string(ad_guid).substr(1)})
+        CHECK(body(client.Delete(path,auth),404).is_null());
+    httplib::Request with_body;
+    with_body.method = "DELETE"; with_body.path = poll();
+    with_body.headers = auth; with_body.body = "{}";
+    CHECK(body(client.send(with_body),400).is_null());
+    const auto wrong = client.Put(poll(),auth,"","application/json");
+    CHECK(body(wrong,405).is_null()); CHECK(wrong->get_header_value("Allow") == "GET, DELETE");
+    CHECK(body(client.Delete("/session",auth),405).is_null());
+    CHECK(body(client.Delete(std::string(ads),auth),405).is_null());
+    CHECK(listener.retired == 0);
+    CHECK(body(client.Get("/session",auth),200).is_object());
+}
+TEST_CASE("Assignment HTTP DELETE rechecks revocation ban and expiration before cancellation") {
+    for (const int mode : {0,1,2,3}) {
+        Listener listener; httplib::Client client("127.0.0.1",listener.port());
+        const auto credentials = login(client); const auto auth = headers(credentials);
+        REQUIRE(body(client.Post(std::string(ads),auth,request(credentials),"application/json"),200) == Json(ad_guid));
+        if (mode == 0) listener.verifier.active = false;
+        if (mode == 1) {
+            const auto account = listener.store.find_account("76561197960265729"); REQUIRE(account);
+            listener.store.set_ban(account->ref, {1000, std::nullopt, "fixture"});
+        }
+        if (mode == 2) listener.now = 1900;
+        if (mode == 3) listener.monotonic = 130;
+        CHECK(body(client.Delete(poll(),auth),mode == 1 ? 403 : mode == 3 ? 404 : 401).is_null());
+        CHECK(listener.retired == 1); CHECK(listener.installs == 1);
+        CHECK_FALSE(listener.assignment.authorize_udp({0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77}));
+    }
 }

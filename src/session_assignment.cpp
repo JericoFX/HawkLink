@@ -350,7 +350,8 @@ struct SessionAssignmentService::Impl {
         if (ad.requested) result["RequestedServerGuid"] = destination.server_guid;
         return {200, "", std::move(result)};
     }
-    AuthReply handle(const Target& target, std::string_view authorization, std::string_view body) {
+    AuthReply handle(const Target& target, std::string_view authorization, std::string_view body,
+        bool delete_ad) {
         std::optional<Post> post;
         if (target.route == Route::create_ad) {
             post = parse_post(body, destination);
@@ -367,6 +368,16 @@ struct SessionAssignmentService::Impl {
         if (!current) return failure(404);
         if (target.route == Route::session) return session_reply();
         if (!current->advertisement || target.guid != current->advertisement->guid) return failure(404);
+        if (delete_ad) {
+            // access() preserves valid retained state for a foreign request.
+            // Cancellation additionally requires that exact account/grant binding.
+            if (authorized.account->account != current->provision.account
+                || authorized.account->user_guid != current->provision.user_guid
+                || authorization != current->authorization) return failure(404);
+            // State retires the real owner lease and wipes its material before ACK.
+            current.reset();
+            return {200, "", nullptr};
+        }
         return advertisement_reply();
     }
     bool authorize_udp(const session::SessionId& id) {
@@ -400,11 +411,12 @@ auth::AuthReply SessionAssignmentService::handle(std::string_view method, std::s
     const auto target = parse_target(raw_target);
     if (target.route == Route::unknown) return failure(404);
     const auto expected_method = target.route == Route::create_ad ? "POST" : "GET";
-    if (method != expected_method) return failure(405);
+    const bool delete_ad = target.route == Route::read_ad && method == "DELETE";
+    if (method != expected_method && !delete_ad) return failure(405);
     if (target.route != Route::create_ad && !body.empty()) return failure(400);
     try {
         std::lock_guard lock(impl_->mutex);
-        try { return impl_->handle(target, authorization, body); }
+        try { return impl_->handle(target, authorization, body, delete_ad); }
         catch (...) { impl_->current.reset(); return failure(500); }
     } catch (...) { return failure(500); }
 }

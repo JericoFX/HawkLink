@@ -721,3 +721,117 @@ TEST_CASE("Login Response checks preserve the same Context nonce counters and fi
     CHECK(f.store.wallet(account->ref) == wallet);
     CHECK_FALSE(f.store.starter_items(account->ref));
 }
+
+// DELETE's verb/void result are original SDK contracts. The status codes,
+// retirement, repeat-404 and single-account rules below are new local policy.
+TEST_CASE("assignment DELETE retires its own session before a void ACK") {
+    Fixture f;
+    const auto login = f.login(); REQUIRE(login.status == 200);
+    REQUIRE(post(f, login).status == 200);
+    const auto account = f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto balances = f.store.wallet(account->ref);
+    const auto entropy = f.entropy_calls;
+    REQUIRE(f.registry.live == 1);
+    const auto cancelled = f.service->handle("DELETE", ad_target(), header(login));
+    CHECK(cancelled.status == 200); CHECK(cancelled.result.is_null());
+    CHECK(cancelled.message.empty());
+    CHECK(f.registry.live == 0); CHECK(f.registry.retired == 1);
+    CHECK(f.registry.context == nullptr);
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+    failure(f.service->handle("GET", ad_target(), header(login)), 404);
+    failure(session(f, login), 404);
+    failure(f.service->handle("DELETE", ad_target(), header(login)), 404);
+    CHECK(f.entropy_calls == entropy); CHECK(f.registry.installs == 1);
+    CHECK(f.auth.access(header(login)).status == 200);
+    CHECK(f.store.find_account("76561197960265729")->ref == account->ref);
+    CHECK(f.store.wallet(account->ref) == balances);
+    CHECK_FALSE(f.store.starter_items(account->ref));
+}
+TEST_CASE("assignment DELETE unknown IDs and invalid auth preserve an active Context") {
+    for (const bool advertisement : {false, true}) {
+        Fixture f;
+        const auto login = f.login(); REQUIRE(login.status == 200);
+        if (advertisement) { REQUIRE(post(f, login).status == 200); }
+        else selected(f, login);
+        REQUIRE(f.registry.context != nullptr);
+        auto* original = f.registry.context;
+        hawken::session::Context client(hawken::session::Role::client, public_id, public_key);
+        constexpr std::array<std::uint8_t, 1> payload{3};
+        const auto packet = client.encode(payload);
+        REQUIRE(original->decode(packet) == std::vector<std::uint8_t>{3});
+        const auto reply = original->encode(payload);
+        REQUIRE(client.decode(reply) == std::vector<std::uint8_t>{3});
+        const auto sent = original->last_sent(), received = original->last_received();
+        const auto before = session(f, login).result;
+        const auto entropy = f.entropy_calls;
+        failure(f.service->handle("DELETE", ad_target(foreign_guid), header(login)), 404);
+        if (!advertisement)
+            failure(f.service->handle("DELETE", ad_target(), header(login)), 404);
+        for (const auto invalid : {"", "Basic foreign"})
+            failure(f.service->handle("DELETE", ad_target(), invalid), 401);
+        Fixture foreign("other-assignment-server");
+        const auto other_login = foreign.login(); REQUIRE(other_login.status == 200);
+        failure(f.service->handle("DELETE", ad_target(), header(other_login)), 401);
+        CHECK(f.registry.context == original); CHECK(f.registry.live == 1);
+        CHECK(f.registry.retired == 0); CHECK(f.registry.installs == 1);
+        CHECK(original->last_sent() == sent); CHECK(original->last_received() == received);
+        CHECK(session(f, login).result == before);
+        CHECK(f.service->authorize_udp(public_id)); CHECK(f.entropy_calls == entropy);
+    }
+}
+TEST_CASE("assignment DELETE rejects aliases bodies and unsupported methods without cancellation") {
+    Fixture f;
+    const auto login = f.login(); REQUIRE(login.status == 200);
+    REQUIRE(post(f, login).status == 200);
+    for (const auto& target : {ad_target()+"/", ad_target()+"?x=1",
+        std::string(ads)+"/00112233-4455-6677-8899-AABBCCDDEEFF",
+        std::string(ads)+"/00000000-0000-0000-0000-000000000000",
+        std::string(ads)+"/%30"+std::string(ad_guid).substr(1)})
+        failure(f.service->handle("DELETE", target, ""), 404);
+    for (const auto body : {" ", "{}", "null"})
+        failure(f.service->handle("DELETE", ad_target(), header(login), body), 400);
+    for (const auto method : {"POST", "PUT", "PATCH", "HEAD", "delete"})
+        failure(f.service->handle(method, ad_target(), header(login)), 405);
+    failure(f.service->handle("DELETE", "/session", header(login)), 405);
+    failure(f.service->handle("DELETE", ads, header(login)), 405);
+    CHECK(f.registry.live == 1); CHECK(f.registry.retired == 0);
+    CHECK(f.service->authorize_udp(public_id));
+    CHECK(f.service->handle("DELETE", ad_target(), header(login)).status == 200);
+}
+TEST_CASE("assignment DELETE revalidates revoked banned logged-out and expired grants") {
+    for (const int mode : {0, 1, 2, 3}) {
+        Fixture f;
+        const auto login = f.login(); REQUIRE(login.status == 200);
+        REQUIRE(post(f, login).status == 200);
+        if (mode == 0) f.verifier.active = false;
+        if (mode == 1) {
+            const auto account = f.store.find_account("76561197960265729"); REQUIRE(account);
+            f.store.set_ban(account->ref, {1000, std::nullopt, "fixture"});
+        }
+        if (mode == 2) {
+            REQUIRE(f.auth.logout(user_guid(login), header(login),
+                Json{{"AccessGrant", login.result.at("AccessGrant")}}.dump()).status == 200);
+        }
+        if (mode == 3) f.auth_now = 1900;
+        failure(f.service->handle("DELETE", ad_target(), header(login)), mode == 1 ? 403 : 401);
+        CHECK(f.registry.live == 0); CHECK(f.registry.retired == 1);
+        CHECK(f.registry.context == nullptr); CHECK_FALSE(f.service->authorize_udp(public_id));
+        CHECK(f.registry.installs == 1); CHECK(f.entropy_calls == 3);
+    }
+}
+TEST_CASE("assignment DELETE maintains expiry regression binding and active lease before ACK") {
+    for (const int mode : {0, 1, 2, 3}) {
+        Fixture f;
+        const auto login = f.login(); REQUIRE(login.status == 200);
+        REQUIRE(post(f, login).status == 200);
+        if (mode == 0) f.monotonic_now = 130;
+        if (mode == 1) f.monotonic_now = 99;
+        if (mode == 2) f.bound = false;
+        if (mode == 3) f.registry.active = false;
+        failure(f.service->handle("DELETE", ad_target(), header(login)),
+                mode == 0 ? 404 : mode == 1 ? 500 : 503);
+        CHECK(f.registry.live == 0); CHECK(f.registry.retired == 1);
+        CHECK(f.registry.context == nullptr); CHECK_FALSE(f.service->authorize_udp(public_id));
+        CHECK(f.registry.installs == 1); CHECK(f.entropy_calls == 3);
+    }
+}

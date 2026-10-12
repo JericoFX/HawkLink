@@ -6,6 +6,7 @@
 #include "hawken/menu_sync_service.hpp"
 #include "hawken/steam_local_auth.hpp"
 #include "hawken/udp_trial_runtime.hpp"
+#include "hawken/local_tcp_probe.hpp"
 #include "hawken/wreckage_trial.hpp"
 #include "hawken/master_directory.hpp"
 #include <cpp-httplib/httplib.h>
@@ -49,6 +50,7 @@ void print_help() {
         "  [--starter-profile ABSOLUTE_FILE] for the explicit local starter policy.\n"
         "  Optional UDP trial: --udp-port 1..65535 --udp-server-guid UUID --udp-region REGION\n"
         "  All three UDP options require --steam-local; handshake only, no hosted world.\n"
+        "  UDP trials also bind the original TCP establishment probe on 127.0.0.1:15520.\n"
         "  Optional world publication trial: --udp-world-root ABSOLUTE_GAME_ROOT\n"
         "  Requires all UDP options; verifies pinned original Wreckage assets before startup.\n"
         "Original Steam user and AppID 271290 license required; one auth attempt.\n"
@@ -384,6 +386,16 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
             "HawkLink Local Wreckage Trial", text(welcome.level), "HawkenDM",
             "127.0.0.1", udp_trial->port(), 1, true, false, hawken::master::MatchState::prematch}});
     }
+    // Original PortTester checks TCP establishment, independently of game UDP.
+    // Keep this loopback-only probe alive with HTTP/UDP, not with the client.
+    std::unique_ptr<hawken::tcp::LocalTcpProbe> tcp_probe;
+    if (udp_trial) {
+        try { tcp_probe = std::make_unique<hawken::tcp::LocalTcpProbe>(15520); }
+        catch (...) {
+            std::osyncstream(diagnostics.stream()) << "Local TCP probe could not start.\n" << std::flush;
+            return 1;
+        }
+    }
     // The immutable directory outlives the HTTP server and all its handlers.
     httplib::Server server;
     hawken::server::configure_server_http(server, auth, sync, inventory, menu,
@@ -420,11 +432,12 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
             }
         }
     });
-    server.set_start_handler([&diagnostics, &options, auth, inventory, menu, udp_trial] {
+    server.set_start_handler([&diagnostics, &options, auth, inventory, menu, udp_trial, &tcp_probe] {
         std::osyncstream(diagnostics.stream()) << "hawken-server http://127.0.0.1:" << options.port
             << " local_steam=" << (auth != nullptr) << " starter_inventory=" << (inventory != nullptr)
             << " menu_sync=" << (menu != nullptr)
             << " udp_bound=" << (udp_trial != nullptr && udp_trial->running())
+            << " tcp_probe_bound=" << (tcp_probe != nullptr && tcp_probe->running())
             << " gameplay=0\n" << std::flush;
     });
     if (!server.bind_to_port("127.0.0.1", options.port)) {
@@ -434,17 +447,18 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
 
     try {
         std::atomic<bool> listener_finished{false};
-        std::atomic<bool> udp_failed{false};
+        std::atomic<bool> trial_failed{false};
         std::jthread supervisor([&](std::stop_token stop) {
             while (!stop.stop_requested()
                 && !listener_finished.load(std::memory_order_relaxed)) {
                 std::error_code stop_error;
                 const bool requested_by_file = !options.stop_file.empty()
                     && std::filesystem::exists(options.stop_file, stop_error);
-                if (udp_trial && !udp_trial->running())
-                    udp_failed.store(true, std::memory_order_relaxed);
+                if ((udp_trial && !udp_trial->running())
+                    || (tcp_probe && !tcp_probe->running()))
+                    trial_failed.store(true, std::memory_order_relaxed);
                 if ((shutdown_requested.load(std::memory_order_relaxed) || requested_by_file || stop_error
-                    || udp_failed.load(std::memory_order_relaxed))
+                    || trial_failed.load(std::memory_order_relaxed))
                     && server.is_running()) {
                     server.stop();
                     return;
@@ -458,7 +472,8 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
         supervisor.request_stop();
         supervisor.join();
         server.stop();
-        if (!listened || udp_failed.load(std::memory_order_relaxed)) {
+        if (tcp_probe) tcp_probe->stop();
+        if (!listened || trial_failed.load(std::memory_order_relaxed)) {
             std::osyncstream(diagnostics.stream()) << "Local listener could not run.\n" << std::flush;
             return 1;
         }
