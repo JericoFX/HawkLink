@@ -144,6 +144,13 @@ public:
         observe(observation);
     }
 
+    void observe_worker_finished(bool exception) const noexcept {
+        LocalSteamObservation observation;
+        observation.phase = LocalSteamPhase::worker_finished;
+        observation.worker_finish = exception ? LocalSteamWorkerFinish::exception : LocalSteamWorkerFinish::normal;
+        observe(observation);
+    }
+
     bool initialize(const std::atomic<bool>& stopping) {
         if (sha256_file(api_path) != api_hash || sha256_file(client_path) != client_hash)
             return false;
@@ -298,8 +305,16 @@ private:
 
     bool alive() {
         if (!ready_) return false;
-        if (api_.pipe() != pipe_ || api_.user() != user_ || !api_.logged_on(server_)) {
+        LocalSteamContextLoss reason = LocalSteamContextLoss::none;
+        if (api_.pipe() != pipe_) reason = LocalSteamContextLoss::pipe;
+        else if (api_.user() != user_) reason = LocalSteamContextLoss::user;
+        else if (!api_.logged_on(server_)) reason = LocalSteamContextLoss::logged_off;
+        if (reason != LocalSteamContextLoss::none) {
             ready_ = false;
+            LocalSteamObservation observation;
+            observation.phase = LocalSteamPhase::context_lost;
+            observation.context_loss = reason;
+            observe(observation);
             invalidate();
             return false;
         }
@@ -468,6 +483,7 @@ private:
 
     void run() noexcept {
         NativeState state(observer_); // All API calls and observer notifications on this worker.
+        bool worker_exception = false;
         try {
             const bool initialized = state.initialize(stopping_);
             state.observe_startup(initialized);
@@ -511,9 +527,11 @@ private:
                 }
             }
         } catch (...) {
+            worker_exception = true;
             // Fixed status only; no native errors, payloads, IDs, paths or ticket diagnostics.
             if (!startup_finished_) state.observe_startup(false);
         }
+        state.observe_worker_finished(worker_exception);
         {
             std::lock_guard lock(state_mutex_);
             SecureZeroMemory(request_.ticket.data(), request_.ticket.size());

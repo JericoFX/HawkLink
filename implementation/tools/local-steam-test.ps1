@@ -112,7 +112,7 @@ function Assert-AttachedServices($Server, $Master) {
     }
     $serverStart = $Server.StartTime
     $masterStart = $Master.StartTime
-    Assert-Hash $Server.Path '43bfa17c8b6a35eca4f6cecf57196bf11818c7611f9ef8264f0b02eadedd44bf'
+    Assert-Hash $Server.Path 'fbd5bcd110bd98e7268716a2dfb3fb3527bbbd5c75a4ed433723555a29ec1e51'
     Assert-Hash $Master.Path '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
     $serverTcp = @(Get-NetTCPConnection -State Listen -LocalPort 80 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
     $serverUdp = @(Get-NetUDPEndpoint -LocalPort 7777 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
@@ -179,7 +179,7 @@ try {
     }
     if ($ownsServices) {
         Assert-Hash $masterExecutable '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
-        Assert-Hash $serverExecutable '43bfa17c8b6a35eca4f6cecf57196bf11818c7611f9ef8264f0b02eadedd44bf'
+        Assert-Hash $serverExecutable 'fbd5bcd110bd98e7268716a2dfb3fb3527bbbd5c75a4ed433723555a29ec1e51'
     }
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
@@ -427,7 +427,7 @@ try {
         $licenseOk = @($diagnostics | Where-Object { $_ -match '^steam phase=license .* license_ok=1 ' }).Count -gt 0
         $loginOk = @($diagnostics | Where-Object { $_ -eq 'http status=200 category=steam-login method=POST' }).Count -gt 0
         $shutdownOk = @($diagnostics | Where-Object {
-            $_ -match '^steam phase=shutdown .* gs_shutdown=1 gs_pipe_zero=1$'
+            $_ -match '^steam phase=shutdown .* gs_shutdown=1 gs_pipe_zero=1(?: context_loss=none worker_finish=none)?$'
         }).Count -gt 0
         $result.localSteamObserved = @{
             beginAccepted = $beginOk; callback143PackedMatchedOK = $callbackOk

@@ -304,13 +304,29 @@ public:
         case Phase::license: phase = "license"; break;
         case Phase::session_end: phase = "session-end"; break;
         case Phase::shutdown: phase = "shutdown"; break;
+        case Phase::context_lost: phase = "context_lost"; break;
+        case Phase::worker_finished: phase = "worker_finished"; break;
+        }
+        const char* context_loss = "none";
+        switch (observation.context_loss) {
+        case hawken::auth::LocalSteamContextLoss::none: break;
+        case hawken::auth::LocalSteamContextLoss::pipe: context_loss = "pipe"; break;
+        case hawken::auth::LocalSteamContextLoss::user: context_loss = "user"; break;
+        case hawken::auth::LocalSteamContextLoss::logged_off: context_loss = "logged_off"; break;
+        }
+        const char* worker_finish = "none";
+        switch (observation.worker_finish) {
+        case hawken::auth::LocalSteamWorkerFinish::none: break;
+        case hawken::auth::LocalSteamWorkerFinish::normal: worker_finish = "normal"; break;
+        case hawken::auth::LocalSteamWorkerFinish::exception: worker_finish = "exception"; break;
         }
         std::osyncstream(*stream_) << "steam phase=" << phase
             << " available=" << observation.available << " begin_ok=" << observation.begin_ok
             << " packed20=" << observation.packed20 << " identity_match=" << observation.identity_match
             << " response_ok=" << observation.response_ok << " license_ok=" << observation.license_ok
             << " gs_shutdown=" << observation.gs_shutdown_returned
-            << " gs_pipe_zero=" << observation.gs_pipe_zero << '\n' << std::flush;
+            << " gs_pipe_zero=" << observation.gs_pipe_zero
+            << " context_loss=" << context_loss << " worker_finish=" << worker_finish << '\n' << std::flush;
     }
 private:
     std::ofstream file_;
@@ -380,6 +396,10 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
         std::osyncstream(diagnostics.stream()) << "http status=" << response.status
             << " category=" << diagnostic.category << " method=" << diagnostic.method
             << '\n' << std::flush;
+        if (request.method == "POST" && request.target == "/steam/login") {
+            std::osyncstream(diagnostics.stream()) << "login claim_present="
+                << (request.get_header_value_count("X-Hawken-SteamID") != 0) << '\n' << std::flush;
+        }
         if (!trial_listing.is_null() && request.method == "GET"
             && request.path == "/gameServerListings" && response.status == 200) {
             const auto body = nlohmann::json::parse(response.body, nullptr, false);

@@ -443,6 +443,17 @@ endif()
 
 include(CTest)
 if(BUILD_TESTING)
+    add_executable(hawken-controller-sample-comparison-tests
+        tests/test_main.cpp tests/controller_sample_comparison_tests.cpp)
+    target_include_directories(hawken-controller-sample-comparison-tests PRIVATE tools)
+    target_include_directories(hawken-controller-sample-comparison-tests SYSTEM PRIVATE third_party)
+    if(MSVC)
+        target_compile_options(hawken-controller-sample-comparison-tests PRIVATE /W4 /WX /permissive- /utf-8)
+    else()
+        target_compile_options(hawken-controller-sample-comparison-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+    add_test(NAME controller_sample_comparison COMMAND hawken-controller-sample-comparison-tests)
+
     add_executable(hawken-mech-setup-reader-tests
         tests/test_main.cpp tests/mech_setup_reader_tests.cpp)
     target_include_directories(hawken-mech-setup-reader-tests PRIVATE tools)

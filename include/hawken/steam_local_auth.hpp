@@ -4,7 +4,9 @@
 #include <memory>
 
 namespace hawken::auth {
-enum class LocalSteamPhase { startup, begin, callback143, license, session_end, shutdown };
+enum class LocalSteamPhase { startup, begin, callback143, license, session_end, shutdown, context_lost, worker_finished };
+enum class LocalSteamContextLoss { none, pipe, user, logged_off };
+enum class LocalSteamWorkerFinish { none, normal, exception };
 struct LocalSteamObservation {
     LocalSteamPhase phase = LocalSteamPhase::startup;
     bool available = false;
@@ -15,6 +17,8 @@ struct LocalSteamObservation {
     bool license_ok = false;
     bool gs_shutdown_returned = false;
     bool gs_pipe_zero = false;
+    LocalSteamContextLoss context_loss = LocalSteamContextLoss::none;
+    LocalSteamWorkerFinish worker_finish = LocalSteamWorkerFinish::none;
 };
 using LocalSteamObserver = std::function<void(const LocalSteamObservation&)>;
 

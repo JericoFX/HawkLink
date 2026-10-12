@@ -3,6 +3,7 @@
 #include "hawken/sha256.hpp"
 #include "connection_cache_reader.hpp"
 #include "mech_setup_reader.hpp"
+#include "controller_sample_comparison.hpp"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <array>
@@ -199,6 +200,8 @@ std::uint64_t connection_cache_sample(Reader& reader,std::uint64_t module,Names&
     out.pointers.insert(out.pointers.end(),{connection_class,connection_vtable,connection_backref,connection_flags});
     if (connection_vtable!=add(module,0x15ccfe0) || connection_backref!=connection_class ||
         (connection_flags&0x600)!=0) fail("connection_identity_mismatch");
+    const auto archive_byte_swap=reader.read<std::uint32_t>(connection,0x164);
+    out.pointers.insert(out.pointers.end(),{connection,0x164,archive_byte_swap});
     const auto map=reader.read<std::uint64_t>(connection,0x15c);
     out.pointers.push_back(map);
     if (!map) fail("connection_absent");
@@ -214,6 +217,8 @@ std::uint64_t connection_cache_sample(Reader& reader,std::uint64_t module,Names&
         {"requested",read_cache},
         {"world_identity",world_identity},{"world_flags",world_flags},
         {"connection_identity",connection_identity},{"connection_flags",connection_flags},
+        {"archive_byte_swap_raw",archive_byte_swap},
+        {"derived_int32_byte_order",archive_byte_swap==0 ? "little" : "big"},
         {"selector_raw",reader.read<std::uint32_t>(module,0x1bc7d14)},
         {"status",primary ? (read_cache ? "cache_absent" : "not_requested") : "unsupported_variant"},
         {"classes",Json::array()}};
@@ -470,10 +475,35 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup) {
     Reader reader(process.get());
     const auto first=mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
     const auto second=mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
-    if (first!=second) fail("unstable_sample");
+    const auto comparison=hawken::probe::compare_controller_samples(
+        first.metadata,first.pointers,second.metadata,second.pointers,mech_setup);
+    if (!comparison.inspected_metadata_equal) {
+        const auto section_equal=[&](const char* key) {
+            const auto left=first.metadata.find(key);
+            const auto right=second.metadata.find(key);
+            return left==first.metadata.end() ? right==second.metadata.end() :
+                right!=second.metadata.end() && *left==*right;
+        };
+        auto first_metadata=first.metadata;
+        auto second_metadata=second.metadata;
+        first_metadata.erase("name_count");
+        second_metadata.erase("name_count");
+        const Json diagnostics={{"name_count_equal",section_equal("name_count")},
+            {"metadata_without_name_count_equal",first_metadata==second_metadata},
+            {"connection_metadata_equal",section_equal("connection_cache")},
+            {"structs_metadata_equal",section_equal("structs")},
+            {"trace_equal",first.pointers==second.pointers},
+            {"trace_size_equal",first.pointers.size()==second.pointers.size()}};
+        std::cout<<Json({{"status","inconclusive"},{"error","unstable_sample"},
+            {"identity_verified",false},{"diagnostics",diagnostics}}).dump()<<'\n';
+        return 1;
+    }
     if (!process_verified(process.get())) fail("original_identity_mismatch");
     // Agreement is not atomicity; the disk hash does not attest all loaded bytes.
-    Json report={{"status","observed"},{"identity_verified",true},{"samples_equal",true},
+    Json report={{"status","observed"},{"identity_verified",true},
+        {"samples_equal",comparison.full_samples_equal},{"full_samples_equal",comparison.full_samples_equal},
+        {"inspected_metadata_equal",comparison.inspected_metadata_equal},
+        {"name_count_changed",comparison.name_count_changed},
         {"field_ids_accepted",false},{"metadata",second.metadata}};
     std::cout<<report.dump()<<'\n';
     return 0;
