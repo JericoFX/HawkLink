@@ -7,6 +7,7 @@
 #include "hawken/steam_local_auth.hpp"
 #include "hawken/udp_trial_runtime.hpp"
 #include "hawken/wreckage_trial.hpp"
+#include "hawken/master_directory.hpp"
 #include <cpp-httplib/httplib.h>
 #include <atomic>
 #include <array>
@@ -25,6 +26,7 @@
 #include <syncstream>
 #include <thread>
 #include <utility>
+#include <vector>
 #ifdef _WIN32
 #include <windows.h>
 #include <cstdio>
@@ -335,10 +337,40 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
                hawken::inventory::InventoryService* inventory = nullptr,
                hawken::sync::MenuSyncService* menu = nullptr,
                hawken::udp::UdpTrialRuntime* udp_trial = nullptr) {
+    std::optional<hawken::master::MasterDirectory> directory;
+    if (options.steam_local && auth && udp_trial && !options.udp_world_root.empty()
+        && options.udp_trial && options.udp_trial->publication) {
+        if (!udp_trial->running()) {
+            std::osyncstream(diagnostics.stream()) << "Local UDP trial is not available.\n" << std::flush;
+            return 1;
+        }
+        const auto text = [](const hawken::control::posthello::RawString& value) {
+            if (value.form != hawken::control::posthello::StringForm::narrow
+                || value.units.size() < 2 || value.units.size() > 257 || value.units.back() != 0)
+                throw std::runtime_error("Invalid local trial listing metadata.");
+            std::string result;
+            result.reserve(value.units.size() - 1);
+            for (std::size_t index = 0; index + 1 < value.units.size(); ++index) {
+                const auto unit = value.units[index];
+                if (unit < 0x20 || unit > 0x7e)
+                    throw std::runtime_error("Invalid local trial listing metadata.");
+                result.push_back(static_cast<char>(unit));
+            }
+            return result;
+        };
+        const auto& welcome = options.udp_trial->publication->welcome;
+        // Explicit loopback Wreckage trial visibility, not a public directory
+        // registration or proof of a playable world. Keep original identifiers;
+        // no inferred browser GameType enum or map alias.
+        directory.emplace(std::vector<hawken::master::ServerMetadata>{{
+            options.udp_trial->server_guid, options.udp_trial->region, "1.6.0.154767",
+            "HawkLink Local Wreckage Trial", text(welcome.level), text(welcome.game),
+            "127.0.0.1", udp_trial->port(), 1, true, false}});
+    }
+    // The immutable directory outlives the HTTP server and all its handlers.
     httplib::Server server;
-    // No directory entry is published until a real hosted world exists.
     hawken::server::configure_server_http(server, auth, sync, inventory, menu,
-        udp_trial ? &udp_trial->assignment() : nullptr, nullptr);
+        udp_trial ? &udp_trial->assignment() : nullptr, directory ? &*directory : nullptr);
     server.set_logger([&diagnostics](const httplib::Request& request, const httplib::Response& response) {
         const auto diagnostic = hawken::http::classify_request(request.method, request.path);
         std::osyncstream(diagnostics.stream()) << "http status=" << response.status

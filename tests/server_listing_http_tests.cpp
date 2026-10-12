@@ -1,13 +1,17 @@
 #include "hawken/server_http.hpp"
 #include "hawken/master_directory.hpp"
 #include "hawken/session_assignment.hpp"
+#include "hawken/udp_trial_runtime.hpp"
 #include "test_support.hpp"
 #include <cpp-httplib/httplib.h>
 #include <doctest/doctest.h>
 #include <atomic>
 #include <memory>
+#include <optional>
 #include <string>
 #include <thread>
+#include <utility>
+#include <vector>
 
 namespace {
 using namespace hawken;
@@ -77,6 +81,53 @@ public:
     ~Listener() { server_.stop(); }
     int port() const { return port_; }
 private:
+    httplib::Server server_;
+    int port_ = -1;
+    std::jthread worker_;
+};
+class TrialListener {
+public:
+    test::TempDirectory temporary;
+    store::LocalStore store{temporary.path() / "accounts.sqlite", "trial-listing-http"};
+    Verifier verifier;
+    auth::AuthService auth{store, verifier};
+    udp::UdpTrialConfig config;
+    udp::UdpTrialRuntime runtime;
+    std::optional<master::MasterDirectory> directory;
+    explicit TrialListener(bool world = true) : config(make_config(world)), runtime(auth, config) {
+        if (config.publication) {
+            // Synthetic caller plan; no original assets or gameplay are claimed.
+            directory.emplace(std::vector<master::ServerMetadata>{{
+                config.server_guid,config.region,"1.6.0.154767","HawkLink Local Wreckage Trial",
+                "VS-Wreckage","HawkenGameContent.HawkenDM","127.0.0.1",runtime.port(),1,true,false}});
+        }
+        server::configure_server_http(server_, &auth, nullptr, nullptr, nullptr,
+            &runtime.assignment(), directory ? &*directory : nullptr);
+        port_ = server_.bind_to_any_port("127.0.0.1");
+        if (port_ < 1) throw std::runtime_error("Local trial HTTP fixture could not bind.");
+        worker_ = std::jthread([this] { server_.listen_after_bind(); });
+        server_.wait_until_ready();
+        if (!server_.is_running()) throw std::runtime_error("Local trial HTTP fixture did not start.");
+    }
+    ~TrialListener() {
+        server_.stop();
+        if (worker_.joinable()) worker_.join();
+        runtime.stop();
+    }
+    int port() const { return port_; }
+private:
+    static udp::UdpTrialConfig make_config(bool world) {
+        udp::UdpTrialConfig result{0,std::string(local_guid),"EU"};
+        if (world) {
+            game::WorldPublication plan;
+            plan.packages={{"Fixture",{1,2,3,4},{8}}};
+            using control::posthello::StringForm;
+            plan.welcome={{StringForm::narrow,std::u16string(u"VS-Wreckage",12)},
+                          {StringForm::narrow,std::u16string(u"HawkenGameContent.HawkenDM",27)}};
+            result.publication=std::move(plan);
+        }
+        return result;
+    }
     httplib::Server server_;
     int port_ = -1;
     std::jthread worker_;
@@ -164,4 +215,58 @@ TEST_CASE("Listing optional snapshot and assignment preserve their separate resp
     const auto credentials = login(read_only);
     CHECK(result(read_only.Get("/session",headers(credentials)),404).is_null());
     CHECK(directory_only.installs==0);
+}
+
+TEST_CASE("Local trial listing selects the actual bound UDP destination and preserves its session") {
+    TrialListener listener; httplib::Client client("127.0.0.1",listener.port());
+    REQUIRE(listener.runtime.running()); REQUIRE(listener.runtime.port()!=0);
+    const auto all=result(client.Get("/gameServerListings"),200);
+    REQUIRE(all.is_array()); REQUIRE(all.size()==1);
+    CHECK(all[0].at("Guid")==std::string(local_guid));
+    CHECK(all[0].at("Endpoint")=="127.0.0.1");
+    CHECK(all[0].at("Port")==std::to_string(listener.runtime.port()));
+    CHECK(all[0].at("ServerName")=="HawkLink Local Wreckage Trial");
+    CHECK(all[0].at("Map")=="VS-Wreckage");
+    CHECK(all[0].at("GameType")=="HawkenGameContent.HawkenDM");
+    CHECK(all[0].at("Region")=="EU");
+    CHECK(all[0].at("GameVersion")=="1.6.0.154767");
+    CHECK(all[0].at("MaxUsers")==1);
+    CHECK(all[0].at("IsPublicVisible")==true);
+    CHECK(all[0].at("IsMatchmakingVisible")==false);
+    CHECK(all[0].at("Users")==Json::array());
+    CHECK_FALSE(all[0].contains("SessionKey"));
+    CHECK(listener.verifier.calls==0);
+    CHECK(result(client.Get(individual),401).is_null());
+    const auto credentials=login(client); const auto authorization=headers(credentials);
+    CHECK(result(client.Get("/session",authorization),404).is_null());
+    CHECK(result(client.Get(individual,authorization),200)==all[0]);
+    const auto session=result(client.Get("/session",authorization),200);
+    CHECK(session.at("AssignedServerGuid")==std::string(local_guid));
+    CHECK(session.at("AssignedServerIp")=="127.0.0.1");
+    CHECK(session.at("AssignedServerPort")==listener.runtime.port());
+    CHECK(session.at("ClientAdvertisementGuid")=="");
+    CHECK(session.at("UserGuid")==credentials.at("UserId"));
+    CHECK(result(client.Get(individual,authorization),200)==all[0]);
+    CHECK(result(client.Get("/session",authorization),200)==session);
+    CHECK(listener.verifier.calls==1);
+    CHECK_FALSE(listener.runtime.diagnostics().hello_validated);
+    CHECK_FALSE(listener.runtime.diagnostics().world_published);
+}
+TEST_CASE("Local trial identity-only runtime does not expose a directory snapshot") {
+    TrialListener listener(false); httplib::Client client("127.0.0.1",listener.port());
+    REQUIRE(listener.runtime.running());
+    CHECK(result(client.Get("/gameServerListings"),404).is_null());
+    CHECK(result(client.Get(individual),404).is_null());
+    const auto credentials=login(client);
+    CHECK(result(client.Get("/session",headers(credentials)),404).is_null());
+}
+TEST_CASE("Local trial selection fails closed after the actual UDP listener stops") {
+    TrialListener listener; httplib::Client client("127.0.0.1",listener.port());
+    const auto credentials=login(client); const auto authorization=headers(credentials);
+    REQUIRE(result(client.Get(individual,authorization),200).is_object());
+    REQUIRE(result(client.Get("/session",authorization),200).is_object());
+    listener.runtime.stop();
+    CHECK_FALSE(listener.runtime.running());
+    CHECK(result(client.Get(individual,authorization),503).is_null());
+    CHECK(result(client.Get("/session",authorization),503).is_null());
 }

@@ -447,7 +447,7 @@ if(BUILD_TESTING)
     add_test(NAME connection_cache_reader COMMAND hawken-connection-cache-reader-tests)
 
     add_executable(hawken-server-listing-tests tests/test_main.cpp tests/server_listing_http_tests.cpp)
-    target_link_libraries(hawken-server-listing-tests PRIVATE hawken_server hawken_master)
+    target_link_libraries(hawken-server-listing-tests PRIVATE hawken_server hawken_master hawken_udp_trial_runtime)
     if(MSVC)
         target_compile_options(hawken-server-listing-tests PRIVATE /W4 /WX /permissive- /utf-8)
     else()
