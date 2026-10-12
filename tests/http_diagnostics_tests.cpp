@@ -9,6 +9,28 @@
 
 using hawken::http::classify_request;
 
+TEST_CASE("Batch diagnostics distinguish catalogue operations without exposing suffixes") {
+    for (const auto& [path, category] : std::array{
+        std::pair{"/achievementsBatch", "achievements-batch"},
+        std::pair{"/gameItemsBatch", "game-items-batch"},
+        std::pair{"/gameOffersBatch", "game-offers-batch"},
+        std::pair{"/achievementRewardBatch/private-account", "achievement-reward-batch"},
+        std::pair{"/userGameItemsBatch/private-account", "user-game-items-batch"}}) {
+        for (const auto method : {"GET", "POST", "PUT"}) {
+            std::string input(path);
+            const auto result = classify_request(method, input);
+            input.clear();
+            CHECK(result.category == category);
+            CHECK(result.method == method);
+            CHECK(result.category.find("private") == std::string_view::npos);
+        }
+    }
+    for (const auto path : {"/gameItemsBatch/private", "/GameItemsBatch",
+        "/userGameItemsBatchSuffix/private", "/achievementRewardBatch/",
+        "/gameOffersBatch?token=private", "/userGameItemsBatch/private%2Faccount"})
+        CHECK(classify_request("POST", path).category == "other");
+}
+
 TEST_CASE("HTTP diagnostics identify the eight baseline exact routes") {
     const std::array routes{
         std::pair{"/status/services/", "status-services"},

@@ -122,7 +122,7 @@ try {
         Assert-Hash (Join-Path $gameDirectory $original.name) $original.hash
     }
     Assert-Hash $masterExecutable 'a54f5163d16f0309ad2f0b829990c046a203fe6d399da9a04eb9251e85e6ffa5'
-    Assert-Hash $serverExecutable 'c8f584e2c877c4ad8bb8673ccc5c5ad2258f5ea69fe4a6e7e2a4c8d6182ef4e6'
+    Assert-Hash $serverExecutable '437e69de9f99e47820aa2c1c3d76b6d31527bfb5e3c0a382caf94217b83bcbc8'
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
     }
