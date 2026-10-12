@@ -435,6 +435,17 @@ endif()
 
 include(CTest)
 if(BUILD_TESTING)
+    add_executable(hawken-connection-cache-reader-tests
+        tests/test_main.cpp tests/connection_cache_reader_tests.cpp)
+    target_include_directories(hawken-connection-cache-reader-tests PRIVATE tools)
+    target_include_directories(hawken-connection-cache-reader-tests SYSTEM PRIVATE third_party)
+    if(MSVC)
+        target_compile_options(hawken-connection-cache-reader-tests PRIVATE /W4 /WX /permissive- /utf-8)
+    else()
+        target_compile_options(hawken-connection-cache-reader-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+    add_test(NAME connection_cache_reader COMMAND hawken-connection-cache-reader-tests)
+
     add_executable(hawken-server-listing-tests tests/test_main.cpp tests/server_listing_http_tests.cpp)
     target_link_libraries(hawken-server-listing-tests PRIVATE hawken_server hawken_master)
     if(MSVC)

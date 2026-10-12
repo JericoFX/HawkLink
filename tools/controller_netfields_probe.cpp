@@ -1,7 +1,9 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include "hawken/sha256.hpp"
+#include "connection_cache_reader.hpp"
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <array>
 #include <cstdint>
 #include <filesystem>
@@ -143,7 +145,90 @@ void instance_zero(const Name& name) {
     if (name.raw[1]!=0) throw NameInstanceError(name.raw);
 }
 Json name_json(const Name& name) { return {{"name",name.text},{"fname_raw",name.raw}}; }
-Sample sample(Reader& reader,std::uint64_t module) {
+Json class_identity(Reader& reader,Names& names,Sample& out,std::uint64_t klass,
+    std::string_view expected_name,std::string_view expected_package,const char* error) {
+    if (!klass) fail(error);
+    const auto name=names.get(klass);
+    instance_zero(name);
+    const auto outer=reader.read<std::uint64_t>(klass,0x40);
+    if (!outer) fail(error);
+    const auto package=names.get(outer);
+    instance_zero(package);
+    if (name.text!=expected_name || package.text!=expected_package || reader.read<std::uint64_t>(outer,0x40)!=0)
+        fail(error);
+    out.pointers.insert(out.pointers.end(),{klass,outer});
+    return {{"class",name_json(name)},{"package",name_json(package)}};
+}
+void connection_cache_sample(Reader& reader,std::uint64_t module,Names& names,Sample& out,
+    std::span<const hawken::probe::ExpectedClass> expected) {
+    const auto world=reader.read<std::uint64_t>(module,0x1cfffb0);
+    if (!world) fail("connection_absent");
+    const auto world_class=reader.read<std::uint64_t>(module,0x1cfff88);
+    const auto world_identity=class_identity(reader,names,out,world_class,"World","Engine","world_identity_mismatch");
+    const auto world_cdo=reader.read<std::uint64_t>(world_class,0x1d4);
+    const auto world_vtable=reader.read<std::uint64_t>(world);
+    const auto world_secondary=reader.read<std::uint64_t>(world,0x60);
+    const auto world_backref=reader.read<std::uint64_t>(world,0x50);
+    const auto world_flags=reader.read<std::uint64_t>(world,0x10);
+    if (world==world_cdo || world_vtable!=add(module,0x14e4d40) ||
+        world_secondary!=add(module,0x14e4fd0) || world_backref!=world_class ||
+        (world_flags&0x600)!=0) fail("world_identity_mismatch");
+    // TheWorld is a constructor-path name, not an invariant of every loaded map.
+    const auto driver=reader.read<std::uint64_t>(world,0x120);
+    if (!driver) fail("connection_absent");
+    // Only this driver constructor-vtable is positively bound; no UObject name/flags reads.
+    const auto driver_vtable=reader.read<std::uint64_t>(driver);
+    if (driver_vtable!=add(module,0x15cd310)) fail("driver_identity_mismatch");
+    const auto connection=reader.read<std::uint64_t>(driver,0x80);
+    if (!connection) fail("connection_absent");
+    const auto connection_class=reader.read<std::uint64_t>(module,0x1d37a98);
+    const auto connection_identity=class_identity(reader,names,out,connection_class,"TcpipConnection","IpDrv","connection_identity_mismatch");
+    const auto connection_vtable=reader.read<std::uint64_t>(connection);
+    const auto connection_backref=reader.read<std::uint64_t>(connection,0x50);
+    const auto connection_flags=reader.read<std::uint64_t>(connection,0x10);
+    if (connection_vtable!=add(module,0x15ccfe0) || connection_backref!=connection_class ||
+        (connection_flags&0x600)!=0) fail("connection_identity_mismatch");
+    const auto map=reader.read<std::uint64_t>(connection,0x15c);
+    if (!map) fail("connection_absent");
+    const auto map_vtable=reader.read<std::uint64_t>(map);
+    const auto map_backref=reader.read<std::uint64_t>(map,0x100);
+    const bool primary=map_vtable==add(module,0x15885c0);
+    if ((!primary && map_vtable!=add(module,0x15888b0)) ||
+        map_backref!=connection) fail("map_identity_mismatch");
+    // Map is not assumed to be a UObject; never inspect its +48/+50 as names/class.
+    out.pointers.insert(out.pointers.end(),{world,world_class,world_cdo,world_vtable,world_secondary,world_backref,
+        driver,driver_vtable,connection,connection_class,connection_vtable,connection_backref,map,map_vtable,map_backref});
+    Json metadata={{"variant",primary ? "primary" : "alternative"},{"present",false},
+        {"world_identity",world_identity},{"world_flags",world_flags},
+        {"connection_identity",connection_identity},{"connection_flags",connection_flags},
+        {"selector_raw",reader.read<std::uint32_t>(module,0x1bc7d14)},
+        {"status",primary ? "cache_absent" : "unsupported_variant"},{"classes",Json::array()}};
+    if (primary) {
+        const auto cache=hawken::probe::read_connection_cache(reader,map,expected);
+        out.pointers.insert(out.pointers.end(),cache.trace.begin(),cache.trace.end());
+        if (cache.present) {
+            if (cache.classes.size()!=expected.size()) fail("cache_identity_mismatch");
+            for (std::size_t i=0;i<cache.classes.size();++i) {
+                const auto& actual=cache.classes[i];
+                Json klass={{"package",packages[i]},{"class",classes[i]},
+                    {"base",actual.base},{"capacity",actual.capacity},{"fields",Json::array()}};
+                for (const auto& field:actual.fields) {
+                    const auto found=std::find(expected[i].fields.begin(),expected[i].fields.end(),field.address);
+                    if (found==expected[i].fields.end()) fail("cache_field_mismatch");
+                    const auto index=static_cast<std::size_t>(found-expected[i].fields.begin());
+                    const auto& original=out.metadata["classes"][i]["fields"][index];
+                    klass["fields"].push_back({{"name",original["name"]},{"fname_raw",original["fname_raw"]},
+                        {"id",field.id},{"secondary_value",field.secondary_value}});
+                }
+                metadata["classes"].push_back(std::move(klass));
+            }
+            metadata["present"]=true;
+            metadata["status"]="cache_observed";
+        }
+    }
+    out.metadata["connection_cache"]=std::move(metadata);
+}
+Sample sample(Reader& reader,std::uint64_t module,bool connection_cache) {
     Sample out;
     out.metadata={{"selector_raw",reader.read<std::uint32_t>(module,0x1bb640c)},{"classes",Json::array()}};
     const auto root=reader.read<std::uint64_t>(module,class_slot);
@@ -159,12 +244,14 @@ Sample sample(Reader& reader,std::uint64_t module) {
     Names names(reader,module,out);
     std::array<std::uint64_t,8> chain{},arrays{};
     std::array<std::int32_t,8> counts{};
+    std::array<hawken::probe::ExpectedClass,8> expected{};
     auto klass=root;
     std::size_t total=0;
     for (std::size_t i=0;i<chain.size();++i) {
         if (!klass) fail("class_chain_mismatch");
         for (std::size_t j=0;j<i;++j) if (chain[j]==klass) fail("class_cycle");
         chain[i]=klass;
+        expected[i].address=klass;
         const auto name=names.get(klass);
         instance_zero(name);
         const auto outer=reader.read<std::uint64_t>(klass,0x40);
@@ -197,6 +284,7 @@ Sample sample(Reader& reader,std::uint64_t module) {
             if (!field) fail("field_identity_mismatch");
             for (const auto prior:fields) if (prior==field) fail("field_cycle");
             fields.push_back(field);
+            expected[i].fields.push_back(field);
             const auto outer=reader.read<std::uint64_t>(field,0x40);
             const auto type=reader.read<std::uint64_t>(field,0x50);
             if (outer!=chain[i] || !type) fail("field_identity_mismatch");
@@ -233,9 +321,10 @@ Sample sample(Reader& reader,std::uint64_t module) {
             out.metadata["classes"][i]["fields"].push_back(std::move(entry));
         }
     }
+    if (connection_cache) connection_cache_sample(reader,module,names,out,expected);
     return out;
 }
-int observe(DWORD pid) {
+int observe(DWORD pid,bool connection_cache) {
     const Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if (!process) fail("process_unavailable");
     if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -247,7 +336,7 @@ int observe(DWORD pid) {
         module.modBaseSize<class_slot+sizeof(std::uint64_t)) fail("module_unavailable");
     const auto base=static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(module.modBaseAddr));
     Reader reader(process.get());
-    const auto first=sample(reader,base),second=sample(reader,base);
+    const auto first=sample(reader,base,connection_cache),second=sample(reader,base,connection_cache);
     if (first!=second) fail("unstable_sample");
     if (!process_verified(process.get())) fail("original_identity_mismatch");
     // Agreement is not atomicity; the disk hash does not attest all loaded bytes.
@@ -259,16 +348,17 @@ int observe(DWORD pid) {
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-controller-netfields-probe PID\n"
+        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache]\n"
             "Read-only bounded original-controller NetFields metadata; no process creation.\n";
         return 0;
     }
     DWORD pid=0;
-    if (argc!=2 || !parse_pid(argv[1],pid)) {
+    const bool connection_cache=argc==3 && std::string_view(argv[2])=="--connection-cache";
+    if ((argc!=2 && !connection_cache) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid); }
+    try { return observe(pid,connection_cache); }
     catch (const NameInstanceError& error) {
         std::cout<<Json({{"status","inconclusive"},{"error","nonoriginal_name_instance"},
             {"identity_verified",false},{"rejected_fname_raw",error.raw()}}).dump()<<'\n';
@@ -276,10 +366,13 @@ int main(int argc,char** argv) {
     }
     catch (const std::runtime_error& error) {
         // Only locally fixed codes are allowed to escape: file hashing may throw its own errors.
-        constexpr std::array<std::string_view,16> codes={"invalid_address","read_limit","read_unavailable",
+        constexpr std::array<std::string_view,27> codes={"invalid_address","read_limit","read_unavailable",
             "names_unavailable","invalid_name_index","invalid_name","nonoriginal_name_instance",
             "cdo_unavailable_or_mismatch","class_chain_mismatch","class_cycle","field_array_limit",
-            "field_identity_mismatch","field_cycle","field_type_mismatch","process_unavailable","unstable_sample"};
+            "field_identity_mismatch","field_cycle","field_type_mismatch","process_unavailable","unstable_sample",
+            "connection_absent","world_identity_mismatch","driver_identity_mismatch","connection_identity_mismatch",
+            "map_identity_mismatch","cache_identity_mismatch","cache_field_mismatch",
+            "cache_invalid","cache_limit","cache_cycle","cache_class_mismatch"};
         std::string_view code="observation_unavailable";
         for (const auto allowed:codes) if (allowed==error.what()) code=allowed;
         if (std::string_view(error.what())=="original_identity_mismatch" ||
