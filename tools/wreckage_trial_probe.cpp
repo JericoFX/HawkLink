@@ -1,5 +1,6 @@
 #include "hawken/wreckage_trial.hpp"
 #include "hawken/package_publication.hpp"
+#include "hawken/package_map_ranges.hpp"
 #include "hawken/posthello_control.hpp"
 #include <array>
 #include <cstdint>
@@ -30,7 +31,7 @@ Bytes literal_hex(std::string_view text) {
 bool verify_plan(const hawken::game::WorldPublication& plan) {
     // Original root header words/counts from original-plan-references.json.
     // This chosen order and descriptor shape are NEW local trial policy.
-    const std::array<RootMetadata,6> roots{{
+    const std::array<RootMetadata,7> roots{{
         {"Core",{0xd5e7f186U,0x445d03bfU,0x3d1bf0b3U,0xcd119059U},{1639}},
         {"Engine",{0x9355a20fU,0x4633387eU,0x428dd998U,0x28422a5bU},{36697}},
         {"HawkenGame",{0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U},{49101}},
@@ -38,7 +39,10 @@ bool verify_plan(const hawken::game::WorldPublication& plan) {
         // Original summary words at 0x49, not export counts or candidate fieldIDs.
         // controller-effective-field-cache/parent-cache-prerequisite/contract.json
         {"GameFramework",{0xe2817f91U,0x467b459dU,0x58d93694U,0x4dc980f2U},{3855}},
-        {"UDKBase",{0x0ded9ed8U,0x41917767U,0x629475b2U,0xc67624e2U},{2900}}
+        {"UDKBase",{0x0ded9ed8U,0x41917767U,0x629475b2U,0xc67624e2U},{2900}},
+        // Original BaseAI summary, not export_count2859 or class NetIndex1188.
+        // pawn-integration-readiness/baseai-original-metadata.json
+        {"BaseAI",{0xee8f1f1eU,0x4bfcc99cU,0xdd64debbU,0xb269ff11U},{3126}}
     }};
     if (plan.packages.size()!=roots.size() || plan.contained_packages.size()!=1)
         return false;
@@ -56,6 +60,17 @@ bool verify_plan(const hawken::game::WorldPublication& plan) {
         contained.package.identity!=hgc ||
         contained.package.generation_net_counts!=std::vector<std::uint32_t>{533} ||
         contained.container_name!="HawkenDM_SF")
+        return false;
+    std::vector<hawken::wire::packages::PackageGenerations> generations;
+    for (const auto& root:plan.packages)
+        generations.push_back({root.generation_net_counts,1});
+    generations.push_back({contained.package.generation_net_counts,1});
+    // Independent range oracle: old101660+BaseAI3126=104786; CDO local233.
+    // Exercise the real range consumer with matched generation COUNT1 ACKs.
+    // This is not concrete client PackageMap eligibility or actor creation.
+    const auto ranges=hawken::wire::packages::build_ranges(generations);
+    if (ranges.back().base!=104786 ||
+        hawken::wire::packages::encode_index(ranges,plan.packages.size(),233)!=105019)
         return false;
     namespace post=hawken::control::posthello;
     constexpr post::Limits limits{512,256}; // Probe work budget, not native MTU.
@@ -81,7 +96,7 @@ int run(const std::filesystem::path& game_root) {
         // Real original-asset loader; no injected checker or production hook.
         const auto plan=hawken::game::load_wreckage_trial(game_root);
         if (!verify_plan(plan)) throw std::runtime_error("plan validation failed");
-        std::cout<<"{\"plan_verified\":true,\"root_packages\":6,"
+        std::cout<<"{\"plan_verified\":true,\"root_packages\":7,"
             "\"contained_packages\":1,\"contained_archive_bytes\":73,"
             "\"welcome_archive_bytes\":48,\"client_runtime_verified\":false}\n";
         return 0;

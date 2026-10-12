@@ -4,13 +4,13 @@
 
 namespace hawken::game {
 // Read-only, explicit local trial for THIS pinned original installation.
-// game_root must be absolute. Hash all seven fixed paths beneath
+// game_root must be absolute. Hash all eight fixed paths beneath
 // HawkenGame/CookedPCConsole before returning: Core.upk, Engine.upk,
-// HawkenGame.upk, VS-Wreckage.upk, HawkenDM_SF.upk, GameFramework.upk and
-// UDKBase.upk. No caller manifest,
+// HawkenGame.upk, VS-Wreckage.upk, HawkenDM_SF.upk, GameFramework.upk,
+// UDKBase.upk and BaseAI.upk. No caller manifest,
 // alternate GUID, file mutation, network, package loading or automatic closure.
 // Returns roots Core/Engine/HawkenGame/VS-Wreckage/GameFramework/UDKBase
-// in that order, then explicit
+// then BaseAI in that order, then explicit
 // contained HawkenGameContent (export180) in HawkenDM_SF, and Welcome strings
 // VS-Wreckage / HawkenGameContent.HawkenDM. The contained GUID/generations
 // differ from the physical SF header metadata. This selected plan does not

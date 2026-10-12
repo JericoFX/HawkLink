@@ -6,9 +6,9 @@
 #include <string>
 
 namespace {
-constexpr std::array<const char*,7> package_names{
+constexpr std::array<const char*,8> package_names{
     "Core.upk","Engine.upk","HawkenGame.upk","VS-Wreckage.upk","HawkenDM_SF.upk",
-    "GameFramework.upk","UDKBase.upk"};
+    "GameFramework.upk","UDKBase.upk","BaseAI.upk"};
 const std::filesystem::path cooked="HawkenGame/CookedPCConsole";
 void expect_asset_error(const std::filesystem::path& root) {
     try { (void)hawken::game::load_wreckage_trial(root); }
@@ -60,10 +60,13 @@ TEST_CASE("Wreckage trial rejects a complete altered dummy set without changing 
     hawken::test::TempDirectory directory;
     for (const auto name:package_names)
         directory.write(cooked/name,"public synthetic package bytes");
-    directory.write(cooked/"HawkenDM_SF.upk","public synthetic package bytes altered");
+    const char* altered_name="HawkenDM_SF.upk";
+    SUBCASE("Contained HGC container altered") {}
+    SUBCASE("BaseAI prerequisite altered") { altered_name="BaseAI.upk"; }
+    directory.write(cooked/altered_name,"public synthetic package bytes altered");
     expect_asset_error(directory.path());
     for (const auto name:package_names) {
-        const auto expected=std::string(name)=="HawkenDM_SF.upk"
+        const auto expected=std::string(name)==altered_name
             ? "public synthetic package bytes altered" : "public synthetic package bytes";
         CHECK(hawken::test::read_bytes(directory.path()/cooked/name) == expected);
     }
