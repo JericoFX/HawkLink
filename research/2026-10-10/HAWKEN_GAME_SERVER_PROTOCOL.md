@@ -1,5 +1,9 @@
 # Hawken: protocolo de reserva y conexión al servidor de partida
 
+Actualización2026-10-12 — **CONFIRMADO estático, payload concreto pendiente:** en el EXE SHA `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`, ByteProperty serializer RVA0xf8f30 usa8bits sin enum; con enum deriva el ancho del count cargado (count36 daría6bits). IntProperty RVA0xf8fb0→0x3a30 transmite4bytes con orden condicionado por el Archive. StructProperty RVA0xf9020 tiene ramas especiales Vector/Rotator/Quat/Plane/UniqueNetId; los seis structs originales alcanzados desde MechSetup tienen nombres distintos. El fallback recorre Children/Next, aplica elegibilidad PackageMap+0x298 y serializa elementos sin IDs ni presencia internos. No confundir ese formato con el encabezado exterior de propiedades replicadas.
+
+Original HawkenGame.upk SHA `d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0`; [contrato con offsets, tipos y limitaciones](../../implementation/evidence/mech-struct-wire/native-members/contract.json), [revisión independiente](../../implementation/evidence/mech-struct-wire/native-members/luna-review.json) y [aceptación estática](../../implementation/evidence/mech-struct-wire/native-members/parent-acceptance.json). **NO VERIFICADO:** lista/orden cargados, elegibilidad efectiva, count del enum, orden del Archive, IDs del caché PRI y payload completo de SMechSetupStruct. Estos resultados no demuestran posesión, daño, replicación funcional ni una partida servida por Core.
+
 ## Daño de bots: discrepancia reportada, causa pendiente
 
 El usuario observa que sus armas dañan bots, pero los bots sólo le causan daño con misiles. **NO VERIFICADO en reproducción controlada:** arma exacta, impactos internos, daño efectivo, distancia y estado del jugador. No equivale a un fallo demostrado de replicación del servidor reconstruido; las pruebas anteriores de combate fueron entrenamiento nativo.
