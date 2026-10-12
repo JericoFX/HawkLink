@@ -184,6 +184,7 @@ Sample sample(Reader& reader,std::uint64_t module) {
         out.pointers.insert(out.pointers.end(),{klass,outer,arrays[i],parent});
         out.metadata["classes"].push_back({{"package",package.text},{"class",name.text},
             {"fname_raw",name.raw},{"package_fname_raw",package.raw},{"own_count",counts[i]},
+            {"net_index",reader.read<std::int32_t>(klass,0x3c)},
             {"capacity",capacity},{"fields",Json::array()}});
         klass=parent;
     }
