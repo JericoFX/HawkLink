@@ -98,8 +98,8 @@ public:
         if (config.publication) {
             // Synthetic caller plan; no original assets or gameplay are claimed.
             directory.emplace(std::vector<master::ServerMetadata>{{
-                config.server_guid,config.region,"1.6.0.154767","HawkLink Local Wreckage Trial",
-                "VS-Wreckage","HawkenGameContent.HawkenDM","127.0.0.1",runtime.port(),1,true,false}});
+                config.server_guid,config.region,"547429238","HawkLink Local Wreckage Trial",
+                "VS-Wreckage","HawkenDM","127.0.0.1",runtime.port(),1,true,false}});
         }
         server::configure_server_http(server_, &auth, nullptr, nullptr, nullptr,
             &runtime.assignment(), directory ? &*directory : nullptr);
@@ -227,9 +227,9 @@ TEST_CASE("Local trial listing selects the actual bound UDP destination and pres
     CHECK(all[0].at("Port")==std::to_string(listener.runtime.port()));
     CHECK(all[0].at("ServerName")=="HawkLink Local Wreckage Trial");
     CHECK(all[0].at("Map")=="VS-Wreckage");
-    CHECK(all[0].at("GameType")=="HawkenGameContent.HawkenDM");
+    CHECK(all[0].at("GameType")=="HawkenDM");
     CHECK(all[0].at("Region")=="EU");
-    CHECK(all[0].at("GameVersion")=="1.6.0.154767");
+    CHECK(all[0].at("GameVersion")=="547429238");
     CHECK(all[0].at("MaxUsers")==1);
     CHECK(all[0].at("IsPublicVisible")==true);
     CHECK(all[0].at("IsMatchmakingVisible")==false);

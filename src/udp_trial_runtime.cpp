@@ -104,7 +104,7 @@ struct UdpTrialRuntime::Impl {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
             assignment::Destination destination{config.server_guid, "127.0.0.1",
-                static_cast<std::int32_t>(owner->port()), config.region, "1.6.0.154767"};
+                static_cast<std::int32_t>(owner->port()), config.region, trial_game_version};
             service = std::make_unique<assignment::SessionAssignmentService>(auth, std::move(destination),
                 assignment::AssignmentPolicy{900, 0, 0},
                 [this] { return expiry_seconds(monotonic()); }, utc_seconds, random_fill,

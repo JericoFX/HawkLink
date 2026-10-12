@@ -6,6 +6,10 @@
 #include <string>
 
 namespace hawken::udp {
+// Original default matchmaking build ID: CRC32 of the Engine package GUID,
+// formatted signed-decimal by 998a10/bb9cf0. Effective override branch and
+// loaded GUID remain conditional until original-client query verification.
+inline constexpr char trial_game_version[] = "547429238";
 struct UdpTrialConfig {
     // Port0 is fixture-only. Main requires an explicit port1..65535.
     std::uint16_t port;

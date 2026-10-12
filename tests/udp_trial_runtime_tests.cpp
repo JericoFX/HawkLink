@@ -64,7 +64,7 @@ std::string authorization(const auth::AuthReply& login) {
 }
 std::string request(const auth::AuthReply& login) {
     const auto user = login.result.at("UserId").get<std::string>();
-    return Json{{"OwnerGuid", user}, {"Region", "EU"}, {"GameVersion", "1.6.0.154767"},
+    return Json{{"OwnerGuid", user}, {"Region", "EU"}, {"GameVersion", "547429238"},
                 {"Users", Json::array({user})}, {"RequestedServerGuid", std::string(guid)}}.dump();
 }
 auth::AuthReply provision(udp::UdpTrialRuntime& runtime, const auth::AuthReply& login) {
