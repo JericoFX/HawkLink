@@ -157,6 +157,8 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
         const bool profile = !profile_guid.empty(), logout = !logout_guid.empty();
         const bool initial_sync = sync && sync->supports_target(request.target);
         const bool inventory_read = inventory && inventory->supports_target(request.target);
+        const bool inventory_update = inventory && inventory->supports_update_target(request.target);
+        const bool inventory_put = inventory_update && request.method == "PUT";
         const bool menu_read = menu && menu->supports_target(request.target);
         const bool settings = menu && menu->supports_settings_target(request.target);
         const bool settings_put = settings && request.method == "PUT";
@@ -165,7 +167,7 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
             const auto text = request.get_header_value("Content-Length");
             const auto parsed = std::from_chars(text.data(), text.data() + text.size(), length);
             if (parsed.ec == std::errc::result_out_of_range ||
-                (parsed.ec == std::errc{} && length > (settings_put ? 65536U : 8192U))) {
+                (parsed.ec == std::errc{} && length > ((settings_put || inventory_put) ? 65536U : 8192U))) {
                 reply(response, 413, "Request could not be processed.", nullptr);
                 return httplib::Server::HandlerResponse::Handled;
             }
@@ -180,9 +182,9 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
             || request.target.starts_with("/gameServerListings/"));
         const bool advertisement_post = assignment_route
             && request.target == "/hawkenClientMatchmakingAdvertisements";
-        const std::string_view method = login || advertisement_post ? "POST" : logout ? "PUT" : "GET";
+        const std::string_view method = login || advertisement_post ? "POST" : (logout || inventory_update) ? "PUT" : "GET";
         if (!services && !client && !version && !login && !profile && !logout
-            && !initial_sync && !inventory_read && !menu_read && !assignment_route && !listing_route) {
+            && !initial_sync && !inventory_read && !inventory_update && !menu_read && !assignment_route && !listing_route) {
             reply(response, 404, "Route not found.", nullptr);
         } else if ((request.method == "GET" || request.method == "HEAD") &&
                    (length != 0 || request.has_header("Transfer-Encoding"))) {
@@ -191,7 +193,7 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
         } else if (request.method != method && !settings_put) {
             response.set_header("Allow", settings ? "GET, PUT" : std::string(method));
             reply(response, 405, "Method not allowed.", nullptr);
-        } else if (settings_put || advertisement_post) {
+        } else if (settings_put || inventory_put || advertisement_post) {
             return httplib::Server::HandlerResponse::Unhandled;
         } else if (assignment_route) {
             auth_reply(response, assignment->handle(request.method, request.target,
@@ -243,6 +245,22 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
                 std::string body;
                 if (!read_body(reader, response, 8192, body)) return;
                 auth_reply(response, auth->logout(user_guid(request.target, true),
+                    request.get_header_value("Authorization"), body));
+            });
+    }
+    if (inventory) {
+        server.Put(R"(/userGameItemsBroker/[0-9a-f-]{36}/[0-9a-f-]{36})",
+            [inventory](const httplib::Request& request, httplib::Response& response,
+                        const httplib::ContentReader& reader) {
+                if (request.get_header_value_count("Authorization") > 1 ||
+                    request.get_header_value_count("Content-Type") != 1 ||
+                    request.get_header_value("Content-Type") != "application/json") {
+                    reply(response, 400, "Invalid inventory request.", nullptr);
+                    return;
+                }
+                std::string body;
+                if (!read_body(reader, response, 65536, body)) return;
+                auth_reply(response, inventory->put(request.target,
                     request.get_header_value("Authorization"), body));
             });
     }

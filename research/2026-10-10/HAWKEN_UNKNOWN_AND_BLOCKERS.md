@@ -1,5 +1,11 @@
 # HAWKEN — cobertura, desconocidos y obstáculos
 
+## Guardado previo a entrada — 2026-10-12
+
+El cliente ya muestra la fila/mapa local, pero el intento de entrada observado se interrumpe al guardar el mech: Launch.log líneas718/719/721/726/728, SHA `4fafab2446c82d76a812dd72d9d52f80ecc818b34d5d26333da9af4e3d38757a`, callbackfalse/89747B85/Failed to save mech successfully. [Lectura completa de tres logs](../../implementation/evidence/client-storm-save-log-review-20261012/selected-events.json), con identificadores redactados. Leer los logs del cliente es obligatorio antes de aceptar cada ensayo nativo.
+
+[RE cerrado](../../implementation/evidence/loadout-save-request-contract/contract.json), SHA `7e8d711e883fdeed21f1f80087b7665a6e62d9e16f5bdb078e48788e322787f1`, demuestra PUT Broker de atributos Preset string→string y ACKvoid; el texto Storm del callback es fijo y no demuestra fallo de descubrimiento. [RED directo](../../implementation/evidence/loadout-save-request-contract/red-local-put.json): el backend anterior respondía404 a ruta sintética sin autenticación. La ruta protegida, persistencia SQL por instancia y overlay están ahora implementados, revisados y desplegados: [aceptación acotada](../../implementation/evidence/inventory-loadout-save/parent-acceptance.json), build0/42suites/153inputs estables. El sentinel original `empty` se acepta sólo en las 13 claves comprobadas, sin otorgar propiedad. Backend SHA `32fd3f76dd5a83d4918e47bd753b110a51a665dc10a94cc1f16ec63b13db29b3`, PID133944; Master90200 conservado. Migración4→5 mantiene las diez tablas previas y seis comprobaciones HTTP reales pasan; no se abrió Hawken tras el despliegue. **Pendiente:** aceptación real del guardado por el cliente, admisión y partida propia. AccessedNone/Temp y TextureNone previos al guardado, atribución individual de PUTs, restricciones históricas de valores y semántica merge/delete permanecen abiertos. Los multiplicadores/flags Preset opacos no son autoridad de economía/progresión.
+
 ## Estado vigente de reconstrucción — 2026-10-11
 
 Las entradas posteriores conservan resultados históricos; no deben leerse como estado actual de despliegue ni de permisos. La fuente de estado de implementación es [IMPLEMENTATION_STATUS.md](../../implementation/IMPLEMENTATION_STATUS.md).

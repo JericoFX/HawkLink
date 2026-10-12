@@ -60,7 +60,7 @@ void expect_error(StoreErrorCode code, Operation operation) {
 
 void initialize(const std::filesystem::path& path) {
     LocalStore store(path, "server-a");
-    REQUIRE(store.schema_version() == 4);
+    REQUIRE(store.schema_version() == 5);
 }
 }
 
@@ -70,11 +70,11 @@ TEST_CASE("StoreError exposes a stable code and a fixed redacted message") {
     CHECK(std::string(error.what()) == "Local store operation failed.");
 }
 
-TEST_CASE("LocalStore initializes schema four and preserves a canonical Steam text link") {
+TEST_CASE("LocalStore initializes schema five and preserves a canonical Steam text link") {
     hawken::test::TempDirectory temp;
     const auto path = temp.path() / "local.db";
     LocalStore store(path, "server-a");
-    CHECK(store.schema_version() == 4);
+    CHECK(store.schema_version() == 5);
     CHECK_FALSE(store.find_account("18446744073709551615").has_value());
     const auto account = store.get_or_create_account("18446744073709551615", 10);
     CHECK(account.ref.server_id == "server-a");
@@ -86,7 +86,7 @@ TEST_CASE("LocalStore initializes schema four and preserves a canonical Steam te
     CHECK_FALSE(store.role(account.ref).has_value());
     CHECK_FALSE(store.ban(account.ref).has_value());
     const FixtureDb fixture(path);
-    CHECK(fixture.scalar("PRAGMA user_version") == 4);
+    CHECK(fixture.scalar("PRAGMA user_version") == 5);
     CHECK(fixture.scalar("PRAGMA application_id") == 0x4841574B);
     CHECK(fixture.scalar("SELECT count(*) FROM accounts WHERE typeof(steam_id64)='text'") == 1);
     CHECK(fixture.scalar("SELECT count(*) FROM pragma_foreign_key_check") == 0);
@@ -389,7 +389,7 @@ TEST_CASE("Busy initialization leaves an empty database unmigrated and retry can
         lock.exec("ROLLBACK");
     }
     LocalStore retry(path, "server-a");
-    CHECK(retry.schema_version() == 4);
+    CHECK(retry.schema_version() == 5);
 }
 
 TEST_CASE("Corrupt databases and invalid paths return redacted storage errors") {
@@ -606,7 +606,7 @@ TEST_CASE("Frozen schema one migrates atomically preserving IDs aliases visits r
     REQUIRE(std::filesystem::copy_file(original, path));
     {
         LocalStore store(path, "server-a");
-        CHECK(store.schema_version() == 4);
+        CHECK(store.schema_version() == 5);
         const auto first = store.find_account("1");
         const auto second = store.find_account("2");
         REQUIRE(first.has_value());
@@ -622,14 +622,14 @@ TEST_CASE("Frozen schema one migrates atomically preserving IDs aliases visits r
         CHECK(store.wallet(first->ref) == WalletBalances{0, 0});
         CHECK(store.wallet(second->ref) == WalletBalances{0, 0});
         const FixtureDb fixture(path);
-        CHECK(fixture.scalar("PRAGMA user_version") == 4);
+        CHECK(fixture.scalar("PRAGMA user_version") == 5);
         CHECK(fixture.scalar("PRAGMA application_id") == 0x4841574B);
         CHECK(fixture.scalar("SELECT count(*) FROM wallets") == 2);
         CHECK(fixture.scalar("SELECT count(*) FROM pragma_foreign_key_check") == 0);
     }
     const auto before = hawken::test::read_bytes(path);
     LocalStore reopened(path, "server-a");
-    CHECK(reopened.schema_version() == 4);
+    CHECK(reopened.schema_version() == 5);
     CHECK(reopened.wallet({"server-a", 17}) == WalletBalances{0, 0});
     CHECK(hawken::test::read_bytes(path) == before);
 }
@@ -677,7 +677,7 @@ TEST_CASE("Migration cannot partially create wallets while another connection ow
         lock.exec("ROLLBACK");
     }
     LocalStore retry(path, "server-a");
-    CHECK(retry.schema_version() == 4);
+    CHECK(retry.schema_version() == 5);
     CHECK(retry.wallet({"server-a", 23}) == WalletBalances{0, 0});
 }
 
@@ -800,15 +800,15 @@ void frozen_v3(const std::filesystem::path& path) {
     fixture.exec("PRAGMA user_version=3");
 }
 }
-TEST_CASE("Frozen schema three migrates to four without rewriting balances accounts or nine owned rows") {
+TEST_CASE("Frozen schema three migrates to five without rewriting balances accounts or nine owned rows") {
     hawken::test::TempDirectory temp; const auto path=temp.path()/"v3.db"; frozen_v3(path);
-    LocalStore store(path,"server-a"); CHECK(store.schema_version()==4);
+    LocalStore store(path,"server-a"); CHECK(store.schema_version()==5);
     const auto account=store.find_account("1"); REQUIRE(account); CHECK(account->ref.local_id==17);
     CHECK(account->created_at==10); CHECK(store.wallet(account->ref)==WalletBalances{200,0});
     REQUIRE(store.starter_items(account->ref)); CHECK(store.starter_items(account->ref)->size()==9);
     CHECK(store.starter_items(account->ref)->at(0)==StarterItem{"10000000-0000-0000-0000-000000000001","20000000-0000-0000-0000-000000000001"});
     CHECK(store.game_settings(account->ref).empty());
-    const FixtureDb fixture(path); CHECK(fixture.scalar("PRAGMA user_version")==4);
+    const FixtureDb fixture(path); CHECK(fixture.scalar("PRAGMA user_version")==5);
     CHECK(fixture.scalar("SELECT count(*) FROM starter_items")==9);
     CHECK(fixture.scalar("SELECT count(*) FROM game_settings")==0);
     CHECK(fixture.scalar("SELECT count(*) FROM pragma_foreign_key_check")==0);

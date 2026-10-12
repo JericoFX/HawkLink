@@ -52,6 +52,7 @@ struct StarterItem {
 // lower, drone, ability. The caller binds type IDs to the verified catalogue.
 using StarterItems = std::array<StarterItem, 9>;
 using GameSettings = std::map<std::string, std::string, std::less<>>;
+using ItemAttributes = std::map<std::string, std::string, std::less<>>;
 struct Alias {
     std::string value;
     std::int64_t first_seen = 0;
@@ -115,6 +116,22 @@ public:
     // Grants all nine rows atomically. False means an identical replay; any
     // changed payload conflicts. Does not alter wallets or existing grants.
     bool grant_starter_items(const AccountRef& account, const StarterItems& items);
+    // Mutable opaque strings for an ALREADY owned instance, never a grant.
+    // Both operations verify account, complete starter grant and canonical
+    // nonzero instance GUID inside the store transaction. Unknown or foreign
+    // instances fail not_found; a corrupt/incomplete grant fails invalid_schema.
+    // Read with no attributes returns empty. Keys must start exactly "Preset."
+    // and follow settings UTF8/control/byte rules. Values may be empty; native
+    // SDK omission of empty strings is a producer rule, not an invented delete.
+    // Per instance: 256 pairs/update, 1024 stored keys, 262144 key+value bytes.
+    // Merge preserves omitted keys; empty/identical replay returns false. Never
+    // changes catalogue/instance IDs, graph, wallets or progression authority.
+    // Preset.ProgressionUnlockFlags/BonusXpMultiplier remain opaque text: saving
+    // them grants no entitlements and changes no wallet or XP ledger. Caller
+    // validates semantic equipment choices/references; no value interpretation.
+    ItemAttributes owned_item_attributes(const AccountRef& account, std::string_view instance_id) const;
+    bool merge_owned_item_attributes(const AccountRef& account, std::string_view instance_id,
+                                     const ItemAttributes& update);
     // Returns false only for an identical replay. A changed payload conflicts;
     // both the visit and alias observation are committed atomically.
     bool record_visit(const Visit& visit);

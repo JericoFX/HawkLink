@@ -150,10 +150,11 @@ private:
     sqlite3* db_;
     bool active_ = true;
 };
-constexpr int current_schema_version = 4;
-constexpr std::array<const char*, 10> names{
-    "server_metadata", "accounts", "aliases", "visits", "roles", "bans", "wallets", "starter_grants", "starter_items", "game_settings"};
-constexpr std::array<const char*, 10> ddl{
+constexpr int current_schema_version = 5;
+constexpr std::array<const char*, 11> names{
+    "server_metadata", "accounts", "aliases", "visits", "roles", "bans", "wallets", "starter_grants", "starter_items", "game_settings",
+    "owned_item_attributes"};
+constexpr std::array<const char*, 11> ddl{
 R"(CREATE TABLE server_metadata (
     singleton INTEGER PRIMARY KEY NOT NULL CHECK(singleton = 1),
     server_id TEXT NOT NULL CHECK(
@@ -244,6 +245,19 @@ R"(CREATE TABLE game_settings (
         length(CAST(value AS BLOB)) <= 16384
         AND instr(CAST(value AS BLOB), x'00') = 0),
     PRIMARY KEY(account_id, key)
+) STRICT)",
+R"(CREATE TABLE owned_item_attributes (
+    account_id INTEGER NOT NULL,
+    slot INTEGER NOT NULL CHECK(slot BETWEEN 0 AND 8),
+    key TEXT NOT NULL CHECK(
+        length(CAST(key AS BLOB)) BETWEEN 1 AND 256
+        AND instr(CAST(key AS BLOB), x'00') = 0
+        AND substr(key, 1, 7) = 'Preset.'),
+    value TEXT NOT NULL CHECK(
+        length(CAST(value AS BLOB)) <= 16384
+        AND instr(CAST(value AS BLOB), x'00') = 0),
+    PRIMARY KEY(account_id, slot, key),
+    FOREIGN KEY(account_id, slot) REFERENCES starter_items(account_id, slot) ON DELETE RESTRICT
 ) STRICT)"};
 struct Column { const char* name; const char* type; int not_null; int primary; };
 constexpr std::array metadata_columns{Column{"singleton", "INTEGER", 1, 1}, Column{"server_id", "TEXT", 1, 0}};
@@ -262,13 +276,16 @@ constexpr std::array starter_item_columns{Column{"account_id", "INTEGER", 1, 1},
     Column{"type_id", "TEXT", 1, 0}, Column{"instance_id", "TEXT", 1, 0}};
 constexpr std::array settings_columns{Column{"account_id", "INTEGER", 1, 1},
     Column{"key", "TEXT", 1, 2}, Column{"value", "TEXT", 1, 0}};
-const std::array<std::span<const Column>, 10> columns{
+constexpr std::array item_attribute_columns{Column{"account_id", "INTEGER", 1, 1}, Column{"slot", "INTEGER", 1, 2},
+    Column{"key", "TEXT", 1, 3}, Column{"value", "TEXT", 1, 0}};
+const std::array<std::span<const Column>, 11> columns{
     metadata_columns, account_columns, alias_columns, visit_columns, role_columns, ban_columns, wallet_columns,
-    starter_grant_columns, starter_item_columns, settings_columns};
-constexpr std::array<const char*, 6> index_names{
+    starter_grant_columns, starter_item_columns, settings_columns, item_attribute_columns};
+constexpr std::array<const char*, 7> index_names{
     "sqlite_autoindex_accounts_1", "sqlite_autoindex_aliases_1", "sqlite_autoindex_visits_1",
-    "sqlite_autoindex_starter_items_1", "sqlite_autoindex_starter_items_2", "sqlite_autoindex_game_settings_1"};
-constexpr std::array<std::size_t, 6> index_tables{1, 2, 3, 8, 8, 9};
+    "sqlite_autoindex_starter_items_1", "sqlite_autoindex_starter_items_2", "sqlite_autoindex_game_settings_1",
+    "sqlite_autoindex_owned_item_attributes_1"};
+constexpr std::array<std::size_t, 7> index_tables{1, 2, 3, 8, 8, 9, 10};
 
 void check_table(sqlite3* db, std::size_t table) {
     Statement attributes(db, "SELECT type,ncol,wr,strict FROM pragma_table_list WHERE schema='main' AND name=?");
@@ -289,9 +306,18 @@ void check_table(sqlite3* db, std::size_t table) {
         ++position;
     }
     require(position == columns[table].size());
-    Statement foreign(db, "SELECT id,seq,\"table\",\"from\",\"to\",on_update,on_delete,\"match\" FROM pragma_foreign_key_list(?, 'main')");
+    Statement foreign(db, "SELECT id,seq,\"table\",\"from\",\"to\",on_update,on_delete,\"match\" FROM pragma_foreign_key_list(?, 'main') ORDER BY id,seq");
     foreign.bind(1, names[table]);
-    if (table >= 2) {
+    if (table == 10) {
+        constexpr std::array<const char*, 2> keys{"account_id", "slot"};
+        for (std::size_t index = 0; index < keys.size(); ++index) {
+            require(foreign.row());
+            require(foreign.integer(0) == 0 && foreign.integer(1) == static_cast<std::int64_t>(index) &&
+                foreign.text(2, 64) == "starter_items" && foreign.text(3, 64) == keys[index] &&
+                foreign.text(4, 64) == keys[index] && foreign.text(5, 16) == "NO ACTION" &&
+                foreign.text(6, 16) == "RESTRICT" && foreign.text(7, 16) == "NONE");
+        }
+    } else if (table >= 2) {
         require(foreign.row());
         require(foreign.integer(0) == 0 && foreign.integer(1) == 0 && foreign.text(2, 64) == (table == 8 ? "starter_grants" : "accounts") &&
             foreign.text(3, 64) == "account_id" && foreign.text(4, 64) == (table == 8 ? "account_id" : "id") && foreign.text(5, 16) == "NO ACTION" &&
@@ -304,9 +330,9 @@ void check_table(sqlite3* db, std::size_t table) {
         require(indexes.row());
         require(indexes.integer(0) == 0 && indexes.text(1, 64) == index_names[table - 1] && indexes.integer(2) == 1 &&
             indexes.text(3, 8) == (table == 1 ? "u" : "pk") && indexes.integer(4) == 0);
-    } else if (table == 9) {
+    } else if (table == 9 || table == 10) {
         require(indexes.row());
-        require(indexes.integer(0) == 0 && indexes.text(1, 64) == index_names[5] && indexes.integer(2) == 1 &&
+        require(indexes.integer(0) == 0 && indexes.text(1, 64) == index_names[table == 9 ? 5 : 6] && indexes.integer(2) == 1 &&
             indexes.text(3, 8) == "pk" && indexes.integer(4) == 0);
     } else if (table == 8) {
         require(indexes.row());
@@ -321,7 +347,7 @@ void check_table(sqlite3* db, std::size_t table) {
 void check_index(sqlite3* db, std::size_t index) {
     Statement statement(db, "SELECT seqno,cid,name,\"desc\",coll,\"key\" FROM pragma_index_xinfo(?, 'main') ORDER BY seqno");
     statement.bind(1, index_names[index]);
-    const std::size_t keys = index == 1 || index == 4 || index == 5 ? 2 : 1;
+    const std::size_t keys = index == 6 ? 3 : index == 1 || index == 4 || index == 5 ? 2 : 1;
     for (std::size_t position = 0; position < keys; ++position) {
         const std::size_t column = index == 0 ? 1 : index == 3 ? 3 : position;
         require(statement.row());
@@ -351,10 +377,12 @@ void validate_schema(sqlite3* db, std::string_view server, int expected_version 
     const auto application = scalar(db, "PRAGMA main.application_id");
     if (version > current_schema_version || application != 0x4841574B) fail(StoreErrorCode::unsupported_schema);
     require(version == expected_version);
-    const std::size_t table_count = expected_version == 1 ? 6 : expected_version == 2 ? 7 : expected_version == 3 ? 9 : names.size();
-    const std::size_t index_count = expected_version < 3 ? 3 : expected_version == 3 ? 5 : index_names.size();
-    std::array<bool, 10> tables{};
-    std::array<bool, 6> indexes{};
+    const std::size_t table_count = expected_version == 1 ? 6 : expected_version == 2 ? 7 : expected_version == 3 ? 9 :
+        expected_version == 4 ? 10 : names.size();
+    const std::size_t index_count = expected_version < 3 ? 3 : expected_version == 3 ? 5 :
+        expected_version == 4 ? 6 : index_names.size();
+    std::array<bool, names.size()> tables{};
+    std::array<bool, index_names.size()> indexes{};
     Statement objects(db, "SELECT type,name,tbl_name,sql FROM main.sqlite_schema");
     while (objects.row()) {
         const auto type = objects.text(0, 16);
@@ -432,8 +460,21 @@ std::optional<StarterItems> read_starter_items(sqlite3* db, std::int64_t account
     validate_starter(result, StoreErrorCode::invalid_schema);
     return result;
 }
+std::int64_t require_owned_slot(sqlite3* db, std::int64_t account_id, std::string_view instance_id) {
+    require(inventory_id(instance_id), StoreErrorCode::invalid_input);
+    const auto items = read_starter_items(db, account_id);
+    require(items.has_value(), StoreErrorCode::not_found);
+    for (std::size_t slot = 0; slot < items->size(); ++slot) {
+        if ((*items)[slot].instance_id == instance_id) return static_cast<std::int64_t>(slot);
+    }
+    fail(StoreErrorCode::not_found);
+}
 void validate_settings_pair(std::string_view key, std::string_view value, StoreErrorCode code) {
     require(text_valid(key, 1, 256) && text_valid(value, 0, 16384, false), code);
+}
+void validate_attribute_pair(std::string_view key, std::string_view value, StoreErrorCode code) {
+    require(key.starts_with("Preset."), code);
+    validate_settings_pair(key, value, code);
 }
 void validate_settings_total(const GameSettings& settings, StoreErrorCode code) {
     require(settings.size() <= 1024, code);
@@ -453,6 +494,21 @@ GameSettings read_settings(sqlite3* db, std::int64_t account_id) {
     while (rows.row()) {
         auto key = rows.text(0, 256), value = rows.text(1, 16384);
         validate_settings_pair(key, value, StoreErrorCode::invalid_schema);
+        require(result.size() < 1024 && key.size() + value.size() <= 262144 - bytes);
+        bytes += key.size() + value.size();
+        require(result.emplace(std::move(key), std::move(value)).second);
+    }
+    return result;
+}
+ItemAttributes read_item_attributes(sqlite3* db, std::int64_t account_id, std::int64_t slot) {
+    Statement rows(db, "SELECT key,value FROM main.owned_item_attributes WHERE account_id=? AND slot=? ORDER BY key");
+    rows.bind(1, account_id);
+    rows.bind(2, slot);
+    ItemAttributes result;
+    std::size_t bytes = 0;
+    while (rows.row()) {
+        auto key = rows.text(0, 256), value = rows.text(1, 16384);
+        validate_attribute_pair(key, value, StoreErrorCode::invalid_schema);
         require(result.size() < 1024 && key.size() + value.size() <= 262144 - bytes);
         bytes += key.size() + value.size();
         require(result.emplace(std::move(key), std::move(value)).second);
@@ -526,8 +582,8 @@ struct LocalStore::Impl {
             metadata.bind(1, server);
             metadata.done();
             execute(db.get(), "PRAGMA main.application_id=0x4841574B");
-            execute(db.get(), "PRAGMA main.user_version=4");
-        } else if (version == 1 || version == 2 || version == 3) {
+            execute(db.get(), "PRAGMA main.user_version=5");
+        } else if (version == 1 || version == 2 || version == 3 || version == 4) {
             // Validate old scope/schema before DDL or data changes. One write
             // transaction preserves existing identities, balances and grants.
             validate_schema(db.get(), server, static_cast<int>(version));
@@ -540,8 +596,9 @@ struct LocalStore::Impl {
                 execute(db.get(), ddl[7]);
                 execute(db.get(), ddl[8]);
             }
-            execute(db.get(), ddl[9]);
-            execute(db.get(), "PRAGMA main.user_version=4");
+            if (version < 4) execute(db.get(), ddl[9]);
+            execute(db.get(), ddl[10]);
+            execute(db.get(), "PRAGMA main.user_version=5");
         }
         validate_schema(db.get(), server);
         schema_cookie = scalar(db.get(), "PRAGMA main.schema_version");
@@ -563,6 +620,47 @@ LocalStore::LocalStore(const std::filesystem::path& path, std::string server_id)
 LocalStore::~LocalStore() = default;
 LocalStore::LocalStore(LocalStore&&) noexcept = default;
 LocalStore& LocalStore::operator=(LocalStore&&) noexcept = default;
+
+ItemAttributes LocalStore::owned_item_attributes(const AccountRef& account, std::string_view instance_id) const {
+    auto& state = state_of(impl_);
+    const std::lock_guard lock(state.mutex);
+    Transaction transaction(state.db.get(), false);
+    state.check();
+    require_account(state.db.get(), state.server, account);
+    const auto slot = require_owned_slot(state.db.get(), account.local_id, instance_id);
+    auto result = read_item_attributes(state.db.get(), account.local_id, slot);
+    transaction.commit();
+    return result;
+}
+bool LocalStore::merge_owned_item_attributes(const AccountRef& account, std::string_view instance_id, const ItemAttributes& update) {
+    auto& state = state_of(impl_);
+    const std::lock_guard lock(state.mutex);
+    Transaction transaction(state.db.get(), true);
+    state.check();
+    require_account(state.db.get(), state.server, account);
+    const auto slot = require_owned_slot(state.db.get(), account.local_id, instance_id);
+    require(update.size() <= 256, StoreErrorCode::invalid_input);
+    for (const auto& [key, value] : update) validate_attribute_pair(key, value, StoreErrorCode::invalid_input);
+    const auto previous = read_item_attributes(state.db.get(), account.local_id, slot);
+    auto merged = previous;
+    for (const auto& [key, value] : update) merged.insert_or_assign(key, value);
+    validate_settings_total(merged, StoreErrorCode::invalid_input);
+    bool changed = false;
+    for (const auto& [key, value] : update) {
+        const auto existing = previous.find(key);
+        if (existing != previous.end() && existing->second == value) continue;
+        Statement row(state.db.get(), "INSERT INTO main.owned_item_attributes(account_id,slot,key,value) VALUES(?,?,?,?) "
+            "ON CONFLICT(account_id,slot,key) DO UPDATE SET value=excluded.value");
+        row.bind(1, account.local_id);
+        row.bind(2, slot);
+        row.bind(3, key);
+        row.bind(4, value);
+        row.done();
+        changed = true;
+    }
+    transaction.commit();
+    return changed;
+}
 
 GameSettings LocalStore::game_settings(const AccountRef& account) const {
     auto& state = state_of(impl_);

@@ -256,3 +256,18 @@ TEST_CASE("Remaining menu diagnostics redact account suffixes and identify absen
                            "/userGameSettings/private%2Faccount"})
         CHECK(classify_request("GET", path).category == "other");
 }
+
+TEST_CASE("Broker diagnostics identify only the public PUT family and retain no identity or body") {
+    std::string path="/userGameItemsBroker/private-account/private-item";
+    const auto diagnostic=classify_request("PUT",path);path.clear();
+    CHECK(diagnostic.category=="user-game-items-broker");CHECK(diagnostic.method=="PUT");
+    CHECK(diagnostic.category.find("private")==std::string_view::npos);
+    CHECK(diagnostic.category.find('/')==std::string_view::npos);
+    for(const auto* alias:{"/userGameItemsBroker", "/userGameItemsBroker/", "/userGameItemsBrokerSuffix/private",
+        "/UserGameItemsBroker/private", "/userGameItemsBroker/private?ticket=private",
+        "/userGameItemsBroker/private#private", "/userGameItemsBroker/private%2Fprivate"})
+        CHECK(classify_request("PUT",alias).category=="other");
+    std::string nul="/userGameItemsBroker/private";nul.push_back('\0');nul+="private";
+    CHECK(classify_request("PUT",nul).category=="other");
+    CHECK(classify_request("PUT","/userGameItems/private-account/private-item").category=="user-game-items");
+}

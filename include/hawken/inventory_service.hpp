@@ -32,6 +32,14 @@ public:
     // /userGameItems/<canonical lower-case UUID36>. No slash/query/escaped alias.
     bool supports_target(std::string_view raw_target) const;
     auth::AuthReply get(std::string_view raw_target, std::string_view authorization);
+    // Exact Broker PUT: two nonzero canonical lower-case UUID36 segments.
+    // Only the account's already-owned mech may receive a flat Preset. string
+    // map (64KiB/256 keys). References remain owned and slot-compatible. Stored
+    // scalars are opaque UI configuration, never XP/unlock/economy authority.
+    // Existing owned-list GET overlays only these attrs; no individual GET.
+    bool supports_update_target(std::string_view raw_target) const;
+    auth::AuthReply put(std::string_view raw_target, std::string_view authorization,
+                        std::string_view body);
 private:
     store::LocalStore& store_;
     auth::AuthService& auth_;

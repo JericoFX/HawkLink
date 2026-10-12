@@ -112,7 +112,7 @@ function Assert-AttachedServices($Server, $Master) {
     }
     $serverStart = $Server.StartTime
     $masterStart = $Master.StartTime
-    Assert-Hash $Server.Path 'fbd5bcd110bd98e7268716a2dfb3fb3527bbbd5c75a4ed433723555a29ec1e51'
+    Assert-Hash $Server.Path '32fd3f76dd5a83d4918e47bd753b110a51a665dc10a94cc1f16ec63b13db29b3'
     Assert-Hash $Master.Path '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
     $serverTcp = @(Get-NetTCPConnection -State Listen -LocalPort 80 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
     $serverUdp = @(Get-NetUDPEndpoint -LocalPort 7777 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
@@ -179,7 +179,7 @@ try {
     }
     if ($ownsServices) {
         Assert-Hash $masterExecutable '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
-        Assert-Hash $serverExecutable 'fbd5bcd110bd98e7268716a2dfb3fb3527bbbd5c75a4ed433723555a29ec1e51'
+        Assert-Hash $serverExecutable '32fd3f76dd5a83d4918e47bd753b110a51a665dc10a94cc1f16ec63b13db29b3'
     }
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash

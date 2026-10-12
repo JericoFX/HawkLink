@@ -619,3 +619,220 @@ TEST_CASE("FTUX optional original menu choice never seeds account decisions or c
         CHECK(offers.result.at(0).at("GameItems").size() == 9);
     }
 }
+
+namespace {
+std::string broker_path(const AuthReply& login, std::string_view instance = instance_ids[0]) {
+    return "/userGameItemsBroker/" + guid(login) + "/" + std::string(instance);
+}
+void saved_reply(const AuthReply& reply) {
+    CHECK(reply.status == 200);
+    CHECK(reply.result.is_null()); // ApiResult<void>, not an invented item DTO.
+}
+}
+TEST_CASE("Broker save is exact raw two-ID PUT and never expands individual GET") {
+    Fixture f; const auto login = f.login(); REQUIRE(login.status == 200);
+    const auto path = broker_path(login);
+    CHECK(f.inventory.supports_update_target(path));
+    CHECK_FALSE(f.inventory.supports_target(path));
+    failure(f.inventory.get(path, header(login)), 404);
+    const auto uppercase = "/userGameItemsBroker/A54C90D7-d30b-8e6b-2417-3d744d78bd17/" + std::string(instance_ids[0]);
+    for (const auto& alias : std::vector<std::string>{path+"/", path+"?x=1", path+"#x", path+"/extra",
+        uppercase, "/userGameItemsBroker/"+guid(login)+"/%34"+std::string(instance_ids[0]).substr(1),
+        "/userGameItemsBroker/"+guid(login), "/userGameItemsBroker/00000000-0000-0000-0000-000000000000/"+std::string(instance_ids[0]),
+        "/userGameItemsBroker/"+guid(login)+"/00000000-0000-0000-0000-000000000000"}) {
+        CAPTURE(alias); CHECK_FALSE(f.inventory.supports_update_target(alias));
+        failure(f.inventory.put(alias, "", "{}"), 404);
+    }
+    const auto individual = "/userGameItems/"+guid(login)+"/"+instance_ids[0];
+    CHECK_FALSE(f.inventory.supports_target(individual));
+    failure(f.inventory.get(individual, header(login)),404);
+}
+TEST_CASE("Broker cannot grant items and updates only the already owned mech slot") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+    failure(f.inventory.put(broker_path(login),header(login),R"({"Preset.Fixture":"v"})"),404);
+    CHECK_FALSE(f.store.starter_items(account->ref));
+    const auto before=f.inventory.get(owned_path(login),header(login)); REQUIRE(before.status==200);
+    for(std::size_t slot=1;slot<9;++slot)
+        failure(f.inventory.put(broker_path(login,instance_ids[slot]),header(login),R"({"Preset.Fixture":"v"})"),404);
+    failure(f.inventory.put(broker_path(login,"30000000-0000-0000-0000-000000000099"),header(login),"{}"),404);
+    CHECK(f.inventory.get(owned_path(login),header(login)).result==before.result);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+}
+TEST_CASE("Broker merges Presets and replays void ACK without modifying root identity graph or balances") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login)); REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+    fixture_sql(f.temporary.path()/"accounts.sqlite","UPDATE wallets SET hawken_points=73 WHERE account_id=1");
+    const std::string first=R"({"Preset.Fixture":"received","Preset.ProgressionUnlockFlags":"opaque-not-entitlement","Preset.BonusXpMultiplier":"opaque-not-reward"})";
+    saved_reply(f.inventory.put(broker_path(login),header(login),first));
+    saved_reply(f.inventory.put(broker_path(login),header(login),first));
+    saved_reply(f.inventory.put(broker_path(login),header(login),R"({"Preset.Fixture":"","Preset.Fixture2":"second-batch"})"));
+    saved_reply(f.inventory.put(broker_path(login),header(login),"{}"));
+    auto expected=before.result;
+    expected.at(0)["Preset.Fixture"]=""; expected.at(0)["Preset.Fixture2"]="second-batch";
+    expected.at(0)["Preset.ProgressionUnlockFlags"]="opaque-not-entitlement";
+    expected.at(0)["Preset.BonusXpMultiplier"]="opaque-not-reward";
+    const auto after=f.inventory.get(owned_path(login),header(login)); REQUIRE(after.status==200);
+    CHECK(after.result==expected); // Complete comparison preserves every immutable row/field.
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0])==hawken::store::ItemAttributes{
+        {"Preset.Fixture",""},{"Preset.Fixture2","second-batch"},
+        {"Preset.ProgressionUnlockFlags","opaque-not-entitlement"},{"Preset.BonusXpMultiplier","opaque-not-reward"}});
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{73,0});
+    CHECK(f.store.game_settings(account->ref).empty()); CHECK(f.store.visits(account->ref).empty());
+}
+TEST_CASE("Broker references bind exact existing starter roles while absent optional domains fail closed") {
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    const std::array<std::pair<const char*,std::size_t>,8> references{{
+        {"Preset.PrimaryWeapon_InstanceId_0",1},{"Preset.SecondaryWeapon_InstanceId",2},
+        {"Preset.Style.UpperPart_InstanceId",3},{"Preset.Style.MidPart_InstanceId",4},
+        {"Preset.Style.ArmPart_InstanceId",5},{"Preset.Style.LowerPart_InstanceId",6},
+        {"Preset.Style.DroneType_InstanceId",7},{"Preset.Ability_InstanceId",8}}};
+    for(const auto& [key,slot]:references) {
+        saved_reply(f.inventory.put(broker_path(login),header(login),nlohmann::json{{key,instance_ids[slot]}}.dump()));
+        failure(f.inventory.put(broker_path(login),header(login),nlohmann::json{{key,instance_ids[0]}}.dump()),400);
+        failure(f.inventory.put(broker_path(login),header(login),nlohmann::json{{key,"30000000-0000-0000-0000-000000000099"}}.dump()),400);
+    }
+    for(const auto key:{"Preset.Items1_InstanceId","Preset.Internals1_InstanceId","Preset.Style.CamoPattern_InstanceId",
+                       "Preset.Style.CockpitDecoration0_InstanceId","Preset.Unknown_InstanceId_0"}) {
+        failure(f.inventory.put(broker_path(login),header(login),nlohmann::json{{key,instance_ids[1]}}.dump()),400);
+        saved_reply(f.inventory.put(broker_path(login),header(login),nlohmann::json{{key,""}}.dump()));
+    }
+    CHECK(f.store.starter_items(f.store.find_account(fixture_id_text)->ref)==persisted_expected());
+}
+TEST_CASE("Broker rejects whole invalid batches including duplicate nested and immutable fields before commit") {
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    for(const auto& value:std::vector<std::string>{"", "[]", "null", "1", "{}garbage",
+        R"({"Preset.Fixture":1})",R"({"Preset.Fixture":true})",R"({"Preset.Fixture":null})",
+        R"({"Preset.Fixture":[]})",R"({"Preset.Fixture":{}})",R"({"Preset.Fixture":"a","Preset.Fixture":"b"})",
+        R"({"Preset.Fixture":"a","Preset.\u0046ixture":"b"})",R"({"Preset.Fixture":"a","ReadOnly_Parent":""})",
+        R"({"GameItemsGuid":"private-type"})",R"({"UserGameItemGuid":"private-instance"})",
+        R"({"ItemName":"changed"})",R"({"Version":"changed"})",R"({"preset.Fixture":"x"})",
+        R"({"Preset.Fixture\u0000":"x"})",R"({"Preset.Fixture":"x\u0000"})",
+        nlohmann::json{{"Preset.Fixture",std::string(16385,'v')}}.dump()}) {
+        CAPTURE(value.size());failure(f.inventory.put(broker_path(login),header(login),value),400);
+        CHECK(f.inventory.get(owned_path(login),header(login)).result==before.result);
+    }
+}
+TEST_CASE("Broker accepts bounded SDK batches and refuses one byte or key over the local budgets") {
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    auto keys=nlohmann::json::object();for(int i=0;i<256;++i) keys["Preset.K"+std::to_string(i)]="v";
+    saved_reply(f.inventory.put(broker_path(login),header(login),keys.dump()));
+    keys["Preset.Excess"]="v";failure(f.inventory.put(broker_path(login),header(login),keys.dump()),400);
+    auto large=nlohmann::json::object();for(int i=0;i<5;++i) large["Preset.Large"+std::to_string(i)]=std::string(12000,'x');
+    const auto unpadded=large.dump(); REQUIRE(unpadded.size()<65536);
+    // Spaces are JSON whitespace, so the wire budget tests do not evade value limits.
+    const auto exact=unpadded+std::string(65536-unpadded.size(),' ');
+    saved_reply(f.inventory.put(broker_path(login),header(login),exact));
+    failure(f.inventory.put(broker_path(login),header(login),exact+" "),400);
+    const auto after=f.inventory.get(owned_path(login),header(login));REQUIRE(after.status==200);
+    CHECK(after.result.at(0).contains("Preset.Large0"));
+    if(after.result.at(0).contains("Preset.Large0"))
+        CHECK(after.result.at(0).at("Preset.Large0")==std::string(12000,'x'));
+    CHECK_FALSE(after.result.at(0).contains("Preset.Excess"));
+}
+TEST_CASE("Broker rechecks grant account revocation expiry bans and clocks without changing items") {
+    for(const auto mode:{0,1,2,3,4,5}) {
+        CAPTURE(mode);Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+        REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+        const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+        auto authorization=header(login);int expected=401;
+        if(mode==0)authorization="";
+        if(mode==1)f.verifier.active=0;
+        if(mode==2)f.now=1900;
+        if(mode==3){f.store.set_ban(account->ref,{1000,std::nullopt,"private-ban-fixture"});expected=403;}
+        if(mode==4)f.now=999;
+        if(mode==5){f.clock_throws=true;expected=500;}
+        failure(f.inventory.put(broker_path(login),authorization,R"({"Preset.Fixture":"x"})"),expected);
+        CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+        CHECK(f.store.starter_items(account->ref)==persisted_expected());
+        CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    }
+}
+TEST_CASE("Broker rejects foreign account paths items and equipment reference identities") {
+    Fixture f;const auto first=f.login();REQUIRE(first.status==200);
+    const auto old=f.inventory.get(owned_path(first),header(first));REQUIRE(old.status==200);
+    const auto second=f.login(true);REQUIRE(second.status==200);
+    const auto own=f.inventory.get(owned_path(second),header(second));REQUIRE(own.status==200);
+    const auto own_id=own.result.at(0).at("UserGameItemGuid").get<std::string>();
+    failure(f.inventory.put(broker_path(first),header(second),"{}"),401);
+    failure(f.inventory.put(broker_path(second,instance_ids[0]),header(second),"{}"),404);
+    failure(f.inventory.put(broker_path(second,own_id),header(second),
+        nlohmann::json{{"Preset.PrimaryWeapon_InstanceId_0",instance_ids[1]}}.dump()),400);
+    CHECK(f.inventory.get(owned_path(second),header(second)).result==own.result);
+    CHECK(f.store.owned_item_attributes(f.store.find_account(fixture_id_text)->ref,instance_ids[0]).empty());
+}
+TEST_CASE("Broker Preset merge survives service store restart and does not revive an old grant") {
+    hawken::test::TempDirectory temporary;const auto path=temporary.path()/"accounts.sqlite";
+    std::string old_header; nlohmann::json expected;
+    {
+        LocalStore store(path,"inventory-server");FakeVerifier verifier;
+        AuthService auth(store,verifier,[]{return std::int64_t{1000};});InventoryService inventory(store,auth,ids(),balance(),offer_id);
+        const auto login=auth.login(R"({"SteamAuthTicket":"AABB0100"})");REQUIRE(login.status==200);
+        const auto before=inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+        old_header=header(login);expected=before.result;expected.at(0)["Preset.RestartFixture"]="opaque-received";
+        saved_reply(inventory.put(broker_path(login),old_header,R"({"Preset.RestartFixture":"opaque-received"})"));
+    }
+    LocalStore store(path,"inventory-server");FakeVerifier verifier;
+    AuthService auth(store,verifier,[]{return std::int64_t{1001};});InventoryService inventory(store,auth,ids(),balance(),offer_id);
+    const auto login=auth.login(R"({"SteamAuthTicket":"AABB0100"})");REQUIRE(login.status==200);
+    failure(inventory.put(broker_path(login),old_header,"{}"),401);
+    CHECK(inventory.get(owned_path(login),header(login)).result==expected);
+    saved_reply(inventory.put(broker_path(login),header(login),R"({"Preset.RestartFixture":"opaque-received"})"));
+    CHECK(store.starter_items(store.find_account(fixture_id_text)->ref)==persisted_expected());
+    CHECK(store.wallet(store.find_account(fixture_id_text)->ref)==hawken::store::WalletBalances{});
+}
+
+TEST_CASE("Native empty sentinel is preserved only in the thirteen helper-produced Preset fields") {
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    // Original dcad70->db7c20, not a family-based entitlement rule. The cockpit
+    // loop increments before formatting, hence indices 1..3 (not 0..2).
+    const auto sentinels=nlohmann::json::parse(R"({
+        "Preset.Items1_InstanceId":"empty","Preset.Items2_InstanceId":"empty","Preset.Items3_InstanceId":"empty",
+        "Preset.Internals1_InstanceId":"empty","Preset.Internals2_InstanceId":"empty","Preset.Internals3_InstanceId":"empty",
+        "Preset.Internals4_InstanceId":"empty","Preset.Internals5_InstanceId":"empty","Preset.Internals6_InstanceId":"empty",
+        "Preset.Style.AnimTauntType_InstanceId":"empty","Preset.Style.CockpitDecoration1_InstanceId":"empty",
+        "Preset.Style.CockpitDecoration2_InstanceId":"empty","Preset.Style.CockpitDecoration3_InstanceId":"empty"})");
+    saved_reply(f.inventory.put(broker_path(login),header(login),sentinels.dump()));
+    saved_reply(f.inventory.put(broker_path(login),header(login),sentinels.dump()));
+    auto expected=before.result;
+    for(const auto& [key,value]:sentinels.items())expected.at(0)[key]=value;
+    CHECK(f.inventory.get(owned_path(login),header(login)).result==expected);
+    const auto attributes=f.store.owned_item_attributes(account->ref,instance_ids[0]);
+    CHECK(attributes.size()==13);
+    for(const auto& entry:sentinels.items()) {
+        const auto found=attributes.find(entry.key());REQUIRE(found!=attributes.end());
+        CHECK(found->second=="empty"); // Remains opaque, not '' or a new UUID.
+    }
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    CHECK(f.store.game_settings(account->ref).empty());
+}
+TEST_CASE("Native empty sentinel does not authorize unknown indexed or direct equipment references") {
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    for(const auto* key:{"Preset.PrimaryWeapon_InstanceId_0","Preset.SecondaryWeapon_InstanceId","Preset.Ability_InstanceId",
+        "Preset.Style.UpperPart_InstanceId","Preset.Style.MidPart_InstanceId","Preset.Style.ArmPart_InstanceId",
+        "Preset.Style.LowerPart_InstanceId","Preset.Style.DroneType_InstanceId","Preset.Style.CamoPattern_InstanceId",
+        "Preset.Unknown_InstanceId","Preset.Unknown_InstanceId_0","Preset.Items0_InstanceId","Preset.Items4_InstanceId",
+        "Preset.Internals0_InstanceId","Preset.Internals7_InstanceId","Preset.Style.AnimTauntType_InstanceId_0",
+        "Preset.Style.CockpitDecoration0_InstanceId","Preset.Style.CockpitDecoration4_InstanceId"}) {
+        CAPTURE(key);
+        failure(f.inventory.put(broker_path(login),header(login),
+            nlohmann::json{{"Preset.Fixture","must-not-commit"},{key,"empty"}}.dump()),400);
+    }
+    for(const auto* value:{"EMPTY","Empty","empty "," empty"})
+        failure(f.inventory.put(broker_path(login),header(login),
+            nlohmann::json{{"Preset.Items1_InstanceId",value}}.dump()),400);
+    CHECK(f.inventory.get(owned_path(login),header(login)).result==before.result);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}

@@ -56,6 +56,7 @@ RequestDiagnostic classify_request(std::string_view method, std::string_view pat
         {"/statOverflow/", "stat-overflow"},
         {"/userStats/", "user-stats"},
         {"/userGameItems/", "user-game-items"},
+        {"/userGameItemsBroker/", "user-game-items-broker"},
         {"/userGameItemStats/", "user-game-item-stats"},
         {"/userGameTransaction/", "user-game-transaction"},
         {"/achievementRewardBatch/", "achievement-reward-batch"},
