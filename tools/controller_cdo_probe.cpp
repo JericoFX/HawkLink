@@ -14,6 +14,10 @@ constexpr wchar_t original_path[]=L"F:\\SteamLibrary\\steamapps\\common\\Hawken\
 constexpr std::string_view original_sha="4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2";
 constexpr std::uint64_t class_slot_rva=0x1d3fa68;
 constexpr std::uint64_t controller_vtable_rva=0x17b9c50;
+// Positive native PRI registration/getter and constructor bindings:
+// implementation/evidence/pri-native-prefix/contract.json.
+constexpr std::uint64_t pri_class_slot_rva=0x1d3f988;
+constexpr std::uint64_t pri_vtable_rva=0x17daa60;
 using Json=nlohmann::json;
 
 class Handle {
@@ -71,10 +75,11 @@ struct Sample {
     std::uint32_t ec=0;
     bool operator==(const Sample&) const = default;
 };
-bool sample(HANDLE process,std::uint64_t module,std::uint64_t expected_vtable,Sample& out) noexcept {
+bool sample(HANDLE process,std::uint64_t module,std::uint64_t selected_slot,
+            std::uint64_t expected_vtable,Sample& out) noexcept {
     // Positive class-storage binding only. Never create a CDO, resolve FNames,
     // inspect adjacent objects or traverse a general object/name registry.
-    if (!read_field(process,module,class_slot_rva,out.klass) || out.klass==0 ||
+    if (!read_field(process,module,selected_slot,out.klass) || out.klass==0 ||
         !read_field(process,out.klass,0x1d4,out.cdo) || out.cdo==0 ||
         !read_field(process,out.cdo,0,out.vtable) || out.vtable!=expected_vtable ||
         !read_field(process,out.cdo,0x10,out.flags) || (out.flags&0x600)!=0x200 ||
@@ -83,13 +88,16 @@ bool sample(HANDLE process,std::uint64_t module,std::uint64_t expected_vtable,Sa
     return read_field(process,out.cdo,0x3c,out.net_index) &&
         read_field(process,out.cdo,0x48,out.fname) && read_field(process,out.cdo,0xec,out.ec);
 }
-int observe(DWORD pid) {
+int observe(DWORD pid,bool pri) {
+    const auto selected_slot=pri ? pri_class_slot_rva : class_slot_rva;
+    const auto selected_vtable=pri ? pri_vtable_rva : controller_vtable_rva;
     Json report={{"status","inconclusive"},{"error","process_unavailable"},
         {"identity_verified",false},{"original_path_verified",false},{"original_hash_verified",false},
         {"module_verified",false},{"samples_equal",false},{"cdo_vtable_verified",false},
         {"class_backref_verified",false},{"cdo_flags_verified",false},
         {"net_index",nullptr},{"fname_raw",nullptr},{"cdo_flags",nullptr},
         {"observed_ec",nullptr},{"bit0",nullptr}};
+    if (pri) report["target_class"]="R_PlayerReplicationInfo";
     const auto finish=[&](const char* error) {
         report["error"]=error;
         std::cout<<report.dump()<<'\n';
@@ -106,16 +114,16 @@ int observe(DWORD pid) {
     if (!modules) return finish("module_unavailable");
     MODULEENTRY32W module{}; module.dwSize=static_cast<DWORD>(sizeof(module));
     if (!Module32FirstW(modules.get(),&module) || !same_original_path(module.szExePath) ||
-        module.modBaseSize<class_slot_rva+sizeof(std::uint64_t) ||
-        module.modBaseSize<=controller_vtable_rva)
+        module.modBaseSize<selected_slot+sizeof(std::uint64_t) ||
+        module.modBaseSize<=selected_vtable)
         return finish("module_unavailable");
     const auto base=static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(module.modBaseAddr));
     std::uint64_t expected_vtable=0;
-    if (!address(base,controller_vtable_rva,expected_vtable)) return finish("module_unavailable");
+    if (!address(base,selected_vtable,expected_vtable)) return finish("module_unavailable");
     report["module_verified"]=true;
     Sample first,second;
-    if (!sample(process.get(),base,expected_vtable,first) ||
-        !sample(process.get(),base,expected_vtable,second)) return finish("cdo_unavailable_or_mismatch");
+    if (!sample(process.get(),base,selected_slot,expected_vtable,first) ||
+        !sample(process.get(),base,selected_slot,expected_vtable,second)) return finish("cdo_unavailable_or_mismatch");
     if (first!=second) return finish("unstable_sample");
     // Repeat process identity after sampling; disk identity is not loaded-memory
     // attestation and agreement between two reads is not an atomic snapshot.
@@ -133,16 +141,18 @@ int observe(DWORD pid) {
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-controller-cdo-probe PID\n"
-            "Read-only bounded original-controller CDO observation; no process creation.\n";
+        std::cout<<"Usage: hawken-controller-cdo-probe PID [--pri]\n"
+            "Read-only bounded original-controller CDO observation; --pri selects R_PlayerReplicationInfo.\n"
+            "No process creation or memory writes.\n";
         return 0;
     }
     DWORD pid=0;
-    if (argc!=2 || !parse_pid(argv[1],pid)) {
+    const bool pri=argc==3 && std::string_view(argv[2])=="--pri";
+    if ((argc!=2 && !pri) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid); }
+    try { return observe(pid,pri); }
     catch (...) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"observation_unavailable\",\"identity_verified\":false}\n";
         return 1;
