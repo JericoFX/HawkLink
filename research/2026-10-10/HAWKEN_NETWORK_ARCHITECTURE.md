@@ -1,5 +1,11 @@
 # HAWKEN — arquitectura observada y diseño futuro
 
+## Inicialización concreta del driver — 2026-10-13
+
+**CONFIRMADO estático.** EXE SHA `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`: vtable TcpNetDriver RVA15cd310, slot298/celda15cd5a8=`c06e9e4001000000`, selecciona callback9e6ec0. Si driver+1b0 es null y el nombre UTF16+1a0 no está vacío, carga una clase compatible con NetConnection mediante0e9560; guarda el resultado y devuelve su presencia. El caller9e70e0 almacena contexto+88 y devuelve1 sin comprobar ese retorno. [Cuerpo69 instrucciones, literales y errores de arnés preservados](../../implementation/evidence/native-server-reuse-research/ghidra-driver-init-callback/parent-contract.json) y [revisión independiente](../../implementation/evidence/udp-pri-integration/luna/next-prerequisites/native-callback-and-ack-review/native-callback-and-ack-review.json).
+
+Interpretación: esta fase resuelve una **clase**, no una instancia de conexión o jugador. La correspondencia del nombre con NetConnectionClassName es **PROBABLE** por contexto; falta el binding reflejado. Las seis referencias conservadas y el scan directo E8 sólo hallan el wrapper conocido hacia4821c0; no excluyen consumidores virtuales/indirectos. Hosting seleccionado, autoridad y spawn/posesión siguen **NO VERIFICADOS**. El [protocolo de actores y MechSetup](HAWKEN_GAME_SERVER_PROTOCOL.md) mantiene sus requisitos separados. No hubo nueva ejecución del cliente ni modificación de originales.
+
 ## Reglas comunitarias y modo hardcore solicitados
 
 Requisito añadido por el usuario: permitir al operador ajustar el daño para modalidades hardcore y, cuando el cliente original lo permita, desactivar HUD, minimapa y elementos de información. **DISEÑO PENDIENTE DE IMPLEMENTACIÓN Y VALIDACIÓN:** Core aplica las reglas de partida; Creator/panel permite configurarlas; Nexus publica los metadatos de esas reglas junto al servidor y su región. No se modifica el EXE ni se parchean UPK para prometer compatibilidad.
