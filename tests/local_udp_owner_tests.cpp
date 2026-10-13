@@ -721,7 +721,8 @@ struct LoginAuthorityFixture {
                                    std::optional<udp::InitialControllerPlan> controller=std::nullopt,
                                    std::optional<game::ConnectionConfig> config=std::nullopt,
                                    std::optional<udp::InitialPawnPlan> pawn=std::nullopt,
-                                   std::optional<udp::InitialPriPlan> pri=std::nullopt)
+                                   std::optional<udp::InitialPriPlan> pri=std::nullopt,
+                                   std::optional<udp::InitialActorLinksPlan> links=std::nullopt)
         : decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
@@ -745,9 +746,9 @@ struct LoginAuthorityFixture {
                 const control::posthello::RawString& response) {
                 ++validations;
                 return decision ? decision(*this,id,response) : service->validate_login_response(id,response);
-            },std::move(publish),std::move(controller),std::move(pawn),std::move(pri));
+            },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links));
         else owner.start(std::move(authorize),{},std::move(publish),
-                            std::move(controller),std::move(pawn),std::move(pri));
+                            std::move(controller),std::move(pawn),std::move(pri),std::move(links));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -1637,4 +1638,214 @@ TEST_CASE("UDP failed Controller emission cannot send PRI or Pawn") {
     CHECK(controller_output(peer,client,200ms).bunches.empty());
     CHECK_FALSE(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pri_sent);
     CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+}
+
+
+namespace {
+udp::InitialActorLinksPlan public_links_plan() {
+    // Explicit SYNTHETIC effective field IDs/bounds, not native defaults.
+    return {3,5,8,1,6,8};
+}
+Bytes links_ack(session::Context& client,std::uint16_t packet_id,
+                const std::vector<std::uint16_t>& ids) {
+    wire::Packet packet; packet.packet_id=packet_id;
+    for (const auto id:ids) {
+        wire::PacketRecord record; record.is_ack=true; record.ack_packet_id=id;
+        packet.records.push_back(record);
+    }
+    return client.encode(wire::encode_packet(packet,256));
+}
+std::vector<std::uint16_t> links_opening_acks(const ControllerOutput& out) {
+    std::vector<std::uint16_t> ids{1,3,5,7,8};
+    ids.insert(ids.end(),out.packet_ids.begin(),out.packet_ids.end());
+    return ids;
+}
+ControllerOutput links_openings(LoginAuthorityFixture& fixture,const auth::AuthReply& login,
+                               Peer& peer,session::Context& client) {
+    controller_publication(fixture,login,peer,client);
+    peer.send(fixture.owner.port(),controller_join(client));
+    auto result=controller_output(peer,client,2000ms,3);
+    REQUIRE(result.bunches.size()==3); REQUIRE(result.packet_ids.size()==3);
+    REQUIRE(result.bunches[0].channel==7); REQUIRE(result.bunches[1].channel==9);
+    REQUIRE(result.bunches[2].channel==8);
+    REQUIRE(wait_until([&]{return fixture.owner.diagnostics().pawn_sent;}));
+    return result;
+}
+ControllerOutput links_output(Peer& peer,session::Context& client,
+                             std::chrono::milliseconds budget=200ms,std::size_t expected=2) {
+    ControllerOutput result;
+    const auto deadline=std::chrono::steady_clock::now()+budget;
+    while (std::chrono::steady_clock::now()<deadline) {
+        const auto datagram=peer.receive(20ms); if (!datagram) continue;
+        const auto packet=wire::decode_packet(client.decode(*datagram),256);
+        for (const auto& record:packet.records)
+            if (!record.is_ack && record.bunch.channel!=0 && !record.bunch.open) {
+                result.bunches.push_back(record.bunch); result.packet_ids.push_back(packet.packet_id);
+            }
+        if (result.bunches.size()>=expected) break;
+    }
+    return result;
+}
+void links_literals(const ControllerOutput& out) {
+    REQUIRE(out.bunches.size()==2);
+    // Independent LSB fields: (3/8,channel9),(5/8,channel8) and
+    // (1/8,channel7),(6/8,channel9). Two15-bit fields, no alignment/terminator.
+    CHECK(out.bunches[0].channel==7); CHECK(out.bunches[0].sequence==43);
+    CHECK(out.bunches[0].payload==hex("9b804600")); CHECK(out.bunches[0].payload_bits==30);
+    CHECK(out.bunches[1].channel==8); CHECK(out.bunches[1].sequence==73);
+    CHECK(out.bunches[1].payload==hex("79004f00")); CHECK(out.bunches[1].payload_bits==30);
+    for (const auto& bunch:out.bunches) {
+        CHECK(bunch.reliable); CHECK(bunch.channel_type==2);
+        CHECK_FALSE(bunch.control); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    }
+    REQUIRE(out.packet_ids.size()==2); CHECK(out.packet_ids[1]>out.packet_ids[0]);
+}
+}
+TEST_CASE("UDP actor links wait for all three exact opening ACKs and send two literal batches once") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    CHECK(links_output(peer,client).bunches.empty());
+    // Acknowledge Controller and Pawn, leaving PRI's exact opening pending.
+    auto partial=links_opening_acks(openings); partial.erase(partial.begin()+6);
+    peer.send(f.owner.port(),links_ack(client,5,partial));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().closed);
+    const auto previous=client.last_received();
+    peer.send(f.owner.port(),links_ack(client,6,{openings.packet_ids[1]}));
+    const auto out=links_output(peer,client,2000ms); links_literals(out);
+    CHECK(client.last_received()>previous); CHECK(f.service->authorize_udp(public_id));
+    peer.send(f.owner.port(),links_ack(client,7,links_opening_acks(openings)));
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK(links_output(peer,client).bunches.empty()); // Worker ticks do not repeat batches.
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP actor links ACK for a control-only packet does not confirm actor openings") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    // Public fixture11 precedes all three actor openings and carries control ACKs.
+    REQUIRE(openings.packet_ids.front()>11);
+    peer.send(f.owner.port(),links_ack(client,5,{1,3,5,7,8,11}));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().closed);
+    peer.send(f.owner.port(),links_ack(client,6,openings.packet_ids));
+    links_literals(links_output(peer,client,2000ms));
+}
+TEST_CASE("UDP actor links copied IDs survive caller mutation and confirmed seeds still wait for openings ACK") {
+    auto controller=public_controller_plan(); auto pri=public_pri_plan(); auto pawn=public_pawn_plan();
+    controller.channel.open_confirmed=true; pri.channel.open_confirmed=true; pawn.channel.open_confirmed=true;
+    auto plan=public_links_plan();
+    LoginAuthorityFixture f({},true,controller_publisher(),controller,{},pawn,pri,plan);
+    plan={0,0,0,0,0,0}; controller.channel.channel=20; pri.channel.channel=21; pawn.channel.channel=22;
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    CHECK(links_output(peer,client).bunches.empty());
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(openings)));
+    links_literals(links_output(peer,client,2000ms));
+}
+TEST_CASE("UDP actor links absent plan preserves three initial actors without property batches") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(openings)));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP actor links require all plans and both callbacks before retryable start") {
+    for (unsigned missing=0;missing<5;++missing) {
+        CAPTURE(missing);
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        udp::LocalUdpOwner::LoginResponseValidator validator;
+        udp::LocalUdpOwner::PublicationProvider publisher;
+        if (missing!=0) validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        if (missing!=1) publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};};
+        std::optional<udp::InitialControllerPlan> controller=public_controller_plan();
+        std::optional<udp::InitialPriPlan> pri=public_pri_plan();
+        std::optional<udp::InitialPawnPlan> pawn=public_pawn_plan();
+        if (missing==2) controller.reset(); if (missing==3) pri.reset(); if (missing==4) pawn.reset();
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,publisher,
+            controller,pawn,pri,public_links_plan());},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if (owner.running()) { owner.stop(); continue; } // RED ignored-plan cleanup.
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;}));
+        CHECK(owner.running()); owner.stop();
+    }
+}
+TEST_CASE("UDP actor links invalid field IDs bounds or either batch budget leave start retryable") {
+    for (unsigned invalid=0;invalid<8;++invalid) {
+        CAPTURE(invalid);
+        auto plan=public_links_plan(); auto config=authority_skeleton();
+        switch (invalid) {
+        case 0: plan.controller_exclusive_bound=0; break;
+        case 1: plan.pawn_exclusive_bound=0; break;
+        case 2: plan.controller_pawn_field_id=plan.controller_pri_field_id; break;
+        case 3: plan.pawn_pri_field_id=plan.pawn_controller_field_id; break;
+        case 4: plan.controller_pri_field_id=8; break;
+        case 5: plan.pawn_pri_field_id=8; break;
+        case 6: config.transport.max_packet_bytes=8; plan.controller_exclusive_bound=0xffffffffU;
+            plan.controller_pri_field_id=0x80000000U; plan.controller_pawn_field_id=0x80000001U; break;
+        case 7: config.transport.max_packet_bytes=8; plan.pawn_exclusive_bound=0xffffffffU;
+            plan.pawn_controller_field_id=0x80000000U; plan.pawn_pri_field_id=0x80000001U; break;
+        }
+        udp::LocalUdpOwner owner(0,config,[]{return 100.0;},5ms);
+        auto validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        auto publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};};
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,publisher,
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),plan);},
+            udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if (owner.running()) { owner.stop(); continue; }
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;}));
+        CHECK(owner.running()); owner.stop();
+    }
+}
+TEST_CASE("UDP actor links do not send after actor close revocation control failure or stopping") {
+    for (unsigned terminal=0;terminal<4;++terminal) {
+        CAPTURE(terminal);
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan());
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        const auto openings=links_openings(f,login,peer,client);
+        if (terminal==3) f.owner.stop();
+        else {
+            auto ids=links_opening_acks(openings);
+            wire::Packet packet; packet.packet_id=5;
+            for (const auto id:ids) { wire::PacketRecord ack; ack.is_ack=true; ack.ack_packet_id=id; packet.records.push_back(ack); }
+            if (terminal==0) {
+                wire::PacketRecord closing; auto& bunch=closing.bunch;
+                bunch.channel=8; bunch.channel_type=2; bunch.reliable=true;
+                bunch.control=true; bunch.close=true; bunch.sequence=1;
+                packet.records.push_back(closing);
+            } else if (terminal==1) f.verifier.active=false;
+            else {
+                wire::PacketRecord failure;
+                failure.bunch.channel=0; failure.bunch.channel_type=1; failure.bunch.reliable=true;
+                // Public control Failure6, next channel0 reliable sequence after Join.
+                failure.bunch.sequence=6; failure.bunch.payload=hex("0600000000");
+                failure.bunch.payload_bits=40; packet.records.push_back(failure);
+            }
+            peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+        }
+        CHECK(links_output(peer,client).bunches.empty());
+        if (terminal!=0) CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    }
+}
+
+TEST_CASE("UDP actor links inbound openings are not outgoing ACKs and original ACKs still release links") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    wire::Packet packet; packet.packet_id=5;
+    for (const auto channel:{7,9,8}) {
+        wire::PacketRecord record; auto& bunch=record.bunch;
+        bunch.channel=static_cast<std::uint16_t>(channel); bunch.channel_type=2;
+        bunch.reliable=true; bunch.control=true; bunch.open=true; bunch.sequence=1;
+        bunch.payload={0}; bunch.payload_bits=8; packet.records.push_back(record);
+    }
+    peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().closed);
+    peer.send(f.owner.port(),links_ack(client,6,links_opening_acks(openings)));
+    links_literals(links_output(peer,client,2000ms));
 }

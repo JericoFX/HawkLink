@@ -65,6 +65,19 @@ struct InitialPawnPlan {
 // PlayerController. The caller supplies the concrete PRI archetype and rotation.
 using InitialPriPlan = InitialPawnPlan;
 
+// Explicit effective scalar ObjectProperty IDs on the PRIMARY PackageMap.
+// Caller establishes eligibility, ArrayDim1 and expected object classes; this
+// plan does not discover fields, select native defaults or prove possession.
+struct InitialActorLinksPlan {
+    std::uint32_t controller_pri_field_id;
+    std::uint32_t controller_pawn_field_id;
+    std::uint32_t controller_exclusive_bound;
+    std::uint32_t pawn_controller_field_id;
+    std::uint32_t pawn_pri_field_id;
+    std::uint32_t pawn_exclusive_bound;
+};
+
+
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
 // Exclusive IPv4 127.0.0.1 bind. Production callers supply a nonzero port;
 // port0 is reserved for isolated fixtures and port() publishes getsockname.
@@ -148,11 +161,20 @@ public:
     // PRI failure retires after Use, preserving controller_sent and skipping Pawn.
     // pri_sent requires nonempty successful datagrams and no stopping after send;
     // it does not prove client actor creation or PlayerReplicationInfo bindings.
+    // Optional copied links require all three actor plans and both callbacks.
+    // Positive per-class bounds, distinct IDs below each bound and encodable
+    // batches are validated before start commit. References use those plans'
+    // channels. Own conservative sequencing waits for all three real opening
+    // PacketIDs plus outgoing_open_acked, nonclosed snapshots, then sends exactly
+    // one Controller batch and one Pawn batch on the SAME Use/Context. Both
+    // payloads are composed before either send; partial failure retires after
+    // Use. ACK/transmission is not native creation, linkage or possession proof.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
                std::optional<InitialControllerPlan> controller = std::nullopt,
                std::optional<InitialPawnPlan> pawn = std::nullopt,
-               std::optional<InitialPriPlan> pri = std::nullopt);
+               std::optional<InitialPriPlan> pri = std::nullopt,
+               std::optional<InitialActorLinksPlan> links = std::nullopt);
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied

@@ -525,6 +525,9 @@ void GameConnection::register_actor_channel(const wire::reliable::ActorChannelCo
         fail(ConnectionErrorCode::crypto_failure);
     }
 }
+std::optional<wire::reliable::ChannelSnapshot> GameConnection::channel_snapshot(std::uint16_t channel) const {
+    return impl_->transport.channel_snapshot(channel);
+}
 ConnectionStep GameConnection::send_actor(const wire::Bunch& bunch, double now) {
     impl_->check_time(now);
     if (impl_->publication!=PublicationState::join_requested)

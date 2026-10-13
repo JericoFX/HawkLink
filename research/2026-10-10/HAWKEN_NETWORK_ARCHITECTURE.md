@@ -1,5 +1,11 @@
 # HAWKEN — arquitectura observada y diseño futuro
 
+## Enlaces iniciales y siguiente integración — 2026-10-13
+
+LocalUdpOwner dispone de un plan opcional explícito para Controller.PRI, Controller.Pawn, Pawn.Controller y Pawn.PRI, sobre la conexión autenticada existente. El caller aporta IDs/bounds elegibles del mapa PRIMARY; el Owner no descubre ni impone IDs nativos. La secuencia conservadora espera evidencia del ACK exacto saliente de las tres aperturas y publica dos batches fiables, uno por Controller y Pawn. Estado de apertura inicial o apertura entrante no sustituye ese ACK. Véase [protocolo y premisas originales](HAWKEN_GAME_SERVER_PROTOCOL.md).
+
+Main/UDPTrialRuntime todavía no transmiten ese plan; tampoco materializan el preset MechSetup, cierran el ciclo ready/ClientRestart/posesión o ejecutan una partida propia. La siguiente integración debe trasladar el plan probado y el preset autoritativo sin inventar metadatos, demostrar el mapa/caché y continuar la cadena de posesión. El hosting/autoridad nativos son una investigación separada; los callbacks de driver descritos debajo no resuelven por sí solos el jugador. Los servicios vivos conservan la versión desplegada anterior. No se abrió Hawken ni se repitió tutorial en esta tanda.
+
 ## Inicialización concreta del driver — 2026-10-13
 
 **CONFIRMADO estático.** EXE SHA `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`: vtable TcpNetDriver RVA15cd310, slot298/celda15cd5a8=`c06e9e4001000000`, selecciona callback9e6ec0. Si driver+1b0 es null y el nombre UTF16+1a0 no está vacío, carga una clase compatible con NetConnection mediante0e9560; guarda el resultado y devuelve su presencia. El caller9e70e0 almacena contexto+88 y devuelve1 sin comprobar ese retorno. [Cuerpo69 instrucciones, literales y errores de arnés preservados](../../implementation/evidence/native-server-reuse-research/ghidra-driver-init-callback/parent-contract.json) y [revisión independiente](../../implementation/evidence/udp-pri-integration/luna/next-prerequisites/native-callback-and-ack-review/native-callback-and-ack-review.json).

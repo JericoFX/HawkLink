@@ -105,6 +105,12 @@ public:
     GameConnection(GameConnection&&) = delete;
     GameConnection& operator=(GameConnection&&) = delete;
     ConnectionSnapshot snapshot() const noexcept;
+    // Pure channel metadata for the Owner's ACK-gated link consumer. Unknown
+    // channels return nullopt; closed tombstones remain observable, including
+    // historical snapshots after connection close. No time/nonce mutation or
+    // implied native actor lookup, property eligibility or spawn acceptance.
+    std::optional<wire::reliable::ChannelSnapshot> channel_snapshot(std::uint16_t channel) const;
+
 
     // Validates finite>=0 monotonic caller time and size BEFORE Context.decode.
     // Size/time/authentication/replay rejections preserve handshake/clock and

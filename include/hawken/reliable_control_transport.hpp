@@ -61,6 +61,11 @@ struct ChannelSnapshot {
     std::size_t incoming_bunches = 0;
     std::size_t queued_payload_bytes = 0;
     std::optional<double> incoming_blocked_since;
+    // Own observational metadata, NOT a native bit or an inferred seed. True
+    // only after exact ACK of an outgoing open's current association or its
+    // original outgoing PacketID (preserved independently of inbound opens).
+    // Historical on a closed tombstone; consumers must also check !closed.
+    bool outgoing_open_acked = false;
     bool operator==(const ChannelSnapshot&) const = default;
 };
 
@@ -196,6 +201,8 @@ private:
     };
     struct ChannelState {
         ChannelSnapshot view;
+        // Own outgoing identity; inbound opens may overwrite the native view.
+        std::optional<std::uint32_t> outgoing_opening_packet_id;
         std::vector<PendingOutgoing> outgoing;
         std::vector<PendingIncoming> incoming;
     };

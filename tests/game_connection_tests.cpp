@@ -1772,3 +1772,36 @@ TEST_CASE("Unreliable actor traffic cannot reopen a closed reliable actor channe
     const auto before=c.snapshot();
     expect_error([&]{c.send_actor(payload,99);},ConnectionErrorCode::terminal_state); CHECK(c.snapshot()==before);
 }
+
+
+TEST_CASE("Actor channel snapshot exposes exact opening ACK and tombstone without query side effects") {
+    const auto cfg=publication_config(); game::GameConnection c(cfg);
+    session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    joined_actor(c,client,cfg.endian); ack_all_control(c,client);
+    CHECK_FALSE(c.channel_snapshot(8)); c.register_actor_channel(actor_config());
+    const auto registered=c.channel_snapshot(7); REQUIRE(registered);
+    CHECK_FALSE(registered->opening_packet_id); CHECK_FALSE(registered->open_confirmed);
+    const auto sent=c.send_actor(actor_payload(),7); const auto out=publication_inspect(client,sent);
+    REQUIRE(out.packets.size()==1);
+    const auto before=c.snapshot(); const auto pending=c.channel_snapshot(7); REQUIRE(pending);
+    CHECK(c.channel_snapshot(7)==pending); CHECK(c.snapshot()==before);
+    CHECK(pending->opening_packet_id==out.packets.front().packet_id); CHECK_FALSE(pending->open_confirmed);
+    CHECK_FALSE(pending->outgoing_open_acked);
+    wire::Packet packet; packet.packet_id=6; wire::PacketRecord ack; ack.is_ack=true;
+    ack.ack_packet_id=out.packets.front().packet_id; packet.records.push_back(ack);
+    const auto received=c.receive(client.encode(wire::encode_packet(packet,512)),8);
+    publication_inspect(client,received); const auto confirmed=c.channel_snapshot(7); REQUIRE(confirmed);
+    CHECK(confirmed->open_confirmed); CHECK(confirmed->outgoing_open_acked); CHECK_FALSE(confirmed->closed);
+    const auto stable=c.snapshot(); CHECK(c.channel_snapshot(7)==confirmed); CHECK(c.snapshot()==stable);
+    const auto closing=c.send_actor(actor_payload(0,false,true),9);
+    REQUIRE_FALSE(closing.datagrams.empty());
+    const auto previous_nonce=received.datagrams.empty() ? rejection_counter(sent.datagrams.back())
+        : rejection_counter(received.datagrams.back());
+    CHECK(rejection_counter(closing.datagrams.front())==previous_nonce+1);
+    const auto close_out=publication_inspect(client,closing); REQUIRE(close_out.packets.size()==1);
+    packet.packet_id=7; packet.records.front().ack_packet_id=close_out.packets.front().packet_id;
+    const auto closed=c.receive(client.encode(wire::encode_packet(packet,512)),10);
+    publication_inspect(client,closed); CHECK_FALSE(closed.closed);
+    const auto tombstone=c.channel_snapshot(7); REQUIRE(tombstone); CHECK(tombstone->closed);
+    const auto final=c.snapshot(); CHECK(c.channel_snapshot(7)==tombstone); CHECK(c.snapshot()==final);
+}

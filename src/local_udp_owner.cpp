@@ -11,6 +11,7 @@
 #endif
 #include "hawken/local_udp_owner.hpp"
 #include "hawken/initial_pawn.hpp"
+#include "hawken/object_property_wire.hpp"
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -136,6 +137,18 @@ private:
     bool initialized_=false;
 #endif
 };
+std::array<wire::property::PropertyPayload,2> link_payloads(
+    const InitialActorLinksPlan& plan,std::uint16_t controller,std::uint16_t pri,
+    std::uint16_t pawn,std::size_t max_bits) {
+    const std::array controller_fields{
+        wire::property::ObjectProperty{plan.controller_pri_field_id,wire::object::ActorChannelReference{pri}},
+        wire::property::ObjectProperty{plan.controller_pawn_field_id,wire::object::ActorChannelReference{pawn}}};
+    const std::array pawn_fields{
+        wire::property::ObjectProperty{plan.pawn_controller_field_id,wire::object::ActorChannelReference{controller}},
+        wire::property::ObjectProperty{plan.pawn_pri_field_id,wire::object::ActorChannelReference{pri}}};
+    return {wire::property::encode_object_properties(controller_fields,plan.controller_exclusive_bound,max_bits),
+        wire::property::encode_object_properties(pawn_fields,plan.pawn_exclusive_bound,max_bits)};
+}
 struct Entry {
     session::SessionId id;
     std::unique_ptr<game::GameConnection> connection;
@@ -144,6 +157,7 @@ struct Entry {
     bool active=false,published=false;
     std::size_t users=0;
     std::optional<sockaddr_in> peer;
+    bool links_sent=false; // Worker-only per-session emission state, not a diagnostic gate.
     Entry(const session::SessionId& value,std::unique_ptr<game::GameConnection> conn)
         : id(value),connection(std::move(conn)) {}
     ~Entry() { erase(id); }
@@ -249,6 +263,7 @@ struct LocalUdpOwner::Impl {
     std::optional<InitialControllerPlan> controller_plan;
     std::optional<InitialPawnPlan> pawn_plan;
     std::optional<InitialPriPlan> pri_plan;
+    std::optional<InitialActorLinksPlan> links_plan;
     std::thread worker;
 
     Impl(std::uint16_t port,const game::ConnectionConfig& cfg,Clock value,std::chrono::milliseconds poll)
@@ -304,6 +319,34 @@ struct LocalUdpOwner::Impl {
             if (count<0 || static_cast<std::size_t>(count)!=bytes.size()) return false;
         }
         return true;
+    }
+    bool send_links(Entry& entry,double now) noexcept {
+        if (!links_plan || entry.links_sent) return true;
+        if (stopping.load()) return false;
+        try {
+            const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
+                pawn_plan->channel.channel};
+            for (const auto channel:channels) {
+                const auto state=entry.connection->channel_snapshot(channel);
+                if (!state || !state->opening_packet_id || !state->outgoing_open_acked || state->closed)
+                    return true; // Pending/closed channels never release this plan.
+            }
+            // Compose BOTH batches before reserving the first packet/nonce.
+            auto payloads=link_payloads(*links_plan,channels[0],channels[1],channels[2],
+                static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
+            const std::array destinations{channels[0],channels[2]};
+            for (std::size_t i=0;i<payloads.size();++i) {
+                if (stopping.load()) return false;
+                wire::Bunch bunch;
+                bunch.reliable=true; bunch.channel_type=2; bunch.channel=destinations[i];
+                bunch.payload_bits=payloads[i].logical_bits; bunch.payload=std::move(payloads[i].payload);
+                const auto step=entry.connection->send_actor(bunch,now);
+                if (step.datagrams.empty() || step.closed || stopping.load() ||
+                    !send(entry,step) || stopping.load()) return false;
+            }
+            entry.links_sent=true;
+            return true;
+        } catch (...) { return false; } // Caller retires only AFTER releasing Use.
     }
     void validate_response(const session::SessionId& id,const std::shared_ptr<Entry>& target,
                            const control::posthello::Login& candidate) {
@@ -456,6 +499,7 @@ struct LocalUdpOwner::Impl {
                         } catch (...) { terminal=true; }
                     }
                 }
+                if (!terminal && !send_links(entry,now)) terminal=true;
             } catch (const game::ConnectionError&) {
                 terminal=entry.connection->snapshot().closed;
             } catch (...) { terminal=true; }
@@ -481,6 +525,7 @@ struct LocalUdpOwner::Impl {
                 const auto step=entry.connection->tick(now);
                 const bool sent=send(entry,step);
                 terminal=step.closed || !sent;
+                if (!terminal && !send_links(entry,now)) terminal=true;
             } catch (...) { terminal=true; }
         }
         if (terminal) registry->retire_id(id);
@@ -545,7 +590,8 @@ struct LocalUdpOwner::Impl {
     }
     void start(Authorizer callback,LoginResponseValidator validator,PublicationProvider publication,
                std::optional<InitialControllerPlan> controller,
-               std::optional<InitialPawnPlan> pawn,std::optional<InitialPriPlan> pri) {
+               std::optional<InitialPawnPlan> pawn,std::optional<InitialPriPlan> pri,
+               std::optional<InitialActorLinksPlan> links) {
         if (!callback || started || stopping.load()) fail(LocalUdpErrorCode::invalid_lifecycle);
         if (publication && !validator) fail(LocalUdpErrorCode::invalid_configuration);
         if (controller) {
@@ -588,23 +634,39 @@ struct LocalUdpOwner::Impl {
                 if (plan.rotation) wire::actor::write_rotation(writer,*plan.rotation,cap);
             } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
         }
+        if (links) {
+            const auto& plan=*links;
+            if (!validator || !publication || !controller || !pri || !pawn ||
+                plan.controller_exclusive_bound==0 || plan.pawn_exclusive_bound==0 ||
+                plan.controller_pri_field_id>=plan.controller_exclusive_bound ||
+                plan.controller_pawn_field_id>=plan.controller_exclusive_bound ||
+                plan.pawn_controller_field_id>=plan.pawn_exclusive_bound ||
+                plan.pawn_pri_field_id>=plan.pawn_exclusive_bound ||
+                plan.controller_pri_field_id==plan.controller_pawn_field_id ||
+                plan.pawn_controller_field_id==plan.pawn_pri_field_id)
+                fail(LocalUdpErrorCode::invalid_configuration);
+            try {
+                (void)link_payloads(plan,controller->channel.channel,pri->channel.channel,
+                    pawn->channel.channel,static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
+            } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
+        }
         authorizer=std::move(callback); login_validator=std::move(validator);
         publication_provider=std::move(publication); controller_plan=std::move(controller);
-        pawn_plan=std::move(pawn); pri_plan=std::move(pri); started=true;
+        pawn_plan=std::move(pawn); pri_plan=std::move(pri); links_plan=std::move(links); started=true;
         {
             std::lock_guard lock(registry->mutex); registry->accepting=true;
         }
         running=true;
         try { worker=std::thread([this]{loop();}); }
         catch (...) {
-            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset();
+            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset();
             fail(LocalUdpErrorCode::invalid_lifecycle);
         }
     }
     void stop() noexcept {
         running=false; stopping=true; registry->close();
         if (worker.joinable()) worker.join();
-        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset();
+        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset();
         { std::lock_guard lock(clock_mutex); clock={}; }
         std::lock_guard lock(socket_mutex); socket.close();
     }
@@ -667,9 +729,10 @@ bool LocalUdpOwner::destination_bound(const assignment::Destination& destination
 void LocalUdpOwner::start(Authorizer authorize, LoginResponseValidator validate_response,
                           PublicationProvider publication,
                           std::optional<InitialControllerPlan> controller,
-                          std::optional<InitialPawnPlan> pawn,std::optional<InitialPriPlan> pri) {
+                          std::optional<InitialPawnPlan> pawn,std::optional<InitialPriPlan> pri,
+                          std::optional<InitialActorLinksPlan> links) {
     impl_->start(std::move(authorize),std::move(validate_response),std::move(publication),
-        std::move(controller),std::move(pawn),std::move(pri));
+        std::move(controller),std::move(pawn),std::move(pri),std::move(links));
 }
 void LocalUdpOwner::stop() noexcept { impl_->stop(); }
 std::unique_ptr<assignment::UdpSessionLease> LocalUdpOwner::handoff(

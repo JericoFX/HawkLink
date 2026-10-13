@@ -124,6 +124,7 @@ public:
         s.view.queued_payload_bytes+=input.payload.size();
         channel.view.queued_payload_bytes+=input.payload.size();
         if (input.open && !channel.view.opening_packet_id) channel.view.opening_packet_id=id;
+        if (input.open && !channel.outgoing_opening_packet_id) channel.outgoing_opening_packet_id=id;
     }
 
     void process_ack(std::uint16_t raw) {
@@ -154,10 +155,14 @@ public:
             for (auto& entry:channel.outgoing) {
                 if (entry.packet_id==id) {
                     entry.acked=true;
-                    if (entry.bunch.open) channel.view.open_confirmed=true;
+                    if (entry.bunch.open) {
+                        channel.view.open_confirmed=true;
+                        channel.view.outgoing_open_acked=true;
+                    }
                 }
             }
             if (channel.view.opening_packet_id==id) channel.view.open_confirmed=true;
+            if (channel.outgoing_opening_packet_id==id) channel.view.outgoing_open_acked=true;
             // Each channel prunes only its own confirmed prefix.
             while (!channel.outgoing.empty() && channel.outgoing.front().acked) {
                 const bool close=channel.outgoing.front().bunch.close;

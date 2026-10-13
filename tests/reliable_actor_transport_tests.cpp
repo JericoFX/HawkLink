@@ -448,3 +448,48 @@ TEST_CASE("Unreliable actor bypasses reliable queue quotas but preserves packet 
     error([&]{t.receive(packet(1,{plain(1,0xad)}),3);},TransportErrorCode::resource_limit);
     CHECK(t.snapshot()==committed); CHECK(channel(t,1)==a);
 }
+
+
+TEST_CASE("Outgoing open ACK evidence never comes from seeded confirmation or inbound open") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,true});
+    CHECK(channel(t,1).open_confirmed); CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    const auto inbound=t.receive(packet(0,{incoming(1,1,0x31,true)}),0);
+    REQUIRE(inbound.delivered.size()==1); CHECK(channel(t,1).opening_packet_id==0);
+    CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    const auto outgoing=t.send(data(1,0x41,true),1); REQUIRE(outgoing.outgoing.size()==1);
+    const auto opening=outgoing.outgoing.front().packet_id;
+    CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    t.receive(ack(1,0),2); // ACK for inbound-only PacketID is not our outgoing opening.
+    CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    t.receive(ack(2,opening),3); CHECK(channel(t,1).outgoing_open_acked);
+}
+TEST_CASE("Outgoing open ACK evidence follows exact retry association not cumulative acknowledgement") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,false});
+    t.register_actor_channel({2,0,0,true});
+    t.send(data(1,0x41,true),0); t.send(data(2,0x42,true),0);
+    const auto gap=t.receive(ack(0,101),1);
+    REQUIRE(sent(gap).size()==1); CHECK(sent(gap).front().channel==1);
+    CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    CHECK(channel(t,2).outgoing_open_acked);
+    // Exact ACK101 caused a NAK resend of opening100 at102, without ACKing100.
+    REQUIRE_FALSE(gap.outgoing.empty()); CHECK(gap.outgoing.front().packet_id==102);
+    t.receive(ack(1,102),2); CHECK(channel(t,1).outgoing_open_acked);
+    t.send(data(1,0x51,false,true),3);
+    const auto close_id=static_cast<std::uint16_t>(t.snapshot().next_packet_id-1U);
+    t.receive(ack(2,close_id),4);
+    CHECK(channel(t,1).closed); CHECK(channel(t,1).outgoing_open_acked);
+    CHECK_FALSE(t.snapshot().closed);
+}
+TEST_CASE("Original outgoing open ACK remains evidence after retry and inbound opening overwrites native slot") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,false});
+    t.send(data(1,0x41,true),0); t.send(data(1,0x42),0);
+    const auto gap=t.receive(ack(0,101),1); REQUIRE(sent(gap).size()==1);
+    CHECK(channel(t,1).outgoing_bunches==2); CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    t.receive(packet(1,{incoming(1,1,0x61,true)}),2);
+    CHECK(channel(t,1).opening_packet_id==1); CHECK(channel(t,1).open_confirmed);
+    CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    t.receive(ack(2,1),3); CHECK_FALSE(channel(t,1).outgoing_open_acked);
+    t.receive(ack(3,100),4); CHECK(channel(t,1).outgoing_open_acked);
+    // Old100 confirms the original opening but does not ACK the queued retry102.
+    CHECK(channel(t,1).outgoing_bunches==2); CHECK(channel(t,1).opening_packet_id==1);
+}
