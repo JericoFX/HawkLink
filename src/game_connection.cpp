@@ -185,7 +185,7 @@ struct GameConnection::Impl {
             std::size_t messages=0;
             for (const auto& bunch:step.delivered) {
                 if (bunch.channel!=0) {
-                    // Transport already validated registered reliable/type2.
+                    // Transport already validated a registered actor channel.
                     // Actor logical bits are opaque, not control opcodes.
                     if (messages>=limits.max_logical_messages_per_step)
                         fail(ConnectionErrorCode::resource_limit);
@@ -529,7 +529,7 @@ ConnectionStep GameConnection::send_actor(const wire::Bunch& bunch, double now) 
     impl_->check_time(now);
     if (impl_->publication!=PublicationState::join_requested)
         fail(ConnectionErrorCode::unexpected_message);
-    if (bunch.channel==0 || bunch.channel_type!=2 || !bunch.reliable)
+    if (bunch.channel==0 || bunch.channel_type!=(bunch.reliable ? 2 : 0))
         fail(ConnectionErrorCode::invalid_packet);
     wire::reliable::TransportStep sent;
     // Lower send stages all changes. A rejection here preserves clock, queues
@@ -547,7 +547,7 @@ ConnectionStep GameConnection::send_actor(const wire::Bunch& bunch, double now) 
     } catch (...) {
         fail(ConnectionErrorCode::crypto_failure);
     }
-    // Transport committed. Output failure cannot roll back reliable state or
+    // Transport committed. Output failure cannot roll back transport state or
     // potentially consumed Context nonces; never return a partial flush.
     try {
         return impl_->compose(std::move(sent),now);

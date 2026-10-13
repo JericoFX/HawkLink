@@ -720,7 +720,8 @@ struct LoginAuthorityFixture {
                                    PublicationDecision publisher={},
                                    std::optional<udp::InitialControllerPlan> controller=std::nullopt,
                                    std::optional<game::ConnectionConfig> config=std::nullopt,
-                                   std::optional<udp::InitialPawnPlan> pawn=std::nullopt)
+                                   std::optional<udp::InitialPawnPlan> pawn=std::nullopt,
+                                   std::optional<udp::InitialPriPlan> pri=std::nullopt)
         : decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
@@ -744,8 +745,9 @@ struct LoginAuthorityFixture {
                 const control::posthello::RawString& response) {
                 ++validations;
                 return decision ? decision(*this,id,response) : service->validate_login_response(id,response);
-            },std::move(publish),std::move(controller),std::move(pawn));
-        else owner.start(std::move(authorize),{},std::move(publish),std::move(controller),std::move(pawn));
+            },std::move(publish),std::move(controller),std::move(pawn),std::move(pri));
+        else owner.start(std::move(authorize),{},std::move(publish),
+                            std::move(controller),std::move(pawn),std::move(pri));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -1485,4 +1487,154 @@ TEST_CASE("UDP real advertisement DELETE retires accepted transport while listen
     peer.send(f.owner.port(),request(client,1,2,hex("1cc3363f8d"),false));
     CHECK_FALSE(peer.receive(200ms));
     CHECK(f.owner.running()); CHECK(f.owner.diagnostics().authenticated_datagrams==1);
+}
+
+namespace {
+udp::InitialPriPlan public_pri_plan() {
+    // Synthetic non-Controller prefix; no native CDO/rotation inference.
+    return {{9,101,0,false},{0x01020304U,0x12345678U,0x80000000U,0xffffffffU},
+        2,{0,0,0},std::nullopt};
+}
+}
+TEST_CASE("UDP PRI requires Controller validator and publication before retryable start") {
+    for (unsigned missing=0;missing<3;++missing) {
+        CAPTURE(missing);
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        udp::LocalUdpOwner::LoginResponseValidator validator;
+        udp::LocalUdpOwner::PublicationProvider publisher;
+        std::optional<udp::InitialControllerPlan> controller=public_controller_plan();
+        if (missing!=0) validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        if (missing!=1) publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};};
+        if (missing==2) controller.reset();
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,
+            publisher,controller,std::nullopt,public_pri_plan());},
+            udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running()); CHECK_FALSE(owner.diagnostics().pri_sent);
+        if (owner.running()) { owner.stop(); continue; } // RED cleanup if PRI is ignored.
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;}));
+        CHECK(owner.running()); owner.stop();
+    }
+}
+TEST_CASE("UDP PRI invalid transform index or channel collision leaves start retryable") {
+    for (unsigned invalid=0;invalid<8;++invalid) {
+        CAPTURE(invalid);
+        auto pri=public_pri_plan();
+        switch (invalid) {
+        case 0: pri.channel.channel=0; break;
+        case 1: pri.channel.channel=2048; break;
+        case 2: pri.channel.channel=7; break;
+        case 3: pri.channel.channel=8; break;
+        case 4: pri.archetype_local_net_index=-1; break;
+        case 5: pri.position[0]=1048576; break;
+        case 6: pri.position[2]=-1048577; break;
+        case 7: pri.rotation=wire::actor::Rotation{1,0,0}; break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        auto validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        auto publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};};
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,
+            publisher,public_controller_plan(),public_pawn_plan(),pri);},
+            udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running()); CHECK_FALSE(owner.diagnostics().pri_sent);
+        if (owner.running()) { owner.stop(); continue; }
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;},validator,
+            publisher,public_controller_plan(),public_pawn_plan(),public_pri_plan()));
+        CHECK(owner.running()); owner.stop();
+    }
+}
+TEST_CASE("UDP PRI follows Controller before Pawn with exact bits and no repeated emission") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client);
+    CHECK_FALSE(f.owner.diagnostics().pri_sent);
+    const auto previous=client.last_received(); const auto join=controller_join(client);
+    peer.send(f.owner.port(),join);
+    const auto out=controller_output(peer,client,2000ms,3); REQUIRE(out.bunches.size()==3);
+    CHECK(out.bunches[0].channel==7); CHECK(out.bunches[0].sequence==42);
+    CHECK(out.bunches[0].payload==hex("04000000400500")); CHECK(out.bunches[0].payload_bits==51);
+    const auto& pri=out.bunches[1];
+    // Independent32bit primary reference +11bit zero vector, no Controller byte.
+    CHECK(pri.payload==hex("040000004005")); CHECK(pri.payload_bits==43);
+    CHECK(pri.channel==9); CHECK(pri.sequence==102); CHECK(pri.channel_type==2);
+    CHECK(pri.reliable); CHECK(pri.control); CHECK(pri.open); CHECK_FALSE(pri.close);
+    CHECK(out.bunches[2].channel==8); CHECK(out.bunches[2].sequence==72);
+    CHECK(out.bunches[2].payload==hex("040000004005")); CHECK(out.bunches[2].payload_bits==43);
+    REQUIRE(out.packet_ids.size()==3); CHECK(out.packet_ids[0]>11);
+    CHECK(out.packet_ids[1]>out.packet_ids[0]); CHECK(out.packet_ids[2]>out.packet_ids[1]);
+    CHECK(client.last_received()>previous);
+    CHECK(wait_until([&]{return f.owner.diagnostics().pri_sent && f.owner.diagnostics().pawn_sent;}));
+    CHECK(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().closed);
+    CHECK(f.service->authorize_udp(public_id));
+    peer.send(f.owner.port(),join); CHECK(controller_output(peer,client,200ms).bunches.empty());
+    peer.send(f.owner.port(),controller_join(client));
+    CHECK(controller_output(peer,client,200ms).bunches.empty());
+    CHECK(f.validations.load()==1); CHECK(f.publications.load()==1);
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP PRI copied plan preserves optional rotation and absent plan preserves two actors") {
+    auto pri=public_pri_plan(); pri.position={8,-8,0};
+    pri.rotation=wire::actor::Rotation{256,0,65280};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),pri);
+    pri.channel.channel=10; pri.channel.outgoing_sequence=900;
+    pri.archetype_package_guid={}; pri.archetype_local_net_index=3;
+    pri.position={0,0,0}; pri.rotation.reset();
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client); peer.send(f.owner.port(),controller_join(client));
+    const auto out=controller_output(peer,client,2000ms,3); REQUIRE(out.bunches.size()==3);
+    CHECK(out.bunches[1].channel==9); CHECK(out.bunches[1].sequence==102);
+    CHECK(out.bunches[1].payload==hex("04000000032338c07f")); CHECK(out.bunches[1].payload_bits==71);
+    CHECK(wait_until([&]{return f.owner.diagnostics().pri_sent;}));
+    LoginAuthorityFixture absent({},true,controller_publisher(),public_controller_plan(),{},public_pawn_plan());
+    const auto absent_login=absent.login(); Peer absent_peer;
+    session::Context absent_client(session::Role::client,public_id,public_key);
+    controller_publication(absent,absent_login,absent_peer,absent_client);
+    absent_peer.send(absent.owner.port(),controller_join(absent_client));
+    const auto old=controller_output(absent_peer,absent_client,2000ms,2); REQUIRE(old.bunches.size()==2);
+    CHECK(old.bunches[0].channel==7); CHECK(old.bunches[1].channel==8);
+    CHECK_FALSE(absent.owner.diagnostics().pri_sent); CHECK_FALSE(absent.owner.diagnostics().closed);
+}
+TEST_CASE("UDP PRI never emits before Join after denial or after stop") {
+    for (const bool stopped:{false,true}) {
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan());
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        controller_publication(f,login,peer,client);
+        CHECK(controller_output(peer,client,200ms).bunches.empty());
+        CHECK_FALSE(f.owner.diagnostics().pri_sent);
+        if (stopped) f.owner.stop(); // Never send to a closed Windows UDP socket.
+        else { f.verifier.active=false; peer.send(f.owner.port(),controller_join(client)); }
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK(controller_output(peer,client,200ms).bunches.empty());
+        CHECK_FALSE(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pri_sent);
+        CHECK_FALSE(f.owner.diagnostics().pawn_sent);
+    }
+}
+TEST_CASE("UDP PRI resolution failure retires after Controller without sending Pawn") {
+    for (const bool unknown_package:{false,true}) {
+        auto pri=public_pri_plan();
+        if (unknown_package) pri.archetype_package_guid={1,2,3,4};
+        else pri.archetype_local_net_index=3;
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),pri);
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        controller_publication(f,login,peer,client); peer.send(f.owner.port(),controller_join(client));
+        const auto out=controller_output(peer,client,200ms,3); REQUIRE(out.bunches.size()==1);
+        CHECK(out.bunches[0].channel==7); CHECK(out.bunches[0].payload==hex("04000000400500"));
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pri_sent);
+        CHECK_FALSE(f.owner.diagnostics().pawn_sent); CHECK_FALSE(f.service->authorize_udp(public_id));
+        CHECK(controller_output(peer,client,200ms).bunches.empty());
+    }
+}
+TEST_CASE("UDP failed Controller emission cannot send PRI or Pawn") {
+    auto controller=public_controller_plan(); controller.archetype_package_guid={1,2,3,4};
+    LoginAuthorityFixture f({},true,controller_publisher(),controller,{},public_pawn_plan(),public_pri_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client); peer.send(f.owner.port(),controller_join(client));
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK(controller_output(peer,client,200ms).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().controller_sent); CHECK_FALSE(f.owner.diagnostics().pri_sent);
+    CHECK_FALSE(f.owner.diagnostics().pawn_sent);
 }

@@ -399,7 +399,12 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
     // The immutable directory outlives the HTTP server and all its handlers.
     httplib::Server server;
     hawken::server::configure_server_http(server, auth, sync, inventory, menu,
-        udp_trial ? &udp_trial->assignment() : nullptr, directory ? &*directory : nullptr);
+        udp_trial ? &udp_trial->assignment() : nullptr, directory ? &*directory : nullptr,
+        [&diagnostics](hawken::server::BrokerHttpRejectReason reason) {
+            std::osyncstream(diagnostics.stream()) << "inventory_put reason="
+                << (reason == hawken::server::BrokerHttpRejectReason::http_headers ? "http_headers" : "body_reader")
+                << '\n' << std::flush;
+        });
     const auto trial_listing = directory
         ? directory->respond("GET", "/gameServerListings").body.at("Result").at(0)
         : nlohmann::json{};
@@ -509,7 +514,26 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
         std::unique_ptr<hawken::inventory::InventoryService> inventory;
         if (policy)
             inventory = std::make_unique<hawken::inventory::InventoryService>(database, auth,
-                policy->ids, policy->balance, policy->offer_id);
+                policy->ids, policy->balance, policy->offer_id,
+                [&diagnostics](const hawken::inventory::PutObservation& observation) {
+                    std::osyncstream line(diagnostics.stream());
+                    line << "inventory_put reason="
+                        << hawken::inventory::put_reason_name(observation.reason);
+                    if (observation.reason == hawken::inventory::PutReason::reference_unknown_key) {
+                        line << " reference_family="
+                            << hawken::inventory::reference_family_name(observation.reference_family)
+                            << " value_form="
+                            << hawken::inventory::reference_value_form_name(observation.value_form);
+                        if (observation.visor_key != hawken::inventory::VisorKey::none) {
+                            line << " visor_key=" << static_cast<unsigned>(observation.visor_key)
+                                << " visor_literal_present=" << (observation.visor_literal_size != 0);
+                            if (observation.visor_literal_size != 0)
+                                line << " visor_literal=" << std::string_view(
+                                    observation.visor_literal.data(), observation.visor_literal_size);
+                        }
+                    }
+                    line << '\n' << std::flush;
+                });
         // Declared after Auth/Inventory: HTTP drains before UDP stops, and UDP
         // joins its callbacks before Assignment/Auth/SQL owners are destroyed.
         std::unique_ptr<hawken::udp::UdpTrialRuntime> udp_trial;
@@ -528,6 +552,7 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                 << " world_published=" << observation.world_published
                 << " join_requested=" << observation.join_requested
                 << " controller_sent=" << observation.controller_sent
+                << " pri_sent=" << observation.pri_sent
                 << " pawn_sent=" << observation.pawn_sent
                 << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
         }
@@ -564,6 +589,13 @@ int main(int argc, char* argv[]) {
                 {1, 0, 0, false},
                 {0xbf5a6721U, 0x4933092bU, 0xe8522f80U, 0x238fc144U},
                 18053, {-1472, 2432, 193}, std::nullopt, 0};
+            // Pinned PRI trial: original CDO38826; retained identity-checked
+            // session20261012-040452 observed ec bit0 false. Its native getter
+            // returns null, so no Controller byte. This does not link or possess.
+            options.udp_trial->pri = hawken::udp::InitialPriPlan{
+                {3, 0, 0, false},
+                {0xbf5a6721U, 0x4933092bU, 0xe8522f80U, 0x238fc144U},
+                38826, {0, 0, 0}, std::nullopt};
             // Explicit local Pawn trial policy. Loaded R_PawnContent CDO has
             // NetIndex233/rotation bit0 clear; no collision/possession proof.
             options.udp_trial->pawn = hawken::udp::InitialPawnPlan{

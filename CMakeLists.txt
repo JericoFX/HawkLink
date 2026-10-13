@@ -456,6 +456,17 @@ endif()
 
 include(CTest)
 if(BUILD_TESTING)
+    add_executable(hawken-live-player-reader-tests
+        tests/test_main.cpp tests/live_player_reader_tests.cpp)
+    target_include_directories(hawken-live-player-reader-tests PRIVATE tools)
+    target_include_directories(hawken-live-player-reader-tests SYSTEM PRIVATE third_party)
+    if(MSVC)
+        target_compile_options(hawken-live-player-reader-tests PRIVATE /W4 /WX /permissive- /utf-8)
+    else()
+        target_compile_options(hawken-live-player-reader-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+    add_test(NAME live_player_reader COMMAND hawken-live-player-reader-tests)
+
     add_executable(hawken-controller-sample-comparison-tests
         tests/test_main.cpp tests/controller_sample_comparison_tests.cpp)
     target_include_directories(hawken-controller-sample-comparison-tests PRIVATE tools)

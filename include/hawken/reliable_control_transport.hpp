@@ -85,7 +85,8 @@ struct TransportStep {
     // Newly packetized interiors. Caller encodes, session-wraps and transmits
     // them independently; no stored ciphertext or transport callback exists.
     std::vector<Packet> outgoing;
-    // Complete bunches in reliable order; sequence is the raw10-bit value.
+    // Complete reliable bunches in sequence order and immediate plain actor
+    // bunches in input order. Reliable sequence is the raw10-bit value.
     // No logical opcode interpretation, authentication, admission or gameplay.
     std::vector<Bunch> delivered;
     bool closed = false;
@@ -102,7 +103,8 @@ std::uint32_t expand_packet_id(std::uint16_t raw, std::uint32_t reference);
 std::uint32_t expand_sequence(std::uint16_t raw, std::uint32_t reference);
 
 // One fresh channel0/type1 context with EMPTY queues and explicit seeds;
-// optional explicitly registered reliable actor channels carry type2.
+// optional explicitly registered actor channels carry reliable type2 or
+// plain unreliable records (no flags, sequence0/type0).
 // Models the ACK-enabled native branch(Conn+188==0); other ACK modes pending.
 // Exclusive owner; not a pending-connection restoration or session provider.
 class ControlTransport {
@@ -122,16 +124,22 @@ public:
     // query, with no clock/PacketID/sequence mutation or implied actor lookup.
     std::optional<ChannelSnapshot> channel_snapshot(std::uint16_t channel) const;
 
-    // send assigns sequence; caller must supply sequence0 and canonical
-    // reliable control0/type1 or registered actor/type2 Bunch
+    // send assigns reliable sequence; caller supplies sequence0 and canonical
+    // reliable control0/type1 or registered actor/type2 Bunch. Plain unreliable
+    // actor requires an opening_packet_id from a reliable opening, not merely
+    // an open_confirmed seed. It emits directly with no reliable queue/sequence
+    // mutation; open/close/control flags and channel_type must all be zero
     // (flagsPresent==open||close, ACK absent). Closed actor or queued outgoing
     // actor close (even ACKed behind a pending prefix) -> terminal_state.
     // Opening flags are explicit; this API does not infer the native+70 gate.
     TransportStep send(const Bunch& bunch, double now);
     // Packet has ALREADY been decoded/authenticated by caller. Validates all
     // records/encoded size first; a stale PacketID still processes records.
-    // Unknown channels/wrong types or unreliable bunches are outside this API, not
-    // proof that the original client never uses them. Full reliable seq is
+    // Unknown channels/wrong types and unreliable control/flagged bunches reject.
+    // Plain actor records before an opening_packet_id are ignored but ACKed;
+    // after opening they deliver even in stale packets without sequence dedup.
+    // They preserve reliable sequence/queues and the common queued-head drain.
+    // Full reliable seq is
     // expanded; stale/duplicate reliable never deliver, future seq queues,
     // and only consecutive heads drain. Incoming open confirms open.
     TransportStep receive(const Packet& packet, double now);
@@ -145,7 +153,7 @@ public:
     //   state unchanged and returns no partial result. Errors never echo data.
     // - immediate flush, no merge/fragmentation; one bunch per packet; ACKs
     //   pack in order up to configured record/byte limits. Seeds advance per
-    //   emitted packet. Bunch retransmits keep seq/payload, but associate with
+    //   emitted packet. Reliable retransmits keep seq/payload, but associate with
     //   the NEW emitted packet ID. Old ACK cannot mark that entry; it may
     //   still confirm open by the separate opening_packet_id (native+74).
     // - exact ACK marks entries, gaps trigger LOCAL NAK resends, and only an
@@ -173,7 +181,7 @@ public:
     //   connection terminal and clears all queues. No index reuse.
     // - any channel's blocked incoming timeout is our connection-terminal
     //   policy, checked before retry; preopen age retry is CONTROL ONLY.
-    //   No unreliable/fragmentation or replication field bookkeeping claim.
+    //   No unreliable opening/close, fragmentation or replication field bookkeeping claim.
 private:
     struct PendingOutgoing {
         Bunch bunch;

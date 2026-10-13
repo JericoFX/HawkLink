@@ -28,10 +28,14 @@ struct UdpTrialConfig {
     // Optional copied first-Pawn policy requires Controller and publication.
     // No controller byte or inferred identity/transform defaults.
     std::optional<InitialPawnPlan> pawn = std::nullopt;
+    // Optional copied PRI policy requires Controller and publication, with a
+    // distinct channel. Owner sends it after Controller and before any Pawn.
+    // No inferred identity/rotation defaults or player-link replication.
+    std::optional<InitialPriPlan> pri = std::nullopt;
 };
 // Pure preflight; no binding, randomness, SQL or Steam. Canonical lower-case
 // nonzero GUID36 and ASCII region[A-Za-z0-9_.-]1..64; port0 is API-valid.
-// Publication/controller/Pawn are not validated by this identity preflight.
+// Publication/controller/Pawn/PRI are not validated by this identity preflight.
 bool validate_trial_config(const UdpTrialConfig& config) noexcept;
 
 // One local diagnostic session, not a world, public listing or game admission.

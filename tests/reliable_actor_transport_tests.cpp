@@ -16,6 +16,9 @@ Bunch data(std::uint16_t channel,std::uint8_t byte,bool open=false,bool close=fa
     b.payload_bits=8; b.payload={byte};
     return b;
 }
+Bunch plain(std::uint16_t channel,std::uint8_t byte) {
+    auto b=data(channel,byte); b.reliable=false; b.channel_type=0; return b;
+}
 Bunch incoming(std::uint16_t channel,std::uint16_t sequence,std::uint8_t byte,
                bool open=false,bool close=false) {
     auto b=data(channel,byte,open,close); b.sequence=sequence; return b;
@@ -250,7 +253,7 @@ TEST_CASE("Unknown wrong-type unreliable and nonfinite inputs reject without cha
     error([&]{t.receive(packet(0,{incoming(1,1,0xa1),incoming(2,1,0xa2)}),1);},TransportErrorCode::unsupported_bunch);
     auto wrong=incoming(1,1,0xa1); wrong.channel_type=1;
     error([&]{t.receive(packet(0,{wrong}),1);},TransportErrorCode::unsupported_bunch);
-    auto unreliable=data(1,0xa1); unreliable.reliable=false; unreliable.channel_type=0;
+    auto unreliable=data(0,0xa1); unreliable.reliable=false; unreliable.channel_type=0;
     error([&]{t.send(unreliable,1);},TransportErrorCode::unsupported_bunch);
     for (const auto now:{-1.0,std::numeric_limits<double>::infinity(),std::numeric_limits<double>::quiet_NaN()})
         error([&]{t.send(data(1,0xa1),now);},TransportErrorCode::invalid_time);
@@ -280,4 +283,168 @@ TEST_CASE("Registration cap includes closed tombstones and never permits index r
     error([&]{t.register_actor_channel({65,0,0,true});},TransportErrorCode::resource_limit);
     CHECK_FALSE(t.channel_snapshot(65).has_value()); CHECK(t.snapshot()==before);
     CHECK(channel(t,1).closed); CHECK(channel(t,64).outgoing_sequence==0);
+}
+
+
+TEST_CASE("Unreliable actor requires an opening PacketID even with a confirmed seed") {
+    for (const bool confirmed:{false,true}) {
+        ControlTransport t(config()); t.register_actor_channel({1,7,9,confirmed});
+        const auto before=t.snapshot(); const auto a=channel(t,1);
+        error([&]{t.send(plain(1,0xa1),0);},TransportErrorCode::unsupported_bunch);
+        CHECK(t.snapshot()==before); CHECK(channel(t,1)==a);
+        const auto ignored=t.receive(packet(0,{plain(1,0xa2)}),0);
+        CHECK(ignored.delivered.empty()); CHECK_FALSE(ignored.closed);
+        CHECK(acknowledgements(ignored)==std::vector<std::uint16_t>{0});
+        CHECK(channel(t,1)==a); CHECK_FALSE(channel(t,1).opening_packet_id.has_value());
+        const auto opened=t.receive(packet(1,{incoming(1,10,0x11,true),plain(1,0xa3)}),1);
+        REQUIRE(opened.delivered.size()==2);
+        CHECK(opened.delivered[0].reliable); CHECK_FALSE(opened.delivered[1].reliable);
+        CHECK(opened.delivered[1].payload==std::vector<std::uint8_t>{0xa3});
+        CHECK(channel(t,1).opening_packet_id==1); CHECK(channel(t,1).incoming_sequence==10);
+    }
+}
+TEST_CASE("Unreliable actor literal omits sequence and type without advancing reliable state") {
+    auto c=config(); c.max_packet_bytes=16; ControlTransport t(c);
+    t.register_actor_channel({7,20,30,false}); t.send(data(7,0x11,true),0);
+    const auto before=t.snapshot(); const auto a=channel(t,7);
+    REQUIRE(a.opening_packet_id==100); REQUIRE_FALSE(a.open_confirmed);
+    const auto step=t.send(plain(7,0xa5),1);
+    REQUIRE(step.outgoing.size()==1); REQUIRE(sent(step).size()==1);
+    // Independent LSB placement: PID101[0:14], selector/control/reliable zeros
+    // [14:17], channel7[17:28], length8[28:35], A5[35:43], marker43.
+    const std::vector<std::uint8_t> literal{0x65,0x00,0x0e,0x80,0x28,0x0d};
+    CHECK(encode_packet(step.outgoing[0],16)==literal);
+    CHECK_FALSE(sent(step)[0].reliable); CHECK(sent(step)[0].sequence==0);
+    CHECK(sent(step)[0].channel_type==0); CHECK(step.delivered.empty());
+    CHECK(channel(t,7)==a); CHECK(t.snapshot().next_packet_id==before.next_packet_id+1);
+    CHECK(t.snapshot().outgoing_bunches==before.outgoing_bunches);
+    CHECK(t.snapshot().queued_payload_bytes==before.queued_payload_bytes);
+    CHECK(t.snapshot().outgoing_sequence==10); CHECK(t.snapshot().last_time==1);
+}
+TEST_CASE("Unreliable actor delivers stale packets and duplicates alongside reliable control") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,false});
+    t.receive(packet(2,{incoming(1,1,0x11,true)}),0);
+    const auto first=t.receive(packet(3,{plain(1,0xa1),incoming(0,21,0xc0),plain(1,0xa2)}),1);
+    REQUIRE(first.delivered.size()==3);
+    CHECK(first.delivered[0].payload==std::vector<std::uint8_t>{0xa1});
+    CHECK(first.delivered[1].channel==0); CHECK(first.delivered[1].reliable);
+    CHECK(first.delivered[2].payload==std::vector<std::uint8_t>{0xa2});
+    const auto again=t.receive(packet(1,{plain(1,0xa1),plain(1,0xa1)}),2);
+    REQUIRE(again.delivered.size()==2); CHECK_FALSE(again.delivered[0].reliable);
+    CHECK_FALSE(again.delivered[1].reliable); CHECK_FALSE(again.closed);
+    CHECK(channel(t,1).incoming_sequence==1); CHECK(channel(t,1).incoming_bunches==0);
+    CHECK(t.snapshot().incoming_sequence==21); CHECK(t.snapshot().last_incoming_packet_id==3);
+    CHECK(acknowledgements(again)==std::vector<std::uint16_t>{3,1});
+}
+TEST_CASE("Unreliable actor preserves a reliable gap and subsequent shared queue drain") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,false});
+    t.receive(packet(0,{incoming(1,1,0x11,true)}),0);
+    t.receive(packet(1,{incoming(1,3,0x13)}),1);
+    const auto before=channel(t,1); REQUIRE(before.incoming_bunches==1);
+    const auto step=t.receive(packet(2,{plain(1,0xaa)}),2);
+    REQUIRE(step.delivered.size()==1); CHECK_FALSE(step.delivered[0].reliable);
+    CHECK(channel(t,1)==before); CHECK(t.snapshot().queued_payload_bytes==1);
+    const auto drain=t.receive(packet(3,{plain(1,0xab),incoming(1,2,0x12),plain(1,0xac)}),3);
+    REQUIRE(drain.delivered.size()==4);
+    CHECK(drain.delivered[0].payload==std::vector<std::uint8_t>{0xab});
+    CHECK(drain.delivered[1].payload==std::vector<std::uint8_t>{0x12});
+    CHECK(drain.delivered[2].payload==std::vector<std::uint8_t>{0x13});
+    CHECK(drain.delivered[3].payload==std::vector<std::uint8_t>{0xac});
+    CHECK(channel(t,1).incoming_sequence==3); CHECK(channel(t,1).incoming_bunches==0);
+    CHECK_FALSE(channel(t,1).incoming_blocked_since.has_value());
+    CHECK(t.snapshot().queued_payload_bytes==0);
+}
+TEST_CASE("NAK gaps retry only reliable actor entries not intervening unreliable packets") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,false});
+    t.send(data(1,0x11,true),0); t.send(plain(1,0xaa),0); t.send(data(1,0x12),0);
+    REQUIRE(t.snapshot().outgoing_bunches==2); REQUIRE(channel(t,1).outgoing_sequence==2);
+    const auto retry=t.receive(ack(0,102),1); const auto bunches=sent(retry);
+    REQUIRE(bunches.size()==1);
+    CHECK(retry.outgoing[0].packet_id==103);
+    CHECK(bunches[0].reliable); CHECK(bunches[0].sequence==1);
+    CHECK(bunches[0].payload==std::vector<std::uint8_t>{0x11});
+    CHECK(channel(t,1).outgoing_sequence==2); CHECK(channel(t,1).outgoing_bunches==2);
+    t.receive(ack(1,103),1); REQUIRE(channel(t,1).outgoing_bunches==0);
+    t.send(plain(1,0xab),2);
+    CHECK(sent(t.tick(4)).empty()); CHECK(channel(t,1).outgoing_bunches==0);
+}
+TEST_CASE("Unreliable actor obeys close tombstones and pending outgoing close") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,false});
+    t.receive(packet(0,{incoming(1,1,0x11,true)}),0);
+    SUBCASE("Outgoing close awaiting ACK") {
+        t.send(data(1,0x12,false,true),1);
+        const auto before=t.snapshot(); const auto a=channel(t,1);
+        error([&]{t.send(plain(1,0xaa),2);},TransportErrorCode::terminal_state);
+        CHECK(t.snapshot()==before); CHECK(channel(t,1)==a);
+    }
+    SUBCASE("Incoming close ignores later unreliable but continues control") {
+        t.receive(packet(1,{incoming(1,2,0x12,false,true)}),1);
+        const auto a=channel(t,1); REQUIRE(a.closed);
+        const auto step=t.receive(packet(2,{plain(1,0xaa),incoming(0,21,0xc0)}),2);
+        REQUIRE(step.delivered.size()==1); CHECK(step.delivered[0].channel==0);
+        CHECK_FALSE(step.closed); CHECK(step.closed_channels.empty()); CHECK(channel(t,1)==a);
+        CHECK(acknowledgements(step)==std::vector<std::uint16_t>{1,2});
+        const auto before=t.snapshot();
+        error([&]{t.send(plain(1,0xab),3);},TransportErrorCode::terminal_state);
+        CHECK(t.snapshot()==before);
+    }
+}
+TEST_CASE("Unreliable actor rejects noncanonical flags and fields transactionally") {
+    ControlTransport t(config()); t.register_actor_channel({1,0,0,false});
+    t.send(data(1,0x11,true),0); const auto before=t.snapshot(); const auto a=channel(t,1);
+    for (unsigned variant=0;variant<7;++variant) {
+        auto b=plain(1,0xaa); auto code=TransportErrorCode::invalid_packet;
+        switch (variant) {
+        case 0: b.channel=0; code=TransportErrorCode::unsupported_bunch; break;
+        case 1: b.open=true; b.control=true; b.channel_type=2; code=TransportErrorCode::unsupported_bunch; break;
+        case 2: b.close=true; b.control=true; code=TransportErrorCode::unsupported_bunch; break;
+        case 3: b.control=true; break;
+        case 4: b.sequence=1; break;
+        case 5: b.channel_type=2; break;
+        case 6: b.channel=2; code=TransportErrorCode::unsupported_bunch; break;
+        }
+        error([&]{t.send(b,1);},code);
+        error([&]{t.receive(packet(0,{b}),1);},code);
+        CHECK(t.snapshot()==before); CHECK(channel(t,1)==a);
+    }
+    for (const auto now:{-1.0,std::numeric_limits<double>::infinity(),std::numeric_limits<double>::quiet_NaN()}) {
+        error([&]{t.send(plain(1,0xaa),now);},TransportErrorCode::invalid_time);
+        CHECK(t.snapshot()==before); CHECK(channel(t,1)==a);
+    }
+}
+TEST_CASE("Unreliable actor exact bit budget excludes absent sequence and type fields") {
+    auto c=config(); c.max_packet_bytes=8; ControlTransport t(c);
+    t.register_actor_channel({7,0,0,false}); t.send(data(7,0x11,true),0);
+    auto b=plain(7,0); b.payload_bits=29; b.payload={0xff,0xff,0xff,0x1f};
+    const auto step=t.send(b,1); REQUIRE(step.outgoing.size()==1);
+    // PID101 + 14 bunch flag/channel bits + length29 in6 bits + 29 ones
+    // occupy63 bits; marker63 fills the eighth byte exactly.
+    const std::vector<std::uint8_t> literal{0x65,0x00,0x0e,0xd0,0xfd,0xff,0xff,0xff};
+    CHECK(encode_packet(step.outgoing[0],8)==literal);
+    const auto before=t.snapshot(); const auto a=channel(t,7);
+    b.payload_bits=30; b.payload.back()=0x3f;
+    error([&]{t.send(b,2);},TransportErrorCode::invalid_packet);
+    error([&]{t.receive(packet(0,{b}),2);},TransportErrorCode::invalid_packet);
+    b.payload_bits=29; b.payload.back()=0xff;
+    error([&]{t.send(b,2);},TransportErrorCode::invalid_packet);
+    CHECK(t.snapshot()==before); CHECK(channel(t,7)==a);
+}
+TEST_CASE("Unreliable actor bypasses reliable queue quotas but preserves packet limits") {
+    auto c=config(); c.limits.max_outgoing_bunches=1; c.limits.max_payload_bytes=1;
+    c.limits.max_records_per_packet=1; c.limits.max_packets_per_step=1;
+    ControlTransport t(c); t.register_actor_channel({1,0,0,false});
+    t.send(data(1,0x11,true),0); const auto a=channel(t,1);
+    const auto direct=t.send(plain(1,0xaa),1); REQUIRE(direct.outgoing.size()==1);
+    CHECK(channel(t,1)==a); CHECK(t.snapshot().queued_payload_bytes==1);
+    CHECK(t.snapshot().outgoing_bunches==1);
+    const auto before=t.snapshot();
+    error([&]{t.receive(packet(0,{plain(1,0xaa),plain(1,0xab)}),2);},TransportErrorCode::resource_limit);
+    CHECK(t.snapshot()==before); CHECK(channel(t,1)==a);
+    const auto accepted=t.receive(packet(0,{plain(1,0xac)}),2);
+    REQUIRE(accepted.delivered.size()==1); CHECK(channel(t,1)==a);
+    CHECK(acknowledgements(accepted)==std::vector<std::uint16_t>{0});
+    // A second packet needs both prior and current ACK output, over this quota.
+    const auto committed=t.snapshot();
+    error([&]{t.receive(packet(1,{plain(1,0xad)}),3);},TransportErrorCode::resource_limit);
+    CHECK(t.snapshot()==committed); CHECK(channel(t,1)==a);
 }

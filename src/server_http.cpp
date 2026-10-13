@@ -40,6 +40,13 @@ std::string diagnostic_time() {
     return text;
 }
 
+void report_broker_rejection(const BrokerHttpRejectObserver& observer,
+                             BrokerHttpRejectReason reason) noexcept {
+    if (observer) {
+        try { observer(reason); } catch (...) {}
+    }
+}
+
 void auth_reply(httplib::Response& response, const auth::AuthReply& result) {
     reply(response, result.status, result.message, result.result);
 }
@@ -120,7 +127,8 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
                            sync::SyncService* sync, inventory::InventoryService* inventory,
                            sync::MenuSyncService* menu,
                            assignment::SessionAssignmentService* assignment,
-                           const master::MasterDirectory* directory) {
+                           const master::MasterDirectory* directory,
+                           BrokerHttpRejectObserver reject_observer) {
     server.set_read_timeout(2);
     server.set_write_timeout(2);
     // Fixed framing ceiling; individual readers enforce their own accumulation cap.
@@ -146,7 +154,7 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
         response.set_header("Connection", "close");
         response.set_content(listing.body.dump(), "application/json; charset=utf-8");
     };
-    server.set_pre_routing_handler([auth, sync, inventory, menu, assignment, directory, handle_listing](const httplib::Request& request, httplib::Response& response) {
+    server.set_pre_routing_handler([auth, sync, inventory, menu, assignment, directory, handle_listing, reject_observer](const httplib::Request& request, httplib::Response& response) {
         // Compare the raw target: decoded paths, queries, prefixes and slash aliases are not accepted.
         const bool services = request.target == "/status/services/";
         const bool client = request.target == "/status/game_client/";
@@ -159,6 +167,7 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
         const bool inventory_read = inventory && inventory->supports_target(request.target);
         const bool inventory_update = inventory && inventory->supports_update_target(request.target);
         const bool inventory_put = inventory_update && request.method == "PUT";
+        const bool inventory_batch = inventory && inventory->supports_batch_target(request.target);
         const bool menu_read = menu && menu->supports_target(request.target);
         const bool settings = menu && menu->supports_settings_target(request.target);
         const bool settings_put = settings && request.method == "PUT";
@@ -169,10 +178,12 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
             if (parsed.ec == std::errc::result_out_of_range ||
                 (parsed.ec == std::errc{} && length > ((settings_put || inventory_put) ? 65536U : 8192U))) {
                 reply(response, 413, "Request could not be processed.", nullptr);
+                if (inventory_put) report_broker_rejection(reject_observer, BrokerHttpRejectReason::http_headers);
                 return httplib::Server::HandlerResponse::Handled;
             }
             if (parsed.ec != std::errc{} || parsed.ptr != text.data() + text.size()) {
                 reply(response, 400, "Request could not be processed.", nullptr);
+                if (inventory_put) report_broker_rejection(reject_observer, BrokerHttpRejectReason::http_headers);
                 return httplib::Server::HandlerResponse::Handled;
             }
         }
@@ -185,9 +196,9 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
         const bool advertisement_resource = assignment_route
             && request.target.starts_with("/hawkenClientMatchmakingAdvertisements/");
         const bool advertisement_delete = advertisement_resource && request.method == "DELETE";
-        const std::string_view method = login || advertisement_post ? "POST" : (logout || inventory_update) ? "PUT" : "GET";
+        const std::string_view method = login || advertisement_post || inventory_batch ? "POST" : (logout || inventory_update) ? "PUT" : "GET";
         if (!services && !client && !version && !login && !profile && !logout
-            && !initial_sync && !inventory_read && !inventory_update && !menu_read && !assignment_route && !listing_route) {
+            && !initial_sync && !inventory_read && !inventory_update && !inventory_batch && !menu_read && !assignment_route && !listing_route) {
             reply(response, 404, "Route not found.", nullptr);
         } else if ((request.method == "GET" || request.method == "HEAD" || advertisement_delete) &&
                    (length != 0 || request.has_header("Transfer-Encoding"))) {
@@ -196,7 +207,7 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
         } else if (request.method != method && !settings_put && !advertisement_delete) {
             response.set_header("Allow", settings ? "GET, PUT" : advertisement_resource ? "GET, DELETE" : std::string(method));
             reply(response, 405, "Method not allowed.", nullptr);
-        } else if (settings_put || inventory_put || advertisement_post) {
+        } else if (settings_put || inventory_put || inventory_batch || advertisement_post) {
             return httplib::Server::HandlerResponse::Unhandled;
         } else if (assignment_route) {
             auth_reply(response, assignment->handle(request.method, request.target,
@@ -252,7 +263,7 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
             });
     }
     if (inventory) {
-        server.Put(R"(/userGameItemsBroker/[0-9a-f-]{36}/[0-9a-f-]{36})",
+        server.Post(R"(/userGameItemsBatch/[0-9a-f-]{36})",
             [inventory](const httplib::Request& request, httplib::Response& response,
                         const httplib::ContentReader& reader) {
                 if (request.get_header_value_count("Authorization") > 1 ||
@@ -262,7 +273,25 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
                     return;
                 }
                 std::string body;
-                if (!read_body(reader, response, 65536, body)) return;
+                if (!read_body(reader, response, 8192, body)) return;
+                auth_reply(response, inventory->post_batch(request.target,
+                    request.get_header_value("Authorization"), body));
+            });
+        server.Put(R"(/userGameItemsBroker/[0-9a-f-]{36}/[0-9a-f-]{36})",
+            [inventory, reject_observer](const httplib::Request& request, httplib::Response& response,
+                        const httplib::ContentReader& reader) {
+                if (request.get_header_value_count("Authorization") > 1 ||
+                    request.get_header_value_count("Content-Type") != 1 ||
+                    request.get_header_value("Content-Type") != "application/json") {
+                    reply(response, 400, "Invalid inventory request.", nullptr);
+                    report_broker_rejection(reject_observer, BrokerHttpRejectReason::http_headers);
+                    return;
+                }
+                std::string body;
+                if (!read_body(reader, response, 65536, body)) {
+                    report_broker_rejection(reject_observer, BrokerHttpRejectReason::body_reader);
+                    return;
+                }
                 auth_reply(response, inventory->put(request.target,
                     request.get_header_value("Authorization"), body));
             });

@@ -2,8 +2,10 @@
 #include <tlhelp32.h>
 #include "hawken/sha256.hpp"
 #include "connection_cache_reader.hpp"
+#include "fname_hash_lookup.hpp"
 #include "mech_setup_reader.hpp"
 #include "controller_sample_comparison.hpp"
+#include "live_player_reader.hpp"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <array>
@@ -11,6 +13,8 @@
 #include <filesystem>
 #include <iostream>
 #include <limits>
+#include <optional>
+#include <span>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -87,11 +91,28 @@ public:
         SIZE_T received=0;
         if (!ReadProcessMemory(process_,reinterpret_cast<LPCVOID>(static_cast<std::uintptr_t>(location)),
             &result,sizeof(T),&received) || received!=sizeof(T)) fail("read_unavailable");
+        if (trace_) {
+            trace_->insert(trace_->end(),{location,sizeof(T)});
+            const auto* bytes=reinterpret_cast<const unsigned char*>(&result);
+            for (std::size_t i=0;i<sizeof(T);i+=8) {
+                std::uint64_t word=0;
+                for (std::size_t j=0;j<8 && i+j<sizeof(T);++j)
+                    word|=static_cast<std::uint64_t>(bytes[i+j])<<(j*8);
+                trace_->push_back(word);
+            }
+        }
         return result;
+    }
+    std::size_t used() const noexcept { return used_; }
+    std::vector<std::uint64_t>* trace_to(std::vector<std::uint64_t>* sink) noexcept {
+        const auto previous=trace_;
+        trace_=sink;
+        return previous;
     }
 private:
     HANDLE process_;
     std::size_t used_=0;
+    std::vector<std::uint64_t>* trace_=nullptr;
 };
 struct Name {
     std::string text;
@@ -101,6 +122,7 @@ struct Name {
 struct Sample {
     Json metadata;
     std::vector<std::uint64_t> pointers;
+    std::vector<std::uint64_t> class_addresses,field_addresses;
     bool operator==(const Sample&) const = default;
 };
 bool identifier(std::uint16_t unit,bool first) noexcept {
@@ -229,7 +251,7 @@ std::uint64_t connection_cache_sample(Reader& reader,std::uint64_t module,Names&
             if (cache.classes.size()!=expected.size()) fail("cache_identity_mismatch");
             for (std::size_t i=0;i<cache.classes.size();++i) {
                 const auto& actual=cache.classes[i];
-                Json klass={{"package",packages[i]},{"class",classes[i]},
+                Json klass={{"package",out.metadata["classes"][i]["package"]},{"class",out.metadata["classes"][i]["class"]},
                     {"base",actual.base},{"capacity",actual.capacity},{"fields",Json::array()}};
                 for (const auto& field:actual.fields) {
                     const auto found=std::find(expected[i].fields.begin(),expected[i].fields.end(),field.address);
@@ -365,23 +387,28 @@ Sample mech_sample(Reader& reader,std::uint64_t module) {
     }
     return out;
 }
-Sample sample(Reader& reader,std::uint64_t module,bool connection_cache) {
+Sample sample(Reader& reader,std::uint64_t module,bool connection_cache,
+    std::uint64_t supplied_root=0,std::span<const std::string_view> expected_packages=packages,
+    std::span<const std::string_view> expected_names=classes,std::uint64_t expected_vtable=controller_vtable,
+    std::uint64_t class_kind=0,std::uint64_t expected_map=0) {
     Sample out;
     out.metadata={{"selector_raw",reader.read<std::uint32_t>(module,0x1bb640c)},{"classes",Json::array()}};
-    const auto root=reader.read<std::uint64_t>(module,class_slot);
+    const auto root=supplied_root ? supplied_root : reader.read<std::uint64_t>(module,class_slot);
     if (!root) fail("cdo_unavailable_or_mismatch");
     const auto cdo=reader.read<std::uint64_t>(root,0x1d4);
     if (!cdo) fail("cdo_unavailable_or_mismatch");
     const auto cdo_flags=reader.read<std::uint64_t>(cdo,0x10);
-    if (reader.read<std::uint64_t>(cdo)!=add(module,controller_vtable) ||
+    if (reader.read<std::uint64_t>(cdo)!=add(module,expected_vtable) ||
         (cdo_flags&0x600)!=0x200 ||
         reader.read<std::uint64_t>(cdo,0x50)!=root) fail("cdo_unavailable_or_mismatch");
     out.metadata["cdo_flags"]=cdo_flags;
     out.pointers={root,cdo};
     Names names(reader,module,out);
-    std::array<std::uint64_t,8> chain{},arrays{};
-    std::array<std::int32_t,8> counts{};
-    std::array<hawken::probe::ExpectedClass,8> expected{};
+    if (expected_names.empty() || expected_names.size()>10 || expected_packages.size()!=expected_names.size())
+        fail("class_chain_mismatch");
+    std::vector<std::uint64_t> chain(expected_names.size()),arrays(expected_names.size());
+    std::vector<std::int32_t> counts(expected_names.size());
+    std::vector<hawken::probe::ExpectedClass> expected(expected_names.size());
     auto klass=root;
     std::size_t total=0;
     for (std::size_t i=0;i<chain.size();++i) {
@@ -389,13 +416,18 @@ Sample sample(Reader& reader,std::uint64_t module,bool connection_cache) {
         for (std::size_t j=0;j<i;++j) if (chain[j]==klass) fail("class_cycle");
         chain[i]=klass;
         expected[i].address=klass;
+        if (class_kind) {
+            const auto type=reader.read<std::uint64_t>(klass,0x50);
+            out.pointers.push_back(type);
+            if (type!=class_kind) fail("player_class_identity");
+        }
         const auto name=names.get(klass);
         instance_zero(name);
         const auto outer=reader.read<std::uint64_t>(klass,0x40);
         if (!outer) fail("class_chain_mismatch");
         const auto package=names.get(outer);
         instance_zero(package);
-        if (name.text!=classes[i] || package.text!=packages[i] || reader.read<std::uint64_t>(outer,0x40)!=0)
+        if (name.text!=expected_names[i] || package.text!=expected_packages[i] || reader.read<std::uint64_t>(outer,0x40)!=0)
             fail("class_chain_mismatch");
         arrays[i]=reader.read<std::uint64_t>(klass,0x150);
         counts[i]=reader.read<std::int32_t>(klass,0x158);
@@ -427,6 +459,7 @@ Sample sample(Reader& reader,std::uint64_t module,bool connection_cache) {
             if (outer!=chain[i] || !type) fail("field_identity_mismatch");
             const auto name=names.get(field),type_name=names.get(type);
             instance_zero(name); instance_zero(type_name);
+            if (class_kind) class_identity(reader,names,out,type,type_name.text,"Core","field_type_mismatch");
             const auto cast=reader.read<std::uint32_t>(type,0x128);
             Json entry=name_json(name);
             entry["type"]=name_json(type_name);
@@ -450,7 +483,7 @@ Sample sample(Reader& reader,std::uint64_t module,bool connection_cache) {
                     if (owner==chain.size()) fail("field_identity_mismatch");
                     const auto super_name=names.get(super);
                     instance_zero(super_name);
-                    entry["super"]={{"package",packages[owner]},{"class",classes[owner]},
+                    entry["super"]={{"package",expected_packages[owner]},{"class",expected_names[owner]},
                         {"field",name_json(super_name)}};
                     out.pointers.push_back(super_owner);
                 }
@@ -458,10 +491,231 @@ Sample sample(Reader& reader,std::uint64_t module,bool connection_cache) {
             out.metadata["classes"][i]["fields"].push_back(std::move(entry));
         }
     }
-    if (connection_cache) connection_cache_sample(reader,module,names,out,expected);
+    out.class_addresses=chain;
+    out.field_addresses=fields;
+    if (connection_cache) {
+        const auto observed_map=connection_cache_sample(reader,module,names,out,expected);
+        if (expected_map && observed_map!=expected_map) fail("unstable_sample");
+    }
     return out;
 }
-int observe(DWORD pid,bool connection_cache,bool mech_setup) {
+struct PlayerLocator {
+    std::int32_t name_count=0;
+    std::size_t visited_nodes=0,selected_heads=0,lookups=0,discovery_bytes=0;
+};
+std::array<std::uint32_t,2> find_pawn_names(Reader& reader,std::uint64_t module,PlayerLocator& locator,Sample& out) {
+    const auto initial=reader.used();
+    hawken::probe::FNameLookupSnapshot progress;
+    ++locator.lookups;
+    try {
+        const auto result=hawken::probe::read_player_fname_targets(reader,module,&progress);
+        if (result.name_count!=out.metadata["name_count"].get<std::int32_t>()) fail("unstable_sample");
+        out.pointers.insert(out.pointers.end(),result.trace.begin(),result.trace.end());
+        out.metadata["name_lookup"]={{"selected_heads",result.head_count},{"visited_nodes",result.scanned_entries}};
+        locator.name_count=result.name_count;
+        locator.visited_nodes+=result.scanned_entries;
+        locator.selected_heads+=result.head_count;
+        locator.discovery_bytes+=reader.used()-initial;
+        return result.indices;
+    } catch (...) {
+        locator.name_count=progress.name_count;
+        locator.visited_nodes+=progress.scanned_entries;
+        locator.selected_heads+=progress.head_count;
+        locator.discovery_bytes+=reader.used()-initial;
+        throw;
+    }
+}
+std::uint64_t player_object_lookup(Reader& reader,std::uint64_t module,Sample& out,
+    std::uint32_t name,std::uint64_t outer,std::uint64_t required_class) {
+    const auto hash=(name^static_cast<std::uint32_t>(outer>>4))&0x7fff;
+    auto object=reader.read<std::uint64_t>(module,(outer ? 0x1cae4b0 : 0x1c6e4b0)+
+        static_cast<std::uint64_t>(hash)*8);
+    std::vector<std::uint64_t> seen;
+    std::uint64_t found=0;
+    out.pointers.push_back(object);
+    while (object) {
+        if (seen.size()==256 || std::find(seen.begin(),seen.end(),object)!=seen.end()) fail("player_hash_limit");
+        seen.push_back(object);
+        const auto next=reader.read<std::uint64_t>(object,outer ? 0x18 : 8);
+        const auto index=reader.read<std::int32_t>(object,0x38);
+        out.pointers.insert(out.pointers.end(),{object,next,static_cast<std::uint64_t>(index)});
+        if (index!=-1) {
+            const auto tuple=reader.read<std::array<std::uint32_t,2>>(object,0x48);
+            out.pointers.insert(out.pointers.end(),{tuple[0],tuple[1]});
+            if (tuple==std::array<std::uint32_t,2>{name,0}) {
+                const auto flags=reader.read<std::uint64_t>(object,0x10);
+                const auto actual_outer=reader.read<std::uint64_t>(object,0x40);
+                const auto type=reader.read<std::uint64_t>(object,0x50);
+                out.pointers.insert(out.pointers.end(),{flags,actual_outer,type});
+                // Same conservative exclusion as the existing content locator.
+                if (!(flags&0x40000000000ULL) && actual_outer==outer && (!required_class || type==required_class)) {
+                    if (found) fail("player_object_ambiguous");
+                    found=object;
+                }
+            }
+        }
+        object=next;
+    }
+    if (!found) fail("player_object_absent");
+    return found;
+}
+struct PlayerRange { std::string name; std::uint64_t package; std::int32_t base,count; };
+std::vector<PlayerRange> player_ranges(Reader& reader,std::uint64_t map,Names& names,Sample& out) {
+    std::vector<PlayerRange> ranges;
+    const auto array=reader.read<std::uint64_t>(map,0x60);
+    const auto count=reader.read<std::int32_t>(map,0x68);
+    out.pointers.insert(out.pointers.end(),{array,static_cast<std::uint64_t>(count)});
+    if (count<0 || count>256 || (count && !array)) fail("player_package_limit");
+    constexpr std::array<std::string_view,8> wanted={"Core","Engine","HawkenGame","VS-Wreckage",
+        "GameFramework","UDKBase","BaseAI","HawkenGameContent"};
+    out.metadata["package_ranges"]=Json::array();
+    for (std::int32_t i=0;i<count;++i) {
+        const auto entry=add(array,static_cast<std::uint64_t>(i)*0x58);
+        const auto descriptor_name=names.get_raw(reader.read<std::array<std::uint32_t,2>>(entry),true);
+        instance_zero(descriptor_name);
+        if (std::find(wanted.begin(),wanted.end(),descriptor_name.text)==wanted.end()) continue;
+        if (std::any_of(ranges.begin(),ranges.end(),[&](const auto& item){return item.name==descriptor_name.text;}))
+            fail("player_package_identity");
+        const auto package=reader.read<std::uint64_t>(entry,8);
+        const auto guid=reader.read<std::array<std::uint32_t,4>>(entry,0x10);
+        const auto base=reader.read<std::int32_t>(entry,0x20),objects=reader.read<std::int32_t>(entry,0x24);
+        out.pointers.insert(out.pointers.end(),{package,static_cast<std::uint64_t>(base),static_cast<std::uint64_t>(objects)});
+        out.pointers.insert(out.pointers.end(),guid.begin(),guid.end());
+        if (!package || base<0 || objects<0 || static_cast<std::uint64_t>(base)+static_cast<std::uint64_t>(objects)>0x80000000ULL)
+            fail("player_package_identity");
+        const auto actual_name=names.get(package); instance_zero(actual_name);
+        const auto type=reader.read<std::uint64_t>(package,0x50);
+        const auto outer=reader.read<std::uint64_t>(package,0x40);
+        out.pointers.insert(out.pointers.end(),{type,outer});
+        if (actual_name!=descriptor_name || outer!=0) fail("player_package_identity");
+        class_identity(reader,names,out,type,"Package","Core","player_package_identity");
+        ranges.push_back({descriptor_name.text,package,base,objects});
+        out.metadata["package_ranges"].push_back({{"package",descriptor_name.text},{"guid",guid},
+            {"base",base},{"count",objects}});
+    }
+    return ranges;
+}
+void player_eligibility(Reader& reader,Sample& item,const std::vector<PlayerRange>& ranges) {
+    // Reconstruction of primary 7ace0/86ac0 only; no remote virtual call.
+    for (std::size_t i=0;i<item.class_addresses.size();++i) {
+        auto& klass=item.metadata["classes"][i];
+        const auto range=std::find_if(ranges.begin(),ranges.end(),[&](const auto& value){return value.name==klass["package"].get<std::string>();});
+        klass["eligible"]=nullptr;
+        for (auto& field:klass["fields"]) field["eligible"]=nullptr;
+        if (range==ranges.end()) continue;
+        const auto package=reader.read<std::uint64_t>(item.class_addresses[i],0x40);
+        item.pointers.push_back(package);
+        if (package!=range->package) fail("player_package_identity");
+        const auto eligible=[&](const Json& index){const auto n=index.get<std::int32_t>();return n>=0 && n<range->count;};
+        klass["eligible"]=eligible(klass["net_index"]);
+        for (auto& field:klass["fields"]) field["eligible"]=eligible(field["net_index"]);
+    }
+    item.metadata["eligibility_basis"]="reconstructed_primary_package_range_predicate";
+    item.metadata["virtual_eligibility_invoked"]=false;
+}
+Sample player_links_sample(Reader& reader,std::uint64_t module,PlayerLocator& locator) {
+    Sample out; out.metadata={{"mode","player_links"},{"field_ids_accepted",false},{"roots",Json::array()}};
+    Names names(reader,module,out);
+    const auto map=connection_cache_sample(reader,module,names,out,{},false);
+    if (!map) fail("player_map_unsupported");
+    const auto ranges=player_ranges(reader,map,names,out);
+    const auto kind=reader.read<std::uint64_t>(module,0x1bda990);
+    class_identity(reader,names,out,kind,"Class","Core","player_class_identity");
+    const auto controller=reader.read<std::uint64_t>(module,class_slot);
+    const auto pri=reader.read<std::uint64_t>(module,0x1d3f988);
+    out.pointers.insert(out.pointers.end(),{kind,controller,pri});
+    if (!controller || !pri) fail("player_class_identity");
+    const auto target_names=find_pawn_names(reader,module,locator,out);
+    const auto package_name=names.get_raw({target_names[0],0}),pawn_name=names.get_raw({target_names[1],0});
+    if (package_name.text!="HawkenGameContent" || pawn_name.text!="R_PawnContent") fail("player_class_identity");
+    const auto package=player_object_lookup(reader,module,out,target_names[0],0,0);
+    const auto package_type=reader.read<std::uint64_t>(package,0x50);
+    class_identity(reader,names,out,package_type,"Package","Core","player_class_identity");
+    const auto pawn=player_object_lookup(reader,module,out,target_names[1],package,kind);
+    const auto pawn_cdo=reader.read<std::uint64_t>(pawn,0x1d4);
+    if (!pawn_cdo) fail("cdo_unavailable_or_mismatch");
+    const auto pawn_cdo_name=names.get(pawn_cdo); instance_zero(pawn_cdo_name);
+    const auto pawn_cdo_outer=reader.read<std::uint64_t>(pawn_cdo,0x40);
+    const auto pawn_getter=reader.read<std::uint64_t>(add(module,0x17de0c0),0x638);
+    out.pointers.insert(out.pointers.end(),{pawn_cdo,pawn_cdo_outer,pawn_getter});
+    if (pawn_cdo_name.text!="Default__R_PawnContent" || pawn_cdo_outer!=package || pawn_getter!=add(module,0x379e20))
+        fail("cdo_unavailable_or_mismatch");
+    constexpr std::array<std::string_view,7> pri_packages={"HawkenGame","HawkenGame","Engine","Engine","Engine","Engine","Core"};
+    constexpr std::array<std::string_view,7> pri_classes={"R_PlayerReplicationInfo","HawkenPRI_Base","PlayerReplicationInfo","ReplicationInfo","Info","Actor","Object"};
+    constexpr std::array<std::string_view,10> pawn_packages={"HawkenGameContent","HawkenGame","HawkenGame","HawkenGame","BaseAI","UDKBase","GameFramework","Engine","Engine","Core"};
+    constexpr std::array<std::string_view,10> pawn_classes={"R_PawnContent","R_Pawn","R_PawnNative","R_PawnBase","BaseAIPawn","UDKPawn","GamePawn","Pawn","Actor","Object"};
+    const std::array<std::uint64_t,3> roots={controller,pri,pawn};
+    std::vector<std::uint64_t> unique_fields;
+    for (std::size_t i=0;i<roots.size();++i) {
+        Sample item=i==0 ? sample(reader,module,true,roots[i],packages,classes,controller_vtable,kind,map) : i==1 ?
+            sample(reader,module,true,roots[i],pri_packages,pri_classes,0x17daa60,kind,map) :
+            sample(reader,module,true,roots[i],pawn_packages,pawn_classes,0x17de0c0,kind,map);
+        for (const auto field:item.field_addresses) {
+            if (std::find(unique_fields.begin(),unique_fields.end(),field)==unique_fields.end()) {
+                if (unique_fields.size()==total_limit) fail("field_array_limit");
+                unique_fields.push_back(field);
+            }
+        }
+        player_eligibility(reader,item,ranges);
+        const auto& cache=item.metadata["connection_cache"];
+        if (!cache["present"].get<bool>()) fail("player_cache_absent");
+        if (cache["classes"].empty()) fail("cache_class_mismatch");
+        const auto& leaf=cache["classes"][0];
+        item.metadata["exclusive_bound"]=leaf["base"].get<std::int32_t>()+static_cast<std::int32_t>(leaf["fields"].size());
+        item.metadata["field_ids_accepted"]=false;
+        out.pointers.insert(out.pointers.end(),item.pointers.begin(),item.pointers.end());
+        out.metadata["roots"].push_back(std::move(item.metadata));
+    }
+    out.metadata["locator_name_count"]=locator.name_count;
+    return out;
+}
+
+Sample live_player_sample(Reader& reader,std::uint64_t module) {
+    Sample out;
+    // Successful reads only, without additional remote reads. The shared 1MiB
+    // read budget bounds this internal trace; no addresses/bytes are serialized.
+    struct TraceScope {
+        Reader& reader;
+        std::vector<std::uint64_t>* previous;
+        ~TraceScope() { reader.trace_to(previous); }
+    } trace_scope{reader,reader.trace_to(&out.pointers)};
+    Names names(reader,module,out);
+    const auto kind=reader.read<std::uint64_t>(module,0x1bda990);
+    if (!kind) fail("live_identity");
+    const auto identify=[&](std::uint64_t object) {
+        // Called only for class/property metadata, never live actor names.
+        const auto name=names.get(object);
+        std::vector<std::uint64_t> seen;
+        auto outer=reader.read<std::uint64_t>(object,0x40);
+        while (outer) {
+            if (std::find(seen.begin(),seen.end(),outer)!=seen.end()) fail("live_cycle");
+            if (seen.size()==4) fail("live_limit");
+            seen.push_back(outer);
+            const auto parent=reader.read<std::uint64_t>(outer,0x40);
+            if (!parent) {
+                const auto package=names.get(outer);
+                const auto package_type=reader.read<std::uint64_t>(outer,0x50);
+                if (!package_type || reader.read<std::uint64_t>(package_type,0x50)!=kind || package.raw[1]!=0)
+                    fail("live_identity");
+                class_identity(reader,names,out,package_type,"Package","Core","live_identity");
+                return hawken::probe::LiveIdentity{name.text,package.text,name.raw[1]};
+            }
+            outer=parent;
+        }
+        fail("live_identity");
+    };
+    const auto value=hawken::probe::read_live_player(reader,module,identify);
+    out.pointers.insert(out.pointers.end(),value.trace.begin(),value.trace.end());
+    // Replace Names metadata: neither raw FNames nor metadata names escape this mode.
+    out.metadata={{"local_player_present",value.local_player_present},
+        {"controller_present",value.controller_present},{"pawn_present",value.pawn_present},
+        {"pri_present",value.pri_present},{"controller_player_matches",value.controller_player_matches},
+        {"first_entry_only",true},{"world_membership_verified",false}};
+    if (value.pawn_offset) out.metadata["pawn_offset"]=*value.pawn_offset;
+    if (value.pri_offset) out.metadata["pri_offset"]=*value.pri_offset;
+    return out;
+}
+int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player) {
     const Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if (!process) fail("process_unavailable");
     if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -473,10 +727,36 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup) {
         module.modBaseSize<class_slot+sizeof(std::uint64_t)) fail("module_unavailable");
     const auto base=static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(module.modBaseAddr));
     Reader reader(process.get());
-    const auto first=mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
-    const auto second=mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
+    PlayerLocator locator;
+    Sample first,second;
+    try {
+        first=live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+            mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
+        second=live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+            mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
+    } catch (const std::runtime_error& error) {
+        if (!player_links || std::string_view(error.what())!="read_limit") throw;
+        std::cout<<Json({{"status","inconclusive"},{"error","read_limit"},{"identity_verified",false},
+            {"field_ids_accepted",false},{"diagnostics",{{"locator_name_count",locator.name_count},
+                {"locator_visited_nodes",locator.visited_nodes},{"locator_selected_heads",locator.selected_heads},
+                {"locator_lookups",locator.lookups},{"locator_read_bytes",locator.discovery_bytes},
+                {"total_read_bytes",reader.used()}}}}).dump()<<'\n';
+        return 1;
+    }
     const auto comparison=hawken::probe::compare_controller_samples(
         first.metadata,first.pointers,second.metadata,second.pointers,mech_setup);
+    if (live_player) {
+        if (!comparison.full_samples_equal) fail("unstable_sample");
+        if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
+            fail("original_identity_mismatch");
+        const bool local=second.metadata["local_player_present"].get<bool>();
+        const bool controller=second.metadata["controller_present"].get<bool>();
+        Json report={{"status",controller ? "observed" : "inconclusive"},
+            {"identity_verified",true},{"samples_equal",true},{"metadata",second.metadata}};
+        if (!controller) report["error"]=local ? "live_controller_absent" : "live_local_player_absent";
+        std::cout<<report.dump()<<'\n';
+        return controller ? 0 : 1;
+    }
     if (!comparison.inspected_metadata_equal) {
         const auto section_equal=[&](const char* key) {
             const auto left=first.metadata.find(key);
@@ -505,32 +785,39 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup) {
         {"inspected_metadata_equal",comparison.inspected_metadata_equal},
         {"name_count_changed",comparison.name_count_changed},
         {"field_ids_accepted",false},{"metadata",second.metadata}};
+    if (player_links) report["diagnostics"]={{"locator_name_count",locator.name_count},
+        {"locator_visited_nodes",locator.visited_nodes},{"locator_selected_heads",locator.selected_heads},
+        {"locator_lookups",locator.lookups},{"locator_read_bytes",locator.discovery_bytes},
+        {"total_read_bytes",reader.used()}};
     std::cout<<report.dump()<<'\n';
     return 0;
 }
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup]\n"
+        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player]\n"
             "Read-only bounded original-controller NetFields metadata; no process creation.\n";
         return 0;
     }
     DWORD pid=0;
     const bool connection_cache=argc==3 && std::string_view(argv[2])=="--connection-cache";
     const bool mech_setup=argc==3 && std::string_view(argv[2])=="--mech-setup";
-    if ((argc!=2 && !connection_cache && !mech_setup) || !parse_pid(argv[1],pid)) {
+    const bool player_links=argc==3 && std::string_view(argv[2])=="--player-links";
+    const bool live_player=argc==3 && std::string_view(argv[2])=="--live-player";
+    if ((argc!=2 && !connection_cache && !mech_setup && !player_links && !live_player) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid,connection_cache,mech_setup); }
+    try { return observe(pid,connection_cache,mech_setup,player_links,live_player); }
     catch (const NameInstanceError& error) {
-        std::cout<<Json({{"status","inconclusive"},{"error","nonoriginal_name_instance"},
-            {"identity_verified",false},{"rejected_fname_raw",error.raw()}}).dump()<<'\n';
+        Json report={{"status","inconclusive"},{"error","nonoriginal_name_instance"},{"identity_verified",false}};
+        if (!live_player) report["rejected_fname_raw"]=error.raw();
+        std::cout<<report.dump()<<'\n';
         return 1;
     }
     catch (const std::runtime_error& error) {
         // Only locally fixed codes are allowed to escape: file hashing may throw its own errors.
-        constexpr std::array<std::string_view,40> codes={"invalid_address","read_limit","read_unavailable",
+        constexpr std::array<std::string_view,63> codes={"invalid_address","read_limit","read_unavailable",
             "names_unavailable","invalid_name_index","invalid_name","nonoriginal_name_instance",
             "cdo_unavailable_or_mismatch","class_chain_mismatch","class_cycle","field_array_limit",
             "field_identity_mismatch","field_cycle","field_type_mismatch","process_unavailable","unstable_sample",
@@ -540,7 +827,13 @@ int main(int argc,char** argv) {
             "mech_invalid","mech_cycle","mech_identity",
             "mech_range_limit","mech_struct_limit","mech_children_limit","mech_total_children_limit",
             "mech_array_dim_limit","mech_struct_target_null","mech_pending_limit","mech_enum_limit",
-            "mech_pri_children_limit","mech_package_count_limit"};
+            "mech_pri_children_limit","mech_package_count_limit",
+            "player_names_ambiguous","player_names_absent","player_hash_limit","player_object_ambiguous",
+            "player_object_absent","player_package_limit","player_package_identity","player_class_identity",
+            "player_map_unsupported","player_cache_absent","player_names_uninitialized",
+            "player_name_invalid","player_name_limit","player_name_cycle",
+            "live_invalid","live_engine_absent","live_array_invalid","live_limit","live_identity",
+            "live_cycle","live_property_missing","live_property_mismatch","live_backlink_mismatch"};
         std::string_view code="observation_unavailable";
         for (const auto allowed:codes) if (allowed==error.what()) code=allowed;
         if (std::string_view(error.what())=="original_identity_mismatch" ||

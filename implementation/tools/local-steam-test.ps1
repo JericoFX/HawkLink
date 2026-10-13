@@ -112,8 +112,8 @@ function Assert-AttachedServices($Server, $Master) {
     }
     $serverStart = $Server.StartTime
     $masterStart = $Master.StartTime
-    Assert-Hash $Server.Path '32fd3f76dd5a83d4918e47bd753b110a51a665dc10a94cc1f16ec63b13db29b3'
-    Assert-Hash $Master.Path '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
+    Assert-Hash $Server.Path 'bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742'
+    Assert-Hash $Master.Path 'f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f'
     $serverTcp = @(Get-NetTCPConnection -State Listen -LocalPort 80 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
     $serverUdp = @(Get-NetUDPEndpoint -LocalPort 7777 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
     $masterTcp = @(Get-NetTCPConnection -State Listen -LocalPort 18080 -OwningProcess $Master.Id -ErrorAction SilentlyContinue)
@@ -178,8 +178,8 @@ try {
         Assert-Hash (Join-Path $gameDirectory $original.name) $original.hash
     }
     if ($ownsServices) {
-        Assert-Hash $masterExecutable '17017058edab15d13c19bdc204528c10b96cecdca604653c161686dc358f7a4e'
-        Assert-Hash $serverExecutable '32fd3f76dd5a83d4918e47bd753b110a51a665dc10a94cc1f16ec63b13db29b3'
+        Assert-Hash $masterExecutable 'f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f'
+        Assert-Hash $serverExecutable 'bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742'
     }
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
@@ -230,7 +230,7 @@ try {
     Write-Evidence 'guard-active.json' @{ verified = $true; ruleName = $ruleName; program = $gameExecutable }
 
     $phase = 'temporary-files'
-    Add-TestFile $bridgeSource 'dinput8.dll' 'fe45fe000189477aa884c680a63ca20340702b5d405bca92428ce51c076b5c16'
+    Add-TestFile $bridgeSource 'dinput8.dll' '49f8feafa7984626dc577132ed350e6cccc0a336f574c88fcb5fbbf639f01389'
     Add-TestFile $configSource 'hawken-client.toml' '7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3'
 
     if ($ownsServices) {

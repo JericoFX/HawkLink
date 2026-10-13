@@ -55,9 +55,10 @@ std::size_t bunch_bits(const Bunch& b, const TransportConfig& c) {
     if (b.payload.size()!=bytes || (b.payload_bits%8!=0 &&
         (b.payload.back()&(0xffU<<(b.payload_bits%8)))!=0))
         fail(TransportErrorCode::invalid_packet);
-    if (!b.reliable || (b.channel==0 ? b.channel_type!=1 : b.channel_type!=2))
+    if (b.reliable ? (b.channel==0 ? b.channel_type!=1 : b.channel_type!=2)
+                   : (b.channel==0 || b.control))
         fail(TransportErrorCode::unsupported_bunch);
-    return 14+(b.control ? 2 : 0)+10+3+
+    return 14+(b.control ? 2 : 0)+(b.reliable ? 10 : 0)+((b.reliable || b.open) ? 3 : 0)+
         bounded_width(static_cast<std::uint32_t>(b.payload_bits),c.max_packet_bytes*8U)+b.payload_bits;
 }
 void validate_single_bunch(const Bunch& b, const TransportConfig& c) {
@@ -104,6 +105,12 @@ public:
 
     void send_new(const Bunch& input) {
         auto& channel=find_channel(s,input.channel);
+        if (!input.reliable) {
+            // Plain actors use the shared packet namespace but never enter a
+            // reliable queue or consume its sequence/payload accounting.
+            emit_bunch(input);
+            return;
+        }
         if (queue_count(true)>=c.limits.max_outgoing_bunches)
             fail(TransportErrorCode::resource_limit);
         require_payload(input.payload.size());
@@ -164,27 +171,35 @@ public:
     void process_bunch(const Bunch& b, std::uint32_t packet_id) {
         auto& channel=find_channel(s,b.channel);
         if (channel.view.closed) return;
-        const auto seq=expand_sequence(b.sequence,channel.view.incoming_sequence);
-        if (!later(seq,channel.view.incoming_sequence)) return;
-        if (b.open) {
-            channel.view.open_confirmed=true;
-            channel.view.opening_packet_id=packet_id;
+        if (!b.reliable) {
+            // A confirmed seed alone does not supply the native opening ID.
+            // Packet ACK generation still runs for ignored pre-open records.
+            if (!channel.view.opening_packet_id) return;
+            result.delivered.push_back(b);
+        } else {
+            const auto seq=expand_sequence(b.sequence,channel.view.incoming_sequence);
+            if (!later(seq,channel.view.incoming_sequence)) return;
+            if (b.open) {
+                channel.view.open_confirmed=true;
+                channel.view.opening_packet_id=packet_id;
+            }
+            if (seq!=channel.view.incoming_sequence+1U) {
+                auto pos=std::lower_bound(channel.incoming.begin(),channel.incoming.end(),seq,
+                    [](const auto& e,std::uint32_t value) { return signed_bits(e.sequence)<signed_bits(value); });
+                if (pos!=channel.incoming.end() && pos->sequence==seq) return;
+                if (queue_count(false)>=c.limits.max_incoming_bunches)
+                    fail(TransportErrorCode::resource_limit);
+                require_payload(b.payload.size());
+                const bool first=channel.incoming.empty();
+                channel.incoming.insert(pos,{b,seq});
+                s.view.queued_payload_bytes+=b.payload.size();
+                channel.view.queued_payload_bytes+=b.payload.size();
+                if (first) channel.view.incoming_blocked_since=now;
+                return;
+            }
+            deliver(channel,b,seq);
         }
-        if (seq!=channel.view.incoming_sequence+1U) {
-            auto pos=std::lower_bound(channel.incoming.begin(),channel.incoming.end(),seq,
-                [](const auto& e,std::uint32_t value) { return signed_bits(e.sequence)<signed_bits(value); });
-            if (pos!=channel.incoming.end() && pos->sequence==seq) return;
-            if (queue_count(false)>=c.limits.max_incoming_bunches)
-                fail(TransportErrorCode::resource_limit);
-            require_payload(b.payload.size());
-            const bool first=channel.incoming.empty();
-            channel.incoming.insert(pos,{b,seq});
-            s.view.queued_payload_bytes+=b.payload.size();
-            channel.view.queued_payload_bytes+=b.payload.size();
-            if (first) channel.view.incoming_blocked_since=now;
-            return;
-        }
-        deliver(channel,b,seq);
+        // Native unreliable delivery also reaches this common reliable tail.
         while (!channel.view.closed && !s.view.closed && !channel.incoming.empty() &&
                channel.incoming.front().sequence==channel.view.incoming_sequence+1U) {
             // Pop/account before delivery: actor close may clear the remaining
@@ -416,6 +431,8 @@ TransportStep ControlTransport::send(const Bunch& bunch, double now) {
         std::any_of(channel.outgoing.begin(),channel.outgoing.end(),
             [](const auto& entry) { return entry.bunch.close; })))
         fail(TransportErrorCode::terminal_state);
+    if (!bunch.reliable && !channel.view.opening_packet_id)
+        fail(TransportErrorCode::unsupported_bunch);
     State staged=state_;
     Operation op(config_,staged,now);
     op.send_new(bunch);

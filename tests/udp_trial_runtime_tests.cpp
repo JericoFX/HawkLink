@@ -744,3 +744,141 @@ TEST_CASE("UDP trial invalid Pawn configuration rolls back and preserves later v
     selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
     udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); runtime.stop();
 }
+
+namespace {
+udp::InitialPriPlan runtime_pri_plan() {
+    // Public synthetic FRoot/local1. PRI has no Controller byte.
+    return {{9,91,0,false},{0x01020304U,0x12345678U,0x80000000U,0xffffffffU},
+        1,{0,0,0},std::nullopt};
+}
+}
+TEST_CASE("UDP trial copies PRI plan and sends Controller then PRI then optional Pawn on same session") {
+    bool with_pawn=false;
+    SUBCASE("PRI without Pawn") {}
+    SUBCASE("PRI precedes Pawn") { with_pawn=true; }
+    Fixture f;
+    std::unique_ptr<udp::UdpTrialRuntime> runtime;
+    {
+        auto selected=config(); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan();
+        if (with_pawn) selected.pawn=runtime_pawn_plan();
+        selected.pri=runtime_pri_plan();
+        runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+        auto changed=runtime_pri_plan(); changed.channel.channel=10;
+        changed.channel.outgoing_sequence=900; changed.archetype_package_guid={};
+        changed.archetype_local_net_index=3; changed.position={8,-8,0};
+        changed.rotation=wire::actor::Rotation{256,0,65280};
+        selected.pri=changed; selected.pri.reset();
+    } // The runtime must also survive destruction of the caller's config.
+    const auto login=f.login(); const auto dto=provision(*runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    Peer peer; session::Context client(session::Role::client,id,key);
+    runtime_publish(*runtime,login,peer,client);
+    CHECK_FALSE(runtime->diagnostics().pri_sent);
+    const auto previous=client.last_received();
+    const auto join=packet(client,4,5,public_hex("08040302017856341200000080ffffffff0200000009"));
+    peer.send(runtime->port(),join);
+    const auto expected=with_pawn ? std::size_t{3} : std::size_t{2};
+    const auto actors=runtime_actor_messages(peer,client,2000ms,expected);
+    REQUIRE(actors.size()==expected);
+    CHECK(actors[0].channel==7); CHECK(actors[0].sequence==42);
+    CHECK(actors[0].payload==public_hex("04000000400500")); CHECK(actors[0].payload_bits==51);
+    // PRIMARY package coordinate1 (32 bits), zero packed position (11 bits).
+    // Literal derived independently; no byte alignment or Controller byte.
+    CHECK(actors[1].channel==9); CHECK(actors[1].sequence==92);
+    CHECK(actors[1].payload==public_hex("020000004005")); CHECK(actors[1].payload_bits==43);
+    if (with_pawn) {
+        CHECK(actors[2].channel==8); CHECK(actors[2].sequence==72);
+        CHECK(actors[2].payload==public_hex("04000000032338c07f")); CHECK(actors[2].payload_bits==71);
+    }
+    for (const auto& actor:actors) {
+        CHECK(actor.channel_type==2); CHECK(actor.reliable); CHECK(actor.control);
+        CHECK(actor.open); CHECK_FALSE(actor.close);
+    }
+    CHECK(client.last_received()>previous);
+    CHECK(wait_until([&]{return runtime->diagnostics().pri_sent;}));
+    CHECK(runtime->diagnostics().controller_sent);
+    CHECK(runtime->diagnostics().pawn_sent==with_pawn);
+    CHECK(runtime->diagnostics().join_requested); CHECK_FALSE(runtime->diagnostics().closed);
+    CHECK(runtime->assignment().authorize_udp(id));
+    peer.send(runtime->port(),join);
+    CHECK(runtime_actor_messages(peer,client,200ms).empty());
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    runtime->stop(); CHECK(runtime->diagnostics().pri_sent); CHECK_FALSE(runtime->running());
+}
+TEST_CASE("UDP trial invalid PRI config releases bind and preserves later valid startup") {
+    Fixture f;
+    std::uint16_t port=0;
+    { Peer reservation; port=reservation.port(); }
+    for (unsigned invalid=0;invalid<9;++invalid) {
+        CAPTURE(invalid);
+        auto selected=config(port); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        auto pri=runtime_pri_plan();
+        switch (invalid) {
+        case 0: selected.controller.reset(); selected.pawn.reset(); break;
+        case 1: selected.publication.reset(); break;
+        case 2: pri.channel.channel=0; break;
+        case 3: pri.channel.channel=2048; break;
+        case 4: pri.channel.channel=7; break;
+        case 5: pri.channel.channel=8; break;
+        case 6: pri.archetype_local_net_index=-1; break;
+        case 7: pri.position[0]=1048576; break;
+        case 8: pri.rotation=wire::actor::Rotation{1,0,0}; break;
+        }
+        selected.pri=pri;
+        CHECK(udp::validate_trial_config(selected)); // Owner owns actor-plan preflight.
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        CHECK_FALSE(f.store.find_account("76561197960265729"));
+    }
+    auto selected=config(port); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan();
+    udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); CHECK(runtime.port()==port);
+    runtime.stop();
+}
+TEST_CASE("UDP trial unresolved PRI retires after Controller without sending Pawn") {
+    Fixture f; auto selected=config(); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    auto pri=runtime_pri_plan(); pri.archetype_local_net_index=3; // FRoot count3: one past end.
+    selected.pri=pri; udp::UdpTrialRuntime runtime(f.auth,selected);
+    const auto login=f.login(); const auto dto=provision(runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    Peer peer; session::Context client(session::Role::client,id,key);
+    runtime_publish(runtime,login,peer,client);
+    peer.send(runtime.port(),packet(client,4,5,public_hex("08040302017856341200000080ffffffff0200000009")));
+    CHECK(wait_until([&]{return runtime.diagnostics().closed;}));
+    const auto actors=runtime_actor_messages(peer,client,200ms,2); REQUIRE(actors.size()==1);
+    CHECK(actors[0].channel==7); CHECK(actors[0].payload==public_hex("04000000400500"));
+    CHECK(runtime.diagnostics().controller_sent); CHECK_FALSE(runtime.diagnostics().pri_sent);
+    CHECK_FALSE(runtime.diagnostics().pawn_sent); CHECK_FALSE(runtime.assignment().authorize_udp(id));
+    CHECK(runtime.running()); CHECK(f.store.wallet(account->ref)==wallet);
+    CHECK_FALSE(f.store.starter_items(account->ref));
+}
+TEST_CASE("UDP trial PRI plan cannot bypass Login Response authorization") {
+    Fixture f; auto selected=config(); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan(); udp::UdpTrialRuntime runtime(f.auth,selected);
+    const auto login=f.login(); const auto dto=provision(runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    Peer peer; session::Context client(session::Role::client,id,key);
+    hello(runtime,peer,client);
+    peer.send(runtime.port(),packet(client,3,4,login_response("abcdef01-2345-6789-abcd-ef0123456789")));
+    CHECK(publication_messages(peer,client,1)==std::vector<Bytes>{
+        public_hex("06100000004c6f67696e2072656a65637465642e00")});
+    CHECK(wait_until([&]{return runtime.diagnostics().closed;}));
+    CHECK(runtime_actor_messages(peer,client,200ms).empty());
+    CHECK_FALSE(runtime.diagnostics().controller_sent); CHECK_FALSE(runtime.diagnostics().pri_sent);
+    CHECK_FALSE(runtime.diagnostics().pawn_sent); CHECK_FALSE(runtime.assignment().authorize_udp(id));
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+}

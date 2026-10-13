@@ -88,7 +88,7 @@ struct ConnectionStep {
     std::optional<control::posthello::Login> login_candidate;
     // One-shot protocol event, not admission, actor creation or a hosted world.
     bool join_requested = false;
-    // Opaque reliable actor payloads; exact logical bits, no opcode/schema or
+    // Opaque actor payloads; exact logical bits, no opcode/schema or
     // gameplay interpretation. Closing connection steps clear both vectors.
     std::vector<wire::Bunch> actor_bunches;
     std::vector<std::uint16_t> closed_actor_channels;
@@ -172,7 +172,9 @@ public:
     // Rejections preserve all connection/transport state. No actor admission.
     void register_actor_channel(const wire::reliable::ActorChannelConfig& config);
 
-    // Only open/after Join, canonical registered reliable/type2 with sequence0.
+    // Only open/after Join: reliable/type2 or plain unreliable/type0 actor.
+    // Caller supplies sequence0. Unreliable needs a known opening PacketID,
+    // omits sequence/type on wire, and cannot open/close or enter reliable queues.
     // Flags and exact payload_bits are supplied by caller, not ReplyFlags.
     // Time/state/shape/unknown-channel/quota/queued-close rejection preserves
     // state, clock and nonces via transactional transport.send. Closed actor
@@ -182,9 +184,10 @@ public:
     // result. Uses SAME Context/PacketIDs/ACKs; no object resolution/spawn.
     ConnectionStep send_actor(const wire::Bunch& bunch, double now);
 
-    // Actor delivery is dispatched by channel/type before control framing;
+    // Actor delivery is dispatched by registered channel before control framing;
     // exact nonbyte actor payloads are opaque events, one per shared message
-    // quota unit. Reliable duplicates never repeat events. Actor close is a
+    // quota unit. Reliable duplicates never repeat events; unreliable retains
+    // native stale-PacketID delivery without changing reliable sequence. Actor close is a
     // channel event only; global/control close clears transient actor events.
     // No automatic actor registration, object interpretation or admission.
     // Prefix framing within each delivered CONTROL bunch:1a/1b/1c5bytes,1d1byte,

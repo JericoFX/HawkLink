@@ -1,4 +1,5 @@
 #include "connection_cache_reader.hpp"
+#include "fname_hash_lookup.hpp"
 #include <doctest/doctest.h>
 #include <algorithm>
 #include <array>
@@ -42,6 +43,15 @@ struct Memory {
         T value{};
         std::memcpy(&value, data.data(), sizeof(T));
         return value;
+    }
+};
+
+struct FNameBudgetMemory:Memory {
+    std::size_t used=0;
+    template<class T> T read(std::uint64_t base,std::uint64_t offset=0) {
+        if (sizeof(T)>1024*1024-used) throw std::runtime_error("read_limit");
+        used+=sizeof(T);
+        return Memory::read<T>(base,offset);
     }
 };
 
@@ -291,8 +301,8 @@ TEST_CASE("Connection cache expected class and field inputs are bounded and uniq
     Fixture fixture;
     const char* code = "cache_invalid";
     SUBCASE("no classes") { fixture.expected.clear(); }
-    SUBCASE("nine classes") {
-        fixture.expected.resize(9, {0x3000, {}});
+    SUBCASE("eleven classes") {
+        fixture.expected.resize(11, {0x3000, {}});
         for (std::size_t i = 0; i < fixture.expected.size(); ++i)
             fixture.expected[i].address = 0x3000 + i * 0x100;
         code = "cache_limit";
@@ -425,5 +435,283 @@ TEST_CASE("Connection cache allows eight classes and 2048 contiguous fields at p
         total += value.fields.size();
     }
     CHECK(total == 2048);
-    // Eight classes * 256 fields already enforce the aggregate 2048 upper bound.
+    // This eight-class fixture reaches the independent aggregate 2048 boundary.
+}
+
+TEST_CASE("Connection cache retains complete ten-class Pawn and seven-class PRI chains") {
+    Fixture fixture;
+    std::size_t count = 10;
+    SUBCASE("complete Pawn ancestry") {}
+    SUBCASE("complete PRI ancestry") { count = 7; }
+    fixture.expected.clear();
+    for (std::size_t depth = 0; depth < count; ++depth) {
+        const auto offset = static_cast<std::uint64_t>(depth) * 0x100;
+        const auto type = leaf_class + offset;
+        const auto address = leaf_cache + offset;
+        const auto parent = depth + 1 == count ? 0 : address + 0x100;
+        const auto array = 0x100000ULL + offset;
+        const auto pointer = 0x400000ULL + offset;
+        const auto id = static_cast<std::int32_t>(count - 1 - depth);
+        fixture.expected.push_back({type, {pointer}});
+        cache(fixture.memory, address, type, parent, id, array, 1, 1);
+        field(fixture.memory, array, 0, pointer, id, -1);
+    }
+    const auto result = fixture.sample();
+    REQUIRE(result.present);
+    REQUIRE(result.classes.size() == count);
+    REQUIRE(result.classes.front().fields.size() == 1);
+    REQUIRE(result.classes.back().fields.size() == 1);
+    if (count == 10) {
+        CHECK(result.classes.front().base == 9);
+        CHECK(result.classes.front().fields.front().id == 9);
+    } else {
+        CHECK(result.classes.front().base == 6);
+        CHECK(result.classes.front().fields.front().id == 6);
+    }
+    CHECK(result.classes.back().base == 0);
+    CHECK(result.classes.back().fields.front().id == 0);
+}
+
+TEST_CASE("Connection cache rejects a truncated Pawn ancestry with a remaining parent") {
+    Fixture fixture;
+    fixture.expected.clear();
+    for (std::uint64_t depth = 0; depth < 10; ++depth) {
+        const auto type = leaf_class + depth * 0x100;
+        const auto address = leaf_cache + depth * 0x100;
+        const auto parent = depth == 9 ? 0 : address + 0x100;
+        fixture.expected.push_back({type, {}});
+        cache(fixture.memory, address, type, parent, 0, 0, 0, 0);
+    }
+    // Removing the last two expectations must not hide the actual parent chain.
+    fixture.expected.resize(8);
+    expect_error([&] { fixture.sample(); }, "cache_class_mismatch");
+}
+
+TEST_CASE("Connection cache rejects 2050 fields spread over ten individually bounded classes") {
+    Fixture fixture;
+    fixture.expected.clear();
+    for (std::uint64_t depth = 0; depth < 10; ++depth) {
+        const auto type = leaf_class + depth * 0x100;
+        const auto address = leaf_cache + depth * 0x100;
+        const auto parent = depth == 9 ? 0 : address + 0x100;
+        const auto array = 0x100000 + depth * 0x2000;
+        ExpectedClass expected{type, {}};
+        for (std::int32_t j = 0; j < 205; ++j) {
+            const auto pointer = 0x200000 + depth * 0x2000 + static_cast<std::uint64_t>(j) * 0x10;
+            expected.fields.push_back(pointer);
+            field(fixture.memory, array, j, pointer, j, -1);
+        }
+        fixture.expected.push_back(std::move(expected));
+        // Base zero isolates the aggregate check: every individual base+count is 205.
+        // Aggregate rejection precedes the later inherited-base consistency check.
+        cache(fixture.memory, address, type, parent, 0, array, 205, 205);
+    }
+    expect_error([&] { fixture.sample(); }, "cache_limit");
+}
+
+TEST_CASE("Player FName lookup reads only target buckets and slots within a large pool") {
+    FNameBudgetMemory memory;
+    constexpr std::uint64_t module=0x50000000,pool=0x60000000;
+    constexpr std::array<std::uint64_t,2> entries={0x70000000,0x70000100};
+    memory.put(module+0x1cee4b8,pool);
+    memory.put(module+0x1cee4c0,std::int32_t{200000});
+    // Only the two target index slots are readable. A pool scan must fail.
+    memory.put(pool+3*8,entries[0]);
+    memory.put(pool+7*8,entries[1]);
+    std::array<std::uint32_t,256> table{};
+    for (std::uint32_t i=0;i<256;++i) table[i]=0x10000U|i;
+    memory.put(module+0x1bee030,table);
+    // Independently calculated low16 buckets for this synthetic table:
+    // ANSI HGC=0158/Pawn=014d; UTF16 HGC=0159/Pawn=014c.
+    memory.put(module+0x1bee430+8*0x158,entries[0]);
+    memory.put(module+0x1bee430+8*0x14d,entries[1]);
+    memory.put(module+0x1bee430+8*0x159,std::uint64_t{0});
+    memory.put(module+0x1bee430+8*0x14c,std::uint64_t{0});
+    constexpr std::array<std::string_view,2> targets={"HawkenGameContent","R_PawnContent"};
+    for (std::size_t i=0;i<2;++i) {
+        memory.put(entries[i]+8,static_cast<std::int32_t>((i==0 ? 3 : 7)*2));
+        memory.put(entries[i]+0xc,std::uint64_t{0});
+        for (std::size_t j=0;j<=targets[i].size();++j)
+            memory.put(entries[i]+0x14+j,j==targets[i].size() ? std::uint8_t{0} :
+                static_cast<std::uint8_t>(targets[i][j]));
+    }
+    const auto result=read_player_fname_targets(memory,module);
+    CHECK((result.indices==std::array<std::uint32_t,2>{3,7}));
+    CHECK(result.name_count==200000);
+    CHECK(memory.used<1024*1024);
+    for (const auto& [address,width]:memory.reads) {
+        if (address>=pool && address<pool+200000*8) {
+            CHECK((address==pool+3*8 || address==pool+7*8));
+            CHECK(width==8);
+        }
+    }
+}
+
+namespace {
+struct FNameFixture {
+    FNameBudgetMemory memory;
+    static constexpr std::uint64_t module=0x50000000,pool=0x60000000;
+    static constexpr std::array<std::uint64_t,2> entries={0x70000000,0x70000100};
+    static constexpr std::array<std::string_view,2> targets={"HawkenGameContent","R_PawnContent"};
+    std::array<std::uint32_t,256> table{};
+    explicit FNameFixture(bool first_wide=false,bool second_wide=false) {
+        memory.put(module+0x1cee4b8,pool);
+        memory.put(module+0x1cee4c0,std::int32_t{200000});
+        for (std::uint32_t i=0;i<256;++i) table[i]=0x10000U|i;
+        memory.put(module+0x1bee030,table);
+        for (const auto bucket:{0x158,0x159,0x14d,0x14c})
+            memory.put(module+0x1bee430+8*static_cast<std::uint64_t>(bucket),std::uint64_t{0});
+        memory.put(module+0x1bee430+8*(first_wide ? 0x159 : 0x158),entries[0]);
+        memory.put(module+0x1bee430+8*(second_wide ? 0x14c : 0x14d),entries[1]);
+        entry(entries[0],3,targets[0],first_wide);
+        entry(entries[1],7,targets[1],second_wide);
+    }
+    void entry(std::uint64_t address,std::uint32_t index,std::string_view text,bool wide=false,std::uint64_t next=0) {
+        memory.put(address+8,(index<<1)|(wide ? 1U : 0U));
+        memory.put(address+0xc,next);
+        memory.put(pool+static_cast<std::uint64_t>(index)*8,address);
+        for (std::size_t j=0;j<=text.size();++j) {
+            const auto unit=j==text.size() ? std::uint16_t{0} : static_cast<std::uint16_t>(text[j]);
+            if (wide) memory.put(address+0x14+j*2,unit);
+            else memory.put(address+0x14+j,static_cast<std::uint8_t>(unit));
+        }
+    }
+    FNameLookupSnapshot sample() { return read_player_fname_targets(memory,module); }
+};
+}
+
+TEST_CASE("Player FName ASCII hash uses runtime table zero seed and encoding-specific updates") {
+    FNameFixture fixture;
+    CHECK(fname_detail::ascii_hash(fixture.table,"",false)==0);
+    CHECK(fname_detail::ascii_hash(fixture.table,"A",false)==0x10041U);
+    CHECK(fname_detail::ascii_hash(fixture.table,"a",false)==0x10041U);
+    CHECK(fname_detail::ascii_hash(fixture.table,"A",true)==0x10141U);
+    CHECK(fname_detail::ascii_hash(fixture.table,"AB",false)==0x10103U);
+    CHECK(fname_detail::ascii_hash(fixture.table,"a_b",false)==0x1015dU);
+    CHECK(fname_detail::ascii_hash(fixture.table,"a_b",true)==0x1015cU);
+    CHECK(fname_detail::ascii_hash(fixture.table,"HawkenGameContent",false)==0x10158U);
+    CHECK(fname_detail::ascii_hash(fixture.table,"R_PawnContent",true)==0x1014cU);
+}
+
+TEST_CASE("Player FName lookup supports exact ANSI and wide targets without pool traversal") {
+    bool first=true,second=true;
+    bool shared_bucket=false;
+    SUBCASE("both wide") {}
+    SUBCASE("mixed encodings") { first=false; }
+    SUBCASE("one collision bucket for both targets and encodings is visited once") {
+        first=false; second=false; shared_bucket=true;
+    }
+    FNameFixture fixture(first,second);
+    if (shared_bucket) {
+        fixture.table.fill(1);
+        fixture.memory.put(FNameFixture::module+0x1bee030,fixture.table);
+        fixture.memory.put(FNameFixture::module+0x1bee430+8,FNameFixture::entries[0]);
+        fixture.memory.put(FNameFixture::entries[0]+0xc,FNameFixture::entries[1]);
+    }
+    const auto sample=fixture.sample();
+    CHECK((sample.indices==std::array<std::uint32_t,2>{3,7}));
+    CHECK(sample.scanned_entries==2);
+    CHECK(sample.head_count==(shared_bucket ? 1 : 4));
+    for (const auto& [address,width]:fixture.memory.reads)
+        if (address>=FNameFixture::pool && address<FNameFixture::pool+200000*8) {
+            CHECK((address==FNameFixture::pool+3*8 || address==FNameFixture::pool+7*8));
+            CHECK(width==8);
+        }
+}
+
+TEST_CASE("Player FName lookup rejects uninitialized table absent targets and changed spelling") {
+    FNameFixture fixture;
+    SUBCASE("zero initialized PE table is not authoritative") {
+        fixture.memory.put(FNameFixture::module+0x1bee030,std::array<std::uint32_t,256>{});
+        expect_error([&]{fixture.sample();},"player_names_uninitialized");
+    }
+    SUBCASE("all selected buckets empty") {
+        fixture.memory.put(FNameFixture::module+0x1bee430+8*0x158,std::uint64_t{0});
+        fixture.memory.put(FNameFixture::module+0x1bee430+8*0x14d,std::uint64_t{0});
+        expect_error([&]{fixture.sample();},"player_names_absent");
+    }
+    SUBCASE("casefolded hash does not authorize different spelling") {
+        fixture.entry(FNameFixture::entries[0],3,"hawkenGameContent");
+        expect_error([&]{fixture.sample();},"player_names_absent");
+    }
+    SUBCASE("target prefix is not a target without exact terminator") {
+        fixture.entry(FNameFixture::entries[0],3,"HawkenGameContentX");
+        expect_error([&]{fixture.sample();},"player_names_absent");
+    }
+}
+
+TEST_CASE("Player FName lookup rejects malformed packed indices and wrong GNames crosslinks") {
+    FNameFixture fixture;
+    SUBCASE("signed negative packed index") { fixture.memory.put(FNameFixture::entries[0]+8,std::uint32_t{0xfffffffe}); }
+    SUBCASE("index equals count") { fixture.memory.put(FNameFixture::entries[0]+8,std::uint32_t{400000}); }
+    SUBCASE("wrong directed slot") { fixture.memory.put(FNameFixture::pool+3*8,FNameFixture::entries[1]); }
+    expect_error([&]{fixture.sample();},"player_name_invalid");
+}
+
+TEST_CASE("Player FName lookup rejects cycles and ambiguous exact names across encodings") {
+    FNameFixture fixture;
+    SUBCASE("cycle after otherwise valid target") {
+        fixture.memory.put(FNameFixture::entries[0]+0xc,FNameFixture::entries[0]);
+        expect_error([&]{fixture.sample();},"player_name_cycle");
+    }
+    SUBCASE("another wide target is ambiguity") {
+        constexpr std::uint64_t duplicate=0x70000200;
+        fixture.entry(duplicate,9,FNameFixture::targets[0],true);
+        fixture.memory.put(FNameFixture::module+0x1bee430+8*0x159,duplicate);
+        expect_error([&]{fixture.sample();},"player_names_ambiguous");
+    }
+}
+
+TEST_CASE("Player FName lookup caps each selected collision chain at 256 nodes") {
+    FNameFixture fixture;
+    std::size_t unrelated=255;
+    SUBCASE("256 total including target is valid") {}
+    SUBCASE("257 total including target rejects") { unrelated=256; }
+    for (std::size_t i=0;i<unrelated;++i) {
+        const auto node=0x71000000ULL+static_cast<std::uint64_t>(i)*0x100;
+        const auto next=i+1==unrelated ? FNameFixture::entries[0] : node+0x100;
+        fixture.entry(node,100+static_cast<std::uint32_t>(i),"X",false,next);
+    }
+    fixture.memory.put(FNameFixture::module+0x1bee430+8*0x158,std::uint64_t{0x71000000});
+    if (unrelated==256) expect_error([&]{fixture.sample();},"player_name_limit");
+    else CHECK((fixture.sample().indices==std::array<std::uint32_t,2>{3,7}));
+}
+
+TEST_CASE("Player FName complete traces detect table and chain changes with unchanged indices") {
+    FNameFixture fixture;
+    const auto first=fixture.sample();
+    SUBCASE("unchanged full second lookup") {
+        const auto second=fixture.sample();
+        CHECK(second.trace==first.trace);
+        CHECK(second.indices==first.indices);
+        CHECK(std::count_if(fixture.memory.reads.begin(),fixture.memory.reads.end(),[](const auto& read){return read.second==1024;})==2);
+    }
+    SUBCASE("unused hash-table word still compared") {
+        fixture.table[250]^=1;
+        fixture.memory.put(FNameFixture::module+0x1bee030,fixture.table);
+        const auto second=fixture.sample();
+        CHECK(second.indices==first.indices);
+        CHECK(second.trace!=first.trace);
+    }
+    SUBCASE("different collision chain still compared") {
+        constexpr std::uint64_t node=0x70000200;
+        fixture.entry(node,9,"X",false,FNameFixture::entries[0]);
+        fixture.memory.put(FNameFixture::module+0x1bee430+8*0x158,node);
+        const auto second=fixture.sample();
+        CHECK(second.indices==first.indices);
+        CHECK(second.trace!=first.trace);
+    }
+}
+
+TEST_CASE("Player FName lookup obeys shared attempted-read budget and pointer overflow guard") {
+    FNameFixture fixture;
+    SUBCASE("remaining budget does not reset for second snapshot") {
+        fixture.sample();
+        fixture.memory.used=1024*1024-1024;
+        expect_error([&]{fixture.sample();},"read_limit");
+    }
+    SUBCASE("module address overflow rejects before access") {
+        expect_error([&]{read_player_fname_targets(fixture.memory,std::numeric_limits<std::uint64_t>::max());},"player_name_invalid");
+        CHECK(fixture.memory.reads.empty());
+    }
 }

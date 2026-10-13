@@ -836,3 +836,525 @@ TEST_CASE("Native empty sentinel does not authorize unknown indexed or direct eq
     CHECK(f.store.starter_items(account->ref)==persisted_expected());
     CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
 }
+
+
+TEST_CASE("Broker observer reports fixed rejection reasons exactly once without item mutation") {
+    using hawken::inventory::PutReason;
+    using hawken::inventory::PutObservation;
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login)); REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation){ observed.push_back(observation); });
+    auto too_many=nlohmann::json::object();
+    for(int i=0;i<257;++i)too_many["Preset.K"+std::to_string(i)]="v";
+    const std::vector<std::pair<std::string,PutReason>> cases{
+        {"",PutReason::json_parse},{"null",PutReason::json_shape},
+        {R"({"Preset.Fixture":{}})",PutReason::json_shape},
+        {R"({"Preset.Fixture":[]})",PutReason::json_shape},
+        {R"({"Preset.Fixture":"a","Preset.Fixture":"b"})",PutReason::duplicate_key},
+        {too_many.dump(),PutReason::key_limit},
+        {R"({"ReadOnly_Parent":""})",PutReason::preset_key},
+        {R"({"Preset.Fixture":1})",PutReason::value_type},
+        {nlohmann::json{{"Preset.Unknown_InstanceId",instance_ids[1]}}.dump(),PutReason::reference_unknown_key},
+        {R"({"Preset.Ability_InstanceId":"empty"})",PutReason::reference_sentinel},
+        {nlohmann::json{{"Preset.PrimaryWeapon_InstanceId_0",instance_ids[0]}}.dump(),PutReason::reference_instance},
+        {nlohmann::json{{"Preset.Fixture",std::string(16385,'v')}}.dump(),PutReason::store_validation},
+        {std::string(65537,' '),PutReason::body_limit}};
+    for(const auto& [body,reason]:cases) {
+        const auto count=observed.size();
+        failure(diagnosed.put(broker_path(login),header(login),body),400);
+        REQUIRE(observed.size()==count+1); CHECK(observed.back().reason==reason);
+        if(reason!=PutReason::reference_unknown_key) {
+            CHECK(observed.back().reference_family==hawken::inventory::ReferenceFamily::none);
+            CHECK(observed.back().value_form==hawken::inventory::ReferenceValueForm::none);
+        }
+        CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+        CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    }
+    failure(diagnosed.put(broker_path(login)+"/",header(login),"{}"),404);
+    REQUIRE(observed.size()==cases.size()+1); CHECK(observed.back().reason==PutReason::target);
+    failure(diagnosed.put(broker_path(login),"","{}"),401);
+    REQUIRE(observed.size()==cases.size()+2); CHECK(observed.back().reason==PutReason::authentication);
+    failure(diagnosed.put(broker_path(login,instance_ids[1]),header(login),"{}"),404);
+    REQUIRE(observed.size()==cases.size()+3); CHECK(observed.back().reason==PutReason::ownership);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    CHECK(hawken::inventory::put_reason_name(PutReason::reference_unknown_key)=="reference_unknown_key");
+    CHECK(hawken::inventory::put_reason_name(PutReason::store_validation)=="store_validation");
+    CHECK(hawken::inventory::put_reason_name(static_cast<PutReason>(999))=="internal");
+}
+TEST_CASE("Broker success observer runs after SQL commit and outside the service mutex") {
+    using hawken::inventory::PutReason;
+    using hawken::inventory::PutObservation;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    InventoryService* self=nullptr; std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,[&](const PutObservation& observation) {
+        observed.push_back(observation); CHECK(observation.reason==PutReason::success);
+        CHECK(observation.reference_family==hawken::inventory::ReferenceFamily::none);
+        CHECK(observation.value_form==hawken::inventory::ReferenceValueForm::none);
+        const auto saved=f.store.owned_item_attributes(account->ref,instance_ids[0]);
+        REQUIRE(saved.contains("Preset.ObserverFixture")); CHECK(saved.at("Preset.ObserverFixture")=="received");
+        // Reentry must succeed: the PUT lock is already released, and GET sees commit.
+        REQUIRE(self!=nullptr);
+        const auto read=self->get(owned_path(login),header(login));REQUIRE(read.status==200);
+        CHECK(read.result.at(0).at("Preset.ObserverFixture")=="received");
+    });
+    self=&diagnosed;
+    saved_reply(diagnosed.put(broker_path(login),header(login),R"({"Preset.ObserverFixture":"received"})"));
+    REQUIRE(observed.size()==1);CHECK(observed.front().reason==PutReason::success);
+    saved_reply(diagnosed.put(broker_path(login),header(login),"{}"));
+    REQUIRE(observed.size()==2);CHECK(observed.back().reason==PutReason::success);
+}
+TEST_CASE("Throwing Broker observer cannot change void success or fixed rejection") {
+    using hawken::inventory::PutReason;
+    using hawken::inventory::PutObservation;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,[&](const PutObservation& observation) {
+        observed.push_back(observation); throw std::runtime_error("private-observer-fixture");
+    });
+    saved_reply(diagnosed.put(broker_path(login),header(login),R"({"Preset.ObserverFixture":"received"})"));
+    REQUIRE(observed.size()==1);CHECK(observed.back().reason==PutReason::success);
+    const auto before=diagnosed.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    failure(diagnosed.put(broker_path(login),header(login),R"({"Preset.Fixture":true})"),400,"private-observer-fixture");
+    REQUIRE(observed.size()==2);CHECK(observed.back().reason==PutReason::value_type);
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+}
+
+TEST_CASE("Broker first unknown reference reports exact native family without changing rejection") {
+    using namespace hawken::inventory;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation){observed.push_back(observation);});
+    // Independent exact literals from dcad70/db7c20. These fixtures deliberately
+    // use an incompatible primary instance; diagnostics do not authorize it.
+    const std::vector<std::pair<const char*,ReferenceFamily>> cases{
+        {"Preset.Style.CamoPattern_InstanceId",ReferenceFamily::camo},
+        {"Preset.Style.CamoPatternMiddle_InstanceId",ReferenceFamily::camo},
+        {"Preset.Style.CamoPatternLower_InstanceId",ReferenceFamily::camo},
+        {"Preset.Style.CamoPatternArm_InstanceId",ReferenceFamily::camo},
+        {"Preset.Style.BoosterPart_InstanceId",ReferenceFamily::booster},
+        {"Preset.Style.ArmorPart_InstanceId",ReferenceFamily::armor},
+        {"Preset.VisorStyle.PrimaryReticle_InstanceId",ReferenceFamily::visor},
+        {"Preset.VisorStyle.SecondaryReticle_InstanceId",ReferenceFamily::visor},
+        {"Preset.VisorStyle.FriendHUDColor_InstanceId",ReferenceFamily::visor},
+        {"Preset.VisorStyle.FoeHUDColor_InstanceId",ReferenceFamily::visor},
+        {"Preset.VisorStyle.NeutralHUDColor_InstanceId",ReferenceFamily::visor},
+        {"Preset.Items1_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Items2_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Items3_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Internals1_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Internals2_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Internals3_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Internals4_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Internals5_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Internals6_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Style.AnimTauntType_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Style.CockpitDecoration1_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Style.CockpitDecoration2_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Style.CockpitDecoration3_InstanceId",ReferenceFamily::helper_optional},
+        {"Preset.Style.CamoPattern_InstanceId_0",ReferenceFamily::other},
+        {"Preset.Style.BoosterPart_InstanceId_1",ReferenceFamily::other},
+        {"Preset.VisorStyle.Unknown_InstanceId",ReferenceFamily::other},
+        {"Preset.Items4_InstanceId",ReferenceFamily::other},
+        {"Preset.Style.CockpitDecoration0_InstanceId",ReferenceFamily::other}};
+    for(const auto& [key,family]:cases) {
+        const auto count=observed.size();
+        const auto body=nlohmann::json{{"Preset.Fixture","must-not-commit"},{key,instance_ids[1]}}.dump();
+        failure(diagnosed.put(broker_path(login),header(login),body),400,instance_ids[1]);
+        REQUIRE(observed.size()==count+1);
+        CHECK(observed.back().reason==PutReason::reference_unknown_key);
+        CHECK(observed.back().reference_family==family);
+        CHECK(observed.back().value_form==ReferenceValueForm::matches_owned);
+        CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    }
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    CHECK(f.store.game_settings(account->ref).empty());
+}
+TEST_CASE("Broker unknown reference value forms distinguish owned instances from type and zero UUIDs") {
+    using namespace hawken::inventory;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation){observed.push_back(observation);});
+    auto check=[&](const char* value,ReferenceValueForm expected) {
+        const auto count=observed.size();
+        failure(diagnosed.put(broker_path(login),header(login),
+            nlohmann::json{{"Preset.Items1_InstanceId",value}}.dump()),400,value);
+        REQUIRE(observed.size()==count+1);
+        CHECK(observed.back().reason==PutReason::reference_unknown_key);
+        CHECK(observed.back().reference_family==ReferenceFamily::helper_optional);
+        CHECK(observed.back().value_form==expected);
+        CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    };
+    // All nine instances, including the mech, match before the generic UUID form.
+    // A type identifier remains canonical_uuid; it is not an owned instance.
+    for(const auto* value:instance_ids)check(value,ReferenceValueForm::matches_owned);
+    for(const auto* value:type_ids)check(value,ReferenceValueForm::canonical_uuid);
+    check("00000000-0000-0000-0000-000000000000",ReferenceValueForm::zero_uuid);
+    check("abcdefab-cdef-abcd-efab-cdefabcdefab",ReferenceValueForm::canonical_uuid);
+    for(const auto* value:{"ABCDEFAB-CDEF-ABCD-EFAB-CDEFABCDEFAB",
+        "abcdefab-cdef-abcd-efab-cdefabcdefab ","00000000000000000000000000000000",
+        "00000000_0000-0000-0000-000000000000","EMPTY","private-value-fixture"})
+        check(value,ReferenceValueForm::other);
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+TEST_CASE("Broker observation reports only first unknown reference and no categories for other outcomes") {
+    using namespace hawken::inventory;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService* self=nullptr;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation) {
+            observed.push_back(observation);
+            // Reentry on a rejection also proves the service lock is released.
+            REQUIRE(self!=nullptr);
+            CHECK(self->get(owned_path(login),header(login)).status==200);
+        });
+    self=&diagnosed;
+    // nlohmann's existing object traversal is key-sorted, not raw request order.
+    failure(diagnosed.put(broker_path(login),header(login),
+        nlohmann::json{{"Preset.Style.CamoPattern_InstanceId",instance_ids[1]},
+            {"Preset.Items1_InstanceId","00000000-0000-0000-0000-000000000000"}}.dump()),400);
+    REQUIRE(observed.size()==1);
+    CHECK(observed.back().reason==PutReason::reference_unknown_key);
+    CHECK(observed.back().reference_family==ReferenceFamily::helper_optional);
+    CHECK(observed.back().value_form==ReferenceValueForm::zero_uuid);
+    const auto count=observed.size();
+    const std::vector<std::pair<std::string,PutReason>> other_outcomes{
+        {R"({"Preset.A":1,"Preset.Items1_InstanceId":"private-value-fixture"})",PutReason::value_type},
+        {R"({"Preset.Ability_InstanceId":"empty"})",PutReason::reference_sentinel},
+        {nlohmann::json{{"Preset.Ability_InstanceId",instance_ids[1]}}.dump(),PutReason::reference_instance},
+        {R"({"Preset.Items1_InstanceId":""})",PutReason::success},
+        {R"({"Preset.Items1_InstanceId":"empty"})",PutReason::success}};
+    for(const auto& [body,reason]:other_outcomes) {
+        const auto prior=observed.size();
+        const auto reply=diagnosed.put(broker_path(login),header(login),body);
+        if(reason==PutReason::success)saved_reply(reply);else failure(reply,400);
+        REQUIRE(observed.size()==prior+1);
+        CHECK(observed.back().reason==reason);
+        CHECK(observed.back().reference_family==ReferenceFamily::none);
+        CHECK(observed.back().value_form==ReferenceValueForm::none);
+    }
+    CHECK(observed.size()==count+other_outcomes.size());
+    auto expected=before.result;expected.at(0)["Preset.Items1_InstanceId"]="empty";
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==expected);
+    const hawken::store::ItemAttributes expected_attributes{{"Preset.Items1_InstanceId","empty"}};
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0])==expected_attributes);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    CHECK(reference_family_name(ReferenceFamily::camo)=="camo");
+    CHECK(reference_family_name(ReferenceFamily::booster)=="booster");
+    CHECK(reference_family_name(ReferenceFamily::armor)=="armor");
+    CHECK(reference_family_name(ReferenceFamily::visor)=="visor");
+    CHECK(reference_family_name(ReferenceFamily::helper_optional)=="helper_optional");
+    CHECK(reference_family_name(ReferenceFamily::other)=="other");
+    CHECK(reference_family_name(static_cast<ReferenceFamily>(999))=="none");
+    CHECK(reference_value_form_name(ReferenceValueForm::matches_owned)=="matches_owned");
+    CHECK(reference_value_form_name(ReferenceValueForm::zero_uuid)=="zero_uuid");
+    CHECK(reference_value_form_name(ReferenceValueForm::canonical_uuid)=="canonical_uuid");
+    CHECK(reference_value_form_name(ReferenceValueForm::other)=="other");
+    CHECK(reference_value_form_name(static_cast<ReferenceValueForm>(999))=="none");
+}
+
+TEST_CASE("Broker visor literal captures only five exact keys with synthetic safe values") {
+    using namespace hawken::inventory;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation){observed.push_back(observation);});
+    const std::array<std::pair<const char*,VisorKey>,5> keys{{
+        {"Preset.VisorStyle.PrimaryReticle_InstanceId",VisorKey::primary_reticle},
+        {"Preset.VisorStyle.SecondaryReticle_InstanceId",VisorKey::secondary_reticle},
+        {"Preset.VisorStyle.FriendHUDColor_InstanceId",VisorKey::friend_hud_color},
+        {"Preset.VisorStyle.FoeHUDColor_InstanceId",VisorKey::foe_hud_color},
+        {"Preset.VisorStyle.NeutralHUDColor_InstanceId",VisorKey::neutral_hud_color}}};
+    // Synthetic inventory literals, not a captured client request or identity.
+    for(const auto& [key,expected_key]:keys)for(const std::string value:
+        {"None","-1","ABCDEF0123456789ABCDEF0123456789"}) {
+        const auto count=observed.size();
+        failure(diagnosed.put(broker_path(login),header(login),nlohmann::json{{key,value}}.dump()),400,value);
+        REQUIRE(observed.size()==count+1);const auto& actual=observed.back();
+        CHECK(actual.reason==PutReason::reference_unknown_key);
+        CHECK(actual.reference_family==ReferenceFamily::visor);
+        CHECK(actual.value_form==ReferenceValueForm::other);
+        CHECK(actual.visor_key==expected_key);
+        REQUIRE(actual.visor_literal_size<=64);
+        CHECK(actual.visor_literal_size==value.size());
+        CHECK(std::string(actual.visor_literal.data(),actual.visor_literal_size)==value);
+        for(std::size_t i=actual.visor_literal_size;i<actual.visor_literal.size();++i)
+            CHECK(actual.visor_literal[i]=='\0');
+        CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    }
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+TEST_CASE("Broker visor literal enforces safe alphabet and 63 64 65 boundaries") {
+    using namespace hawken::inventory;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation){observed.push_back(observation);});
+    const std::vector<std::pair<std::string,bool>> cases{
+        {"Az09_.:#-",true},{std::string(63,'x'),true},{std::string(64,'x'),true},
+        {std::string(65,'x'),false},{"line\nbreak",false},{"space value",false},
+        {"slash/value",false},{"plus+value",false},{"equal=value",false},
+        {std::string("nul\0tail",8),false},{std::string("\xc3\xa9"),false},
+        {"11111111111111111",false}};
+    const std::array<char,65> empty_buffer{};
+    for(const auto& [value,captured]:cases) {
+        const auto count=observed.size();
+        failure(diagnosed.put(broker_path(login),header(login),
+            nlohmann::json{{"Preset.VisorStyle.PrimaryReticle_InstanceId",value}}.dump()),400);
+        REQUIRE(observed.size()==count+1);const auto& actual=observed.back();
+        CHECK(actual.reason==PutReason::reference_unknown_key);
+        CHECK(actual.visor_key==VisorKey::primary_reticle);
+        REQUIRE(actual.visor_literal_size<=64);
+        if(captured) {
+            CHECK(actual.visor_literal_size==value.size());
+            CHECK(std::string(actual.visor_literal.data(),actual.visor_literal_size)==value);
+            for(std::size_t i=actual.visor_literal_size;i<actual.visor_literal.size();++i)
+                CHECK(actual.visor_literal[i]=='\0');
+        } else {
+            CHECK(actual.visor_literal_size==0);CHECK(actual.visor_literal==empty_buffer);
+        }
+        CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    }
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+TEST_CASE("Broker visor literal suppresses unrelated references and every owned match") {
+    using namespace hawken::inventory;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation){observed.push_back(observation);});
+    const std::array<char,65> empty_buffer{};
+    for(const auto* key:{"Preset.Unknown_InstanceId","Preset.VisorStyle.Unknown_InstanceId",
+        "Preset.Style.CamoPattern_InstanceId","Preset.Style.BoosterPart_InstanceId",
+        "Preset.Style.ArmorPart_InstanceId","Preset.Items1_InstanceId"}) {
+        const auto count=observed.size();
+        failure(diagnosed.put(broker_path(login),header(login),nlohmann::json{{key,"None"}}.dump()),400);
+        REQUIRE(observed.size()==count+1);const auto& actual=observed.back();
+        CHECK(actual.reason==PutReason::reference_unknown_key);
+        CHECK(actual.visor_key==VisorKey::none);
+        CHECK(actual.visor_literal_size==0);CHECK(actual.visor_literal==empty_buffer);
+    }
+    for(const auto* value:instance_ids) {
+        const auto count=observed.size();
+        failure(diagnosed.put(broker_path(login),header(login),
+            nlohmann::json{{"Preset.VisorStyle.SecondaryReticle_InstanceId",value}}.dump()),400,value);
+        REQUIRE(observed.size()==count+1);const auto& actual=observed.back();
+        CHECK(actual.reason==PutReason::reference_unknown_key);
+        CHECK(actual.value_form==ReferenceValueForm::matches_owned);
+        CHECK(actual.visor_key==VisorKey::secondary_reticle);
+        CHECK(actual.visor_literal_size==0);CHECK(actual.visor_literal==empty_buffer);
+    }
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+TEST_CASE("Broker visor literal describes first validation rejection and no other outcome") {
+    using namespace hawken::inventory;
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    std::vector<PutObservation> observed;
+    InventoryService diagnosed(f.store,f.auth,ids(),balance(),offer_id,
+        [&](const PutObservation& observation){observed.push_back(observation);});
+    // Raw order is Primary first; existing DOM validation visits Foe first.
+    failure(diagnosed.put(broker_path(login),header(login),
+        R"({"Preset.VisorStyle.PrimaryReticle_InstanceId":"None","Preset.VisorStyle.FoeHUDColor_InstanceId":"-1"})"),400);
+    REQUIRE(observed.size()==1);const auto& first=observed.front();
+    CHECK(first.reason==PutReason::reference_unknown_key);
+    CHECK(first.visor_key==VisorKey::foe_hud_color);
+    REQUIRE(first.visor_literal_size<=64);
+    CHECK(first.visor_literal_size==2);
+    CHECK(std::string(first.visor_literal.data(),first.visor_literal_size)=="-1");
+    for(std::size_t i=first.visor_literal_size;i<first.visor_literal.size();++i)
+        CHECK(first.visor_literal[i]=='\0');
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==before.result);
+    const std::vector<std::pair<std::string,PutReason>> cases{
+        {R"({"Preset.VisorStyle.PrimaryReticle_InstanceId":"empty"})",PutReason::reference_sentinel},
+        {R"({"Preset.VisorStyle.PrimaryReticle_InstanceId":1})",PutReason::value_type},
+        {nlohmann::json{{"Preset.Ability_InstanceId",instance_ids[1]}}.dump(),PutReason::reference_instance},
+        {R"({"Preset.VisorStyle.PrimaryReticle_InstanceId":""})",PutReason::success}};
+    const std::array<char,65> empty_buffer{};
+    for(const auto& [body,reason]:cases) {
+        const auto count=observed.size();const auto reply=diagnosed.put(broker_path(login),header(login),body);
+        if(reason==PutReason::success)saved_reply(reply);else failure(reply,400);
+        REQUIRE(observed.size()==count+1);const auto& actual=observed.back();
+        CHECK(actual.reason==reason);CHECK(actual.visor_key==VisorKey::none);
+        CHECK(actual.visor_literal_size==0);CHECK(actual.visor_literal==empty_buffer);
+    }
+    const hawken::store::ItemAttributes expected{{"Preset.VisorStyle.PrimaryReticle_InstanceId",""}};
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0])==expected);
+    auto expected_read=before.result;expected_read.at(0)["Preset.VisorStyle.PrimaryReticle_InstanceId"]="";
+    CHECK(diagnosed.get(owned_path(login),header(login)).result==expected_read);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+
+TEST_CASE("Broker observed visor defaults persist only on an authenticated owned mech") {
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200);
+    const auto before=f.inventory.get(owned_path(login),header(login));REQUIRE(before.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    // The five exact field/value pairs come from native d9da50 defaults.
+    // This test does not authorize arbitrary fake references or grant cosmetic items.
+    const std::string body=R"({"Preset.VisorStyle.FriendHUDColor_InstanceId":"FAKE-COLOR-INSTANCE-GUID","Preset.VisorStyle.FoeHUDColor_InstanceId":"FAKE-COLOR-INSTANCE-GUID2","Preset.VisorStyle.NeutralHUDColor_InstanceId":"FAKE-COLOR-INSTANCE-GUID3","Preset.VisorStyle.PrimaryReticle_InstanceId":"FAKE-PRIM-RETICLE-INSTANCE-GUID","Preset.VisorStyle.SecondaryReticle_InstanceId":"FAKE-SEC-RETICLE-INSTANCE-GUID"})";
+    const auto path=broker_path(login);
+    failure(f.inventory.put(path,"",body),401);
+    failure(f.inventory.put("/userGameItemsBroker/30000000-0000-0000-0000-000000000098/"
+        +std::string(instance_ids[0]),header(login),body),401);
+    failure(f.inventory.put(broker_path(login,"30000000-0000-0000-0000-000000000099"),header(login),body),404);
+    failure(f.inventory.put(broker_path(login,instance_ids[1]),header(login),body),404);
+    for(const auto& rejected:std::vector<std::string>{
+        R"({"Preset.VisorStyle.FoeHUDColor_InstanceId":"FAKE-COLOR-INSTANCE-GUID2-X"})",
+        R"({"Preset.VisorStyle.FoeHUDColor_InstanceId":"FAKE-COLOR-INSTANCE-GUID"})",
+        R"({"Preset.VisorStyle.FriendHUDColor_InstanceId":"FAKE-COLOR-INSTANCE-GUID2"})",
+        R"({"Preset.VisorStyle.FoeHUDColor_InstanceId_0":"FAKE-COLOR-INSTANCE-GUID2"})",
+        R"({"Preset.PrimaryWeapon_InstanceId_0":"FAKE-COLOR-INSTANCE-GUID2"})"})
+        failure(f.inventory.put(path,header(login),rejected),400);
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    CHECK(f.inventory.get(owned_path(login),header(login)).result==before.result);
+    saved_reply(f.inventory.put(path,header(login),body));
+    const hawken::store::ItemAttributes expected_attributes{
+        {"Preset.VisorStyle.FriendHUDColor_InstanceId","FAKE-COLOR-INSTANCE-GUID"},
+        {"Preset.VisorStyle.FoeHUDColor_InstanceId","FAKE-COLOR-INSTANCE-GUID2"},
+        {"Preset.VisorStyle.NeutralHUDColor_InstanceId","FAKE-COLOR-INSTANCE-GUID3"},
+        {"Preset.VisorStyle.PrimaryReticle_InstanceId","FAKE-PRIM-RETICLE-INSTANCE-GUID"},
+        {"Preset.VisorStyle.SecondaryReticle_InstanceId","FAKE-SEC-RETICLE-INSTANCE-GUID"}};
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0])==expected_attributes);
+    auto expected=before.result;
+    for(const auto& [key,value]:expected_attributes)expected.at(0)[key]=value;
+    CHECK(f.inventory.get(owned_path(login),header(login)).result==expected);
+    saved_reply(f.inventory.put(path,header(login),body));
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0])==expected_attributes);
+    CHECK(f.inventory.get(owned_path(login),header(login)).result==expected);
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    for(std::size_t slot=1;slot<instance_ids.size();++slot)
+        CHECK(f.store.owned_item_attributes(account->ref,instance_ids[slot]).empty());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    CHECK(f.store.game_settings(account->ref).empty());
+}
+
+
+TEST_CASE("Item batch service is an exact authenticated read and empty requests never grant") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+    const auto path="/userGameItemsBatch/"+guid(login);
+    CHECK(f.inventory.supports_batch_target(path)); CHECK_FALSE(f.inventory.supports_target(path));
+    for(const auto& alias:std::vector<std::string>{path+"/",path+"?x=1",path+"#x",path+"/extra",
+        "/userGameItemsBatch/A54C90D7-d30b-8e6b-2417-3d744d78bd17",
+        "/userGameItemsBatch/00000000-0000-0000-0000-000000000000",
+        "/userGameItemsBatch/%61"+guid(login).substr(1)}) {
+        CHECK_FALSE(f.inventory.supports_batch_target(alias)); failure(f.inventory.post_batch(alias,"","[]"),404);
+    }
+    for(const auto* body:{"null\n","[]\n"}) {
+        const auto reply=f.inventory.post_batch(path,header(login),body);
+        CHECK(reply.status==200); CHECK(reply.result==nlohmann::json::array());
+    }
+    failure(f.inventory.post_batch(path,header(login),nlohmann::json::array({instance_ids[0]}).dump()),404);
+    CHECK_FALSE(f.store.starter_items(account->ref));
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    CHECK(f.store.visits(account->ref).empty());
+}
+TEST_CASE("Item batch service normalizes requested IDs retains order and overlays saved Presets") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+    saved_reply(f.inventory.put(broker_path(login),header(login),R"({"Preset.BatchFixture":"saved-not-seeded"})"));
+    const auto path="/userGameItemsBatch/"+guid(login);
+    const auto reply=f.inventory.post_batch(path,header(login),
+        R"(["EA800EC9-E850-9883-69A8-B2D3D2B86A14","acf28679-6b34-ed79-151e-26ec094cc9d0","445474ca-deb5-b989-8fa0-54b5d9630fa2"])");
+    REQUIRE(reply.status==200); REQUIRE(reply.result.size()==3);
+    // Literal row oracle independent of the filtering implementation.
+    CHECK(reply.result.at(0)==nlohmann::json{{"GameItemsGuid",type_ids[8]},{"UserGameItemGuid",instance_ids[8]},
+        {"ItemName","Ability - Coolant"},{"Version","starter.test1"},{"ReadOnly_Parent",instance_ids[0]},
+        {"ReadOnly_GlobalItem","0"},{"ReadOnly_Children",nlohmann::json::array()}});
+    CHECK(reply.result.at(1).at("UserGameItemGuid")==instance_ids[1]);
+    CHECK(reply.result.at(2).at("UserGameItemGuid")==instance_ids[0]);
+    CHECK(reply.result.at(2).at("Preset.BatchFixture")=="saved-not-seeded");
+    CHECK(reply.result.at(2).at("ReadOnly_Children").size()==8); // Returning mech does not enumerate children as rows.
+    CHECK(f.inventory.post_batch(path,header(login),"null").result==nlohmann::json::array());
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0])==hawken::store::ItemAttributes{{"Preset.BatchFixture","saved-not-seeded"}});
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+TEST_CASE("Item batch service rejects normalized duplicates invalid JSON unknown IDs and byte excess") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    const auto path="/userGameItemsBatch/"+guid(login); const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+    for(const auto& body:std::vector<std::string>{"", "{", "{}", "true", "[1]", "[null]", "[{}]", "[[]]", "[\"\"]",
+        R"(["00000000-0000-0000-0000-000000000000"])",R"(["445474ca-deb5-b989-8fa0-54b5d9630fa2/"])",
+        R"(["445474ca-deb5-b989-8fa0-54b5d9630fa2","445474CA-DEB5-B989-8FA0-54B5D9630FA2"])",
+        R"(["445474ca-deb5-b989-8fa0-54b5d9630fa2","445474c\u0061-deb5-b989-8fa0-54b5d9630fa2"])",
+        R"(["445474ca-deb5-b989-8fa0-54b5d9630fa\u0000"])",R"(["445474ca-deb5-b989-8fa0-54b5d9630fa\u00e9"])",
+        std::string("[]")+std::string(8191,' ')})
+        failure(f.inventory.post_batch(path,header(login),body),400);
+    failure(f.inventory.post_batch(path,header(login),R"(["445474ca-deb5-b989-8fa0-54b5d9630fa2","30000000-0000-0000-0000-000000000099"])") ,404);
+    const auto boundary=f.inventory.post_batch(path,header(login),std::string("[]")+std::string(8190,' '));
+    CHECK(boundary.status==200); CHECK(boundary.result==nlohmann::json::array());
+    CHECK(f.store.starter_items(account->ref)==persisted_expected());
+    CHECK(f.store.owned_item_attributes(account->ref,instance_ids[0]).empty());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+TEST_CASE("Item batch service revalidates auth lifecycle even for empty reads and isolates accounts") {
+    for(const auto mode:{0,1,2,3,4,5}) {
+        CAPTURE(mode); Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+        REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+        const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+        auto authorization=header(login); int expected=401;
+        if(mode==0)authorization="";
+        if(mode==1)f.verifier.active=0;
+        if(mode==2)f.now=1900;
+        if(mode==3){f.store.set_ban(account->ref,{1000,std::nullopt,"private-ban-fixture"});expected=403;}
+        if(mode==4)f.now=999;
+        if(mode==5){f.clock_throws=true;expected=500;}
+        failure(f.inventory.post_batch("/userGameItemsBatch/"+guid(login),authorization,"null"),expected);
+        CHECK(f.store.starter_items(account->ref)==persisted_expected());
+        CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+    }
+    Fixture f; const auto first=f.login(); REQUIRE(first.status==200);
+    REQUIRE(f.inventory.get(owned_path(first),header(first)).status==200);
+    const auto second=f.login(true); REQUIRE(second.status==200);
+    const auto own=f.inventory.get(owned_path(second),header(second)); REQUIRE(own.status==200);
+    const auto account=f.store.find_account(fixture_second_id_text); REQUIRE(account);
+    const auto saved=f.store.starter_items(account->ref);
+    failure(f.inventory.post_batch("/userGameItemsBatch/"+guid(first),header(second),"[]"),401);
+    failure(f.inventory.post_batch("/userGameItemsBatch/"+guid(second),header(second),nlohmann::json::array({instance_ids[0]}).dump()),404);
+    CHECK(f.store.starter_items(account->ref)==saved);
+    CHECK(f.store.starter_items(f.store.find_account(fixture_id_text)->ref)==persisted_expected());
+}
+TEST_CASE("Item batch service fails closed on a persisted type inconsistent with its catalogue") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    fixture_sql(f.temporary.path()/"accounts.sqlite",
+        "UPDATE starter_items SET type_id='30000000-0000-0000-0000-000000000099' WHERE slot=8");
+    failure(f.inventory.post_batch("/userGameItemsBatch/"+guid(login),header(login),nlohmann::json::array({instance_ids[0]}).dump()),500);
+}

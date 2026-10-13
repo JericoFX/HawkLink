@@ -758,3 +758,13 @@ La implementación futura se acepta únicamente sobre las capacidades que estén
 11. Evidencia final de hashes, escenarios, inputs/builds, resultados y limitaciones. Un gate ausente mantiene esa capacidad pendiente.
 
 La entrega actual termina la investigación estática delimitada y este diseño; no declara aprobadas estas pruebas futuras. Los informes de evidencia y sus verificaciones permanecen en la carpeta de investigación, separados del directorio del juego.
+
+## 20. Optimización final solicitada 2026-10-12 — pendiente
+
+Después de verificar entrada, partida completa y el resto de capacidades del proyecto, mejorar el netcode y el rendimiento del cliente original. Este trabajo no adelanta ni sustituye los gates funcionales actuales.
+
+- Netcode: medir latencia, jitter, pérdida/reordenamiento, frecuencia y regularidad de actualizaciones, ancho de banda y registro de impactos. Mejorar el servidor respetando el formato, predicción y semántica que consume el cliente original; comparar los mismos escenarios antes/después y rechazar cambios que alteren daño, movimiento o juego a favor de la latencia.
+- FPS del cliente: investigar con REA/Ghidra los puntos costosos del EXE/UE3, medir CPU/GPU y tiempos de frame con el mismo mapa, hardware y configuración. Aplicar sólo optimizaciones demostradas; conservar el EXE y paquetes originales intactos en disco.
+- Fallos UE3: construir una lista de errores observados con reproducción, logs/dumps, módulo/hash/RVA, causa confirmada y solución. Evaluar qué soluciones pueden integrarse en nuestra DLL de forma reversible y compatible con esta versión. No asumir que un parche de otra versión es portable; probar activación/desactivación, estabilidad y ausencia de regresiones antes de aceptarlo.
+
+Estado: pedido registrado; investigación, implementación y mejora medida todavía NO VERIFICADAS. No se instalaron ni aplicaron parches por esta ampliación.

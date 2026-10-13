@@ -149,7 +149,7 @@ Cada fila es un literal o fragmento observado y referenciado desde código. Los 
 | `/gameItems/` | 0x1a4920 / 0x1a5920 | 0x63350 | CONFIRMADO literal y xref |
 | `/gameItemsBatch` | 0x1a4958 / 0x1a5958 | 0x647f0 | CONFIRMADO literal y xref |
 | `/userGameItems/` | 0x1a4988 / 0x1a5988 | 0x657e0, 0x665b0 | CONFIRMADO literal y xref |
-| `/userGameItemsBatch/` | 0x1a49f8 / 0x1a59f8 | 0x66e60 | CONFIRMADO literal y xref |
+| `/userGameItemsBatch/` | 0x1a49f8 / 0x1a59f8 | 0x66e60 → 0x63e20 → POST0x6e900; parser0x60730 | CONFIRMADO estático: lectura JSON por IDs, Result colección; [contrato y límites](HAWKEN_AUTH_PROTOCOL.md#lectura-agrupada-de-ítems--2026-10-13). Implementación verificada en HTTP; despliegue/nativo pendientes. |
 | `/userGameItemStats/` | 0x1a4ac0 / 0x1a5ac0 | 0x68990, 0x69620, 0x6ac10, 0x6bc20 | CONFIRMADO literal y xref |
 | `/gameServerListings/` | 0x1a56b8 / 0x1a66b8 | 0x7de00 | CONFIRMADO literal y xref |
 | `/gameServerListings` | 0x1a56d8 / 0x1a66d8 | 0x7f0d0 | CONFIRMADO literal y xref |

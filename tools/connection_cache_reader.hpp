@@ -74,7 +74,7 @@ CacheSnapshot read_connection_cache(Reader& reader,std::uint64_t map,
     using cache_detail::address;
     using cache_detail::fail;
     if (expected.empty()) fail("cache_invalid");
-    if (expected.size()>8) fail("cache_limit");
+    if (expected.size()>10) fail("cache_limit");
     std::vector<std::uint64_t> class_ids,field_ids;
     for (const auto& klass:expected) {
         if (!klass.address || std::find(class_ids.begin(),class_ids.end(),klass.address)!=class_ids.end())

@@ -1637,3 +1637,138 @@ TEST_CASE("Actor bunches consume shared delivered message quota with control and
         actor_payload(2,false),control_b}),6);},ConnectionErrorCode::resource_limit);
     CHECK(c.snapshot().closed);
 }
+
+namespace {
+wire::Bunch unreliable_actor_payload() {
+    wire::Bunch bunch;
+    bunch.channel=7; bunch.payload_bits=13; bunch.payload={0x06,0x01};
+    // Opaque nonbyte actor bits, deliberately starting with control Failure6.
+    // Unreliable omits both sequence and channel-type from its wire header.
+    return bunch;
+}
+void unreliable_actor_fields(const wire::Bunch& actual,const wire::Bunch& expected) {
+    CHECK(actual.payload==expected.payload); CHECK(actual.payload_bits==expected.payload_bits);
+    CHECK(actual.channel==7); CHECK(actual.channel_type==0); CHECK(actual.sequence==0);
+    CHECK_FALSE(actual.reliable); CHECK_FALSE(actual.control);
+    CHECK_FALSE(actual.open); CHECK_FALSE(actual.close);
+}
+}
+
+TEST_CASE("Unreliable actor sends share Context without advancing reliable sequence") {
+    const auto cfg=publication_config(); game::GameConnection c(cfg);
+    session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    const auto next=joined_actor(c,client,cfg.endian); c.register_actor_channel(actor_config());
+    publication_inspect(client,c.send_actor(actor_payload(),6));
+    const auto before=c.snapshot(); const auto payload=unreliable_actor_payload();
+    const auto first=c.send_actor(payload,7); REQUIRE(first.datagrams.size()==1);
+    CHECK(rejection_counter(first.datagrams.front())==next.nonce+1U);
+    const auto a=publication_inspect(client,first); REQUIRE(a.bunches.size()==1);
+    CHECK(a.packets.front().packet_id==((next.packet_id+1U)&0x3fffU)); unreliable_actor_fields(a.bunches[0],payload);
+    CHECK(first.actor_bunches.empty()); CHECK_FALSE(first.closed); CHECK(c.snapshot()==before);
+    const auto second=c.send_actor(actor_payload(0,false),8); REQUIRE(second.datagrams.size()==1);
+    CHECK(rejection_counter(second.datagrams.front())==next.nonce+2U);
+    const auto b=publication_inspect(client,second); REQUIRE(b.bunches.size()==1);
+    CHECK(b.packets.front().packet_id==((next.packet_id+2U)&0x3fffU));
+    actor_fields(b.bunches[0],actor_payload(43,false));
+}
+TEST_CASE("Unreliable actor stale packets bypass a reliable gap while wrapper replay is rejected") {
+    const auto cfg=publication_config(); game::GameConnection c(cfg);
+    session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    joined_actor(c,client,cfg.endian); c.register_actor_channel(actor_config());
+    publication_inspect(client,c.send_actor(actor_payload(),6));
+    const auto future=c.receive(actor_request(client,5,{actor_payload(2,false)}),6);
+    CHECK(future.actor_bunches.empty()); publication_inspect(client,future);
+    const auto payload=unreliable_actor_payload(); const auto raw=actor_request(client,4,{payload});
+    const auto stale=c.receive(raw,7); REQUIRE(stale.actor_bunches.size()==1);
+    unreliable_actor_fields(stale.actor_bunches[0],payload); CHECK_FALSE(stale.closed);
+    publication_inspect(client,stale); const auto before=c.snapshot();
+    expect_error([&]{c.receive(raw,8);},ConnectionErrorCode::replay); CHECK(c.snapshot()==before);
+    const auto drain=c.receive(actor_request(client,6,{actor_payload(1,false)}),8);
+    REQUIRE(drain.actor_bunches.size()==2); CHECK(drain.actor_bunches[0].sequence==1);
+    CHECK(drain.actor_bunches[1].sequence==2); publication_inspect(client,drain);
+}
+TEST_CASE("Unreliable actor input before opening is ignored and accepts after send without its ACK") {
+    for (const bool confirmed:{false,true}) {
+        const auto cfg=publication_config(); game::GameConnection c(cfg);
+        session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+        joined_actor(c,client,cfg.endian); c.register_actor_channel({7,41,0,confirmed});
+        const auto payload=unreliable_actor_payload();
+        const auto early=c.receive(actor_request(client,5,{payload}),6);
+        CHECK(early.actor_bunches.empty()); CHECK_FALSE(early.closed);
+        CHECK_FALSE(early.datagrams.empty()); publication_inspect(client,early);
+        const auto opening=c.send_actor(actor_payload(),7); publication_inspect(client,opening);
+        const auto accepted=c.receive(actor_request(client,6,{payload}),8);
+        REQUIRE(accepted.actor_bunches.size()==1); unreliable_actor_fields(accepted.actor_bunches[0],payload);
+        CHECK_FALSE(accepted.closed); publication_inspect(client,accepted);
+    }
+}
+TEST_CASE("Unreliable actor dispatch and valid control share a packet without opcode confusion") {
+    const auto cfg=publication_config(); game::GameConnection c(cfg);
+    session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    joined_actor(c,client,cfg.endian); c.register_actor_channel(actor_config());
+    publication_inspect(client,c.send_actor(actor_payload(),6));
+    const auto control_bunch=inner(5,6,package_ack_literal(0,cfg.endian),false).records.front().bunch;
+    const auto payload=unreliable_actor_payload();
+    const auto step=c.receive(actor_request(client,5,{payload,control_bunch,payload}),6);
+    REQUIRE(step.actor_bunches.size()==2); unreliable_actor_fields(step.actor_bunches[0],payload);
+    unreliable_actor_fields(step.actor_bunches[1],payload);
+    CHECK_FALSE(step.closed); CHECK_FALSE(step.join_requested); CHECK_FALSE(step.login_candidate);
+    CHECK(publication_inspect(client,step).bunches.empty());
+}
+TEST_CASE("Unreliable actor send rejects unready and noncanonical shapes without consuming nonce") {
+    const auto cfg=publication_config(); game::GameConnection c(cfg);
+    session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    const auto next=joined_actor(c,client,cfg.endian); c.register_actor_channel(actor_config());
+    const auto before=c.snapshot(); const auto payload=unreliable_actor_payload();
+    expect_error([&]{c.send_actor(payload,99);},ConnectionErrorCode::invalid_packet); CHECK(c.snapshot()==before);
+    c.register_actor_channel({8,0,0,true});
+    for (unsigned invalid=0;invalid<7;++invalid) {
+        auto bad=payload; bad.channel=8;
+        switch (invalid) {
+        case 0: bad.sequence=1; break;
+        case 1: bad.channel_type=2; break;
+        case 2: bad.control=true; bad.open=true; bad.channel_type=2; break;
+        case 3: bad.control=true; bad.close=true; break;
+        case 4: bad.channel=0; break;
+        case 5: bad.channel=9; break;
+        case 6: bad.payload.back()=0x80; break;
+        }
+        expect_error([&]{c.send_actor(bad,99);},ConnectionErrorCode::invalid_packet); CHECK(c.snapshot()==before);
+    }
+    const auto opening=c.send_actor(actor_payload(),6); REQUIRE(opening.datagrams.size()==1);
+    CHECK(rejection_counter(opening.datagrams.front())==next.nonce); publication_inspect(client,opening);
+    const auto good=c.send_actor(payload,7); REQUIRE(good.datagrams.size()==1);
+    CHECK(rejection_counter(good.datagrams.front())==next.nonce+1U); publication_inspect(client,good);
+}
+TEST_CASE("Unreliable actor bunches consume shared message quota without partial events") {
+    auto cfg=publication_config(); cfg.limits.max_logical_messages_per_step=3;
+    game::GameConnection c(cfg); session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    joined_actor(c,client,cfg.endian); c.register_actor_channel(actor_config());
+    publication_inspect(client,c.send_actor(actor_payload(),6));
+    const auto payload=unreliable_actor_payload();
+    expect_error([&]{c.receive(actor_request(client,5,{payload,payload,payload,payload}),6);},
+        ConnectionErrorCode::resource_limit); CHECK(c.snapshot().closed);
+}
+TEST_CASE("Unreliable actor output quota after transport commit closes the same Context") {
+    auto cfg=publication_config(); cfg.limits.max_output_bytes_per_step=500;
+    game::GameConnection c(cfg); session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    joined_actor(c,client,cfg.endian); c.register_actor_channel(actor_config());
+    publication_inspect(client,c.send_actor(actor_payload(),6));
+    auto large=unreliable_actor_payload(); large.payload.assign(500,0); large.payload_bits=4000;
+    expect_error([&]{c.send_actor(large,7);},ConnectionErrorCode::resource_limit); CHECK(c.snapshot().closed);
+    expect_error([&]{c.tick(7);},ConnectionErrorCode::terminal_state);
+}
+TEST_CASE("Unreliable actor traffic cannot reopen a closed reliable actor channel") {
+    const auto cfg=publication_config(); game::GameConnection c(cfg);
+    session::Context client(session::Role::client,cfg.session_id,cfg.session_key);
+    joined_actor(c,client,cfg.endian); c.register_actor_channel(actor_config());
+    publication_inspect(client,c.send_actor(actor_payload(),6));
+    const auto close=c.receive(actor_request(client,5,{actor_payload(1,false,true)}),6);
+    CHECK(close.closed_actor_channels==std::vector<std::uint16_t>{7}); publication_inspect(client,close);
+    const auto payload=unreliable_actor_payload();
+    const auto ignored=c.receive(actor_request(client,6,{payload}),7);
+    CHECK(ignored.actor_bunches.empty()); CHECK(ignored.closed_actor_channels.empty());
+    CHECK_FALSE(ignored.closed); publication_inspect(client,ignored);
+    const auto before=c.snapshot();
+    expect_error([&]{c.send_actor(payload,99);},ConnectionErrorCode::terminal_state); CHECK(c.snapshot()==before);
+}

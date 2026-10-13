@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 namespace httplib { class Server; }
 namespace hawken::auth { class AuthService; }
@@ -7,6 +8,11 @@ namespace hawken::inventory { class InventoryService; }
 namespace hawken::assignment { class SessionAssignmentService; }
 namespace hawken::master { class MasterDirectory; }
 namespace hawken::server {
+// Diagnostic-only categories: no request data is passed to the observer.
+// Invoked once for an exact Broker PUT rejected before InventoryService;
+// observer exceptions are contained and cannot change status or validation.
+enum class BrokerHttpRejectReason { http_headers, body_reader };
+using BrokerHttpRejectObserver = std::function<void(BrokerHttpRejectReason)>;
 // Installs startup/version replies for the server backend, separate from the Master.
 // The optional verified local facade supplies login/profile/logout only.
 // Without either facade, startup-only replies and unread login bodies remain.
@@ -40,5 +46,6 @@ void configure_server_http(httplib::Server& server, auth::AuthService* auth,
                            sync::SyncService* sync, inventory::InventoryService* inventory,
                            sync::MenuSyncService* menu,
                            assignment::SessionAssignmentService* assignment,
-                           const master::MasterDirectory* directory);
+                           const master::MasterDirectory* directory,
+                           BrokerHttpRejectObserver reject_observer = {});
 }

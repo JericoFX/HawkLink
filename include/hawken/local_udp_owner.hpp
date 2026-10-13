@@ -40,6 +40,8 @@ struct LocalUdpDiagnostics {
     bool controller_sent = false;
     // Sticky only after explicit Pawn datagrams were sent; not possession/gameplay.
     bool pawn_sent = false;
+    // Sticky only after explicit PRI datagrams were sent; not client links/setup.
+    bool pri_sent = false;
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
 
@@ -59,6 +61,9 @@ struct InitialPawnPlan {
     wire::actor::QuantizedPosition position;
     std::optional<wire::actor::Rotation> rotation;
 };
+// Common dynamic-actor prefix, conditional on the native branch returning no
+// PlayerController. The caller supplies the concrete PRI archetype and rotation.
+using InitialPriPlan = InitialPawnPlan;
 
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
 // Exclusive IPv4 127.0.0.1 bind. Production callers supply a nonzero port;
@@ -134,13 +139,20 @@ public:
     // Optional copied Pawn plan requires Controller, validator and publication;
     // its channel must differ from Controller and be1..2047, local index>=0,
     // transforms encodable before worker/start commit. After successful Controller
-    // send, resolve/compose/register/send Pawn on the SAME connection and Use,
+    // send (and PRI send if configured), resolve/compose/register/send Pawn on the SAME connection and Use,
     // reliable/type2/open with no controller byte. Failure retires after Use;
     // controller_sent may be true while pawn_sent remains false. No possession.
+    // Optional copied PRI plan has the same prerequisites and prefix as Pawn;
+    // its channel must differ from Controller AND any Pawn. Validate before
+    // start commit, then send Controller -> PRI -> Pawn on the SAME Use/Context.
+    // PRI failure retires after Use, preserving controller_sent and skipping Pawn.
+    // pri_sent requires nonempty successful datagrams and no stopping after send;
+    // it does not prove client actor creation or PlayerReplicationInfo bindings.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
                std::optional<InitialControllerPlan> controller = std::nullopt,
-               std::optional<InitialPawnPlan> pawn = std::nullopt);
+               std::optional<InitialPawnPlan> pawn = std::nullopt,
+               std::optional<InitialPriPlan> pri = std::nullopt);
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied
