@@ -582,26 +582,7 @@ int main(int argc, char* argv[]) {
     try {
         // Read-only pinned asset check before Steam, SQL, diagnostics or sockets.
         if (!options.udp_world_root.empty()) {
-            options.udp_trial->publication = hawken::game::load_wreckage_trial(options.udp_world_root);
-            // Explicit local Wreckage trial policy, not historical spawn selection
-            // or collision proof. Observed controller CDO bit0 is false: no rotation.
-            options.udp_trial->controller = hawken::udp::InitialControllerPlan{
-                {1, 0, 0, false},
-                {0xbf5a6721U, 0x4933092bU, 0xe8522f80U, 0x238fc144U},
-                18053, {-1472, 2432, 193}, std::nullopt, 0};
-            // Pinned PRI trial: original CDO38826; retained identity-checked
-            // session20261012-040452 observed ec bit0 false. Its native getter
-            // returns null, so no Controller byte. This does not link or possess.
-            options.udp_trial->pri = hawken::udp::InitialPriPlan{
-                {3, 0, 0, false},
-                {0xbf5a6721U, 0x4933092bU, 0xe8522f80U, 0x238fc144U},
-                38826, {0, 0, 0}, std::nullopt};
-            // Explicit local Pawn trial policy. Loaded R_PawnContent CDO has
-            // NetIndex233/rotation bit0 clear; no collision/possession proof.
-            options.udp_trial->pawn = hawken::udp::InitialPawnPlan{
-                {2, 0, 0, false},
-                {0x5cd139c7U, 0x4aa73e14U, 0xbd1c8593U, 0xf86056ddU},
-                233, {-1472, 2432, 193}, std::nullopt};
+            hawken::game::configure_wreckage_trial(*options.udp_trial,options.udp_world_root);
         }
     } catch (...) {
         std::cerr << "Invalid Wreckage trial assets.\n";

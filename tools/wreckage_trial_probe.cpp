@@ -1,4 +1,5 @@
 #include "hawken/wreckage_trial.hpp"
+#include "hawken/udp_trial_runtime.hpp"
 #include "hawken/package_publication.hpp"
 #include "hawken/package_map_ranges.hpp"
 #include "hawken/posthello_control.hpp"
@@ -94,11 +95,46 @@ int run(const std::filesystem::path& game_root) {
     }
     try {
         // Real original-asset loader; no injected checker or production hook.
-        const auto plan=hawken::game::load_wreckage_trial(game_root);
-        if (!verify_plan(plan)) throw std::runtime_error("plan validation failed");
+        hawken::udp::UdpTrialConfig config{
+            0,"11111111-1111-4111-8111-111111111111","probe"};
+        // Exercise the same real SHA-gated configuration used by Main, including
+        // its actor relationships. No sockets, account data or client execution.
+        hawken::game::configure_wreckage_trial(config,game_root);
+        if (!config.publication || !verify_plan(*config.publication) ||
+            !config.controller || !config.pawn || !config.pri || !config.links)
+            throw std::runtime_error("trial configuration missing");
+        const auto& controller=*config.controller;
+        const auto& pawn=*config.pawn;
+        const auto& pri=*config.pri;
+        const auto& links=*config.links;
+        const std::array<std::uint32_t,4> hg{
+            0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U};
+        const std::array<std::uint32_t,4> hgc{
+            0x5cd139c7U,0x4aa73e14U,0xbd1c8593U,0xf86056ddU};
+        const auto fresh_channel=[](const auto& actor,std::uint16_t index) {
+            return actor.channel.channel==index &&
+                actor.channel.outgoing_sequence==0 &&
+                actor.channel.incoming_sequence==0 && !actor.channel.open_confirmed;
+        };
+        // Independent original metadata oracle; trial channels/positions remain
+        // explicit local policy. Dense IDs assume normal Link0 and PRIMARY map0.
+        if (config.port!=0 || config.server_guid!="11111111-1111-4111-8111-111111111111" ||
+            config.region!="probe" || !fresh_channel(controller,1) ||
+            !fresh_channel(pawn,2) || !fresh_channel(pri,3) ||
+            controller.archetype_package_guid!=hg || controller.archetype_local_net_index!=18053 ||
+            pawn.archetype_package_guid!=hgc || pawn.archetype_local_net_index!=233 ||
+            pri.archetype_package_guid!=hg || pri.archetype_local_net_index!=38826 ||
+            controller.position!=hawken::wire::actor::QuantizedPosition{-1472,2432,193} ||
+            pawn.position!=controller.position || pri.position!=hawken::wire::actor::QuantizedPosition{0,0,0} ||
+            controller.rotation || pawn.rotation || pri.rotation || controller.net_player_index!=0 ||
+            links.controller_pri_field_id!=21 || links.controller_pawn_field_id!=22 ||
+            links.controller_exclusive_bound!=294 || links.pawn_controller_field_id!=49 ||
+            links.pawn_pri_field_id!=30 || links.pawn_exclusive_bound!=150)
+            throw std::runtime_error("trial configuration mismatch");
         std::cout<<"{\"plan_verified\":true,\"root_packages\":7,"
             "\"contained_packages\":1,\"contained_archive_bytes\":73,"
-            "\"welcome_archive_bytes\":48,\"client_runtime_verified\":false}\n";
+            "\"welcome_archive_bytes\":48,\"actor_links_policy_verified\":true,"
+            "\"client_runtime_verified\":false}\n";
         return 0;
     } catch (...) {
         // Never expose supplied path, loader error text or original file data.

@@ -1,4 +1,5 @@
 #include "hawken/wreckage_trial.hpp"
+#include "hawken/udp_trial_runtime.hpp"
 #include "test_support.hpp"
 #include <doctest/doctest.h>
 #include <array>
@@ -70,4 +71,87 @@ TEST_CASE("Wreckage trial rejects a complete altered dummy set without changing 
             ? "public synthetic package bytes altered" : "public synthetic package bytes";
         CHECK(hawken::test::read_bytes(directory.path()/cooked/name) == expected);
     }
+}
+
+TEST_CASE("Wreckage configuration absent root preserves UDP observation without links") {
+    hawken::udp::UdpTrialConfig config{7777,"11111111-1111-4111-8111-111111111111","private-region"};
+    hawken::game::configure_wreckage_trial(config,{});
+    CHECK(config.port==7777);
+    CHECK(config.server_guid=="11111111-1111-4111-8111-111111111111");
+    CHECK(config.region=="private-region");
+    CHECK_FALSE(config.publication);
+    CHECK_FALSE(config.controller);
+    CHECK_FALSE(config.pawn);
+    CHECK_FALSE(config.pri);
+    CHECK_FALSE(config.links);
+}
+
+TEST_CASE("Wreckage configuration failed asset gate preserves every existing trial choice") {
+    // Public synthetic config markers, never native IDs or a hash-success fixture.
+    hawken::udp::UdpTrialConfig config{12345,"22222222-2222-4222-8222-222222222222","marker-region"};
+    config.publication=hawken::game::WorldPublication{};
+    config.publication->packages.push_back({"PrivateMarker",{1,2,3,4},{5}});
+    config.controller=hawken::udp::InitialControllerPlan{
+        {7,41,42,true},{5,6,7,8},9,{10,11,12},hawken::wire::actor::Rotation{0,256,512},3};
+    config.pawn=hawken::udp::InitialPawnPlan{
+        {8,51,52,false},{9,10,11,12},13,{14,15,16},std::nullopt};
+    config.pri=hawken::udp::InitialPriPlan{
+        {9,61,62,false},{13,14,15,16},17,{18,19,20},hawken::wire::actor::Rotation{256,0,0}};
+    config.links=hawken::udp::InitialActorLinksPlan{1,2,10,3,4,11};
+    const auto before=config;
+    hawken::test::TempDirectory directory;
+    for (const auto name:package_names)
+        directory.write(cooked/name,"public synthetic package bytes");
+    CHECK_THROWS_WITH_AS(hawken::game::configure_wreckage_trial(config,directory.path()),
+        "invalid Wreckage trial assets",std::runtime_error);
+    CHECK(config.port==before.port);
+    CHECK(config.server_guid==before.server_guid);
+    CHECK(config.region==before.region);
+    REQUIRE(config.publication);
+    REQUIRE(config.publication->packages.size()==1);
+    CHECK(config.publication->packages[0].name=="PrivateMarker");
+    CHECK(config.publication->packages[0].identity==before.publication->packages[0].identity);
+    CHECK(config.publication->packages[0].generation_net_counts==before.publication->packages[0].generation_net_counts);
+    CHECK(config.publication->welcome==before.publication->welcome);
+    CHECK(config.publication->contained_packages.empty());
+    const auto unchanged_plan=[](const auto& actual,const auto& expected) {
+        REQUIRE(actual);
+        CHECK(actual->channel.channel==expected->channel.channel);
+        CHECK(actual->channel.outgoing_sequence==expected->channel.outgoing_sequence);
+        CHECK(actual->channel.incoming_sequence==expected->channel.incoming_sequence);
+        CHECK(actual->channel.open_confirmed==expected->channel.open_confirmed);
+        CHECK(actual->archetype_package_guid==expected->archetype_package_guid);
+        CHECK(actual->archetype_local_net_index==expected->archetype_local_net_index);
+        CHECK(actual->position==expected->position);
+        CHECK(actual->rotation==expected->rotation);
+    };
+    unchanged_plan(config.controller,before.controller);
+    unchanged_plan(config.pawn,before.pawn);
+    unchanged_plan(config.pri,before.pri);
+    CHECK(config.controller->net_player_index==before.controller->net_player_index);
+    REQUIRE(config.links);
+    CHECK(config.links->controller_pri_field_id==1);
+    CHECK(config.links->controller_pawn_field_id==2);
+    CHECK(config.links->controller_exclusive_bound==10);
+    CHECK(config.links->pawn_controller_field_id==3);
+    CHECK(config.links->pawn_pri_field_id==4);
+    CHECK(config.links->pawn_exclusive_bound==11);
+}
+
+TEST_CASE("Wreckage configuration invalid nonempty root cannot enable actor links") {
+    hawken::test::TempDirectory directory;
+    auto root=directory.path()/"missing-private-root";
+    SUBCASE("Missing absolute root") {}
+    SUBCASE("Relative root") { root="private-relative-root"; }
+    hawken::udp::UdpTrialConfig config{7777,"11111111-1111-4111-8111-111111111111","private-region"};
+    CHECK_THROWS_WITH_AS(hawken::game::configure_wreckage_trial(config,root),
+        "invalid Wreckage trial assets",std::runtime_error);
+    CHECK(config.port==7777);
+    CHECK(config.server_guid=="11111111-1111-4111-8111-111111111111");
+    CHECK(config.region=="private-region");
+    CHECK_FALSE(config.publication);
+    CHECK_FALSE(config.controller);
+    CHECK_FALSE(config.pawn);
+    CHECK_FALSE(config.pri);
+    CHECK_FALSE(config.links);
 }

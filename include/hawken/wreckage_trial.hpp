@@ -2,6 +2,8 @@
 #include "hawken/game_connection.hpp"
 #include <filesystem>
 
+namespace hawken::udp { struct UdpTrialConfig; }
+
 namespace hawken::game {
 // Read-only, explicit local trial for THIS pinned original installation.
 // game_root must be absolute. Hash all eight fixed paths beneath
@@ -18,4 +20,12 @@ namespace hawken::game {
 // Missing/mismatched assets or invalid root throw std::runtime_error with fixed
 // message "invalid Wreckage trial assets"; no path/file/hash contents in errors.
 WorldPublication load_wreckage_trial(const std::filesystem::path& game_root);
+
+// Explicit executable trial composition. Empty root leaves config unchanged.
+// For a nonempty root, verify the same eight original pins before committing
+// publication, Controller/Pawn/PRI plans and conditional initial property links.
+// Preserve port/server GUID/region; failed asset verification leaves config intact.
+// This selected metadata does not prove native possession or gameplay.
+void configure_wreckage_trial(udp::UdpTrialConfig& config,
+                             const std::filesystem::path& game_root);
 }

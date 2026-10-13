@@ -1,7 +1,10 @@
 #include "hawken/wreckage_trial.hpp"
 #include "hawken/sha256.hpp"
+#include "hawken/udp_trial_runtime.hpp"
 #include <array>
 #include <stdexcept>
+#include <type_traits>
+#include <utility>
 
 namespace hawken::game {
 WorldPublication load_wreckage_trial(const std::filesystem::path& game_root) {
@@ -50,5 +53,36 @@ WorldPublication load_wreckage_trial(const std::filesystem::path& game_root) {
     } catch (...) {
         throw std::runtime_error("invalid Wreckage trial assets");
     }
+}
+
+void configure_wreckage_trial(udp::UdpTrialConfig& config,
+                             const std::filesystem::path& game_root) {
+    if (game_root.empty()) return;
+    auto publication=load_wreckage_trial(game_root);
+    auto prepared=config;
+    prepared.publication=std::move(publication);
+    // Explicit local trial policy, not historical spawn selection or collision
+    // proof. The retained original Controller CDO rotation bit0 is clear.
+    prepared.controller=udp::InitialControllerPlan{
+        {1,0,0,false},
+        {0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U},
+        18053,{-1472,2432,193},std::nullopt,0};
+    // Original PRI CDO38826 and Pawn CDO233 have retained rotation-bit0-clear
+    // observations; their native getter returns no Controller byte.
+    prepared.pri=udp::InitialPriPlan{
+        {3,0,0,false},
+        {0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U},
+        38826,{0,0,0},std::nullopt};
+    prepared.pawn=udp::InitialPawnPlan{
+        {2,0,0,false},
+        {0x5cd139c7U,0x4aa73e14U,0xbd1c8593U,0xf86056ddU},
+        233,{-1472,2432,193},std::nullopt};
+    // Conditional static schema: normal startup Link0/primaryMap0 without
+    // SEEKFREEPACKAGEMAP. See controller-effective-field-cache/
+    // actor-link-plan-20261013/contract.json and selector-loader-20261013/
+    // contract.json. These links do not prove native possession or gameplay.
+    prepared.links=udp::InitialActorLinksPlan{21,22,294,49,30,150};
+    static_assert(std::is_nothrow_move_assignable_v<udp::UdpTrialConfig>);
+    config=std::move(prepared);
 }
 }
