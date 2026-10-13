@@ -1,5 +1,9 @@
 # HAWKEN — arquitectura observada y diseño futuro
 
+## Integración Runtime y preparación pendiente — 2026-10-13
+
+El plan explícito de enlaces ya cruza UdpTrialRuntime hacia Owner por la misma conexión; configuración del caller puede desaparecer antes de autenticación y ACKs. [Gate del padre](../../implementation/evidence/actor-links-runtime/20261013/green/parent-acceptance.json):45/45 grupos y objeto Main compilado, sin reemplazar ejecutables vivos. Main todavía debe elegir IDs elegibles del mapa/caché concreto y conectar el preset autoritativo con la secuencia de setup/posesión. La cuenta local usada en una rama de SetCurrentMech excluye el modo dedicado; falta demostrar su entrada humana dedicada. [Protocolo, hashes y erratum](HAWKEN_GAME_SERVER_PROTOCOL.md). Servicios regionales/directorio y economía mantienen la separación acordada; este bloque no verifica partida, hosting ni Linux.
+
 ## Enlaces iniciales y siguiente integración — 2026-10-13
 
 LocalUdpOwner dispone de un plan opcional explícito para Controller.PRI, Controller.Pawn, Pawn.Controller y Pawn.PRI, sobre la conexión autenticada existente. El caller aporta IDs/bounds elegibles del mapa PRIMARY; el Owner no descubre ni impone IDs nativos. La secuencia conservadora espera evidencia del ACK exacto saliente de las tres aperturas y publica dos batches fiables, uno por Controller y Pawn. Estado de apertura inicial o apertura entrante no sustituye ese ACK. Véase [protocolo y premisas originales](HAWKEN_GAME_SERVER_PROTOCOL.md).

@@ -91,6 +91,7 @@ struct UdpTrialRuntime::Impl {
     const std::optional<InitialControllerPlan> controller;
     const std::optional<InitialPawnPlan> pawn;
     const std::optional<InitialPriPlan> pri;
+    const std::optional<InitialActorLinksPlan> links;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -100,7 +101,8 @@ struct UdpTrialRuntime::Impl {
         return seconds;
     }
     Impl(auth::AuthService& auth, const UdpTrialConfig& config)
-        : publication(config.publication), controller(config.controller), pawn(config.pawn), pri(config.pri) {
+        : publication(config.publication), controller(config.controller), pawn(config.pawn), pri(config.pri),
+          links(config.links) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -124,7 +126,7 @@ struct UdpTrialRuntime::Impl {
             owner->start([this](const session::SessionId& id) { return service->authorize_udp(id); },
                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
                     return service->validate_login_response(id, response);
-                }, std::move(publish), controller, pawn, pri);
+                }, std::move(publish), controller, pawn, pri, links);
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();
@@ -138,6 +140,8 @@ struct UdpTrialRuntime::Impl {
 UdpTrialRuntime::UdpTrialRuntime(auth::AuthService& auth, const UdpTrialConfig& config) {
     if (!validate_trial_config(config))
         throw std::invalid_argument("Invalid UDP trial configuration.");
+    if (config.links && (!config.publication || !config.controller || !config.pri || !config.pawn))
+        startup_failed();
     try { impl_ = std::make_unique<Impl>(auth, config); }
     catch (...) { startup_failed(); }
 }

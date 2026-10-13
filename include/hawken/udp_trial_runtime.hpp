@@ -32,6 +32,11 @@ struct UdpTrialConfig {
     // distinct channel. Owner sends it after Controller and before any Pawn.
     // No inferred identity/rotation defaults or player-link replication.
     std::optional<InitialPriPlan> pri = std::nullopt;
+    // Optional immutable link policy requires publication and all three actor
+    // plans. Runtime checks these prerequisites before binding; Owner validates
+    // IDs/bounds/budgets and sends after all three actual outgoing-opening ACKs.
+    // Explicit caller schema only; no native IDs, inferred links or possession.
+    std::optional<InitialActorLinksPlan> links = std::nullopt;
 };
 // Pure preflight; no binding, randomness, SQL or Steam. Canonical lower-case
 // nonzero GUID36 and ASCII region[A-Za-z0-9_.-]1..64; port0 is API-valid.

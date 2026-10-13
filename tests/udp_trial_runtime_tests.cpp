@@ -882,3 +882,147 @@ TEST_CASE("UDP trial PRI plan cannot bypass Login Response authorization") {
     CHECK_FALSE(runtime.diagnostics().pawn_sent); CHECK_FALSE(runtime.assignment().authorize_udp(id));
     CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
 }
+
+
+namespace {
+udp::InitialActorLinksPlan runtime_links_plan() {
+    // SYNTHETIC effective field IDs/bounds. No native ID or eligibility claim.
+    return {3,5,8,1,6,8};
+}
+struct RuntimeLinksPackets {
+    std::vector<wire::Bunch> bunches;
+    std::vector<std::uint16_t> packet_ids;
+};
+RuntimeLinksPackets runtime_links_packets(Peer& peer,session::Context& client,
+    std::chrono::milliseconds budget,std::size_t expected,bool properties_only=false) {
+    RuntimeLinksPackets result;
+    const auto deadline=std::chrono::steady_clock::now()+budget;
+    while (std::chrono::steady_clock::now()<deadline) {
+        const auto datagram=peer.receive(20ms); if (!datagram) continue;
+        const auto value=wire::decode_packet(client.decode(*datagram),512);
+        for (const auto& record:value.records) {
+            if (record.is_ack || record.bunch.channel==0 ||
+                (properties_only && record.bunch.open)) continue;
+            result.bunches.push_back(record.bunch); result.packet_ids.push_back(value.packet_id);
+        }
+        if (result.bunches.size()>=expected) break;
+    }
+    return result;
+}
+Bytes runtime_links_ack(session::Context& client,std::uint16_t packet_id,
+                        const std::vector<std::uint16_t>& ids) {
+    wire::Packet value; value.packet_id=packet_id;
+    for (const auto id:ids) {
+        wire::PacketRecord record; record.is_ack=true; record.ack_packet_id=id;
+        value.records.push_back(record);
+    }
+    return client.encode(wire::encode_packet(value,512));
+}
+RuntimeLinksPackets runtime_links_open(udp::UdpTrialRuntime& runtime,const auth::AuthReply& login,
+                                     Peer& peer,session::Context& client) {
+    runtime_publish(runtime,login,peer,client);
+    peer.send(runtime.port(),packet(client,4,5,
+        public_hex("08040302017856341200000080ffffffff0200000009")));
+    auto opened=runtime_links_packets(peer,client,2000ms,3);
+    REQUIRE(opened.bunches.size()==3); REQUIRE(opened.packet_ids.size()==3);
+    CHECK(opened.bunches[0].channel==7); CHECK(opened.bunches[0].sequence==42);
+    CHECK(opened.bunches[0].payload==public_hex("04000000400500"));
+    CHECK(opened.bunches[1].channel==9); CHECK(opened.bunches[1].sequence==92);
+    CHECK(opened.bunches[1].payload==public_hex("020000004005"));
+    CHECK(opened.bunches[2].channel==8); CHECK(opened.bunches[2].sequence==72);
+    CHECK(opened.bunches[2].payload==public_hex("04000000032338c07f"));
+    for (const auto& bunch:opened.bunches) { CHECK(bunch.open); CHECK(bunch.reliable); }
+    REQUIRE(wait_until([&]{return runtime.diagnostics().pawn_sent && runtime.diagnostics().pri_sent;}));
+    return opened;
+}
+}
+TEST_CASE("UDP trial copied actor links forward exact ACK gated literal batches on the same Context") {
+    Fixture f; std::unique_ptr<udp::UdpTrialRuntime> runtime;
+    {
+        auto selected=config(); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
+        runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+        selected.links->controller_exclusive_bound=0; selected.links->pawn_controller_field_id=100;
+        selected.links.reset(); selected.controller.reset(); selected.pawn.reset(); selected.pri.reset();
+    } // Caller config and plan are gone before authentication/publication/ACKs.
+    const auto login=f.login(); const auto dto=provision(*runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    Peer peer; session::Context client(session::Role::client,id,key);
+    const auto opened=runtime_links_open(*runtime,login,peer,client);
+    // PacketIDs derive from actual wire packets, including randomized-session replies.
+    peer.send(runtime->port(),runtime_links_ack(client,5,{opened.packet_ids[0],opened.packet_ids[2]}));
+    CHECK(runtime_links_packets(peer,client,200ms,2,true).bunches.empty());
+    const auto previous=client.last_received();
+    peer.send(runtime->port(),runtime_links_ack(client,6,{opened.packet_ids[1]}));
+    const auto linked=runtime_links_packets(peer,client,2000ms,2,true);
+    REQUIRE(linked.bunches.size()==2); REQUIRE(linked.packet_ids.size()==2);
+    // Independent 2x15-bit property literals; no RPC presence or terminator.
+    CHECK(linked.bunches[0].channel==7); CHECK(linked.bunches[0].sequence==43);
+    CHECK(linked.bunches[0].payload==public_hex("9b804600")); CHECK(linked.bunches[0].payload_bits==30);
+    CHECK(linked.bunches[1].channel==8); CHECK(linked.bunches[1].sequence==73);
+    CHECK(linked.bunches[1].payload==public_hex("79004f00")); CHECK(linked.bunches[1].payload_bits==30);
+    for (const auto& bunch:linked.bunches) {
+        CHECK(bunch.reliable); CHECK(bunch.channel_type==2);
+        CHECK_FALSE(bunch.control); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    }
+    CHECK(linked.packet_ids[0]>opened.packet_ids.back());
+    CHECK(linked.packet_ids[1]>linked.packet_ids[0]); CHECK(client.last_received()>previous);
+    CHECK(runtime->assignment().authorize_udp(id)); CHECK_FALSE(runtime->diagnostics().closed);
+    peer.send(runtime->port(),runtime_links_ack(client,7,opened.packet_ids));
+    CHECK(runtime_links_packets(peer,client,200ms,2,true).bunches.empty());
+    CHECK(runtime_links_packets(peer,client,200ms,2,true).bunches.empty());
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    runtime->stop(); CHECK_FALSE(runtime->running()); CHECK_FALSE(runtime->assignment().authorize_udp(id));
+}
+TEST_CASE("UDP trial absent actor links preserves three actors and authorization without property batches") {
+    Fixture f; auto selected=config(); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan(); udp::UdpTrialRuntime runtime(f.auth,selected);
+    const auto login=f.login(); const auto dto=provision(runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    Peer peer; session::Context client(session::Role::client,id,key);
+    const auto opened=runtime_links_open(runtime,login,peer,client);
+    peer.send(runtime.port(),runtime_links_ack(client,5,opened.packet_ids));
+    CHECK(runtime_links_packets(peer,client,200ms,2,true).bunches.empty());
+    CHECK(runtime.assignment().authorize_udp(id)); CHECK_FALSE(runtime.diagnostics().closed);
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    runtime.stop(); CHECK_FALSE(runtime.assignment().authorize_udp(id));
+}
+TEST_CASE("UDP trial links prereqs and Owner scalar validation reject startup without consuming bind or authority") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto wallet=f.store.wallet(account->ref);
+    std::uint16_t port=0; { Peer reservation; port=reservation.port(); }
+    for (unsigned invalid=0;invalid<8;++invalid) {
+        CAPTURE(invalid);
+        auto selected=config(port); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
+        switch (invalid) {
+        case 0: selected.publication.reset(); break;
+        case 1: selected.controller.reset(); break;
+        case 2: selected.pri.reset(); break;
+        case 3: selected.pawn.reset(); break;
+        case 4: selected.links->controller_exclusive_bound=0; break;
+        case 5: selected.links->pawn_exclusive_bound=0; break;
+        case 6: selected.links->controller_pawn_field_id=selected.links->controller_pri_field_id; break;
+        case 7: selected.links->pawn_pri_field_id=selected.links->pawn_exclusive_bound; break;
+        }
+        CHECK(udp::validate_trial_config(selected)); // Identity-only API stays unchanged.
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    }
+    auto selected=config(port); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
+    udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); CHECK(runtime.port()==port);
+    CHECK(provision(runtime,login).status==200); // Same grant and first lease remain usable.
+    CHECK(f.store.wallet(account->ref)==wallet); runtime.stop();
+}
