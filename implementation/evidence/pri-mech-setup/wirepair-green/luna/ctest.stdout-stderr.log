@@ -1,0 +1,42 @@
+UpdateCTestConfiguration  from :F:/HawkenServer/DartConfiguration.tcl
+Test project F:/HawkenServer/build/windows-msvc
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 35
+    Start 35: mech_setup_wire
+
+35: Test command: F:\HawkenServer\build\windows-msvc\hawken-mech-setup-wire-tests.exe
+35: Working Directory: F:/HawkenServer/build/windows-msvc
+35: Test timeout computed to be: 10000000
+35: [doctest] doctest version is "2.4.12"
+35: [doctest] run with "--help" for options
+35: ===============================================================================
+35: [doctest] test cases: 19 | 19 passed | 0 failed | 0 skipped
+35: [doctest] assertions: 65 | 65 passed | 0 failed |
+35: [doctest] Status: SUCCESS!
+1/2 Test #35: mech_setup_wire ..................   Passed    0.06 sec
+test 37
+    Start 37: start_mech_rpc
+
+37: Test command: F:\HawkenServer\build\windows-msvc\hawken-start-mech-rpc-tests.exe
+37: Working Directory: F:/HawkenServer/build/windows-msvc
+37: Test timeout computed to be: 10000000
+37: [doctest] doctest version is "2.4.12"
+37: [doctest] run with "--help" for options
+37: ===============================================================================
+37: [doctest] test cases:   10 |   10 passed | 0 failed | 0 skipped
+37: [doctest] assertions: 2958 | 2958 passed | 0 failed |
+37: [doctest] Status: SUCCESS!
+2/2 Test #37: start_mech_rpc ...................   Passed    0.09 sec
+
+The following tests passed:
+	mech_setup_wire
+	start_mech_rpc
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.99 sec

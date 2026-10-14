@@ -1,0 +1,703 @@
+{
+  "status": "STATIC_SCRIPT_FORKS_CLOSED;ONLINE_SUCCESS_CALLBACK_PRODUCER_AND_INITSTORM_NATIVE_BODY_UNRESOLVED",
+  "scope": "Only retained UC/metadata/contracts. No source/build/runtime/Ghidra or credential capture.",
+  "original_packages": {
+    "Engine": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+    "HawkenGame": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0"
+  },
+  "original_cached_function_rows": [
+    {
+      "path": "Engine.PlayerController.ClientRestart",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "export": 4534,
+      "serial_virtual_offset": "0x34aa8c",
+      "type": "Function",
+      "local_net_index": 4578,
+      "next": 4531,
+      "header_bytes": "e2110000a037000000000000b3110000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x8185f",
+          "compressed_size": 36878,
+          "compressed_sha256": "16fece14fdc2f3c75b9e50b304c22ec0d7b7e80b0133ee488a8828a5966b7fb3",
+          "plain_sha256": "a8859e19fc85c9f209e38fbdc48138c26f8022314adaf5c45c87baa47e72971c",
+          "matched_virtual_start": "0x34aa8c",
+          "matched_virtual_end_exclusive": "0x34ac63"
+        }
+      ],
+      "eligible_link_rebuild": true,
+      "function_flags": "0x10201c2",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x34ac55",
+      "flag_bytes": "c2010201",
+      "candidate_field_id_all_mapped": 83
+    },
+    {
+      "path": "Engine.PlayerController.GivePawn",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "export": 4047,
+      "serial_virtual_offset": "0x33ebf9",
+      "type": "Function",
+      "local_net_index": 4091,
+      "next": 4045,
+      "header_bytes": "fb0f0000a037000000000000cd0f0000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x8185f",
+          "compressed_size": 36878,
+          "compressed_sha256": "16fece14fdc2f3c75b9e50b304c22ec0d7b7e80b0133ee488a8828a5966b7fb3",
+          "plain_sha256": "a8859e19fc85c9f209e38fbdc48138c26f8022314adaf5c45c87baa47e72971c",
+          "matched_virtual_start": "0x33ebf9",
+          "matched_virtual_end_exclusive": "0x33eca1"
+        }
+      ],
+      "eligible_link_rebuild": true,
+      "function_flags": "0x10201c2",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x33ec93",
+      "flag_bytes": "c2010201",
+      "candidate_field_id_all_mapped": 40
+    },
+    {
+      "path": "HawkenGame.R_PlayerController_Base.InitStormUserId",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 15009,
+      "serial_virtual_offset": "0x85f876",
+      "type": "Function",
+      "local_net_index": 15014,
+      "next": 15008,
+      "header_bytes": "a63a00001359000000000000a03a0000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x153a3d",
+          "compressed_size": 38000,
+          "compressed_sha256": "2120299287fa16898d347ad5c5a73b0e9256094bc12676d3b23d91dae8e80510",
+          "plain_sha256": "d86a7e31d178dca562f23a9fcc43a54e3381d904348672c47564d204727a141c",
+          "matched_virtual_start": "0x85f876",
+          "matched_virtual_end_exclusive": "0x85f8b7"
+        }
+      ],
+      "eligible_link_rebuild": false,
+      "function_flags": "0x20400",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x85f8ab",
+      "flag_bytes": "00040200"
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.GotoSelectionStage",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 17722,
+      "serial_virtual_offset": "0x8a6fc2",
+      "type": "Function",
+      "local_net_index": 17727,
+      "next": 17719,
+      "header_bytes": "3f450000135900000000000037450000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x8a6fc2",
+          "matched_virtual_end_exclusive": "0x8a702d"
+        }
+      ],
+      "eligible_link_rebuild": false,
+      "function_flags": "0x20102",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x8a7021",
+      "flag_bytes": "02010200"
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.ServerUpdateSelectionStage",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 17719,
+      "serial_virtual_offset": "0x8a6e74",
+      "type": "Function",
+      "local_net_index": 17724,
+      "next": 17716,
+      "header_bytes": "3c450000135900000000000034450000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x8a6e74",
+          "matched_virtual_end_exclusive": "0x8a6f6e"
+        }
+      ],
+      "eligible_link_rebuild": true,
+      "function_flags": "0x2800c2",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x8a6f60",
+      "flag_bytes": "c2002800",
+      "candidate_field_id_all_mapped": 281
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.ClientSpawnSelectionValidated",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 17232,
+      "serial_virtual_offset": "0x89bbd1",
+      "type": "Function",
+      "local_net_index": 17237,
+      "next": 17231,
+      "header_bytes": "5543000013590000000000004f430000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x89bbd1",
+          "matched_virtual_end_exclusive": "0x89bc68"
+        }
+      ],
+      "eligible_link_rebuild": true,
+      "function_flags": "0x10209c2",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x89bc5a",
+      "flag_bytes": "c2090201",
+      "candidate_field_id_all_mapped": 250
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.ServerValidatePlayerSpawnSelection",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 17231,
+      "serial_virtual_offset": "0x89ba02",
+      "type": "Function",
+      "local_net_index": 17236,
+      "next": 17228,
+      "header_bytes": "5443000013590000000000004c430000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x89ba02",
+          "matched_virtual_end_exclusive": "0x89bbd1"
+        }
+      ],
+      "eligible_link_rebuild": true,
+      "function_flags": "0x2200c2",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x89bbc3",
+      "flag_bytes": "c2002200",
+      "candidate_field_id_all_mapped": 249
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.ValidatePlayerMechSelections",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 17228,
+      "serial_virtual_offset": "0x89b8f0",
+      "type": "Function",
+      "local_net_index": 17233,
+      "next": 17226,
+      "header_bytes": "5143000013590000000000004a430000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x89b8f0",
+          "matched_virtual_end_exclusive": "0x89b9aa"
+        }
+      ],
+      "eligible_link_rebuild": false,
+      "function_flags": "0x20002",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x89b99e",
+      "flag_bytes": "02000200"
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.DoMechSpawn",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 17218,
+      "serial_virtual_offset": "0x89b3b3",
+      "type": "Function",
+      "local_net_index": 17223,
+      "next": 17211,
+      "header_bytes": "4743000013590000000000003b430000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x89b3b3",
+          "matched_virtual_end_exclusive": "0x89b669"
+        }
+      ],
+      "eligible_link_rebuild": false,
+      "function_flags": "0x820102",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x89b65d",
+      "flag_bytes": "02018200"
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.AskForPawn",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 16900,
+      "serial_virtual_offset": "0x893c9f",
+      "type": "Function",
+      "local_net_index": 16905,
+      "next": 16898,
+      "header_bytes": "09420000135900000000000002420000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x893c9f",
+          "matched_virtual_end_exclusive": "0x893d95"
+        }
+      ],
+      "eligible_link_rebuild": false,
+      "function_flags": "0x2200c2",
+      "super_function": "Engine.PlayerController.AskForPawn",
+      "super_index": -2265,
+      "super_bytes": "27f7ffff",
+      "flag_offset": "0x893d87",
+      "flag_bytes": "c2002200"
+    }
+  ],
+  "previous_byteverified_script_rows": [
+    {
+      "path": "Engine.Controller.ReplicatedEvent",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "original_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "export_index": 2196,
+      "export_table_virtual_offset": "0xc59ac",
+      "serial_virtual_offset": "0x31c758",
+      "serial_size": 134,
+      "serial_sha256": "3fef86892f6284e92e4bb3025b1d428bd6b4a87ec31c9d0ecb6d55b5bf5d3f7c",
+      "source_blocks": [
+        {
+          "original_physical_offset": "0x7aa52",
+          "compressed_size": 28173,
+          "original_compressed_sha256": "46bb3d975dc074330df7d51612c48e1a6d4b40efad86fd85d959d6963870d72a",
+          "plain_sha256": "5487871e8e3606adf42070add420e3658f5c5e57b615c79de66d1bd2d70e94ab",
+          "matched_virtual_start": "0x31c758",
+          "matched_virtual_end_exclusive": "0x31c7de"
+        }
+      ],
+      "uc": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\002387-Engine.Controller.ReplicatedEvent.uc",
+      "uc_sha256": "bc0d3e3a81b71c3debf68b7eb430914104c1f2fbe89b155d8cf0d7006714c141",
+      "function_flags_raw": "0x20902",
+      "native_token": "0",
+      "local_net_index": "2240",
+      "script_offset": "48",
+      "script_size": "71",
+      "complete_decompiled_body": "simulated event ReplicatedEvent(name VarName)\n{\n\t// End:0x49\n\tif(__NFUN_254__(VarName, 'PlayerReplicationInfo'))\n\t{\n\t\t// End:0x46\n\t\tif(__NFUN_119__(PlayerReplicationInfo, none))\n\t\t{\n\t\t\tPlayerReplicationInfo.ClientInitialize(self);\n\t\t}\t\t\n\t}\n\telse\n\t{\n\t\tsuper.ReplicatedEvent(VarName);\n\t}\n\t//return;\t\n}",
+      "state": "CONFIRMADO",
+      "limitation": "Presencia y cuerpo est\u00e1tico retenidos. El \u00edndice local no se atribuye a un identificador RPC wire; no demuestra ejecuci\u00f3n ni entrega/orden en red.",
+      "native_declaration_only": false
+    },
+    {
+      "path": "Engine.PlayerController.Restart",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "original_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "export_index": 4518,
+      "export_table_virtual_offset": "0xec274",
+      "serial_virtual_offset": "0x34a5bc",
+      "serial_size": 150,
+      "serial_sha256": "3402c46231b1b7d8c16c2738c328014c30b0bea7f2cca0a28143e5f74603a5a6",
+      "source_blocks": [
+        {
+          "original_physical_offset": "0x8185f",
+          "compressed_size": 36878,
+          "original_compressed_sha256": "16fece14fdc2f3c75b9e50b304c22ec0d7b7e80b0133ee488a8828a5966b7fb3",
+          "plain_sha256": "a8859e19fc85c9f209e38fbdc48138c26f8022314adaf5c45c87baa47e72971c",
+          "matched_virtual_start": "0x34a5bc",
+          "matched_virtual_end_exclusive": "0x34a652"
+        }
+      ],
+      "uc": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\004713-Engine.PlayerController.Restart.uc",
+      "uc_sha256": "dc48c3bcd5be92a8067cb0229323fb698b38c95c955dee87ecdce8764313b6fd",
+      "function_flags_raw": "0x20002",
+      "native_token": "0",
+      "local_net_index": "4562",
+      "script_offset": "48",
+      "script_size": "87",
+      "complete_decompiled_body": "function Restart(bool bVehicleTransition)\n{\n\tsuper.Restart(bVehicleTransition);\n\tServerTimeStamp = 0.0000000;\n\tResetTimeMargin();\n\tEnterStartState();\n\tClientRestart(Pawn);\n\tSetViewTarget(Pawn);\n\tResetCameraMode();\n\t//return;\t\n}",
+      "state": "CONFIRMADO",
+      "limitation": "Presencia y cuerpo est\u00e1tico retenidos. El \u00edndice local no se atribuye a un identificador RPC wire; no demuestra ejecuci\u00f3n ni entrega/orden en red.",
+      "native_declaration_only": false
+    },
+    {
+      "path": "Engine.PlayerReplicationInfo.ClientInitialize",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "original_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "export_index": 26348,
+      "export_table_virtual_offset": "0x25690c",
+      "serial_virtual_offset": "0x4f9dde",
+      "serial_size": 168,
+      "serial_sha256": "a64647b42b8354aa39ebfed26b4ab3a560a37e4b01a38617d1c3677fcd92a9e9",
+      "source_blocks": [
+        {
+          "original_physical_offset": "0xe335c",
+          "compressed_size": 20747,
+          "original_compressed_sha256": "17f3b78615c9d6a8f183a0084e4d459be3d976724ae97e78d5b5b63bca08bce6",
+          "plain_sha256": "5be08d75d00ad923cc3784ac1b092ffa4f75a0ed5e32ff908e8db4f107df609b",
+          "matched_virtual_start": "0x4f9dde",
+          "matched_virtual_end_exclusive": "0x4f9e86"
+        }
+      ],
+      "uc": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\026536-Engine.PlayerReplicationInfo.ClientInitialize.uc",
+      "uc_sha256": "1e151a51cc92315a30ceab9e7a0788db6229cce342009df1fb740a495e5b481b",
+      "function_flags_raw": "0x20102",
+      "native_token": "0",
+      "local_net_index": "26311",
+      "script_offset": "48",
+      "script_size": "105",
+      "complete_decompiled_body": "simulated function ClientInitialize(Controller C)\n{\n\tlocal Actor A;\n\tlocal PlayerController PlayerOwner;\n\n\t__NFUN_272__(C);\n\tClientFillRemoteUserData();\n\tPlayerOwner = PlayerController(C);\n\t// End:0x92\n\tif(__NFUN_119__(PlayerOwner, none))\n\t{\n\t\t// End:0x92\n\t\tif(__NFUN_119__(Team, default.Team))\n\t\t{\n\t\t\t// End:0x91\n\t\t\tforeach __NFUN_304__(Class'Engine.Actor', A)\n\t\t\t{\n\t\t\t\tA.NotifyLocalPlayerTeamReceived();\t\t\t\t\n\t\t\t}\t\t\t\n\t\t}\n\t}\n\t//return;\t\n}",
+      "state": "CONFIRMADO",
+      "limitation": "Presencia y cuerpo est\u00e1tico retenidos. El \u00edndice local no se atribuye a un identificador RPC wire; no demuestra ejecuci\u00f3n ni entrega/orden en red.",
+      "native_declaration_only": false
+    },
+    {
+      "path": "Engine.GameInfo.RestartPlayer",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "original_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "export_index": 14582,
+      "export_table_virtual_offset": "0x1933b4",
+      "serial_virtual_offset": "0x40986e",
+      "serial_size": 1584,
+      "serial_sha256": "7916edaf05ac668a3f847957547fbf68ef021a26470b716a4dd9ba2fc6fd232d",
+      "source_blocks": [
+        {
+          "original_physical_offset": "0xaede5",
+          "compressed_size": 35341,
+          "original_compressed_sha256": "a236411256abc82aeb1c6546503df1c09177a5f45904e7fde813e78fe9c3312f",
+          "plain_sha256": "f0221e036951e53fe0edca3eb2944ed4bd080b6df27b11cbc3cdaa1a6dbd5211",
+          "matched_virtual_start": "0x40986e",
+          "matched_virtual_end_exclusive": "0x409e9e"
+        }
+      ],
+      "uc": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\014769-Engine.GameInfo.RestartPlayer.uc",
+      "uc_sha256": "410fb6f8f7c6c79dff075087c6e1af806e6efcd241fc7e29b229d28fa2d06424",
+      "function_flags_raw": "0x20002",
+      "native_token": "0",
+      "local_net_index": "14541",
+      "script_offset": "48",
+      "script_size": "1521",
+      "complete_decompiled_body": "function RestartPlayer(Controller NewPlayer)\n{\n\tlocal NavigationPoint StartSpot;\n\tlocal int TeamNum, Idx;\n\tlocal array<SequenceObject> Events;\n\tlocal SeqEvent_PlayerSpawned SpawnedEvent;\n\tlocal LocalPlayer LP;\n\tlocal PlayerController PC;\n\n\t// End:0xBD\n\tif(__NFUN_130__(__NFUN_130__(bRestartLevel, __NFUN_155__(int(WorldInfo.NetMode), int(NM_DedicatedServer))), __NFUN_155__(int(WorldInfo.NetMode), int(NM_ListenServer))))\n\t{\n\t\t__NFUN_232__(__NFUN_168__(\"bRestartLevel && !server, abort from RestartPlayer\", string(WorldInfo.NetMode)));\n\t\treturn;\n\t}\n\tTeamNum = ((__NFUN_132__(__NFUN_114__(NewPlayer.PlayerReplicationInfo, none), __NFUN_114__(NewPlayer.PlayerReplicationInfo.Team, none))) ? 255 : NewPlayer.PlayerReplicationInfo.Team.TeamIndex);\n\tStartSpot = FindPlayerStart(NewPlayer, byte(TeamNum));\n\t// End:0x260\n\tif(__NFUN_114__(StartSpot, none))\n\t{\n\t\t// End:0x22A\n\t\tif(__NFUN_119__(NewPlayer.StartSpot, none))\n\t\t{\n\t\t\tStartSpot = NewPlayer.StartSpot;\n\t\t\t__NFUN_232__(\"Player start not found, using last start spot\");\t\t\t\n\t\t}\n\t\telse\n\t\t{\n\t\t\t__NFUN_232__(\"Player start not found, failed to restart player\");\n\t\t\treturn;\n\t\t}\n\t}\n\t// End:0x2BF\n\tif(__NFUN_114__(NewPlayer.Pawn, none))\n\t{\n\t\tNewPlayer.Pawn = SpawnDefaultPawnFor(NewPlayer, StartSpot);\n\t}\n\t// End:0x387\n\tif(__NFUN_114__(NewPlayer.Pawn, none))\n\t{\n\t\t__NFUN_231__(__NFUN_112__(\"failed to spawn player at \", string(StartSpot)));\n\t\tNewPlayer.__NFUN_113__('Dead');\n\t\t// End:0x384\n\t\tif(__NFUN_119__(PlayerController(NewPlayer), none))\n\t\t{\n\t\t\tPlayerController(NewPlayer).ClientGotoState('Dead', 'Begin');\n\t\t}\t\t\n\t}\n\telse\n\t{\n\t\tNewPlayer.Pawn.SetAnchor(StartSpot);\n\t\t// End:0x429\n\t\tif(__NFUN_119__(PlayerController(NewPlayer), none))\n\t\t{\n\t\t\tPlayerController(NewPlayer).TimeMargin = -0.1000000;\n\t\t\tStartSpot.AnchoredPawn = none;\n\t\t}\n\t\tNewPlayer.Pawn.LastStartSpot = PlayerStart(StartSpot);\n\t\tNewPlayer.Pawn.LastStartTime = WorldInfo.TimeSeconds;\n\t\tNewPlayer.Possess(NewPlayer.Pawn, false);\n\t\tNewPlayer.Pawn.PlayTeleportEffect(true, true);\n\t\tNewPlayer.ClientSetRotation(NewPlayer.Pawn.Rotation, true);\n\t\t// End:0x5D4\n\t\tif(__NFUN_129__(WorldInfo.bNoDefaultInventoryForPlayer))\n\t\t{\n\t\t\tAddDefaultInventory(NewPlayer.Pawn);\n\t\t}\n\t\tSetPlayerDefaults(NewPlayer.Pawn);\n\t\t// End:0x74F\n\t\tif(__NFUN_119__(WorldInfo.GetGameSequence(), none))\n\t\t{\n\t\t\tWorldInfo.GetGameSequence().FindSeqObjectsByClass(Class'Engine.SeqEvent_PlayerSpawned', true, Events);\n\t\t\tIdx = 0;\n\t\t\tJ0x674:\n\n\t\t\t// End:0x74F [Loop If]\n\t\t\tif(__NFUN_150__(Idx, Events.Length))\n\t\t\t{\n\t\t\t\tSpawnedEvent = SeqEvent_PlayerSpawned(Events[Idx]);\n\t\t\t\t// End:0x741\n\t\t\t\tif(__NFUN_130__(__NFUN_119__(SpawnedEvent, none), SpawnedEvent.CheckActivate(NewPlayer, NewPlayer)))\n\t\t\t\t{\n\t\t\t\t\tSpawnedEvent.SpawnPoint = StartSpot;\n\t\t\t\t\tSpawnedEvent.PopulateLinkedVariableValues();\n\t\t\t\t}\n\t\t\t\t__NFUN_165__(Idx);\n\t\t\t\t// [Loop Continue]\n\t\t\t\tgoto J0x674;\n\t\t\t}\n\t\t}\n\t}\n\tPC = PlayerController(NewPlayer);\n\t// End:0x88A\n\tif(__NFUN_119__(PC, none))\n\t{\n\t\tLP = LocalPlayer(PC.Player);\n\t\t// End:0x88A\n\t\tif(__NFUN_119__(LP, none))\n\t\t{\n\t\t\tLP.RemoveAllPostProcessingChains();\n\t\t\tLP.InsertPostProcessingChain(LP.Outer.GetWorldPostProcessChain(), -1, true);\n\t\t\t// End:0x88A\n\t\t\tif(__NFUN_119__(PC.myHUD, none))\n\t\t\t{\n\t\t\t\tPC.myHUD.NotifyBindPostProcessEffects();\n\t\t\t}\n\t\t}\n\t}\n\t//return;\t\n}",
+      "state": "CONFIRMADO",
+      "limitation": "Presencia y cuerpo est\u00e1tico retenidos. El \u00edndice local no se atribuye a un identificador RPC wire; no demuestra ejecuci\u00f3n ni entrega/orden en red.",
+      "native_declaration_only": false
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.ClientRestart",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "original_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 17671,
+      "export_table_virtual_offset": "0x265430",
+      "serial_virtual_offset": "0x8a57a3",
+      "serial_size": 421,
+      "serial_sha256": "9499a97dbdd3f120877f660d03ab320f7e7f61ac2cde1f3e586a6971d1aef74c",
+      "source_blocks": [
+        {
+          "original_physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "original_compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x8a57a3",
+          "matched_virtual_end_exclusive": "0x8a5948"
+        }
+      ],
+      "uc": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021402-HawkenGame.R_PlayerController.ClientRestart.uc",
+      "uc_sha256": "5a42d0f619caa0fbc7a6533a260fd8e3cc89f265fa9516ba760542258aa6b3b7",
+      "function_flags_raw": "0x10201c2",
+      "native_token": "0",
+      "local_net_index": "17676",
+      "script_offset": "48",
+      "script_size": "356",
+      "complete_decompiled_body": "reliable client simulated function ClientRestart(Pawn NewPawn)\n{\n\tlocal R_Pawn RPawn;\n\tlocal R_PlayerReplicationInfo RPRI;\n\n\t__NFUN_231__(__NFUN_112__(__NFUN_112__(__NFUN_168__(__NFUN_112__(__NFUN_112__(__NFUN_168__(__NFUN_112__(__NFUN_112__(__NFUN_112__(__NFUN_112__(__NFUN_112__(\"(\", string(Name)), \") R_PlayerController::\"), string(__NFUN_284__())), \":\"), string(GetFuncName())), \"NewPawn:'\"), string(NewPawn)), \"'\"), \"MechSelectStage:'\"), string(MechSelectStage)), \"'\"), 'DevSpawn');\n\t// End:0xB3\n\tif(__NFUN_154__(int(MechSelectStage), int(3)))\n\t{\n\t\tCloseMechMenu();\n\t}\n\t// End:0xF3\n\tif(__NFUN_130__(__NFUN_155__(int(Role), int(ROLE_Authority)), __NFUN_119__(NewPawn, Pawn)))\n\t{\n\t\tLastPawn = Pawn;\n\t}\n\tRPawn = R_Pawn(Pawn);\n\tRPRI = R_PlayerReplicationInfo(PlayerReplicationInfo);\n\t// End:0x19D\n\tif(__NFUN_130__(__NFUN_119__(RPawn, none), __NFUN_119__(RPRI, none)))\n\t{\n\t\tRPawn.InitializeMechCockpit(byte(RPRI.MechSetupStruct.MechType));\n\t}\n\tsuper(PlayerController).ClientRestart(NewPawn);\n\tJoinTeamVoiceChannel();\n\t__NFUN_280__(1.0000000, false, 'ItemWaitTime');\n\t//return;\t\n}",
+      "state": "CONFIRMADO",
+      "limitation": "Presencia y cuerpo est\u00e1tico retenidos. El \u00edndice local no se atribuye a un identificador RPC wire; no demuestra ejecuci\u00f3n ni entrega/orden en red.",
+      "native_declaration_only": false
+    }
+  ],
+  "operator_bindings": [
+    {
+      "native_token": 114,
+      "path": "Core.Object.EqualEqual_ObjectObject",
+      "serial_sha256": "02a8a9ff0502b1a4534c6d60e54d919746f8ff83553bdc347a2cb28904d136f8"
+    },
+    {
+      "native_token": 119,
+      "path": "Core.Object.NotEqual_ObjectObject",
+      "serial_sha256": "e99e759acfb8b7b40c47de52ebcd51857fbe9fc1608f3a70367d7770ada1174d"
+    },
+    {
+      "native_token": 130,
+      "path": "Core.Object.AndAnd_BoolBool",
+      "serial_sha256": "1120d76ad8e2e9dda600559d2ad51f58b42d21f8729735213dc35138f2f62f08"
+    },
+    {
+      "native_token": 132,
+      "path": "Core.Object.OrOr_BoolBool",
+      "serial_sha256": "e8f17b5a1ac73a9f92560fda1ca3607bb134ed19042487207b593b28b15269a8"
+    },
+    {
+      "native_token": 154,
+      "path": "Core.Object.EqualEqual_IntInt",
+      "serial_sha256": "97560528a278e2c1832baade57e3ae6e19c32e7ac779822925ee4b0f4d6ac1b1"
+    },
+    {
+      "native_token": 155,
+      "path": "Core.Object.NotEqual_IntInt",
+      "serial_sha256": "bc8a0ed5b8363e662bf20994dc6aa27e2c7384ab89fd399965d8837b59596c27"
+    },
+    {
+      "native_token": 176,
+      "path": "Core.Object.Less_FloatFloat",
+      "serial_sha256": "9a60e163397c139c9563deedfce88ce39ba567721b4cb0536fe2d89a2110d0c3"
+    }
+  ],
+  "sequence": [
+    {
+      "step": "SELECT",
+      "body": "DoMechSpawn(presetIndex,PrimaryWeapon,HoloTauntType): selectlocalpreset; UpdateReplicationInfoForMech; ServerSetStartMech(instance,primary,holo); SetActiveItemIndex; ValidatePlayerMechSelections. No AskForPawn call in this body."
+    },
+    {
+      "step": "VALIDATE_CALL",
+      "body": "ValidatePlayerMechSelections(): HUDvalidationbusy ifHUDnonnull. IsLoggedIn() AND NetMode!=Standalone -> ServerValidatePlayerSpawnSelection(); else directly invokesClientSpawnSelectionValidated. Offline directcallback is not the onlinecompletion proof."
+    },
+    {
+      "step": "ONLINE_REQUEST",
+      "signature": "reliable server ServerValidatePlayerSpawnSelection()",
+      "body": "SelectionValidationResponse=7; missingRPRI orRPRI.MechSetup sets0. Non7 callsClientSpawnSelectionFailed. Otherwise OverallSelectionValidationStatus and fivestatuses MechInstance/PresetLoaded/SelectedPrimaryWeapon/AchievementsLoaded/ItemInstanceCollection=1. Does not callsuccesscallback here."
+    },
+    {
+      "step": "SUCCESS_CALLBACK",
+      "signature": "reliable client simulated event ClientSpawnSelectionValidated()",
+      "body": "bEnteredWorld=true; GotoSelectionStage(3). Export17232/serial89bbd1/flags10209c2; conditionaldense250/bound294 remains staticconditional."
+    },
+    {
+      "step": "STAGE_UPDATE",
+      "signature": "protected reliable server ServerUpdateSelectionStage(int ClientSelectStage)",
+      "body": "byteconversion toMechSelectStage; stage==3 callsServerRestartPlayer. GotoSelectionStage mirrors localbyte then sendsServerUpdateSelectionStage."
+    },
+    {
+      "step": "PLAYERWAITING_RESTART",
+      "body": "HawkenPlayerWaiting override onlycallssuper. EnginePlayerWaiting returnsbeforeWaitDelay orinClientNetMode; waitingmatch setsPRI.bReadyToPlay; otherwise Game.RestartPlayer. This is selectedstate-specific logic, not a universalalways-spawn guarantee."
+    },
+    {
+      "step": "AUTHORITY_RESTART",
+      "body": "GameInfo.RestartPlayer findsStartSpot, spawnsdefaultPawn ifabsent, failsifstillabsent, thenPossess. PlayerController.Restart callsClientRestart(Pawn), SetViewTarget/ResetCamera. Existing originalreceiver code is not implementedautomatically byourserver."
+    },
+    {
+      "step": "RECOVERY_FORK",
+      "body": "WaitingForPawn.BeginState andTimer callAskForPawn. HawkenAskForPawn gameended->ClientGotoState; Pawnnonnull->GivePawn(Pawn); elsePRI.SetReadyForSetup,bFrozenfalse,ServerRestartPlayer. Not a directDoMechSpawn continuation."
+    },
+    {
+      "step": "GIVE_AND_RESTART",
+      "body": "GivePawn(NewPawn) isreliableclient: nullreturns; Pawn!=NewPawn ORNewPawn.Controller!=self ->setbothlinks thenClientRestart(Pawn). HawkenClientRestart closesmenu atstage3 andcallsEngine super. EngineClientRestart assignsPawn, AcknowledgePossession, nullWaitingForPawn, otherwisePawn.ClientRestart andstartstate."
+    },
+    {
+      "step": "PRI_PROPERTY_CALLBACK",
+      "body": "Controller.ReplicatedEvent(PlayerReplicationInfo) callsPRI.ClientInitialize(self). BaseClientInitialize simulatednon-NET function callsSetOwner(C),ClientFillRemoteUserData. Propertyrepnotify/defaultreplication; not a server-sentClientInitialize RPC."
+    }
+  ],
+  "no_loaded_callback_equivalence": "LoadedMechPreset separateproof setsMechSetup/ready/revision. Retained nativeLoaded pollingdc17e0->ddeb50 proves thatcallback, NOT ClientSpawnSelectionValidated. No edge asserts loadedcompletion fulfills the five onlinevalidationstatuses.",
+  "next_message_policy_boundary": "Next onlineprotocol request tohandle isServerValidatePlayerSpawnSelection, then legitimate selectionvalidation successresponse ClientSpawnSelectionValidated. Do not sendthe latter merelybecauseMechSetuppropertydatagrams wereACKed. GivePawn/ClientRestart islaterpossession/recovery phase.",
+  "init_storm": {
+    "actual_declaration": "HawkenGame.R_PlayerController_Base.InitStormUserId, native function, flags20400, export15009 serial85f876; not a PRI method.",
+    "retained_observation": "Prior native log No PlayerReplicationInfo identifies the Controller instantonly.",
+    "ownership_positive": "PRI.ClientInitialize SetOwner(C) isprovedbaseUC.",
+    "unknown": "No positivelyboundInitStormnativebody inthisreview or providedbysibling; its exactowner/account/identity/retryrequirements unproved. Do not infermissingStormRPC or universalPRIabsence."
+  },
+  "precise_next_static_edges": [
+    "Originalnativeproducer that observes the five selectionvalidationstatuses and invokes namedClientSpawnSelectionValidated wrapper; no finiteRVAidentified inthisboundedcachedslice.",
+    "Native execInitStormUserId registration->concretebody binding ifits extraownership requirements mustbeproved."
+  ],
+  "state_function_metadata": [
+    {
+      "path": "Engine.PlayerController.PlayerWaiting.ServerRestartPlayer",
+      "export_index": 4870,
+      "serial_virtual_offset": "0x3515e2",
+      "serial_size": 225,
+      "UC_sha256": "0cf5eaf76581ff9a35beddcf6bb0d02c9f3ad0e300b866ade941e36aa0ed9372"
+    },
+    {
+      "path": "Engine.PlayerController.WaitingForPawn.BeginState",
+      "export_index": 4914,
+      "serial_virtual_offset": "0x35211f",
+      "serial_size": 87,
+      "UC_sha256": "194359372808f0e845a24e0427484ea037906eae7cc2691b8b32c2ad1d2a49c6"
+    },
+    {
+      "path": "Engine.PlayerController.WaitingForPawn.Timer",
+      "export_index": 4912,
+      "serial_virtual_offset": "0x3520ab",
+      "serial_size": 76,
+      "UC_sha256": "8c4c48030f74da0db0563285081e9fdab945f9e534eea54a38a9ccdaaa9c6182"
+    },
+    {
+      "path": "HawkenGame.R_PlayerController.PlayerWaiting.ServerRestartPlayer",
+      "export_index": 17304,
+      "serial_virtual_offset": "0x89d399",
+      "serial_size": 85,
+      "UC_sha256": "b2050e7dc7caf4495f1411998c8c98c2e1434c7de5d43d2a61422226055fda4a"
+    }
+  ],
+  "epistemic_limits": [
+    "Dense250/294 andallothercachedcandidates not newliveID observations.",
+    "Newstatefunctions have originalmetadata/manifest provenance, notnewzlib/instruction replay inthisslice.",
+    "No claim ofonlinevalidation success, effectiveinheritance dispatch orclient execution."
+  ],
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020946-HawkenGame.R_PlayerController.DoMechSpawn.uc",
+      "sha256": "c66cb1337c54d8f71135f6e2ff74868b1cabc4e3c48475cb69c06564ec44a447",
+      "bytes": 1764
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020961-HawkenGame.R_PlayerController.ValidatePlayerMechSelections.uc",
+      "sha256": "a6519c66e01db97a456ff65e0ace1cc5e8c0e6864a7efa7c5fb5265dd884eff5",
+      "bytes": 401
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020963-HawkenGame.R_PlayerController.ServerValidatePlayerSpawnSelection.uc",
+      "sha256": "1a4fd0c8556711ab39781be5d4c4fdc29862adbf199925dea5f1729cf1d98db7",
+      "bytes": 1440
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020966-HawkenGame.R_PlayerController.ClientSpawnSelectionValidated.uc",
+      "sha256": "f1f5f788e9f312ae4b292f9477461af8e6ef680034f087e91aa83f0638e28322",
+      "bytes": 314
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021451-HawkenGame.R_PlayerController.ServerUpdateSelectionStage.uc",
+      "sha256": "82120e0b7d65829af2df36e58a9efca903d30ab4e20da91e814ac7e02f0a331a",
+      "bytes": 696
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021454-HawkenGame.R_PlayerController.GotoSelectionStage.uc",
+      "sha256": "fbe39be8cde8012943451a88edfaeb09c805a8935beb500e48d6a3f7459845ee",
+      "bytes": 234
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021039-HawkenGame.R_PlayerController.PlayerWaiting.ServerRestartPlayer.uc",
+      "sha256": "b2050e7dc7caf4495f1411998c8c98c2e1434c7de5d43d2a61422226055fda4a",
+      "bytes": 149
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020633-HawkenGame.R_PlayerController.AskForPawn.uc",
+      "sha256": "ecf83df01e4038cacc746e1083fc56b96fa76322e0272db26266058f28c046f4",
+      "bytes": 513
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\018743-HawkenGame.R_PlayerController_Base.InitStormUserId.uc",
+      "sha256": "d4491cc618ece4fbe618554548abf0781dca4d27125657ffe5c992a85be58135",
+      "bytes": 113
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021139-HawkenGame.R_PlayerController.UpdateReplicationInfoForMech.uc",
+      "sha256": "ab10cae007e074660b3c98845bce215fcf535ff5090df3f24750bf017082a3ba",
+      "bytes": 546
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\005109-Engine.PlayerController.WaitingForPawn.Timer.uc",
+      "sha256": "8c4c48030f74da0db0563285081e9fdab945f9e534eea54a38a9ccdaaa9c6182",
+      "bytes": 48
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\005110-Engine.PlayerController.WaitingForPawn.BeginState.uc",
+      "sha256": "194359372808f0e845a24e0427484ea037906eae7cc2691b8b32c2ad1d2a49c6",
+      "bytes": 108
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\005067-Engine.PlayerController.PlayerWaiting.ServerRestartPlayer.uc",
+      "sha256": "0cf5eaf76581ff9a35beddcf6bb0d02c9f3ad0e300b866ade941e36aa0ed9372",
+      "bytes": 409
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\004242-Engine.PlayerController.GivePawn.uc",
+      "sha256": "b724bebd19dbef3bfc3a2361826825e9c3678e2b7d0c5da8a1ecc6d5c81db040",
+      "bytes": 326
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\026536-Engine.PlayerReplicationInfo.ClientInitialize.uc",
+      "sha256": "1e151a51cc92315a30ceab9e7a0788db6229cce342009df1fb740a495e5b481b",
+      "bytes": 460
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021402-HawkenGame.R_PlayerController.ClientRestart.uc",
+      "sha256": "5a42d0f619caa0fbc7a6533a260fd8e3cc89f265fa9516ba760542258aa6b3b7",
+      "bytes": 1106
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-effective-field-cache\\serialized-child-fields.json",
+      "sha256": "8ada65dca910693084ee14447e7b071105f62336b80efb33afef1c61a415d4dc",
+      "bytes": 3063754
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-possession-contract\\functions.json",
+      "sha256": "6d4c92caa8eb7e5e19b04f6d58707371eedf5dde3251aa0e1ee3a91b69022954",
+      "bytes": 71409
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-possession-contract\\contract.json",
+      "sha256": "5c451527b47be710f7b2d3d1dcca2b3cf082ba45c5b18a409fb4fb6fc676f0b0",
+      "bytes": 35416
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\contract.json",
+      "sha256": "d2ea70dd055cc6b1f0c5663de4f6b3c7a49e0765e4cdad3d0249539ef025ee4e",
+      "bytes": 212219
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\parent-native-callback-contract.json",
+      "sha256": "dd118844a04dc9f5633c8a5ab1c108699c586e254e4c14bcda00d4ee4e6c2b03",
+      "bytes": 7934
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\movement-upk-contract-20261012\\native-operators.json",
+      "sha256": "ba99c1955049009d7ecab43f12dc61aadf0f0344981808fdbf4cdb57ddcfe1f5",
+      "bytes": 291758
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\Engine.upk.json",
+      "sha256": "bcdadd85fc42b5a6532e787e788d718ca939c330125a991520ecb2419fd717db",
+      "bytes": 19112753
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\HawkenGame.upk.json",
+      "sha256": "1eff14a8f5886933ea83a7c3a732c8ffc5ff1193a33ff1f31c0c5e768013a1e7",
+      "bytes": 46151956
+    }
+  ]
+}

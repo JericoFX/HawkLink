@@ -1,5 +1,8 @@
 #pragma once
 #include "hawken/local_udp_owner.hpp"
+#include "hawken/starter_mech_setup.hpp"
+#include <functional>
+#include <string_view>
 #include <cstdint>
 #include <memory>
 #include <optional>
@@ -10,6 +13,12 @@ namespace hawken::udp {
 // formatted signed-decimal by 998a10/bb9cf0. Effective override branch and
 // loaded GUID remain conditional until original-client query verification.
 inline constexpr char trial_game_version[] = "547429238";
+struct StartMechSource {
+    inventory::StarterCatalogueIds expected_catalogue;
+    // Reads existing account-owned effective HTTP baseline + overrides only.
+    // Callback target outlives runtime.stop/join; no grant or account credential.
+    std::function<store::StarterMechSnapshot(const store::AccountRef&,std::string_view)> read_effective;
+};
 struct UdpTrialConfig {
     // Port0 is fixture-only. Main requires an explicit port1..65535.
     std::uint16_t port;
@@ -37,6 +46,13 @@ struct UdpTrialConfig {
     // IDs/bounds/budgets and sends after all three actual outgoing-opening ACKs.
     // Explicit caller schema only; no native IDs, inferred links or possession.
     std::optional<InitialActorLinksPlan> links = std::nullopt;
+    // Explicit copied dispatcher/source pair. No schema/default preset is inferred.
+    // Runtime obtains fresh assignment scope outside Use, reads the exact root,
+    // validates/materializes nine roles and revalidates the same account identity.
+    // Both RPC int arguments undergo original BYTE conversion before selection.
+    std::optional<StartMechDispatchPlan> start_mech = std::nullopt;
+    std::optional<StartMechSource> start_mech_source = std::nullopt;
+
 };
 // Pure preflight; no binding, randomness, SQL or Steam. Canonical lower-case
 // nonzero GUID36 and ASCII region[A-Za-z0-9_.-]1..64; port0 is API-valid.

@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-14T04:25:51.6181799Z",
+  "finding": "The original build.exit.txt and ctest.exit.txt are zero-byte files because CMD parsed echo %VAR%>file as redirecting file descriptor 0; they are not direct exit-code captures.",
+  "retained_native_wrapper_exit": 0,
+  "build_exit_code": 0,
+  "build_exit_basis": "Retained wrapper command exits immediately on nonzero BUILD_EXIT before invoking ctest; retained CTest log exists and contains both doctest successes plus 100% tests passed. Thus build reached success gate, but its numeric exit was not separately retained as a native capture.",
+  "ctest_exit_code": 0,
+  "ctest_exit_basis": "Retained wrapper final exit is 0 after ctest; captured complete CTest log reports both suites and 100% pass.",
+  "original_empty_files": [
+    {
+      "bytes": 0,
+      "path": "build.exit.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "ctest.exit.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "wrapper_exit_sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+  "preserved_raw_logs": [
+    {
+      "sha256": "3a52bae81365b19ab6f0d15c4acbe7521a3c51edc3f8aae8ce1c8ebba2b6536a",
+      "path": "build.stdout-stderr.log"
+    },
+    {
+      "sha256": "5524ce188b80eaec567134c47b1ca085ff155b7e750e3595cc83ea2cc748fa03",
+      "path": "ctest.stdout-stderr.log"
+    }
+  ],
+  "no_rerun": true
+}

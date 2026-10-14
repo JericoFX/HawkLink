@@ -1,0 +1,59 @@
+{
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "prior_positive_registration": {
+    "state": "CONFIRMADO",
+    "property": "IntProperty",
+    "literal_rva": "0x12d163a",
+    "factory_rva": "0xf2560",
+    "callback_ctor_rva": "0xf82a0",
+    "cast_mask": "0x80",
+    "object_size": "0xa8",
+    "vtable_rva": "0x12c6d70",
+    "slot": "0x2c8",
+    "target_rva": "0xf8fb0"
+  },
+  "selected_slots": [
+    {
+      "slot": "0x2b8",
+      "cell": {
+        "rva": "0x12c7028",
+        "raw_offset": "0x12c6428",
+        "bytes": "20340f4001000000",
+        "sha256": "26c185c7c606de84ef6544b056a067929729b88c60322a279a60ad80117b5206"
+      },
+      "target_rva": "0xf3420",
+      "entry_original": {
+        "rva": "0xf3420",
+        "raw_offset": "0xf2820",
+        "bytes": "33c04d85c07409418b08390a0f94c0c3",
+        "sha256": "c39f8133442d90c20292bc7b361cd8fb7c9c75e0545a4f42ed26e224ff2fb5b0"
+      }
+    },
+    {
+      "slot": "0x2c8",
+      "cell": {
+        "rva": "0x12c7038",
+        "raw_offset": "0x12c6438",
+        "bytes": "b08f0f4001000000",
+        "sha256": "1869934ea1197b8c51ed08ecf2fd6d7567ca065bf522159dff069037d901efc0"
+      },
+      "target_rva": "0xf8fb0",
+      "entry_original": {
+        "rva": "0xf8fb0",
+        "raw_offset": "0xf83b0",
+        "bytes": "4883ec28488bca41b804000000498bd1",
+        "sha256": "4ef0d7277d9affef8b1cc98095ba38707a44553af5d14602630aebafda93ca9e"
+      }
+    }
+  ],
+  "int_serializer": {
+    "state": "CONFIRMADO",
+    "entry_rva": "0xf8fb0",
+    "helper_rva": "0x3a30",
+    "observation": "Forward Archive/destination/count4 to3a30, return1. Archive+0x4c==0 serializes4bytes through virtual+8; otherwise four Serialize1 calls visit destination offsets3,2,1,0. Signedness comes from IntProperty interpretation; raw32bit storage has no compression/range check here.",
+    "limitations": "Byte-order flag comes from the active archive, not an unconditional chosen endianness. No fieldID/presence/alignment or error guard added here."
+  },
+  "comparator_observation": "f3420 compares int32 values; null comparison pointer means compare against0.",
+  "correction": "f3400 is the FloatProperty comparator, not the concrete IntProperty receiver."
+}

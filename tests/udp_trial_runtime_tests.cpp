@@ -16,6 +16,7 @@
 #include <atomic>
 #include <chrono>
 #include <optional>
+#include <ostream>
 #include <span>
 #include <string>
 #include <thread>
@@ -1025,4 +1026,177 @@ TEST_CASE("UDP trial links prereqs and Owner scalar validation reject startup wi
     udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); CHECK(runtime.port()==port);
     CHECK(provision(runtime,login).status==200); // Same grant and first lease remain usable.
     CHECK(f.store.wallet(account->ref)==wallet); runtime.stop();
+}
+
+namespace {
+udp::StartMechDispatchPlan runtime_start_mech_plan() {
+    return {4,8,5,8,{true,true,true,{true,true,true},true,true,true},0};
+}
+inventory::StarterCatalogueIds runtime_starter_types() {
+    return {"10000000-0000-0000-0000-000000000001","10000000-0000-0000-0000-000000000002",
+        "10000000-0000-0000-0000-000000000003","10000000-0000-0000-0000-000000000004",
+        "10000000-0000-0000-0000-000000000005","10000000-0000-0000-0000-000000000006",
+        "10000000-0000-0000-0000-000000000007","10000000-0000-0000-0000-000000000008",
+        "10000000-0000-0000-0000-000000000009"};
+}
+store::StarterMechSnapshot runtime_seed_owned_starter(Fixture& fixture,const store::AccountRef& account) {
+    const auto ids=runtime_starter_types();
+    const std::array types{ids.mech,ids.primary,ids.secondary,ids.upper,ids.middle,
+        ids.arms,ids.lower,ids.drone,ids.ability};
+    store::StarterMechSnapshot snapshot;
+    for (std::size_t i=0;i<types.size();++i)
+        snapshot.items[i]={types[i],"20000000-0000-0000-0000-00000000000"+std::to_string(i+1)};
+    snapshot.attributes={{"Preset.PrimaryWeapon_0","0"},
+        {"Preset.PrimaryWeapon_InstanceId_0",snapshot.items[1].instance_id},
+        {"Preset.SecondaryWeapon","1"},{"Preset.SecondaryWeapon_InstanceId",snapshot.items[2].instance_id},
+        {"Preset.Style.UpperPart","10"},{"Preset.Style.UpperPart_InstanceId",snapshot.items[3].instance_id},
+        {"Preset.Style.MidPart","10"},{"Preset.Style.MidPart_InstanceId",snapshot.items[4].instance_id},
+        {"Preset.Style.ArmPart","10"},{"Preset.Style.ArmPart_InstanceId",snapshot.items[5].instance_id},
+        {"Preset.Style.LowerPart","10"},{"Preset.Style.LowerPart_InstanceId",snapshot.items[6].instance_id},
+        {"Preset.Style.DroneType","0"},{"Preset.Style.DroneType_InstanceId",snapshot.items[7].instance_id},
+        {"Preset.Ability","3"},{"Preset.Ability_InstanceId",snapshot.items[8].instance_id}};
+    // Test-only seeded nine owned rows + effective baseline, not a production grant path.
+    REQUIRE(fixture.store.grant_starter_items(account,snapshot.items));
+    REQUIRE(fixture.store.merge_owned_item_attributes(account,snapshot.items[0].instance_id,snapshot.attributes));
+    return fixture.store.owned_starter_mech(account,snapshot.items[0].instance_id);
+}
+Bytes runtime_start_mech_packet(session::Context& client,std::uint16_t packet_id,
+                               std::int32_t primary=256,std::int32_t holo=-1) {
+    wire::BitWriter bits; bits.write_bounded(4,8);
+    const auto u32=[&](std::uint32_t value) {
+        const std::array<std::uint8_t,4> bytes{static_cast<std::uint8_t>(value),
+            static_cast<std::uint8_t>(value>>8),static_cast<std::uint8_t>(value>>16),
+            static_cast<std::uint8_t>(value>>24)};
+        bits.write_bits(bytes,32);
+    };
+    bits.write_bit(true); u32(37);
+    for (const auto c:std::string_view("20000000-0000-0000-0000-000000000001"))
+        bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(c)},8);
+    bits.write_bits(std::array<std::uint8_t,1>{0},8);
+    bits.write_bit(true); u32(static_cast<std::uint32_t>(primary));
+    bits.write_bit(true); u32(static_cast<std::uint32_t>(holo));
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2; bunch.channel=7; bunch.sequence=1;
+    bunch.payload_bits=bits.bit_count(); bunch.payload=bits.payload_bytes();
+    wire::Packet value; value.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch); value.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(value,512));
+}
+udp::UdpTrialConfig runtime_start_config() {
+    auto selected=config(); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
+    selected.start_mech=runtime_start_mech_plan();
+    return selected;
+}
+}
+TEST_CASE("UDP trial recognized start mech reads fresh owned scope and sends the independent effective preset") {
+    for (const auto primary:{256,-256}) {
+        Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+        REQUIRE(account); const auto owned=runtime_seed_owned_starter(f,account->ref);
+        const auto wallet=f.store.wallet(account->ref); std::atomic<int> reads{0};
+        session::SessionId id{}; udp::UdpTrialRuntime* active=nullptr;
+        std::unique_ptr<udp::UdpTrialRuntime> runtime;
+        {
+            auto selected=runtime_start_config();
+            selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+                [&](const store::AccountRef& scope,std::string_view instance) {
+                    CHECK(scope==account->ref); CHECK(instance==owned.items[0].instance_id);
+                    CHECK(active->assignment().account_for_udp(id)==std::optional{account->ref});
+                    ++reads; return f.store.owned_starter_mech(scope,instance);
+                }};
+            runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected); active=runtime.get();
+            selected.start_mech->controller_rpc_field_id=6;
+            selected.start_mech_source->expected_catalogue.mech="not-a-type";
+            selected.start_mech_source->read_effective={};
+        } // Runtime owns copies, not caller config/source references.
+        const auto dto=provision(*runtime,login);
+        id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+        const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+        Peer peer; session::Context client(session::Role::client,id,key);
+        const auto opened=runtime_links_open(*runtime,login,peer,client);
+        peer.send(runtime->port(),runtime_start_mech_packet(client,5,primary,511));
+        CHECK(runtime_links_packets(peer,client,200ms,1,true).bunches.empty()); CHECK(reads==0);
+        peer.send(runtime->port(),runtime_links_ack(client,6,opened.packet_ids));
+        const auto output=runtime_links_packets(peer,client,2000ms,3,true);
+        REQUIRE(output.bunches.size()==3);
+        CHECK(output.bunches[0].channel==7); CHECK(output.bunches[1].channel==8);
+        const auto& preset=output.bunches[2];
+        CHECK(preset.channel==9); CHECK(preset.sequence==93); CHECK(preset.reliable);
+        CHECK_FALSE(preset.open); CHECK_FALSE(preset.close); CHECK(preset.payload_bits==547);
+        // Independent retained67leaf baseline absolute offsets, shifted3 by id5.
+        CHECK(preset.payload==public_hex(
+            "05000000000000000000000000c0e1c900381808703010e06020c0c1400505050580ff82"
+            "ffffffffffffffffff7fffffffffffff006500000340000000c0030000c0800000"));
+        CHECK(reads==1); CHECK(runtime->assignment().authorize_udp(id));
+        peer.send(runtime->port(),runtime_links_ack(client,7,output.packet_ids));
+        CHECK(runtime_links_packets(peer,client,200ms,1,true).bunches.empty()); CHECK(reads==1);
+        CHECK(f.store.wallet(account->ref)==wallet);
+        CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).items==owned.items);
+        CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
+        runtime->stop(); CHECK_FALSE(runtime->assignment().authorize_udp(id));
+    }
+}
+TEST_CASE("UDP trial start mech source failure wrong root invalid role and revocation fail closed") {
+    for (unsigned mode=0;mode<5;++mode) {
+        CAPTURE(mode); Fixture f; const auto login=f.login();
+        const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+        const auto owned=runtime_seed_owned_starter(f,account->ref); const auto wallet=f.store.wallet(account->ref);
+        auto selected=runtime_start_config(); std::atomic<int> reads{0};
+        selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+            [&](const store::AccountRef& scope,std::string_view instance) {
+                ++reads;
+                if (mode==0) throw std::runtime_error("synthetic snapshot fault");
+                auto result=f.store.owned_starter_mech(scope,instance);
+                if (mode==1) result.items[0].instance_id="30000000-0000-0000-0000-000000000001";
+                if (mode==2) result.items[1].type_id=result.items[2].type_id;
+                if (mode==3) f.verifier.valid=false;
+                return result;
+            }};
+        udp::UdpTrialRuntime runtime(f.auth,selected); const auto dto=provision(runtime,login);
+        const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+        const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+        Peer peer; session::Context client(session::Role::client,id,key);
+        const auto opened=runtime_links_open(runtime,login,peer,client);
+        peer.send(runtime.port(),runtime_links_ack(client,5,opened.packet_ids));
+        REQUIRE(runtime_links_packets(peer,client,2000ms,2,true).bunches.size()==2);
+        peer.send(runtime.port(),runtime_start_mech_packet(client,6,mode==4?257:256));
+        CHECK(wait_until([&]{return runtime.diagnostics().closed;}));
+        CHECK(runtime_links_packets(peer,client,200ms,1,true).bunches.empty());
+        CHECK_FALSE(runtime.assignment().authorize_udp(id)); CHECK(reads<=1);
+        CHECK(f.store.wallet(account->ref)==wallet);
+        CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).items==owned.items);
+        CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
+        runtime.stop();
+    }
+}
+TEST_CASE("UDP trial start mech prerequisites reject before bind without consuming account lease or wallet") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto owned=runtime_seed_owned_starter(f,account->ref);
+    const auto wallet=f.store.wallet(account->ref);
+    std::uint16_t port=0; { Peer reservation; port=reservation.port(); }
+    for (unsigned bad=0;bad<8;++bad) {
+        auto selected=runtime_start_config(); selected.port=port;
+        selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+            [&](const store::AccountRef& scope,std::string_view instance){return f.store.owned_starter_mech(scope,instance);}};
+        switch(bad) {
+        case 0: selected.publication.reset(); break;
+        case 1: selected.controller.reset(); break;
+        case 2: selected.pri.reset(); break;
+        case 3: selected.pawn.reset(); break;
+        case 4: selected.links.reset(); break;
+        case 5: selected.start_mech_source.reset(); break;
+        case 6: selected.start_mech_source->read_effective={}; break;
+        case 7: selected.start_mech.reset(); break;
+        }
+        CAPTURE(bad);
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        CHECK(f.store.wallet(account->ref)==wallet);
+    }
+    auto selected=runtime_start_config(); selected.port=port;
+    selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+        [&](const store::AccountRef& scope,std::string_view instance){return f.store.owned_starter_mech(scope,instance);}};
+    udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.port()==port);
+    CHECK(provision(runtime,login).status==200); CHECK(f.store.wallet(account->ref)==wallet);
+    runtime.stop();
 }

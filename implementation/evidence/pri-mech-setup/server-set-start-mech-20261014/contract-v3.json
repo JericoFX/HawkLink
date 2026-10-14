@@ -1,0 +1,210 @@
+{
+  "schema": "hawken.server-set-start-mech.static-wire.v3",
+  "status": "STATIC_EXACT_THREE_PARAMETER_WIRE_CLOSED_WITH_EXPLICIT_CLASS_CACHE_AND_ELIGIBILITY_PREMISES",
+  "prior_contract": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\contract.json",
+    "sha256": "60e974677efdfc2be72ed1d8828441167446ff4c521b24a5104f22e081b8b2bd"
+  },
+  "prior_str_supplement": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\str-body-supplement-v2.json",
+    "sha256": "f98d112632e0c2adede3fef9a422435ca316cb99bf94b4aee5f6aac34c7741d2"
+  },
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "original_package_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+  "selected_function": {
+    "export_index": 17404,
+    "serialized_net_index": 17409,
+    "conditional_field_id": 253,
+    "conditional_bound": 294,
+    "classification": "STATIC_CONDITIONAL_NOT_RUNTIME_OBSERVED",
+    "parameters": [
+      {
+        "export_index": 17403,
+        "name": "Mech_InstanceId",
+        "type": "StrProperty",
+        "array_dim": 1,
+        "flags": "0x400080"
+      },
+      {
+        "export_index": 17402,
+        "name": "PrimaryWeapon",
+        "type": "IntProperty",
+        "array_dim": 1,
+        "flags": "0x80"
+      },
+      {
+        "export_index": 17401,
+        "name": "HoloTauntType",
+        "type": "IntProperty",
+        "array_dim": 1,
+        "flags": "0x80"
+      }
+    ]
+  },
+  "string_binding": {
+    "factory": "0xf2a30",
+    "ctor": "0xf8450",
+    "vtable": "0x12b0b60",
+    "presence": "slot2b8 ->f3660: compare FStrings against empty for nullother, _wcsicmp viaMSVCR110.dll IAT128e738",
+    "network_serializer": "slot2c8 ->f8ff0: callsproperty2c0",
+    "item_serializer": "slot2c0 ->fd510: MOVRCX,RDX;MOVRDX,R8;JMPa4590",
+    "common_fstring": "a4590 full823byte body retained and reverified against original; no inlined-only proof used"
+  },
+  "common_fstring": {
+    "mode": "Archive+14 selects loading. Archive+4c controls byte order of signed32 count only.",
+    "count": "Signed32 count includes any transmitted NUL. Positivecount =>byte units; negative =>abs(count) two-byte units. Zero =>no data. Native loading count1 collapses FString storage to empty.",
+    "save": "Archive+24 can force negativecount/wide. Otherwise scans UTF16 data up toNUL: all units<=255 uses positivecount and narrows units; any largerunit chooses negativecount/raw two-byte storage.",
+    "load": "After reading count and checking error38, compares abs(count) to positiveArchive+80 limit when present; allocates UTF16 storage. Narrow bytes widen unsigned to16bits, wide reads raw2*count bytes.",
+    "byte_order": "Wide data are raw Windows UTF16 storage bytes; count byte swap does not reverse each UTF16 unit. Active incoming archive remains caller premise.",
+    "termination": "Loading does not validate each terminal NUL in this body. Exact GUID36 plus terminalNUL validation would be bounded local codec policy, not historical parser validation.",
+    "error": "Over configured read length sets archive error38 and critical flag3c. No invented universal native unit cap, INT_MIN acceptance or malformed compatibility claim."
+  },
+  "receiver_absence": {
+    "status": "CONFIRMADO",
+    "binding": "9ec370 passes function+e2 parameter-buffer size, count1, elementSize1, alignment8 to9dc9e0. Allocator memset zeroes the requested buffer before parameter walk.",
+    "semantics": "Map-ineligible parameter consumes no presence/value. Eligible non-Bool presence0 consumes one bit and leaves zero-initialized storage. Thus string is empty and both ints are0 absent; present paths deserialize into that samebuffer.",
+    "evidence": {
+      "id": "RECEIVER_ABSENT_INIT",
+      "state": "CONFIRMADO",
+      "observed": "9ec370 resolves actual actor function throughcb4f0 then R9D=word[function+e2],ECX1,R8D1,stackalign8 to9dc9e0.9dc9e0 zeroes count*size bytes via memset before parameterwalk. Map-ineligible/absent nonBool values remain initialized zero in this buffer. Eligible presence1 invokes+2c8; no additional array index becauseArrayDim1.",
+      "limits": "Not an admission/authentication or general movement validation proof. Effective function e2 size and runtime field cache/eligibility still separate; malformed archive handling must honor existing receiver guards.",
+      "anchors": [
+        {
+          "rva": "0x9ecde2",
+          "raw_offset": "0x9ec1e2",
+          "bytes": "450fb78fe20000",
+          "instruction": "movzx  r9d,WORD PTR [r15+0xe2]",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ecde9",
+          "raw_offset": "0x9ec1e9",
+          "bytes": "00",
+          "instruction": "",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ecdea",
+          "raw_offset": "0x9ec1ea",
+          "bytes": "c7442420080000",
+          "instruction": "mov    DWORD PTR [rsp+0x20],0x8",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ecdf1",
+          "raw_offset": "0x9ec1f1",
+          "bytes": "00",
+          "instruction": "",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ecdf2",
+          "raw_offset": "0x9ec1f2",
+          "bytes": "b901000000",
+          "instruction": "mov    ecx,0x1",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ecdf7",
+          "raw_offset": "0x9ec1f7",
+          "bytes": "448bc1",
+          "instruction": "mov    r8d,ecx",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ecdfa",
+          "raw_offset": "0x9ec1fa",
+          "bytes": "e8e1fbfeff",
+          "instruction": "call   0x1409dc9e0",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ecdff",
+          "raw_offset": "0x9ec1ff",
+          "bytes": "4c8bf0",
+          "instruction": "mov    r14,rax",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9ece02",
+          "raw_offset": "0x9ec202",
+          "bytes": "498b9f80000000",
+          "instruction": "mov    rbx,QWORD PTR [r15+0x80]",
+          "state": "MATCH",
+          "source": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\original-instruction-spans.json"
+        },
+        {
+          "rva": "0x9dca50",
+          "raw_offset": "0x9dbe50",
+          "bytes": "4c8bc6",
+          "instruction": "MOV R8,RSI",
+          "state": "MATCH"
+        },
+        {
+          "rva": "0x9dca53",
+          "raw_offset": "0x9dbe53",
+          "bytes": "33d2",
+          "instruction": "XOR EDX,EDX",
+          "state": "MATCH"
+        },
+        {
+          "rva": "0x9dca55",
+          "raw_offset": "0x9dbe55",
+          "bytes": "488bcb",
+          "instruction": "MOV RCX,RBX",
+          "state": "MATCH"
+        },
+        {
+          "rva": "0x9dca58",
+          "raw_offset": "0x9dbe58",
+          "bytes": "4c0fafc5",
+          "instruction": "IMUL R8,RBP",
+          "state": "MATCH"
+        },
+        {
+          "rva": "0x9dca5c",
+          "raw_offset": "0x9dbe5c",
+          "bytes": "e8ab0c6700",
+          "instruction": "CALL 0x14104d70c",
+          "state": "MATCH"
+        }
+      ]
+    }
+  },
+  "grammar": [
+    "effective Controller fieldID through nativebounded encoder; candidate253 only with bound294 and accepted static reconstruction premises",
+    "Mech_InstanceId if eligible:1presence bit; when1 signed32count in active endian then byte/wideunits viaa4590",
+    "PrimaryWeapon if eligible:1presence bit; when1 raw32int in active endian; when0 value0",
+    "HoloTauntType if eligible:1presence bit; when1 raw32int in active endian; when0 value0"
+  ],
+  "framing": "No alignment, parameter index byte, per-param fieldID, length envelope or terminator is added by commonRPC caller. Bunch logicalbitcount still bounds the whole actor record stream.",
+  "next_pure_codec_policy": {
+    "explicit_premises": "Three exact original parameter kinds/ArrayDim1, effectivefieldID/bound and their eligibility must be supplied/accepted by caller.",
+    "safe_subset": "Accept only a bounded textual UUID selector, never trust it as ownership. Reject malformed count/UTF16/NUL, arithmetic overflow and truncation without unbounded allocation. Any GUID shape/case normalization or 36+NUL restriction is policy explicitly separate from nativeFString grammar.",
+    "default_absence": "A decoder may materialize native absent defaults(empty,0,0); lifecycle dispatch must remain pending/rejectemptyselector rather than silently selecting a mech.",
+    "field_suffix": "Prefixdecoder should retain consumed bitcount for coalesced actorrecords; unknown RPC dispatch remains a separate bounded policy."
+  },
+  "integration_boundary": "Current GameConnection returns actor_bunches opaque; noServerSetStartMech parser or execution exists. Authenticate retainedsession, account-owned effective snapshot, purematerializer outsideUse, then reauthorize/pinexactentry beforePRI send.",
+  "remaining": [
+    "Actual runtimeController fieldID/cache eligibility not observed; existing pinnedWreckage staticconditional derivation is distinct.",
+    "Actual selectedRPC reception and nativeConsumer/repnotify/lifecycle acceptance unobserved.",
+    "No defaultselection, ready/admission bypass, inventorygrant or gameplay claim."
+  ],
+  "supersedes_only": [
+    "V1 focusedmissing Strbodies",
+    "V2 focusedmissingfd510 archive",
+    "V1 absenceinitialization limit"
+  ],
+  "original_verification": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\wire-original-verification-v3.json",
+    "sha256": "fa9a4da5b1b5c0b1e0d4f07b853367153768b85f0f6eb3fff11e35e784aab823"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "capturedUtc": "2026-10-14T14:52:32.0326121Z",
+  "resource": {
+    "freeKiB": 7414152,
+    "totalKiB": 33462640,
+    "usedPercent": 77.84
+  },
+  "activeBuildProcesses": [],
+  "canonicalBinaries": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+      "length": 2342912,
+      "lastWriteUtc": "2026-10-13T15:50:45.6218275Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+      "length": 727040,
+      "lastWriteUtc": "2026-10-13T00:42:55.1203132Z"
+    }
+  ],
+  "freezeInputsAfter": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\local_udp_owner.hpp",
+      "expected": "b1a82538f1b28b6da16e7520f2798dbe4f1a6836ff327effc3a31097a5f905e4",
+      "actual": "b1a82538f1b28b6da16e7520f2798dbe4f1a6836ff327effc3a31097a5f905e4",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\local_udp_owner.cpp",
+      "expected": "515f41c2adcd37e56e7382a72de3b73da1ea23ba4bf7b1edb61450a3f6a219eb",
+      "actual": "515f41c2adcd37e56e7382a72de3b73da1ea23ba4bf7b1edb61450a3f6a219eb",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\local_udp_owner_tests.cpp",
+      "expected": "07d6c4e46ef08a6ed082419504751e7c71755d700d5ce8dda30cce300f57d354",
+      "actual": "07d6c4e46ef08a6ed082419504751e7c71755d700d5ce8dda30cce300f57d354",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\udp_trial_runtime.hpp",
+      "expected": "0b324d9f0c72beb521eec4f196ddae4872695ec51e465f26dc906df869835b3a",
+      "actual": "0b324d9f0c72beb521eec4f196ddae4872695ec51e465f26dc906df869835b3a",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\udp_trial_runtime.cpp",
+      "expected": "baf7a8be5b0528fb4620bce3bfe026d71001b6099161162a21af92bb678097a1",
+      "actual": "baf7a8be5b0528fb4620bce3bfe026d71001b6099161162a21af92bb678097a1",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\udp_trial_runtime_tests.cpp",
+      "expected": "75f0af1edb8f33b06cdc7b3284343a9a60ef2d170ef1d86fd4ffab8a232b9221",
+      "actual": "75f0af1edb8f33b06cdc7b3284343a9a60ef2d170ef1d86fd4ffab8a232b9221",
+      "match": true
+    }
+  ],
+  "allFreezeInputsMatch": true,
+  "buildExit": "0",
+  "ctestExit": "0",
+  "ninjaDepsExit": 0
+}

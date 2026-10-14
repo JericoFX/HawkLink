@@ -1,0 +1,196 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1909):
+TEST CASE:  UDP start mech waits for real actor ACKs and links then sends one literal PRI property
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1930): FATAL ERROR: REQUIRE( output.bunches.size()==3 ) is NOT correct!
+  values: REQUIRE( 0 == 3 )
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1943):
+TEST CASE:  UDP start mech does not fabricate requests or inspect other actor fields or RPC suffixes
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1898): FATAL ERROR: REQUIRE( output.bunches.size()==1 ) is NOT correct!
+  values: REQUIRE( 0 == 1 )
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1961):
+TEST CASE:  UDP start mech provider can retire its lease without a pin deadlock or stale PRI send
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1975): ERROR: CHECK( wait_until([&]{return calls==1 && f.owner.diagnostics().closed;}) ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1978):
+TEST CASE:  UDP start mech provider denial throw and authorization expiry retire without setup
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1998): ERROR: CHECK( wait_until([&]{return calls==1 && f.owner.diagnostics().closed;}) ) is NOT correct!
+  values: CHECK( false )
+  logged: mode := 0
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1999): ERROR: CHECK_FALSE( f.service->authorize_udp(public_id) ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: mode := 0
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1998): ERROR: CHECK( wait_until([&]{return calls==1 && f.owner.diagnostics().closed;}) ) is NOT correct!
+  values: CHECK( false )
+  logged: mode := 1
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1999): ERROR: CHECK_FALSE( f.service->authorize_udp(public_id) ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: mode := 1
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1998): ERROR: CHECK( wait_until([&]{return calls==1 && f.owner.diagnostics().closed;}) ) is NOT correct!
+  values: CHECK( false )
+  logged: mode := 2
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1999): ERROR: CHECK_FALSE( f.service->authorize_udp(public_id) ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: mode := 2
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1998): ERROR: CHECK( wait_until([&]{return calls==1 && f.owner.diagnostics().closed;}) ) is NOT correct!
+  values: CHECK( false )
+  logged: mode := 3
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1999): ERROR: CHECK_FALSE( f.service->authorize_udp(public_id) ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: mode := 3
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2002):
+TEST CASE:  UDP start mech malformed known prefix and conflicting pending request fail closed
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2014): ERROR: CHECK( wait_until([&]{return f.owner.diagnostics().closed;}) ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2014): ERROR: CHECK( wait_until([&]{return f.owner.diagnostics().closed;}) ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2018):
+TEST CASE:  UDP start mech schema activation fails before start commit and remains retryable
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 0
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 0
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 1
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 1
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 2
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 2
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 3
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 3
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 4
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 4
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 5
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 5
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 6
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 6
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 7
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 7
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 8
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 8
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 9
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 9
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 10
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 10
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 11
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 11
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 12
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 12
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 13
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 13
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 14
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 14
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: bad := 15
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2050): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: bad := 15
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2061):
+TEST CASE:  UDP start mech shutdown joins its callback before releasing captured lifetime
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(2073): ERROR: CHECK( entered ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+[doctest] test cases:   7 |   0 passed |  7 failed | 84 skipped
+[doctest] assertions: 671 | 625 passed | 46 failed |
+[doctest] Status: FAILURE!

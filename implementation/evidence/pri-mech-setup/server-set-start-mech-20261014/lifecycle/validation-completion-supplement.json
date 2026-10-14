@@ -1,0 +1,497 @@
+{
+  "status": "CONFIRMED_FNAME_SEED_AND_CONDITIONAL_RPC_ID;NATIVE_COMPLETION_PRODUCER_UNRESOLVED",
+  "scope": "Append-only retained evidence; no new Ghidra, source, runtime, services, or credentials.",
+  "preserved_contract": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+    "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc",
+    "bytes": 40223
+  },
+  "original_exe": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "bytes": 31918592
+  },
+  "uc_completion_search": [
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020155-HawkenGame.R_PlayerController.uc",
+        "sha256": "e7de9faf9a214b77ecb47e5744449bdda5e62f36f4c1b57efc428a3f0a5b5296",
+        "bytes": 264910
+      },
+      "matching_lines": [
+        {
+          "line": 102,
+          "text": "var HawkenTypes.ESelectionValidationStatus OverallSelectionValidationStatus;"
+        },
+        {
+          "line": 103,
+          "text": "var HawkenTypes.ESelectionValidationStatus ValidationStatus_ItemInstanceCollection;"
+        },
+        {
+          "line": 104,
+          "text": "var HawkenTypes.ESelectionValidationStatus ValidationStatus_PresetLoaded;"
+        },
+        {
+          "line": 105,
+          "text": "var HawkenTypes.ESelectionValidationStatus ValidationStatus_MechInstance;"
+        },
+        {
+          "line": 106,
+          "text": "var HawkenTypes.ESelectionValidationStatus ValidationStatus_SelectedPrimaryWeapon;"
+        },
+        {
+          "line": 107,
+          "text": "var HawkenTypes.ESelectionValidationStatus ValidationStatus_AchievementsLoaded;"
+        },
+        {
+          "line": 3383,
+          "text": "\t\tServerValidatePlayerSpawnSelection();\t\t"
+        },
+        {
+          "line": 3387,
+          "text": "\t\tClientSpawnSelectionValidated();"
+        },
+        {
+          "line": 3392,
+          "text": "reliable server function ServerValidatePlayerSpawnSelection()"
+        },
+        {
+          "line": 3419,
+          "text": "\t\tOverallSelectionValidationStatus = 1;"
+        },
+        {
+          "line": 3420,
+          "text": "\t\tValidationStatus_MechInstance = 1;"
+        },
+        {
+          "line": 3421,
+          "text": "\t\tValidationStatus_PresetLoaded = 1;"
+        },
+        {
+          "line": 3422,
+          "text": "\t\tValidationStatus_SelectedPrimaryWeapon = 1;"
+        },
+        {
+          "line": 3423,
+          "text": "\t\tValidationStatus_AchievementsLoaded = 1;"
+        },
+        {
+          "line": 3424,
+          "text": "\t\tValidationStatus_ItemInstanceCollection = 1;"
+        },
+        {
+          "line": 3429,
+          "text": "reliable client simulated event ClientSpawnSelectionValidated()"
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\008752-HawkenGame.R_PlayerReplicationInfo.uc",
+        "sha256": "ab7c117e4031a913450c59e288e05e179dfd240ef09f6d1e6ee0cac3c0b424ca",
+        "bytes": 115242
+      },
+      "matching_lines": []
+    },
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\038987-HawkenGame.R_MechSetup.uc",
+        "sha256": "7c74994c8363edee4ebc5ceb2ec391d6e880284bb98691d4b7bf6e8c5696846f",
+        "bytes": 447444
+      },
+      "matching_lines": []
+    }
+  ],
+  "native_retained_search": [
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\functions.jsonl",
+        "sha256": "210acdc5e9217d052ad6b0d06322eb8cf0e9d591e900d454b5c5c3ca6bf4312c",
+        "bytes": 152810
+      },
+      "records_examined": 2,
+      "matched_records": [
+        {
+          "entry": "140d49100",
+          "matched_tokens": [
+            "1d409a0"
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\preset-tick\\functions.jsonl",
+        "sha256": "c66bb16a3ab1cad14b0088e31af87f64b0b9f8137e7bb33ed95ad06959a77d48",
+        "bytes": 940
+      },
+      "records_examined": 1,
+      "matched_records": []
+    },
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\native-exec-wrappers\\functions.jsonl",
+        "sha256": "807a707bdf993d18022424c1e0f861c4b2a7f83a6a77bdaaf9bd0760a68c162a",
+        "bytes": 3939
+      },
+      "records_examined": 2,
+      "matched_records": []
+    },
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\preset-caller\\functions.jsonl",
+        "sha256": "b39766a288674da5643dfddc55db5feb714c1a47e1ea05d735bf6815de39d403",
+        "bytes": 63401
+      },
+      "records_examined": 3,
+      "matched_records": []
+    },
+    {
+      "source": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\fname-wrappers\\functions.jsonl",
+        "sha256": "b7377e4960c84bb8546ce96fd80c3fe9cabd4b7bcf18ebf3efcfd2771f73e6e7",
+        "bytes": 19083
+      },
+      "records_examined": 4,
+      "matched_records": []
+    }
+  ],
+  "search_limit": "Only these three UC aggregate classes and twelve listed native records were examined. No universal absence or exhaustive native xref claim.",
+  "original_name_anchors": {
+    "initializer_rva": "0xd49100",
+    "instructions": [
+      {
+        "rva": "0xd497bb",
+        "raw_offset": "0xd48bbb",
+        "bytes": "488d1506ffa100",
+        "instruction": "LEA RDX,[0x1417696c8]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497c2",
+        "raw_offset": "0xd48bc2",
+        "bytes": "488b08",
+        "instruction": "MOV RCX,qword ptr [RAX]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497c5",
+        "raw_offset": "0xd48bc5",
+        "bytes": "458bc1",
+        "instruction": "MOV R8D,R9D",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497c8",
+        "raw_offset": "0xd48bc8",
+        "bytes": "48890dc170ff00",
+        "instruction": "MOV qword ptr [0x141d40890],RCX",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497cf",
+        "raw_offset": "0xd48bcf",
+        "bytes": "488d8d50010000",
+        "instruction": "LEA RCX,[RBP + 0x150]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497d6",
+        "raw_offset": "0xd48bd6",
+        "bytes": "e895c737ff",
+        "instruction": "CALL 0x1400c5f70",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497db",
+        "raw_offset": "0xd48bdb",
+        "bytes": "41b901000000",
+        "instruction": "MOV R9D,0x1",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497e1",
+        "raw_offset": "0xd48be1",
+        "bytes": "488b08",
+        "instruction": "MOV RCX,qword ptr [RAX]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497e4",
+        "raw_offset": "0xd48be4",
+        "bytes": "458bc1",
+        "instruction": "MOV R8D,R9D",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497e7",
+        "raw_offset": "0xd48be7",
+        "bytes": "48890dba75ff00",
+        "instruction": "MOV qword ptr [0x141d40da8],RCX",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497ee",
+        "raw_offset": "0xd48bee",
+        "bytes": "488d15bb00a200",
+        "instruction": "LEA RDX,[0x1417698b0]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497f5",
+        "raw_offset": "0xd48bf5",
+        "bytes": "488d8d50010000",
+        "instruction": "LEA RCX,[RBP + 0x150]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd497fc",
+        "raw_offset": "0xd48bfc",
+        "bytes": "e86fc737ff",
+        "instruction": "CALL 0x1400c5f70",
+        "original_match": true
+      },
+      {
+        "rva": "0xd49801",
+        "raw_offset": "0xd48c01",
+        "bytes": "41b901000000",
+        "instruction": "MOV R9D,0x1",
+        "original_match": true
+      },
+      {
+        "rva": "0xd49807",
+        "raw_offset": "0xd48c07",
+        "bytes": "488d158a02a200",
+        "instruction": "LEA RDX,[0x141769a98]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd4980e",
+        "raw_offset": "0xd48c0e",
+        "bytes": "488b08",
+        "instruction": "MOV RCX,qword ptr [RAX]",
+        "original_match": true
+      },
+      {
+        "rva": "0xd49811",
+        "raw_offset": "0xd48c11",
+        "bytes": "458bc1",
+        "instruction": "MOV R8D,R9D",
+        "original_match": true
+      },
+      {
+        "rva": "0xd49814",
+        "raw_offset": "0xd48c14",
+        "bytes": "48890d8571ff00",
+        "instruction": "MOV qword ptr [0x141d409a0],RCX",
+        "original_match": true
+      },
+      {
+        "rva": "0xd4981b",
+        "raw_offset": "0xd48c1b",
+        "bytes": "488d8d50010000",
+        "instruction": "LEA RCX,[RBP + 0x150]",
+        "original_match": true
+      }
+    ],
+    "literals": [
+      {
+        "text": "ClientSpawnSelectionValidated",
+        "encoding": "UTF16LE_NUL",
+        "rva": "0x17698b0",
+        "raw_offset": "0x1768cb0",
+        "bytes": "43006c00690065006e00740053007000610077006e00530065006c0065006300740069006f006e00560061006c006900640061007400650064000000",
+        "fname_global_rva": "0x1d409a0",
+        "original_match": true
+      },
+      {
+        "text": "ClientSpawnSelectionFailed",
+        "encoding": "UTF16LE_NUL",
+        "rva": "0x17696c8",
+        "raw_offset": "0x1768ac8",
+        "bytes": "43006c00690065006e00740053007000610077006e00530065006c0065006300740069006f006e004600610069006c00650064000000",
+        "fname_global_rva": "0x1d40da8",
+        "original_match": true
+      }
+    ],
+    "meaning": "FName initializer binding only; not an event invocation or validation completion."
+  },
+  "server_validate_conditional_id": {
+    "class": "HawkenGame.R_PlayerController",
+    "own_eligible_count": 83,
+    "own_sorted_rank_zero_based": 38,
+    "class_base": 211,
+    "dense_field_id": 249,
+    "exclusive_bound": 294,
+    "sort": "ascending serialized local NetIndex, eligible rebuild direct own fields; complete ordered list equality checked",
+    "serialized_function": {
+      "path": "HawkenGame.R_PlayerController.ServerValidatePlayerSpawnSelection",
+      "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export": 17231,
+      "serial_virtual_offset": "0x89ba02",
+      "type": "Function",
+      "local_net_index": 17236,
+      "next": 17228,
+      "header_bytes": "5443000013590000000000004c430000",
+      "source_blocks": [
+        {
+          "physical_offset": "0x1668ce",
+          "compressed_size": 40393,
+          "compressed_sha256": "df0fd28625534e6ed5a4fd85e89041c37f3c4966b475de8393f888d7ae34626c",
+          "plain_sha256": "d9b3de6d40e15fdf63f439257d7681605e52ce465a9ee6075c90c8d408a0b0d4",
+          "matched_virtual_start": "0x89ba02",
+          "matched_virtual_end_exclusive": "0x89bbd1"
+        }
+      ],
+      "eligible_link_rebuild": true,
+      "function_flags": "0x2200c2",
+      "super_function": null,
+      "super_index": 0,
+      "super_bytes": "00000000",
+      "flag_offset": "0x89bbc3",
+      "flag_bytes": "c2002200",
+      "candidate_field_id_all_mapped": 249
+    },
+    "premises": [
+      "Link rebuild global1bb640c==0",
+      "Effective NetIndex equals serialized NetIndex for every field",
+      "Every enumerated NetField and superclass class passes PackageMap+298",
+      "No extra native fields or runtime mutations change class NetFields",
+      "No equal-index unstable sort ambiguity"
+    ],
+    "state": "STATIC_CONDITIONAL_NOT_RUNTIME_OBSERVED"
+  },
+  "validation_state_boundary": {
+    "started": [
+      "MechInstance",
+      "PresetLoaded",
+      "SelectedPrimaryWeapon",
+      "AchievementsLoaded",
+      "ItemInstanceCollection"
+    ],
+    "overall_initialized_in_process": true,
+    "success_producer_proven": false,
+    "batch_http_or_nine_owned_items_proven_sufficient": false,
+    "loaded_mech_preset_callback_is_separate": true,
+    "next_message_must_not_be_fabricated": "ClientSpawnSelectionValidated"
+  },
+  "next_single_focused_job": {
+    "tool": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ListFocusedReferences.java",
+    "project": "HawkenMain",
+    "program": "HawkenGame-Win64-Shipping.exe",
+    "arguments": [
+      "OUTPUT_JSON",
+      "0x141d409a0"
+    ],
+    "mode": "existing project readOnly/noanalysis, parent sole owner",
+    "procedure": [
+      "Enumerate recorded xrefs to exact FName global; exclude initializer store d49814.",
+      "Resolve containing function of positive consumers; extract only this identified event wrapper first.",
+      "If wrapper only dispatches cb660/virtual240, locate exact wrapper caller that completes statuses; one next producer body only after positive edge."
+    ],
+    "limitations": "Recorded references may be incomplete; no universal absence if none found. No producer entry RVA is known yet."
+  },
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc",
+      "bytes": 40223
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\freeze.json",
+      "sha256": "b9788b35d0c651d2bb5c48e94e35157b21eaac46f1342025269e025dcde841a4",
+      "bytes": 6698
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\functions.jsonl",
+      "sha256": "210acdc5e9217d052ad6b0d06322eb8cf0e9d591e900d454b5c5c3ca6bf4312c",
+      "bytes": 152810
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\instructions.json",
+      "sha256": "6c794871cfe8361adb8c528e1b9fc51db8c76521276b3a447ff0cbe184246c70",
+      "bytes": 206737
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\original-byte-verification.json",
+      "sha256": "82e2f168b1c1d90691442ed8115361207ff1e8a4ca273764b9f1b2944d3dc11e",
+      "bytes": 295921
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\parent-native-callback-contract.json",
+      "sha256": "dd118844a04dc9f5633c8a5ab1c108699c586e254e4c14bcda00d4ee4e6c2b03",
+      "bytes": 7934
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-effective-field-cache\\serialized-child-fields.json",
+      "sha256": "8ada65dca910693084ee14447e7b071105f62336b80efb33afef1c61a415d4dc",
+      "bytes": 3063754
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-effective-field-cache\\conditional-all-mapped-cache.json",
+      "sha256": "b118fff2c7bb7806fe8616e2097ce81fcf549de8c532218763320138d3d65258",
+      "bytes": 57064
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ListFocusedReferences.java",
+      "sha256": "0cfc1d09c605f3b84d888603ee01ff29b0344f7b30432bf67d28d751bdb3c43a",
+      "bytes": 2483
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\command.json",
+      "sha256": "0ce43effa07e6eef4b2d900717332eda66b2b635148314f0cfafc58eed4a2c79",
+      "bytes": 1611
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\scan-fname-xrefs.py",
+      "sha256": "b97da39d36e04f7b897fb545baac6edbc0138612c636fb825131c083508d3d1b",
+      "bytes": 2584
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\ExtractNetworkFunctions.java",
+      "sha256": "761a5ffa33baf0ae25367df81fc0cafe598ddcd77384f956d9bad17b8282e081",
+      "bytes": 5034
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\DumpFocusedInstructions.java",
+      "sha256": "7bafd2c2921c5bab5c8a35fc86b4b4e4dd586250bfcabf020dbbed2cc54539d9",
+      "bytes": 1836
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020155-HawkenGame.R_PlayerController.uc",
+      "sha256": "e7de9faf9a214b77ecb47e5744449bdda5e62f36f4c1b57efc428a3f0a5b5296",
+      "bytes": 264910
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\008752-HawkenGame.R_PlayerReplicationInfo.uc",
+      "sha256": "ab7c117e4031a913450c59e288e05e179dfd240ef09f6d1e6ee0cac3c0b424ca",
+      "bytes": 115242
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\038987-HawkenGame.R_MechSetup.uc",
+      "sha256": "7c74994c8363edee4ebc5ceb2ec391d6e880284bb98691d4b7bf6e8c5696846f",
+      "bytes": 447444
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\preset-tick\\functions.jsonl",
+      "sha256": "c66bb16a3ab1cad14b0088e31af87f64b0b9f8137e7bb33ed95ad06959a77d48",
+      "bytes": 940
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\native-exec-wrappers\\functions.jsonl",
+      "sha256": "807a707bdf993d18022424c1e0f861c4b2a7f83a6a77bdaaf9bd0760a68c162a",
+      "bytes": 3939
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\preset-caller\\functions.jsonl",
+      "sha256": "b39766a288674da5643dfddc55db5feb714c1a47e1ea05d735bf6815de39d403",
+      "bytes": 63401
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-dedicated-continuation-20261013\\fname-wrappers\\functions.jsonl",
+      "sha256": "b7377e4960c84bb8546ce96fd80c3fe9cabd4b7bcf18ebf3efcfd2771f73e6e7",
+      "bytes": 19083
+    }
+  ]
+}

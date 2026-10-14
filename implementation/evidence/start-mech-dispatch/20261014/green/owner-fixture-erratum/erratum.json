@@ -1,0 +1,60 @@
+{
+  "scope": "Test oracle only; no production, payload, budget, or ACK-gate change.",
+  "measured_failures": {
+    "owner": "89/91 cases passed; two failures: missing three outputs after future ACK4000, and PRI103 compared with93.",
+    "runtime": "28/28 cases passed; Runtime PRI seed91 is a different fixture."
+  },
+  "independent_configuration": {
+    "owner_prior_seed": 101,
+    "owner_open_sequence": 102,
+    "owner_first_property_sequence": 103,
+    "owner_next_property_sequence": 104,
+    "source": "public_pri_plan at1499..1502, unchanged before-test artifact; caller seed101 plus per-channel new-send increment.",
+    "control_packet_one": "Existing first() challenge literal0100011040506c0000000004 has PacketID1; links_opening_acks separately includes1/3/5/7/8 before actor PacketIDs, and existing actor-opening test asserts first actor PacketID>11. The preceding partial ACK already acknowledges1.",
+    "wrong_ack_policy": "Replaying known control PacketID1 does not satisfy the missing PRI original-opening ACK; future4000 instead manufactures forward loss and exhausts retry work quota."
+  },
+  "native_proof": {
+    "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "ack_exact_and_forward_gap": {
+      "function_rva": "0x9ee9e0",
+      "raw_offset": "0x9edde0",
+      "contract_fact": "ack-is-exact-not-cumulative"
+    },
+    "retry_preserves_reliable_sequence": {
+      "function_rva": "0x9ee5e0",
+      "raw_offset": "0x9ed9e0",
+      "contract_fact": "retransmit-keeps-reliable-sequence"
+    },
+    "new_send_sequence": {
+      "function_rva": "0x9f2840",
+      "raw_offset": "0x9f1c40",
+      "contract_fact": "reliable-send-sequence-and-coalescing"
+    }
+  },
+  "current_transport_context": {
+    "send_new": "src/reliable_control_transport.cpp118..123",
+    "process_ack": "130..174, retry reassigns PacketID; forward4000 repeats until per-step quota",
+    "retry": "344..349, no reliable-sequence increment"
+  },
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\reliable-control-transport-contract\\contract.json",
+      "sha256": "220903235923ea72a7520ef010c1e13932f376e27942b0acc076f1d9da837284"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\actor-link-ack-prerequisite\\contract.json",
+      "sha256": "1742a48ead6322ad5ab9f2a16fbc2401c50fdef5d7802a80fb0aa1808395ea3e"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\reliable_control_transport.cpp",
+      "sha256": "44bbdf2a6cf2019bcb31b0932947bbb60cd6ed73ead189e830316ea69fdfa6aa"
+    }
+  ],
+  "changed_numeric_oracles": [
+    "93 ->103",
+    "94 ->104",
+    "4000 ->1"
+  ],
+  "golden_payloads_and_all_three_real_ACK_gating_unchanged": true,
+  "writer_executed_no_build_test_runtime_git_mutation": true
+}

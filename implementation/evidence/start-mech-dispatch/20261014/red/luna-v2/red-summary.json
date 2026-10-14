@@ -1,0 +1,110 @@
+{
+  "freezeSha256": "6d3222cff80fef6ba2913cf679973b9de6d84d3cce1f7e086313760b27a04025",
+  "inputPins": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\local_udp_owner.hpp",
+      "expected": "b1a82538f1b28b6da16e7520f2798dbe4f1a6836ff327effc3a31097a5f905e4",
+      "actual": "b1a82538f1b28b6da16e7520f2798dbe4f1a6836ff327effc3a31097a5f905e4",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\local_udp_owner.cpp",
+      "expected": "b95bfa884cb9b92ffd7feb50b4467e8e8a64ab3a3fbe250e74cfe8c62b8514b0",
+      "actual": "b95bfa884cb9b92ffd7feb50b4467e8e8a64ab3a3fbe250e74cfe8c62b8514b0",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\local_udp_owner_tests.cpp",
+      "expected": "78b255fab775868a0e07cd8e18f23a72efaa27281dbf85b729ab713103f75ff2",
+      "actual": "78b255fab775868a0e07cd8e18f23a72efaa27281dbf85b729ab713103f75ff2",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\udp_trial_runtime.hpp",
+      "expected": "0b324d9f0c72beb521eec4f196ddae4872695ec51e465f26dc906df869835b3a",
+      "actual": "0b324d9f0c72beb521eec4f196ddae4872695ec51e465f26dc906df869835b3a",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\udp_trial_runtime.cpp",
+      "expected": "72e4e8263ecfea73b0528a36a7a4a98a9f9f8fc35de39c1f7dace2df07617310",
+      "actual": "72e4e8263ecfea73b0528a36a7a4a98a9f9f8fc35de39c1f7dace2df07617310",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\udp_trial_runtime_tests.cpp",
+      "expected": "75f0af1edb8f33b06cdc7b3284343a9a60ef2d170ef1d86fd4ffab8a232b9221",
+      "actual": "75f0af1edb8f33b06cdc7b3284343a9a60ef2d170ef1d86fd4ffab8a232b9221",
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\CMakeLists.txt",
+      "expected": "557900452d8f3d97cf5b5cc59c51f7f3e793f808ab9506961741e6ea7190a88b",
+      "actual": "557900452d8f3d97cf5b5cc59c51f7f3e793f808ab9506961741e6ea7190a88b",
+      "match": true
+    }
+  ],
+  "cmakeStatus": "557900452d8f3d97cf5b5cc59c51f7f3e793f808ab9506961741e6ea7190a88b",
+  "buildExit": "0",
+  "ownerFilter": "--test-case=UDP start mech*",
+  "ownerTestExit": "1",
+  "ownerCases": 7,
+  "ownerPassed": 0,
+  "ownerFailed": 7,
+  "ownerSkipped": 84,
+  "ownerAssertions": 671,
+  "ownerAssertionsPassed": 625,
+  "ownerAssertionsFailed": 46,
+  "runtimeFilter": "--test-case=UDP trial*start mech*",
+  "runtimeTestExit": "1",
+  "runtimeCases": 3,
+  "runtimePassed": 0,
+  "runtimeFailed": 3,
+  "runtimeSkipped": 25,
+  "runtimeAssertions": 576,
+  "runtimeAssertionsPassed": 561,
+  "runtimeAssertionsFailed": 15,
+  "binaryArtifacts": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+      "sha256": "483b6645ad90674ce8b9f16519d1752879aced6e8bd173534c5270cde25cd1bd",
+      "length": 2543616,
+      "lastWriteUtc": "2026-10-14T14:06:58.5163611Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-udp-trial-runtime-tests.exe",
+      "sha256": "effbfe12b377126ab0b88ba693c25187317cf28542325be910554d9cb6548f18",
+      "length": 2181632,
+      "lastWriteUtc": "2026-10-14T14:06:58.7851738Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+      "length": 2342912,
+      "lastWriteUtc": "2026-10-13T15:50:45.6218275Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+      "length": 727040,
+      "lastWriteUtc": "2026-10-13T00:42:55.1203132Z"
+    }
+  ],
+  "objectDependencyCommands": [
+    {
+      "lineCount": 2,
+      "object": "owner tests",
+      "nativeExit": 0
+    },
+    {
+      "lineCount": 2,
+      "object": "runtime tests",
+      "nativeExit": 0
+    }
+  ],
+  "ram": {
+    "freeKiB": 13397068,
+    "usedPercent": 59.96
+  },
+  "remainingBuildProcesses": []
+}

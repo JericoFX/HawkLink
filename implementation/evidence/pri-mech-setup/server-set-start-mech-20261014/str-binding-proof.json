@@ -1,0 +1,121 @@
+{
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "registration": {
+    "kind": "StrProperty",
+    "type_literal": {
+      "rva": "0x12d3e1a",
+      "raw_offset": "0x12d321a",
+      "bytes": "530074007200500072006f00700065007200740079000000",
+      "size": 24,
+      "sha256": "f963eef4a238fcc4d35922923acb9e4f1404cca3f2a26ee12407c63828d870ec"
+    },
+    "factory_rva": "0xf2a30",
+    "constructor_rva": "0xf8450",
+    "vtable_rva": "0x12b0b60",
+    "anchors": [
+      {
+        "rva": "0xf2aa2",
+        "raw_offset": "0xf1ea2",
+        "bytes": "488d0d71131e01",
+        "size": 7,
+        "sha256": "010edb7ef3332fee84b1e7435d0d0a5fe902c464361e50865ec3b78e7e8ddb76",
+        "RIP_resolved_target_rva": "0x12d3e1a"
+      },
+      {
+        "rva": "0xf2a76",
+        "raw_offset": "0xf1e76",
+        "bytes": "488d0dd3590000",
+        "size": 7,
+        "sha256": "16646956ee36d8d8ae92d65575121c5140f21136b6eaaac16e7b00e454e5d4da",
+        "RIP_resolved_target_rva": "0xf8450"
+      },
+      {
+        "rva": "0xf8472",
+        "raw_offset": "0xf7872",
+        "bytes": "488d05e7861b01",
+        "size": 7,
+        "sha256": "b05271809622119ea3deff4cdf1573a24a80b9c158124d82105a7d1c7fec0852",
+        "RIP_resolved_target_rva": "0x12b0b60"
+      },
+      {
+        "rva": "0xf8479",
+        "raw_offset": "0xf7879",
+        "bytes": "488903",
+        "size": 3,
+        "sha256": "89f223a0d6d3da3d37952264d496e3470ac52513b96f31dbb1a5821e39a78479"
+      }
+    ],
+    "slots": [
+      {
+        "offset": "0x2b0",
+        "cell": {
+          "rva": "0x12b0e10",
+          "raw_offset": "0x12b0210",
+          "bytes": "908d0f4001000000",
+          "size": 8,
+          "sha256": "1bde14f57a8474f7a10f514b6ae66dbc6902d3879efcb0a5084f37c7ae0fa4c4"
+        },
+        "target_rva": "0xf8d90"
+      },
+      {
+        "offset": "0x338",
+        "cell": {
+          "rva": "0x12b0e98",
+          "raw_offset": "0x12b0298",
+          "bytes": "601e0f4001000000",
+          "size": 8,
+          "sha256": "c11a6f074d4367e41a7e13ff6ab128bfa6cea724f64981196d6fe76581606f57"
+        },
+        "target_rva": "0xf1e60"
+      },
+      {
+        "offset": "0x340",
+        "cell": {
+          "rva": "0x12b0ea0",
+          "raw_offset": "0x12b02a0",
+          "bytes": "209e374001000000",
+          "size": 8,
+          "sha256": "67f9c1878fb82eefb727df89d750b549614084f99eb7acc56fbb1464dc34c99e"
+        },
+        "target_rva": "0x379e20"
+      }
+    ],
+    "status": "CONFIRMADO_STATIC_TYPE_REGISTRATION_CTOR_AND_SLOT_NOT_LIVE_RECEIVER"
+  },
+  "selected_slots": [
+    {
+      "slot": "0x2b8",
+      "cell": {
+        "rva": "0x12b0e18",
+        "raw_offset": "0x12b0218",
+        "bytes": "60360f4001000000",
+        "sha256": "d82592463545703b6f24661be8d998610f66d55c24c981426b569926dbd78269"
+      },
+      "target_rva": "0xf3660",
+      "entry_original": {
+        "rva": "0xf3660",
+        "raw_offset": "0xf2a60",
+        "bytes": "48895c24084889742410574883ec2049",
+        "sha256": "34d2c5949de3046e3d8ccbdb0ac7f564d31bc8deac4d5c1cda2eeea9c21530a8"
+      }
+    },
+    {
+      "slot": "0x2c8",
+      "cell": {
+        "rva": "0x12b0e28",
+        "raw_offset": "0x12b0228",
+        "bytes": "f08f0f4001000000",
+        "sha256": "cf4f55a7ddad8a2bd793f860f28b9c752e714abfaa343733d3ffa6d1b93330da"
+      },
+      "target_rva": "0xf8ff0",
+      "entry_original": {
+        "rva": "0xf8ff0",
+        "raw_offset": "0xf83f0",
+        "bytes": "4883ec38488b014d8bc14533c948c744",
+        "sha256": "eaf43e87eaf394d230663ec5185dd9f894037c2a0c2914b0530f47ad5966d3f2"
+      }
+    }
+  ],
+  "status": "CONFIRMADO_STATIC_FACTORY_CTOR_VTABLE_TARGET;OWN_BODIES_MISSING_FROM_RETAINED_INDEX"
+}

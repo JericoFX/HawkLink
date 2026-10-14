@@ -22,6 +22,7 @@
 #include <optional>
 #include <thread>
 #include <utility>
+#include <vector>
 
 namespace hawken::udp {
 LocalUdpError::LocalUdpError(LocalUdpErrorCode code)
@@ -158,8 +159,11 @@ struct Entry {
     std::size_t users=0;
     std::optional<sockaddr_in> peer;
     bool links_sent=false; // Worker-only per-session emission state, not a diagnostic gate.
-    Entry(const session::SessionId& value,std::unique_ptr<game::GameConnection> conn)
-        : id(value),connection(std::move(conn)) {}
+    std::optional<wire::rpc::StartMechArguments> pending_mech;
+    std::uint8_t setup_id;
+    Entry(const session::SessionId& value,std::unique_ptr<game::GameConnection> conn,
+          std::uint8_t initial_setup_id)
+        : id(value),connection(std::move(conn)),setup_id(initial_setup_id) {}
     ~Entry() { erase(id); }
 };
 struct Registry {
@@ -182,6 +186,7 @@ struct Registry {
             // re-enter Service/Auth while pinned; no worker join here.
             finished.wait(lock,[&]{return target->users==0;});
             target->connection.reset();
+            target->pending_mech.reset();
             erase(target->id);
         } catch (...) {
             // Retained shared ownership also keeps the Context alive through
@@ -264,6 +269,14 @@ struct LocalUdpOwner::Impl {
     std::optional<InitialPawnPlan> pawn_plan;
     std::optional<InitialPriPlan> pri_plan;
     std::optional<InitialActorLinksPlan> links_plan;
+    std::optional<StartMechDispatchPlan> start_mech_plan;
+    StartMechProvider mech_provider;
+    std::uint8_t initial_setup_id=0; // Immutable after start publishes running, also read by handoff.
+    struct MechWork {
+        std::shared_ptr<Entry> target;
+        wire::rpc::StartMechArguments request;
+        std::uint8_t previous_setup_id;
+    };
     std::thread worker;
 
     Impl(std::uint16_t port,const game::ConnectionConfig& cfg,Clock value,std::chrono::milliseconds poll)
@@ -348,6 +361,91 @@ struct LocalUdpOwner::Impl {
             return true;
         } catch (...) { return false; } // Caller retires only AFTER releasing Use.
     }
+    bool collect_start_mech(Entry& entry,const std::vector<wire::Bunch>& bunches) {
+        if (!start_mech_plan) return true;
+        for (const auto& bunch:bunches) {
+            if (bunch.channel!=controller_plan->channel.channel || bunch.payload_bits==0) continue;
+            const auto state=entry.connection->channel_snapshot(bunch.channel);
+            if (!state || state->closed) return false;
+            wire::BitReader reader(bunch.payload,bunch.payload_bits);
+            std::uint32_t field;
+            try { field=reader.read_bounded(start_mech_plan->controller_exclusive_bound); }
+            catch (const wire::WireError&) { continue; } // No recognized field: keep opaque.
+            if (field!=start_mech_plan->controller_rpc_field_id) continue;
+            // Only this first known PREFIX. Do not interpret, skip or scan its suffix.
+            auto decoded=wire::rpc::read_start_mech_arguments(reader,skeleton.endian,
+                bunch.payload_bits-reader.position());
+            if (entry.pending_mech) {
+                const auto& prior=*entry.pending_mech;
+                if (prior.mech_instance_id!=decoded.value.mech_instance_id ||
+                    prior.primary_weapon!=decoded.value.primary_weapon ||
+                    prior.holo_taunt_type!=decoded.value.holo_taunt_type) return false;
+            } else entry.pending_mech=std::move(decoded.value);
+        }
+        return true;
+    }
+    bool take_start_mech(Use& use,std::optional<MechWork>& work) {
+        auto& entry=use.entry();
+        if (!start_mech_plan) return true;
+        if (stopping.load() || entry.connection->snapshot().closed) return false;
+        bool ready=entry.links_sent;
+        const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
+            pawn_plan->channel.channel};
+        for (const auto channel:channels) {
+            const auto state=entry.connection->channel_snapshot(channel);
+            if (state && state->closed) return false;
+            if (!state || !state->opening_packet_id || !state->outgoing_open_acked) ready=false;
+        }
+        if (ready && entry.pending_mech) {
+            work=MechWork{use.identity(),std::move(*entry.pending_mech),entry.setup_id};
+            entry.pending_mech.reset();
+        }
+        return true;
+    }
+    void apply_start_mech(const session::SessionId& id,const MechWork& work) {
+        // Shared Entry identity is not an in-flight Use. Provider/SQL/Auth may
+        // synchronously retire it; never read its connection or erased ID here.
+        if (stopping.load()) { registry->retire(work.target); return; }
+        std::optional<wire::mech::SMechSetupStruct> value;
+        try { value=mech_provider(id,work.request,work.previous_setup_id); } catch (...) {}
+        if (!authorize(id)) return;
+        const auto now=time();
+        if (!now) { fail_closed(); return; }
+        bool terminal=false;
+        {
+            auto use=pin(id,work.target);
+            if (!use) return; // Callback result for a retired/replaced Entry is stale.
+            auto& entry=use->entry();
+            {
+                std::lock_guard lock(registry->mutex);
+                if (!running.load() || stopping.load() || !registry->accepting ||
+                    registry->entry!=work.target || !entry.active) return;
+            }
+            try {
+                terminal=!value || entry.connection->snapshot().closed || !entry.links_sent;
+                const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
+                    pawn_plan->channel.channel};
+                for (const auto channel:channels) {
+                    const auto state=entry.connection->channel_snapshot(channel);
+                    if (!state || state->closed || !state->opening_packet_id || !state->outgoing_open_acked)
+                        terminal=true;
+                }
+                if (!terminal) {
+                    auto payload=wire::mech::encode_mech_setup_property(*value,
+                        start_mech_plan->pri_mech_setup_field_id,start_mech_plan->pri_exclusive_bound,
+                        skeleton.endian,static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
+                    wire::Bunch bunch;
+                    bunch.reliable=true; bunch.channel_type=2; bunch.channel=pri_plan->channel.channel;
+                    bunch.payload_bits=payload.logical_bits; bunch.payload=std::move(payload.payload);
+                    const auto step=entry.connection->send_actor(bunch,*now);
+                    if (step.datagrams.empty() || step.closed || stopping.load() ||
+                        !send(entry,step) || stopping.load()) terminal=true;
+                    else entry.setup_id=value->setup_id;
+                }
+            } catch (...) { terminal=true; }
+        }
+        if (terminal) registry->retire(work.target); // Release Use before lease retirement.
+    }
     void validate_response(const session::SessionId& id,const std::shared_ptr<Entry>& target,
                            const control::posthello::Login& candidate) {
         // The shared identity is not an in-flight pin. Retirement may finish
@@ -406,6 +504,7 @@ struct LocalUdpOwner::Impl {
         bool terminal=false;
         std::shared_ptr<Entry> target;
         std::optional<control::posthello::Login> candidate;
+        std::optional<MechWork> mech;
         {
             auto use=pin(id);
             if (!use) { erase(id); return; }
@@ -500,12 +599,15 @@ struct LocalUdpOwner::Impl {
                     }
                 }
                 if (!terminal && !send_links(entry,now)) terminal=true;
+                if (!terminal && !collect_start_mech(entry,step.actor_bunches)) terminal=true;
+                if (!terminal && !take_start_mech(*use,mech)) terminal=true;
             } catch (const game::ConnectionError&) {
                 terminal=entry.connection->snapshot().closed;
             } catch (...) { terminal=true; }
         } // Release in-flight ownership BEFORE retiring or any callback.
         if (terminal) registry->retire_id(id);
         else if (candidate) validate_response(id,target,*candidate);
+        else if (mech) apply_start_mech(id,*mech);
         erase(id);
     }
     void idle(double now) {
@@ -517,6 +619,7 @@ struct LocalUdpOwner::Impl {
         }
         if (!authorize(id)) { erase(id); return; }
         bool terminal=false;
+        std::optional<MechWork> mech;
         {
             auto use=pin(id);
             if (!use) { erase(id); return; }
@@ -526,9 +629,11 @@ struct LocalUdpOwner::Impl {
                 const bool sent=send(entry,step);
                 terminal=step.closed || !sent;
                 if (!terminal && !send_links(entry,now)) terminal=true;
+                if (!terminal && !take_start_mech(*use,mech)) terminal=true;
             } catch (...) { terminal=true; }
         }
         if (terminal) registry->retire_id(id);
+        else if (mech) apply_start_mech(id,*mech);
         erase(id);
     }
     void loop() noexcept {
@@ -591,7 +696,8 @@ struct LocalUdpOwner::Impl {
     void start(Authorizer callback,LoginResponseValidator validator,PublicationProvider publication,
                std::optional<InitialControllerPlan> controller,
                std::optional<InitialPawnPlan> pawn,std::optional<InitialPriPlan> pri,
-               std::optional<InitialActorLinksPlan> links) {
+               std::optional<InitialActorLinksPlan> links,
+               std::optional<StartMechDispatchPlan> start_mech,StartMechProvider provider) {
         if (!callback || started || stopping.load()) fail(LocalUdpErrorCode::invalid_lifecycle);
         if (publication && !validator) fail(LocalUdpErrorCode::invalid_configuration);
         if (controller) {
@@ -650,23 +756,51 @@ struct LocalUdpOwner::Impl {
                     pawn->channel.channel,static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
             } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
         }
+        if (static_cast<bool>(start_mech)!=static_cast<bool>(provider))
+            fail(LocalUdpErrorCode::invalid_configuration);
+        if (start_mech) {
+            const auto& plan=*start_mech;
+            const auto& evidence=plan.eligibility;
+            if (!validator || !publication || !controller || !pri || !pawn || !links ||
+                !evidence.primary_package_map || !evidence.controller_cache_correct ||
+                !evidence.rpc_eligible || !evidence.pri_cache_correct ||
+                !evidence.pri_property_eligible || !evidence.all_members_eligible ||
+                !std::all_of(evidence.parameters_eligible.begin(),evidence.parameters_eligible.end(),
+                    [](bool eligible){return eligible;}) ||
+                plan.controller_exclusive_bound==0 || plan.pri_exclusive_bound==0 ||
+                plan.controller_rpc_field_id>=plan.controller_exclusive_bound ||
+                plan.pri_mech_setup_field_id>=plan.pri_exclusive_bound ||
+                plan.controller_exclusive_bound!=links->controller_exclusive_bound)
+                fail(LocalUdpErrorCode::invalid_configuration);
+            try {
+                wire::BitWriter tag;
+                tag.write_bounded(plan.pri_mech_setup_field_id,plan.pri_exclusive_bound);
+                // Fixed all-members human/null schema length; only its tag is
+                // composed here. No default completed preset or Context is made.
+                const auto cap=static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8;
+                if (cap<544 || tag.bit_count()>cap-544)
+                    fail(LocalUdpErrorCode::invalid_configuration);
+            } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
+        }
         authorizer=std::move(callback); login_validator=std::move(validator);
         publication_provider=std::move(publication); controller_plan=std::move(controller);
-        pawn_plan=std::move(pawn); pri_plan=std::move(pri); links_plan=std::move(links); started=true;
+        pawn_plan=std::move(pawn); pri_plan=std::move(pri); links_plan=std::move(links);
+        if (start_mech) initial_setup_id=start_mech->initial_setup_id;
+        start_mech_plan=std::move(start_mech); mech_provider=std::move(provider); started=true;
         {
             std::lock_guard lock(registry->mutex); registry->accepting=true;
         }
         running=true;
         try { worker=std::thread([this]{loop();}); }
         catch (...) {
-            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset();
+            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={};
             fail(LocalUdpErrorCode::invalid_lifecycle);
         }
     }
     void stop() noexcept {
         running=false; stopping=true; registry->close();
         if (worker.joinable()) worker.join();
-        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset();
+        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={};
         { std::lock_guard lock(clock_mutex); clock={}; }
         std::lock_guard lock(socket_mutex); socket.close();
     }
@@ -686,7 +820,8 @@ struct LocalUdpOwner::Impl {
             auto config=skeleton;
             config.session_id=provision.id; config.session_key=provision.key;
             const KeyErase clear{config};
-            auto entry=std::make_shared<Entry>(provision.id,std::make_unique<game::GameConnection>(config));
+            auto entry=std::make_shared<Entry>(provision.id,std::make_unique<game::GameConnection>(config),
+                initial_setup_id);
             // Allocate lease BEFORE publishing; any exception owns and destroys
             // the unexposed connection. No successful budget is consumed yet.
             auto lease=std::make_unique<Lease>(registry,entry);
@@ -730,9 +865,11 @@ void LocalUdpOwner::start(Authorizer authorize, LoginResponseValidator validate_
                           PublicationProvider publication,
                           std::optional<InitialControllerPlan> controller,
                           std::optional<InitialPawnPlan> pawn,std::optional<InitialPriPlan> pri,
-                          std::optional<InitialActorLinksPlan> links) {
+                          std::optional<InitialActorLinksPlan> links,
+                          std::optional<StartMechDispatchPlan> start_mech,StartMechProvider mech_provider) {
     impl_->start(std::move(authorize),std::move(validate_response),std::move(publication),
-        std::move(controller),std::move(pawn),std::move(pri),std::move(links));
+        std::move(controller),std::move(pawn),std::move(pri),std::move(links),
+        std::move(start_mech),std::move(mech_provider));
 }
 void LocalUdpOwner::stop() noexcept { impl_->stop(); }
 std::unique_ptr<assignment::UdpSessionLease> LocalUdpOwner::handoff(

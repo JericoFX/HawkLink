@@ -1,0 +1,84 @@
+{
+  "phase": "READY_GREEN-v2 frozen; Owner fixture oracle corrected after demonstrated failure",
+  "inputs": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\local_udp_owner.hpp",
+      "sha256": "b1a82538f1b28b6da16e7520f2798dbe4f1a6836ff327effc3a31097a5f905e4"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\local_udp_owner.cpp",
+      "sha256": "515f41c2adcd37e56e7382a72de3b73da1ea23ba4bf7b1edb61450a3f6a219eb"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\local_udp_owner_tests.cpp",
+      "sha256": "07d6c4e46ef08a6ed082419504751e7c71755d700d5ce8dda30cce300f57d354"
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\udp_trial_runtime.hpp",
+      "sha256": "0b324d9f0c72beb521eec4f196ddae4872695ec51e465f26dc906df869835b3a"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\udp_trial_runtime.cpp",
+      "sha256": "baf7a8be5b0528fb4620bce3bfe026d71001b6099161162a21af92bb678097a1"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\udp_trial_runtime_tests.cpp",
+      "sha256": "75f0af1edb8f33b06cdc7b3284343a9a60ef2d170ef1d86fd4ffab8a232b9221"
+    }
+  ],
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\freeze.json",
+      "sha256": "ad54eec708dc83df7e509c9fd585d67cd8c6f746c1952efb914bc4559db53108"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\erratum.json",
+      "sha256": "2aaf442154b8304826c42fdfc8b0b9d2e5eea436b2f06b78e56032e3b2537652"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\reliable-control-transport-contract\\contract.json",
+      "sha256": "220903235923ea72a7520ef010c1e13932f376e27942b0acc076f1d9da837284"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\build.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\ctest.exit.txt",
+      "sha256": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\ctest.stderr.txt",
+      "sha256": "18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\ctest.stdout.txt",
+      "sha256": "e6d1e93f666863720ca7f09bc26c8dff042b5aaaf3e46803762daa17b640f64c"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\erratum.json",
+      "sha256": "2aaf442154b8304826c42fdfc8b0b9d2e5eea436b2f06b78e56032e3b2537652"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\green-summary.json",
+      "sha256": "3d26036a65b6b261f7b8f7cf912eac3e6d28e785b9c39b79f977ed16d6da5550"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\local_udp_owner_tests.after.cpp",
+      "sha256": "07d6c4e46ef08a6ed082419504751e7c71755d700d5ce8dda30cce300f57d354"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\local_udp_owner_tests.before.cpp",
+      "sha256": "78b255fab775868a0e07cd8e18f23a72efaa27281dbf85b729ab713103f75ff2"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\green\\owner-fixture-erratum\\test-oracle-erratum.diff",
+      "sha256": "338b1cd0ce3866f46cea76e2b7e563fa64b3bc8da004657e6a24f53852d49399"
+    }
+  ],
+  "production_headers_runtime_test_unchanged": true,
+  "only_owner_test_corrected": true,
+  "gate_pending_parent_and_Luna": true
+}

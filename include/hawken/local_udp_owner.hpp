@@ -2,6 +2,8 @@
 #include "hawken/game_connection.hpp"
 #include "hawken/initial_controller.hpp"
 #include "hawken/session_assignment.hpp"
+#include "hawken/mech_setup_wire.hpp"
+#include "hawken/start_mech_rpc_wire.hpp"
 #include <chrono>
 #include <cstdint>
 #include <functional>
@@ -78,6 +80,26 @@ struct InitialActorLinksPlan {
 };
 
 
+// Caller evidence for the PRIMARY all-members branch and these exact class caches.
+// These typed premises are explicit activation gates, not runtime discoveries.
+struct StartMechEligibility {
+    bool primary_package_map;
+    bool controller_cache_correct;
+    bool rpc_eligible;
+    std::array<bool,3> parameters_eligible;
+    bool pri_cache_correct;
+    bool pri_property_eligible;
+    bool all_members_eligible;
+};
+struct StartMechDispatchPlan {
+    std::uint32_t controller_rpc_field_id;
+    std::uint32_t controller_exclusive_bound;
+    std::uint32_t pri_mech_setup_field_id;
+    std::uint32_t pri_exclusive_bound;
+    StartMechEligibility eligibility;
+    std::uint8_t initial_setup_id;
+};
+
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
 // Exclusive IPv4 127.0.0.1 bind. Production callers supply a nonzero port;
 // port0 is reserved for isolated fixtures and port() publishes getsockname.
@@ -99,6 +121,8 @@ public:
         const control::posthello::RawString&)>;
     using PublicationProvider = std::function<std::optional<game::WorldPublication>(
         const session::SessionId&,const control::posthello::Login&)>;
+    using StartMechProvider = std::function<std::optional<wire::mech::SMechSetupStruct>(
+        const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t)>;
     LocalUdpOwner(std::uint16_t port, const game::ConnectionConfig& skeleton,
                   Clock clock, std::chrono::milliseconds poll_interval);
     ~LocalUdpOwner();
@@ -169,12 +193,24 @@ public:
     // one Controller batch and one Pawn batch on the SAME Use/Context. Both
     // payloads are composed before either send; partial failure retires after
     // Use. ACK/transmission is not native creation, linkage or possession proof.
+    // Optional explicit dispatch requires all actors, publication, links, a provider
+    // and every schema premise. Only the first field of a Controller bunch is
+    // considered; a known RPC consumes its argument PREFIX, leaving suffix opaque.
+    // Unknown first fields/channels are not interpreted or searched for RPCs.
+    // One pending request per exact Entry waits for real opening ACKs and links;
+    // equal pending requests are idempotent, conflicting pending requests retire.
+    // Provider runs outside all locks/Use. Reauthorize, sample fresh time and pin
+    // the exact Entry before reliable/type2 PRI property send on the same Context.
+    // Revision advances only after nonempty send success without stopping. Failure
+    // retires after Use; no automatic preset, native admission or possession proof.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
                std::optional<InitialControllerPlan> controller = std::nullopt,
                std::optional<InitialPawnPlan> pawn = std::nullopt,
                std::optional<InitialPriPlan> pri = std::nullopt,
-               std::optional<InitialActorLinksPlan> links = std::nullopt);
+               std::optional<InitialActorLinksPlan> links = std::nullopt,
+               std::optional<StartMechDispatchPlan> start_mech = std::nullopt,
+               StartMechProvider mech_provider = {});
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied

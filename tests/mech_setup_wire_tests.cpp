@@ -2,6 +2,7 @@
 #include <doctest/doctest.h>
 #include <limits>
 #include <string>
+#include <ostream>
 
 namespace {
 using namespace hawken::wire;
@@ -161,4 +162,56 @@ TEST_CASE("Mech setup exact and larger budgets produce same complete payload") {
     expect_code([&] { (void)encode_mech_setup(value,Endian::little,543); },"field_too_large");
     auto mapped=value; mapped.template_reference=PackageExportReference{9};
     expect_code([&] { (void)encode_mech_setup(mapped,Endian::big,563); },"field_too_large");
+}
+
+TEST_CASE("Mech property tag follows original variable-width field cache literals") {
+    const SMechSetupStruct value{};
+    for (const auto id : {0u,53u,86u}) {
+        const auto encoded=encode_mech_setup_property(value,id,87,Endian::little,551);
+        const bool six_bits=id==53;
+        std::vector<std::uint8_t> expected(69,0);
+        expected[0]=static_cast<std::uint8_t>(id);
+        expected[67]=six_bits ? 4 : 8; // Native null: selector1 at 532 + tag width.
+        CAPTURE(id);
+        CHECK(encoded.logical_bits == (six_bits ? 550 : 551));
+        CHECK(encoded.payload == expected); // No alignment, marker or terminator.
+    }
+}
+TEST_CASE("Mech property integer order survives the unaligned field tag") {
+    SMechSetupStruct value{}; value.mech_type=0x01020304;
+    for (const auto order : {Endian::little,Endian::big}) {
+        std::vector<std::uint8_t> expected(69,0); expected[0]=53; expected[67]=4;
+        // Original MechType begins at bit459; six-bit tag shifts it to465.
+        if (order==Endian::little) { expected[58]=8; expected[59]=6; expected[60]=4; expected[61]=2; }
+        else { expected[58]=2; expected[59]=4; expected[60]=6; expected[61]=8; }
+        const auto result=encode_mech_setup_property(value,53,87,order,550);
+        CHECK(result.logical_bits == 550); CHECK(result.payload == expected);
+    }
+}
+TEST_CASE("Mech property mapped Template literal retains the thirty-two-bit reference") {
+    SMechSetupStruct value{}; value.template_reference=PackageExportReference{1};
+    std::vector<std::uint8_t> expected(72,0); expected[0]=53; expected[67]=8;
+    const auto result=encode_mech_setup_property(value,53,87,Endian::little,570);
+    CHECK(result.logical_bits == 570); CHECK(result.payload == expected);
+}
+TEST_CASE("Mech property budget covers both tag and entire struct") {
+    const SMechSetupStruct value{};
+    expect_code([&]{(void)encode_mech_setup_property(value,53,87,Endian::little,0);},"invalid_limit");
+    expect_code([&]{(void)encode_mech_setup_property(value,53,87,Endian::little,549);},"field_too_large");
+    const auto exact=encode_mech_setup_property(value,53,87,Endian::little,550);
+    const auto larger=encode_mech_setup_property(value,53,87,Endian::little,std::numeric_limits<std::size_t>::max());
+    CHECK(exact.payload == larger.payload); CHECK(larger.logical_bits == 550);
+    auto mapped=value; mapped.template_reference=PackageExportReference{1};
+    expect_code([&]{(void)encode_mech_setup_property(mapped,53,87,Endian::little,569);},"field_too_large");
+}
+TEST_CASE("Mech property rejects invalid cache bounds and fields") {
+    const SMechSetupStruct value{};
+    expect_code([&]{(void)encode_mech_setup_property(value,0,0,Endian::little,550);},"invalid_value");
+    expect_code([&]{(void)encode_mech_setup_property(value,87,87,Endian::little,550);},"invalid_value");
+}
+TEST_CASE("Mech property preserves the scalar codec validation") {
+    SMechSetupStruct value{};
+    expect_code([&]{(void)encode_mech_setup_property(value,53,87,static_cast<Endian>(7),550);},"invalid_value");
+    value.ability_index=64;
+    expect_code([&]{(void)encode_mech_setup_property(value,53,87,Endian::little,550);},"invalid_value");
 }

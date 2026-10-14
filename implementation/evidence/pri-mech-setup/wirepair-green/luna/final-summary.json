@@ -1,0 +1,21 @@
+{
+  "status": "FOCUSED_GREEN_PASS",
+  "scope": "Two focused wire suites only; no full-suite or runtime acceptance",
+  "build_command": "cmake --build --preset windows-msvc --config Release --parallel 1 --target hawken-mech-setup-wire-tests hawken-start-mech-rpc-tests",
+  "ctest_command": "ctest --preset windows-msvc -C Release -V -R ^(mech_setup_wire|start_mech_rpc)$",
+  "native_exit_codes": {
+    "ctest": 0,
+    "build": 0
+  },
+  "cases": 29,
+  "assertions": 3023,
+  "skips": 0,
+  "dependencies_valid": 4,
+  "input_pins_match": true,
+  "postflight": "postflight.json",
+  "raw_logs": [
+    "build.stdout-stderr.log",
+    "ctest.stdout-stderr.log"
+  ],
+  "note": "Focused codec validation passed; this does not establish full integration or runtime acceptance."
+}

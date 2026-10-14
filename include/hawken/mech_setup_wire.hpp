@@ -68,4 +68,13 @@ struct MechSetupPayload {
 // Evidence: implementation/evidence/pri-mech-setup/headless-format-followup.
 MechSetupPayload encode_mech_setup(const SMechSetupStruct& value,
     control::Endian integer_order, std::size_t max_payload_bits);
+
+// One eligible ArrayDim1 StructProperty: bounded class-cache fieldID immediately
+// followed by the ALL-MEMBERS struct, with no RPC presence, alignment or terminator.
+// Caller must establish the effective cache/bound, primary map and member eligibility;
+// these arguments never authorize a live connection. Budget includes tag and struct.
+// This does not create an actor bunch or send it. Errors follow the scalar codec.
+MechSetupPayload encode_mech_setup_property(const SMechSetupStruct& value,
+    std::uint32_t field_id, std::uint32_t field_bound,
+    control::Endian integer_order, std::size_t max_payload_bits);
 }

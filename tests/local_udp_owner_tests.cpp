@@ -20,6 +20,7 @@
 #include <limits>
 #include <mutex>
 #include <optional>
+#include <ostream>
 #include <string>
 #include <thread>
 #include <type_traits>
@@ -722,7 +723,9 @@ struct LoginAuthorityFixture {
                                    std::optional<game::ConnectionConfig> config=std::nullopt,
                                    std::optional<udp::InitialPawnPlan> pawn=std::nullopt,
                                    std::optional<udp::InitialPriPlan> pri=std::nullopt,
-                                   std::optional<udp::InitialActorLinksPlan> links=std::nullopt)
+                                   std::optional<udp::InitialActorLinksPlan> links=std::nullopt,
+                                   std::optional<udp::StartMechDispatchPlan> start_mech=std::nullopt,
+                                   udp::LocalUdpOwner::StartMechProvider mech_provider={})
         : decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
@@ -746,9 +749,11 @@ struct LoginAuthorityFixture {
                 const control::posthello::RawString& response) {
                 ++validations;
                 return decision ? decision(*this,id,response) : service->validate_login_response(id,response);
-            },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links));
+            },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links),
+                std::move(start_mech),std::move(mech_provider));
         else owner.start(std::move(authorize),{},std::move(publish),
-                            std::move(controller),std::move(pawn),std::move(pri),std::move(links));
+                            std::move(controller),std::move(pawn),std::move(pri),std::move(links),
+                std::move(start_mech),std::move(mech_provider));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -1848,4 +1853,230 @@ TEST_CASE("UDP actor links inbound openings are not outgoing ACKs and original A
     CHECK(links_output(peer,client).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().closed);
     peer.send(f.owner.port(),links_ack(client,6,links_opening_acks(openings)));
     links_literals(links_output(peer,client,2000ms));
+}
+
+namespace {
+udp::StartMechDispatchPlan public_start_mech_plan() {
+    // Synthetic effective class fields; no native ID/runtime eligibility claim.
+    return {4,8,5,8,{true,true,true,{true,true,true},true,true,true},41};
+}
+wire::mech::SMechSetupStruct public_mech_result(std::uint8_t previous) {
+    wire::mech::SMechSetupStruct result{};
+    result.b_ready_for_setup=true;
+    result.setup_id=static_cast<std::uint8_t>(previous+1);
+    return result;
+}
+Bytes start_mech_packet(session::Context& client,std::uint16_t packet_id,
+                       std::uint16_t sequence=1,std::uint16_t channel=7,
+                       std::uint32_t field=4,bool suffix=false,bool malformed=false,
+                       std::int32_t primary=256,std::int32_t holo=-1) {
+    wire::BitWriter bits;
+    bits.write_bounded(field,8);
+    const auto u32=[&](std::uint32_t value) {
+        const std::array<std::uint8_t,4> bytes{static_cast<std::uint8_t>(value),
+            static_cast<std::uint8_t>(value>>8),static_cast<std::uint8_t>(value>>16),
+            static_cast<std::uint8_t>(value>>24)};
+        bits.write_bits(bytes,32);
+    };
+    if (!malformed) {
+        bits.write_bit(true); u32(37);
+        constexpr std::string_view instance="20000000-0000-0000-0000-000000000001";
+        for (const auto c:instance) bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(c)},8);
+        bits.write_bits(std::array<std::uint8_t,1>{0},8);
+        bits.write_bit(true); u32(static_cast<std::uint32_t>(primary));
+        bits.write_bit(true); u32(static_cast<std::uint32_t>(holo));
+        if (suffix) { bits.write_bounded(4,8); bits.write_bits(std::array<std::uint8_t,1>{0x5a},8); }
+    }
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2;
+    bunch.channel=channel; bunch.sequence=sequence;
+    bunch.payload_bits=bits.bit_count(); bunch.payload=bits.payload_bytes();
+    wire::Packet packet; packet.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch); packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,256));
+}
+void start_mech_property_literal(const ControllerOutput& output) {
+    REQUIRE(output.bunches.size()==1);
+    const auto& bunch=output.bunches[0];
+    CHECK(bunch.channel==9); CHECK(bunch.sequence==103); CHECK(bunch.reliable);
+    CHECK(bunch.channel_type==2); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    CHECK_FALSE(bunch.control); CHECK(bunch.payload_bits==547);
+    // Independent absolute offsets: id5 three bits, Ready526, Setup42 at527,
+    // primary null selector535. All other synthetic scalar bits are zero.
+    Bytes expected(69,0); expected[0]=5; expected[65]=0x40; expected[66]=0x95;
+    CHECK(bunch.payload==expected);
+}
+}
+TEST_CASE("UDP start mech waits for real actor ACKs and links then sends one literal PRI property") {
+    std::atomic<int> calls{0};
+    auto plan=public_start_mech_plan();
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),plan,
+        [&](const session::SessionId& id,const wire::rpc::StartMechArguments& args,std::uint8_t previous) {
+            CHECK(id==public_id); CHECK(args.mech_instance_id=="20000000-0000-0000-0000-000000000001");
+            CHECK(args.primary_weapon==256); CHECK(args.holo_taunt_type==-1);
+            CHECK(previous==41+calls.load());
+            ++calls; return std::optional{public_mech_result(previous)};
+        });
+    plan.controller_rpc_field_id=7; plan.initial_setup_id=0; // copied immutable plan
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),start_mech_packet(client,5));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==0);
+    peer.send(f.owner.port(),links_ack(client,6,{1,3,5,7,8,openings.packet_ids[0],openings.packet_ids[2]}));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==0);
+    // Packet 1 is already ACKed control traffic, not an actor opening.
+    peer.send(f.owner.port(),links_ack(client,7,{1}));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==0);
+    peer.send(f.owner.port(),links_ack(client,8,{openings.packet_ids[1]}));
+    auto output=links_output(peer,client,2000ms,3); REQUIRE(output.bunches.size()==3);
+    CHECK(output.bunches[0].channel==7); CHECK(output.bunches[1].channel==8);
+    ControllerOutput property; property.bunches.push_back(output.bunches[2]);
+    start_mech_property_literal(property); CHECK(calls==1); CHECK(f.service->authorize_udp(public_id));
+    peer.send(f.owner.port(),start_mech_packet(client,9)); // same reliable sequence, fresh nonce
+    peer.send(f.owner.port(),links_ack(client,10,output.packet_ids));
+    CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==1);
+    peer.send(f.owner.port(),start_mech_packet(client,11,2));
+    const auto next=links_output(peer,client,2000ms,1); REQUIRE(next.bunches.size()==1);
+    CHECK(next.bunches[0].sequence==104); CHECK(next.bunches[0].channel==9);
+    Bytes next_expected(69,0); next_expected[0]=5; next_expected[65]=0xc0; next_expected[66]=0x95;
+    CHECK(next.bunches[0].payload==next_expected); CHECK(calls==2);
+}
+TEST_CASE("UDP start mech does not fabricate requests or inspect other actor fields or RPC suffixes") {
+    std::atomic<int> calls{0};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            ++calls; return std::optional{public_mech_result(previous)};
+        });
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(openings)));
+    const auto linked=links_output(peer,client,2000ms); links_literals(linked);
+    CHECK(calls==0); CHECK(links_output(peer,client).bunches.empty());
+    peer.send(f.owner.port(),start_mech_packet(client,6,1,8)); // registered Pawn, not Controller
+    peer.send(f.owner.port(),start_mech_packet(client,7,1,7,6,true)); // unknown first ID; hidden suffix ignored
+    CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==0); CHECK(f.service->authorize_udp(public_id));
+    peer.send(f.owner.port(),start_mech_packet(client,8,2,7,4,true)); // known first PREFIX only
+    start_mech_property_literal(links_output(peer,client,2000ms,1)); CHECK(calls==1);
+}
+TEST_CASE("UDP start mech provider can retire its lease without a pin deadlock or stale PRI send") {
+    std::atomic<int> calls{0}; LoginAuthorityFixture* active=nullptr;
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            ++calls; active->service.reset(); // synchronous lease retirement must complete outside Use
+            return std::optional{public_mech_result(previous)};
+        });
+    active=&f;
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(openings)));
+    links_literals(links_output(peer,client,2000ms));
+    peer.send(f.owner.port(),start_mech_packet(client,6));
+    CHECK(wait_until([&]{return calls==1 && f.owner.diagnostics().closed;}));
+    CHECK(links_output(peer,client).bunches.empty());
+}
+TEST_CASE("UDP start mech provider denial throw and authorization expiry retire without setup") {
+    for (unsigned mode=0;mode<4;++mode) {
+        CAPTURE(mode); std::atomic<int> calls{0}; LoginAuthorityFixture* active=nullptr;
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous)
+                ->std::optional<wire::mech::SMechSetupStruct> {
+                ++calls;
+                if (mode==0) return std::nullopt;
+                if (mode==1) throw std::runtime_error("synthetic provider fault");
+                if (mode==2) active->verifier.active=false;
+                else { active->monotonic=131; active->udp_now=131; }
+                return public_mech_result(previous);
+            });
+        active=&f; const auto login=f.login(); Peer peer;
+        session::Context client(session::Role::client,public_id,public_key);
+        const auto openings=links_openings(f,login,peer,client);
+        peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(openings)));
+        links_literals(links_output(peer,client,2000ms));
+        peer.send(f.owner.port(),start_mech_packet(client,6));
+        CHECK(wait_until([&]{return calls==1 && f.owner.diagnostics().closed;}));
+        CHECK(links_output(peer,client).bunches.empty()); CHECK_FALSE(f.service->authorize_udp(public_id));
+    }
+}
+TEST_CASE("UDP start mech malformed known prefix and conflicting pending request fail closed") {
+    for (const bool malformed:{false,true}) {
+        std::atomic<int> calls{0};
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+                ++calls; return std::optional{public_mech_result(previous)};
+            });
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        (void)links_openings(f,login,peer,client);
+        peer.send(f.owner.port(),start_mech_packet(client,5,1,7,4,false,malformed));
+        if (!malformed) peer.send(f.owner.port(),start_mech_packet(client,6,2,7,4,false,false,256,7));
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;})); CHECK(calls==0);
+        CHECK(links_output(peer,client).bunches.empty());
+    }
+}
+TEST_CASE("UDP start mech schema activation fails before start commit and remains retryable") {
+    for (unsigned bad=0;bad<16;++bad) {
+        auto plan=public_start_mech_plan(); std::optional<udp::InitialActorLinksPlan> links=public_links_plan();
+        auto provider=[](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            return std::optional{public_mech_result(previous)};
+        };
+        udp::LocalUdpOwner::StartMechProvider callback=provider;
+        switch(bad) {
+        case 0: plan.eligibility.primary_package_map=false; break;
+        case 1: plan.eligibility.controller_cache_correct=false; break;
+        case 2: plan.eligibility.rpc_eligible=false; break;
+        case 3: plan.eligibility.parameters_eligible[0]=false; break;
+        case 4: plan.eligibility.parameters_eligible[1]=false; break;
+        case 5: plan.eligibility.parameters_eligible[2]=false; break;
+        case 6: plan.eligibility.pri_cache_correct=false; break;
+        case 7: plan.eligibility.pri_property_eligible=false; break;
+        case 8: plan.eligibility.all_members_eligible=false; break;
+        case 9: plan.controller_exclusive_bound=0; break;
+        case 10: plan.controller_rpc_field_id=8; break;
+        case 11: plan.pri_mech_setup_field_id=8; break;
+        case 12: callback={}; break;
+        case 13: links.reset(); break;
+        case 14: plan.pri_exclusive_bound=0; break;
+        case 15: plan.controller_exclusive_bound=9; break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        auto validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        auto publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional{public_world()};};
+        CAPTURE(bad);
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,publisher,
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),links,plan,callback);},
+            udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if (!owner.running()) {
+            CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;},validator,publisher,
+                public_controller_plan(),public_pawn_plan(),public_pri_plan(),public_links_plan(),
+                public_start_mech_plan(),provider));
+            CHECK(owner.running());
+        }
+        owner.stop();
+    }
+}
+
+TEST_CASE("UDP start mech shutdown joins its callback before releasing captured lifetime") {
+    Gate gate; std::atomic<int> calls{0};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            ++calls; gate.enter(); return std::optional{public_mech_result(previous)};
+        });
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(openings)));
+    links_literals(links_output(peer,client,2000ms));
+    peer.send(f.owner.port(),start_mech_packet(client,6));
+    const bool entered=gate.wait_entered(); CHECK(entered);
+    if (!entered) { gate.release(); return; }
+    std::atomic<bool> stopped{false};
+    std::thread shutdown([&]{f.owner.stop(); stopped=true;});
+    CHECK(wait_until([&]{return !f.owner.running();})); CHECK_FALSE(stopped.load());
+    gate.release(); shutdown.join();
+    CHECK(stopped.load()); CHECK(calls==1); CHECK(f.owner.diagnostics().closed);
+    CHECK(links_output(peer,client).bunches.empty());
 }

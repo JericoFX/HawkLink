@@ -1,0 +1,30 @@
+--- a/tests/local_udp_owner_tests.cpp
++++ b/tests/local_udp_owner_tests.cpp
+@@ -1897,7 +1897,7 @@
+ void start_mech_property_literal(const ControllerOutput& output) {
+     REQUIRE(output.bunches.size()==1);
+     const auto& bunch=output.bunches[0];
+-    CHECK(bunch.channel==9); CHECK(bunch.sequence==93); CHECK(bunch.reliable);
++    CHECK(bunch.channel==9); CHECK(bunch.sequence==103); CHECK(bunch.reliable);
+     CHECK(bunch.channel_type==2); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+     CHECK_FALSE(bunch.control); CHECK(bunch.payload_bits==547);
+     // Independent absolute offsets: id5 three bits, Ready526, Setup42 at527,
+@@ -1924,7 +1924,8 @@
+     CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==0);
+     peer.send(f.owner.port(),links_ack(client,6,{1,3,5,7,8,openings.packet_ids[0],openings.packet_ids[2]}));
+     CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==0);
+-    peer.send(f.owner.port(),links_ack(client,7,{4000}));
++    // Packet 1 is already ACKed control traffic, not an actor opening.
++    peer.send(f.owner.port(),links_ack(client,7,{1}));
+     CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==0);
+     peer.send(f.owner.port(),links_ack(client,8,{openings.packet_ids[1]}));
+     auto output=links_output(peer,client,2000ms,3); REQUIRE(output.bunches.size()==3);
+@@ -1936,7 +1937,7 @@
+     CHECK(links_output(peer,client).bunches.empty()); CHECK(calls==1);
+     peer.send(f.owner.port(),start_mech_packet(client,11,2));
+     const auto next=links_output(peer,client,2000ms,1); REQUIRE(next.bunches.size()==1);
+-    CHECK(next.bunches[0].sequence==94); CHECK(next.bunches[0].channel==9);
++    CHECK(next.bunches[0].sequence==104); CHECK(next.bunches[0].channel==9);
+     Bytes next_expected(69,0); next_expected[0]=5; next_expected[65]=0xc0; next_expected[66]=0x95;
+     CHECK(next.bunches[0].payload==next_expected); CHECK(calls==2);
+ }

@@ -8,6 +8,7 @@
 #include "hawken/udp_trial_runtime.hpp"
 #include "hawken/local_tcp_probe.hpp"
 #include "hawken/wreckage_trial.hpp"
+#include "hawken/sha256.hpp"
 #include "hawken/master_directory.hpp"
 #include <cpp-httplib/httplib.h>
 #include <atomic>
@@ -537,8 +538,25 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
         // Declared after Auth/Inventory: HTTP drains before UDP stops, and UDP
         // joins its callbacks before Assignment/Auth/SQL owners are destroyed.
         std::unique_ptr<hawken::udp::UdpTrialRuntime> udp_trial;
-        if (options.udp_trial)
-            udp_trial = std::make_unique<hawken::udp::UdpTrialRuntime>(auth, *options.udp_trial);
+        if (options.udp_trial) {
+            auto trial_config = *options.udp_trial;
+            if (!options.udp_world_root.empty() && policy && inventory) {
+                // Conditional original Link0/primary-map, all-members trial schema.
+                // RPC export17404 -> field253/bound294; PRI MechSetup ->53/87.
+                // See server-set-start-mech-20261014/contract-v3.json. This
+                // activates an experiment, not native cache/possession proof.
+                trial_config.start_mech = hawken::udp::StartMechDispatchPlan{
+                    253,294,53,87,{true,true,true,{true,true,true},true,true,true},0};
+                trial_config.start_mech_source = hawken::udp::StartMechSource{
+                    policy->ids,[service=inventory.get()](const hawken::store::AccountRef& account,
+                                                        std::string_view instance) {
+                        return service->effective_owned_starter_mech(account,instance);
+                    }};
+                std::osyncstream(diagnostics.stream())
+                    << "udp_start_mech schema=conditional_primary_trial gameplay=0\n" << std::flush;
+            }
+            udp_trial = std::make_unique<hawken::udp::UdpTrialRuntime>(auth, trial_config);
+        }
         const int result = serve_http(options, diagnostics, &auth, &sync, inventory.get(), &menu,
             udp_trial.get());
         if (udp_trial) {
@@ -583,6 +601,13 @@ int main(int argc, char* argv[]) {
         // Read-only pinned asset check before Steam, SQL, diagnostics or sockets.
         if (!options.udp_world_root.empty()) {
             hawken::game::configure_wreckage_trial(*options.udp_trial,options.udp_world_root);
+            // The conditional native field schema is version-specific. Verify
+            // the original executable before Steam, SQL or socket startup.
+            if (!options.starter_profile.empty()
+                && hawken::sha256_file(options.udp_world_root/"Binaries"/"Win64"/
+                    "HawkenGame-Win64-Shipping.exe")
+                    != "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2")
+                throw std::runtime_error("invalid native trial schema");
         }
     } catch (...) {
         std::cerr << "Invalid Wreckage trial assets.\n";

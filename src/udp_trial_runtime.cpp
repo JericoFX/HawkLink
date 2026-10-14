@@ -92,6 +92,8 @@ struct UdpTrialRuntime::Impl {
     const std::optional<InitialPawnPlan> pawn;
     const std::optional<InitialPriPlan> pri;
     const std::optional<InitialActorLinksPlan> links;
+    const std::optional<StartMechDispatchPlan> start_mech;
+    const std::optional<StartMechSource> start_mech_source;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -102,7 +104,7 @@ struct UdpTrialRuntime::Impl {
     }
     Impl(auth::AuthService& auth, const UdpTrialConfig& config)
         : publication(config.publication), controller(config.controller), pawn(config.pawn), pri(config.pri),
-          links(config.links) {
+          links(config.links), start_mech(config.start_mech), start_mech_source(config.start_mech_source) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -122,11 +124,32 @@ struct UdpTrialRuntime::Impl {
                     return publication;
                 };
             }
+            LocalUdpOwner::StartMechProvider materialize;
+            if (start_mech) {
+                materialize=[this](const session::SessionId& id,const wire::rpc::StartMechArguments& request,
+                                  std::uint8_t previous_setup_id)
+                    ->std::optional<wire::mech::SMechSetupStruct> {
+                    // Owner invokes this only for a decoded request, outside Use.
+                    // Reading an existing owned snapshot never seeds/grants items.
+                    const auto account=service->account_for_udp(id);
+                    if (!account) return std::nullopt;
+                    const auto snapshot=start_mech_source->read_effective(*account,request.mech_instance_id);
+                    if (snapshot.items[0].instance_id!=request.mech_instance_id) return std::nullopt;
+                    // Original handler narrows BOTH signed arguments to BYTE first.
+                    const auto primary=static_cast<std::uint8_t>(static_cast<std::uint32_t>(request.primary_weapon));
+                    const auto holo=static_cast<std::uint8_t>(static_cast<std::uint32_t>(request.holo_taunt_type));
+                    auto value=inventory::materialize_starter_mech(snapshot,start_mech_source->expected_catalogue,
+                        {primary,holo,previous_setup_id,std::nullopt,true});
+                    const auto current=service->account_for_udp(id);
+                    if (!current || *current!=*account) return std::nullopt;
+                    return value;
+                };
+            }
             // Start last: all callback targets are complete before the worker.
             owner->start([this](const session::SessionId& id) { return service->authorize_udp(id); },
                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
                     return service->validate_login_response(id, response);
-                }, std::move(publish), controller, pawn, pri, links);
+                }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize));
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();
@@ -141,6 +164,11 @@ UdpTrialRuntime::UdpTrialRuntime(auth::AuthService& auth, const UdpTrialConfig& 
     if (!validate_trial_config(config))
         throw std::invalid_argument("Invalid UDP trial configuration.");
     if (config.links && (!config.publication || !config.controller || !config.pri || !config.pawn))
+        startup_failed();
+    if (static_cast<bool>(config.start_mech)!=static_cast<bool>(config.start_mech_source))
+        startup_failed();
+    if (config.start_mech && (!config.publication || !config.controller || !config.pri ||
+        !config.pawn || !config.links || !config.start_mech_source->read_effective))
         startup_failed();
     try { impl_ = std::make_unique<Impl>(auth, config); }
     catch (...) { startup_failed(); }

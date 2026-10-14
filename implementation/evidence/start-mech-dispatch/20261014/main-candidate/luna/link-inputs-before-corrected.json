@@ -1,0 +1,366 @@
+{
+  "capturedUtc": "2026-10-14T14:56:35.5897457Z",
+  "explicitInputLibraryCount": 47,
+  "resolvedInputLibraryCount": 47,
+  "missingInputLibraries": [],
+  "excludedOutputToken": "/implib:hawken-server.lib",
+  "libraries": [
+    {
+      "name": "hawken_server.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_server.lib",
+      "sha256": "ef1baaec4b93326b856ae1bf4bac8cf2c8a569675388d346c28f84cb2870f90c",
+      "length": 4985194,
+      "lastWriteUtc": "2026-10-14T14:02:35.4133593Z"
+    },
+    {
+      "name": "hawken_steam_auth.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_steam_auth.lib",
+      "sha256": "4cc66c3d49041d6f12dcbb52467c433ee56a85b38fb3e521bf44cafa8cb29cc4",
+      "length": 250474,
+      "lastWriteUtc": "2026-10-14T14:46:38.4182758Z"
+    },
+    {
+      "name": "hawken_udp_trial_runtime.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_udp_trial_runtime.lib",
+      "sha256": "a208b44f960329e8e557f442a7e279c6da154e27f325a035339bf03050ad444b",
+      "length": 776180,
+      "lastWriteUtc": "2026-10-14T14:29:56.3611792Z"
+    },
+    {
+      "name": "hawken_wreckage_trial.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_wreckage_trial.lib",
+      "sha256": "425688d2cbe81af5e7814574a2441bec01b464e9f34d187c16021e263264fd29",
+      "length": 723534,
+      "lastWriteUtc": "2026-10-14T14:46:38.5317331Z"
+    },
+    {
+      "name": "hawken_local_tcp_probe.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_local_tcp_probe.lib",
+      "sha256": "63fafb23d8fe1620b362c821fbde4a4c1afd1c2e9bec4abc027897eefb0c55a4",
+      "length": 76552,
+      "lastWriteUtc": "2026-10-14T14:46:38.4737312Z"
+    },
+    {
+      "name": "hawken_sync_service.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_sync_service.lib",
+      "sha256": "5b95ea2ad2c4cdadf38ca64a34e4ac670672dc44ebe7e4818e1fb0416e25f11e",
+      "length": 2226508,
+      "lastWriteUtc": "2026-10-14T14:02:29.3989631Z"
+    },
+    {
+      "name": "hawken_inventory_service.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_inventory_service.lib",
+      "sha256": "b7b49ad47833d130e7b2480acb55b594a0f31bc3e6bc8dc1f34c52cf8453bc5b",
+      "length": 5699344,
+      "lastWriteUtc": "2026-10-14T14:02:29.5363236Z"
+    },
+    {
+      "name": "hawken_starter_inventory.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_starter_inventory.lib",
+      "sha256": "2b23464654698a0523ef842ea84d4a124ca5551b9ae72ee699e8faade3d799bb",
+      "length": 3580978,
+      "lastWriteUtc": "2026-10-14T14:02:18.8802019Z"
+    },
+    {
+      "name": "hawken_menu_sync.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_menu_sync.lib",
+      "sha256": "172fe6e795dff1babb450e2c4a85166d1f61907a6e6a4f755594d09340bc9de7",
+      "length": 4488258,
+      "lastWriteUtc": "2026-10-14T14:02:29.4665842Z"
+    },
+    {
+      "name": "hawken_master.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_master.lib",
+      "sha256": "191eece47c212eb1402b289e4adfb0f8c25a69e07db2aa446b40949cf53ae4d5",
+      "length": 3808408,
+      "lastWriteUtc": "2026-10-14T14:02:29.6053570Z"
+    },
+    {
+      "name": "hawken_local_udp.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_local_udp.lib",
+      "sha256": "24ec41e02aceda701c87106b2aba9491a7efe904ed1652b48a25ede555179d29",
+      "length": 818046,
+      "lastWriteUtc": "2026-10-14T14:29:53.5343134Z"
+    },
+    {
+      "name": "hawken_session_assignment.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_session_assignment.lib",
+      "sha256": "0ed85b90d8ff09c967184eb9242a198d4732f0aee283967ff96c5f721aecde15",
+      "length": 4939680,
+      "lastWriteUtc": "2026-10-14T04:27:17.5329406Z"
+    },
+    {
+      "name": "hawken_auth_service.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_auth_service.lib",
+      "sha256": "6eb3200ccb49c230f3c7c88356a7d7628ac82b86bdc9a6ca303e98339319fe08",
+      "length": 4341202,
+      "lastWriteUtc": "2026-10-14T04:27:13.8068511Z"
+    },
+    {
+      "name": "hawken_store.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_store.lib",
+      "sha256": "ff500b56d04c07d9be7f0c38ff796a1c4712981cd8d9e47731b174cbc0bd1531",
+      "length": 1733726,
+      "lastWriteUtc": "2026-10-14T04:27:07.2933344Z"
+    },
+    {
+      "name": "hawken_sqlite.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_sqlite.lib",
+      "sha256": "08f477b66f6d8902be97729eb86a3789adc33b7e21b35a648d3f5b114951c1d7",
+      "length": 3245904,
+      "lastWriteUtc": "2026-10-14T04:26:59.0445922Z"
+    },
+    {
+      "name": "hawken_initial_controller.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_initial_controller.lib",
+      "sha256": "f55cd3c359224131e85203fd80351a8e56963ddd5dcb89027b823076b65be301",
+      "length": 68858,
+      "lastWriteUtc": "2026-10-14T04:27:17.4093688Z"
+    },
+    {
+      "name": "hawken_initial_pawn.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_initial_pawn.lib",
+      "sha256": "91f17cfb7bb3b65eb2575fe587ac5bd5039a7b7bcb4ba626f305744a6a2d8275",
+      "length": 67440,
+      "lastWriteUtc": "2026-10-14T04:27:17.4473710Z"
+    },
+    {
+      "name": "hawken_actor_transform.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_actor_transform.lib",
+      "sha256": "81f8ae2f44dad21ed9713ca3c62e3d39cc350d7ac541ab83e03c9f0c892b7082",
+      "length": 79118,
+      "lastWriteUtc": "2026-10-14T04:27:10.8436654Z"
+    },
+    {
+      "name": "hawken_object_property.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_object_property.lib",
+      "sha256": "c1214ddbfc7419a49e1bcbbb2e66dad70c83104cd856741e5932b5d3ee7b965f",
+      "length": 66652,
+      "lastWriteUtc": "2026-10-14T04:27:17.3698902Z"
+    },
+    {
+      "name": "hawken_start_mech_rpc.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_start_mech_rpc.lib",
+      "sha256": "385400650d0b8f3e2eb9f57669922298ef419dd373c79d68e57aa6fbd0563df2",
+      "length": 85816,
+      "lastWriteUtc": "2026-10-14T04:21:03.5963992Z"
+    },
+    {
+      "name": "hawken_starter_mech_setup.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_starter_mech_setup.lib",
+      "sha256": "7c2762e1c2039f427ccd8be0f462219942c32cba2f8b4756bc045ed8d531c749",
+      "length": 133812,
+      "lastWriteUtc": "2026-10-14T04:27:25.2801662Z"
+    },
+    {
+      "name": "hawken_starter_catalogue.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_starter_catalogue.lib",
+      "sha256": "a829158e9f817e45f914dd9b977cc6a5312f1bc453735534634ca2a9976535f5",
+      "length": 4105158,
+      "lastWriteUtc": "2026-10-14T03:02:22.7827946Z"
+    },
+    {
+      "name": "hawken_mech_setup.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_mech_setup.lib",
+      "sha256": "84b0c99db7343506ff980c4dda35cc08d4a4ef7b930f5430f810c0fd70a0d9b1",
+      "length": 88534,
+      "lastWriteUtc": "2026-10-14T04:21:03.5577789Z"
+    },
+    {
+      "name": "hawken_game_connection.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_game_connection.lib",
+      "sha256": "928a3f9ba1400256ea3c629ef13abaad22e3099c1e35149836a81dcb263798c6",
+      "length": 861670,
+      "lastWriteUtc": "2026-10-14T04:27:17.4875296Z"
+    },
+    {
+      "name": "hawken_session.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_session.lib",
+      "sha256": "8a0a18f1653b407dd05e0f4d81f36e5412dd0d1355542bccb69fb2a84088ea2d",
+      "length": 135496,
+      "lastWriteUtc": "2026-10-14T04:27:10.7118645Z"
+    },
+    {
+      "name": "hawken_reliable_control.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_reliable_control.lib",
+      "sha256": "de726951e6f2a626c8192f447e6d67b96fd17c71e81bc1e1580d5355d750d866",
+      "length": 728508,
+      "lastWriteUtc": "2026-10-14T04:27:11.4803062Z"
+    },
+    {
+      "name": "hawken_packet.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_packet.lib",
+      "sha256": "45886227c03d76542049242ad13838fee79c034ac7f9cf4618038f518344b611",
+      "length": 75132,
+      "lastWriteUtc": "2026-10-14T04:27:05.2223316Z"
+    },
+    {
+      "name": "hawken_server_login_handshake.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_server_login_handshake.lib",
+      "sha256": "004f196a51460fab285975c185d137a961d60e13752d2a60a7b0d811614fe32a",
+      "length": 202882,
+      "lastWriteUtc": "2026-10-14T04:27:10.8011548Z"
+    },
+    {
+      "name": "hawken_control_handshake.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_control_handshake.lib",
+      "sha256": "8e117d43e4d04a633cdd680fef3215ef373cab3e935a5dfb432aae9c2b9288cf",
+      "length": 66310,
+      "lastWriteUtc": "2026-10-14T04:27:03.6673001Z"
+    },
+    {
+      "name": "hawken_package_publication.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_package_publication.lib",
+      "sha256": "ddac994e313a7b51db98fe7e23a1c8fb37118a9827d99939cad1db621f027c93",
+      "length": 242106,
+      "lastWriteUtc": "2026-10-14T04:27:10.7543610Z"
+    },
+    {
+      "name": "hawken_posthello_control.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_posthello_control.lib",
+      "sha256": "2a47df5019750135375b15cb4bca9864cc9cb773d8740cd9b9166f0f674c7592",
+      "length": 615048,
+      "lastWriteUtc": "2026-10-14T04:27:03.7179216Z"
+    },
+    {
+      "name": "hawken_control.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_control.lib",
+      "sha256": "b076bb6f7bf23e174d49e08e7b6f2c145533b4eac80f91d07bb8d34c92c9d3e9",
+      "length": 174620,
+      "lastWriteUtc": "2026-10-14T03:53:43.0486858Z"
+    },
+    {
+      "name": "hawken_package_map_ranges.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_package_map_ranges.lib",
+      "sha256": "86e837dbbef3d32c32c4ac141b314574b95292575086e40bc954c9596485cf07",
+      "length": 131958,
+      "lastWriteUtc": "2026-10-14T04:27:10.8852565Z"
+    },
+    {
+      "name": "hawken_object_reference.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_object_reference.lib",
+      "sha256": "ed1032b52b4d8ea6f9540e97c89274953133d1550c6f6afeb59c0cc1a607f0d6",
+      "length": 76532,
+      "lastWriteUtc": "2026-10-14T03:02:19.0486254Z"
+    },
+    {
+      "name": "hawken_foundation.lib",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken_foundation.lib",
+      "sha256": "a72b89690f93aec680415653dbd71946cffe16f8e7bfc00a054e6b6c400db7fc",
+      "length": 12457760,
+      "lastWriteUtc": "2026-10-14T03:02:18.4666574Z"
+    },
+    {
+      "name": "bcrypt.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\bcrypt.lib",
+      "sha256": "9fe31df255d17b0339391ff80a71bf2c5d442cc301bd2fe6eeea00b626f10785",
+      "length": 14576,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    },
+    {
+      "name": "ws2_32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\ws2_32.lib",
+      "sha256": "a8a552a37d8935e272ff470e2620f55e05433b989707bd05e9911d2482f44134",
+      "length": 260560,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    },
+    {
+      "name": "kernel32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\kernel32.lib",
+      "sha256": "341c7d56125a03b458e4d5093e4c79b33123ccfdfd610fe236937b8e6f3134bb",
+      "length": 311908,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    },
+    {
+      "name": "user32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\user32.lib",
+      "sha256": "f45759349ad08b848bdd4eee39cd9b428b2a7ae63a09889c09a197fe7b01421d",
+      "length": 167864,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    },
+    {
+      "name": "gdi32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\gdi32.lib",
+      "sha256": "f530829c5e91cacd906c9e7363ca873bb8eaeb50114cc6a74a8a04c49bb4ec40",
+      "length": 138622,
+      "lastWriteUtc": "2026-01-27T09:18:56.0000000Z"
+    },
+    {
+      "name": "winspool.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\winspool.lib",
+      "sha256": "e39fccaf3a598e83a03695e2eee768d79ac8228a1bb67ad472ca6c10cc7a3a69",
+      "length": 55892,
+      "lastWriteUtc": "2026-01-27T09:18:56.0000000Z"
+    },
+    {
+      "name": "shell32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\shell32.lib",
+      "sha256": "2a22142874964268432783a85cef5e3f5c18ed050ab77e637bb6bab30bb73ab6",
+      "length": 271918,
+      "lastWriteUtc": "2026-01-27T09:18:56.0000000Z"
+    },
+    {
+      "name": "ole32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\ole32.lib",
+      "sha256": "f7b6d1e4a2f2a16c6a78ed821c8aa7f0b488112bb4da778285086e4588ca197a",
+      "length": 118864,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    },
+    {
+      "name": "oleaut32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\oleaut32.lib",
+      "sha256": "ccb86049288e4816e34b572f0d63a6b2c40d91777b092bb77ae639aa8e887ae5",
+      "length": 82126,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    },
+    {
+      "name": "uuid.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\uuid.lib",
+      "sha256": "d077ffb106503e057428dc7bb4c5daac019c269ffc714edb18ca028723cc840a",
+      "length": 8936424,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    },
+    {
+      "name": "comdlg32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\comdlg32.lib",
+      "sha256": "cf352af0a3563907cefd36121963651fe4cc57260ebf6cf1b1e4cfc7758ef922",
+      "length": 5526,
+      "lastWriteUtc": "2026-01-27T09:18:56.0000000Z"
+    },
+    {
+      "name": "advapi32.lib",
+      "path": "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\x64\\advapi32.lib",
+      "sha256": "a0ea53377e6de11c5fdc07e72af11d22d8fa613cecc6ccb1b6de43490392eadc",
+      "length": 178306,
+      "lastWriteUtc": "2026-01-27T09:18:50.0000000Z"
+    }
+  ],
+  "mainObject": {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\CMakeFiles\\hawken-server.dir\\src\\server_main.cpp.obj",
+    "sha256": "b302f62a473c45eacb8e344e0ad4e9240597ac01d66c972c41864cf902d495ed",
+    "length": 9352014
+  },
+  "stagedCommandTransform": "C:\\WINDOWS\\system32\\cmd.exe /C \"cd . && \"C:\\Program Files\\CMake\\bin\\cmake.exe\" -E vs_link_exe --msvc-ver=1944 --intdir=F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\int --rc=\"C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\rc.exe\" --mt=\"C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\mt.exe\" --manifests  -- \"C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\link.exe\" /nologo CMakeFiles\\hawken-server.dir\\src\\server_main.cpp.obj  /out:F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\hawken-server.exe /implib:F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\hawken-server.lib /pdb:F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\hawken-server.pdb /version:0.0 /subsystem:console  hawken_server.lib  hawken_steam_auth.lib  hawken_udp_trial_runtime.lib  hawken_wreckage_trial.lib  hawken_local_tcp_probe.lib  hawken_sync_service.lib  hawken_inventory_service.lib  hawken_starter_inventory.lib  hawken_menu_sync.lib  hawken_master.lib  hawken_local_udp.lib  hawken_session_assignment.lib  hawken_auth_service.lib  hawken_store.lib  hawken_sqlite.lib  hawken_initial_controller.lib  hawken_initial_pawn.lib  hawken_actor_transform.lib  hawken_object_property.lib  hawken_start_mech_rpc.lib  hawken_starter_mech_setup.lib  hawken_starter_catalogue.lib  hawken_mech_setup.lib  hawken_game_connection.lib  hawken_session.lib  hawken_reliable_control.lib  hawken_packet.lib  hawken_server_login_handshake.lib  hawken_control_handshake.lib  hawken_package_publication.lib  hawken_posthello_control.lib  hawken_control.lib  hawken_package_map_ranges.lib  hawken_object_reference.lib  hawken_foundation.lib  bcrypt.lib  ws2_32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd .\"",
+  "outputSwitches": [
+    {
+      "from": "--intdir=CMakeFiles\\hawken-server.dir",
+      "to": "--intdir=F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\int",
+      "occurrences": 1
+    },
+    {
+      "from": "/out:hawken-server.exe",
+      "to": "/out:F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\hawken-server.exe",
+      "occurrences": 1
+    },
+    {
+      "from": "/implib:hawken-server.lib",
+      "to": "/implib:F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\hawken-server.lib",
+      "occurrences": 1
+    },
+    {
+      "from": "/pdb:hawken-server.pdb",
+      "to": "/pdb:F:\\HawkenServer\\implementation\\evidence\\start-mech-dispatch\\20261014\\main-candidate\\luna\\staged\\hawken-server.pdb",
+      "occurrences": 1
+    }
+  ]
+}

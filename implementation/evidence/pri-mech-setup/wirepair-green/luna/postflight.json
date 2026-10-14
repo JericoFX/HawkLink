@@ -1,0 +1,256 @@
+{
+  "timestamp": "2026-10-14T04:22:14.4908469Z",
+  "freeze_hashes": {
+    "cmake": "d9ec64eb5bf0e73a13f06c5423625973c261dad8172290a0c0e2e2402ad9aa7b",
+    "rpc": "113663c2c9a7ef9e1ebefa7b3eff960f65cdca3bf0ff64a6613c0078130a7c81",
+    "property": "43a389decd44d77867a8aea54b9d7f9ecc2a2dd66fd0611cec1781fab2227878"
+  },
+  "pins": [
+    {
+      "group": "property_input",
+      "path": "include/hawken/mech_setup_wire.hpp",
+      "expected": "df50dc4543cd7812f7d3dae10de6bcc3ee6cec432372f00c581390c418e6a302",
+      "actual": "df50dc4543cd7812f7d3dae10de6bcc3ee6cec432372f00c581390c418e6a302",
+      "match": true
+    },
+    {
+      "group": "property_input",
+      "path": "src/mech_setup_wire.cpp",
+      "expected": "ed4e2dff24bc52d704bd813574499dd143a628287296ddc97f0710604ec73949",
+      "actual": "ed4e2dff24bc52d704bd813574499dd143a628287296ddc97f0710604ec73949",
+      "match": true
+    },
+    {
+      "group": "property_input",
+      "path": "tests/mech_setup_wire_tests.cpp",
+      "expected": "533ce1806014b8ce14b615842687211647c3e009c8f8592d307655fb01dc55c0",
+      "actual": "533ce1806014b8ce14b615842687211647c3e009c8f8592d307655fb01dc55c0",
+      "match": true
+    },
+    {
+      "group": "property_input",
+      "path": "CMakeLists.txt",
+      "expected": "d9ec64eb5bf0e73a13f06c5423625973c261dad8172290a0c0e2e2402ad9aa7b",
+      "actual": "d9ec64eb5bf0e73a13f06c5423625973c261dad8172290a0c0e2e2402ad9aa7b",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\include\\hawken\\start_mech_rpc_wire.hpp",
+      "expected": "262aed10c2686c6292113dc4c2f4a394cb357aa14fe10122bd69b5537c28f6d2",
+      "actual": "262aed10c2686c6292113dc4c2f4a394cb357aa14fe10122bd69b5537c28f6d2",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\src\\start_mech_rpc_wire.cpp",
+      "expected": "90b58c9895d745688f3f9e8de9b8f6869160778c4770f5fdc72f3d1ce2009bef",
+      "actual": "90b58c9895d745688f3f9e8de9b8f6869160778c4770f5fdc72f3d1ce2009bef",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\tests\\start_mech_rpc_wire_tests.cpp",
+      "expected": "7ea5256a75ea5295b1a4b5c3cb9bc2c05677e0b4c2c7918e3319316df003b248",
+      "actual": "7ea5256a75ea5295b1a4b5c3cb9bc2c05677e0b4c2c7918e3319316df003b248",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\include\\hawken\\game_wire.hpp",
+      "expected": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2",
+      "actual": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\src\\game_wire.cpp",
+      "expected": "f5a919ed338583db0e3243142fa7491fb67d6c28d20870275b4d442d98309d6a",
+      "actual": "f5a919ed338583db0e3243142fa7491fb67d6c28d20870275b4d442d98309d6a",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\include\\hawken\\control_wire.hpp",
+      "expected": "b1d2b2baea96e3a9e4bbbd68029dc1f3a36398aa92469f8263b0284300637fe7",
+      "actual": "b1d2b2baea96e3a9e4bbbd68029dc1f3a36398aa92469f8263b0284300637fe7",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\CMakeLists.txt",
+      "expected": "d9ec64eb5bf0e73a13f06c5423625973c261dad8172290a0c0e2e2402ad9aa7b",
+      "actual": "d9ec64eb5bf0e73a13f06c5423625973c261dad8172290a0c0e2e2402ad9aa7b",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\contract-v3.json",
+      "expected": "a59959fca4fd4158d07c588f7b8e5879845696c02c90800849bcdd9d10894208",
+      "actual": "a59959fca4fd4158d07c588f7b8e5879845696c02c90800849bcdd9d10894208",
+      "match": true
+    },
+    {
+      "group": "rpc_input",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\freeze-v3.json",
+      "expected": "9f6c0228ffa3e1c5b467a90a75be7aee6e26421b65c96d894728c3223e810050",
+      "actual": "9f6c0228ffa3e1c5b467a90a75be7aee6e26421b65c96d894728c3223e810050",
+      "match": true
+    },
+    {
+      "group": "rpc_artifact",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\codec-green\\source.diff",
+      "expected": "862cff48ce4bfa7c369cbeed5133a4a0019ed6d1a5a5d35d20d83bcfbaec53c8",
+      "actual": "862cff48ce4bfa7c369cbeed5133a4a0019ed6d1a5a5d35d20d83bcfbaec53c8",
+      "match": true
+    },
+    {
+      "group": "rpc_artifact",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\codec-green\\comparison.json",
+      "expected": "5fe2073dce1c88756f793fa704143aaa4445282e5ee2e2e79e7289c7d546bc72",
+      "actual": "5fe2073dce1c88756f793fa704143aaa4445282e5ee2e2e79e7289c7d546bc72",
+      "match": true
+    },
+    {
+      "group": "rpc_artifact",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\codec-green\\before.json",
+      "expected": "8bd3c1b57ba66881ea6bcd77d9cff2fdae0891e096ba515781f7c598094beb36",
+      "actual": "8bd3c1b57ba66881ea6bcd77d9cff2fdae0891e096ba515781f7c598094beb36",
+      "match": true
+    }
+  ],
+  "all_pins_match": true,
+  "processes": [],
+  "memory": {
+    "free_bytes": 13574643712,
+    "total_bytes": 34265743360
+  },
+  "artifacts": [
+    {
+      "path": "build/windows-msvc/hawken-mech-setup-wire-tests.exe",
+      "sha256": "8836b748894ad62a13d11dba620ca75789e06ef4c73c7be590a91fd512e7ea15",
+      "bytes": 478208
+    },
+    {
+      "path": "build/windows-msvc/hawken-start-mech-rpc-tests.exe",
+      "sha256": "a8bfd75fad5269540489079b4dfa1256d5d2d6ea0bf4552245c8111fb0f4430a",
+      "bytes": 485376
+    },
+    {
+      "path": "build/windows-msvc/hawken_mech_setup.lib",
+      "sha256": "84b0c99db7343506ff980c4dda35cc08d4a4ef7b930f5430f810c0fd70a0d9b1",
+      "bytes": 88534
+    },
+    {
+      "path": "build/windows-msvc/hawken_start_mech_rpc.lib",
+      "sha256": "385400650d0b8f3e2eb9f57669922298ef419dd373c79d68e57aa6fbd0563df2",
+      "bytes": 85816
+    }
+  ],
+  "evidence_files": [
+    {
+      "path": "build.stdout-stderr.log",
+      "sha256": "3a52bae81365b19ab6f0d15c4acbe7521a3c51edc3f8aae8ce1c8ebba2b6536a",
+      "bytes": 425
+    },
+    {
+      "path": "ctest.stdout-stderr.log",
+      "sha256": "5524ce188b80eaec567134c47b1ca085ff155b7e750e3595cc83ea2cc748fa03",
+      "bytes": 1702
+    },
+    {
+      "path": "ninja-deps.log",
+      "sha256": "0c5ba68173227230b8f80c7f8e5ddfeed9188020657cfcada87a3273716fd32a",
+      "bytes": 1199
+    },
+    {
+      "path": "build.exit.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "ctest.exit.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "wrapper.exit.txt",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "bytes": 1
+    },
+    {
+      "path": "ninja-deps.exit.txt",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "bytes": 1
+    }
+  ],
+  "exit_codes": {
+    "build": 0,
+    "wrapper": 0,
+    "ninja_deps": 0,
+    "ctest": 0
+  },
+  "test_counts": {
+    "failed_suites": 0,
+    "skipped_suites": 0,
+    "start_mech_rpc": {
+      "assertions": 2958,
+      "cases": 10
+    },
+    "mech_setup_wire": {
+      "assertions": 65,
+      "cases": 19
+    },
+    "total_cases": 29,
+    "skips": 0,
+    "passed_suites": 2,
+    "total_assertions": 3023,
+    "ctest_suites": 2
+  },
+  "dependency_closures": [
+    {
+      "count": 5,
+      "valid": true,
+      "includes": [
+        "control_wire.hpp",
+        "game_wire.hpp",
+        "mech_setup_wire.hpp",
+        "object_reference_wire.hpp",
+        "doctest.h"
+      ],
+      "object": "CMakeFiles/hawken-mech-setup-wire-tests.dir/tests/mech_setup_wire_tests.cpp.obj"
+    },
+    {
+      "count": 4,
+      "valid": true,
+      "includes": [
+        "control_wire.hpp",
+        "game_wire.hpp",
+        "start_mech_rpc_wire.hpp",
+        "doctest.h"
+      ],
+      "object": "CMakeFiles/hawken-start-mech-rpc-tests.dir/tests/start_mech_rpc_wire_tests.cpp.obj"
+    },
+    {
+      "count": 4,
+      "valid": true,
+      "includes": [
+        "control_wire.hpp",
+        "game_wire.hpp",
+        "mech_setup_wire.hpp",
+        "object_reference_wire.hpp"
+      ],
+      "object": "CMakeFiles/hawken_mech_setup.dir/src/mech_setup_wire.cpp.obj"
+    },
+    {
+      "count": 3,
+      "valid": true,
+      "includes": [
+        "control_wire.hpp",
+        "game_wire.hpp",
+        "start_mech_rpc_wire.hpp"
+      ],
+      "object": "CMakeFiles/hawken_start_mech_rpc.dir/src/start_mech_rpc_wire.cpp.obj"
+    }
+  ]
+}

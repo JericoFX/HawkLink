@@ -1,0 +1,79 @@
+UpdateCTestConfiguration  from :F:/HawkenServer/DartConfiguration.tcl
+Test project F:/HawkenServer/build/windows-msvc
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 8
+    Start 8: local_udp_owner
+
+8: Test command: F:\HawkenServer\build\windows-msvc\hawken-local-udp-tests.exe
+8: Working Directory: F:/HawkenServer/build/windows-msvc
+8: Test timeout computed to be: 120
+8: [doctest] doctest version is "2.4.12"
+8: [doctest] run with "--help" for options
+8: ===============================================================================
+8: F:\HawkenServer\tests\local_udp_owner_tests.cpp(1909):
+8: TEST CASE:  UDP start mech waits for real actor ACKs and links then sends one literal PRI property
+8: 
+8: F:\HawkenServer\tests\local_udp_owner_tests.cpp(1930): FATAL ERROR: REQUIRE( output.bunches.size()==3 ) is NOT correct!
+8:   values: REQUIRE( 0 == 3 )
+8: 
+8: ===============================================================================
+8: F:\HawkenServer\tests\local_udp_owner_tests.cpp(1943):
+8: TEST CASE:  UDP start mech does not fabricate requests or inspect other actor fields or RPC suffixes
+8: 
+8: F:\HawkenServer\tests\local_udp_owner_tests.cpp(1900): ERROR: CHECK( bunch.sequence==93 ) is NOT correct!
+8:   values: CHECK( 103 == 93 )
+8: 
+8: ===============================================================================
+8: [doctest] test cases:   91 |   89 passed | 2 failed | 0 skipped
+8: [doctest] assertions: 3355 | 3353 passed | 2 failed |
+8: [doctest] Status: FAILURE!
+1/2 Test #8: local_udp_owner ..................***Failed   42.26 sec
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1909):
+TEST CASE:  UDP start mech waits for real actor ACKs and links then sends one literal PRI property
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1930): FATAL ERROR: REQUIRE( output.bunches.size()==3 ) is NOT correct!
+  values: REQUIRE( 0 == 3 )
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1943):
+TEST CASE:  UDP start mech does not fabricate requests or inspect other actor fields or RPC suffixes
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(1900): ERROR: CHECK( bunch.sequence==93 ) is NOT correct!
+  values: CHECK( 103 == 93 )
+
+===============================================================================
+[doctest] test cases:   91 |   89 passed | 2 failed | 0 skipped
+[doctest] assertions: 3355 | 3353 passed | 2 failed |
+[doctest] Status: FAILURE!
+
+test 9
+    Start 9: udp_trial_runtime
+
+9: Test command: F:\HawkenServer\build\windows-msvc\hawken-udp-trial-runtime-tests.exe
+9: Working Directory: F:/HawkenServer/build/windows-msvc
+9: Test timeout computed to be: 120
+9: [doctest] doctest version is "2.4.12"
+9: [doctest] run with "--help" for options
+9: ===============================================================================
+9: [doctest] test cases:   28 |   28 passed | 0 failed | 0 skipped
+9: [doctest] assertions: 2043 | 2043 passed | 0 failed |
+9: [doctest] Status: SUCCESS!
+2/2 Test #9: udp_trial_runtime ................   Passed    7.45 sec
+
+The following tests passed:
+	udp_trial_runtime
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =  49.89 sec
+
+The following tests FAILED:
+	  8 - local_udp_owner (Failed)

@@ -75,4 +75,18 @@ MechSetupPayload encode_mech_setup(const SMechSetupStruct& value,
     object::write_reference(writer,reference,value.template_reference ? 32 : 12);
     return {writer.payload_bytes(),writer.bit_count()};
 }
+
+MechSetupPayload encode_mech_setup_property(const SMechSetupStruct& value,
+    std::uint32_t field_id, std::uint32_t field_bound,
+    control::Endian integer_order, std::size_t max_payload_bits) {
+    if (max_payload_bits==0) throw WireError("invalid_limit");
+    if (field_bound==0 || field_id>=field_bound) throw WireError("invalid_value");
+    BitWriter writer;
+    writer.write_bounded(field_id,field_bound);
+    const auto tag_bits=writer.bit_count();
+    if (tag_bits>=max_payload_bits) throw WireError("field_too_large");
+    const auto fields=encode_mech_setup(value,integer_order,max_payload_bits-tag_bits);
+    writer.write_bits(fields.payload,fields.logical_bits);
+    return {writer.payload_bytes(),writer.bit_count()};
+}
 }

@@ -1,0 +1,665 @@
+{
+  "status": "CONFIRMED_NUMERIC_CALLBACK_GATES;FIVE_VALIDATOR_AGGREGATION_AND_NATIVE_PROPERTY_OFFSET_BINDINGS_PENDING",
+  "original_exe": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "bytes": 31918592
+  },
+  "own_body": {
+    "entry_rva": "0xdc03d0",
+    "bytes": 141,
+    "instructions": 41,
+    "end_exclusive": "0xdc045d",
+    "contiguous": true,
+    "original_proof": [
+      {
+        "rva": "0xdc03d0",
+        "raw_offset": "0xdbf7d0",
+        "bytes": "4053",
+        "instruction": "PUSH RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03d2",
+        "raw_offset": "0xdbf7d2",
+        "bytes": "4883ec20",
+        "instruction": "SUB RSP,0x20",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03d6",
+        "raw_offset": "0xdbf7d6",
+        "bytes": "488bd9",
+        "instruction": "MOV RBX,RCX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03d9",
+        "raw_offset": "0xdbf7d9",
+        "bytes": "e8b29ceeff",
+        "instruction": "CALL 0x140caa090",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03de",
+        "raw_offset": "0xdbf7de",
+        "bytes": "85c0",
+        "instruction": "TEST EAX,EAX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03e0",
+        "raw_offset": "0xdbf7e0",
+        "bytes": "7506",
+        "instruction": "JNZ 0x140dc03e8",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03e2",
+        "raw_offset": "0xdbf7e2",
+        "bytes": "4883c420",
+        "instruction": "ADD RSP,0x20",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03e6",
+        "raw_offset": "0xdbf7e6",
+        "bytes": "5b",
+        "instruction": "POP RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03e7",
+        "raw_offset": "0xdbf7e7",
+        "bytes": "c3",
+        "instruction": "RET",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03e8",
+        "raw_offset": "0xdbf7e8",
+        "bytes": "80bbfa10000001",
+        "instruction": "CMP byte ptr [RBX + 0x10fa],0x1",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03ef",
+        "raw_offset": "0xdbf7ef",
+        "bytes": "7561",
+        "instruction": "JNZ 0x140dc0452",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03f1",
+        "raw_offset": "0xdbf7f1",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03f4",
+        "raw_offset": "0xdbf7f4",
+        "bytes": "e8d7940000",
+        "instruction": "CALL 0x140dc98d0",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03f9",
+        "raw_offset": "0xdbf7f9",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc03fc",
+        "raw_offset": "0xdbf7fc",
+        "bytes": "e87fe20000",
+        "instruction": "CALL 0x140dce680",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0401",
+        "raw_offset": "0xdbf801",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0404",
+        "raw_offset": "0xdbf804",
+        "bytes": "e8a7a60000",
+        "instruction": "CALL 0x140dcaab0",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0409",
+        "raw_offset": "0xdbf809",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc040c",
+        "raw_offset": "0xdbf80c",
+        "bytes": "e8ef0c0100",
+        "instruction": "CALL 0x140dd1100",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0411",
+        "raw_offset": "0xdbf811",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0414",
+        "raw_offset": "0xdbf814",
+        "bytes": "e8073e0000",
+        "instruction": "CALL 0x140dc4220",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0419",
+        "raw_offset": "0xdbf819",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc041c",
+        "raw_offset": "0xdbf81c",
+        "bytes": "e82fdc0000",
+        "instruction": "CALL 0x140dce050",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0421",
+        "raw_offset": "0xdbf821",
+        "bytes": "0fb683fa100000",
+        "instruction": "MOVZX EAX,byte ptr [RBX + 0x10fa]",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0428",
+        "raw_offset": "0xdbf828",
+        "bytes": "3c03",
+        "instruction": "CMP AL,0x3",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc042a",
+        "raw_offset": "0xdbf82a",
+        "bytes": "7513",
+        "instruction": "JNZ 0x140dc043f",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc042c",
+        "raw_offset": "0xdbf82c",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc042f",
+        "raw_offset": "0xdbf82f",
+        "bytes": "e83cd80100",
+        "instruction": "CALL 0x140dddc70",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0434",
+        "raw_offset": "0xdbf834",
+        "bytes": "b801000000",
+        "instruction": "MOV EAX,0x1",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0439",
+        "raw_offset": "0xdbf839",
+        "bytes": "4883c420",
+        "instruction": "ADD RSP,0x20",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc043d",
+        "raw_offset": "0xdbf83d",
+        "bytes": "5b",
+        "instruction": "POP RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc043e",
+        "raw_offset": "0xdbf83e",
+        "bytes": "c3",
+        "instruction": "RET",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc043f",
+        "raw_offset": "0xdbf83f",
+        "bytes": "3c02",
+        "instruction": "CMP AL,0x2",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0441",
+        "raw_offset": "0xdbf841",
+        "bytes": "750f",
+        "instruction": "JNZ 0x140dc0452",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0443",
+        "raw_offset": "0xdbf843",
+        "bytes": "0fb69300110000",
+        "instruction": "MOVZX EDX,byte ptr [RBX + 0x1100]",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc044a",
+        "raw_offset": "0xdbf84a",
+        "bytes": "488bcb",
+        "instruction": "MOV RCX,RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc044d",
+        "raw_offset": "0xdbf84d",
+        "bytes": "e8ced70100",
+        "instruction": "CALL 0x140dddc20",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0452",
+        "raw_offset": "0xdbf852",
+        "bytes": "b801000000",
+        "instruction": "MOV EAX,0x1",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc0457",
+        "raw_offset": "0xdbf857",
+        "bytes": "4883c420",
+        "instruction": "ADD RSP,0x20",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc045b",
+        "raw_offset": "0xdbf85b",
+        "bytes": "5b",
+        "instruction": "POP RBX",
+        "original_match": true
+      },
+      {
+        "rva": "0xdc045c",
+        "raw_offset": "0xdbf85c",
+        "bytes": "c3",
+        "instruction": "RET",
+        "original_match": true
+      }
+    ],
+    "semantics": {
+      "precondition": "caa090 return interpreted int !=0; semantics of this helper unresolved.",
+      "validation_running_gate": "this+10fa byte==1",
+      "ordered_calls": [
+        {
+          "callee_rva": "0xdc98d0",
+          "call_rva": "0xdc03f4"
+        },
+        {
+          "callee_rva": "0xdce680",
+          "call_rva": "0xdc03fc"
+        },
+        {
+          "callee_rva": "0xdcaab0",
+          "call_rva": "0xdc0404"
+        },
+        {
+          "callee_rva": "0xdd1100",
+          "call_rva": "0xdc040c"
+        },
+        {
+          "callee_rva": "0xdc4220",
+          "call_rva": "0xdc0414"
+        },
+        {
+          "callee_rva": "0xdce050",
+          "call_rva": "0xdc041c"
+        }
+      ],
+      "success": "After all six calls, +10fa==3 calls dddc70: ClientSpawnSelectionValidated zero-arg thunk.",
+      "failure": "Otherwise +10fa==2 calls dddc20 with +1100 byte. Failure thunk identity/body not yet verified.",
+      "pending": "Any other postcall status emits neither callback.",
+      "return": "caa090==0 returns its zero; all other paths return1."
+    }
+  },
+  "native_field_mapping": {
+    "confirmed": "Read byte offsets+10fa and+1100; no own direct status writes.",
+    "probable": [
+      {
+        "offset": "0x10fa",
+        "uc_property": "OverallSelectionValidationStatus",
+        "reason": "Overall numeric gate1/2/3 matches retained enum and UC ServerValidate initializes namedOverall to1."
+      },
+      {
+        "offset": "0x1100",
+        "uc_property": "SelectionValidationResponse",
+        "reason": "Byte forwarded to failure callback; UC failure passes namedResponse."
+      }
+    ],
+    "unknown": "No positive nativeoffsetof registration/receiver binding in retained inspected scope. Do not declare mapping proven solely from UC order or enum consistency.",
+    "serialized_property_rows": [
+      {
+        "path": "HawkenGame.R_PlayerController.OverallSelectionValidationStatus",
+        "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+        "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export": 47999,
+        "serial_virtual_offset": "0x1810324",
+        "type": "ByteProperty",
+        "local_net_index": 45709,
+        "next": 48007,
+        "header_bytes": "8db20000135900000000000087bb0000",
+        "source_blocks": [
+          {
+            "physical_offset": "0x9f430f",
+            "compressed_size": 28413,
+            "compressed_sha256": "f78b56436b3212fa3d91d5e134ce87749577584227144763f4e1fd3894e44bb0",
+            "plain_sha256": "1aedbba1e351e2c5a67717052e44a70c1dfd0c6fbc76f5f8a883d0b59bcfa9aa",
+            "matched_virtual_start": "0x1810324",
+            "matched_virtual_end_exclusive": "0x1810350"
+          }
+        ],
+        "eligible_link_rebuild": false,
+        "property_flags": "0x0",
+        "array_dim": 1,
+        "flag_offset": "0x1810338",
+        "flag_bytes": "0000000000000000"
+      },
+      {
+        "path": "HawkenGame.R_PlayerController.ValidationStatus_MechInstance",
+        "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+        "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export": 48008,
+        "serial_virtual_offset": "0x18104b0",
+        "type": "ByteProperty",
+        "local_net_index": 45718,
+        "next": 48010,
+        "header_bytes": "96b2000013590000000000008abb0000",
+        "source_blocks": [
+          {
+            "physical_offset": "0x9f430f",
+            "compressed_size": 28413,
+            "compressed_sha256": "f78b56436b3212fa3d91d5e134ce87749577584227144763f4e1fd3894e44bb0",
+            "plain_sha256": "1aedbba1e351e2c5a67717052e44a70c1dfd0c6fbc76f5f8a883d0b59bcfa9aa",
+            "matched_virtual_start": "0x18104b0",
+            "matched_virtual_end_exclusive": "0x18104dc"
+          }
+        ],
+        "eligible_link_rebuild": false,
+        "property_flags": "0x0",
+        "array_dim": 1,
+        "flag_offset": "0x18104c4",
+        "flag_bytes": "0000000000000000"
+      },
+      {
+        "path": "HawkenGame.R_PlayerController.ValidationStatus_PresetLoaded",
+        "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+        "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export": 48009,
+        "serial_virtual_offset": "0x18104dc",
+        "type": "ByteProperty",
+        "local_net_index": 45719,
+        "next": 48008,
+        "header_bytes": "97b20000135900000000000088bb0000",
+        "source_blocks": [
+          {
+            "physical_offset": "0x9f430f",
+            "compressed_size": 28413,
+            "compressed_sha256": "f78b56436b3212fa3d91d5e134ce87749577584227144763f4e1fd3894e44bb0",
+            "plain_sha256": "1aedbba1e351e2c5a67717052e44a70c1dfd0c6fbc76f5f8a883d0b59bcfa9aa",
+            "matched_virtual_start": "0x18104dc",
+            "matched_virtual_end_exclusive": "0x1810508"
+          }
+        ],
+        "eligible_link_rebuild": false,
+        "property_flags": "0x0",
+        "array_dim": 1,
+        "flag_offset": "0x18104f0",
+        "flag_bytes": "0000000000000000"
+      },
+      {
+        "path": "HawkenGame.R_PlayerController.ValidationStatus_SelectedPrimaryWeapon",
+        "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+        "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export": 48010,
+        "serial_virtual_offset": "0x1810508",
+        "type": "ByteProperty",
+        "local_net_index": 45720,
+        "next": 48006,
+        "header_bytes": "98b20000135900000000000086bb0000",
+        "source_blocks": [
+          {
+            "physical_offset": "0x9f430f",
+            "compressed_size": 28413,
+            "compressed_sha256": "f78b56436b3212fa3d91d5e134ce87749577584227144763f4e1fd3894e44bb0",
+            "plain_sha256": "1aedbba1e351e2c5a67717052e44a70c1dfd0c6fbc76f5f8a883d0b59bcfa9aa",
+            "matched_virtual_start": "0x1810508",
+            "matched_virtual_end_exclusive": "0x1810534"
+          }
+        ],
+        "eligible_link_rebuild": false,
+        "property_flags": "0x0",
+        "array_dim": 1,
+        "flag_offset": "0x181051c",
+        "flag_bytes": "0000000000000000"
+      },
+      {
+        "path": "HawkenGame.R_PlayerController.ValidationStatus_AchievementsLoaded",
+        "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+        "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export": 48006,
+        "serial_virtual_offset": "0x1810458",
+        "type": "ByteProperty",
+        "local_net_index": 45716,
+        "next": 48004,
+        "header_bytes": "94b20000135900000000000084bb0000",
+        "source_blocks": [
+          {
+            "physical_offset": "0x9f430f",
+            "compressed_size": 28413,
+            "compressed_sha256": "f78b56436b3212fa3d91d5e134ce87749577584227144763f4e1fd3894e44bb0",
+            "plain_sha256": "1aedbba1e351e2c5a67717052e44a70c1dfd0c6fbc76f5f8a883d0b59bcfa9aa",
+            "matched_virtual_start": "0x1810458",
+            "matched_virtual_end_exclusive": "0x1810484"
+          }
+        ],
+        "eligible_link_rebuild": false,
+        "property_flags": "0x0",
+        "array_dim": 1,
+        "flag_offset": "0x181046c",
+        "flag_bytes": "0000000000000000"
+      },
+      {
+        "path": "HawkenGame.R_PlayerController.ValidationStatus_ItemInstanceCollection",
+        "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+        "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export": 48007,
+        "serial_virtual_offset": "0x1810484",
+        "type": "ByteProperty",
+        "local_net_index": 45717,
+        "next": 48009,
+        "header_bytes": "95b20000135900000000000089bb0000",
+        "source_blocks": [
+          {
+            "physical_offset": "0x9f430f",
+            "compressed_size": 28413,
+            "compressed_sha256": "f78b56436b3212fa3d91d5e134ce87749577584227144763f4e1fd3894e44bb0",
+            "plain_sha256": "1aedbba1e351e2c5a67717052e44a70c1dfd0c6fbc76f5f8a883d0b59bcfa9aa",
+            "matched_virtual_start": "0x1810484",
+            "matched_virtual_end_exclusive": "0x18104b0"
+          }
+        ],
+        "eligible_link_rebuild": false,
+        "property_flags": "0x0",
+        "array_dim": 1,
+        "flag_offset": "0x1810498",
+        "flag_bytes": "0000000000000000"
+      },
+      {
+        "path": "HawkenGame.R_PlayerController.SelectionValidationResponse",
+        "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+        "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export": 48004,
+        "serial_virtual_offset": "0x1810400",
+        "type": "ByteProperty",
+        "local_net_index": 45714,
+        "next": 79034,
+        "header_bytes": "92b200001359000000000000ba340100",
+        "source_blocks": [
+          {
+            "physical_offset": "0x9f430f",
+            "compressed_size": 28413,
+            "compressed_sha256": "f78b56436b3212fa3d91d5e134ce87749577584227144763f4e1fd3894e44bb0",
+            "plain_sha256": "1aedbba1e351e2c5a67717052e44a70c1dfd0c6fbc76f5f8a883d0b59bcfa9aa",
+            "matched_virtual_start": "0x1810400",
+            "matched_virtual_end_exclusive": "0x181042c"
+          }
+        ],
+        "eligible_link_rebuild": false,
+        "property_flags": "0x0",
+        "array_dim": 1,
+        "flag_offset": "0x1810414",
+        "flag_bytes": "0000000000000000"
+      }
+    ],
+    "replication": "All seven ByteProperty flags0/ArrayDim1, nonNET in recorded rebuild; local validator state is not supplied merely by replicating MechSetup."
+  },
+  "enum_declarations": [
+    {
+      "name": "ESelectionValidationResponse",
+      "uc_start_line": 1216,
+      "uc_end_line": 1228,
+      "declaration": "enum ESelectionValidationResponse\n{\n\tSVR_GeneralFailure,             // 0\n\tSVR_InstanceCollectionFailure,  // 1\n\tSVR_NoMechPreset,               // 2\n\tSVR_NoMechInstanceID,           // 3\n\tSVR_NoMechInstance,             // 4\n\tSVR_MechNotLoaded,              // 5\n\tSVR_InstanceExpired,            // 6\n\tSVR_Valid,                      // 7\n\tSVR_PrimaryWeaponFailure,       // 8\n\tSVR_MAX                         // 9\n};",
+      "proof_scope": "Retained UC enum labels; serialized enum object body not reverified by this slice."
+    },
+    {
+      "name": "ESelectionValidationStatus",
+      "uc_start_line": 1230,
+      "uc_end_line": 1237,
+      "declaration": "enum ESelectionValidationStatus\n{\n\tSVS_NotValidating,              // 0\n\tSVS_InProcess,                  // 1\n\tSVS_Failed,                     // 2\n\tSVS_Succeeded,                  // 3\n\tSVS_MAX                         // 4\n};",
+      "proof_scope": "Retained UC enum labels; serialized enum object body not reverified by this slice."
+    }
+  ],
+  "retained_callee_identity": {
+    "index_entries": 886,
+    "callees": [
+      {
+        "entry_va": "0x140caa090",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      },
+      {
+        "entry_va": "0x140dc98d0",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      },
+      {
+        "entry_va": "0x140dc4220",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      },
+      {
+        "entry_va": "0x140dddc20",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      },
+      {
+        "entry_va": "0x140dd1100",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      },
+      {
+        "entry_va": "0x140dce050",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      },
+      {
+        "entry_va": "0x140dddc70",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": true
+      },
+      {
+        "entry_va": "0x140dce680",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      },
+      {
+        "entry_va": "0x140dcaab0",
+        "own_retained_index_matches": 0,
+        "new_wrapper_already_closed_separately": false
+      }
+    ],
+    "limit": "Frozen map coverage only; wrapper dddc70 now newly extracted outside old886map."
+  },
+  "actionable_server_boundary": {
+    "proven": "Success callback must follow validationresult==3, not just MechSetup ACK. Request starts pending status; namedfivechecks are logically distinct.",
+    "not_proven": "No allfive succeeded conjunction or domain input predicates can be derived from dc03d0 ownbody; sixcalledfunctions are unnamed. Batch/account inventory completeness is not demonstrated sufficient.",
+    "minimum_next_parent_extraction": {
+      "entry_va": "0x140dce050",
+      "rva": "0xdce050",
+      "positive_call_rva": "0xdc041c",
+      "reason": "Last helper executes immediately before finalOverallbyte read. Candidate aggregation stage only; extract its ownbody to prove/deny allfive predicate and offsets.",
+      "no_guess": "Do not name it aggregator or assign exactfivevalidatornames beforebody.",
+      "secondary_only_if_needed": "caa090 precondition and relevant namedvalidator update bodies after positive aggregation edge; no broadRE."
+    }
+  },
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-caller\\luna\\function.jsonl",
+      "sha256": "fb482fe60e6b23ba971f2ef7c0d16ec08c18d59d313b7ed69497f0728bf34341",
+      "bytes": 2938
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-caller\\luna\\instructions.json",
+      "sha256": "13dfe10829b7559975a1876c5a294be12a8f9a7d653cc5a9ff040903b69b4b33",
+      "bytes": 3181
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-caller\\luna\\validation-summary.json",
+      "sha256": "9c63b516a1dd2e74b877f94c63e77a3f056ceeca01ce4ba273e5cfb48416fc57",
+      "bytes": 7012
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\complete-artifact-map-20261013\\parent\\native-functions.json",
+      "sha256": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12",
+      "bytes": 870156
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-effective-field-cache\\serialized-child-fields.json",
+      "sha256": "8ada65dca910693084ee14447e7b071105f62336b80efb33afef1c61a415d4dc",
+      "bytes": 3063754
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\003733-HawkenGame.HawkenTypes.uc",
+      "sha256": "4dd7baf8e775af04f10349a51dacb3909ab783a164c821e1e548b394307fc3ca",
+      "bytes": 123691
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc",
+      "bytes": 40223
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-wrapper-semantics-supplement.json",
+      "sha256": "f9d4b2ddae21b6c92a6365b51b5ea372f8244b948e5d88bf3c8255dfd297846f",
+      "bytes": 6611
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020963-HawkenGame.R_PlayerController.ServerValidatePlayerSpawnSelection.uc",
+      "sha256": "1a4fd0c8556711ab39781be5d4c4fdc29862adbf199925dea5f1729cf1d98db7",
+      "bytes": 1440
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+UpdateCTestConfiguration  from :F:/HawkenServer/DartConfiguration.tcl
+Test project F:/HawkenServer/build/windows-msvc
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 6
+    Start  6: server_listing_http
+
+6: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-listing-tests.exe
+6: Working Directory: F:/HawkenServer/build/windows-msvc
+6: Test timeout computed to be: 10000000
+6: [doctest] doctest version is "2.4.12"
+6: [doctest] run with "--help" for options
+6: ===============================================================================
+6: [doctest] test cases:   8 |   8 passed | 0 failed | 0 skipped
+6: [doctest] assertions: 365 | 365 passed | 0 failed |
+6: [doctest] Status: SUCCESS!
+1/5 Test  #6: server_listing_http ..............   Passed    0.47 sec
+test 10
+    Start 10: server_assignment_http
+
+10: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-assignment-tests.exe
+10: Working Directory: F:/HawkenServer/build/windows-msvc
+10: Test timeout computed to be: 10000000
+10: [doctest] doctest version is "2.4.12"
+10: [doctest] run with "--help" for options
+10: ===============================================================================
+10: [doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+10: [doctest] assertions: 474 | 474 passed | 0 failed |
+10: [doctest] Status: SUCCESS!
+2/5 Test #10: server_assignment_http ...........   Passed    0.94 sec
+test 15
+    Start 15: server_auth_http
+
+15: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-auth-tests.exe
+15: Working Directory: F:/HawkenServer/build/windows-msvc
+15: Test timeout computed to be: 10000000
+15: [doctest] doctest version is "2.4.12"
+15: [doctest] run with "--help" for options
+15: ===============================================================================
+15: [doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+15: [doctest] assertions: 276 | 276 passed | 0 failed |
+15: [doctest] Status: SUCCESS!
+3/5 Test #15: server_auth_http .................   Passed    0.93 sec
+test 16
+    Start 16: server_inventory_http
+
+16: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-inventory-tests.exe
+16: Working Directory: F:/HawkenServer/build/windows-msvc
+16: Test timeout computed to be: 10000000
+16: [doctest] doctest version is "2.4.12"
+16: [doctest] run with "--help" for options
+16: ===============================================================================
+16: [doctest] test cases:   25 |   25 passed | 0 failed | 0 skipped
+16: [doctest] assertions: 1373 | 1373 passed | 0 failed |
+16: [doctest] Status: SUCCESS!
+4/5 Test #16: server_inventory_http ............   Passed    2.39 sec
+test 17
+    Start 17: server_menu_http
+
+17: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-menu-tests.exe
+17: Working Directory: F:/HawkenServer/build/windows-msvc
+17: Test timeout computed to be: 10000000
+17: [doctest] doctest version is "2.4.12"
+17: [doctest] run with "--help" for options
+17: ===============================================================================
+17: [doctest] test cases:  11 |  11 passed | 0 failed | 0 skipped
+17: [doctest] assertions: 695 | 695 passed | 0 failed |
+17: [doctest] Status: SUCCESS!
+5/5 Test #17: server_menu_http .................   Passed    1.14 sec
+
+The following tests passed:
+	server_listing_http
+	server_assignment_http
+	server_auth_http
+	server_inventory_http
+	server_menu_http
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =   6.32 sec
