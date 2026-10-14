@@ -1,0 +1,36 @@
+{
+  "semantic": "ClientRestart present primary ActorChannelReference, not package coordinate / object NetIndex",
+  "synthetic": {
+    "field_id": 3,
+    "bound": 8,
+    "field_bits": 3,
+    "presence_bit": 3,
+    "selector_bit": 4,
+    "channel": 8,
+    "channel_start_bit": 5,
+    "logical_bits": 16,
+    "integer_sum": 283,
+    "literal_hex": "1b01"
+  },
+  "native_conditional": {
+    "field_id": 83,
+    "bound": 294,
+    "field_bits": 8,
+    "bounded_width_reason": "83+256 >=294 stops before mask256",
+    "presence_bit": 8,
+    "selector_bit": 9,
+    "channel": 2,
+    "channel_start_bit": 10,
+    "logical_bits": 21,
+    "integer_sum": 2899,
+    "literal_hex": "530b00"
+  },
+  "stage_input": {
+    "field_id": 1,
+    "bound": 8,
+    "int32_stage": 3,
+    "logical_bits": 36,
+    "literal_hex": "3900000000"
+  },
+  "source": "Manual absolute LSB positions from existing Pawn RPC/primary reference contracts, independent of output of encode_rpc."
+}

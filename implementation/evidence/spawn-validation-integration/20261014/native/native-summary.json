@@ -1,0 +1,105 @@
+{
+  "schema": "hawken.native-spawn-admission.trial.v1",
+  "status": "CONFIRMED_SELECTION_UI_BLOCKED",
+  "gameplayVerified": false,
+  "userConfirmedSamePriorBlock": true,
+  "normalGate": "final-gate/luna/final-summary.json",
+  "normalSuites": 50,
+  "normalCases": 1402,
+  "normalAssertions": 65221,
+  "game": {
+    "pid": 2532,
+    "parentSteamPid": 7960,
+    "appId": 271290,
+    "startedThrough": "Existing Steam Library UI",
+    "windowed": true,
+    "tutorialPlayed": false,
+    "originalExeSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "candidate": {
+    "server": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f",
+    "master": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "bridge": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+  },
+  "legitimateSteamAuthVerified": true,
+  "steamEvidence": {
+    "callback143PackedMatchedOK": true,
+    "ownedContextsShutdownClean": true,
+    "loginHTTP200": true,
+    "privateTicketPersistedOrLogged": false,
+    "licenseApproved": true,
+    "beginAccepted": true
+  },
+  "clientLog": {
+    "snapshotBytes": 57344,
+    "snapshotLines": 654,
+    "originalSnapshotSha256": "b092450dd55ef712fffebdee2af3424bcc54c7a390f0439e58f9c4779d90a103",
+    "fileBuffered": true,
+    "coverage": "Complete file snapshot read in bounded sections; this does not recover any unflushed in-memory log tail",
+    "loadedWorld": "VS-Wreckage",
+    "loadCompletedAtSeconds": 137.854,
+    "nativeMessageAtSeconds": 138.266,
+    "nativeMessage": "AR_PlayerController_Base::InitStormUserId failed - No PlayerReplicationInfo for R_PlayerController VS-Wreckage.TheWorld:PersistentLevel.R_PlayerController_0!",
+    "selectionMenuRegistrationObserved": false
+  },
+  "core": {
+    "authenticatedDatagrams": 728,
+    "helloValidated": true,
+    "loginValidated": true,
+    "worldPublished": true,
+    "joinRequested": true,
+    "controllerSent": true,
+    "priSent": true,
+    "pawnSent": true,
+    "spawnValidationRequestRecognized": false,
+    "stage3Recognized": false,
+    "clientRestartSent": false,
+    "sendCountersDoNotProveNativeApplication": true,
+    "unrecognizedRpcEmissionNotRuledOut": true
+  },
+  "nexus": {
+    "started": true,
+    "directoryEmpty": true,
+    "backendListsOwnLocalSingleton": true,
+    "nexusToCoreRegistrationVerified": false
+  },
+  "diagnosticLimits": {
+    "conditionalFieldBound294LiveCacheNotVerified": true,
+    "passiveProbesAfterCoreStop": "live_identity and connection_absent, inconclusive",
+    "triageDump": "hang-triage.dmp",
+    "triageDumpSha256": "7e72dbf94c7586586282fd851ddfb6f50943a3198190591ab6602a257767959f",
+    "dumpCapturedAfterCoreStopAndReturnToEntry": true,
+    "dumpProvesOriginalHangCause": false,
+    "timeout475E2DCF": "Observed after deliberate Core stop, not assigned as the original UI cause",
+    "nativeBootstrapCause": "HUD/GRI gap is statically identified; causal gate not yet observed live"
+  },
+  "photos": [
+    {
+      "name": "01-menu.png",
+      "sha256": "075c306be70775060ea2ce70691de8eb8d0b09faff9db96b478d0bce38181ddf",
+      "originalResolution": true
+    },
+    {
+      "name": "02-server-list.png",
+      "sha256": "ea994164c78c6ffd77d1b1da38d0a9660bff2a6764d0ad6c1f848b29a27b8459",
+      "originalResolution": true
+    },
+    {
+      "name": "03-after-join.png",
+      "sha256": "7186bccbcfa9b4b24955c9d52a52f506443a88e69167026644cec3c2f626da1b",
+      "originalResolution": true
+    }
+  ],
+  "closure": {
+    "coreDeliberatelyStoppedForFinalTypedDiagnostics": true,
+    "coreExit": 0,
+    "helperReportedFailedAfterThatStop": true,
+    "gameForcedClosedAfterEscapeAndAltF4DidNotExit": true,
+    "ownedServicesAndHelperStopped": true,
+    "helperCleanupComplete": true,
+    "originalFivePinsUnchanged": true,
+    "borrowedIsolationRulePreserved": true,
+    "oldOwnRoutingFilesArchived": "previous-task-routing/archive.json"
+  },
+  "nextAcceptance": "Native selection controls appear and actual selection reaches validated spawn/possession without tutorial; original binaries intact"
+}

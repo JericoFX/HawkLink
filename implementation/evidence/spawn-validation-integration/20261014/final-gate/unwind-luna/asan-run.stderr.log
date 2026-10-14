@@ -1,0 +1,24 @@
+=================================================================
+==23620==ERROR: AddressSanitizer: access-violation on unknown address 0x000000000054 (pc 0x7ff674f050db bp 0x0099d60fc290 sp 0x0099d60fc000 T0)
+==23620==The signal is caused by a READ memory access.
+==23620==HINT: address points to the zero page.
+    #0 0x7ff674f050da in __FrameHandler3::GetUnwindTryBlock(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\ehstate.cpp:186
+    #1 0x7ff674f05bcb in __FrameHandler3::GetHandlerSearchState(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:484
+    #2 0x7ff674f0763d in FindHandler<__FrameHandler3> D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:547
+    #3 0x7ff674f0730b in __InternalCxxFrameHandler<class __FrameHandler3>(struct EHExceptionRecord *, unsigned __int64 *, struct _CONTEXT *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *, int, unsigned __int64 *, unsigned char) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:396
+    #4 0x7ff674ed5650 in __CxxFrameHandler3 D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\risctrnsctrl.cpp:281
+    #5 0x7ff97124631e  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x18016631e)
+    #6 0x7ff9711a4034  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x1800c4034)
+    #7 0x7ff9710f9f3c  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x180019f3c)
+    #8 0x7ff96e3a4839  (C:\WINDOWS\System32\KERNELBASE.dll+0x1800c4839)
+    #9 0x7ff674ed4696 in _CxxThrowException D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\throw.cpp:79
+    #10 0x7ff674ed2bc9 in expected_failure(int &) F:\HawkenServer\implementation\evidence\spawn-validation-integration\20261014\final-gate\exception-unwind-probe.cpp:15
+
+==23620==Register values:
+rax = 50  rbx = 7ff674f43338  rcx = 0  rdx = 7ff674f43398  
+rdi = 7ff674f43338  rsi = 99d60fc880  rbp = 99d60fc290  rsp = 99d60fc000  
+r8  = 7ff674f4338c  r9  = 1  r10 = 2b90  r11 = 59  
+r12 = 99d60fc290  r13 = 0  r14 = 99d60fc880  r15 = 99d60fca60  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: access-violation D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\ehstate.cpp:186 in __FrameHandler3::GetUnwindTryBlock(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *)
+==23620==ABORTING

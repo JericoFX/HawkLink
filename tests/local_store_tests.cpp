@@ -7,6 +7,7 @@
 #include <memory>
 #include <thread>
 #include <string>
+#include <utility>
 
 namespace {
 using namespace hawken::store;
@@ -828,4 +829,83 @@ TEST_CASE("Schema three rejection and busy migration preserve the original DB an
         expect_error(StoreErrorCode::invalid_schema,[&]{LocalStore store(path,"server-a");});
         CHECK(hawken::test::read_bytes(path)==before);
     }
+}
+
+TEST_CASE("Account achievement reader returns no awards without changing real SQLite state") {
+    hawken::test::TempDirectory temp;
+    const auto path = temp.path() / "achievements.db";
+    Account account;
+    {
+        LocalStore store(path, "server-a");
+        account = store.get_or_create_account("1", 10);
+        REQUIRE(store.merge_game_settings(account.ref, {{"Fixture", "unchanged"}}));
+        const FixtureDb fixture(path);
+        const auto version = fixture.scalar("PRAGMA data_version");
+        const auto schema_objects = fixture.scalar("SELECT count(*) FROM sqlite_schema");
+        const auto before = hawken::test::read_bytes(path);
+        CHECK(store.account_achievement_ids(account.ref).empty());
+        CHECK(store.account_achievement_ids(account.ref).empty());
+        CHECK(hawken::test::read_bytes(path) == before);
+        CHECK(fixture.scalar("PRAGMA data_version") == version);
+        CHECK(fixture.scalar("SELECT count(*) FROM sqlite_schema") == schema_objects);
+        CHECK(fixture.scalar("SELECT count(*) FROM accounts") == 1);
+        CHECK(fixture.scalar("SELECT count(*) FROM wallets") == 1);
+        CHECK(fixture.scalar("SELECT count(*) FROM starter_grants") == 0);
+        CHECK(fixture.scalar("SELECT count(*) FROM starter_items") == 0);
+        CHECK(store.wallet(account.ref) == WalletBalances{0, 0});
+        CHECK(store.game_settings(account.ref) == GameSettings{{"Fixture", "unchanged"}});
+        CHECK_FALSE(store.starter_items(account.ref).has_value());
+    }
+    LocalStore reopened(path, "server-a");
+    const auto before = hawken::test::read_bytes(path);
+    CHECK(reopened.account_achievement_ids(account.ref).empty());
+    CHECK(reopened.find_account("1") == std::optional<Account>(account));
+    CHECK(hawken::test::read_bytes(path) == before);
+}
+
+TEST_CASE("Account achievement reader rejects foreign missing and malformed logical references") {
+    hawken::test::TempDirectory temp;
+    const auto path = temp.path() / "a.db";
+    LocalStore store(path, "server-a");
+    LocalStore foreign(temp.path() / "b.db", "server-b");
+    const auto account = store.get_or_create_account("1", 0);
+    const auto other = foreign.get_or_create_account("1", 0);
+    const auto before = hawken::test::read_bytes(path);
+    expect_error(StoreErrorCode::invalid_scope, [&] { store.account_achievement_ids(other.ref); });
+    expect_error(StoreErrorCode::not_found, [&] { store.account_achievement_ids({"server-a", 999}); });
+    expect_error(StoreErrorCode::invalid_input, [&] { store.account_achievement_ids({"", account.ref.local_id}); });
+    expect_error(StoreErrorCode::invalid_input, [&] { store.account_achievement_ids({"server-a", 0}); });
+    CHECK(hawken::test::read_bytes(path) == before);
+    CHECK(store.account_achievement_ids(account.ref).empty());
+    CHECK(foreign.account_achievement_ids(other.ref).empty());
+}
+
+TEST_CASE("Account achievement reader fails closed on schema or account corruption without repair") {
+    hawken::test::TempDirectory temp;
+    const auto path = temp.path() / "corrupt.db";
+    LocalStore store(path, "server-a");
+    const auto account = store.get_or_create_account("1", 0);
+    SUBCASE("schema changed after opening") {
+        const FixtureDb fixture(path);
+        fixture.exec("CREATE TABLE unexpected_achievement_data(value TEXT)");
+    }
+    SUBCASE("malformed stored account identity") {
+        const FixtureDb fixture(path);
+        fixture.exec("PRAGMA ignore_check_constraints=ON; UPDATE accounts SET steam_id64='broken'");
+    }
+    const auto before = hawken::test::read_bytes(path);
+    expect_error(StoreErrorCode::invalid_schema, [&] { store.account_achievement_ids(account.ref); });
+    CHECK(hawken::test::read_bytes(path) == before);
+}
+
+TEST_CASE("Account achievement reader rejects a moved-from store without inventing an empty result") {
+    hawken::test::TempDirectory temp;
+    const auto path = temp.path() / "moved.db";
+    LocalStore original(path, "server-a");
+    const auto account = original.get_or_create_account("1", 0);
+    LocalStore moved(std::move(original));
+    const auto before = hawken::test::read_bytes(path);
+    expect_error(StoreErrorCode::invalid_input, [&] { original.account_achievement_ids(account.ref); });
+    CHECK(moved.account_achievement_ids(account.ref).empty());
+    CHECK(hawken::test::read_bytes(path) == before);
 }

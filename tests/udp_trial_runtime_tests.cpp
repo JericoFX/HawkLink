@@ -1200,3 +1200,208 @@ TEST_CASE("UDP trial start mech prerequisites reject before bind without consumi
     CHECK(provision(runtime,login).status==200); CHECK(f.store.wallet(account->ref)==wallet);
     runtime.stop();
 }
+
+
+namespace {
+udp::SpawnValidationDispatchPlan runtime_spawn_validation_plan() {
+    return {2,6,7,8,{true,true,true,true,true,true}};
+}
+Bytes runtime_spawn_validation_packet(session::Context& client,std::uint16_t packet_id) {
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2;
+    bunch.channel=7; bunch.sequence=2; bunch.payload={0x02}; bunch.payload_bits=3;
+    wire::Packet value; value.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch); value.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(value,512));
+}
+RuntimeLinksPackets runtime_validation_selected(udp::UdpTrialRuntime& runtime,const auth::AuthReply& login,
+    Peer& peer,session::Context& client) {
+    const auto opened=runtime_links_open(runtime,login,peer,client);
+    peer.send(runtime.port(),runtime_links_ack(client,5,opened.packet_ids));
+    const auto links=runtime_links_packets(peer,client,2000ms,2,true); REQUIRE(links.bunches.size()==2);
+    peer.send(runtime.port(),runtime_start_mech_packet(client,6,256,511));
+    const auto property=runtime_links_packets(peer,client,2000ms,1,true); REQUIRE(property.bunches.size()==1);
+    CHECK(property.bunches[0].channel==9); CHECK(property.bunches[0].sequence==93);
+    CHECK(property.bunches[0].payload_bits==547);
+    peer.send(runtime.port(),runtime_links_ack(client,7,links.packet_ids));
+    return property;
+}
+void runtime_validation_literal(const RuntimeLinksPackets& output,std::uint8_t byte,std::size_t bits) {
+    REQUIRE(output.bunches.size()==1); const auto& bunch=output.bunches[0];
+    CHECK(bunch.channel==7); CHECK(bunch.sequence==44); CHECK(bunch.reliable);
+    CHECK(bunch.channel_type==2); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    CHECK(bunch.payload_bits==bits); CHECK(bunch.payload==Bytes{byte});
+}
+}
+TEST_CASE("UDP trial spawn validation reads exact owned profile and empty achievements only after request and PRI delivery") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto owned=runtime_seed_owned_starter(f,account->ref);
+    const auto wallet=f.store.wallet(account->ref); std::atomic<int> reads{0},achievement_reads{0};
+    auto selected=runtime_start_config(); udp::UdpTrialRuntime* active=nullptr; session::SessionId id{};
+    selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+        [&](const store::AccountRef& scope,std::string_view instance) {
+            CHECK(scope==account->ref); CHECK(instance==owned.items[0].instance_id);
+            CHECK(active->assignment().account_for_udp(id)==std::optional{account->ref});
+            ++reads; return f.store.owned_starter_mech(scope,instance);
+        }};
+    selected.spawn_validation=runtime_spawn_validation_plan();
+    selected.spawn_validation_source=udp::SpawnValidationSource{
+        [&](const store::AccountRef& scope) {
+            CHECK(scope==account->ref); CHECK(active->assignment().account_for_udp(id)==std::optional{account->ref});
+            ++achievement_reads; return f.store.account_achievement_ids(scope);
+        },true};
+    udp::UdpTrialRuntime runtime(f.auth,selected); active=&runtime;
+    selected.spawn_validation->validated_rpc_field_id=1;
+    selected.spawn_validation_source->permanent_starter_instances=false;
+    selected.spawn_validation_source->read_achievement_ids={};
+    const auto dto=provision(runtime,login); id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    Peer peer; session::Context client(session::Role::client,id,key);
+    const auto property=runtime_validation_selected(runtime,login,peer,client);
+    CHECK(reads==1); CHECK(achievement_reads==0);
+    CHECK_FALSE(runtime.diagnostics().spawn_validation_requested);
+    CHECK_FALSE(runtime.diagnostics().spawn_validation_sent); CHECK_FALSE(runtime.diagnostics().spawn_validation_failed);
+    peer.send(runtime.port(),runtime_spawn_validation_packet(client,8));
+    CHECK(runtime_links_packets(peer,client,200ms,1,true).bunches.empty());
+    CHECK(reads==1); CHECK(achievement_reads==0); // No callback before exact selected-property ACK.
+    CHECK(runtime.diagnostics().spawn_validation_requested);
+    CHECK_FALSE(runtime.diagnostics().spawn_validation_sent); CHECK_FALSE(runtime.diagnostics().spawn_validation_failed);
+    peer.send(runtime.port(),runtime_links_ack(client,9,property.packet_ids));
+    const auto validated=runtime_links_packets(peer,client,2000ms,1,true);
+    runtime_validation_literal(validated,0x06,3);
+    CHECK(reads==2); CHECK(achievement_reads==1); CHECK(runtime.assignment().authorize_udp(id));
+    CHECK(runtime.diagnostics().spawn_validation_sent); CHECK_FALSE(runtime.diagnostics().spawn_validation_failed);
+    peer.send(runtime.port(),runtime_links_ack(client,10,validated.packet_ids));
+    CHECK(runtime_links_packets(peer,client,200ms,1,true).bunches.empty());
+    CHECK(f.store.wallet(account->ref)==wallet);
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).items==owned.items);
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
+    runtime.stop();
+}
+TEST_CASE("UDP trial spawn validation does not turn failed loads foreign presets or unknown achievements into success") {
+    for (unsigned mode=0;mode<5;++mode) {
+        CAPTURE(mode); Fixture f; const auto login=f.login();
+        const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+        const auto owned=runtime_seed_owned_starter(f,account->ref); const auto wallet=f.store.wallet(account->ref);
+        std::atomic<int> reads{0}; auto selected=runtime_start_config();
+        selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+            [&](const store::AccountRef& scope,std::string_view instance) {
+                const auto count=++reads; auto value=f.store.owned_starter_mech(scope,instance);
+                if (count>1 && mode==0) throw std::runtime_error("synthetic validation load failure");
+                if (count>1 && mode==1) value.items[0].instance_id="30000000-0000-0000-0000-000000000001";
+                if (count>1 && mode==2) value.attributes["Preset.PrimaryWeapon_InstanceId_0"]=value.items[2].instance_id;
+                return value;
+            }};
+        selected.spawn_validation=runtime_spawn_validation_plan();
+        selected.spawn_validation_source=udp::SpawnValidationSource{[&](const store::AccountRef& scope) {
+            auto ids=f.store.account_achievement_ids(scope);
+            if (mode==3) ids.push_back("30000000-0000-0000-0000-000000000001"); // Unsupported synthetic input, no award grant.
+            if (mode==4) f.verifier.valid=false;
+            return ids;
+        },true};
+        udp::UdpTrialRuntime runtime(f.auth,selected); const auto dto=provision(runtime,login);
+        const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+        const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+        Peer peer; session::Context client(session::Role::client,id,key);
+        const auto property=runtime_validation_selected(runtime,login,peer,client);
+        peer.send(runtime.port(),runtime_links_ack(client,8,property.packet_ids));
+        peer.send(runtime.port(),runtime_spawn_validation_packet(client,9));
+        if (mode<4) runtime_validation_literal(runtime_links_packets(peer,client,2000ms,1,true),0x07,4);
+        else {
+            CHECK(wait_until([&]{return runtime.diagnostics().closed;}));
+            CHECK(runtime_links_packets(peer,client,200ms,1,true).bunches.empty());
+        }
+        CHECK(runtime.diagnostics().spawn_validation_requested);
+        CHECK_FALSE(runtime.diagnostics().spawn_validation_sent);
+        CHECK(runtime.diagnostics().spawn_validation_failed==(mode<4));
+        CHECK(f.store.wallet(account->ref)==wallet);
+        CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).items==owned.items);
+        CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
+        runtime.stop();
+    }
+}
+TEST_CASE("UDP trial spawn validation source pair permanence and existing plans are required before bind") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto owned=runtime_seed_owned_starter(f,account->ref); const auto wallet=f.store.wallet(account->ref);
+    for (unsigned invalid=0;invalid<10;++invalid) {
+        CAPTURE(invalid); auto selected=runtime_start_config();
+        selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+            [&](const store::AccountRef& scope,std::string_view instance){return f.store.owned_starter_mech(scope,instance);}};
+        selected.spawn_validation=runtime_spawn_validation_plan();
+        selected.spawn_validation_source=udp::SpawnValidationSource{
+            [&](const store::AccountRef& scope){return f.store.account_achievement_ids(scope);},true};
+        switch(invalid) {
+        case 0: selected.spawn_validation.reset(); break;
+        case 1: selected.spawn_validation_source.reset(); break;
+        case 2: selected.spawn_validation_source->read_achievement_ids={}; break;
+        case 3: selected.spawn_validation_source->permanent_starter_instances=false; break;
+        case 4: selected.start_mech.reset(); selected.start_mech_source.reset(); break;
+        case 5: selected.controller.reset(); break;
+        case 6: selected.pri.reset(); break;
+        case 7: selected.pawn.reset(); break;
+        case 8: selected.links.reset(); break;
+        case 9: selected.publication.reset(); break;
+        }
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+    }
+    CHECK(f.store.wallet(account->ref)==wallet);
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).items==owned.items);
+}
+
+
+namespace {
+Bytes runtime_selection_stage_packet(session::Context& client,std::uint16_t packet_id) {
+    // Stage tag1/8, eligible presence1, int32 stage3 LE: 3+1+32 bits.
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2; bunch.channel=7;
+    bunch.sequence=3; bunch.payload={0x39,0,0,0,0}; bunch.payload_bits=36;
+    wire::Packet packet; packet.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch); packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,512));
+}
+}
+TEST_CASE("UDP trial admission copies explicit stage policy and forwards validated stage3 to the same Pawn context") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto owned=runtime_seed_owned_starter(f,account->ref);
+    const auto wallet=f.store.wallet(account->ref);
+    auto selected=runtime_start_config();
+    selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+        [&](const store::AccountRef& scope,std::string_view instance){return f.store.owned_starter_mech(scope,instance);}};
+    selected.spawn_validation=runtime_spawn_validation_plan();
+    selected.spawn_validation_source=udp::SpawnValidationSource{
+        [&](const store::AccountRef& scope){return f.store.account_achievement_ids(scope);},true};
+    selected.spawn_admission=udp::SpawnAdmissionDispatchPlan{1,3,8,{true,true,true,true,true,true}};
+    for (unsigned invalid=0;invalid<3;++invalid) {
+        CAPTURE(invalid); auto bad=selected;
+        if (invalid==0) { bad.spawn_validation.reset(); bad.spawn_validation_source.reset(); }
+        if (invalid==1) bad.spawn_validation_source.reset();
+        if (invalid==2) bad.spawn_admission->eligibility.stage_argument_eligible=false;
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,bad),
+            "UDP trial runtime could not start.",std::runtime_error);
+    }
+    udp::UdpTrialRuntime runtime(f.auth,selected);
+    selected.spawn_admission->client_restart_rpc_field_id=0;
+    selected.spawn_admission->eligibility.pawn_reference_eligible=false;
+    const auto dto=provision(runtime,login);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    Peer peer; session::Context client(session::Role::client,id,key);
+    const auto property=runtime_validation_selected(runtime,login,peer,client);
+    peer.send(runtime.port(),runtime_links_ack(client,8,property.packet_ids));
+    peer.send(runtime.port(),runtime_spawn_validation_packet(client,9));
+    const auto validated=runtime_links_packets(peer,client,2000ms,1,true);
+    runtime_validation_literal(validated,0x06,3);
+    peer.send(runtime.port(),runtime_links_ack(client,10,validated.packet_ids));
+    CHECK_FALSE(runtime.diagnostics().stage3_requested); CHECK_FALSE(runtime.diagnostics().client_restart_sent);
+    peer.send(runtime.port(),runtime_selection_stage_packet(client,11));
+    const auto restarted=runtime_links_packets(peer,client,2000ms,1,true);
+    REQUIRE(restarted.bunches.size()==1); const auto& bunch=restarted.bunches[0];
+    CHECK(bunch.channel==7); CHECK(bunch.sequence==45); CHECK(bunch.reliable); CHECK(bunch.channel_type==2);
+    CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    CHECK(bunch.payload_bits==16); CHECK(bunch.payload==Bytes{0x1b,0x01});
+    CHECK(runtime.diagnostics().stage3_requested); CHECK(runtime.diagnostics().client_restart_sent);
+    CHECK(runtime.assignment().authorize_udp(id));
+    CHECK(f.store.wallet(account->ref)==wallet);
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).items==owned.items);
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
+    runtime.stop();
+}

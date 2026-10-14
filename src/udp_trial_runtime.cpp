@@ -94,6 +94,9 @@ struct UdpTrialRuntime::Impl {
     const std::optional<InitialActorLinksPlan> links;
     const std::optional<StartMechDispatchPlan> start_mech;
     const std::optional<StartMechSource> start_mech_source;
+    const std::optional<SpawnValidationDispatchPlan> spawn_validation;
+    const std::optional<SpawnValidationSource> spawn_validation_source;
+    const std::optional<SpawnAdmissionDispatchPlan> spawn_admission;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -104,7 +107,9 @@ struct UdpTrialRuntime::Impl {
     }
     Impl(auth::AuthService& auth, const UdpTrialConfig& config)
         : publication(config.publication), controller(config.controller), pawn(config.pawn), pri(config.pri),
-          links(config.links), start_mech(config.start_mech), start_mech_source(config.start_mech_source) {
+          links(config.links), start_mech(config.start_mech), start_mech_source(config.start_mech_source),
+          spawn_validation(config.spawn_validation), spawn_validation_source(config.spawn_validation_source),
+          spawn_admission(config.spawn_admission) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -145,11 +150,44 @@ struct UdpTrialRuntime::Impl {
                     return value;
                 };
             }
+            LocalUdpOwner::SpawnSelectionValidator validate_selection;
+            if (spawn_validation) {
+                validate_selection=[this](const session::SessionId& id,
+                    const wire::rpc::StartMechArguments& request,std::uint8_t setup_id) {
+                    const SpawnSelectionValidationResult failed{{2,2,2,2,2},0};
+                    try {
+                        const auto account=service->account_for_udp(id);
+                        if (!account || setup_id==255) return failed;
+                        // This reader supplies the complete atomic owned nine-role
+                        // graph and effective baseline, never an autogranted preset.
+                        const auto snapshot=start_mech_source->read_effective(*account,request.mech_instance_id);
+                        if (snapshot.items[0].instance_id!=request.mech_instance_id) return failed;
+                        const auto primary=static_cast<std::uint8_t>(static_cast<std::uint32_t>(request.primary_weapon));
+                        const auto holo=static_cast<std::uint8_t>(static_cast<std::uint32_t>(request.holo_taunt_type));
+                        const auto previous=static_cast<std::uint8_t>(setup_id==0 ? 254 : setup_id-1);
+                        const auto selected=inventory::materialize_starter_mech(snapshot,
+                            start_mech_source->expected_catalogue,{primary,holo,previous,std::nullopt,true});
+                        if (selected.setup_id!=setup_id || !spawn_validation_source->permanent_starter_instances)
+                            return failed;
+                        // The finite grant/materializer validates root ownership,
+                        // role IDs and the selected primary's root/child relation.
+                        // Permanence is explicit local policy, not a native expiry claim.
+                        const auto achievements=spawn_validation_source->read_achievement_ids(*account);
+                        const auto current=service->account_for_udp(id);
+                        if (!current || *current!=*account) return failed;
+                        // No achievement catalogue/award engine is configured here.
+                        // Empty means a completed scoped SQL read; failures never do.
+                        if (!achievements.empty()) return failed;
+                        return SpawnSelectionValidationResult{{3,3,3,3,3},7};
+                    } catch (...) { return failed; }
+                };
+            }
             // Start last: all callback targets are complete before the worker.
             owner->start([this](const session::SessionId& id) { return service->authorize_udp(id); },
                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
                     return service->validate_login_response(id, response);
-                }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize));
+                }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize),
+                spawn_validation,std::move(validate_selection),spawn_admission);
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();
@@ -169,6 +207,17 @@ UdpTrialRuntime::UdpTrialRuntime(auth::AuthService& auth, const UdpTrialConfig& 
         startup_failed();
     if (config.start_mech && (!config.publication || !config.controller || !config.pri ||
         !config.pawn || !config.links || !config.start_mech_source->read_effective))
+        startup_failed();
+    if (static_cast<bool>(config.spawn_validation)!=static_cast<bool>(config.spawn_validation_source))
+        startup_failed();
+    if (config.spawn_validation && (!config.publication || !config.controller || !config.pri ||
+        !config.pawn || !config.links || !config.start_mech || !config.start_mech_source ||
+        !config.start_mech_source->read_effective || !config.spawn_validation_source->read_achievement_ids ||
+        !config.spawn_validation_source->permanent_starter_instances))
+        startup_failed();
+    if (config.spawn_admission && (!config.spawn_validation || !config.spawn_validation_source ||
+        !config.publication || !config.controller || !config.pri || !config.pawn || !config.links ||
+        !config.start_mech || !config.start_mech_source))
         startup_failed();
     try { impl_ = std::make_unique<Impl>(auth, config); }
     catch (...) { startup_failed(); }

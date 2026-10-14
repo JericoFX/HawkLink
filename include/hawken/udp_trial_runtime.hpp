@@ -7,6 +7,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace hawken::udp {
 // Original default matchmaking build ID: CRC32 of the Engine package GUID,
@@ -18,6 +19,16 @@ struct StartMechSource {
     // Reads existing account-owned effective HTTP baseline + overrides only.
     // Callback target outlives runtime.stop/join; no grant or account credential.
     std::function<store::StarterMechSnapshot(const store::AccountRef&,std::string_view)> read_effective;
+};
+struct SpawnValidationSource {
+    // Read account-scoped achievement IDs after a successful SQL scope/query.
+    // Empty is a completed own-server no-awards load, not an error fallback.
+    // No active achievement catalogue is configured here: nonempty is unsupported
+    // and fails validation, never discarded or converted to an empty success.
+    std::function<std::vector<std::string>(const store::AccountRef&)> read_achievement_ids;
+    // Explicit own-server permanence policy for configured starter instances;
+    // false cannot activate this dispatcher. No historical expiry assertion.
+    bool permanent_starter_instances = false;
 };
 struct UdpTrialConfig {
     // Port0 is fixture-only. Main requires an explicit port1..65535.
@@ -52,6 +63,17 @@ struct UdpTrialConfig {
     // Both RPC int arguments undergo original BYTE conversion before selection.
     std::optional<StartMechDispatchPlan> start_mech = std::nullopt;
     std::optional<StartMechSource> start_mech_source = std::nullopt;
+    // Optional copied pair requires all actor/link/StartMech policies and source.
+    // Fresh exact account scope is checked before and after owned/achievement SQL
+    // loads outside Use. Re-materialize the accepted finite owned selection with
+    // original BYTE arguments; type/root/parent/permanence and completed loads
+    // provide the five checks, never HTTP status or ACK. No grants/SQL writes.
+    std::optional<SpawnValidationDispatchPlan> spawn_validation = std::nullopt;
+    std::optional<SpawnValidationSource> spawn_validation_source = std::nullopt;
+    // Explicit stage3 admission policy requires the real selected-data validation.
+    // No automatic stage request or additional recovery ServerRestart RPC.
+    std::optional<SpawnAdmissionDispatchPlan> spawn_admission = std::nullopt;
+
 
 };
 // Pure preflight; no binding, randomness, SQL or Steam. Canonical lower-case

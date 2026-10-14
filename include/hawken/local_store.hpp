@@ -102,6 +102,12 @@ public:
     // start at zero; reads do not grant credits or enable payment services.
     // Both wire values are nonnegative int32. Gameplay ledger writes are separate.
     WalletBalances wallet(const AccountRef& account) const;
+    // Explicit current server policy: no awards/imports are enabled. Validate
+    // this account/schema in a read-only transaction before returning no IDs.
+    // This is not a read of persisted earned achievements and never seeds data.
+    // TODO: [shortcut] Replace with a persisted achievement reader BEFORE
+    // enabling any awards or achievement imports.
+    std::vector<std::string> account_achievement_ids(const AccountRef& account) const;
     // Opaque client-received settings only: no consent/progress interpretation,
     // credits, stats or inventory grant. Reads never insert defaults.
     // New bounded server policy: 256 pairs/update; UTF8 keys1..256 bytes without

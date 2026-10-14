@@ -1,0 +1,10 @@
+{
+  "stage": 259,
+  "presence": 1,
+  "shifted_word_hex": "0x207",
+  "bytes": "0702000000",
+  "logical_bits": 33,
+  "prior_wrong_literal": "0302000000",
+  "prior_decoded_value": 257,
+  "review": "Parent independent arithmetic review found incorrect fixture before RED freeze. Only the fixture byte and corresponding unfrozen proof golden corrected; decoder stub and API unchanged."
+}

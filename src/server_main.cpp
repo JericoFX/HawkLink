@@ -552,8 +552,23 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                                                         std::string_view instance) {
                         return service->effective_owned_starter_mech(account,instance);
                     }};
+                trial_config.spawn_validation = hawken::udp::SpawnValidationDispatchPlan{
+                    249,250,251,294,{true,true,true,true,true,true}};
+                trial_config.spawn_validation_source = hawken::udp::SpawnValidationSource{
+                    [&database](const hawken::store::AccountRef& account) {
+                        return database.account_achievement_ids(account);
+                    },true};
+                trial_config.spawn_admission = hawken::udp::SpawnAdmissionDispatchPlan{
+                    281,83,294,{true,true,true,true,true,true}};
+                // Our starter records are permanent; the current local domain
+                // has no achievement awards. The reader verifies account scope
+                // in SQL and must change before an award/import path is enabled.
+                // RPC IDs still depend on the version-pinned trial class cache.
                 std::osyncstream(diagnostics.stream())
-                    << "udp_start_mech schema=conditional_primary_trial gameplay=0\n" << std::flush;
+                    << "udp_start_mech schema=conditional_primary_trial gameplay=0\n"
+                    << "udp_spawn_validation schema=conditional_primary_trial gameplay=0\n"
+                    << "udp_spawn_admission schema=conditional_primary_trial gameplay=0\n"
+                    << std::flush;
             }
             udp_trial = std::make_unique<hawken::udp::UdpTrialRuntime>(auth, trial_config);
         }
@@ -571,6 +586,11 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                 << " join_requested=" << observation.join_requested
                 << " controller_sent=" << observation.controller_sent
                 << " pri_sent=" << observation.pri_sent
+                << " spawn_validation_requested=" << observation.spawn_validation_requested
+                << " spawn_validation_sent=" << observation.spawn_validation_sent
+                << " spawn_validation_failed=" << observation.spawn_validation_failed
+                << " stage3_requested=" << observation.stage3_requested
+                << " client_restart_sent=" << observation.client_restart_sent
                 << " pawn_sent=" << observation.pawn_sent
                 << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
         }

@@ -1,0 +1,248 @@
+{
+  "schema": "spawn-validation-final-gate.luna.v1",
+  "created_utc": "2026-10-14T18:08:21.4180962Z",
+  "freeze_sha256": "833aafa6ac3995a562cabd43590bd80493828dbc56c58455a8c9bdbe854665df",
+  "wrapper_sha256": "0c0cbc810a7ded3f41bcde347aee8a418f5a9564277c37503d2203dd36ddfc9d",
+  "input_count": 170,
+  "input_match_count": 170,
+  "input_mismatches": [],
+  "native_exits": {
+    "devshell": 0,
+    "build": 0,
+    "ctest": 0,
+    "server_help": 0,
+    "master_help": 0,
+    "wrapper": 0,
+    "ctest_show_only": "0"
+  },
+  "tests": {
+    "ctest_suites": 50,
+    "ctest_failures": 0,
+    "ctest_skipped": 0,
+    "doctest_summaries": 50,
+    "cases": 1402,
+    "cases_passed": 1402,
+    "cases_failed": 0,
+    "cases_skipped": 0,
+    "assertions": 65221,
+    "assertions_passed": 65221,
+    "assertions_failed": 0
+  },
+  "suite_results_path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\luna\\suite-results.json",
+  "test_executable_count": 50,
+  "test_executable_manifest": "ctest-executable-hashes.json",
+  "object_outputs": [
+    {
+      "object": "build\\windows-msvc\\CMakeFiles\\hawken_wreckage_trial.dir\\src\\wreckage_trial.cpp.obj",
+      "sha256": "05757fce1a28b3c4e953bb94c9b38e4417a8a9b5628b96be7aa010d7e71935a1",
+      "length": 610942,
+      "last_write_utc": "2026-10-14T18:03:45.9256768Z",
+      "source": "src/wreckage_trial.cpp",
+      "source_freeze_verified": true
+    },
+    {
+      "object": "build\\windows-msvc\\CMakeFiles\\hawken-wreckage-trial-tests.dir\\tests\\wreckage_trial_tests.cpp.obj",
+      "sha256": "e20dbb4738d0133b50bc9a01c7d919023cd46a7b945fb97a1e39ed6a25088035",
+      "length": 1389346,
+      "last_write_utc": "2026-10-14T18:05:07.8847259Z",
+      "source": "tests/wreckage_trial_tests.cpp",
+      "source_freeze_verified": true
+    },
+    {
+      "object": "build\\windows-msvc\\CMakeFiles\\hawken-server.dir\\src\\server_main.cpp.obj",
+      "sha256": "9510912cc07e920aa0f620bb316afe51779a141c64032f6aefcd2f9c30026c41",
+      "length": 9438968,
+      "last_write_utc": "2026-10-14T18:04:05.2366725Z",
+      "source": "src/server_main.cpp",
+      "source_freeze_verified": true
+    }
+  ],
+  "ninja_dependencies": [
+    {
+      "target": "CMakeFiles\\hawken_wreckage_trial.dir\\src\\wreckage_trial.cpp.obj",
+      "exit": 0,
+      "declared_dependency_count": 26,
+      "valid": true,
+      "dependency_paths": [
+        "../../include/hawken/actor_transform_wire.hpp",
+        "../../include/hawken/auth_service.hpp",
+        "../../include/hawken/control_handshake.hpp",
+        "../../include/hawken/control_wire.hpp",
+        "../../include/hawken/game_connection.hpp",
+        "../../include/hawken/game_wire.hpp",
+        "../../include/hawken/initial_controller.hpp",
+        "../../include/hawken/local_store.hpp",
+        "../../include/hawken/local_udp_owner.hpp",
+        "../../include/hawken/mech_setup_wire.hpp",
+        "../../include/hawken/object_reference_wire.hpp",
+        "../../include/hawken/package_publication.hpp",
+        "../../include/hawken/posthello_control.hpp",
+        "../../include/hawken/reliable_control_transport.hpp",
+        "../../include/hawken/server_login_handshake.hpp",
+        "../../include/hawken/session_assignment.hpp",
+        "../../include/hawken/session_wire.hpp",
+        "../../include/hawken/sha256.hpp",
+        "../../include/hawken/spawn_validation.hpp",
+        "../../include/hawken/start_mech_rpc_wire.hpp",
+        "../../include/hawken/starter_catalogue.hpp",
+        "../../include/hawken/starter_mech_setup.hpp",
+        "../../include/hawken/steam_auth.hpp",
+        "../../include/hawken/udp_trial_runtime.hpp",
+        "../../include/hawken/wreckage_trial.hpp",
+        "../../third_party/nlohmann/json.hpp"
+      ],
+      "log": "implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\luna\\deps-CMakeFiles_hawken_wreckage_trial.dir_src_wreckage_trial.cpp.obj.txt",
+      "log_sha256": "6b7336455b8ebc0d088b61fe2750038f89fa197dcef32067f8ae91856ea625ac"
+    },
+    {
+      "target": "CMakeFiles\\hawken-wreckage-trial-tests.dir\\tests\\wreckage_trial_tests.cpp.obj",
+      "exit": 0,
+      "declared_dependency_count": 27,
+      "valid": true,
+      "dependency_paths": [
+        "../../include/hawken/actor_transform_wire.hpp",
+        "../../include/hawken/auth_service.hpp",
+        "../../include/hawken/control_handshake.hpp",
+        "../../include/hawken/control_wire.hpp",
+        "../../include/hawken/game_connection.hpp",
+        "../../include/hawken/game_wire.hpp",
+        "../../include/hawken/initial_controller.hpp",
+        "../../include/hawken/local_store.hpp",
+        "../../include/hawken/local_udp_owner.hpp",
+        "../../include/hawken/mech_setup_wire.hpp",
+        "../../include/hawken/object_reference_wire.hpp",
+        "../../include/hawken/package_publication.hpp",
+        "../../include/hawken/posthello_control.hpp",
+        "../../include/hawken/reliable_control_transport.hpp",
+        "../../include/hawken/server_login_handshake.hpp",
+        "../../include/hawken/session_assignment.hpp",
+        "../../include/hawken/session_wire.hpp",
+        "../../include/hawken/spawn_validation.hpp",
+        "../../include/hawken/start_mech_rpc_wire.hpp",
+        "../../include/hawken/starter_catalogue.hpp",
+        "../../include/hawken/starter_mech_setup.hpp",
+        "../../include/hawken/steam_auth.hpp",
+        "../../include/hawken/udp_trial_runtime.hpp",
+        "../../include/hawken/wreckage_trial.hpp",
+        "../../tests/test_support.hpp",
+        "../../third_party/doctest/doctest.h",
+        "../../third_party/nlohmann/json.hpp"
+      ],
+      "log": "implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\luna\\deps-CMakeFiles_hawken-wreckage-trial-tests.dir_tests_wreckage_trial_tests.cpp.obj.txt",
+      "log_sha256": "5d034ee0bbe5446dfd158d1db2aeddf9df491ff433ebb9ff8ff65d1a03f6f541"
+    },
+    {
+      "target": "CMakeFiles\\hawken-server.dir\\src\\server_main.cpp.obj",
+      "exit": 0,
+      "declared_dependency_count": 35,
+      "valid": true,
+      "dependency_paths": [
+        "../../include/hawken/actor_transform_wire.hpp",
+        "../../include/hawken/auth_service.hpp",
+        "../../include/hawken/control_handshake.hpp",
+        "../../include/hawken/control_wire.hpp",
+        "../../include/hawken/game_connection.hpp",
+        "../../include/hawken/game_wire.hpp",
+        "../../include/hawken/http_diagnostics.hpp",
+        "../../include/hawken/initial_controller.hpp",
+        "../../include/hawken/inventory_service.hpp",
+        "../../include/hawken/local_store.hpp",
+        "../../include/hawken/local_tcp_probe.hpp",
+        "../../include/hawken/local_udp_owner.hpp",
+        "../../include/hawken/master_directory.hpp",
+        "../../include/hawken/mech_setup_wire.hpp",
+        "../../include/hawken/menu_sync_service.hpp",
+        "../../include/hawken/object_reference_wire.hpp",
+        "../../include/hawken/package_publication.hpp",
+        "../../include/hawken/posthello_control.hpp",
+        "../../include/hawken/reliable_control_transport.hpp",
+        "../../include/hawken/server_http.hpp",
+        "../../include/hawken/server_login_handshake.hpp",
+        "../../include/hawken/session_assignment.hpp",
+        "../../include/hawken/session_wire.hpp",
+        "../../include/hawken/sha256.hpp",
+        "../../include/hawken/spawn_validation.hpp",
+        "../../include/hawken/start_mech_rpc_wire.hpp",
+        "../../include/hawken/starter_catalogue.hpp",
+        "../../include/hawken/starter_mech_setup.hpp",
+        "../../include/hawken/steam_auth.hpp",
+        "../../include/hawken/steam_local_auth.hpp",
+        "../../include/hawken/sync_service.hpp",
+        "../../include/hawken/udp_trial_runtime.hpp",
+        "../../include/hawken/wreckage_trial.hpp",
+        "../../third_party/cpp-httplib/httplib.h",
+        "../../third_party/nlohmann/json.hpp"
+      ],
+      "log": "implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\luna\\deps-CMakeFiles_hawken-server.dir_src_server_main.cpp.obj.txt",
+      "log_sha256": "475d0453159fb150abd48aafd57729c4628580bf1fcc08bdffc4dede65cc8259"
+    }
+  ],
+  "canonical_outputs": [
+    {
+      "path": "build\\windows-msvc\\hawken-server.exe",
+      "sha256": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f",
+      "length": 2404864,
+      "last_write_utc": "2026-10-14T18:05:14.8425343Z"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+      "length": 727040,
+      "last_write_utc": "2026-10-14T18:05:14.3445182Z"
+    },
+    {
+      "path": "build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+      "length": 359424,
+      "last_write_utc": "2026-10-14T18:05:15.3752978Z"
+    }
+  ],
+  "preflight_canonical": [
+    {
+      "path": "build\\windows-msvc\\hawken-server.exe",
+      "sha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+      "length": 2342912,
+      "last_write_utc": "2026-10-13T15:50:45.6218275Z"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-master.exe",
+      "sha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+      "length": 727040,
+      "last_write_utc": "2026-10-13T00:42:55.1203132Z"
+    }
+  ],
+  "protected_processes_before": [
+    {
+      "expected_pid": 127648,
+      "exists": false
+    },
+    {
+      "expected_pid": 330560,
+      "exists": false
+    }
+  ],
+  "relevant_processes_after": [],
+  "ram_after": {
+    "total_kib": 33462640,
+    "free_kib": 11817540
+  },
+  "archived_objects": "archived-objects/archived-objects.json",
+  "raw_logs": [
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "ctest.stdout.log",
+    "ctest.stderr.log",
+    "ctest.exit.txt",
+    "tests.xml",
+    "server-help.stdout.log",
+    "server-help.stderr.log",
+    "server-help.exit.txt",
+    "master-help.stdout.log",
+    "master-help.stderr.log",
+    "master-help.exit.txt",
+    "wrapper.exit.txt"
+  ]
+}

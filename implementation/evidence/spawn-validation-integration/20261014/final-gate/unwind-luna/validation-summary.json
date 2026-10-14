@@ -1,0 +1,79 @@
+{
+  "schema": "spawn-validation.asan-exception-unwind-probe.v1",
+  "created_utc": "2026-10-14T19:26:56.3085965Z",
+  "source_freeze": {
+    "cpp_sha256": "B929A28F21E6CF971CBC9B92049B42017F791F922268FA4F85369FC46EEA8BA0",
+    "actual_pins": [
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\exception-unwind-probe.cpp",
+        "sha256": "B929A28F21E6CF971CBC9B92049B42017F791F922268FA4F85369FC46EEA8BA0",
+        "bytes": 659
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\run-unwind-probe.cmd",
+        "sha256": "48F9D33F95E32D3985A1F888BFB2B095516409D037917DC2413F13FFBF600B2F",
+        "bytes": 2287
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\unwind-luna\\control.exe",
+        "sha256": "04156673908A1CBE772A6E8BDA31B41777BF3B70B2E2C573B1F2C6077619F2A7",
+        "bytes": 501760
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\final-gate\\unwind-luna\\asan.exe",
+        "sha256": "3DA3C7D6656ED72C4F1928C66D6ED91AD557CDED7F27B7B11510541487C92DAB",
+        "bytes": 526848
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\clang-cl.exe",
+        "sha256": "9584244D83BB095C5A2983F814692CB50E0B8D2916585516CAD8F3E8596D8261",
+        "bytes": 113284096
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\lib\\clang\\23\\lib\\windows\\clang_rt.asan_dynamic-x86_64.dll",
+        "sha256": "10EB44B5BF951AF91591476AD25D5CC3D34689CBC699B1D0BB1A95220A5427BA",
+        "bytes": 532480
+      }
+    ],
+    "wrapper_sha256": "48F9D33F95E32D3985A1F888BFB2B095516409D037917DC2413F13FFBF600B2F"
+  },
+  "toolchain": {
+    "asan_runtime_sha256": "10EB44B5BF951AF91591476AD25D5CC3D34689CBC699B1D0BB1A95220A5427BA",
+    "asan_options": "alloc_dealloc_mismatch=1",
+    "clang_version": "23.1.3",
+    "flags": "clang-cl /O2 /Ob1 /EHsc /MT /std:c++20 /W4 /WX /utf-8 /Z7; ASan build adds /fsanitize=address; lld-link"
+  },
+  "native_exits": {
+    "devshell": 0,
+    "control-build": 0,
+    "asan-build": 0,
+    "control-run": 0,
+    "asan-run": 1,
+    "wrapper": 0,
+    "outer-command": 0
+  },
+  "results": {
+    "raw_logs": [
+      "devshell.stdout.log",
+      "devshell.stderr.log",
+      "control-build.stdout.log",
+      "control-build.stderr.log",
+      "asan-build.stdout.log",
+      "asan-build.stderr.log",
+      "control-run.stdout.log",
+      "control-run.stderr.log",
+      "asan-run.stdout.log",
+      "asan-run.stderr.log",
+      "*.exit.txt"
+    ],
+    "interpretation": "Minimal non-network throw/catch + RAII reproduces the same ASan Windows C++ EH failure; this discriminates an ASan+EH path from UDP transport-specific behavior, but does not identify vendor ownership or exclude additional transport defects.",
+    "asan": "FAIL: access violation in __FrameHandler3::GetUnwindTryBlock at ehstate.cpp:186 while _CxxThrowException calls expected_failure() at probe line 15",
+    "control": "PASS: caught=1 cleanup_count=1"
+  },
+  "resource": {
+    "total_kib": 33462640,
+    "used_percent": 65.04,
+    "free_kib": 11697868,
+    "relevant_build_processes": []
+  }
+}

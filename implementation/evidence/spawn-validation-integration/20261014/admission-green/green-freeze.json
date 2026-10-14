@@ -1,0 +1,64 @@
+{
+  "phase": "READY_ADMISSION_GREEN",
+  "source_pins": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\controller_admission_rpc_wire.hpp",
+      "sha256": "45ab99df3ff676b0bd8e36b1210ba7dcfcf6c77a6602c1d20da2a12e41b9c6f8",
+      "bytes": 1098
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\controller_admission_rpc_wire.cpp",
+      "sha256": "e803291317d1ef286c782b4301b31b0dbe33c8ca3ee2c3410c6c6bfb35b7fb3a",
+      "bytes": 1107
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\controller_admission_rpc_wire_tests.cpp",
+      "sha256": "d617a59df13a6176afbc5e37505d7ea33fd8249b259f6f170ea6f6370d67bea2",
+      "bytes": 5635
+    }
+  ],
+  "red_freeze": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\admission-red\\red-freeze.json",
+    "sha256": "d2586a88d6a5f2f4b55113dfd3971f36740b284f55a10510139b4010efda469b",
+    "bytes": 6502
+  },
+  "preimage": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\admission-green\\reader-before-green.cpp",
+    "sha256": "ff84b0e3b80bc8d4ef21e21384a919a53fa50f933f5608066709fefe99ce81ec",
+    "bytes": 234
+  },
+  "diff": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\admission-green\\red-green.diff",
+    "sha256": "d98d23aa7a5ec86704930df12942782ef674e997d7791088ed8aeacb689e22c3",
+    "bytes": 1396
+  },
+  "only_changed_source": "src/controller_admission_rpc_wire.cpp",
+  "header_tests_identical_red": true,
+  "previous_green_six_unchanged": true,
+  "reason_by_region": {
+    "validation": "Positive budget and explicit valid archive integer order before reads.",
+    "presence": "Single bit; absent defaults to0, present requires33-bit budget.",
+    "scalar": "32 native storage bits; big endian reverses byte order only, leaves bit order per byte. std::bit_cast retains signed32 including259 without narrowing. No allocation/helper/framework.",
+    "transaction": "Copy reader and commit only after full successful decoding. Failure never changes original cursor; opaque suffix retained."
+  },
+  "writer_builds_tests_runtime_git": false,
+  "acceptance_pending": "Parent review then Luna GREEN builds/tests. Stub replaced; no admission/ownership/RPC execution added.",
+  "focused_target": "hawken-controller-admission-rpc-tests",
+  "ctest": "controller_admission_rpc",
+  "protocol_proof": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\admission-red\\protocol-proof.json",
+    "sha256": "9849a598479e33ef594adf2cac28e9459c4c7df2ec73212575688f9da0fa9914",
+    "bytes": 3696
+  },
+  "line_endings": {
+    "crlf": 0,
+    "lf": 28
+  },
+  "graft_preflight": "check OK7022 before indexed skeleton lookup/unchanged exact BitReader source review; tiny cpp implementation subsequently read/reviewed directly.",
+  "skills_complete_reading_reused": {
+    "cpp-pro": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game-developer": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "hashes_rechecked_unchanged": true
+  },
+  "task_owned_persistent_helpers": 0
+}

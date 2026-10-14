@@ -1,0 +1,19 @@
+{
+  "implemented": [
+    "Explicit known stage argument decoded by accepted scalar-int RPC reader; exact raw stage==3 only. Known fields advance exact boundaries, unknown/truncated tags stop; no opaque payload scan.",
+    "Revision-bound per Entry request; requires accepted mech, successful five-check validation, same revision, actual actor opening ACKs, links and empty PRI queue. New Start invalidates previous permission immediately; successful selected-property send starts the new revision.",
+    "Fresh authorization and time before exact Entry pin; lifecycle rechecked; ClientRestart uses existing Pawn channel reference via pawn_rpc_wire, reliable Controller/type2 on persistent Context.",
+    "One actual successful nonempty send per revision; existing transport owns lost-ACK retry. Failure retires only after Use.",
+    "Runtime immutable copied admission plan, prerequisites validated before Impl/bind; Owner validates schema/IDs/bounds/codec budget before worker."
+  ],
+  "local_policies_and_limits": [
+    "Exact raw int32 value3; original BYTE/enum PrimitiveCast equivalence for259/negative is not claimed or newly accepted.",
+    "Early stage3 before data-validation success is observed but does not create future admission permission. Another non3 stage cancels pending admission.",
+    "Typed schema premises remain caller-provided conditional evidence, never diagnostic activation.",
+    "No extra ServerRestartRPC25 or possession-ACK RPC handler; no guaranteed native actor creation/gameplay.",
+    "No SQL/grants/payload/auth logging/new Context/transport changes."
+  ],
+  "regressions": "All three accepted RED tests/oracles unchanged. One append-only Owner case adds known unaligned Stage0->Stage3, unknown-field stopping, new selected revision invalidating old success and auth revocation; original prefix byte-identical.",
+  "verification": "No builds/tests/runtime/Git by writer; local diff/source whitespace and LF preservation checked. Parent/Luna gate pending.",
+  "helpers": "No task-owned persistent helper created; nothing killed."
+}

@@ -675,6 +675,16 @@ bool LocalStore::merge_owned_item_attributes(const AccountRef& account, std::str
     return changed;
 }
 
+std::vector<std::string> LocalStore::account_achievement_ids(const AccountRef& account) const {
+    auto& state = state_of(impl_);
+    const std::lock_guard lock(state.mutex);
+    Transaction transaction(state.db.get(), false);
+    state.check();
+    require_account(state.db.get(), state.server, account);
+    transaction.commit();
+    // Explicit no-awards policy, not a persisted earned-achievement reader.
+    return {};
+}
 GameSettings LocalStore::game_settings(const AccountRef& account) const {
     auto& state = state_of(impl_);
     const std::lock_guard lock(state.mutex);

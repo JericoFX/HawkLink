@@ -1,0 +1,86 @@
+{
+  "phase": "READY_RED",
+  "created_utc": "2026-10-14T17:42:05.004436+00:00",
+  "inputs": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "48bbc7297ddc63c6b8b70438f7752340c6ddfc6b036653fee073394501776d7d",
+      "bytes": 18605,
+      "before_sha256": "7dfdbad5dd68319a058bab4ac9f0af9be9f2604e524c16a8db16b93be81d0d43"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "97fdf583c3aaadb20d23c74aaa2defa6c5bff0c0f304ec5a8d4bcf84658a123b",
+      "bytes": 56883,
+      "before_sha256": "9d82c969d1045ed77419d78215090447830a949dea38fee9eb08a5a663c77f01"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "51d39ad1edfc62738ff1e484468969da512294a7b5d4a528b7db06b0bba0231c",
+      "bytes": 155754,
+      "before_sha256": "fff74bbd50bbfb0bccff89d2d91e2ec5a229b0980bfdb41d15376dc45325ce7b"
+    },
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "d279d9a33c026a00166513887b72b84df4711447c8b39396bce875d5bf030482",
+      "bytes": 6944,
+      "before_sha256": "312860f5e44bb8706d9b545f9e5f9f3f65d21c9f24660d246fdbc5c76c48771c"
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "240e52cd441b5fc66f7378e38350383f828e88d42832ea0bc8a60ecd1b0ca15e",
+      "bytes": 12729,
+      "before_sha256": "79d8aa2a976acaae964b47018c402170f535c3b03159cd729eb36463a19436b8"
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "a2aa40e85a7fb4956fd73855d5a1c7e8f37f5354a170f93784ad6a532457c4ca",
+      "bytes": 82886,
+      "before_sha256": "535e4639e260f3bc38bb2a7a32190f136c7f5a95b570727e66829530c7f058e5"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-red/red.diff",
+      "sha256": "da67798fbcb5398bd5881d92298cb78143abc2f679e11e67d17898b49030440c"
+    },
+    {
+      "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-red/validation-fixture-fix.diff",
+      "sha256": "6b300011bb71341684bd7e075c4a9ce86da10b0080ccfdca6b0caa30ff0e3bd6"
+    },
+    {
+      "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-red/literal-proof.json",
+      "sha256": "ffd3af54d38a42c43ccd864a406d50fe4896853265f616b854cd1d51eac5bc67"
+    },
+    {
+      "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-red/fixture-erratum.json",
+      "sha256": "143312ac8eed5f7338cbcc1eb397e3b64a92f82ca721d033c51b75972adf1417"
+    }
+  ],
+  "skills": {
+    "cpp_pro": {
+      "path": "C:/Users/Jerico/.codex/skills/cpp-pro/SKILL.md",
+      "sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+      "coverage": "Full reading; original C++/UE3 transport preserved, no C# application."
+    },
+    "game_developer": {
+      "path": "C:/Users/Jerico/.codex/skills/game-developer/SKILL.md",
+      "sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+      "coverage": "Full reading; original C++/UE3 transport preserved, no C# application."
+    },
+    "multiplayer_networking": {
+      "path": "C:/Users/Jerico/.codex/skills/game-developer/references/multiplayer-networking.md",
+      "sha256": "10c22a22749041b99f09a4e365dadbe6e58fc1b56c90407960bb466aa2de8611",
+      "coverage": "Full reading; original C++/UE3 transport preserved, no C# application."
+    }
+  },
+  "new_tests": [
+    "UDP admission needs explicit stage3 after validated selection and reliably restarts the existing Pawn once",
+    "UDP admission rejects invalid premises and never restarts without successful selected data validation",
+    "UDP trial admission copies explicit stage policy and forwards validated stage3 to the same Pawn context"
+  ],
+  "expected_red": "Current admission plan is ignored: positive ClientRestart absent; stage diagnostic absent; startup invalid admission premises not rejected. Existing validation expected GREEN with measured ACK fixture corrected.",
+  "scaffold": "Declaration/trailing optional default and forwarding only; no admission decode/gate/send/preflight algorithm. Diagnostic atomics remain false.",
+  "checks": "Added-line whitespace and LF preservation checked locally; no compiler/tests/runtime/Git.",
+  "policy": "No recovery ServerRestartRPC25 requirement, no ACK-as-data-validation, no native/gameplay acceptance."
+}

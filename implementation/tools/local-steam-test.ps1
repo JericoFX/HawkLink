@@ -1,5 +1,5 @@
 # Ensayo temporal de destino. No inicia Steam ni el juego y no captura sus logs.
-# Ejecutar elevado; iniciar Hawken normalmente desde Steam tras ready.json.
+# Crear aislamiento requiere elevación; ExistingIsolationRuleName reutiliza una regla verificada sin modificarla.
 # Los servicios y el guard permanecen hasta stop.request, incluso entre reinicios del cliente.
 # -StopWhenClientCloses conserva el ensayo acotado y su espera inicial máxima de 10 minutos.
 # -AttachExistingServices instala sólo routing/guard; nunca detiene servicios prestados.
@@ -18,7 +18,11 @@ param(
     [switch]$StopWhenClientCloses,
     [switch]$AttachExistingServices,
     [int]$ServerPid = 0,
-    [int]$MasterPid = 0
+    [int]$MasterPid = 0,
+    [ValidatePattern('^HawkenLocalOnly-[0-9a-f]{32}$')]
+    [string]$ExistingIsolationRuleName = '',
+    [ValidatePattern('^[0-9a-f]{64}$')]
+    [string]$ServerExecutableHash = '260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -40,7 +44,8 @@ if ($ShortFtuxTest) {
     $starterProfileHash = '0fa39b4b034db73e757c237d66b3d64f8281c8cf3789ed22a6371b10e8e4d004'
 }
 $sessionDirectory = Join-Path $workspace ('implementation\evidence\' + $SessionName)
-$ruleName = 'HawkenLocalOnly-' + [Guid]::NewGuid().ToString('N')
+$ownsRule = [string]::IsNullOrEmpty($ExistingIsolationRuleName)
+$ruleName = if ($ownsRule) { 'HawkenLocalOnly-' + [Guid]::NewGuid().ToString('N') } else { $ExistingIsolationRuleName }
 $remoteAddresses = @('0.0.0.0-126.255.255.255', '128.0.0.0-255.255.255.255', '::/1', '8000::/1')
 $addedFiles = @()
 $sessionCreated = $false
@@ -55,6 +60,7 @@ $result = [ordered]@{
     schema = 'hawken.local-steam-routing.v2'
     status = 'NOT_STARTED'
     servicesOwned = $ownsServices
+    isolationRuleOwned = $ownsRule
     steamStartedByHelper = $false
     gameStartedByHelper = $false
     gameObserved = $false
@@ -112,8 +118,8 @@ function Assert-AttachedServices($Server, $Master) {
     }
     $serverStart = $Server.StartTime
     $masterStart = $Master.StartTime
-    Assert-Hash $Server.Path 'bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742'
-    Assert-Hash $Master.Path 'f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f'
+    Assert-Hash $Server.Path $ServerExecutableHash
+    Assert-Hash $Master.Path 'd9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df'
     $serverTcp = @(Get-NetTCPConnection -State Listen -LocalPort 80 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
     $serverUdp = @(Get-NetUDPEndpoint -LocalPort 7777 -OwningProcess $Server.Id -ErrorAction SilentlyContinue)
     $masterTcp = @(Get-NetTCPConnection -State Listen -LocalPort 18080 -OwningProcess $Master.Id -ErrorAction SilentlyContinue)
@@ -138,6 +144,21 @@ function Assert-AttachedServices($Server, $Master) {
 function Write-Evidence([string]$Name, $Value) {
     $text = $Value | ConvertTo-Json -Depth 6
     [IO.File]::WriteAllText((Join-Path $sessionDirectory $Name), $text, [Text.UTF8Encoding]::new($false))
+}
+
+function Assert-IsolationRule([string]$Name) {
+    $rule = @(Get-NetFirewallRule -Name $Name -PolicyStore ActiveStore -ErrorAction Stop)
+    if ($rule.Count -ne 1 -or $rule[0].Enabled -ne 'True' -or
+        $rule[0].Direction -ne 'Outbound' -or $rule[0].Action -ne 'Block' -or
+        $rule[0].Profile -ne 'Any') { throw 'Firewall rule verification failed.' }
+    $application = $rule[0] | Get-NetFirewallApplicationFilter
+    $address = $rule[0] | Get-NetFirewallAddressFilter
+    $port = $rule[0] | Get-NetFirewallPortFilter
+    if ($application.Program -ne $gameExecutable -or $address.LocalAddress -ne 'Any' -or
+        @(Compare-Object ($remoteAddresses | Sort-Object) ($address.RemoteAddress | Sort-Object)).Count -ne 0 -or
+        $port.Protocol -ne 'Any' -or $port.LocalPort -ne 'Any' -or $port.RemotePort -ne 'Any') {
+        throw 'Firewall filter verification failed.'
+    }
 }
 
 function Get-GameProcesses {
@@ -168,7 +189,7 @@ try {
         throw 'Starter inventory requires local Steam authentication.'
     }
     $principal = [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent())
-    if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    if ($ownsRule -and -not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         throw 'Administrator token required.'
     }
     if (@(Get-GameProcesses).Count -ne 0 -or (Test-Path -LiteralPath $sessionDirectory)) {
@@ -178,8 +199,8 @@ try {
         Assert-Hash (Join-Path $gameDirectory $original.name) $original.hash
     }
     if ($ownsServices) {
-        Assert-Hash $masterExecutable 'f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f'
-        Assert-Hash $serverExecutable 'bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742'
+        Assert-Hash $masterExecutable 'd9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df'
+        Assert-Hash $serverExecutable $ServerExecutableHash
     }
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
@@ -212,25 +233,17 @@ try {
     Write-Evidence 'guard.json' @{ ruleName = $ruleName; gameExecutable = $gameExecutable; remoteAddresses = $remoteAddresses }
 
     $phase = 'firewall-rule-create'
-    $null = New-NetFirewallRule -Name $ruleName -DisplayName $ruleName -Direction Outbound -Action Block `
-        -Program $gameExecutable -Protocol Any -RemoteAddress $remoteAddresses -Profile Any -Enabled True
+    if ($ownsRule) {
+        $null = New-NetFirewallRule -Name $ruleName -DisplayName $ruleName -Direction Outbound -Action Block `
+            -Program $gameExecutable -Protocol Any -RemoteAddress $remoteAddresses -Profile Any -Enabled True
+    }
     $ruleCreated = $true
     $phase = 'firewall-rule-query'
-    $rule = @(Get-NetFirewallRule -Name $ruleName -PolicyStore ActiveStore)
-    if ($rule.Count -ne 1 -or $rule[0].Enabled -ne 'True' -or $rule[0].Direction -ne 'Outbound' -or $rule[0].Action -ne 'Block') {
-        throw 'Firewall rule verification failed.'
-    }
-    $application = $rule[0] | Get-NetFirewallApplicationFilter
-    $phase = 'firewall-address-query'
-    $address = $rule[0] | Get-NetFirewallAddressFilter
-    if ($application.Program -ne $gameExecutable -or
-        @(Compare-Object ($remoteAddresses | Sort-Object) ($address.RemoteAddress | Sort-Object)).Count -ne 0) {
-        throw 'Firewall filter verification failed.'
-    }
-    Write-Evidence 'guard-active.json' @{ verified = $true; ruleName = $ruleName; program = $gameExecutable }
+    Assert-IsolationRule $ruleName
+    Write-Evidence 'guard-active.json' @{ verified = $true; ruleName = $ruleName; program = $gameExecutable; owned = $ownsRule }
 
     $phase = 'temporary-files'
-    Add-TestFile $bridgeSource 'dinput8.dll' '49f8feafa7984626dc577132ed350e6cccc0a336f574c88fcb5fbbf639f01389'
+    Add-TestFile $bridgeSource 'dinput8.dll' '433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a'
     Add-TestFile $configSource 'hawken-client.toml' '7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3'
 
     if ($ownsServices) {
@@ -447,7 +460,7 @@ try {
             $cleanupOk = $false
         }
     }
-    if ($ruleCreated) {
+    if ($ruleCreated -and $ownsRule) {
         try { Remove-NetFirewallRule -Name $ruleName }
         catch { $cleanupOk = $false }
     }

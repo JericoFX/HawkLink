@@ -1,0 +1,82 @@
+{
+  "status": "STATIC_SINGLE_INT_ARGUMENT_SCHEMA_CLOSED_READER_RED",
+  "package_proof": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-integration\\20261014\\admission-red\\stage-parameter-original-proof.json",
+    "sha256": "06a9e97f4142e0ee6a97ce80bc46cd3d84966184491c5f5508362feb949ea032",
+    "bytes": 7803
+  },
+  "native_int_binding": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\int-binding-proof.json",
+    "sha256": "75e27f1c08133d313be29f47b8810da4ebce3bdb52d30aac154bda91c97c9878",
+    "bytes": 2406
+  },
+  "common_sender_receiver": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\contract-v3.json",
+    "sha256": "a59959fca4fd4158d07c588f7b8e5879845696c02c90800849bcdd9d10894208",
+    "bytes": 10932
+  },
+  "presence": "IntProperty+2b8 f3420 with null default compares rawint to0; eligible non-Bool commonRPCpresence1 iffnonzero; absent zero-initialized storage0.",
+  "scalar": "IntProperty+2c8 f8fb0->3a30 serializes4bytes;Archive+4c controls byte order; rawsigned32/storage, no range compression/alignment.",
+  "native_binding_evidence": [
+    {
+      "slot": "0x2b8",
+      "cell": {
+        "rva": "0x12c7028",
+        "raw_offset": "0x12c6428",
+        "bytes": "20340f4001000000",
+        "sha256": "26c185c7c606de84ef6544b056a067929729b88c60322a279a60ad80117b5206"
+      },
+      "target_rva": "0xf3420",
+      "entry_original": {
+        "rva": "0xf3420",
+        "raw_offset": "0xf2820",
+        "bytes": "33c04d85c07409418b08390a0f94c0c3",
+        "sha256": "c39f8133442d90c20292bc7b361cd8fb7c9c75e0545a4f42ed26e224ff2fb5b0"
+      }
+    },
+    {
+      "slot": "0x2c8",
+      "cell": {
+        "rva": "0x12c7038",
+        "raw_offset": "0x12c6438",
+        "bytes": "b08f0f4001000000",
+        "sha256": "1869934ea1197b8c51ed08ecf2fd6d7567ca065bf522159dff069037d901efc0"
+      },
+      "target_rva": "0xf8fb0",
+      "entry_original": {
+        "rva": "0xf8fb0",
+        "raw_offset": "0xf83b0",
+        "bytes": "4883ec28488bca41b804000000498bd1",
+        "sha256": "4ef0d7277d9affef8b1cc98095ba38707a44553af5d14602630aebafda93ca9e"
+      }
+    }
+  ],
+  "source_function": {
+    "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021451-HawkenGame.R_PlayerController.ServerUpdateSelectionStage.uc",
+    "sha256": "82120e0b7d65829af2df36e58a9efca903d30ab4e20da91e814ac7e02f0a331a",
+    "bytes": 696
+  },
+  "script_narrowing": "Retained UC explicitly byte-casts ClientSelectStage BEFORE int(MechSelectStage)==3 comparison. Original serialized ScriptStorage bytes match package; primitive-cast token meaning was not independently decoded in this slice. Reader preservesrawint32; no implicit Owner narrowing inferred.",
+  "client_flow": "ClientSpawnSelectionValidated->GotoSelectionStage3->ServerUpdateSelectionStage only. ServerUpdate calls ServerRestartPlayer locally server-side; no mandatory outbound ServerRestartRPC25 to client.",
+  "known_goldens_arguments_only": [
+    {
+      "endian": "little",
+      "stage": 3,
+      "bytes": "0700000000",
+      "bits": 33
+    },
+    {
+      "endian": "big",
+      "stage": 3,
+      "bytes": "0100000600",
+      "bits": 33
+    },
+    {
+      "endian": "little",
+      "stage": 259,
+      "bytes": "0702000000",
+      "bits": 33
+    }
+  ],
+  "boundaries": "Caller owns field tag/effective bound/parameter eligibility/direction; budget positive; absence1/present33; preserve suffix and transactional cursor. No admission/ownership validation/RPCexecution byreader."
+}

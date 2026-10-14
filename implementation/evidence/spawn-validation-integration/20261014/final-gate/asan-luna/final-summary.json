@@ -1,0 +1,122 @@
+{
+  "schema": "spawn-validation-asan-gate.luna.v1",
+  "created_utc": "2026-10-14T18:13:29.4199735Z",
+  "freeze_sha256": "86fe6df63c65c6b66c84c8033b930380d0eb163dfea39bae3329edb2ca81fc90",
+  "wrapper_sha256": "1b4fb099eb569ffd0c4449cd2266dff24e3ad45a863602527f0ae492e273d860",
+  "inputs": {
+    "count": 170,
+    "matching": 170,
+    "mismatches": [],
+    "manifest": "input-manifest-post.json"
+  },
+  "native_exits": {
+    "devshell": "0",
+    "build": "0",
+    "ctest": "8",
+    "wrapper": "8",
+    "ctest_show_only": "0"
+  },
+  "asan_options": "alloc_dealloc_mismatch=1",
+  "asan_symbolizer_path": "${sourceDir}/implementation/tools/llvm-23.1.3/portable/clang+llvm-23.1.3-x86_64-pc-windows-msvc/bin/llvm-symbolizer.exe",
+  "results": {
+    "ctest_suites": "5",
+    "ctest_failures": "2",
+    "ctest_skipped": "0",
+    "successful_suites": 3,
+    "failed_suites": [
+      "local_udp_owner",
+      "udp_trial_runtime"
+    ],
+    "summaries_from_passing_suites": 3,
+    "passing_doctest_cases": 134.0,
+    "passing_assertions": 3914.0,
+    "all_suite_results": "suite-results.json"
+  },
+  "test_executable_count": 5,
+  "test_executable_manifest": "asan-test-executable-hashes.json",
+  "canonical_pre": [
+    {
+      "path": "build\\windows-msvc\\hawken-server.exe",
+      "sha256": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f",
+      "length": 2404864,
+      "last_write_utc": "2026-10-14T18:05:14.8425343Z"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+      "length": 727040,
+      "last_write_utc": "2026-10-14T18:05:14.3445182Z"
+    },
+    {
+      "path": "build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+      "length": 359424,
+      "last_write_utc": "2026-10-14T18:05:15.3752978Z"
+    }
+  ],
+  "canonical_post": [
+    {
+      "path": "build\\windows-msvc\\hawken-server.exe",
+      "sha256": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f",
+      "length": 2404864,
+      "last_write_utc": "2026-10-14T18:05:14.8425343Z"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+      "length": 727040,
+      "last_write_utc": "2026-10-14T18:05:14.3445182Z"
+    },
+    {
+      "path": "build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+      "length": 359424,
+      "last_write_utc": "2026-10-14T18:05:15.3752978Z"
+    }
+  ],
+  "canonical_unchanged": true,
+  "ram_after": {
+    "total_kib": 33462640,
+    "free_kib": 8700808,
+    "used_percent": 74.0
+  },
+  "relevant_processes_after": [
+    {
+      "ProcessId": 11180,
+      "ParentProcessId": 3580,
+      "Name": "hawken-master.exe",
+      "CreationDate": "2026-10-14T15:11:13.690019-03:00",
+      "ExecutablePath": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "CommandLine": "\"F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe\" --port 18080"
+    },
+    {
+      "ProcessId": 19256,
+      "ParentProcessId": 3580,
+      "Name": "hawken-server.exe",
+      "CreationDate": "2026-10-14T15:11:14.402835-03:00",
+      "ExecutablePath": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "CommandLine": "\"F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe\" --port 80 --steam-local --database F:\\HawkenServer\\implementation\\local-runtime\\accounts.sqlite --server-id local-steam-first --diagnostics F:\\HawkenServer\\implementation\\evidence\\local-steam-routing-20261014-181000\\server.diagnostics.log --stop-file F:\\HawkenServer\\implementation\\evidence\\local-steam-routing-20261014-181000\\server.stop --starter-profile F:\\HawkenServer\\profiles\\local-starter-catalogue.json --udp-port 7777 --udp-server-guid 6e18287d-59e2-45f6-b716-1e60196d63df --udp-region EU --udp-world-root \"F:\\SteamLibrary\\steamapps\\common\\Hawken\""
+    },
+    {
+      "ProcessId": 2532,
+      "ParentProcessId": 7960,
+      "Name": "HawkenGame-Win64-Shipping.exe",
+      "CreationDate": "2026-10-14T15:12:47.723679-03:00",
+      "ExecutablePath": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+      "CommandLine": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe"
+    }
+  ],
+  "raw_logs": [
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "ctest.stdout.log",
+    "ctest.stderr.log",
+    "ctest.exit.txt",
+    "tests.xml",
+    "wrapper.exit.txt"
+  ],
+  "asan_tool_runtime": "asan-tool-runtime-hashes.json"
+}

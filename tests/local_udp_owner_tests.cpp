@@ -725,7 +725,10 @@ struct LoginAuthorityFixture {
                                    std::optional<udp::InitialPriPlan> pri=std::nullopt,
                                    std::optional<udp::InitialActorLinksPlan> links=std::nullopt,
                                    std::optional<udp::StartMechDispatchPlan> start_mech=std::nullopt,
-                                   udp::LocalUdpOwner::StartMechProvider mech_provider={})
+                                   udp::LocalUdpOwner::StartMechProvider mech_provider={},
+                                   std::optional<udp::SpawnValidationDispatchPlan> spawn_validation=std::nullopt,
+                                   udp::LocalUdpOwner::SpawnSelectionValidator selection_validator={},
+                                   std::optional<udp::SpawnAdmissionDispatchPlan> spawn_admission=std::nullopt)
         : decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
@@ -750,10 +753,12 @@ struct LoginAuthorityFixture {
                 ++validations;
                 return decision ? decision(*this,id,response) : service->validate_login_response(id,response);
             },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links),
-                std::move(start_mech),std::move(mech_provider));
+                std::move(start_mech),std::move(mech_provider),
+                std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission));
         else owner.start(std::move(authorize),{},std::move(publish),
                             std::move(controller),std::move(pawn),std::move(pri),std::move(links),
-                std::move(start_mech),std::move(mech_provider));
+                std::move(start_mech),std::move(mech_provider),
+                std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -1677,16 +1682,26 @@ ControllerOutput links_openings(LoginAuthorityFixture& fixture,const auth::AuthR
     return result;
 }
 ControllerOutput links_output(Peer& peer,session::Context& client,
-                             std::chrono::milliseconds budget=200ms,std::size_t expected=2) {
+                             std::chrono::milliseconds budget=200ms,std::size_t expected=2,
+                             std::string* diagnostic_trace=nullptr,
+                             std::vector<std::uint16_t>* received_open_ids=nullptr) {
     ControllerOutput result;
     const auto deadline=std::chrono::steady_clock::now()+budget;
     while (std::chrono::steady_clock::now()<deadline) {
         const auto datagram=peer.receive(20ms); if (!datagram) continue;
         const auto packet=wire::decode_packet(client.decode(*datagram),256);
-        for (const auto& record:packet.records)
+        for (const auto& record:packet.records) {
+            if (received_open_ids && !record.is_ack && record.bunch.channel!=0 && record.bunch.open)
+                received_open_ids->push_back(packet.packet_id);
+            if (diagnostic_trace && !record.is_ack && record.bunch.channel!=0)
+                *diagnostic_trace+=" pid="+std::to_string(packet.packet_id)+
+                    "/channel="+std::to_string(record.bunch.channel)+
+                    "/seq="+std::to_string(record.bunch.sequence)+
+                    "/open="+std::to_string(record.bunch.open);
             if (!record.is_ack && record.bunch.channel!=0 && !record.bunch.open) {
                 result.bunches.push_back(record.bunch); result.packet_ids.push_back(packet.packet_id);
             }
+        }
         if (result.bunches.size()>=expected) break;
     }
     return result;
@@ -2079,4 +2094,450 @@ TEST_CASE("UDP start mech shutdown joins its callback before releasing captured 
     gate.release(); shutdown.join();
     CHECK(stopped.load()); CHECK(calls==1); CHECK(f.owner.diagnostics().closed);
     CHECK(links_output(peer,client).bunches.empty());
+}
+
+
+namespace {
+udp::SpawnValidationDispatchPlan public_spawn_validation_plan() {
+    // Synthetic first-field IDs, not native defaults. All six premises explicit.
+    return {2,6,7,8,{true,true,true,true,true,true}};
+}
+Bytes spawn_validation_packet(session::Context& client,std::uint16_t packet_id,
+    std::uint16_t sequence=2,std::uint16_t channel=7,std::uint8_t field=2,bool suffix=false) {
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2;
+    bunch.channel=channel; bunch.sequence=sequence;
+    // Literal LSB tag2/bound8; an opaque suffix is never searched for another RPC.
+    bunch.payload={field}; bunch.payload_bits=3;
+    if (suffix) { bunch.payload={static_cast<std::uint8_t>(field|0xf8U),0x07}; bunch.payload_bits=11; }
+    wire::Packet packet; packet.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch); packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,256));
+}
+void validation_literal(const ControllerOutput& output,std::uint8_t literal,
+    std::size_t bits,std::uint16_t sequence=44) {
+    REQUIRE(output.bunches.size()==1); const auto& bunch=output.bunches[0];
+    CHECK(bunch.channel==7); CHECK(bunch.sequence==sequence); CHECK(bunch.reliable);
+    CHECK(bunch.channel_type==2); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    CHECK_FALSE(bunch.control); CHECK(bunch.payload_bits==bits); CHECK(bunch.payload==Bytes{literal});
+}
+void validation_selected(LoginAuthorityFixture& fixture,const auth::AuthReply& login,
+    Peer& peer,session::Context& client) {
+    const auto opened=links_openings(fixture,login,peer,client);
+    peer.send(fixture.owner.port(),links_ack(client,5,links_opening_acks(opened)));
+    const auto links=links_output(peer,client,2000ms,2); links_literals(links);
+    peer.send(fixture.owner.port(),start_mech_packet(client,6));
+    const auto property=links_output(peer,client,2000ms,1); start_mech_property_literal(property);
+    auto ids=links.packet_ids; ids.insert(ids.end(),property.packet_ids.begin(),property.packet_ids.end());
+    peer.send(fixture.owner.port(),links_ack(client,7,ids));
+}
+}
+TEST_CASE("UDP spawn validation requires explicit request and emits one literal success per accepted selection") {
+    std::atomic<int> validations{0}; auto plan=public_spawn_validation_plan();
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            return std::optional{public_mech_result(previous)};
+        },plan,[&](const session::SessionId& id,const wire::rpc::StartMechArguments& args,std::uint8_t setup) {
+            CHECK(id==public_id); CHECK(args.mech_instance_id=="20000000-0000-0000-0000-000000000001");
+            CHECK(args.primary_weapon==256); CHECK(args.holo_taunt_type==-1);
+            CHECK(setup==42+validations.load()); ++validations;
+            return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        });
+    plan.validated_rpc_field_id=1; plan.eligibility.primary_package_map=false;
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    validation_selected(f,login,peer,client);
+    CHECK(links_output(peer,client,200ms).bunches.empty()); CHECK(validations==0);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_requested);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent); CHECK_FALSE(f.owner.diagnostics().spawn_validation_failed);
+    peer.send(f.owner.port(),spawn_validation_packet(client,8,1,8)); // Pawn has no Controller dispatcher.
+    peer.send(f.owner.port(),spawn_validation_packet(client,9,2,7,1)); // Unknown first field stays opaque.
+    CHECK(links_output(peer,client,200ms).bunches.empty()); CHECK(validations==0);
+    peer.send(f.owner.port(),spawn_validation_packet(client,10,3,7,2,true));
+    const auto accepted=links_output(peer,client,2000ms,1); validation_literal(accepted,0x06,3);
+    CHECK(validations==1); CHECK(f.service->authorize_udp(public_id));
+    CHECK(f.owner.diagnostics().spawn_validation_requested); CHECK(f.owner.diagnostics().spawn_validation_sent);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_failed);
+    peer.send(f.owner.port(),spawn_validation_packet(client,11,3)); // Reliable duplicate, fresh authenticated nonce.
+    peer.send(f.owner.port(),links_ack(client,12,accepted.packet_ids));
+    peer.send(f.owner.port(),spawn_validation_packet(client,13,4)); // Same accepted setup remains idempotent.
+    CHECK(links_output(peer,client,200ms).bunches.empty()); CHECK(validations==1);
+    peer.send(f.owner.port(),start_mech_packet(client,14,5));
+    const auto preset=links_output(peer,client,2000ms,1); REQUIRE(preset.bunches.size()==1);
+    CHECK(preset.bunches[0].channel==9); CHECK(preset.bunches[0].sequence==104);
+    peer.send(f.owner.port(),links_ack(client,15,preset.packet_ids));
+    peer.send(f.owner.port(),spawn_validation_packet(client,16,6));
+    validation_literal(links_output(peer,client,2000ms,1),0x06,3,45); CHECK(validations==2);
+}
+TEST_CASE("UDP spawn validation queued before opening ACKs waits for actual selected PRI and links") {
+    std::atomic<int> loaded{0},checked{0};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            ++loaded; return std::optional{public_mech_result(previous)};
+        },public_spawn_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t setup) {
+            CHECK(loaded==1); CHECK(setup==42); ++checked;
+            return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        });
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto opened=links_openings(f,login,peer,client);
+    std::string diagnostic_trace="original_open_pids="+std::to_string(opened.packet_ids[0])+","+
+        std::to_string(opened.packet_ids[1])+","+std::to_string(opened.packet_ids[2]);
+    CAPTURE(diagnostic_trace);
+    std::vector<std::uint16_t> received_open_ids;
+    peer.send(f.owner.port(),start_mech_packet(client,5));
+    peer.send(f.owner.port(),spawn_validation_packet(client,6));
+    peer.send(f.owner.port(),links_ack(client,7,{1,3,5,7,8,opened.packet_ids[0],opened.packet_ids[2]}));
+    CHECK(links_output(peer,client,200ms,2,&diagnostic_trace,&received_open_ids).bunches.empty()); CHECK(loaded==0); CHECK(checked==0);
+    // The earlier Controller/Pawn ACK gap retransmitted PRI's opening.
+    // ACK that actually observed copy before later property ACKs advance the gap.
+    REQUIRE_FALSE(received_open_ids.empty());
+    auto opening_ack_ids=received_open_ids;
+    opening_ack_ids.push_back(opened.packet_ids[1]);
+    peer.send(f.owner.port(),links_ack(client,8,opening_ack_ids));
+    const auto output=links_output(peer,client,2000ms,3,&diagnostic_trace); REQUIRE(output.bunches.size()==3);
+    CHECK(output.bunches[0].channel==7); CHECK(output.bunches[1].channel==8);
+    CHECK(output.bunches[2].channel==9); CHECK(output.bunches[2].payload_bits==547);
+    CHECK(links_output(peer,client,200ms,2,&diagnostic_trace).bunches.empty()); CHECK(loaded==1); CHECK(checked==0);
+    CHECK(f.owner.diagnostics().spawn_validation_requested);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent); CHECK_FALSE(f.owner.diagnostics().spawn_validation_failed);
+    // All openings were ACKed, but the selected reliable PRI property still is not.
+    peer.send(f.owner.port(),links_ack(client,9,output.packet_ids));
+    validation_literal(links_output(peer,client,2000ms,1,&diagnostic_trace),0x06,3); CHECK(checked==1);
+    CHECK(f.owner.diagnostics().spawn_validation_sent); CHECK_FALSE(f.owner.diagnostics().spawn_validation_failed);
+}
+TEST_CASE("UDP spawn validation does not invent an accepted preset for a request before selection") {
+    std::atomic<int> checked{0};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            return std::optional{public_mech_result(previous)};
+        },public_spawn_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+            ++checked; return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        });
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto opened=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(opened)));
+    links_literals(links_output(peer,client,2000ms,2));
+    peer.send(f.owner.port(),spawn_validation_packet(client,6,1));
+    // GeneralFailure0: the required server-owned MechSetup-equivalent selection is absent.
+    validation_literal(links_output(peer,client,2000ms,1),0x07,4); CHECK(checked==0);
+    CHECK(f.owner.diagnostics().spawn_validation_requested); CHECK(f.owner.diagnostics().spawn_validation_failed);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent);
+}
+TEST_CASE("UDP spawn validation pending failed and invalid reasons never produce a success callback") {
+    for (unsigned mode=0;mode<3;++mode) {
+        CAPTURE(mode); std::atomic<int> checked{0};
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+                return std::optional{public_mech_result(previous)};
+            },public_spawn_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+                ++checked;
+                if (mode==0) return udp::SpawnSelectionValidationResult{{3,3,3,1,3},7};
+                return udp::SpawnSelectionValidationResult{{3,3,2,3,3},static_cast<std::uint8_t>(mode==1?4:9)};
+            });
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        validation_selected(f,login,peer,client); peer.send(f.owner.port(),spawn_validation_packet(client,8));
+        CHECK(wait_until([&]{return checked.load()>0;}));
+        if (mode==1) validation_literal(links_output(peer,client,2000ms,1),0x4f,8);
+        else CHECK(links_output(peer,client,200ms).bunches.empty());
+        if (mode==2) CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        else CHECK(f.service->authorize_udp(public_id));
+        CHECK(f.owner.diagnostics().spawn_validation_requested);
+        CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent);
+        CHECK(f.owner.diagnostics().spawn_validation_failed==(mode==1));
+    }
+}
+TEST_CASE("UDP spawn validator runs outside pins and discards retired revoked expired or throwing decisions") {
+    for (unsigned mode=0;mode<4;++mode) {
+        CAPTURE(mode); std::atomic<int> checked{0}; LoginAuthorityFixture* active=nullptr;
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+                return std::optional{public_mech_result(previous)};
+            },public_spawn_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+                ++checked;
+                if (mode==0) active->service.reset(); // Would deadlock if a Use still pinned its lease.
+                if (mode==1) active->verifier.active=false;
+                if (mode==2) { active->monotonic=131; active->udp_now=131; }
+                if (mode==3) throw std::runtime_error("synthetic validation failure");
+                return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+            });
+        active=&f; const auto login=f.login(); Peer peer;
+        session::Context client(session::Role::client,public_id,public_key);
+        validation_selected(f,login,peer,client); peer.send(f.owner.port(),spawn_validation_packet(client,8));
+        CHECK(wait_until([&]{return checked==1 && f.owner.diagnostics().closed;}));
+        CHECK(f.owner.diagnostics().spawn_validation_requested);
+        CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent); CHECK_FALSE(f.owner.diagnostics().spawn_validation_failed);
+        CHECK(links_output(peer,client,200ms).bunches.empty());
+    }
+}
+TEST_CASE("UDP spawn validation schema and provider are preflighted before retryable worker start") {
+    for (unsigned invalid=0;invalid<15;++invalid) {
+        CAPTURE(invalid); udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        auto plan=public_spawn_validation_plan();
+        std::optional<udp::SpawnValidationDispatchPlan> selected=plan;
+        udp::LocalUdpOwner::SpawnSelectionValidator callback=[](const session::SessionId&,
+            const wire::rpc::StartMechArguments&,std::uint8_t){return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};};
+        switch(invalid) {
+        case 0: selected.reset(); break;
+        case 1: callback={}; break;
+        case 2: selected->eligibility.primary_package_map=false; break;
+        case 3: selected->eligibility.controller_cache_correct=false; break;
+        case 4: selected->eligibility.validate_rpc_eligible=false; break;
+        case 5: selected->eligibility.validated_rpc_eligible=false; break;
+        case 6: selected->eligibility.failed_rpc_eligible=false; break;
+        case 7: selected->eligibility.failure_reason_eligible=false; break;
+        case 8: selected->controller_exclusive_bound=0; break;
+        case 9: selected->validate_rpc_field_id=8; break;
+        case 10: selected->validated_rpc_field_id=8; break;
+        case 11: selected->failed_rpc_field_id=8; break;
+        case 12: selected->validate_rpc_field_id=4; break; // Cannot overlap StartMech's first field.
+        case 13: selected->validated_rpc_field_id=selected->failed_rpc_field_id; break;
+        case 14: selected->controller_exclusive_bound=9; break;
+        }
+        error([&]{owner.start([](const session::SessionId&){return true;},
+            [](const session::SessionId&,const control::posthello::RawString&){return true;},
+            [](const session::SessionId&,const control::posthello::Login&){return std::optional{public_world()};},
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t p){return std::optional{public_mech_result(p)};},
+            selected,callback);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if (owner.running()) { owner.stop(); continue; } // Safe cleanup of ignored-plan RED scaffold.
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;})); owner.stop();
+    }
+}
+TEST_CASE("UDP spawn validation stop joins the provider and sends no stale success") {
+    Gate gate;
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            return std::optional{public_mech_result(previous)};
+        },public_spawn_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+            gate.enter(); return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        });
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    validation_selected(f,login,peer,client); peer.send(f.owner.port(),spawn_validation_packet(client,8));
+    const bool entered=gate.wait_entered(); CHECK(entered);
+    if (!entered) { gate.release(); return; }
+    std::atomic<bool> stopped{false}; std::thread shutdown([&]{f.owner.stop(); stopped=true;});
+    CHECK(wait_until([&]{return !f.owner.running();})); CHECK_FALSE(stopped.load());
+    gate.release(); shutdown.join(); CHECK(stopped.load());
+    CHECK(links_output(peer,client,200ms).bunches.empty());
+}
+
+
+namespace {
+Bytes coalesced_start_validation_packet(session::Context& client,std::uint16_t packet_id,bool behind_unknown) {
+    wire::BitWriter bits; bits.write_bounded(4,8);
+    auto u32=[&](std::uint32_t value) {
+        for (unsigned shift=0;shift<32;shift+=8)
+            bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(value>>shift)},8);
+    };
+    bits.write_bit(true); u32(37);
+    for (const char c:std::string_view("20000000-0000-0000-0000-000000000001"))
+        bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(c)},8);
+    bits.write_bits(std::array<std::uint8_t,1>{0},8);
+    bits.write_bit(true); u32(256); bits.write_bit(true); u32(0xffffffffU);
+    // Known StartMech tag3 + arguments395 = exact bit398 boundary.
+    // An unknown next field must stop parsing; do not search its opaque tail for2.
+    if (behind_unknown) bits.write_bounded(1,8);
+    bits.write_bounded(2,8);
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2;
+    bunch.channel=7; bunch.sequence=1; bunch.payload=bits.payload_bytes(); bunch.payload_bits=bits.bit_count();
+    wire::Packet packet; packet.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch); packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,256));
+}
+}
+TEST_CASE("UDP coalesced StartMech then Validate consumes only the known argument boundary without scanning unknown fields") {
+    for (const bool behind_unknown : {false,true}) {
+        CAPTURE(behind_unknown); std::atomic<int> checked{0};
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+                return std::optional{public_mech_result(previous)};
+            },public_spawn_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments& args,std::uint8_t setup) {
+                CHECK(args.primary_weapon==256); CHECK(args.holo_taunt_type==-1); CHECK(setup==42);
+                ++checked; return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+            });
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        const auto opened=links_openings(f,login,peer,client);
+        peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(opened)));
+        const auto links=links_output(peer,client,2000ms,2); links_literals(links);
+        peer.send(f.owner.port(),coalesced_start_validation_packet(client,6,behind_unknown));
+        const auto property=links_output(peer,client,2000ms,1); start_mech_property_literal(property);
+        CHECK(checked==0); CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent);
+        CHECK(f.owner.diagnostics().spawn_validation_requested==!behind_unknown);
+        auto ids=links.packet_ids; ids.insert(ids.end(),property.packet_ids.begin(),property.packet_ids.end());
+        peer.send(f.owner.port(),links_ack(client,7,ids));
+        if (behind_unknown) {
+            CHECK(links_output(peer,client,200ms).bunches.empty()); CHECK(checked==0);
+        } else {
+            validation_literal(links_output(peer,client,2000ms,1),0x06,3);
+            CHECK(checked==1); CHECK(f.owner.diagnostics().spawn_validation_sent);
+        }
+    }
+}
+
+
+namespace {
+udp::SpawnAdmissionDispatchPlan public_spawn_admission_plan() {
+    return {1,3,8,{true,true,true,true,true,true}};
+}
+Bytes selection_stage_packet(session::Context& client,std::uint16_t packet_id,
+    std::uint16_t sequence,std::int32_t stage) {
+    wire::BitWriter bits; bits.write_bounded(1,8); bits.write_bit(stage!=0);
+    if (stage!=0) {
+        const auto value=static_cast<std::uint32_t>(stage);
+        for (unsigned shift=0;shift<32;shift+=8)
+            bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(value>>shift)},8);
+    }
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2; bunch.channel=7;
+    bunch.sequence=sequence; bunch.payload=bits.payload_bytes(); bunch.payload_bits=bits.bit_count();
+    wire::Packet packet; packet.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch); packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,256));
+}
+void admission_literal(const ControllerOutput& output) {
+    REQUIRE(output.bunches.size()==1);
+    const auto& bunch=output.bunches[0];
+    CHECK(bunch.channel==7); CHECK(bunch.sequence==45); CHECK(bunch.reliable);
+    CHECK(bunch.channel_type==2); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    // Independent LSB tag3/8 + presence1 + primary selector1 + channel8/2048.
+    CHECK(bunch.payload_bits==16); CHECK(bunch.payload==hex("1b01"));
+}
+}
+TEST_CASE("UDP admission needs explicit stage3 after validated selection and reliably restarts the existing Pawn once") {
+    std::atomic<int> checks{0}; auto admission=public_spawn_admission_plan();
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+        [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+            return std::optional{public_mech_result(previous)};
+        },public_spawn_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+            ++checks; return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        },admission);
+    admission.client_restart_rpc_field_id=0; admission.eligibility.pawn_reference_eligible=false;
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    validation_selected(f,login,peer,client);
+    peer.send(f.owner.port(),spawn_validation_packet(client,8));
+    const auto validated=links_output(peer,client,2000ms,1); validation_literal(validated,0x06,3);
+    peer.send(f.owner.port(),links_ack(client,9,validated.packet_ids));
+    CHECK(checks==1); CHECK_FALSE(f.owner.diagnostics().stage3_requested);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+    peer.send(f.owner.port(),selection_stage_packet(client,10,3,2));
+    CHECK(links_output(peer,client,200ms).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().stage3_requested); CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+    peer.send(f.owner.port(),selection_stage_packet(client,11,4,3));
+    const auto restarted=links_output(peer,client,2000ms,1); admission_literal(restarted);
+    CHECK(f.owner.diagnostics().stage3_requested); CHECK(f.owner.diagnostics().client_restart_sent);
+    CHECK(f.service->authorize_udp(public_id)); CHECK(checks==1);
+    peer.send(f.owner.port(),selection_stage_packet(client,12,4,3)); // Same reliable sequence, fresh nonce.
+    peer.send(f.owner.port(),links_ack(client,13,restarted.packet_ids));
+    peer.send(f.owner.port(),selection_stage_packet(client,14,5,3));
+    CHECK(links_output(peer,client,200ms).bunches.empty()); CHECK(checks==1);
+}
+TEST_CASE("UDP admission rejects invalid premises and never restarts without successful selected data validation") {
+    for (const bool fail_validation : {false,true}) {
+        CAPTURE(fail_validation);
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+                return std::optional{public_mech_result(previous)};
+            },public_spawn_validation_plan(),[](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+                return udp::SpawnSelectionValidationResult{{3,3,2,3,3},4};
+            },public_spawn_admission_plan());
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        validation_selected(f,login,peer,client);
+        if (fail_validation) {
+            peer.send(f.owner.port(),spawn_validation_packet(client,8));
+            const auto failed=links_output(peer,client,2000ms,1); validation_literal(failed,0x4f,8);
+            peer.send(f.owner.port(),links_ack(client,9,failed.packet_ids));
+        }
+        peer.send(f.owner.port(),selection_stage_packet(client,10,static_cast<std::uint16_t>(fail_validation?3:2),3));
+        CHECK(links_output(peer,client,200ms).bunches.empty());
+        CHECK(f.owner.diagnostics().stage3_requested); CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+        CHECK(f.service->authorize_udp(public_id));
+    }
+    for (unsigned invalid=0;invalid<11;++invalid) {
+        CAPTURE(invalid); auto admission=public_spawn_admission_plan();
+        switch(invalid) {
+        case 0: admission.eligibility.primary_package_map=false; break;
+        case 1: admission.eligibility.controller_cache_correct=false; break;
+        case 2: admission.eligibility.stage_rpc_eligible=false; break;
+        case 3: admission.eligibility.stage_argument_eligible=false; break;
+        case 4: admission.eligibility.client_restart_rpc_eligible=false; break;
+        case 5: admission.eligibility.pawn_reference_eligible=false; break;
+        case 6: admission.controller_exclusive_bound=0; break;
+        case 7: admission.stage_rpc_field_id=8; break;
+        case 8: admission.client_restart_rpc_field_id=8; break;
+        case 9: admission.stage_rpc_field_id=4; break; // Collides with known StartMech.
+        case 10: admission.controller_exclusive_bound=9; break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        error([&]{owner.start([](const session::SessionId&){return true;},
+            [](const session::SessionId&,const control::posthello::RawString&){return true;},
+            [](const session::SessionId&,const control::posthello::Login&){return std::optional{public_world()};},
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+                return std::optional{public_mech_result(previous)};
+            },public_spawn_validation_plan(),[](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+                return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+            },admission);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if (owner.running()) { owner.stop(); continue; } // Safe cleanup while RED ignores the plan.
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;})); owner.stop();
+    }
+}
+
+
+TEST_CASE("UDP admission preserves known boundaries and rejects stale selection or revoked authorization") {
+    for (unsigned mode=0;mode<4;++mode) {
+        CAPTURE(mode);
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),public_start_mech_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+                return std::optional{public_mech_result(previous)};
+            },public_spawn_validation_plan(),[](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+                return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+            },public_spawn_admission_plan());
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        validation_selected(f,login,peer,client);
+        peer.send(f.owner.port(),spawn_validation_packet(client,8));
+        const auto validated=links_output(peer,client,2000ms,1); validation_literal(validated,0x06,3);
+        peer.send(f.owner.port(),links_ack(client,9,validated.packet_ids));
+        if (mode<2) {
+            wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2; bunch.channel=7; bunch.sequence=3;
+            // Independent unaligned fixtures: Stage0(4bits), then Stage3(36bits).
+            // The negative inserts unknown field0(3bits) before the opaque Stage3.
+            bunch.payload=mode==0 ? hex("9103000000") : hex("811c00000000");
+            bunch.payload_bits=mode==0 ? 40 : 43;
+            wire::Packet packet; packet.packet_id=10;
+            wire::PacketRecord record; record.bunch=std::move(bunch); packet.records.push_back(std::move(record));
+            peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+            if (mode==0) {
+                admission_literal(links_output(peer,client,2000ms,1));
+                CHECK(f.owner.diagnostics().stage3_requested); CHECK(f.owner.diagnostics().client_restart_sent);
+            } else {
+                CHECK(links_output(peer,client,200ms).bunches.empty());
+                CHECK_FALSE(f.owner.diagnostics().stage3_requested); CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+            }
+        } else if (mode==2) {
+            peer.send(f.owner.port(),start_mech_packet(client,10,3));
+            const auto selected=links_output(peer,client,2000ms,1);
+            REQUIRE(selected.bunches.size()==1); CHECK(selected.bunches[0].channel==9);
+            CHECK(selected.bunches[0].sequence==104); CHECK(selected.bunches[0].payload_bits==547);
+            peer.send(f.owner.port(),selection_stage_packet(client,11,4,3));
+            CHECK(links_output(peer,client,200ms).bunches.empty());
+            peer.send(f.owner.port(),links_ack(client,12,selected.packet_ids));
+            CHECK(links_output(peer,client,200ms).bunches.empty());
+            CHECK(f.owner.diagnostics().stage3_requested); CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+            CHECK(f.service->authorize_udp(public_id)); // Old success cannot release the new revision.
+        } else {
+            f.verifier.active=false;
+            peer.send(f.owner.port(),selection_stage_packet(client,10,3,3));
+            CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+            CHECK(links_output(peer,client,200ms).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+        }
+    }
 }

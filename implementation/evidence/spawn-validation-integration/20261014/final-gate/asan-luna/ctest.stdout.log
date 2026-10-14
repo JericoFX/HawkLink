@@ -1,0 +1,70 @@
+Test project F:/HawkenServer/build/windows-clang-asan
+    Start  8: local_udp_owner
+1/5 Test  #8: local_udp_owner ..................***Failed    0.41 sec
+=================================================================
+==19668==ERROR: AddressSanitizer: access-violation on unknown address 0x0000000000b4 (pc 0x7ff7d5d0e747 bp 0x00389735b090 sp 0x00389735ae00 T0)
+==19668==The signal is caused by a READ memory access.
+==19668==HINT: address points to the zero page.
+    #0 0x7ff7d5d0e746 in __FrameHandler3::GetUnwindTryBlock(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\ehstate.cpp:186
+    #1 0x7ff7d5d0f237 in __FrameHandler3::GetHandlerSearchState(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:484
+    #2 0x7ff7d5d10bb9 in FindHandler<__FrameHandler3> D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:547
+    #3 0x7ff7d5d10887 in __InternalCxxFrameHandler<class __FrameHandler3>(struct EHExceptionRecord *, unsigned __int64 *, struct _CONTEXT *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *, int, unsigned __int64 *, unsigned char) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:396
+    #4 0x7ff7d5ccb450 in __CxxFrameHandler3 D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\risctrnsctrl.cpp:281
+    #5 0x7ff97124631e  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x18016631e)
+    #6 0x7ff9711a4034  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x1800c4034)
+    #7 0x7ff9710f9f3c  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x180019f3c)
+    #8 0x7ff96e3a4839  (C:\WINDOWS\System32\KERNELBASE.dll+0x1800c4839)
+    #9 0x7ff7d5cca192 in _CxxThrowException D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\throw.cpp:79
+    #10 0x7ff7d59bab74 in hawken::udp::`anonymous namespace'::BoundSocket::BoundSocket F:\HawkenServer\src\local_udp_owner.cpp:109
+    #11 0x7ff7d59bab74 in hawken::udp::LocalUdpOwner::Impl::Impl(unsigned short, struct hawken::game::ConnectionConfig const &, class std::function<(void)>, class std::chrono::duration<__int64, struct std::ratio<1, 1000>>) F:\HawkenServer\src\local_udp_owner.cpp:300
+
+==19668==Register values:
+rax = b0  rbx = 7ff7d5eb96e8  rcx = 0  rdx = 7ff7d5eb9750  
+rdi = 7ff7d5eb96e8  rsi = 389735b680  rbp = 389735b090  rsp = 389735ae00  
+r8  = 7ff7d5eb9744  r9  = 1  r10 = 30aab0  r11 = 1f88  
+r12 = 389735b090  r13 = 0  r14 = 389735b680  r15 = 389735b860  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: access-violation D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\ehstate.cpp:186 in __FrameHandler3::GetUnwindTryBlock(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *)
+==19668==ABORTING
+
+    Start  9: udp_trial_runtime
+2/5 Test  #9: udp_trial_runtime ................***Failed    0.17 sec
+=================================================================
+==19224==ERROR: AddressSanitizer: access-violation on unknown address 0x000000000054 (pc 0x7ff6e674b3cb bp 0x00bdd2fea590 sp 0x00bdd2fea300 T0)
+==19224==The signal is caused by a READ memory access.
+==19224==HINT: address points to the zero page.
+    #0 0x7ff6e674b3ca in __FrameHandler3::GetUnwindTryBlock(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\ehstate.cpp:186
+    #1 0x7ff6e674bebb in __FrameHandler3::GetHandlerSearchState(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:484
+    #2 0x7ff6e674d911 in FindHandler<__FrameHandler3> D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:547
+    #3 0x7ff6e674d5df in __InternalCxxFrameHandler<class __FrameHandler3>(struct EHExceptionRecord *, unsigned __int64 *, struct _CONTEXT *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *, int, unsigned __int64 *, unsigned char) D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\frame.cpp:396
+    #4 0x7ff6e6707ccc in __CxxFrameHandler3 D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\risctrnsctrl.cpp:281
+    #5 0x7ff97124631e  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x18016631e)
+    #6 0x7ff9711a4034  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x1800c4034)
+    #7 0x7ff9710f9f3c  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x180019f3c)
+    #8 0x7ff96e3a4839  (C:\WINDOWS\System32\KERNELBASE.dll+0x1800c4839)
+    #9 0x7ff6e6706d12 in _CxxThrowException D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\throw.cpp:79
+    #10 0x7ff6e6335c54 in `anonymous namespace'::Peer::Peer F:\HawkenServer\tests\udp_trial_runtime_tests.cpp:151
+
+==19224==Register values:
+rax = 50  rbx = 7ff6e6857b3c  rcx = 0  rdx = 7ff6e6857b9c  
+rdi = 7ff6e6857b3c  rsi = bdd2feab80  rbp = bdd2fea590  rsp = bdd2fea300  
+r8  = 7ff6e6857b90  r9  = 1  r10 = 145be0  r11 = c26  
+r12 = bdd2fea590  r13 = 0  r14 = bdd2feab80  r15 = bdd2fead60  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: access-violation D:\a\_work\1\s\src\vctools\crt\vcruntime\src\eh\ehstate.cpp:186 in __FrameHandler3::GetUnwindTryBlock(unsigned __int64 *, struct _xDISPATCHER_CONTEXT *, struct _s_FuncInfo const *)
+==19224==ABORTING
+
+    Start 39: spawn_validation_rpc
+3/5 Test #39: spawn_validation_rpc .............   Passed    0.04 sec
+    Start 40: controller_admission_rpc
+4/5 Test #40: controller_admission_rpc .........   Passed    0.04 sec
+    Start 49: storage
+5/5 Test #49: storage ..........................   Passed   10.77 sec
+
+60% tests passed, 2 tests failed out of 5
+
+Total Test time (real) =  11.54 sec
+
+The following tests FAILED:
+	  8 - local_udp_owner (Failed)
+	  9 - udp_trial_runtime (Failed)

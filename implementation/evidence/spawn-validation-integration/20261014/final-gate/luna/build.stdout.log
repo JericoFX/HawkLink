@@ -1,0 +1,53 @@
+[1/53] Building CXX object CMakeFiles\hawken_sync_service.dir\src\sync_service.cpp.obj
+[2/53] Building CXX object CMakeFiles\hawken_local_udp.dir\src\local_udp_owner.cpp.obj
+[3/53] Building CXX object CMakeFiles\hawken_menu_sync.dir\src\menu_sync_service.cpp.obj
+[4/53] Building CXX object CMakeFiles\hawken_inventory_service.dir\src\inventory_service.cpp.obj
+[5/53] Linking CXX static library hawken_sync_service.lib
+[6/53] Linking CXX static library hawken_local_udp.lib
+[7/53] Building CXX object CMakeFiles\hawken_udp_trial_runtime.dir\src\udp_trial_runtime.cpp.obj
+[8/53] Linking CXX static library hawken_menu_sync.lib
+[9/53] Linking CXX static library hawken_inventory_service.lib
+[10/53] Building CXX object CMakeFiles\hawken_server.dir\src\server_http.cpp.obj
+[11/53] Building CXX object CMakeFiles\hawken_wreckage_trial.dir\src\wreckage_trial.cpp.obj
+[12/53] Building CXX object CMakeFiles\hawken-client-bridge-fixture.dir\src\client_bridge.cpp.obj
+[13/53] Linking CXX static library hawken_udp_trial_runtime.lib
+[14/53] Building CXX object CMakeFiles\hawken-master.dir\src\master_main.cpp.obj
+[15/53] Linking CXX static library hawken_server.lib
+[16/53] Linking CXX static library hawken_wreckage_trial.lib
+[17/53] Building CXX object CMakeFiles\hawken-wreckage-trial-probe.dir\tools\wreckage_trial_probe.cpp.obj
+[18/53] Building CXX object CMakeFiles\hawken-server.dir\src\server_main.cpp.obj
+[19/53] Building CXX object CMakeFiles\hawken-steam-runtime-probe.dir\tools\steam_runtime_probe.cpp.obj
+[20/53] Building CXX object CMakeFiles\hawken-tools.dir\src\main.cpp.obj
+[21/53] Building CXX object CMakeFiles\hawken-client-bridge.dir\src\client_bridge.cpp.obj
+[22/53] Building CXX object CMakeFiles\hawken-server-listing-tests.dir\tests\server_listing_http_tests.cpp.obj
+[23/53] Building CXX object CMakeFiles\hawken-local-udp-tests.dir\tests\local_udp_owner_tests.cpp.obj
+[24/53] Building CXX object CMakeFiles\hawken-udp-trial-runtime-tests.dir\tests\udp_trial_runtime_tests.cpp.obj
+[25/53] Building CXX object CMakeFiles\hawken-server-assignment-tests.dir\tests\server_assignment_http_tests.cpp.obj
+[26/53] Building CXX object CMakeFiles\hawken-server-auth-tests.dir\tests\server_auth_http_tests.cpp.obj
+[27/53] Building CXX object CMakeFiles\hawken-server-inventory-tests.dir\tests\server_inventory_http_tests.cpp.obj
+[28/53] Building CXX object CMakeFiles\hawken-server-menu-tests.dir\tests\server_menu_http_tests.cpp.obj
+[29/53] Building CXX object CMakeFiles\hawken-wreckage-trial-tests.dir\tests\wreckage_trial_tests.cpp.obj
+[30/53] Linking CXX shared library client-bridge-fixture\dinput8.dll
+[31/53] Building CXX object CMakeFiles\hawken-client-bridge-harness.dir\tests\client_bridge_harness.cpp.obj
+[32/53] Linking CXX executable hawken-master.exe
+[33/53] Linking CXX executable hawken-wreckage-trial-probe.exe
+[34/53] Linking CXX executable hawken-server.exe
+[35/53] Linking CXX executable hawken-steam-runtime-probe.exe
+[36/53] Linking CXX executable hawken-tools.exe
+[37/53] Linking CXX shared library client-bridge\dinput8.dll
+[38/53] Linking CXX executable hawken-server-listing-tests.exe
+[39/53] Linking CXX executable hawken-local-udp-tests.exe
+[40/53] Linking CXX executable hawken-udp-trial-runtime-tests.exe
+[41/53] Linking CXX executable hawken-server-assignment-tests.exe
+[42/53] Linking CXX executable hawken-session-assignment-tests.exe
+[43/53] Linking CXX executable hawken-sync-service-tests.exe
+[44/53] Linking CXX executable hawken-menu-sync-tests.exe
+[45/53] Linking CXX executable hawken-server-auth-tests.exe
+[46/53] Linking CXX executable hawken-server-inventory-tests.exe
+[47/53] Linking CXX executable hawken-server-menu-tests.exe
+[48/53] Linking CXX executable hawken-auth-service-tests.exe
+[49/53] Linking CXX executable hawken-wreckage-trial-tests.exe
+[50/53] Linking CXX executable hawken-inventory-service-tests.exe
+[51/53] Linking CXX executable hawken-starter-mech-setup-tests.exe
+[52/53] Linking CXX executable hawken-server-tests.exe
+[53/53] Linking CXX executable client-bridge-fixture\hawken-client-bridge-harness.exe

@@ -1,0 +1,119 @@
+{
+  "schema": "admission-flow-red-gate-summary-v1",
+  "freeze": {
+    "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-red/freeze.json",
+    "sha256": "1c7644309e33e78636a384b8ebef20aa3c44f66568cf4146dbf38106408c4c18"
+  },
+  "wrapper": {
+    "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-red/luna/run-admission-flow-red.cmd",
+    "sha256": "aa33c82ce498be9b0225a005df3c934abe83a14e67746d98f53f6f97c0a3646c",
+    "exit": 0,
+    "exitMeaning": "Orchestration completed; individual test exits are authoritative."
+  },
+  "preflight": {
+    "ramUsedPercent": 64.2,
+    "sourceInputCount": 6,
+    "sourceMismatchCount": 0,
+    "activeBuildProcesses": 0,
+    "protectedServicePidsObserved": 0
+  },
+  "build": {
+    "command": "cmake --build --preset windows-msvc --config Release --parallel 1 --target hawken-local-udp-tests hawken-udp-trial-runtime-tests",
+    "exit": 0
+  },
+  "runs": [
+    {
+      "name": "Owner baseline",
+      "command": "hawken-local-udp-tests.exe --test-case-exclude=UDP admission*",
+      "exit": 0,
+      "cases": 99,
+      "passed": 99,
+      "failed": 0,
+      "skipped": 2,
+      "assertions": 4733,
+      "assertionsPassed": 4733,
+      "assertionsFailed": 0
+    },
+    {
+      "name": "Runtime baseline",
+      "command": "hawken-udp-trial-runtime-tests.exe --test-case-exclude=UDP trial admission*",
+      "exit": 0,
+      "cases": 31,
+      "passed": 31,
+      "failed": 0,
+      "skipped": 1,
+      "assertions": 2691,
+      "assertionsPassed": 2691,
+      "assertionsFailed": 0
+    },
+    {
+      "name": "Owner admission RED",
+      "command": "hawken-local-udp-tests.exe --test-case=UDP admission*",
+      "exit": 1,
+      "cases": 2,
+      "passed": 0,
+      "failed": 2,
+      "skipped": 99,
+      "assertions": 333,
+      "assertionsPassed": 308,
+      "assertionsFailed": 25,
+      "failures": [
+        "UDP admission needs explicit stage3 after validated selection and reliably restarts the existing Pawn once: output.bunches.size() expected 1, observed 0.",
+        "UDP admission rejects invalid premises and never restarts without successful selected data validation: stage3_requested was false for fail_validation false and true; inputs invalid 0 through 10 were accepted and owner remained running."
+      ]
+    },
+    {
+      "name": "Runtime admission RED",
+      "command": "hawken-udp-trial-runtime-tests.exe --test-case=UDP trial admission*",
+      "exit": 1,
+      "cases": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 31,
+      "assertions": 103,
+      "assertionsPassed": 100,
+      "assertionsFailed": 3,
+      "failure": "Invalid policy did not throw for invalid values 0 and 2; expected restarted bunch count 1, observed 0."
+    }
+  ],
+  "scope": {
+    "commandsExecuted": "One build and exactly four direct test-binary invocations; no CTest, reader test, full suite, product relink, runtime launch, or source/config mutation.",
+    "expectedRed": "The new admission test cases failed against the missing implementation while both baseline filters passed.",
+    "nativeAckDisclosure": "The test logs did not record ACK contents, so the ACK sent cannot be identified from this run."
+  },
+  "integrity": {
+    "sourcePinsBeforeAfterMatch": true,
+    "buildConfigurationBeforeAfter": "See preflight-final.json and postflight.json for path/hash rows.",
+    "dependencyQueryCorrectedBeforeBuild": "The first query used one nonexistent object target and exited 1 (preserved as ninja-deps-before.txt). A corrected query of four actual object targets exited 0 and captured 107 lines in ninja-deps-before-corrected.txt.",
+    "dependencyQueryAfterBuildExit": 0,
+    "dependencySourceFileCountAfterBuild": 30,
+    "canonicalServerMasterHashesUnchanged": true,
+    "protectedServicePidsObservedBeforeAfter": 0,
+    "buildProcessesAfter": 0,
+    "ramUsedPercentAfter": 65.02,
+    "readerTestNotRun": true
+  },
+  "evidence": [
+    "preflight-final.json",
+    "postflight.json",
+    "ninja-deps-before.txt",
+    "ninja-deps-before-corrected.txt",
+    "ninja-deps-after.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "owner-baseline.stdout.log",
+    "owner-baseline.stderr.log",
+    "owner-baseline.exit.txt",
+    "runtime-baseline.stdout.log",
+    "runtime-baseline.stderr.log",
+    "runtime-baseline.exit.txt",
+    "owner-admission.stdout.log",
+    "owner-admission.stderr.log",
+    "owner-admission.exit.txt",
+    "runtime-admission.stdout.log",
+    "runtime-admission.stderr.log",
+    "runtime-admission.exit.txt",
+    "wrapper.exit.txt"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "hawken.native-helper.accepted-artifacts.v1",
+  "normalGate": "final-gate/luna/final-summary.json",
+  "normalFreezeSha256": "833aafa6ac3995a562cabd43590bd80493828dbc56c58455a8c9bdbe854665df",
+  "helperChange": "Only the four artifact hash literals updated after normal gate release; guard implementation unchanged.",
+  "helperSha256": "f430de89f7546ee5a67627615ec94ff8659587ff782a1645bc0be88a5a67e8b8",
+  "pins": {
+    "server": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f",
+    "bridge": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+    "master": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+  },
+  "astErrors": 0,
+  "diffCheckExit": 0,
+  "gameplayVerified": false
+}

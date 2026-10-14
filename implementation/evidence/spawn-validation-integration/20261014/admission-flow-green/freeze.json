@@ -1,0 +1,69 @@
+{
+  "phase": "READY_GREEN",
+  "created_utc": "2026-10-14T18:00:15.828914+00:00",
+  "inputs": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "01f4eddb551e9b28b13c65999a01a1e21ae62b7991c4fab7178e49b96581de32",
+      "bytes": 19165,
+      "red_sha256": "48bbc7297ddc63c6b8b70438f7752340c6ddfc6b036653fee073394501776d7d",
+      "unchanged": false
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "05e2797b07977f29cf3c3daa1607f3dd6e800d6ac4a8d94e5c736e08545798f8",
+      "bytes": 62837,
+      "red_sha256": "97fdf583c3aaadb20d23c74aaa2defa6c5bff0c0f304ec5a8d4bcf84658a123b",
+      "unchanged": false
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "af8e3fa9c4ae455bef9107747a88a52de5384ed9dd3afeb838fb040062d02129",
+      "bytes": 159288,
+      "red_sha256": "51d39ad1edfc62738ff1e484468969da512294a7b5d4a528b7db06b0bba0231c",
+      "unchanged": false
+    },
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "d279d9a33c026a00166513887b72b84df4711447c8b39396bce875d5bf030482",
+      "bytes": 6944,
+      "red_sha256": "d279d9a33c026a00166513887b72b84df4711447c8b39396bce875d5bf030482",
+      "unchanged": true
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "7afbc47b5a09225bfc03fb6d19054edee6f4c4047f31b11a44ce4ed9c4edb8d4",
+      "bytes": 13125,
+      "red_sha256": "240e52cd441b5fc66f7378e38350383f828e88d42832ea0bc8a60ecd1b0ca15e",
+      "unchanged": false
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "a2aa40e85a7fb4956fd73855d5a1c7e8f37f5354a170f93784ad6a532457c4ca",
+      "bytes": 82886,
+      "red_sha256": "a2aa40e85a7fb4956fd73855d5a1c7e8f37f5354a170f93784ad6a532457c4ca",
+      "unchanged": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-green/green-vs-red.diff",
+      "sha256": "53745f70bce68c0651642b4cda9b9144bdbb4f14fb0958850062583826a40df3"
+    },
+    {
+      "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-green/review-notes.json",
+      "sha256": "08396b52e73b11a4efb148d61398f86f067393d3b0f58933b11e6cf2f1cf697e"
+    }
+  ],
+  "red_freeze": {
+    "path": "implementation/evidence/spawn-validation-integration/20261014/admission-flow-red/freeze.json",
+    "sha256": "1c7644309e33e78636a384b8ebef20aa3c44f66568cf4146dbf38106408c4c18"
+  },
+  "skills": {
+    "cpp_pro": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "multiplayer_networking": "10c22a22749041b99f09a4e365dadbe6e58fc1b56c90407960bb466aa2de8611",
+    "coverage": "Complete readings reused after unchanged hashes verified; multiplayer guide fully read before RED."
+  },
+  "validation": "Parent/Luna sole owner; no acceptance or runtime claim."
+}

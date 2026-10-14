@@ -4,6 +4,7 @@
 #include "hawken/session_assignment.hpp"
 #include "hawken/mech_setup_wire.hpp"
 #include "hawken/start_mech_rpc_wire.hpp"
+#include "hawken/spawn_validation.hpp"
 #include <chrono>
 #include <cstdint>
 #include <functional>
@@ -44,6 +45,14 @@ struct LocalUdpDiagnostics {
     bool pawn_sent = false;
     // Sticky only after explicit PRI datagrams were sent; not client links/setup.
     bool pri_sent = false;
+    // Sticky scalar observations only: recognized configured request and actual
+    // nonempty validated/failed wire sends. Never actor/gameplay acceptance.
+    bool spawn_validation_requested = false;
+    bool spawn_validation_sent = false;
+    bool spawn_validation_failed = false;
+    bool stage3_requested = false;
+    bool client_restart_sent = false;
+
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
 
@@ -100,6 +109,45 @@ struct StartMechDispatchPlan {
     std::uint8_t initial_setup_id;
 };
 
+// Explicit PRIMARY Controller-cache/RPC premises supplied by the caller.
+// These are activation gates, not runtime observations or inferred field IDs.
+struct SpawnValidationEligibility {
+    bool primary_package_map;
+    bool controller_cache_correct;
+    bool validate_rpc_eligible;
+    bool validated_rpc_eligible;
+    bool failed_rpc_eligible;
+    bool failure_reason_eligible;
+};
+struct SpawnValidationDispatchPlan {
+    std::uint32_t validate_rpc_field_id;
+    std::uint32_t validated_rpc_field_id;
+    std::uint32_t failed_rpc_field_id;
+    std::uint32_t controller_exclusive_bound;
+    SpawnValidationEligibility eligibility;
+};
+struct SpawnSelectionValidationResult {
+    game::SpawnValidationChecks checks;
+    std::uint8_t failure_reason = 7;
+};
+
+// Explicit original stage/int-argument and ClientRestart/Pawn-reference schema.
+// Only validated data for the exact accepted revision may release stage3.
+struct SpawnAdmissionEligibility {
+    bool primary_package_map;
+    bool controller_cache_correct;
+    bool stage_rpc_eligible;
+    bool stage_argument_eligible;
+    bool client_restart_rpc_eligible;
+    bool pawn_reference_eligible;
+};
+struct SpawnAdmissionDispatchPlan {
+    std::uint32_t stage_rpc_field_id;
+    std::uint32_t client_restart_rpc_field_id;
+    std::uint32_t controller_exclusive_bound;
+    SpawnAdmissionEligibility eligibility;
+};
+
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
 // Exclusive IPv4 127.0.0.1 bind. Production callers supply a nonzero port;
 // port0 is reserved for isolated fixtures and port() publishes getsockname.
@@ -122,6 +170,8 @@ public:
     using PublicationProvider = std::function<std::optional<game::WorldPublication>(
         const session::SessionId&,const control::posthello::Login&)>;
     using StartMechProvider = std::function<std::optional<wire::mech::SMechSetupStruct>(
+        const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t)>;
+    using SpawnSelectionValidator = std::function<SpawnSelectionValidationResult(
         const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t)>;
     LocalUdpOwner(std::uint16_t port, const game::ConnectionConfig& skeleton,
                   Clock clock, std::chrono::milliseconds poll_interval);
@@ -195,14 +245,38 @@ public:
     // Use. ACK/transmission is not native creation, linkage or possession proof.
     // Optional explicit dispatch requires all actors, publication, links, a provider
     // and every schema premise. Only the first field of a Controller bunch is
-    // considered; a known RPC consumes its argument PREFIX, leaving suffix opaque.
-    // Unknown first fields/channels are not interpreted or searched for RPCs.
+    // considered; known schemas consume exact argument PREFIX boundaries. With
+    // admission configured, consecutive StartMech/Validate/Stage fields are read;
+    // unknown/truncated tags terminate parsing without scanning opaque suffixes.
+    // Without admission, the prior StartMech -> Validate prefix policy remains.
     // One pending request per exact Entry waits for real opening ACKs and links;
     // equal pending requests are idempotent, conflicting pending requests retire.
     // Provider runs outside all locks/Use. Reauthorize, sample fresh time and pin
     // the exact Entry before reliable/type2 PRI property send on the same Context.
     // Revision advances only after nonempty send success without stopping. Failure
     // retires after Use; no automatic preset, native admission or possession proof.
+    // Optional copied spawn-validation plan/callback requires explicit StartMech
+    // dispatch/source, all actors, links and every PRIMARY/RPC schema premise.
+    // Only an explicit first-field Controller request starts validation; suffix
+    // remains opaque. Retain the exact accepted request and setup revision only
+    // after successful selected PRI property send. Wait for all real opening ACKs,
+    // links and nonclosed PRI outgoing_bunches==0 before invoking the callback.
+    // That delivery gate never supplies any of the five data-validation results.
+    // Callback runs outside all Use/locks. Reauthorize and recheck exact Entry,
+    // selection revision, delivery and lifecycle before response send. All five3
+    // produce one reliable Controller validated RPC; any2 produces failed RPC
+    // with reason0..8; all other combinations stay pending. Duplicate requests
+    // for the same accepted revision are idempotent; transport owns retries.
+    // Without an accepted selection, explicit request fails GeneralFailure0.
+    // Callback exceptions/invalid failed reason retire after Use; stopped/stale/
+    // revoked decisions emit no response. Callback lifetime ends after stop/join.
+    // Neither data validation nor RPC transmission proves client admission/spawn.
+    // Optional admission requires all validation prerequisites and six explicit
+    // schema premises. Exact int32 stage3 after successful current-revision data
+    // validation requests one reliable ClientRestart with the existing Pawn ref.
+    // Fresh auth/Entry/lifecycle and the same actor/PRI delivery gates apply.
+    // New StartMech invalidates permission; duplicates use transport retries.
+    // No additional recovery ServerRestart RPC or native possession guarantee.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
                std::optional<InitialControllerPlan> controller = std::nullopt,
@@ -210,7 +284,10 @@ public:
                std::optional<InitialPriPlan> pri = std::nullopt,
                std::optional<InitialActorLinksPlan> links = std::nullopt,
                std::optional<StartMechDispatchPlan> start_mech = std::nullopt,
-               StartMechProvider mech_provider = {});
+               StartMechProvider mech_provider = {},
+               std::optional<SpawnValidationDispatchPlan> spawn_validation = std::nullopt,
+               SpawnSelectionValidator selection_validator = {},
+               std::optional<SpawnAdmissionDispatchPlan> spawn_admission = std::nullopt);
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied
