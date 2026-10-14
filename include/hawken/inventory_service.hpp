@@ -63,6 +63,12 @@ public:
     // /userGameItems/<canonical lower-case UUID36>. No slash/query/escaped alias.
     bool supports_target(std::string_view raw_target) const;
     auth::AuthReply get(std::string_view raw_target, std::string_view authorization);
+    // Trusted internal caller must obtain/revalidate AccountRef from its active
+    // authenticated session outside owner pins. Logical scope is no credential.
+    // Reads one existing starter mech atomically through Store, checks all nine
+    // configured type IDs, and returns saved attributes without GET/autogrant,
+    // rendering, default seeding, PUT observation or gameplay authority.
+    store::StarterMechSnapshot owned_starter_mech(const store::AccountRef& account, std::string_view instance_id);
     // Exact POST /userGameItemsBatch/<nonzero canonical lower-case UUID36>.
     // Read only the requested existing instances, in request order, with saved
     // Presets. Body UUIDs are ASCII case-insensitive; normalized duplicates fail.

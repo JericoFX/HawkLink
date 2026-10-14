@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <string_view>
@@ -106,6 +107,13 @@ public:
     // bound destination and lease. Retires invalid retained state; an unknown
     // ID alone never retires a different, valid active session.
     bool authorize_udp(const session::SessionId& id) noexcept;
+    // Owner-only read of logical database scope after the same fresh retained
+    // grant/lifecycle check. Returns an owned copy, never credentials or keys.
+    // Call outside every owner lock, lease/Context pin and in-flight Use, as for
+    // authorize_udp. Revalidate after SQL and before applying a result; this
+    // snapshot is not an atomic authorization, entitlement or admission grant.
+    // Unknown IDs preserve a valid active session. Failure returns nullopt.
+    std::optional<store::AccountRef> account_for_udp(const session::SessionId& id) noexcept;
     // Owner-only identity consistency check, not admission or ID16 validation.
     // Rechecks the same retained authorization/lifecycle before comparing Response
     // to the server-owned user GUID. Narrow/wide ASCII GUID36, case-insensitive

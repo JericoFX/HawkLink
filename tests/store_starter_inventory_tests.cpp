@@ -3,6 +3,7 @@
 #include <sqlite3.h>
 #include "test_support.hpp"
 #include <array>
+#include <atomic>
 #include <exception>
 #include <memory>
 #include <thread>
@@ -649,4 +650,105 @@ TEST_CASE("Busy schema four migration leaves original tables unchanged and is re
     }
     LocalStore retry(path,"server-a"); CHECK(retry.schema_version()==5);
     CHECK(retry.starter_items({"server-a",17})==std::optional<StarterItems>(fixture_items()));
+}
+
+TEST_CASE("Owned starter mech snapshot returns raw saved attributes and survives reopening without writes") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"snapshot.db";
+    const auto items=fixture_items(); Account account;
+    const ItemAttributes attributes{{"Preset.Label","saved"},{"Preset.Empty",""},{"Preset.PrimaryWeapon_0","0007"}};
+    {
+        LocalStore store(path,"server-a"); account=store.get_or_create_account("1",0);
+        REQUIRE(store.grant_starter_items(account.ref,items));
+        REQUIRE(store.merge_owned_item_attributes(account.ref,items[0].instance_id,attributes));
+        const auto before=hawken::test::read_bytes(path);
+        const auto snapshot=store.owned_starter_mech(account.ref,items[0].instance_id);
+        CHECK(snapshot.items==items);
+        CHECK(snapshot.attributes==attributes);
+        CHECK(hawken::test::read_bytes(path)==before);
+        CHECK(store.wallet(account.ref)==WalletBalances{});
+    }
+    LocalStore reopened(path,"server-a"); const auto before=hawken::test::read_bytes(path);
+    auto snapshot=reopened.owned_starter_mech(account.ref,items[0].instance_id);
+    CHECK(snapshot.items==items); CHECK(snapshot.attributes==attributes);
+    snapshot.items[0].instance_id="changed"; snapshot.attributes["Preset.Label"]="changed";
+    CHECK(reopened.owned_starter_mech(account.ref,items[0].instance_id).attributes==attributes);
+    CHECK(hawken::test::read_bytes(path)==before);
+    const FixtureDb db(path);
+    CHECK(db.scalar("SELECT count(*) FROM starter_grants")==1);
+    CHECK(db.scalar("SELECT count(*) FROM starter_items")==9);
+    CHECK(db.scalar("SELECT count(*) FROM owned_item_attributes")==3);
+}
+
+TEST_CASE("Owned starter mech snapshot rejects foreign nonmech malformed and out of scope selections") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"snapshot.db";
+    LocalStore store(path,"server-a"); const auto a=store.get_or_create_account("1",0),b=store.get_or_create_account("2",0);
+    const auto items=fixture_items(),foreign=fixture_items('3');
+    REQUIRE(store.grant_starter_items(a.ref,items)); REQUIRE(store.grant_starter_items(b.ref,foreign));
+    const auto before=hawken::test::read_bytes(path);
+    for(const auto& id:{foreign[0].instance_id,items[1].instance_id,items[0].type_id,
+        std::string("40000000-0000-0000-0000-000000000001")})
+        expect_error(StoreErrorCode::not_found,[&]{(void)store.owned_starter_mech(a.ref,id);});
+    expect_error(StoreErrorCode::not_found,[&]{(void)store.owned_starter_mech({"server-a",999},items[0].instance_id);});
+    expect_error(StoreErrorCode::invalid_scope,[&]{(void)store.owned_starter_mech({"server-b",a.ref.local_id},items[0].instance_id);});
+    for(const auto& id:std::array<std::string,5>{"","PRIVATE-ID","00000000-0000-0000-0000-000000000000",
+        "A0000000-0000-0000-0000-000000000001",items[0].instance_id+" "})
+        expect_error(StoreErrorCode::invalid_input,[&]{(void)store.owned_starter_mech(a.ref,id);});
+    CHECK(hawken::test::read_bytes(path)==before);
+    CHECK(store.wallet(a.ref)==WalletBalances{}); CHECK(store.wallet(b.ref)==WalletBalances{});
+}
+
+TEST_CASE("Owned starter mech snapshot cannot grant repair or seed missing data") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"snapshot.db";
+    LocalStore store(path,"server-a"); const auto account=store.get_or_create_account("1",0); const auto items=fixture_items();
+    SUBCASE("Missing grant remains absent") {
+        const auto before=hawken::test::read_bytes(path);
+        expect_error(StoreErrorCode::not_found,[&]{(void)store.owned_starter_mech(account.ref,items[0].instance_id);});
+        CHECK(hawken::test::read_bytes(path)==before); CHECK_FALSE(store.starter_items(account.ref));
+    }
+    SUBCASE("Recorded incomplete grant is not repaired") {
+        REQUIRE(store.grant_starter_items(account.ref,items));
+        {const FixtureDb db(path); db.exec("DELETE FROM starter_items WHERE slot=8");}
+        const auto before=hawken::test::read_bytes(path);
+        expect_error(StoreErrorCode::invalid_schema,[&]{(void)store.owned_starter_mech(account.ref,items[0].instance_id);});
+        CHECK(hawken::test::read_bytes(path)==before);
+        const FixtureDb db(path); CHECK(db.scalar("SELECT count(*) FROM starter_items")==8);
+    }
+    SUBCASE("Owned mech without saved attributes stays empty") {
+        REQUIRE(store.grant_starter_items(account.ref,items)); const auto before=hawken::test::read_bytes(path);
+        const auto snapshot=store.owned_starter_mech(account.ref,items[0].instance_id);
+        CHECK(snapshot.items==items); CHECK(snapshot.attributes.empty());
+        CHECK(hawken::test::read_bytes(path)==before);
+        const FixtureDb db(path); CHECK(db.scalar("SELECT count(*) FROM owned_item_attributes")==0);
+    }
+}
+
+TEST_CASE("Owned starter mech snapshot does not mix concurrent type and preset transaction versions") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"snapshot.db";
+    LocalStore store(path,"server-a"); const auto account=store.get_or_create_account("1",0); const auto items=fixture_items();
+    REQUIRE(store.grant_starter_items(account.ref,items));
+    REQUIRE(store.merge_owned_item_attributes(account.ref,items[0].instance_id,{{"Preset.Version","A"}}));
+    {const FixtureDb db(path); db.exec("PRAGMA journal_mode=WAL");}
+    std::atomic<bool> ready=false; std::exception_ptr writer_error;
+    std::jthread writer([&]{
+        try {
+            const FixtureDb db(path); db.exec("PRAGMA busy_timeout=5000"); ready=true;
+            for(int i=0;i<40;++i) {
+                db.exec("BEGIN IMMEDIATE; UPDATE starter_items SET type_id='40000000-0000-0000-0000-000000000001' WHERE slot=0; "
+                    "UPDATE owned_item_attributes SET value='B' WHERE key='Preset.Version'; COMMIT");
+                db.exec("BEGIN IMMEDIATE; UPDATE starter_items SET type_id='10000000-0000-0000-0000-000000000001' WHERE slot=0; "
+                    "UPDATE owned_item_attributes SET value='A' WHERE key='Preset.Version'; COMMIT");
+            }
+        } catch(...) {writer_error=std::current_exception();ready=true;}
+    });
+    while(!ready.load())std::this_thread::yield();
+    for(int i=0;i<80;++i) {
+        const auto snapshot=store.owned_starter_mech(account.ref,items[0].instance_id);
+        const auto& type=snapshot.items[0].type_id;
+        REQUIRE(snapshot.attributes.contains("Preset.Version"));
+        const auto& version=snapshot.attributes.at("Preset.Version");
+        CHECK(((type=="10000000-0000-0000-0000-000000000001" && version=="A") ||
+               (type=="40000000-0000-0000-0000-000000000001" && version=="B")));
+    }
+    writer.join(); if(writer_error)std::rethrow_exception(writer_error);
+    CHECK(store.wallet(account.ref)==WalletBalances{});
 }

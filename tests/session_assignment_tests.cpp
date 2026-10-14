@@ -835,3 +835,67 @@ TEST_CASE("assignment DELETE maintains expiry regression binding and active leas
         CHECK(f.registry.installs == 1); CHECK(f.entropy_calls == 3);
     }
 }
+
+TEST_CASE("assignment account snapshot follows only the authenticated active UDP session") {
+    Fixture f;
+    CHECK_FALSE(f.service->account_for_udp(public_id));
+    const auto login=f.login(); REQUIRE(login.status==200);
+    selected(f,login);
+    const auto expected=f.store.find_account(std::to_string(identity)); REQUIRE(expected);
+    const auto entropy=f.entropy_calls;
+    const auto installs=f.registry.installs;
+    const auto context=f.registry.context;
+    const auto before_wallet=f.store.wallet(expected->ref);
+    const auto first=f.service->account_for_udp(public_id); REQUIRE(first);
+    CHECK(*first==expected->ref);
+    auto unknown=public_id; ++unknown[7];
+    CHECK_FALSE(f.service->account_for_udp(unknown));
+    CHECK(f.service->account_for_udp(public_id)==first);
+    CHECK(f.registry.context==context);
+    CHECK(f.registry.live==1);
+    CHECK(f.registry.installs==installs);
+    CHECK(f.entropy_calls==entropy);
+    CHECK(f.store.wallet(expected->ref)==before_wallet);
+    CHECK_FALSE(f.store.starter_items(expected->ref));
+    REQUIRE(f.service->handle("DELETE",ad_target(),header(login)).status==404);
+    CHECK(f.service->account_for_udp(public_id)==first);
+}
+
+TEST_CASE("assignment account snapshots isolate database scopes and outlive their source copy") {
+    Fixture a("account-snapshot-A"),b("account-snapshot-B");
+    const auto login_a=a.login(),login_b=b.login();
+    REQUIRE(login_a.status==200); REQUIRE(login_b.status==200);
+    selected(a,login_a); selected(b,login_b);
+    const auto account_a=a.service->account_for_udp(public_id);
+    const auto account_b=b.service->account_for_udp(public_id);
+    REQUIRE(account_a); REQUIRE(account_b);
+    CHECK_FALSE(*account_a==*account_b);
+    CHECK(account_a->server_id=="account-snapshot-A");
+    CHECK(account_b->server_id=="account-snapshot-B");
+    const auto retained=*account_a;
+    a.service.reset();
+    CHECK(a.registry.live==0);
+    CHECK(*account_a==retained);
+    CHECK(b.service->account_for_udp(public_id)==account_b);
+}
+
+TEST_CASE("assignment account snapshot fails closed on revoked or invalid lifecycle") {
+    Fixture f;
+    const auto login=f.login(); REQUIRE(login.status==200);
+    REQUIRE(post(f,login).status==200);
+    REQUIRE(f.registry.live==1);
+    SUBCASE("Steam authentication revoked") { f.verifier.active=false; }
+    SUBCASE("Monotonic deadline reached") { f.monotonic_now=130; }
+    SUBCASE("Monotonic regression") { f.monotonic_now=99; }
+    SUBCASE("Clock exception") { f.monotonic_throws=true; }
+    SUBCASE("Destination unbound") { f.bound=false; }
+    SUBCASE("Registry exception") { f.bound_throws=true; }
+    SUBCASE("Inactive lease") { f.registry.active=false; }
+    SUBCASE("Account banned") {
+        const auto account=f.store.find_account(std::to_string(identity)); REQUIRE(account);
+        f.store.set_ban(account->ref,{1000,std::nullopt,"public fixture reason"});
+    }
+    CHECK_FALSE(f.service->account_for_udp(public_id));
+    CHECK(f.registry.live==0);
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+}

@@ -53,6 +53,10 @@ struct StarterItem {
 using StarterItems = std::array<StarterItem, 9>;
 using GameSettings = std::map<std::string, std::string, std::less<>>;
 using ItemAttributes = std::map<std::string, std::string, std::less<>>;
+struct StarterMechSnapshot {
+    StarterItems items;
+    ItemAttributes attributes;
+};
 struct Alias {
     std::string value;
     std::int64_t first_seen = 0;
@@ -112,6 +116,12 @@ public:
     // all 18 IDs in a grant are distinct. Instance IDs are unique in this DB
     // and cannot collide with any stored type ID (or vice versa).
     std::optional<StarterItems> starter_items(const AccountRef& account) const;
+    // Trusted read-only snapshot of the existing starter mech (slot0), all nine
+    // owned types/instances and this mech's raw saved attributes in ONE SQL read
+    // transaction. No grant/repair/defaults/rendering or gameplay interpretation.
+    // Missing grant, foreign/unknown instance or another owned slot: not_found;
+    // malformed instance: invalid_input; existing scope/schema checks remain.
+    StarterMechSnapshot owned_starter_mech(const AccountRef& account, std::string_view instance_id) const;
     // Trusted internal policy only, not a public grant/purchase endpoint.
     // Grants all nine rows atomically. False means an identical replay; any
     // changed payload conflicts. Does not alter wallets or existing grants.

@@ -621,6 +621,19 @@ LocalStore::~LocalStore() = default;
 LocalStore::LocalStore(LocalStore&&) noexcept = default;
 LocalStore& LocalStore::operator=(LocalStore&&) noexcept = default;
 
+StarterMechSnapshot LocalStore::owned_starter_mech(const AccountRef& account, std::string_view instance_id) const {
+    auto& state = state_of(impl_);
+    const std::lock_guard lock(state.mutex);
+    Transaction transaction(state.db.get(), false);
+    state.check();
+    require_account(state.db.get(), state.server, account);
+    require(inventory_id(instance_id), StoreErrorCode::invalid_input);
+    const auto items = read_starter_items(state.db.get(), account.local_id);
+    require(items.has_value() && items->at(0).instance_id == instance_id, StoreErrorCode::not_found);
+    StarterMechSnapshot result{*items, read_item_attributes(state.db.get(), account.local_id, 0)};
+    transaction.commit();
+    return result;
+}
 ItemAttributes LocalStore::owned_item_attributes(const AccountRef& account, std::string_view instance_id) const {
     auto& state = state_of(impl_);
     const std::lock_guard lock(state.mutex);

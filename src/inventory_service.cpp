@@ -270,6 +270,15 @@ InventoryService::InventoryService(store::LocalStore& store, auth::AuthService& 
         {"Description", "Free starter equipment"}, {"Fees", {{"HP", 0}}},
         {"GameItems", std::move(offered_items)}}});
 }
+store::StarterMechSnapshot InventoryService::owned_starter_mech(const store::AccountRef& account,
+                                                               std::string_view instance_id) {
+    std::lock_guard lock(mutex_);
+    auto snapshot = store_.owned_starter_mech(account, instance_id);
+    const auto type_ids = types(ids_);
+    for (std::size_t i = 0; i < snapshot.items.size(); ++i)
+        if (snapshot.items.at(i).type_id != type_ids[i]) throw std::runtime_error("Invalid owned inventory.");
+    return snapshot;
+}
 bool InventoryService::supports_target(std::string_view raw_target) const {
     return parse_target(raw_target).kind != Kind::unknown;
 }

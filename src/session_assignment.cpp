@@ -457,4 +457,14 @@ bool SessionAssignmentService::authorize_udp(const session::SessionId& id) noexc
         catch (...) { impl_->current.reset(); return false; }
     } catch (...) { return false; }
 }
+std::optional<store::AccountRef> SessionAssignmentService::account_for_udp(
+    const session::SessionId& id) noexcept {
+    try {
+        std::lock_guard lock(impl_->mutex);
+        try {
+            if (!impl_->authorize_udp(id) || !impl_->current) return std::nullopt;
+            return impl_->current->provision.account;
+        } catch (...) { impl_->current.reset(); return std::nullopt; }
+    } catch (...) { return std::nullopt; }
+}
 }

@@ -1358,3 +1358,69 @@ TEST_CASE("Item batch service fails closed on a persisted type inconsistent with
         "UPDATE starter_items SET type_id='30000000-0000-0000-0000-000000000099' WHERE slot=8");
     failure(f.inventory.post_batch("/userGameItemsBatch/"+guid(login),header(login),nlohmann::json::array({instance_ids[0]}).dump()),500);
 }
+
+TEST_CASE("Owned starter mech service returns raw SQL snapshot without rendering defaults or notifying PUT") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto access=f.auth.access(header(login)); REQUIRE(access.status==200); REQUIRE(access.account);
+    const auto account=access.account->account;
+    REQUIRE(f.store.grant_starter_items(account,persisted_expected()));
+    const hawken::store::ItemAttributes attributes{{"Preset.Label","saved"},{"Preset.PrimaryWeapon_0","0007"},{"Preset.Empty",""}};
+    REQUIRE(f.store.merge_owned_item_attributes(account,instance_ids[0],attributes));
+    unsigned observed=0;
+    InventoryService service(f.store,f.auth,ids(),balance(),offer_id,[&](const auto&){++observed;});
+    const auto path=f.temporary.path()/"accounts.sqlite"; const auto before=hawken::test::read_bytes(path);
+    auto snapshot=service.owned_starter_mech(account,instance_ids[0]);
+    CHECK(snapshot.items==persisted_expected()); CHECK(snapshot.attributes==attributes);
+    CHECK_FALSE(snapshot.attributes.contains("Preset.Style.UpperPart"));
+    snapshot.attributes["Preset.Label"]="changed";
+    snapshot.items[0].type_id="changed";
+    CHECK(service.owned_starter_mech(account,instance_ids[0]).attributes==attributes);
+    CHECK(service.owned_starter_mech(account,instance_ids[0]).items==persisted_expected());
+    CHECK(observed==0); CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
+    CHECK(hawken::test::read_bytes(path)==before);
+    LocalStore reopened(path,"inventory-server");
+    InventoryService reopened_service(reopened,f.auth,ids(),balance(),offer_id);
+    const auto persisted=reopened_service.owned_starter_mech(account,instance_ids[0]);
+    CHECK(persisted.items==persisted_expected()); CHECK(persisted.attributes==attributes);
+    CHECK(hawken::test::read_bytes(path)==before);
+}
+
+TEST_CASE("Owned starter mech service never grants or selects another account or equipment slot") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto access=f.auth.access(header(login)); REQUIRE(access.status==200); REQUIRE(access.account);
+    const auto account=access.account->account; auto expected=hawken::store::StoreErrorCode::not_found;
+    auto selected=std::string(instance_ids[0]); auto scoped=account;
+    SUBCASE("Absent starter grant") {}
+    SUBCASE("Owned equipment is not the mech") {
+        REQUIRE(f.store.grant_starter_items(account,persisted_expected())); selected=instance_ids[1];
+    }
+    SUBCASE("Unknown canonical instance") {
+        REQUIRE(f.store.grant_starter_items(account,persisted_expected())); selected="30000000-0000-0000-0000-000000000099";
+    }
+    SUBCASE("Foreign account cannot select the existing mech") {
+        REQUIRE(f.store.grant_starter_items(account,persisted_expected()));
+        scoped=f.store.get_or_create_account(fixture_second_id_text,1000).ref;
+    }
+    SUBCASE("Foreign server scope") {scoped.server_id="other-server";expected=hawken::store::StoreErrorCode::invalid_scope;}
+    SUBCASE("Malformed instance") {selected="not-an-instance";expected=hawken::store::StoreErrorCode::invalid_input;}
+    const auto grant_before=f.store.starter_items(account);
+    const auto path=f.temporary.path()/"accounts.sqlite"; const auto before=hawken::test::read_bytes(path);
+    bool caught=false;
+    try {(void)f.inventory.owned_starter_mech(scoped,selected);}
+    catch(const hawken::store::StoreError& error){caught=true;CHECK(error.code()==expected);}
+    CHECK(caught); CHECK(hawken::test::read_bytes(path)==before);
+    CHECK(f.store.starter_items(account)==grant_before);
+    CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
+}
+
+TEST_CASE("Owned starter mech service validates every persisted type against its configured catalogue") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto access=f.auth.access(header(login)); REQUIRE(access.status==200); REQUIRE(access.account);
+    const auto account=access.account->account; REQUIRE(f.store.grant_starter_items(account,persisted_expected()));
+    fixture_sql(f.temporary.path()/"accounts.sqlite",
+        "UPDATE starter_items SET type_id='30000000-0000-0000-0000-000000000099' WHERE slot=8");
+    const auto before=hawken::test::read_bytes(f.temporary.path()/"accounts.sqlite");
+    CHECK_THROWS_WITH(f.inventory.owned_starter_mech(account,instance_ids[0]),"Invalid owned inventory.");
+    CHECK(hawken::test::read_bytes(f.temporary.path()/"accounts.sqlite")==before);
+    CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
+}
