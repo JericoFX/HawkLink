@@ -1,0 +1,51 @@
+{
+  "schema": "hawken.pri-identity.same-cache.red-summary.v1",
+  "freeze_sha256": "edfeee9f6a2ffe3c6086d5c9822f3778637019bb2c941eda1a39789ff8f63a03",
+  "expected_freeze_sha256": "edfeee9f6a2ffe3c6086d5c9822f3778637019bb2c941eda1a39789ff8f63a03",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "auxiliary_pin_matches": 3,
+  "auxiliary_pin_count": 3,
+  "build_exit": 0,
+  "test_exit": 1,
+  "wrapper_exit": 1,
+  "focused_test": "UDP PRI identity and StartMech reject contradictory same-channel cache then allow coherent retry",
+  "doctest_cases": {
+    "selected": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped_by_filter": 108
+  },
+  "assertions": {
+    "total": 4,
+    "passed": 0,
+    "failed": 4
+  },
+  "red_behavior": [
+    "same-channel contradictory cache with duplicate_field=false was accepted; owner remained running",
+    "same-channel contradictory cache with duplicate_field=true was accepted; owner remained running"
+  ],
+  "binary": {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+    "sha256": "65c5bc79f3a6c875c9879d44ba299345781bd59d4342f98fb5395fd83550091b"
+  },
+  "active_hawken_build_processes": [],
+  "ram_used_percent_after": 71.31,
+  "free_kib_after": 9598828,
+  "preflight_record": "RAM 73.05% used, 9017468 KiB free; no Hawken build process; all 185 inputs and 3 auxiliary pins matched before launch (captured in execution transcript)",
+  "raw_files": [
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "devshell.exit.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "test.stdout.log",
+    "test.stderr.log",
+    "test.exit.txt",
+    "wrapper.exit.txt",
+    "launcher.exit.txt",
+    "input-hashes-after.json"
+  ]
+}

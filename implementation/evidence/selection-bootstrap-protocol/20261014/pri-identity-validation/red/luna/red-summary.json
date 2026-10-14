@@ -1,0 +1,63 @@
+{
+  "schema": "hawken.pri-identity.red-summary.v1",
+  "input_freeze_sha256": "ef2ce9a0f305935cebd3b4d58b9b5f7d8eaf1f0876baf3674af7a6b0fd1d05bf",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "build_exit": 0,
+  "ctest_exit": 8,
+  "wrapper_exit": 8,
+  "ctest_registered_tests": 2,
+  "ctest_failed_suites": 2,
+  "ctest_skipped": 0,
+  "doctest_cases": 142,
+  "doctest_cases_passed": 134,
+  "doctest_cases_failed": 8,
+  "doctest_cases_skipped": 0,
+  "assertions": 8907,
+  "assertions_passed": 8862,
+  "assertions_failed": 45,
+  "failed_cases": [
+    "UDP PRI identity uses server provision after real opening ACK and gates links until identity ACK",
+    "UDP PRI identity copied plan ignores confirmed seeds and needs only real PRI opening before send",
+    "UDP PRI identity prerequisites premises tag endian and budget fail before retryable start",
+    "UDP PRI identity rejects malformed or zero provision GUID without consuming handoff budget",
+    "UDP PRI identity absent plan preserves old links and does not retain malformed unused GUID",
+    "UDP PRI identity revoked authorization retires before identity or links without further send",
+    "UDP trial PRI identity copies explicit policy and forwards server account words before links",
+    "UDP trial PRI identity preflight preserves bind rollback and authenticated authority"
+  ],
+  "log_directory": "implementation/evidence/selection-bootstrap-protocol/20261014/pri-identity-validation/red/luna",
+  "protected_processes": [
+    {
+      "pid": 11568,
+      "name": "pwsh.exe",
+      "creation_local": "2026-10-14T17:43:18.4900600-03:00",
+      "executable_path": "C:\\Users\\Jerico\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe"
+    },
+    {
+      "pid": 22384,
+      "name": "hawken-master.exe",
+      "creation_local": "2026-10-14T17:43:21.5088740-03:00",
+      "executable_path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe"
+    },
+    {
+      "pid": 27424,
+      "name": "hawken-server.exe",
+      "creation_local": "2026-10-14T17:43:22.3706130-03:00",
+      "executable_path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe"
+    }
+  ],
+  "canonical_binary_hashes": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    }
+  ],
+  "ram_used_percent_after": 70.63,
+  "free_kib_after": 9828000
+}

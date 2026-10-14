@@ -1,0 +1,50 @@
+{
+  "schema": "hawken.pri-identity.opening-diagnostic.v1",
+  "freeze_sha256": "bdb3944e5b487b5eecd6faa8c149fc961a69fde1f12082207b9ccf6a3138689c",
+  "expected_freeze_sha256": "bdb3944e5b487b5eecd6faa8c149fc961a69fde1f12082207b9ccf6a3138689c",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "aux_pin_count": 2,
+  "aux_pin_matches": 2,
+  "build_exit": 0,
+  "test_exit": 1,
+  "wrapper_exit": 1,
+  "selected_case": "UDP PRI identity uses server provision after real opening ACK and gates links until identity ACK",
+  "selected_cases": 1,
+  "filtered_cases": 108,
+  "assertions_total": 111,
+  "assertions_passed": 110,
+  "assertions_failed": 1,
+  "failure": "REQUIRE(out.bunches.size()==2) failed, observed 0",
+  "diagnostic_trace": [
+    "initial opening packet IDs controller=14 pri=15 pawn=16",
+    "partial ACK5 opening retry count=1 trace= pid=21/channel=9/seq=102/open=1",
+    "identity packet ID=25 preceded by ACK6 of original PRI opening=15",
+    "ACK8 gap server packet ID=26",
+    "retried identity packet ID=33 final ACK9 server ID=33",
+    "before final UID ACK controller_open=true pri_open=true pawn_open=true identity_sent=true identity_acked=false links_sent=false closed=false",
+    "after final UID ACK controller_open=true pri_open=true pawn_open=true identity_sent=true identity_acked=false links_sent=false closed=false"
+  ],
+  "binary": {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+    "sha256": "2bf3f4163fd3f4746479bb24e18dd8ed99ba99481a5d53b2c221c9900c7a77b7"
+  },
+  "active_build_processes": [],
+  "ram_used_percent_after": 70.13,
+  "free_kib_after": 9994416,
+  "raw_files": [
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "devshell.exit.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "test.stdout.log",
+    "test.stderr.log",
+    "test.exit.txt",
+    "wrapper.exit.txt",
+    "launcher.exit.txt",
+    "input-hashes-after.json"
+  ]
+}

@@ -1,0 +1,27 @@
+--- diagnostic/tests/local_udp_owner_tests.cpp
++++ openingACKrepair/tests/local_udp_owner_tests.cpp
+@@ -2608,17 +2608,21 @@
+     CHECK(partial_diagnostics.controller_open_acked); CHECK(partial_diagnostics.pawn_open_acked);
+     CHECK_FALSE(partial_diagnostics.pri_open_acked); CHECK_FALSE(partial_diagnostics.pri_identity_sent);
+     CHECK_FALSE(partial_diagnostics.actor_links_sent);
+-    peer.send(f.owner.port(),links_ack(client,6,{openings.packet_ids[1]}));
++    // Partial ACK's gap moved the PRI opening association to the received retry.
++    // ACK that real current PacketID, not the superseded initial opening ID.
++    REQUIRE_FALSE(opening_retry_ids.empty());
++    peer.send(f.owner.port(),links_ack(client,6,opening_retry_ids));
+     const auto identity=links_output(peer,client,2000ms,1);
+     identity_property(identity,f.handed_off_user_guid);
+     INFO("identity packet ID="<<identity.packet_ids.front()
+-        <<" preceded by ACK6 of original PRI opening="<<openings.packet_ids[1]);
++        <<" preceded by ACK6 of received opening retries count="<<opening_retry_ids.size()
++        <<" trace="<<opening_retry_trace);
+     CHECK(wait_until([&]{return f.owner.diagnostics().pri_identity_sent;}));
+     CHECK(f.owner.diagnostics().pri_open_acked);
+     CHECK_FALSE(f.owner.diagnostics().pri_identity_acked); CHECK_FALSE(f.owner.diagnostics().actor_links_sent);
+     // Re-ACKing only the opening cannot clear the queued identity property.
+     std::vector<std::uint16_t> later_packet_ids;
+-    peer.send(f.owner.port(),links_ack(client,7,{openings.packet_ids[1]}));
++    peer.send(f.owner.port(),links_ack(client,7,opening_retry_ids));
+     CHECK(links_output(peer,client,200ms,2,nullptr,nullptr,&later_packet_ids).bunches.empty());
+     CHECK_FALSE(f.owner.diagnostics().pri_identity_acked);
+     // Accepted Actor retry is driven by a real later ACK gap. The duplicate

@@ -714,6 +714,7 @@ struct LoginAuthorityFixture {
     Decision decision;
     PublicationDecision publication_decision;
     std::atomic<int> publications{0};
+    std::string handed_off_user_guid; // Synthetic server provision, never Login.UniqueId.
     udp::LocalUdpOwner owner{0,authority_skeleton(),
         [this]{return udp_now.load();},5ms};
     std::unique_ptr<assignment::SessionAssignmentService> service;
@@ -728,7 +729,8 @@ struct LoginAuthorityFixture {
                                    udp::LocalUdpOwner::StartMechProvider mech_provider={},
                                    std::optional<udp::SpawnValidationDispatchPlan> spawn_validation=std::nullopt,
                                    udp::LocalUdpOwner::SpawnSelectionValidator selection_validator={},
-                                   std::optional<udp::SpawnAdmissionDispatchPlan> spawn_admission=std::nullopt)
+                                   std::optional<udp::SpawnAdmissionDispatchPlan> spawn_admission=std::nullopt,
+                                   std::optional<udp::PriIdentityDispatchPlan> pri_identity=std::nullopt)
         : decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
@@ -739,7 +741,10 @@ struct LoginAuthorityFixture {
                 else return false;
                 return true;
             },[this](const assignment::Destination& d){return owner.destination_bound(d);},
-            [this](const assignment::SessionProvision& provision){return owner.handoff(provision);});
+            [this](const assignment::SessionProvision& provision){
+                handed_off_user_guid=provision.user_guid;
+                return owner.handoff(provision);
+            });
         auto authorize=[this](const session::SessionId& id){return service && service->authorize_udp(id);};
         udp::LocalUdpOwner::PublicationProvider publish;
         if (publication_decision)
@@ -754,11 +759,13 @@ struct LoginAuthorityFixture {
                 return decision ? decision(*this,id,response) : service->validate_login_response(id,response);
             },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links),
                 std::move(start_mech),std::move(mech_provider),
-                std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission));
+                std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
+                std::move(pri_identity));
         else owner.start(std::move(authorize),{},std::move(publish),
                             std::move(controller),std::move(pawn),std::move(pri),std::move(links),
                 std::move(start_mech),std::move(mech_provider),
-                std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission));
+                std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
+                std::move(pri_identity));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -1684,12 +1691,14 @@ ControllerOutput links_openings(LoginAuthorityFixture& fixture,const auth::AuthR
 ControllerOutput links_output(Peer& peer,session::Context& client,
                              std::chrono::milliseconds budget=200ms,std::size_t expected=2,
                              std::string* diagnostic_trace=nullptr,
-                             std::vector<std::uint16_t>* received_open_ids=nullptr) {
+                             std::vector<std::uint16_t>* received_open_ids=nullptr,
+                             std::vector<std::uint16_t>* received_packet_ids=nullptr) {
     ControllerOutput result;
     const auto deadline=std::chrono::steady_clock::now()+budget;
     while (std::chrono::steady_clock::now()<deadline) {
         const auto datagram=peer.receive(20ms); if (!datagram) continue;
         const auto packet=wire::decode_packet(client.decode(*datagram),256);
+        if (received_packet_ids) received_packet_ids->push_back(packet.packet_id);
         for (const auto& record:packet.records) {
             if (received_open_ids && !record.is_ack && record.bunch.channel!=0 && record.bunch.open)
                 received_open_ids->push_back(packet.packet_id);
@@ -2539,5 +2548,265 @@ TEST_CASE("UDP admission preserves known boundaries and rejects stale selection 
             CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
             CHECK(links_output(peer,client,200ms).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
         }
+    }
+}
+
+namespace {
+udp::PriIdentityDispatchPlan public_identity_plan() {
+    // SYNTHETIC field2/bound8, no native cache observation.
+    return {2,8,control::Endian::little,{true,true,true,true,true}};
+}
+Bytes expected_provision_identity(std::string_view guid) {
+    REQUIRE(guid.size()==36);
+    std::string compact;
+    for (const auto c:guid) if (c!='-') compact.push_back(c);
+    REQUIRE(compact.size()==32);
+    auto bytes=hex(compact);
+    // Independent native076ca0 chunks, then four little-endian u32 blocks.
+    // This does not call the product GUID parser or UniqueId codec.
+    for (std::size_t i=0;i<bytes.size();i+=4)
+        std::reverse(bytes.begin()+static_cast<std::ptrdiff_t>(i),
+            bytes.begin()+static_cast<std::ptrdiff_t>(i+4));
+    return bytes;
+}
+void identity_property(const ControllerOutput& output,std::string_view provision_guid) {
+    REQUIRE(output.bunches.size()==1);
+    const auto& bunch=output.bunches.front();
+    REQUIRE(bunch.channel==9);
+    // Owner fixture PRI seed101 -> reliable opening102 -> first property103.
+    // Runtime's separate91/92/93 fixture does not define this Owner oracle.
+    CHECK(bunch.sequence==103);
+    CHECK(bunch.reliable); CHECK(bunch.channel_type==2);
+    CHECK_FALSE(bunch.control); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    REQUIRE(bunch.payload_bits==131); // tag3 + value128, no RPC presence.
+    wire::BitReader reader(bunch.payload,bunch.payload_bits);
+    CHECK(reader.read_bounded(8)==2);
+    const auto value=reader.read_bits(128);
+    CHECK(value==expected_provision_identity(provision_guid));
+    // Existing Login fixture carries these conflicting client-supplied words.
+    CHECK(value!=hex("040302017856341200000080ffffffff"));
+    CHECK(reader.at_end());
+    REQUIRE(output.packet_ids.size()==1);
+}
+}
+
+TEST_CASE("UDP PRI identity uses server provision after real opening ACK and gates links until identity ACK") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan(),{},{},{},{},{},public_identity_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    REQUIRE(f.handed_off_user_guid.size()==36);
+    INFO("initial opening packet IDs controller="<<openings.packet_ids[0]
+        <<" pri="<<openings.packet_ids[1]<<" pawn="<<openings.packet_ids[2]);
+    auto partial=links_opening_acks(openings); partial.erase(partial.begin()+6);
+    std::string opening_retry_trace;
+    std::vector<std::uint16_t> opening_retry_ids;
+    peer.send(f.owner.port(),links_ack(client,5,partial));
+    CHECK(links_output(peer,client,200ms,2,&opening_retry_trace,&opening_retry_ids).bunches.empty());
+    INFO("partial ACK5 opening retry count="<<opening_retry_ids.size()<<" trace="<<opening_retry_trace);
+    const auto partial_diagnostics=f.owner.diagnostics();
+    CHECK(partial_diagnostics.controller_open_acked); CHECK(partial_diagnostics.pawn_open_acked);
+    CHECK_FALSE(partial_diagnostics.pri_open_acked); CHECK_FALSE(partial_diagnostics.pri_identity_sent);
+    CHECK_FALSE(partial_diagnostics.actor_links_sent);
+    // Partial ACK's gap moved the PRI opening association to the received retry.
+    // ACK that real current PacketID, not the superseded initial opening ID.
+    REQUIRE_FALSE(opening_retry_ids.empty());
+    peer.send(f.owner.port(),links_ack(client,6,opening_retry_ids));
+    const auto identity=links_output(peer,client,2000ms,1);
+    identity_property(identity,f.handed_off_user_guid);
+    INFO("identity packet ID="<<identity.packet_ids.front()
+        <<" preceded by ACK6 of received opening retries count="<<opening_retry_ids.size()
+        <<" trace="<<opening_retry_trace);
+    CHECK(wait_until([&]{return f.owner.diagnostics().pri_identity_sent;}));
+    CHECK(f.owner.diagnostics().pri_open_acked);
+    CHECK_FALSE(f.owner.diagnostics().pri_identity_acked); CHECK_FALSE(f.owner.diagnostics().actor_links_sent);
+    // Re-ACKing only the opening cannot clear the queued identity property.
+    std::vector<std::uint16_t> later_packet_ids;
+    peer.send(f.owner.port(),links_ack(client,7,opening_retry_ids));
+    CHECK(links_output(peer,client,200ms,2,nullptr,nullptr,&later_packet_ids).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().pri_identity_acked);
+    // Accepted Actor retry is driven by a real later ACK gap. The duplicate
+    // opening ACK is itself acknowledged with a later server ACK-only packet.
+    const auto later=std::find_if(later_packet_ids.begin(),later_packet_ids.end(),
+        [&](std::uint16_t id){return id>identity.packet_ids.front();});
+    REQUIRE(later!=later_packet_ids.end());
+    INFO("ACK8 gap server packet ID="<<*later);
+    peer.send(f.owner.port(),links_ack(client,8,{*later}));
+    const auto retry=links_output(peer,client,2000ms,1);
+    identity_property(retry,f.handed_off_user_guid);
+    INFO("retried identity packet ID="<<retry.packet_ids.front()<<" final ACK9 server ID="<<retry.packet_ids.front());
+    CHECK(retry.packet_ids.front()>identity.packet_ids.front());
+    CHECK_FALSE(f.owner.diagnostics().actor_links_sent);
+    const auto before_identity_ack=f.owner.diagnostics();
+    INFO("before final UID ACK controller_open="<<before_identity_ack.controller_open_acked
+        <<" pri_open="<<before_identity_ack.pri_open_acked<<" pawn_open="<<before_identity_ack.pawn_open_acked
+        <<" identity_sent="<<before_identity_ack.pri_identity_sent<<" identity_acked="<<before_identity_ack.pri_identity_acked
+        <<" links_sent="<<before_identity_ack.actor_links_sent<<" closed="<<before_identity_ack.closed);
+    peer.send(f.owner.port(),links_ack(client,9,retry.packet_ids));
+    const auto linked=links_output(peer,client,2000ms);
+    const auto after_identity_ack=f.owner.diagnostics();
+    INFO("after final UID ACK controller_open="<<after_identity_ack.controller_open_acked
+        <<" pri_open="<<after_identity_ack.pri_open_acked<<" pawn_open="<<after_identity_ack.pawn_open_acked
+        <<" identity_sent="<<after_identity_ack.pri_identity_sent<<" identity_acked="<<after_identity_ack.pri_identity_acked
+        <<" links_sent="<<after_identity_ack.actor_links_sent<<" closed="<<after_identity_ack.closed);
+    links_literals(linked);
+    CHECK(wait_until([&]{return f.owner.diagnostics().actor_links_sent;}));
+    CHECK(f.owner.diagnostics().pri_identity_acked);
+    CHECK(f.service->authorize_udp(public_id));
+    peer.send(f.owner.port(),links_ack(client,10,retry.packet_ids));
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+
+TEST_CASE("UDP PRI identity copied plan ignores confirmed seeds and needs only real PRI opening before send") {
+    auto controller=public_controller_plan(); auto pawn=public_pawn_plan(); auto pri=public_pri_plan();
+    controller.channel.open_confirmed=true; pawn.channel.open_confirmed=true; pri.channel.open_confirmed=true;
+    auto plan=public_identity_plan();
+    LoginAuthorityFixture f({},true,controller_publisher(),controller,{},pawn,pri,public_links_plan(),
+        {},{},{},{},{},plan);
+    plan.field_id=7; plan.exclusive_bound=1; plan.integer_order=control::Endian::big;
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().controller_open_acked);
+    CHECK_FALSE(f.owner.diagnostics().pri_open_acked); CHECK_FALSE(f.owner.diagnostics().pawn_open_acked);
+    peer.send(f.owner.port(),links_ack(client,5,{openings.packet_ids[1]}));
+    const auto identity=links_output(peer,client,2000ms,1);
+    identity_property(identity,f.handed_off_user_guid);
+    CHECK(f.owner.diagnostics().pri_open_acked);
+    CHECK_FALSE(f.owner.diagnostics().controller_open_acked); CHECK_FALSE(f.owner.diagnostics().pawn_open_acked);
+    peer.send(f.owner.port(),links_ack(client,6,identity.packet_ids));
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK(wait_until([&]{return f.owner.diagnostics().pri_identity_acked;}));
+    CHECK_FALSE(f.owner.diagnostics().actor_links_sent);
+    peer.send(f.owner.port(),links_ack(client,7,links_opening_acks(openings)));
+    links_literals(links_output(peer,client,2000ms));
+    CHECK(wait_until([&]{return f.owner.diagnostics().actor_links_sent;}));
+}
+
+TEST_CASE("UDP PRI identity prerequisites premises tag endian and budget fail before retryable start") {
+    for (unsigned mutation=0;mutation<13;++mutation) {
+        CAPTURE(mutation);
+        auto config=authority_skeleton(); auto plan=public_identity_plan();
+        udp::LocalUdpOwner::LoginResponseValidator validator=[](const session::SessionId&,
+            const control::posthello::RawString&){return true;};
+        udp::LocalUdpOwner::PublicationProvider publisher=[](const session::SessionId&,
+            const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};};
+        std::optional<udp::InitialPriPlan> pri=public_pri_plan();
+        std::optional<udp::InitialActorLinksPlan> links=public_links_plan();
+        switch (mutation) {
+        case 0: validator={}; break;
+        case 1: publisher={}; break;
+        case 2: pri.reset(); break;
+        case 3: links.reset(); break;
+        case 4: plan.eligibility.primary_package_map=false; break;
+        case 5: plan.eligibility.pri_cache_correct=false; break;
+        case 6: plan.eligibility.unique_id_property_eligible=false; break;
+        case 7: plan.eligibility.unique_net_id_serializer_correct=false; break;
+        case 8: plan.eligibility.integer_archive_order_correct=false; break;
+        case 9: plan.exclusive_bound=0; break;
+        case 10: plan.field_id=8; break;
+        case 11: plan.integer_order=static_cast<control::Endian>(9); break;
+        case 12: config.transport.max_packet_bytes=16; break; //131 bits exceed128 before start.
+        }
+        udp::LocalUdpOwner owner(0,config,[]{return 100.0;},5ms);
+        error([&]{owner.start([](const session::SessionId&){return true;},validator,publisher,
+            public_controller_plan(),public_pawn_plan(),pri,links,{},{},{},{},{},plan);},
+            udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if (owner.running()) { owner.stop(); continue; } // Safe semantic RED no-op cleanup.
+        CHECK_FALSE(owner.diagnostics().pri_identity_sent); CHECK_FALSE(owner.diagnostics().actor_links_sent);
+        owner.start([](const session::SessionId&){return true;}); CHECK(owner.running());
+    }
+}
+
+TEST_CASE("UDP PRI identity rejects malformed or zero provision GUID without consuming handoff budget") {
+    const std::string invalid[]{"", "00000000-0000-0000-0000-000000000000",
+        "11223344-5566-7788-99AA-BBCCDDEEFF00", "112233445566778899aabbccddeeff00",
+        "11223344_5566-7788-99aa-bbccddeeff00", "11223344-5566-7788-99aa-bbccddeeff0g"};
+    for (const auto& guid:invalid) {
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        owner.start([](const session::SessionId&){return true;},
+            [](const session::SessionId&,const control::posthello::RawString&){return true;},
+            [](const session::SessionId&,const control::posthello::Login&){return std::optional<game::WorldPublication>{public_world()};},
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),public_links_plan(),
+            {},{},{},{},{},public_identity_plan());
+        auto bad=provision(owner.port()); bad.user_guid=guid;
+        auto rejected=owner.handoff(bad); CHECK_FALSE(rejected);
+        CHECK(owner.running()); CHECK_FALSE(owner.diagnostics().pri_identity_sent);
+        if (rejected) { rejected.reset(); owner.stop(); continue; }
+        auto accepted=owner.handoff(provision(owner.port())); REQUIRE(accepted); CHECK(accepted->active());
+    }
+}
+
+TEST_CASE("UDP PRI identity absent plan preserves old links and does not retain malformed unused GUID") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),public_links_plan());
+    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+    const auto openings=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(openings)));
+    links_literals(links_output(peer,client,2000ms));
+    CHECK(wait_until([&]{return f.owner.diagnostics().actor_links_sent;}));
+    CHECK(f.owner.diagnostics().controller_open_acked); CHECK(f.owner.diagnostics().pri_open_acked);
+    CHECK(f.owner.diagnostics().pawn_open_acked);
+    CHECK_FALSE(f.owner.diagnostics().pri_identity_sent); CHECK_FALSE(f.owner.diagnostics().pri_identity_acked);
+    udp::LocalUdpOwner absent(0,authority_skeleton(),[]{return 100.0;},5ms);
+    absent.start([](const session::SessionId&){return true;});
+    auto unused=provision(absent.port()); unused.user_guid="unused-invalid-guid";
+    const auto lease=absent.handoff(unused); REQUIRE(lease); CHECK(lease->active());
+}
+
+TEST_CASE("UDP PRI identity revoked authorization retires before identity or links without further send") {
+    for (const bool after_identity:{false,true}) {
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),public_links_plan(),{},{},{},{},{},public_identity_plan());
+        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
+        const auto openings=links_openings(f,login,peer,client);
+        std::vector<std::uint16_t> pending_ack=links_opening_acks(openings);
+        if (after_identity) {
+            peer.send(f.owner.port(),links_ack(client,5,pending_ack));
+            const auto identity=links_output(peer,client,2000ms,1);
+            identity_property(identity,f.handed_off_user_guid); pending_ack=identity.packet_ids;
+            CHECK(wait_until([&]{return f.owner.diagnostics().pri_identity_sent;}));
+        }
+        f.verifier.active=false;
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK_FALSE(f.service->authorize_udp(public_id));
+        peer.send(f.owner.port(),links_ack(client,6,pending_ack));
+        CHECK(links_output(peer,client).bunches.empty());
+        CHECK(f.owner.diagnostics().pri_identity_sent==after_identity);
+        CHECK_FALSE(f.owner.diagnostics().pri_identity_acked); CHECK_FALSE(f.owner.diagnostics().actor_links_sent);
+        CHECK(f.owner.running()); // Session retire does not stop the owner socket.
+    }
+}
+
+TEST_CASE("UDP PRI identity and StartMech reject contradictory same-channel cache then allow coherent retry") {
+    for (const bool duplicate_field:{false,true}) {
+        CAPTURE(duplicate_field);
+        auto identity=public_identity_plan();
+        const auto mech=public_start_mech_plan();
+        identity.exclusive_bound=mech.pri_exclusive_bound;
+        identity.field_id=mech.pri_mech_setup_field_id==2 ? 3U : 2U;
+        const auto coherent=identity;
+        if (duplicate_field) identity.field_id=mech.pri_mech_setup_field_id;
+        else ++identity.exclusive_bound;
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        const auto authorize=[](const session::SessionId&){return true;};
+        const auto validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
+        const auto publisher=[](const session::SessionId&,const control::posthello::Login&) {
+            return std::optional<game::WorldPublication>{public_world()};
+        };
+        const auto provider=[](const session::SessionId&,const wire::rpc::StartMechArguments&,
+            std::uint8_t previous) { return std::optional{public_mech_result(previous)}; };
+        error([&]{owner.start(authorize,validator,publisher,
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),public_links_plan(),
+            mech,provider,{},{},{},identity);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if (owner.running()) { owner.stop(); continue; } // Preserve cleanup on semantic RED.
+        CHECK_FALSE(owner.diagnostics().pri_identity_sent);
+        owner.start(authorize,validator,publisher,
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),public_links_plan(),
+            mech,provider,{},{},{},coherent);
+        CHECK(owner.running());
     }
 }

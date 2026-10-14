@@ -1,0 +1,53 @@
+{
+  "phase": "READY_GREEN",
+  "sources": [
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "81769d329aef8c43c3be50324275b1ddd71edc9ae283670b39a77fabfe47e669",
+      "bytes": 7330
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "1b2b4ac8656ce7f73d0060b0b3768bb88ace4d17ab548c36427484c74a3a5f80",
+      "bytes": 13971
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "67b7d2b15b935ba3661d2510340de4f3483a8ae106f370910a6aae55b0c7e3ed",
+      "bytes": 90737
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/pri-identity-runtime/green/udp_trial_runtime.hpp",
+      "sha256": "81769d329aef8c43c3be50324275b1ddd71edc9ae283670b39a77fabfe47e669",
+      "bytes": 7330
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/pri-identity-runtime/green/udp_trial_runtime.cpp",
+      "sha256": "1b2b4ac8656ce7f73d0060b0b3768bb88ace4d17ab548c36427484c74a3a5f80",
+      "bytes": 13971
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/pri-identity-runtime/green/udp_trial_runtime_tests.cpp",
+      "sha256": "67b7d2b15b935ba3661d2510340de4f3483a8ae106f370910a6aae55b0c7e3ed",
+      "bytes": 90737
+    }
+  ],
+  "red_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/pri-identity-runtime/red/freeze.json",
+    "sha256": "18098c7403b08c9b12111bc065e9121bbd97a10811ffd6b575559f20f2963747",
+    "bytes": 3000
+  },
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/pri-identity-runtime/green/source-vs-red.diff",
+    "sha256": "cf9af595d90ea633d7e10b72096ff934061249eb91877312530fdaa94a0ad53c",
+    "bytes": 3831
+  },
+  "notes": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/pri-identity-runtime/green/notes.json",
+    "sha256": "83bd77d5865f1316654f343b2bd46f344bde6762933082fd2e4d0934452bb980",
+    "bytes": 1049
+  },
+  "writer_builds_tests_runtime": 0
+}

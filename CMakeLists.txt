@@ -280,7 +280,7 @@ else()
 endif()
 
 add_library(hawken_local_udp STATIC src/local_udp_owner.cpp)
-target_link_libraries(hawken_local_udp PUBLIC hawken_game_connection hawken_session_assignment hawken_initial_controller hawken_initial_pawn hawken_object_property hawken_start_mech_rpc hawken_mech_setup hawken_spawn_validation hawken_spawn_validation_rpc hawken_controller_admission_rpc hawken_pawn_rpc Threads::Threads)
+target_link_libraries(hawken_local_udp PUBLIC hawken_game_connection hawken_session_assignment hawken_initial_controller hawken_initial_pawn hawken_object_property hawken_start_mech_rpc hawken_mech_setup hawken_spawn_validation hawken_spawn_validation_rpc hawken_controller_admission_rpc hawken_pawn_rpc hawken_unique_id Threads::Threads)
 if(WIN32)
     target_link_libraries(hawken_local_udp PRIVATE ws2_32)
 endif()

@@ -331,6 +331,30 @@ public:
             << " gs_pipe_zero=" << observation.gs_pipe_zero
             << " context_loss=" << context_loss << " worker_finish=" << worker_finish << '\n' << std::flush;
     }
+    void udp(const hawken::udp::LocalUdpDiagnostics& observation) {
+        std::osyncstream(*stream_)
+            << "udp authenticated_datagrams=" << observation.authenticated_datagrams
+            << " hello_validated=" << observation.hello_validated
+            << " login_received=" << observation.login_received
+            << " login_response_validated=" << observation.login_response_validated
+            << " world_published=" << observation.world_published
+            << " join_requested=" << observation.join_requested
+            << " controller_sent=" << observation.controller_sent
+            << " pri_sent=" << observation.pri_sent
+            << " pawn_sent=" << observation.pawn_sent
+            << " controller_open_acked=" << observation.controller_open_acked
+            << " pri_open_acked=" << observation.pri_open_acked
+            << " pawn_open_acked=" << observation.pawn_open_acked
+            << " actor_links_sent=" << observation.actor_links_sent
+            << " pri_identity_sent=" << observation.pri_identity_sent
+            << " pri_identity_acked=" << observation.pri_identity_acked
+            << " spawn_validation_requested=" << observation.spawn_validation_requested
+            << " spawn_validation_sent=" << observation.spawn_validation_sent
+            << " spawn_validation_failed=" << observation.spawn_validation_failed
+            << " stage3_requested=" << observation.stage3_requested
+            << " client_restart_sent=" << observation.client_restart_sent
+            << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
+    }
 private:
     std::ofstream file_;
     std::ostream* stream_ = nullptr;
@@ -455,8 +479,20 @@ int serve_http(const Options& options, Diagnostics& diagnostics, hawken::auth::A
         std::atomic<bool> listener_finished{false};
         std::atomic<bool> trial_failed{false};
         std::jthread supervisor([&](std::stop_token stop) {
+            std::optional<hawken::udp::LocalUdpDiagnostics> last_udp_state;
             while (!stop.stop_requested()
                 && !listener_finished.load(std::memory_order_relaxed)) {
+                if (udp_trial) {
+                    const auto observation = udp_trial->diagnostics();
+                    auto state = observation;
+                    // Log protocol state changes while the client is connected.
+                    // Traffic count alone must not produce one line per packet.
+                    state.authenticated_datagrams = 0;
+                    if (!last_udp_state || state != *last_udp_state) {
+                        diagnostics.udp(observation);
+                        last_udp_state = state;
+                    }
+                }
                 std::error_code stop_error;
                 const bool requested_by_file = !options.stop_file.empty()
                     && std::filesystem::exists(options.stop_file, stop_error);
@@ -560,6 +596,13 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                     },true};
                 trial_config.spawn_admission = hawken::udp::SpawnAdmissionDispatchPlan{
                     281,83,294,{true,true,true,true,true,true}};
+                // Conditional Link0 PRIMARY PRI cache41/87 and explicit Windows
+                // little-endian archive trial. The observed UniqueId offset2d4
+                // names the property; it does not prove this live field cache or
+                // concrete native Archive. Identity comes only from authorized
+                // SessionProvision.user_guid, never the client's Login.UniqueId.
+                trial_config.pri_identity = hawken::udp::PriIdentityDispatchPlan{
+                    41,87,hawken::control::Endian::little,{true,true,true,true,true}};
                 // Our starter records are permanent; the current local domain
                 // has no achievement awards. The reader verifies account scope
                 // in SQL and must change before an award/import path is enabled.
@@ -568,6 +611,7 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                     << "udp_start_mech schema=conditional_primary_trial gameplay=0\n"
                     << "udp_spawn_validation schema=conditional_primary_trial gameplay=0\n"
                     << "udp_spawn_admission schema=conditional_primary_trial gameplay=0\n"
+                    << "udp_pri_identity schema=conditional_primary_trial gameplay=0\n"
                     << std::flush;
             }
             udp_trial = std::make_unique<hawken::udp::UdpTrialRuntime>(auth, trial_config);
@@ -576,23 +620,7 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
             udp_trial.get());
         if (udp_trial) {
             udp_trial->stop();
-            const auto observation = udp_trial->diagnostics();
-            std::osyncstream(diagnostics.stream())
-                << "udp authenticated_datagrams=" << observation.authenticated_datagrams
-                << " hello_validated=" << observation.hello_validated
-                << " login_received=" << observation.login_received
-                << " login_response_validated=" << observation.login_response_validated
-                << " world_published=" << observation.world_published
-                << " join_requested=" << observation.join_requested
-                << " controller_sent=" << observation.controller_sent
-                << " pri_sent=" << observation.pri_sent
-                << " spawn_validation_requested=" << observation.spawn_validation_requested
-                << " spawn_validation_sent=" << observation.spawn_validation_sent
-                << " spawn_validation_failed=" << observation.spawn_validation_failed
-                << " stage3_requested=" << observation.stage3_requested
-                << " client_restart_sent=" << observation.client_restart_sent
-                << " pawn_sent=" << observation.pawn_sent
-                << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
+            diagnostics.udp(udp_trial->diagnostics());
         }
         return result;
     } catch (...) {

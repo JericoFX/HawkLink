@@ -97,6 +97,7 @@ struct UdpTrialRuntime::Impl {
     const std::optional<SpawnValidationDispatchPlan> spawn_validation;
     const std::optional<SpawnValidationSource> spawn_validation_source;
     const std::optional<SpawnAdmissionDispatchPlan> spawn_admission;
+    const std::optional<PriIdentityDispatchPlan> pri_identity;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -109,7 +110,7 @@ struct UdpTrialRuntime::Impl {
         : publication(config.publication), controller(config.controller), pawn(config.pawn), pri(config.pri),
           links(config.links), start_mech(config.start_mech), start_mech_source(config.start_mech_source),
           spawn_validation(config.spawn_validation), spawn_validation_source(config.spawn_validation_source),
-          spawn_admission(config.spawn_admission) {
+          spawn_admission(config.spawn_admission), pri_identity(config.pri_identity) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -187,7 +188,7 @@ struct UdpTrialRuntime::Impl {
                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
                     return service->validate_login_response(id, response);
                 }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize),
-                spawn_validation,std::move(validate_selection),spawn_admission);
+                spawn_validation,std::move(validate_selection),spawn_admission,pri_identity);
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();
@@ -219,6 +220,17 @@ UdpTrialRuntime::UdpTrialRuntime(auth::AuthService& auth, const UdpTrialConfig& 
         !config.publication || !config.controller || !config.pri || !config.pawn || !config.links ||
         !config.start_mech || !config.start_mech_source))
         startup_failed();
+    if (config.pri_identity) {
+        const auto& identity = *config.pri_identity;
+        const auto& eligibility = identity.eligibility;
+        if (!config.publication || !config.controller || !config.pri || !config.pawn || !config.links ||
+            identity.exclusive_bound == 0 || identity.field_id >= identity.exclusive_bound ||
+            (identity.integer_order != control::Endian::little && identity.integer_order != control::Endian::big) ||
+            !eligibility.primary_package_map || !eligibility.pri_cache_correct ||
+            !eligibility.unique_id_property_eligible || !eligibility.unique_net_id_serializer_correct ||
+            !eligibility.integer_archive_order_correct)
+            startup_failed();
+    }
     try { impl_ = std::make_unique<Impl>(auth, config); }
     catch (...) { startup_failed(); }
 }

@@ -52,6 +52,14 @@ struct LocalUdpDiagnostics {
     bool spawn_validation_failed = false;
     bool stage3_requested = false;
     bool client_restart_sent = false;
+    // Genuine outgoing-opening/queued delivery observations only. These never
+    // prove client property application, actor creation or admission.
+    bool controller_open_acked = false;
+    bool pri_open_acked = false;
+    bool pawn_open_acked = false;
+    bool actor_links_sent = false;
+    bool pri_identity_sent = false;
+    bool pri_identity_acked = false;
 
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
@@ -146,6 +154,20 @@ struct SpawnAdmissionDispatchPlan {
     std::uint32_t client_restart_rpc_field_id;
     std::uint32_t controller_exclusive_bound;
     SpawnAdmissionEligibility eligibility;
+};
+
+struct PriIdentityEligibility {
+    bool primary_package_map;
+    bool pri_cache_correct;
+    bool unique_id_property_eligible;
+    bool unique_net_id_serializer_correct;
+    bool integer_archive_order_correct;
+};
+struct PriIdentityDispatchPlan {
+    std::uint32_t field_id;
+    std::uint32_t exclusive_bound;
+    control::Endian integer_order;
+    PriIdentityEligibility eligibility;
 };
 
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
@@ -277,6 +299,17 @@ public:
     // Fresh auth/Entry/lifecycle and the same actor/PRI delivery gates apply.
     // New StartMech invalidates permission; duplicates use transport retries.
     // No additional recovery ServerRestart RPC or native possession guarantee.
+    // Optional copied PRI identity requires validator/publication/PRI/links and
+    // all five explicit schema/order premises, validated before start commits.
+    // Only configured handoff retains a strictly canonical lower/nonzero server
+    // provision.user_guid as four native eight-hex words. Invalid input installs
+    // no Entry and consumes no installation budget. Login.UniqueId/Steam64 are
+    // never identity sources. After the PRI's genuine outgoing-opening ACK, send
+    // one reliable UniqueId property on that same channel/Context. Links then
+    // require that send and the actual PRI outgoing queue to be empty. Fresh
+    // auth/Entry/lifecycle and existing retirement rules remain in force.
+    // Sent/ACK diagnostics do not prove native identity application. No plan
+    // preserves the prior wire behavior and retains no provision identity.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
                std::optional<InitialControllerPlan> controller = std::nullopt,
@@ -287,7 +320,8 @@ public:
                StartMechProvider mech_provider = {},
                std::optional<SpawnValidationDispatchPlan> spawn_validation = std::nullopt,
                SpawnSelectionValidator selection_validator = {},
-               std::optional<SpawnAdmissionDispatchPlan> spawn_admission = std::nullopt);
+               std::optional<SpawnAdmissionDispatchPlan> spawn_admission = std::nullopt,
+               std::optional<PriIdentityDispatchPlan> pri_identity = std::nullopt);
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied

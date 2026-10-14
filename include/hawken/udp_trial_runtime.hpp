@@ -73,6 +73,11 @@ struct UdpTrialConfig {
     // Explicit stage3 admission policy requires the real selected-data validation.
     // No automatic stage request or additional recovery ServerRestart RPC.
     std::optional<SpawnAdmissionDispatchPlan> spawn_admission = std::nullopt;
+    // Optional copied authenticated PRI identity metadata policy. Requires
+    // publication, Controller, PRI, Pawn and links. Runtime validates schema,
+    // integer order and all premises before bind; Owner rechecks and uses its
+    // server-owned SessionProvision.user_guid. No inferred fields or identity.
+    std::optional<PriIdentityDispatchPlan> pri_identity = std::nullopt;
 
 
 };

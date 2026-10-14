@@ -1,0 +1,9 @@
+{
+  "scope": "Only newUID case: ACK6 uses receivedcurrentopeningretry PacketIDs and duplicateACK7 repeats thoseactualIDs. OriginalstaleopeningID no longerACKed in thiscase. No newliteralIDs.",
+  "confirmed_parent_trace": "PartialACK5 produced PRIopeningretry21/channel9/seq102/open1; staleACK6 initial15 left21pending; UID25+gap26->retry33; finalACK33 unabletopruneopeninghead21. Parent corroborated exactcurrentPID/prune-prefix behavior.",
+  "source_contract": "process_ack130-174 changes currentassociation on retry and onlyprunes acknowledgedprefix. This is fixtureACK repair, not transportchange or staleACKacceptance.",
+  "preservation": "OriginalOwneridentity103/value/budgets/eligibility/quota andController43/Pawn73 literal linkoracles unchanged. Roottrace actualIDs are explanatory evidence, not hardcodedtest inputs. Runtime93/production/header/Main untouched.",
+  "verification": "Before/after prefix+suffix aroundexactnewUID case equal. No builds/tests/runtime/Git bywriter; parent/Luna green-v3 full52 pending.",
+  "skill_coverage": "CPP/Game completepriorcoverage rehashed unchanged; Graftcheck7085synced beforeedits.",
+  "failed_gate_evidence": "Prior diagnostic/fullgreen gates preserved append-only; parentownedtrace notrewritten."
+}

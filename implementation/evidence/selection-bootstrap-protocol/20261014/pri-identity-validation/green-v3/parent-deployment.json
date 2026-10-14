@@ -1,0 +1,61 @@
+{
+  "schema": "hawken.pri-identity.parent-deployment.v1",
+  "observedUtc": "2026-10-14T21:59:41.7544101Z",
+  "acceptedFunctionalGate": "green-v3",
+  "nativeGameplayAccepted": false,
+  "session": "local-steam-routing-20261014-215808",
+  "helperSha256": "28ae09fe0ef27cf8d4d6d3817585f71da213a3c91aaedda74e3de3abcbcca7d1",
+  "helperChange": "default Core SHA pin only; source gate precedes this script-only deployment change",
+  "parseErrorCount": 0,
+  "serverPin": "5396f980d3557adc97028556aa6ae9e9cf24a9253bf71859640f518de74506ee",
+  "httpReads": [
+    {
+      "uri": "http://127.0.0.1/gameServerListings",
+      "method": "GET",
+      "status": 200,
+      "resultCount": 1
+    },
+    {
+      "uri": "http://127.0.0.1:18080/gameServerListings",
+      "method": "GET",
+      "status": 200,
+      "resultCount": 0
+    }
+  ],
+  "initialIncorrectProbe": {
+    "uri": "http://127.0.0.1/health",
+    "status": 404,
+    "interpretation": "Unsupported path; no server health failure inferred"
+  },
+  "ready": {
+    "serverPort": 80,
+    "servicesOwned": true,
+    "status": "READY_FOR_MANUAL_STEAM_START",
+    "serverPid": 21152,
+    "masterPid": 25784,
+    "ruleName": "HawkenLocalOnly-a56273127592400897a03d1250bdbd93",
+    "masterPort": 18080
+  },
+  "processes": [
+    {
+      "ProcessId": 29844,
+      "ParentProcessId": 7356,
+      "CreationDate": "2026-10-14T18:58:07.892743-03:00",
+      "ExecutablePath": "C:\\Users\\Jerico\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe"
+    },
+    {
+      "ProcessId": 25784,
+      "ParentProcessId": 29844,
+      "CreationDate": "2026-10-14T18:58:11.813505-03:00",
+      "ExecutablePath": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe"
+    },
+    {
+      "ProcessId": 21152,
+      "ParentProcessId": 29844,
+      "CreationDate": "2026-10-14T18:58:13.366768-03:00",
+      "ExecutablePath": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe"
+    }
+  ],
+  "gameNotLaunchedByThisDeployment": true,
+  "masterCoreRegistrationAccepted": false
+}

@@ -1,0 +1,85 @@
+{
+  "schema": "hawken.pri-identity.full-green-summary.v1",
+  "input_freeze_sha256": "8dbf4fcb41804887dea6270f9b266cdacf86f2bbdfdedb6762c2843443ba13f1",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "aux_pin_count": 3,
+  "aux_pin_matches": 3,
+  "build_exit": 0,
+  "ctest_exit": 8,
+  "wrapper_exit": 8,
+  "registered_suites": 52,
+  "failed_suites": 1,
+  "skipped_suites": 0,
+  "doctest_cases": {
+    "total": 1428,
+    "passed": 1425,
+    "failed": 3,
+    "skipped": 0
+  },
+  "assertions": {
+    "total": 66421,
+    "passed": 66417,
+    "failed": 4
+  },
+  "failed_suites_names": [
+    "local_udp_owner"
+  ],
+  "known_behavioral_failures": [
+    "UDP PRI identity uses server provision after real opening ACK and gates links until identity ACK",
+    "UDP PRI identity copied plan ignores confirmed seeds and needs only real PRI opening before send",
+    "UDP PRI identity revoked authorization retires before identity or links without further send"
+  ],
+  "binary_hashes": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "5396f980d3557adc97028556aa6ae9e9cf24a9253bf71859640f518de74506ee"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+      "sha256": "1dddbdd1cd83bd9734f6ee4fd4525699bd5972d920e0e9aa3ef115bc230a67f3"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-udp-trial-runtime-tests.exe",
+      "sha256": "509db65770b2d4a7b80827f0019f3c7b4963f1f2e716fe4928a90e3e082801f3"
+    }
+  ],
+  "build_steps": 17,
+  "compiled_main_object": "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj",
+  "raw_files": [
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "devshell.exit.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "ctest.stdout.log",
+    "ctest.stderr.log",
+    "ctest.exit.txt",
+    "tests.xml",
+    "wrapper.exit.txt",
+    "launcher.exit.txt",
+    "ninja-deps-after.txt",
+    "ninja-deps-after.exit.txt",
+    "input-hashes-after.json"
+  ],
+  "dependency_objects": [
+    "CMakeFiles/hawken_local_udp.dir/src/local_udp_owner.cpp.obj: 27 VALID, includes local_udp_owner.hpp",
+    "CMakeFiles/hawken_udp_trial_runtime.dir/src/udp_trial_runtime.cpp.obj: 24 VALID, includes local_udp_owner.hpp and udp_trial_runtime.hpp",
+    "CMakeFiles/hawken-local-udp-tests.dir/tests/local_udp_owner_tests.cpp.obj: 24 VALID, includes local_udp_owner.hpp",
+    "CMakeFiles/hawken-udp-trial-runtime-tests.dir/tests/udp_trial_runtime_tests.cpp.obj: 27 VALID, includes local_udp_owner.hpp and udp_trial_runtime.hpp",
+    "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj: 35 VALID, includes both headers"
+  ],
+  "ram_used_percent_after": 71.52,
+  "free_kib_after": 9529668,
+  "active_build_processes": []
+}

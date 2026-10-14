@@ -1,0 +1,70 @@
+{
+  "schema": "hawken.pri-identity.full-green-v3-summary.v1",
+  "freeze_sha256": "33ebc1330a1e0319170f511d5f3f89d91992206f28835d73d03b4c7a023a8528",
+  "expected_freeze_sha256": "33ebc1330a1e0319170f511d5f3f89d91992206f28835d73d03b4c7a023a8528",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "aux_pin_count": 4,
+  "aux_pin_matches": 4,
+  "build_exit": 0,
+  "ctest_exit": 0,
+  "wrapper_exit": 0,
+  "registered_suites": 52,
+  "failed_suites": 0,
+  "skipped_suites": 0,
+  "doctest_cases": {
+    "total": 1428,
+    "passed": 1428,
+    "failed": 0,
+    "skipped": 0
+  },
+  "assertions": {
+    "total": 66483,
+    "passed": 66483,
+    "failed": 0
+  },
+  "failed_suites_names": [],
+  "build_steps": 2,
+  "build_scope": "hawken-local-udp-tests object compile and exe relink only",
+  "binary_hashes": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "5396f980d3557adc97028556aa6ae9e9cf24a9253bf71859640f518de74506ee"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+      "sha256": "75816a2505eccd579569d8b3d576147014408680c187f1dfe3dd0086bf538302"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-udp-trial-runtime-tests.exe",
+      "sha256": "509db65770b2d4a7b80827f0019f3c7b4963f1f2e716fe4928a90e3e082801f3"
+    }
+  ],
+  "ram_used_percent_after": 71.7,
+  "free_kib_after": 9471280,
+  "active_build_processes": [],
+  "raw_files": [
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "devshell.exit.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "ctest.stdout.log",
+    "ctest.stderr.log",
+    "ctest.exit.txt",
+    "tests.xml",
+    "wrapper.exit.txt",
+    "launcher.exit.txt",
+    "input-hashes-after.json"
+  ]
+}

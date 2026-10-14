@@ -1405,3 +1405,129 @@ TEST_CASE("UDP trial admission copies explicit stage policy and forwards validat
     CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
     runtime.stop();
 }
+
+
+namespace {
+udp::PriIdentityDispatchPlan runtime_pri_identity_plan() {
+    // Synthetic caller field2/bound8, no native field-ID acceptance claim.
+    return {2,8,control::Endian::little,{true,true,true,true,true}};
+}
+std::array<std::uint32_t,4> runtime_identity_expected_words(std::string_view server_user_guid) {
+    // Independent primitive hexadecimal expectation from the trusted SERVER
+    // Auth reply, which SessionAssignment installs in SessionProvision.user_guid.
+    // Do not call the property encoder or the Owner's GUID conversion.
+    REQUIRE(server_user_guid.size()==36);
+    std::array<std::uint32_t,4> words{};
+    std::size_t digits=0;
+    for (std::size_t i=0;i<server_user_guid.size();++i) {
+        const auto c=server_user_guid[i];
+        if (i==8 || i==13 || i==18 || i==23) { REQUIRE(c=='-'); continue; }
+        REQUIRE(((c>='0' && c<='9') || (c>='a' && c<='f')));
+        const auto digit=static_cast<std::uint32_t>(c<='9' ? c-'0' : c-'a'+10);
+        words[digits/8]=(words[digits/8]<<4)|digit;
+        ++digits;
+    }
+    REQUIRE(digits==32);
+    return words;
+}
+std::uint32_t runtime_identity_wire_word(const wire::Bunch& bunch,std::size_t bit) {
+    // Read an unaligned little-endian u32 directly from the wire fixture.
+    // The loop decodes observed bytes; it never constructs the expected payload.
+    std::uint32_t result=0;
+    for (unsigned i=0;i<32;++i) {
+        const auto position=bit+i;
+        result|=static_cast<std::uint32_t>((bunch.payload.at(position/8)>>(position%8))&1U)<<i;
+    }
+    return result;
+}
+}
+TEST_CASE("UDP trial PRI identity copies explicit policy and forwards server account words before links") {
+    Fixture f;
+    std::unique_ptr<udp::UdpTrialRuntime> runtime;
+    {
+        auto selected=config(); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
+        selected.pri_identity=runtime_pri_identity_plan();
+        runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+        selected.pri_identity->field_id=999; selected.pri_identity->exclusive_bound=0;
+        selected.pri_identity->eligibility.primary_package_map=false;
+        selected.pri_identity.reset(); selected.links.reset();
+    } // Caller policy lifetime has ended before the real authorized handoff.
+    const auto login=f.login(); const auto dto=provision(*runtime,login);
+    REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    const auto expected_words=runtime_identity_expected_words(login.result.at("UserId").get<std::string>());
+    Peer peer; session::Context client(session::Role::client,id,key);
+    const auto opened=runtime_links_open(*runtime,login,peer,client);
+    peer.send(runtime->port(),runtime_links_ack(client,5,opened.packet_ids));
+    const auto identity=runtime_links_packets(peer,client,2000ms,1,true);
+    REQUIRE(identity.bunches.size()==1); REQUIRE(identity.packet_ids.size()==1);
+    const auto& bunch=identity.bunches[0];
+    REQUIRE(bunch.channel==9); REQUIRE(bunch.payload_bits==131);
+    REQUIRE(bunch.payload.size()==17);
+    CHECK(bunch.sequence==93); CHECK(bunch.reliable); CHECK(bunch.channel_type==2);
+    CHECK_FALSE(bunch.control); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
+    CHECK((bunch.payload[0]&7U)==2U); // Literal 3-bit property tag, no presence.
+    for (std::size_t i=0;i<4;++i)
+        CHECK(runtime_identity_wire_word(bunch,3+i*32)==expected_words[i]);
+    CHECK((bunch.payload.back()&0xf8U)==0U);
+    REQUIRE(wait_until([&] { return runtime->diagnostics().pri_identity_sent; }));
+    CHECK_FALSE(runtime->diagnostics().pri_identity_acked);
+    CHECK_FALSE(runtime->diagnostics().actor_links_sent);
+    // ACK IDs come from the actual property packet, not arithmetic/future IDs.
+    // No artificial waiting/retransmission gap before this delivery ACK.
+    peer.send(runtime->port(),runtime_links_ack(client,6,identity.packet_ids));
+    const auto linked=runtime_links_packets(peer,client,2000ms,2,true);
+    REQUIRE(linked.bunches.size()==2);
+    CHECK(linked.bunches[0].channel==7); CHECK(linked.bunches[0].sequence==43);
+    CHECK(linked.bunches[0].payload==public_hex("9b804600")); CHECK(linked.bunches[0].payload_bits==30);
+    CHECK(linked.bunches[1].channel==8); CHECK(linked.bunches[1].sequence==73);
+    CHECK(linked.bunches[1].payload==public_hex("79004f00")); CHECK(linked.bunches[1].payload_bits==30);
+    REQUIRE(wait_until([&] { return runtime->diagnostics().pri_identity_acked && runtime->diagnostics().actor_links_sent; }));
+    CHECK(runtime->assignment().authorize_udp(id)); CHECK_FALSE(runtime->diagnostics().closed);
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    runtime->stop(); CHECK_FALSE(runtime->running()); CHECK_FALSE(runtime->assignment().authorize_udp(id));
+}
+TEST_CASE("UDP trial PRI identity preflight preserves bind rollback and authenticated authority") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto wallet=f.store.wallet(account->ref);
+    std::uint16_t port=0; { Peer reservation; port=reservation.port(); }
+    for (unsigned invalid=0;invalid<13;++invalid) {
+        CAPTURE(invalid);
+        auto selected=config(port); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
+        selected.pri_identity=runtime_pri_identity_plan();
+        switch (invalid) {
+        case 0: selected.publication.reset(); break;
+        case 1: selected.controller.reset(); break;
+        case 2: selected.pri.reset(); break;
+        case 3: selected.pawn.reset(); break;
+        case 4: selected.links.reset(); break;
+        case 5: selected.pri_identity->exclusive_bound=0; break;
+        case 6: selected.pri_identity->field_id=8; break;
+        case 7: selected.pri_identity->integer_order=static_cast<control::Endian>(255); break;
+        case 8: selected.pri_identity->eligibility.primary_package_map=false; break;
+        case 9: selected.pri_identity->eligibility.pri_cache_correct=false; break;
+        case 10: selected.pri_identity->eligibility.unique_id_property_eligible=false; break;
+        case 11: selected.pri_identity->eligibility.unique_net_id_serializer_correct=false; break;
+        case 12: selected.pri_identity->eligibility.integer_archive_order_correct=false; break;
+        }
+        CHECK(udp::validate_trial_config(selected)); // Remains identity-only.
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        { Peer rebound(port); CHECK(rebound.port()==port); }
+        CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    }
+    auto selected=config(port); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
+    selected.pri_identity=runtime_pri_identity_plan();
+    udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); CHECK(runtime.port()==port);
+    CHECK(provision(runtime,login).status==200); // No failed preflight consumed the first installation.
+    CHECK(f.store.wallet(account->ref)==wallet); runtime.stop();
+}
