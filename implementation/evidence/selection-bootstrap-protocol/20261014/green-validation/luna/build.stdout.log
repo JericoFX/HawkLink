@@ -1,0 +1,18 @@
+[1/9] Building CXX object CMakeFiles\hawken_unique_id.dir\src\unique_id_wire.cpp.obj
+[2/9] Linking CXX static library hawken_unique_id.lib
+[3/9] Building CXX object CMakeFiles\hawken-controller-netfields-probe.dir\tools\controller_netfields_probe.cpp.obj
+FAILED: [code=2] CMakeFiles/hawken-controller-netfields-probe.dir/tools/controller_netfields_probe.cpp.obj 
+"C:\PROGRA~2\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64\cl.exe"  /nologo /TP -DNOMINMAX -DWIN32_LEAN_AND_MEAN -IF:\HawkenServer\include -external:IF:\HawkenServer\third_party -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MT /W4 /WX /permissive- /utf-8 /showIncludes /FoCMakeFiles\hawken-controller-netfields-probe.dir\tools\controller_netfields_probe.cpp.obj /FdCMakeFiles\hawken-controller-netfields-probe.dir\ /FS -c F:\HawkenServer\tools\controller_netfields_probe.cpp
+F:\HawkenServer\tools\gri_template_reader.hpp(79): error C2220: la siguiente advertencia se trata como un error
+F:\HawkenServer\tools\gri_template_reader.hpp(79): warning C4459: la declaración de 'classes' oculta la declaración global
+F:\HawkenServer\tools\controller_netfields_probe.cpp(31): note: vea la declaración de '`anonymous-namespace'::classes'
+F:\HawkenServer\tools\gri_template_reader.hpp(79): note: el contexto de creación de instancias de la plantilla (el más antiguo primero) es
+F:\HawkenServer\tools\controller_netfields_probe.cpp(784): note: Vea la referencia a la creación de una instancia de la función plantilla "hawken::probe::GriTemplateSnapshot hawken::probe::read_gri_template<`anonymous-namespace'::Reader,`anonymous-namespace'::gri_template_sample::<lambda_2>>(Reader &,uint64_t,uint64_t,Identify &)" que se está compilando
+        with
+        [
+            Reader=`anonymous-namespace'::Reader,
+            Identify=`anonymous-namespace'::gri_template_sample::<lambda_2>
+        ]
+F:\HawkenServer\tools\gri_template_reader.hpp(81): warning C4459: la declaración de 'packages' oculta la declaración global
+F:\HawkenServer\tools\controller_netfields_probe.cpp(30): note: vea la declaración de '`anonymous-namespace'::packages'
+ninja: build stopped: subcommand failed.

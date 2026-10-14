@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "scope": "Static byte-verified UniqueNetId StructProperty branch and helper behavior from retained Ghidra/PE evidence; no new Ghidra/build/runtime or product modifications.",
+  "original": {
+    "expected_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe"
+  },
+  "parent_extract_hashes": {
+    "inputs_before_file_sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+    "functions_before": "bc0136f1c9747cc30e0397f308ab36c3ed2ba559dbfb9d3305ddb9965c537b6d",
+    "instructions_after": "ac20fbd655ae078f0837cb16d9358ac5e5043d2b346c0a1e6de56ee12ca474d1",
+    "functions_after": "bc0136f1c9747cc30e0397f308ab36c3ed2ba559dbfb9d3305ddb9965c537b6d",
+    "inputs_after_file_sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+    "instructions_before": "ac20fbd655ae078f0837cb16d9358ac5e5043d2b346c0a1e6de56ee12ca474d1"
+  },
+  "reviewed_files": [
+    {
+      "sha256": "056c59ed347cd7ed469aec72389c1e1b828090ddaa70befc062bca4183ca8b7e",
+      "bytes": 22681,
+      "path": "implementation/evidence/mech-struct-wire/native/contract.json"
+    },
+    {
+      "sha256": "7b8ef6d97b3e5556db0de5f5a071f5a8af8aa8d30eefce16732f32c83fec633d",
+      "bytes": 37479,
+      "path": "implementation/evidence/mech-struct-wire/native/focused-functions.jsonl"
+    },
+    {
+      "sha256": "c22e208edf16fa5c26771f5c3f4e068dcc700d9bcd98c1b8b407010f81774397",
+      "bytes": 55477,
+      "path": "implementation/evidence/mech-struct-wire/native/focused-instructions.json"
+    },
+    {
+      "sha256": "3ec06be6abc2b6cf07c6c9899c5089b18b237ff34748a303e0c78770c79a973f",
+      "bytes": 19734,
+      "path": "implementation/evidence/mech-struct-wire/native-members/contract.json"
+    },
+    {
+      "sha256": "4c9ee75f371231b3ccb3017d84dc8adab098c10fec65317cf7db2f3cca5c98a3",
+      "bytes": 41531,
+      "path": "implementation/evidence/mech-struct-wire/native-members/focused-functions.jsonl"
+    },
+    {
+      "sha256": "b11a5b6a26532f800e3cf69d713b7f032f2ab2e656d171ab26a02e053f86bc1f",
+      "bytes": 29129,
+      "path": "implementation/evidence/mech-struct-wire/native-members/focused-instructions.json"
+    },
+    {
+      "sha256": "c4a81fa6b8e5e6227139d7f465586e8acc1dfd39c50091a90f77c6334da7aaf8",
+      "bytes": 107352,
+      "path": "implementation/evidence/mech-struct-wire/native-members/original-native-byte-verification.json"
+    },
+    {
+      "sha256": "5ed06813a5695f322a74212c9c0aa6b24de265843bb60d6af88bb0dd5f28f168",
+      "bytes": 140847,
+      "path": "implementation/evidence/mech-struct-wire/native/original-instruction-spans.json"
+    },
+    {
+      "sha256": "bc0136f1c9747cc30e0397f308ab36c3ed2ba559dbfb9d3305ddb9965c537b6d",
+      "bytes": 2930,
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/functions.jsonl"
+    },
+    {
+      "sha256": "ac20fbd655ae078f0837cb16d9358ac5e5043d2b346c0a1e6de56ee12ca474d1",
+      "bytes": 2912,
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/instructions.json"
+    },
+    {
+      "sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+      "bytes": 1929,
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/inputs-before.json"
+    },
+    {
+      "sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+      "bytes": 1929,
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/inputs-after.json"
+    }
+  ],
+  "pe_byte_verification": {
+    "text_section": {
+      "rva": "0x1000",
+      "raw_file_offset": "0x400",
+      "mapping": "raw_offset = 0x400 + (RVA - 0x1000)"
+    },
+    "pe_image_base": "0x140000000",
+    "functions": [
+      {
+        "instruction_count": 559,
+        "basis": "retained native/original-instruction-spans.json: all 559 MATCH; includes branch anchors",
+        "body_bytes": 2275,
+        "raw_offset_start": "0xf8420",
+        "entry": "0x1400f9020",
+        "matched": 559,
+        "contiguous": true,
+        "range_inclusive": "0x1400f9020..0x1400f9902",
+        "mismatches": 0
+      },
+      {
+        "instruction_count": 24,
+        "basis": "independent instruction-byte comparison against original PE section mapping",
+        "body_bytes": 95,
+        "raw_offset_start": "0x11ea0",
+        "entry": "0x140012ca0",
+        "matched": 24,
+        "contiguous": true,
+        "range_inclusive": "0x140012ca0..0x140012cfe",
+        "mismatches": 0
+      },
+      {
+        "instruction_count": 38,
+        "basis": "retained native-members/original-native-byte-verification.json all 38 MATCH; independent PE compare also matched",
+        "body_bytes": 121,
+        "raw_offset_start": "0x2e30",
+        "entry": "0x140003a30",
+        "matched": 38,
+        "contiguous": true,
+        "range_inclusive": "0x140003a30..0x140003aa8",
+        "mismatches": 0
+      }
+    ]
+  },
+  "branch": {
+    "literal_file_offset": "0x12c9438",
+    "delegation_call": {
+      "file_offset": "0xf8b49",
+      "target": "0x140012ca0",
+      "rva": "0xf9749",
+      "effect": "Special match bypasses generic Struct child-property iteration and delegates to the helper.",
+      "bytes": "e85295f1ff",
+      "arguments": "archive param_2 and payload param_4"
+    },
+    "literal_bytes": "556e697175654e6574496400",
+    "dispatch_immediate": {
+      "rva": "0xf9702",
+      "file_offset": "0xf8b02",
+      "bytes": "48c745c75d040000"
+    },
+    "fname_qword": "0x45d",
+    "full_qword_compare": {
+      "rva": "0xf973e",
+      "file_offset": "0xf8b3e",
+      "bytes": "483901"
+    },
+    "literal_rva": "0x12ca038",
+    "fname": "UniqueNetId"
+  },
+  "payload": {
+    "helper": "Four independent 4-byte raw components are forwarded to FUN_140003a30; no presence/length/tag is added by these two helpers.",
+    "archive_flag": {
+      "field": "archive + 0x4c",
+      "when_zero": "One Archive vtable+8 call with the unchanged 4-byte pointer and count.",
+      "endian": "Exact archive-flag-dependent byte traversal is established, not one unconditional endian. Whether those calls correspond to emitted wire-byte order depends on the concrete Archive vtable+8 implementation, which was not bound in this task.",
+      "when_nonzero": "Four Archive vtable+8 calls with count 1 at byte offsets +3,+2,+1,+0, for each component."
+    },
+    "synthetic_fixture": {
+      "words_hex": [
+        "10213243",
+        "54657687",
+        "98a9bacb",
+        "dcedfe0f"
+      ],
+      "flag_zero_one_block_call_payload": [
+        "43322110",
+        "87766554",
+        "cbbaa998",
+        "0ffeeddc"
+      ],
+      "flag_nonzero_bytes_in_single_call_sequence": [
+        "10213243",
+        "54657687",
+        "98a9bacb",
+        "dcedfe0f"
+      ],
+      "note": "Synthetic distinguishing patterns only; no Steam/account/live identifier.",
+      "assumed_x64_memory_bytes_le": [
+        "43322110",
+        "87766554",
+        "cbbaa998",
+        "0ffeeddc"
+      ]
+    },
+    "helper_entry": "0x140012ca0",
+    "component_calls": [
+      {
+        "call_va": "0x140012cb6",
+        "count": 4,
+        "payload_byte_offset": "0"
+      },
+      {
+        "call_va": "0x140012cc8",
+        "count": 4,
+        "payload_byte_offset": "4"
+      },
+      {
+        "call_va": "0x140012cda",
+        "count": 4,
+        "payload_byte_offset": "8"
+      },
+      {
+        "call_va": "0x140012cec",
+        "count": 4,
+        "payload_byte_offset": "12"
+      }
+    ]
+  },
+  "boundary": {
+    "field_id": "Not established here; field binding belongs to the parallel Auth investigation.",
+    "next_minimal_check": "Bind the concrete Archive vtable+8 implementation only if exact emitted byte stream order must be concluded; no further extraction was done.",
+    "runtime": "No live value, runtime branch, or packet was observed.",
+    "name41_bound87": "Not tested/accepted by this review; any separate Auth output remains conditional."
+  }
+}

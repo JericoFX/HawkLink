@@ -1,0 +1,51 @@
+{
+  "status": "CONFIRMED_STATIC_PREFIX_WITH_EFFECTIVE_CDO_ROTATION_UNOBSERVED",
+  "original": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "prefix": {
+    "class": "HawkenGame.R_GameReplicationInfo",
+    "class_net_index": 9438,
+    "cdo_net_index": 9439,
+    "native_factory_rva": "0x31a7c0",
+    "inherited_constructor_rva": "0x323420",
+    "final_native_vtable_rva": "0x13cbf70",
+    "getpc_slot": "0x638",
+    "getpc_cell_rva": "0x13cc5a8",
+    "getpc_target_rva": "0x379e20",
+    "getpc_bytes": "33c0c3",
+    "getpc_result": "null",
+    "controller_player_index_byte": false,
+    "rotation_flag": "actual CDO+0xec bit0; NOT observed yet"
+  },
+  "confirmed": [
+    "R_GameReplicationInfo is script-derived from Engine.GameReplicationInfo, not an own native constructor.",
+    "323420 calls 0c60e0, whose retained body installs only vtable12d08c0; final constructor vtable13cbf70 has the null GetPC target.",
+    "Original selected default tags establish inheritance but no final native ec or TeamGame value."
+  ],
+  "limits": [
+    "Zero allocation, no constructor ec write and no tagged override do not establish final rotation=false.",
+    "GameInfo ctor zeros3d8/3e0; neither is identified as TeamGame.",
+    "Native base GRI class/CDO is not the actual script-derived RGRI CDO.",
+    "Package coordinate47775 and serialized NetIndex9439 are not GObjects indices."
+  ],
+  "references": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/original-byte-proof.json",
+      "sha256": "afe976439b3d77af5fcfdc41b4c2ad678e741d4706fe5234c9161b4c45f6c9ec"
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/default-chain-original-proof.json",
+      "sha256": "11132b45696d63f087086584062baa5733b6b4dc937ab6fff7b8ccd4946355f5"
+    },
+    {
+      "path": "implementation/evidence/controller-initial-rotation/constructors/base-object/focused-functions.jsonl",
+      "sha256": "1a4057ea2676c3dd26db0f605ae8713cea4dd7385d44fa649917f06a3e225039"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/class-link-functions.jsonl",
+      "sha256": "fff102a74828ed80bfc937757f1d8c9c19631fd8aaaa42175dee1084631ba453"
+    }
+  ]
+}

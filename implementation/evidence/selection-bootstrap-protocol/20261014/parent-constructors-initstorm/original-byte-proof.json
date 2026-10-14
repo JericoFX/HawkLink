@@ -1,0 +1,999 @@
+{
+  "Schema": "hawken.bootstrap.exact-original-instruction-proof.v1",
+  "OriginalFile": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "OriginalSHA256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "ImageBase": "0x140000000",
+  "Functions": [
+    {
+      "Dossier": "parent-factories",
+      "Entry": "14031a7c0",
+      "InstructionCount": 35,
+      "Spans": [
+        {
+          "Rva": "0x31a7c0",
+          "RawOffset": "0x319bc0",
+          "Bytes": "4053"
+        },
+        {
+          "Rva": "0x31a7c2",
+          "RawOffset": "0x319bc2",
+          "Bytes": "4883ec70"
+        },
+        {
+          "Rva": "0x31a7c6",
+          "RawOffset": "0x319bc6",
+          "Bytes": "48c7442460feffffff"
+        },
+        {
+          "Rva": "0x31a7cf",
+          "RawOffset": "0x319bcf",
+          "Bytes": "488bd9"
+        },
+        {
+          "Rva": "0x31a7d2",
+          "RawOffset": "0x319bd2",
+          "Bytes": "ba08000000"
+        },
+        {
+          "Rva": "0x31a7d7",
+          "RawOffset": "0x319bd7",
+          "Bytes": "b970020000"
+        },
+        {
+          "Rva": "0x31a7dc",
+          "RawOffset": "0x319bdc",
+          "Bytes": "e81f42d3ff"
+        },
+        {
+          "Rva": "0x31a7e1",
+          "RawOffset": "0x319be1",
+          "Bytes": "4889842488000000"
+        },
+        {
+          "Rva": "0x31a7e9",
+          "RawOffset": "0x319be9",
+          "Bytes": "4885c0"
+        },
+        {
+          "Rva": "0x31a7ec",
+          "RawOffset": "0x319bec",
+          "Bytes": "7471"
+        },
+        {
+          "Rva": "0x31a7ee",
+          "RawOffset": "0x319bee",
+          "Bytes": "488d0d2bdb3300"
+        },
+        {
+          "Rva": "0x31a7f5",
+          "RawOffset": "0x319bf5",
+          "Bytes": "48894c2458"
+        },
+        {
+          "Rva": "0x31a7fa",
+          "RawOffset": "0x319bfa",
+          "Bytes": "488d0d1fdb3300"
+        },
+        {
+          "Rva": "0x31a801",
+          "RawOffset": "0x319c01",
+          "Bytes": "48894c2450"
+        },
+        {
+          "Rva": "0x31a806",
+          "RawOffset": "0x319c06",
+          "Bytes": "488d0d138c0000"
+        },
+        {
+          "Rva": "0x31a80d",
+          "RawOffset": "0x319c0d",
+          "Bytes": "48894c2448"
+        },
+        {
+          "Rva": "0x31a812",
+          "RawOffset": "0x319c12",
+          "Bytes": "48b90040000084400804"
+        },
+        {
+          "Rva": "0x31a81c",
+          "RawOffset": "0x319c1c",
+          "Bytes": "48894c2440"
+        },
+        {
+          "Rva": "0x31a821",
+          "RawOffset": "0x319c21",
+          "Bytes": "488d0dd831fe00"
+        },
+        {
+          "Rva": "0x31a828",
+          "RawOffset": "0x319c28",
+          "Bytes": "48894c2438"
+        },
+        {
+          "Rva": "0x31a82d",
+          "RawOffset": "0x319c2d",
+          "Bytes": "48895c2430"
+        },
+        {
+          "Rva": "0x31a832",
+          "RawOffset": "0x319c32",
+          "Bytes": "488d0df9410801"
+        },
+        {
+          "Rva": "0x31a839",
+          "RawOffset": "0x319c39",
+          "Bytes": "48894c2428"
+        },
+        {
+          "Rva": "0x31a83e",
+          "RawOffset": "0x319c3e",
+          "Bytes": "c744242000000000"
+        },
+        {
+          "Rva": "0x31a846",
+          "RawOffset": "0x319c46",
+          "Bytes": "33d2"
+        },
+        {
+          "Rva": "0x31a848",
+          "RawOffset": "0x319c48",
+          "Bytes": "41b904080000"
+        },
+        {
+          "Rva": "0x31a84e",
+          "RawOffset": "0x319c4e",
+          "Bytes": "41b8b0020000"
+        },
+        {
+          "Rva": "0x31a854",
+          "RawOffset": "0x319c54",
+          "Bytes": "488bc8"
+        },
+        {
+          "Rva": "0x31a857",
+          "RawOffset": "0x319c57",
+          "Bytes": "e834ead4ff"
+        },
+        {
+          "Rva": "0x31a85c",
+          "RawOffset": "0x319c5c",
+          "Bytes": "90"
+        },
+        {
+          "Rva": "0x31a85d",
+          "RawOffset": "0x319c5d",
+          "Bytes": "eb02"
+        },
+        {
+          "Rva": "0x31a85f",
+          "RawOffset": "0x319c5f",
+          "Bytes": "33c0"
+        },
+        {
+          "Rva": "0x31a861",
+          "RawOffset": "0x319c61",
+          "Bytes": "4883c470"
+        },
+        {
+          "Rva": "0x31a865",
+          "RawOffset": "0x319c65",
+          "Bytes": "5b"
+        },
+        {
+          "Rva": "0x31a866",
+          "RawOffset": "0x319c66",
+          "Bytes": "c3"
+        }
+      ],
+      "Status": "ALL_REPORTED_INSTRUCTION_BYTES_MATCH_ORIGINAL"
+    },
+    {
+      "Dossier": "parent-factories",
+      "Entry": "14031a710",
+      "InstructionCount": 35,
+      "Spans": [
+        {
+          "Rva": "0x31a710",
+          "RawOffset": "0x319b10",
+          "Bytes": "4053"
+        },
+        {
+          "Rva": "0x31a712",
+          "RawOffset": "0x319b12",
+          "Bytes": "4883ec70"
+        },
+        {
+          "Rva": "0x31a716",
+          "RawOffset": "0x319b16",
+          "Bytes": "48c7442460feffffff"
+        },
+        {
+          "Rva": "0x31a71f",
+          "RawOffset": "0x319b1f",
+          "Bytes": "488bd9"
+        },
+        {
+          "Rva": "0x31a722",
+          "RawOffset": "0x319b22",
+          "Bytes": "ba08000000"
+        },
+        {
+          "Rva": "0x31a727",
+          "RawOffset": "0x319b27",
+          "Bytes": "b970020000"
+        },
+        {
+          "Rva": "0x31a72c",
+          "RawOffset": "0x319b2c",
+          "Bytes": "e8cf42d3ff"
+        },
+        {
+          "Rva": "0x31a731",
+          "RawOffset": "0x319b31",
+          "Bytes": "4889842488000000"
+        },
+        {
+          "Rva": "0x31a739",
+          "RawOffset": "0x319b39",
+          "Bytes": "4885c0"
+        },
+        {
+          "Rva": "0x31a73c",
+          "RawOffset": "0x319b3c",
+          "Bytes": "746f"
+        },
+        {
+          "Rva": "0x31a73e",
+          "RawOffset": "0x319b3e",
+          "Bytes": "488d0ddbdb3300"
+        },
+        {
+          "Rva": "0x31a745",
+          "RawOffset": "0x319b45",
+          "Bytes": "48894c2458"
+        },
+        {
+          "Rva": "0x31a74a",
+          "RawOffset": "0x319b4a",
+          "Bytes": "488d0dcfdb3300"
+        },
+        {
+          "Rva": "0x31a751",
+          "RawOffset": "0x319b51",
+          "Bytes": "48894c2450"
+        },
+        {
+          "Rva": "0x31a756",
+          "RawOffset": "0x319b56",
+          "Bytes": "488d0d738c0000"
+        },
+        {
+          "Rva": "0x31a75d",
+          "RawOffset": "0x319b5d",
+          "Bytes": "48894c2448"
+        },
+        {
+          "Rva": "0x31a762",
+          "RawOffset": "0x319b62",
+          "Bytes": "48b90040000084400804"
+        },
+        {
+          "Rva": "0x31a76c",
+          "RawOffset": "0x319b6c",
+          "Bytes": "48894c2440"
+        },
+        {
+          "Rva": "0x31a771",
+          "RawOffset": "0x319b71",
+          "Bytes": "488d0d8832fe00"
+        },
+        {
+          "Rva": "0x31a778",
+          "RawOffset": "0x319b78",
+          "Bytes": "48894c2438"
+        },
+        {
+          "Rva": "0x31a77d",
+          "RawOffset": "0x319b7d",
+          "Bytes": "48895c2430"
+        },
+        {
+          "Rva": "0x31a782",
+          "RawOffset": "0x319b82",
+          "Bytes": "488d0d41480801"
+        },
+        {
+          "Rva": "0x31a789",
+          "RawOffset": "0x319b89",
+          "Bytes": "48894c2428"
+        },
+        {
+          "Rva": "0x31a78e",
+          "RawOffset": "0x319b8e",
+          "Bytes": "c744242000000000"
+        },
+        {
+          "Rva": "0x31a796",
+          "RawOffset": "0x319b96",
+          "Bytes": "33d2"
+        },
+        {
+          "Rva": "0x31a798",
+          "RawOffset": "0x319b98",
+          "Bytes": "448d4a04"
+        },
+        {
+          "Rva": "0x31a79c",
+          "RawOffset": "0x319b9c",
+          "Bytes": "41b8b4040000"
+        },
+        {
+          "Rva": "0x31a7a2",
+          "RawOffset": "0x319ba2",
+          "Bytes": "488bc8"
+        },
+        {
+          "Rva": "0x31a7a5",
+          "RawOffset": "0x319ba5",
+          "Bytes": "e8e6ead4ff"
+        },
+        {
+          "Rva": "0x31a7aa",
+          "RawOffset": "0x319baa",
+          "Bytes": "90"
+        },
+        {
+          "Rva": "0x31a7ab",
+          "RawOffset": "0x319bab",
+          "Bytes": "eb02"
+        },
+        {
+          "Rva": "0x31a7ad",
+          "RawOffset": "0x319bad",
+          "Bytes": "33c0"
+        },
+        {
+          "Rva": "0x31a7af",
+          "RawOffset": "0x319baf",
+          "Bytes": "4883c470"
+        },
+        {
+          "Rva": "0x31a7b3",
+          "RawOffset": "0x319bb3",
+          "Bytes": "5b"
+        },
+        {
+          "Rva": "0x31a7b4",
+          "RawOffset": "0x319bb4",
+          "Bytes": "c3"
+        }
+      ],
+      "Status": "ALL_REPORTED_INSTRUCTION_BYTES_MATCH_ORIGINAL"
+    },
+    {
+      "Dossier": "parent-constructors-initstorm",
+      "Entry": "140323420",
+      "InstructionCount": 15,
+      "Spans": [
+        {
+          "Rva": "0x323420",
+          "RawOffset": "0x322820",
+          "Bytes": "4885c9"
+        },
+        {
+          "Rva": "0x323423",
+          "RawOffset": "0x322823",
+          "Bytes": "7436"
+        },
+        {
+          "Rva": "0x323425",
+          "RawOffset": "0x322825",
+          "Bytes": "53"
+        },
+        {
+          "Rva": "0x323426",
+          "RawOffset": "0x322826",
+          "Bytes": "4883ec20"
+        },
+        {
+          "Rva": "0x32342a",
+          "RawOffset": "0x32282a",
+          "Bytes": "488bd9"
+        },
+        {
+          "Rva": "0x32342d",
+          "RawOffset": "0x32282d",
+          "Bytes": "e8ae2cdaff"
+        },
+        {
+          "Rva": "0x323432",
+          "RawOffset": "0x322832",
+          "Bytes": "488d0597f8fb00"
+        },
+        {
+          "Rva": "0x323439",
+          "RawOffset": "0x322839",
+          "Bytes": "488903"
+        },
+        {
+          "Rva": "0x32343c",
+          "RawOffset": "0x32283c",
+          "Bytes": "c783a000000000000000"
+        },
+        {
+          "Rva": "0x323446",
+          "RawOffset": "0x322846",
+          "Bytes": "8b83a0000000"
+        },
+        {
+          "Rva": "0x32344c",
+          "RawOffset": "0x32284c",
+          "Bytes": "488d051d8b0a01"
+        },
+        {
+          "Rva": "0x323453",
+          "RawOffset": "0x322853",
+          "Bytes": "488903"
+        },
+        {
+          "Rva": "0x323456",
+          "RawOffset": "0x322856",
+          "Bytes": "4883c420"
+        },
+        {
+          "Rva": "0x32345a",
+          "RawOffset": "0x32285a",
+          "Bytes": "5b"
+        },
+        {
+          "Rva": "0x32345b",
+          "RawOffset": "0x32285b",
+          "Bytes": "f3c3"
+        }
+      ],
+      "Status": "ALL_REPORTED_INSTRUCTION_BYTES_MATCH_ORIGINAL"
+    },
+    {
+      "Dossier": "parent-constructors-initstorm",
+      "Entry": "1403233d0",
+      "InstructionCount": 18,
+      "Spans": [
+        {
+          "Rva": "0x3233d0",
+          "RawOffset": "0x3227d0",
+          "Bytes": "4885c9"
+        },
+        {
+          "Rva": "0x3233d3",
+          "RawOffset": "0x3227d3",
+          "Bytes": "7442"
+        },
+        {
+          "Rva": "0x3233d5",
+          "RawOffset": "0x3227d5",
+          "Bytes": "53"
+        },
+        {
+          "Rva": "0x3233d6",
+          "RawOffset": "0x3227d6",
+          "Bytes": "4883ec20"
+        },
+        {
+          "Rva": "0x3233da",
+          "RawOffset": "0x3227da",
+          "Bytes": "488bd9"
+        },
+        {
+          "Rva": "0x3233dd",
+          "RawOffset": "0x3227dd",
+          "Bytes": "e8fe2cdaff"
+        },
+        {
+          "Rva": "0x3233e2",
+          "RawOffset": "0x3227e2",
+          "Bytes": "488d05e7f8fb00"
+        },
+        {
+          "Rva": "0x3233e9",
+          "RawOffset": "0x3227e9",
+          "Bytes": "488903"
+        },
+        {
+          "Rva": "0x3233ec",
+          "RawOffset": "0x3227ec",
+          "Bytes": "33c9"
+        },
+        {
+          "Rva": "0x3233ee",
+          "RawOffset": "0x3227ee",
+          "Bytes": "898ba0000000"
+        },
+        {
+          "Rva": "0x3233f4",
+          "RawOffset": "0x3227f4",
+          "Bytes": "8b83a0000000"
+        },
+        {
+          "Rva": "0x3233fa",
+          "RawOffset": "0x3227fa",
+          "Bytes": "488d051fce0801"
+        },
+        {
+          "Rva": "0x323401",
+          "RawOffset": "0x322801",
+          "Bytes": "488903"
+        },
+        {
+          "Rva": "0x323404",
+          "RawOffset": "0x322804",
+          "Bytes": "48898bd8030000"
+        },
+        {
+          "Rva": "0x32340b",
+          "RawOffset": "0x32280b",
+          "Bytes": "48898be0030000"
+        },
+        {
+          "Rva": "0x323412",
+          "RawOffset": "0x322812",
+          "Bytes": "4883c420"
+        },
+        {
+          "Rva": "0x323416",
+          "RawOffset": "0x322816",
+          "Bytes": "5b"
+        },
+        {
+          "Rva": "0x323417",
+          "RawOffset": "0x322817",
+          "Bytes": "f3c3"
+        }
+      ],
+      "Status": "ALL_REPORTED_INSTRUCTION_BYTES_MATCH_ORIGINAL"
+    },
+    {
+      "Dossier": "parent-constructors-initstorm",
+      "Entry": "140d8a1b0",
+      "InstructionCount": 87,
+      "Spans": [
+        {
+          "Rva": "0xd8a1b0",
+          "RawOffset": "0xd895b0",
+          "Bytes": "4053"
+        },
+        {
+          "Rva": "0xd8a1b2",
+          "RawOffset": "0xd895b2",
+          "Bytes": "4883ec50"
+        },
+        {
+          "Rva": "0xd8a1b6",
+          "RawOffset": "0xd895b6",
+          "Bytes": "48c7442430feffffff"
+        },
+        {
+          "Rva": "0xd8a1bf",
+          "RawOffset": "0xd895bf",
+          "Bytes": "488bd9"
+        },
+        {
+          "Rva": "0xd8a1c2",
+          "RawOffset": "0xd895c2",
+          "Bytes": "4883b95802000000"
+        },
+        {
+          "Rva": "0xd8a1ca",
+          "RawOffset": "0xd895ca",
+          "Bytes": "756b"
+        },
+        {
+          "Rva": "0xd8a1cc",
+          "RawOffset": "0xd895cc",
+          "Bytes": "4533c0"
+        },
+        {
+          "Rva": "0xd8a1cf",
+          "RawOffset": "0xd895cf",
+          "Bytes": "488d542438"
+        },
+        {
+          "Rva": "0xd8a1d4",
+          "RawOffset": "0xd895d4",
+          "Bytes": "e8672b34ff"
+        },
+        {
+          "Rva": "0xd8a1d9",
+          "RawOffset": "0xd895d9",
+          "Bytes": "488bd8"
+        },
+        {
+          "Rva": "0xd8a1dc",
+          "RawOffset": "0xd895dc",
+          "Bytes": "8b4808"
+        },
+        {
+          "Rva": "0xd8a1df",
+          "RawOffset": "0xd895df",
+          "Bytes": "85c9"
+        },
+        {
+          "Rva": "0xd8a1e1",
+          "RawOffset": "0xd895e1",
+          "Bytes": "742a"
+        },
+        {
+          "Rva": "0xd8a1e3",
+          "RawOffset": "0xd895e3",
+          "Bytes": "83f9ff"
+        },
+        {
+          "Rva": "0xd8a1e6",
+          "RawOffset": "0xd895e6",
+          "Bytes": "7f20"
+        },
+        {
+          "Rva": "0xd8a1e8",
+          "RawOffset": "0xd895e8",
+          "Bytes": "4c8d0de1b75100"
+        },
+        {
+          "Rva": "0xd8a1ef",
+          "RawOffset": "0xd895ef",
+          "Bytes": "41b845020000"
+        },
+        {
+          "Rva": "0xd8a1f5",
+          "RawOffset": "0xd895f5",
+          "Bytes": "488d15e4c15100"
+        },
+        {
+          "Rva": "0xd8a1fc",
+          "RawOffset": "0xd895fc",
+          "Bytes": "488d0d2dc25100"
+        },
+        {
+          "Rva": "0xd8a203",
+          "RawOffset": "0xd89603",
+          "Bytes": "e8883233ff"
+        },
+        {
+          "Rva": "0xd8a208",
+          "RawOffset": "0xd89608",
+          "Bytes": "4c8b0b"
+        },
+        {
+          "Rva": "0xd8a20b",
+          "RawOffset": "0xd8960b",
+          "Bytes": "eb07"
+        },
+        {
+          "Rva": "0xd8a20d",
+          "RawOffset": "0xd8960d",
+          "Bytes": "4c8d0dbcb75100"
+        },
+        {
+          "Rva": "0xd8a214",
+          "RawOffset": "0xd89614",
+          "Bytes": "4d8bc1"
+        },
+        {
+          "Rva": "0xd8a217",
+          "RawOffset": "0xd89617",
+          "Bytes": "488d15e2e59e00"
+        },
+        {
+          "Rva": "0xd8a21e",
+          "RawOffset": "0xd8961e",
+          "Bytes": "488b0df3dbe300"
+        },
+        {
+          "Rva": "0xd8a225",
+          "RawOffset": "0xd89625",
+          "Bytes": "e8064632ff"
+        },
+        {
+          "Rva": "0xd8a22a",
+          "RawOffset": "0xd8962a",
+          "Bytes": "90"
+        },
+        {
+          "Rva": "0xd8a22b",
+          "RawOffset": "0xd8962b",
+          "Bytes": "33c0"
+        },
+        {
+          "Rva": "0xd8a22d",
+          "RawOffset": "0xd8962d",
+          "Bytes": "4889442440"
+        },
+        {
+          "Rva": "0xd8a232",
+          "RawOffset": "0xd89632",
+          "Bytes": "e9fd000000"
+        },
+        {
+          "Rva": "0xd8a237",
+          "RawOffset": "0xd89637",
+          "Bytes": "488b01"
+        },
+        {
+          "Rva": "0xd8a23a",
+          "RawOffset": "0xd8963a",
+          "Bytes": "ff9060070000"
+        },
+        {
+          "Rva": "0xd8a240",
+          "RawOffset": "0xd89640",
+          "Bytes": "85c0"
+        },
+        {
+          "Rva": "0xd8a242",
+          "RawOffset": "0xd89642",
+          "Bytes": "0f8495000000"
+        },
+        {
+          "Rva": "0xd8a248",
+          "RawOffset": "0xd89648",
+          "Bytes": "488bcb"
+        },
+        {
+          "Rva": "0xd8a24b",
+          "RawOffset": "0xd8964b",
+          "Bytes": "e87096fcff"
+        },
+        {
+          "Rva": "0xd8a250",
+          "RawOffset": "0xd89650",
+          "Bytes": "85c0"
+        },
+        {
+          "Rva": "0xd8a252",
+          "RawOffset": "0xd89652",
+          "Bytes": "0f84eb000000"
+        },
+        {
+          "Rva": "0xd8a258",
+          "RawOffset": "0xd89658",
+          "Bytes": "488b83000e0000"
+        },
+        {
+          "Rva": "0xd8a25f",
+          "RawOffset": "0xd8965f",
+          "Bytes": "488b8818030000"
+        },
+        {
+          "Rva": "0xd8a266",
+          "RawOffset": "0xd89666",
+          "Bytes": "488b5178"
+        },
+        {
+          "Rva": "0xd8a26a",
+          "RawOffset": "0xd8966a",
+          "Bytes": "488b8b58020000"
+        },
+        {
+          "Rva": "0xd8a271",
+          "RawOffset": "0xd89671",
+          "Bytes": "8b82a8000000"
+        },
+        {
+          "Rva": "0xd8a277",
+          "RawOffset": "0xd89677",
+          "Bytes": "8981d4020000"
+        },
+        {
+          "Rva": "0xd8a27d",
+          "RawOffset": "0xd8967d",
+          "Bytes": "8b82ac000000"
+        },
+        {
+          "Rva": "0xd8a283",
+          "RawOffset": "0xd89683",
+          "Bytes": "8981d8020000"
+        },
+        {
+          "Rva": "0xd8a289",
+          "RawOffset": "0xd89689",
+          "Bytes": "8b82b0000000"
+        },
+        {
+          "Rva": "0xd8a28f",
+          "RawOffset": "0xd8968f",
+          "Bytes": "8981dc020000"
+        },
+        {
+          "Rva": "0xd8a295",
+          "RawOffset": "0xd89695",
+          "Bytes": "8b82b4000000"
+        },
+        {
+          "Rva": "0xd8a29b",
+          "RawOffset": "0xd8969b",
+          "Bytes": "8981e0020000"
+        },
+        {
+          "Rva": "0xd8a2a1",
+          "RawOffset": "0xd896a1",
+          "Bytes": "488b8b58020000"
+        },
+        {
+          "Rva": "0xd8a2a8",
+          "RawOffset": "0xd896a8",
+          "Bytes": "e89377faff"
+        },
+        {
+          "Rva": "0xd8a2ad",
+          "RawOffset": "0xd896ad",
+          "Bytes": "4885c0"
+        },
+        {
+          "Rva": "0xd8a2b0",
+          "RawOffset": "0xd896b0",
+          "Bytes": "0f848d000000"
+        },
+        {
+          "Rva": "0xd8a2b6",
+          "RawOffset": "0xd896b6",
+          "Bytes": "488b8b000e0000"
+        },
+        {
+          "Rva": "0xd8a2bd",
+          "RawOffset": "0xd896bd",
+          "Bytes": "488b9118030000"
+        },
+        {
+          "Rva": "0xd8a2c4",
+          "RawOffset": "0xd896c4",
+          "Bytes": "488b5278"
+        },
+        {
+          "Rva": "0xd8a2c8",
+          "RawOffset": "0xd896c8",
+          "Bytes": "4881c2b8000000"
+        },
+        {
+          "Rva": "0xd8a2cf",
+          "RawOffset": "0xd896cf",
+          "Bytes": "488d8874090000"
+        },
+        {
+          "Rva": "0xd8a2d6",
+          "RawOffset": "0xd896d6",
+          "Bytes": "e8e58727ff"
+        },
+        {
+          "Rva": "0xd8a2db",
+          "RawOffset": "0xd896db",
+          "Bytes": "eb66"
+        },
+        {
+          "Rva": "0xd8a2dd",
+          "RawOffset": "0xd896dd",
+          "Bytes": "488b8b34040000"
+        },
+        {
+          "Rva": "0xd8a2e4",
+          "RawOffset": "0xd896e4",
+          "Bytes": "e887f764ff"
+        },
+        {
+          "Rva": "0xd8a2e9",
+          "RawOffset": "0xd896e9",
+          "Bytes": "4885c0"
+        },
+        {
+          "Rva": "0xd8a2ec",
+          "RawOffset": "0xd896ec",
+          "Bytes": "7455"
+        },
+        {
+          "Rva": "0xd8a2ee",
+          "RawOffset": "0xd896ee",
+          "Bytes": "488b9b58020000"
+        },
+        {
+          "Rva": "0xd8a2f5",
+          "RawOffset": "0xd896f5",
+          "Bytes": "488d889c010000"
+        },
+        {
+          "Rva": "0xd8a2fc",
+          "RawOffset": "0xd896fc",
+          "Bytes": "c744242001000000"
+        },
+        {
+          "Rva": "0xd8a304",
+          "RawOffset": "0xd89704",
+          "Bytes": "4c8d0dc5b65100"
+        },
+        {
+          "Rva": "0xd8a30b",
+          "RawOffset": "0xd8970b",
+          "Bytes": "4c8d0536119100"
+        },
+        {
+          "Rva": "0xd8a312",
+          "RawOffset": "0xd89712",
+          "Bytes": "488d542438"
+        },
+        {
+          "Rva": "0xd8a317",
+          "RawOffset": "0xd89717",
+          "Bytes": "e8c49d32ff"
+        },
+        {
+          "Rva": "0xd8a31c",
+          "RawOffset": "0xd8971c",
+          "Bytes": "90"
+        },
+        {
+          "Rva": "0xd8a31d",
+          "RawOffset": "0xd8971d",
+          "Bytes": "488bd0"
+        },
+        {
+          "Rva": "0xd8a320",
+          "RawOffset": "0xd89720",
+          "Bytes": "488d8bd4020000"
+        },
+        {
+          "Rva": "0xd8a327",
+          "RawOffset": "0xd89727",
+          "Bytes": "e874c92eff"
+        },
+        {
+          "Rva": "0xd8a32c",
+          "RawOffset": "0xd8972c",
+          "Bytes": "90"
+        },
+        {
+          "Rva": "0xd8a32d",
+          "RawOffset": "0xd8972d",
+          "Bytes": "33c0"
+        },
+        {
+          "Rva": "0xd8a32f",
+          "RawOffset": "0xd8972f",
+          "Bytes": "4889442440"
+        },
+        {
+          "Rva": "0xd8a334",
+          "RawOffset": "0xd89734",
+          "Bytes": "488b4c2438"
+        },
+        {
+          "Rva": "0xd8a339",
+          "RawOffset": "0xd89739",
+          "Bytes": "4885c9"
+        },
+        {
+          "Rva": "0xd8a33c",
+          "RawOffset": "0xd8973c",
+          "Bytes": "7405"
+        },
+        {
+          "Rva": "0xd8a33e",
+          "RawOffset": "0xd8973e",
+          "Bytes": "e88d462cff"
+        },
+        {
+          "Rva": "0xd8a343",
+          "RawOffset": "0xd89743",
+          "Bytes": "4883c450"
+        },
+        {
+          "Rva": "0xd8a347",
+          "RawOffset": "0xd89747",
+          "Bytes": "5b"
+        },
+        {
+          "Rva": "0xd8a348",
+          "RawOffset": "0xd89748",
+          "Bytes": "c3"
+        }
+      ],
+      "Status": "ALL_REPORTED_INSTRUCTION_BYTES_MATCH_ORIGINAL"
+    }
+  ],
+  "Limit": "Comparison of all reported instructions only; disassembly and pseudocode do not prove runtime calls, class defaults or client application."
+}

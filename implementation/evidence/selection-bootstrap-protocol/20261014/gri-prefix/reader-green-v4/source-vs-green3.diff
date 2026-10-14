@@ -1,0 +1,11 @@
+--- GREEN3/tools/gri_template_reader.hpp
++++ GREEN4/tools/gri_template_reader.hpp
+@@ -119,7 +119,7 @@
+     if (gri_out.unique_id_offset<0 || gri_out.unique_id_offset>65536) gri_fail("gri_property_mismatch");
+ 
+     // Only after both typed metadata guard sets succeed, inspect the scalar bit.
+-    out.rotation_required=(gri_read.template operator()<std::uint32_t>(gri_cdo,0xec)&1)!=0;
++    gri_out.rotation_required=(gri_read.template operator()<std::uint32_t>(gri_cdo,0xec)&1)!=0;
+     gri_out.template_verified=true;
+     gri_out.getpc_null=true;
+     gri_out.unique_id_metadata_verified=true;

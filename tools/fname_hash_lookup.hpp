@@ -46,8 +46,19 @@ inline std::uint32_t ascii_hash(const std::array<std::uint32_t,256>& table,
 // and inspected comparison units. Caller compares two complete lookups and owns
 // the shared attempted-read budget; no cache skips the second lookup.
 template<class Reader>
-FNameLookupSnapshot read_player_fname_targets(Reader& reader,std::uint64_t module,
-                                             FNameLookupSnapshot* progress=nullptr) {
+FNameLookupSnapshot read_fixed_fname_targets(Reader& reader,std::uint64_t module,
+    const std::array<std::string_view,2>& targets,FNameLookupSnapshot* progress=nullptr) {
+    // Observer input is a pair of fixed ASCII identifiers, never process text.
+    // Validate before any attempted remote read or hash-table access.
+    if (targets[0]==targets[1]) fname_detail::fail("player_name_invalid");
+    for (const auto target:targets) {
+        if (target.empty() || target.size()>128) fname_detail::fail("player_name_invalid");
+        for (std::size_t i=0;i<target.size();++i) {
+            const auto unit=static_cast<unsigned char>(target[i]);
+            if (!((unit>='A' && unit<='Z') || (unit>='a' && unit<='z') || unit=='_' ||
+                (i!=0 && unit>='0' && unit<='9'))) fname_detail::fail("player_name_invalid");
+        }
+    }
     FNameLookupSnapshot local;
     auto& result=progress ? *progress : local;
     result={};
@@ -68,7 +79,6 @@ FNameLookupSnapshot read_player_fname_targets(Reader& reader,std::uint64_t modul
     result.trace.insert(result.trace.end(),table.begin(),table.end());
     if (std::all_of(table.begin(),table.end(),[](auto value){return value==0;}))
         fname_detail::fail("player_names_uninitialized");
-    constexpr std::array<std::string_view,2> targets={"HawkenGameContent","R_PawnContent"};
     std::array<std::array<std::uint16_t,2>,2> target_buckets{};
     std::vector<std::uint16_t> unique_buckets;
     for (std::size_t target=0;target<targets.size();++target)
@@ -121,5 +131,11 @@ FNameLookupSnapshot read_player_fname_targets(Reader& reader,std::uint64_t modul
         fname_detail::fail("unstable_sample");
     result.indices={*found[0],*found[1]};
     return result;
+}
+template<class Reader>
+FNameLookupSnapshot read_player_fname_targets(Reader& reader,std::uint64_t module,
+                                             FNameLookupSnapshot* progress=nullptr) {
+    constexpr std::array<std::string_view,2> targets={"HawkenGameContent","R_PawnContent"};
+    return read_fixed_fname_targets(reader,module,targets,progress);
 }
 }

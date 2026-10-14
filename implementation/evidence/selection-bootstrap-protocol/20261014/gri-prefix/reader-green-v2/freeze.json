@@ -1,0 +1,42 @@
+{
+  "phase": "READY_GREEN_V2",
+  "sources": [
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd",
+      "bytes": 54841
+    },
+    {
+      "path": "tools/fname_hash_lookup.hpp",
+      "sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b",
+      "bytes": 7436
+    },
+    {
+      "path": "tools/gri_template_reader.hpp",
+      "sha256": "447655316d473ddcf7575b9d43445cd3013fa78e595b0b27a63fc639bae28b9c",
+      "bytes": 7241
+    },
+    {
+      "path": "tests/gri_template_reader_tests.cpp",
+      "sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+      "bytes": 13399
+    }
+  ],
+  "previous_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green/freeze.json",
+    "sha256": "53802fefd44a4e71456b3b4cf3921075285f8455bc1fe4b11a7cc92e2e078c34",
+    "bytes": 2929
+  },
+  "preimage": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v2/gri_template_reader.hpp.before",
+    "sha256": "ded2264eff51d3abe45c9625a1f75a342d0745ffae53b37122da9c9c8c40f0f8",
+    "bytes": 7173
+  },
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v2/source-vs-green1.diff",
+    "sha256": "365344d88c51d6b1f6fd34c138901ae18f3c8f78c0c5a8c85b67781693e4d052",
+    "bytes": 1585
+  },
+  "reason": "C4459 /WX: local classes/packages shadow global probe arrays. Only two local array names and their uses renamed; no behavior/limits/tests changed.",
+  "writer_builds_tests": 0
+}

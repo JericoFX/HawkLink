@@ -1,0 +1,28 @@
+{
+  "inputs": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/original-byte-proof.json",
+      "sha256": "afe976439b3d77af5fcfdc41b4c2ad678e741d4706fe5234c9161b4c45f6c9ec"
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/default-chain-original-proof.json",
+      "sha256": "11132b45696d63f087086584062baa5733b6b4dc937ab6fff7b8ccd4946355f5"
+    },
+    {
+      "path": "implementation/evidence/controller-initial-rotation/constructors/base-object/focused-functions.jsonl",
+      "sha256": "1a4057ea2676c3dd26db0f605ae8713cea4dd7385d44fa649917f06a3e225039"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/class-link-functions.jsonl",
+      "sha256": "fff102a74828ed80bfc937757f1d8c9c19631fd8aaaa42175dee1084631ba453"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/contract.json",
+      "sha256": "d74966d6d18dabad1c201260a237b12ac7958e75179fe19e0c6618f880937c9e"
+    }
+  ],
+  "source_changed": false,
+  "runtime_observed": false
+}

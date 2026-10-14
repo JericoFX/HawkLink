@@ -1,0 +1,93 @@
+{
+  "created_utc": "2026-10-14T20:22:43.3043626Z",
+  "assignment_wrapper_sha256": "3fad0b4e356b43326af2e549c416a1adaab7087fbfd882f28837679ffdd0879a",
+  "freeze_sha256": "d7af14dc59237d10f651b638032514199f482ce66570b16038baac5578b0520a",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "step_exits": {
+    "devshell": "0",
+    "build": "2",
+    "wrapper": "2",
+    "ctest": "not run; wrapper stopped after failed build",
+    "probe_help": "not run; wrapper stopped after failed build"
+  },
+  "failed_command": "FAILED: [code=2] CMakeFiles/hawken-controller-netfields-probe.dir/tools/controller_netfields_probe.cpp.obj ",
+  "compiler_diagnostics": [
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(79): error C2220: la siguiente advertencia se trata como un error",
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(79): warning C4459: la declaración de 'classes' oculta la declaración global",
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(81): warning C4459: la declaración de 'packages' oculta la declaración global",
+    "ninja: build stopped: subcommand failed."
+  ],
+  "build_steps": [
+    "[1/9] Building CXX object CMakeFiles\\hawken_unique_id.dir\\src\\unique_id_wire.cpp.obj",
+    "[2/9] Linking CXX static library hawken_unique_id.lib",
+    "[3/9] Building CXX object CMakeFiles\\hawken-controller-netfields-probe.dir\\tools\\controller_netfields_probe.cpp.obj"
+  ],
+  "built_output_hashes": [
+    {
+      "path": "build\\windows-msvc\\hawken-server.exe",
+      "bytes": 2404864,
+      "mtime_utc": "2026-10-14T18:05:14.8425343Z",
+      "sha256": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-master.exe",
+      "bytes": 727040,
+      "mtime_utc": "2026-10-14T18:05:14.3445182Z",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "bytes": 359424,
+      "mtime_utc": "2026-10-14T18:05:15.3752978Z",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-controller-netfields-probe.exe",
+      "bytes": 440320,
+      "mtime_utc": "2026-10-14T20:10:06.8614412Z",
+      "sha256": "0afd39250aa45b87420acbc705d0fcd10f487d6e0dfbe9c53c3f41dc492adcf6"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-unique-id-wire-tests.exe",
+      "bytes": 480256,
+      "mtime_utc": "2026-10-14T20:10:07.2261675Z",
+      "sha256": "9b7833108a83ba5ddf926a7edde328d0bc89ae7d6bd127211c7f7fdc1e83eccd"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-gri-template-reader-tests.exe",
+      "bytes": 497664,
+      "mtime_utc": "2026-10-14T20:10:07.0452037Z",
+      "sha256": "19a12db42fc65d5305ae301ad51c9bd68ae91014cd868a51b9cc0e4974cf0152"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-connection-cache-reader-tests.exe",
+      "bytes": 554496,
+      "mtime_utc": "2026-10-14T14:50:07.2399922Z",
+      "sha256": "a876e12f4948fc18b75af4903a83961b404bf3b06b982f2464fc7cd6a5a4db3e"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken_unique_id.lib",
+      "bytes": 67744,
+      "mtime_utc": "2026-10-14T20:22:18.2116151Z",
+      "sha256": "7bff0c792f18291657cfb84d07c5dade97233a58d2293b436d99e6a76d05c915"
+    },
+    {
+      "path": "build\\windows-msvc\\CMakeFiles\\hawken_unique_id.dir\\src\\unique_id_wire.cpp.obj",
+      "bytes": 50887,
+      "mtime_utc": "2026-10-14T20:22:18.1525976Z",
+      "sha256": "33f21fe73eca70ad4efbb2fc5c3920f59550218823ac02f8bfc23004fcdb7c91"
+    }
+  ],
+  "inputs_after_manifest": "input-hashes-after.json",
+  "source_matches": 185,
+  "source_mismatches": 0,
+  "ram_after": {
+    "used_percent": 71.28,
+    "free_kib": 9609736
+  },
+  "repo_build_processes_after": [],
+  "ctest_suite_target": "not started",
+  "gate_interpretation": "Build failed at probe compilation with /WX due C4459 shadow warnings instantiated in gri_template_reader.hpp. This is not a behavioral test result. No retry or source change."
+}

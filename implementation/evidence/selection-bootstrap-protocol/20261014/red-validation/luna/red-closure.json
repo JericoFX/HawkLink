@@ -1,0 +1,118 @@
+{
+  "generated_utc": "2026-10-14T20:11:26.3648286Z",
+  "wrapper_sha256": "21bb075b0cc78162b899bdac11cccaef153625274e6717ef3d2deedc2ef561b4",
+  "freeze_sha256": "49eea12483ff0b794a0e4269e22f650b75caea2de5ec3aaeea41a5570c56a055",
+  "wrapper_exit": "8",
+  "build_exit": "0",
+  "new_suite_ctest_exit": "8",
+  "baseline_ctest_exit": "0",
+  "probe_help_exit": "0",
+  "red_xml_testcases": 2,
+  "red_xml_failed_cases": 2,
+  "red_xml_skipped_cases": 0,
+  "baseline_xml_testcases": 1,
+  "baseline_xml_failures": 0,
+  "test_summary_lines": [
+    "[doctest] test cases: 10 |  2 passed |  8 failed | 0 skipped",
+    "[doctest] assertions: 63 | 14 passed | 49 failed |",
+    "[doctest] test cases:   7 |   0 passed |  7 failed | 0 skipped",
+    "[doctest] assertions: 148 | 130 passed | 18 failed |"
+  ],
+  "inputs": {
+    "count": 185,
+    "matched": 185,
+    "mismatched": 0,
+    "before_manifest": "input-hashes-before.json",
+    "after_manifest": "input-hashes-after.json"
+  },
+  "canonical_product_checks": [
+    {
+      "path": "build/windows-msvc/hawken-server.exe",
+      "before": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f",
+      "after": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f",
+      "bytes": 2404864,
+      "unchanged": true
+    },
+    {
+      "path": "build/windows-msvc/hawken-master.exe",
+      "before": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+      "after": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+      "bytes": 727040,
+      "unchanged": true
+    },
+    {
+      "path": "build/windows-msvc/client-bridge/dinput8.dll",
+      "before": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+      "after": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+      "bytes": 359424,
+      "unchanged": true
+    },
+    {
+      "path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+      "before": "b92f732fb368c7b8be1cdbd5ff76bf290901b0638d48fd86fa8995e46f17de9b",
+      "after": "0afd39250aa45b87420acbc705d0fcd10f487d6e0dfbe9c53c3f41dc492adcf6",
+      "bytes": 440320,
+      "unchanged": false
+    }
+  ],
+  "server_master_processes_after": [],
+  "ram_after": {
+    "total_kb": 33462640,
+    "free_kb": 9389220,
+    "used_percent": 71.94
+  },
+  "owned_helpers_remaining": [],
+  "evidence_paths": {
+    "build_log": "build.stdout.log",
+    "red_stdout": "red.stdout.log",
+    "red_stderr": "red.stderr.log",
+    "red_xml": "red-tests.xml",
+    "baseline_xml": "baseline-tests.xml",
+    "summary": "red-summary.json"
+  },
+  "built_executables": [
+    {
+      "path": "build\\windows-msvc\\hawken-gri-template-reader-tests.exe",
+      "bytes": 497664,
+      "sha256": "19a12db42fc65d5305ae301ad51c9bd68ae91014cd868a51b9cc0e4974cf0152"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-unique-id-wire-tests.exe",
+      "bytes": 480256,
+      "sha256": "9b7833108a83ba5ddf926a7edde328d0bc89ae7d6bd127211c7f7fdc1e83eccd"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-controller-netfields-probe.exe",
+      "bytes": 440320,
+      "sha256": "0afd39250aa45b87420acbc705d0fcd10f487d6e0dfbe9c53c3f41dc492adcf6"
+    }
+  ],
+  "generated_probe_executable_changed_by_assigned_target": true,
+  "ctest_case_counts_detail": {
+    "unique_id_wire": {
+      "cases": 7,
+      "passed": 0,
+      "failed": 7,
+      "skipped": 0,
+      "assertions": 148,
+      "assertions_passed": 130,
+      "assertions_failed": 18
+    },
+    "gri_template_reader": {
+      "cases": 10,
+      "passed": 2,
+      "failed": 8,
+      "skipped": 0,
+      "assertions": 63,
+      "assertions_passed": 14,
+      "assertions_failed": 49
+    },
+    "baseline_connection_cache_reader": {
+      "ctest_cases": 1,
+      "failed": 0,
+      "skipped": 0,
+      "ctest_exit": 0,
+      "inner_doctest_count": "not emitted for passing test by wrapper"
+    }
+  }
+}

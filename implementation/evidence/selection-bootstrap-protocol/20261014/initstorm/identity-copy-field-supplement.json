@@ -1,0 +1,115 @@
+{
+  "schema": "hawken.initstorm.identity-copy-and-conditional-field.v1",
+  "scope": "Append-only static original proof. No client execution, payload capture, source change or UniqueNetId wire investigation.",
+  "original_file": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "proof": {
+    "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\identity-copy-original-proof.json",
+    "sha256": "03d1f991f6851626a8fd92f4c6de2b1514284e8fe4d8298cf49c47be722e33c1"
+  },
+  "reading_coverage": {
+    "cpp_pro": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "rea": "f1156f8a608297f839bde968d47132db3cefd69371b311d22b0c397944f18094",
+    "qt_ui_design": "874112098bd3498219217019fc8cf148f3e5491e076767982ae9735a55e43dd1",
+    "coverage": "Complete unchanged readings reused; Qt complete reading confirmed during bootstrap."
+  },
+  "findings": [
+    {
+      "id": "INITIALIZER_BODY",
+      "status": "CONFIRMADO",
+      "rva": "0xd8a1b0",
+      "raw_offset": "0xd895b0",
+      "body_end_exclusive_rva": "0xd8a349",
+      "instruction_count": 87,
+      "observation": "Controller+0x258 is tested for null at d8a1c2. Null reaches fixed No PlayerReplicationInfo log via d8a217. This branch neither allocates nor initializes a PRI.",
+      "naming_limit": "Exact method-identifying log literal and body are positive. The actual exec registration table pair has not been recovered."
+    },
+    {
+      "id": "LOCAL_ACCOUNT_TO_PRI_DIRECTION",
+      "status": "CONFIRMADO",
+      "observation": "After virtual+0x760 returns nonzero and d538c0 returns nonzero, Controller+0xe00 -> +0x318 -> +0x78 yields account. Four u32 loads from account+a8/ac/b0/b4 are stored at the already-linked PRI+2d4/2d8/2dc/2e0 (d8a271..d8a29b). No allocation, client packet ID, Steam ticket or Steam64 source appears in this copy.",
+      "gate_names": "NO_VERIFICADO: predicates have not been positively named IsLocalController/logged-in. Their results and control flow are original-byte confirmed.",
+      "after_copy": "d31a40 on the same PRI then FString assignment to result+974 from account+b8, when the cast/helper returns nonnull. This is a distinct string operation, not a fifth identity word."
+    },
+    {
+      "id": "NONLOCAL_OPTIONS_BRANCH",
+      "status": "CONFIRMADO",
+      "observation": "If virtual+760 returns zero, Controller+434 -> 3d9a70 must return nonnull. b40e0 extracts options+19c under original key literal169b448 and 076ca0 parses into the same PRI+2d4.",
+      "key_name": "NO_VERIFICADO in this bounded supplement; no live URL or credentials read."
+    },
+    {
+      "id": "NAMED_PRI_PROPERTY",
+      "status": "CONFIRMADO",
+      "path": "Engine.PlayerReplicationInfo.UniqueId",
+      "physical_export_index": 33899,
+      "export_table_virtual_offset": "0x2d3ed4",
+      "serial_virtual_offset": "0x5bc868",
+      "serial_size": 46,
+      "serialized_local_net_index": 34159,
+      "property_flags": "0x100000020",
+      "array_dim": 1,
+      "struct_ref": 1466,
+      "struct_path": "Engine.OnlineSubsystem.UniqueNetId",
+      "note": "Original compressed blocks, export/serial bytes, property and type names independently matched. SetUniqueId physical26392 script assigns named UniqueId from its UniqueNetId parameter; no native memory offset is serialized here."
+    },
+    {
+      "id": "PRI_2D4_NAMED_OFFSET",
+      "status": "PROBABLE",
+      "observation": "Native initializer writes a four-u32 identity to PRI+2d4 and original PRI.UniqueId is a NET UniqueNetId struct. No examined static registration assigns UProperty.Offset=2d4 to the named UniqueId field.",
+      "next_discriminator": "Parent-approved passive reflection-only observation of Engine.PlayerReplicationInfo.UniqueId.Offset from the exact RPRI class chain. No reading of identity value, no historical-name index or memory-layout guess."
+    },
+    {
+      "id": "UNIQUEID_FIELD_CACHE",
+      "status": "PROBABLE_CONDITIONAL_STATIC_RECONSTRUCTION",
+      "dense_field_id": 41,
+      "exclusive_concrete_bound": 87,
+      "calculation": "Inherited Actor base21 + Engine.PlayerReplicationInfo own sorted ordinal20 =41. Own NET counts [0,21,0,0,21,3,42] total87.",
+      "premises": "Same pinned original publication, Link selector0/rebuild, primary package map0, serialized NetIndex sort keys unchanged, exact inherited own eligible fields and Map+298 class/property eligibility retained. These are the same accepted conditional premises as PRI MechSetup53/87; no live cache ID observation is claimed.",
+      "not_identifiers": "33899 physical export, 34159 serialized local NetIndex and dense41 are distinct domains. UniqueId is a replicated property, not an RPC parameter."
+    },
+    {
+      "id": "GUID_NATIVE_WORD_ORDER",
+      "status": "CONFIRMADO",
+      "helper_rva": "0x76ca0",
+      "instruction_count": 57,
+      "format_rva": "0x12ab580",
+      "format": "%08X%08X%08X%08X",
+      "observation": "Exactly32 UTF16 characters are parsed as four successive hexadecimal8-character chunks into u32 destinations+0,+4,+8,+c. Different length zeroes both u64 storage halves and returns0. Format and all reported parser instructions match original bytes.",
+      "synthetic_non_live_example": {
+        "compact": "00112233445566778899aabbccddeeff",
+        "words": [
+          "0x00112233",
+          "0x44556677",
+          "0x8899aabb",
+          "0xccddeeff"
+        ]
+      },
+      "limits": "This is semantic word order, not replicated wire byte order. Native function returns1 on length32 without checking swscanf_s conversion count in the recovered body; do not treat it as strict UUID validation. Existing UserInfo.Guid hydration removes hyphens first. No new general UUID parser or authoritative identity policy is introduced."
+    },
+    {
+      "id": "SOURCE_AUTHORITY",
+      "status": "DESIGN_BOUNDARY",
+      "observation": "Parent requires future server replication to use the authenticated server-owned SessionProvision.user_guid. Login.UniqueId supplied by a client and Steam64 are not alternate authorities. Account unique-ID storage hydration is separately confirmed by retained bce9d0/SetUniqueId contract; reflected account PlayerID.Offset remains distinct from native storage proof."
+    },
+    {
+      "id": "RETRY_AND_INITIAL_ABSENCE",
+      "status": "NO_VERIFICADO",
+      "observation": "Retained ReceivedPlayer UC invokes native InitStormUserId. This body does not create or retry a missing PRI. Empty Ghidra callers are not proof of no other calls/retry. Controller.ReplicatedEvent(PlayerReplicationInfo) invokes PRI.ClientInitialize when linked; that script alone does not prove it retries this native initializer."
+    },
+    {
+      "id": "EARLY_SEED_ERRATUM",
+      "status": "CORRECTION",
+      "observation": "The ASCII InitStormUserId at1768b94 is a suffix of AR_PlayerController_BaseexecInitStormUserId beginning1768b78, not a proven bare registration name. exact-name-native-pairs.json remains preserved as initial discovery, not a native name/exec binding."
+    }
+  ],
+  "wire_scope": "Luna owns f9020 UniqueNetId special serializer and helpers. No serializer claim or endian conclusion is included here.",
+  "practical_next": "Confirm native reflection offset only if needed to identify live destination; use conditional field41/bound87 plus separately reviewed native wire contract for future typed encoder. Deliver identity from authorized provision, and separately verify Controller->PRI link applied before stop. Sent counts and post-stop MainMenu probes cannot establish in-map application.",
+  "limitations": [
+    "No runtime identity, cache or gameplay observation.",
+    "No values from account, session, Steam, client URL or live memory read.",
+    "No new Ghidra, source, docs, build, service operation or helper launched.",
+    "Original-body proof covers reported complete contiguous d8a1b0 instructions and retained076ca0; no whole-engine no-side-effect assertion."
+  ],
+  "resource_cleanup": "Short-lived Python/PowerShell only; no task-owned persistent helpers."
+}

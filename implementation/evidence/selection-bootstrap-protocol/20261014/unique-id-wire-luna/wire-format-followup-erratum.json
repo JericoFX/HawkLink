@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "scope": "Append-only corrections and rechecks for prior UniqueNetId wire evidence; no prior JSON overwritten.",
+  "corrections": [
+    {
+      "old_length": 63,
+      "actual_bytes": 22681,
+      "finding": "Previous value was 63 hex characters; the current native contract is 22,681 bytes and its full SHA-256 is recorded.",
+      "correct_value": "056c59ed347cd7ed469aec72389c1e1b828090ddaa70befc062bca4183ca8b7e",
+      "old_value": "056c59ed347cd7ed469aec72389c1e1b828090dda70befc062bca4183ca8b7e",
+      "correct_length": 64,
+      "file": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\unique-id-wire-luna\\branch-review.json",
+      "field": "reviewed_evidence[native/contract.json].sha256"
+    },
+    {
+      "correct_range_inclusive": "0x140012ca0..0x140012cfe",
+      "sum_instruction_bytes": 95,
+      "file": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\unique-id-wire-luna\\branch-review.json",
+      "old_value": "[0x140012ca0,0x140012cfe)",
+      "old_body_bytes": 95,
+      "field": "confirmed.callee_metadata.body_range",
+      "finding": "The old half-open end delimiter conflicted with the 95-byte sum and final RET at cfe; the verified range is inclusive.",
+      "instruction_count": 24
+    },
+    {
+      "old_value": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12",
+      "actual_value": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
+      "finding": "This map file has since expanded; its old pin is stale and was not used as byte evidence.",
+      "file": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\unique-id-wire-luna\\branch-review.json",
+      "actual_bytes": 71412757,
+      "old_bytes": 870156,
+      "field": "reviewed_evidence[complete-artifact-map].sha256/bytes"
+    }
+  ],
+  "wire_followup_reviewed_files": {
+    "rows": [
+      {
+        "actual_sha256": "056c59ed347cd7ed469aec72389c1e1b828090ddaa70befc062bca4183ca8b7e",
+        "expected_sha256": "056c59ed347cd7ed469aec72389c1e1b828090ddaa70befc062bca4183ca8b7e",
+        "expected_bytes": 22681,
+        "actual_bytes": 22681,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native/contract.json"
+      },
+      {
+        "actual_sha256": "7b8ef6d97b3e5556db0de5f5a071f5a8af8aa8d30eefce16732f32c83fec633d",
+        "expected_sha256": "7b8ef6d97b3e5556db0de5f5a071f5a8af8aa8d30eefce16732f32c83fec633d",
+        "expected_bytes": 37479,
+        "actual_bytes": 37479,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native/focused-functions.jsonl"
+      },
+      {
+        "actual_sha256": "c22e208edf16fa5c26771f5c3f4e068dcc700d9bcd98c1b8b407010f81774397",
+        "expected_sha256": "c22e208edf16fa5c26771f5c3f4e068dcc700d9bcd98c1b8b407010f81774397",
+        "expected_bytes": 55477,
+        "actual_bytes": 55477,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native/focused-instructions.json"
+      },
+      {
+        "actual_sha256": "3ec06be6abc2b6cf07c6c9899c5089b18b237ff34748a303e0c78770c79a973f",
+        "expected_sha256": "3ec06be6abc2b6cf07c6c9899c5089b18b237ff34748a303e0c78770c79a973f",
+        "expected_bytes": 19734,
+        "actual_bytes": 19734,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native-members/contract.json"
+      },
+      {
+        "actual_sha256": "4c9ee75f371231b3ccb3017d84dc8adab098c10fec65317cf7db2f3cca5c98a3",
+        "expected_sha256": "4c9ee75f371231b3ccb3017d84dc8adab098c10fec65317cf7db2f3cca5c98a3",
+        "expected_bytes": 41531,
+        "actual_bytes": 41531,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native-members/focused-functions.jsonl"
+      },
+      {
+        "actual_sha256": "b11a5b6a26532f800e3cf69d713b7f032f2ab2e656d171ab26a02e053f86bc1f",
+        "expected_sha256": "b11a5b6a26532f800e3cf69d713b7f032f2ab2e656d171ab26a02e053f86bc1f",
+        "expected_bytes": 29129,
+        "actual_bytes": 29129,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native-members/focused-instructions.json"
+      },
+      {
+        "actual_sha256": "c4a81fa6b8e5e6227139d7f465586e8acc1dfd39c50091a90f77c6334da7aaf8",
+        "expected_sha256": "c4a81fa6b8e5e6227139d7f465586e8acc1dfd39c50091a90f77c6334da7aaf8",
+        "expected_bytes": 107352,
+        "actual_bytes": 107352,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native-members/original-native-byte-verification.json"
+      },
+      {
+        "actual_sha256": "5ed06813a5695f322a74212c9c0aa6b24de265843bb60d6af88bb0dd5f28f168",
+        "expected_sha256": "5ed06813a5695f322a74212c9c0aa6b24de265843bb60d6af88bb0dd5f28f168",
+        "expected_bytes": 140847,
+        "actual_bytes": 140847,
+        "match": true,
+        "path": "implementation/evidence/mech-struct-wire/native/original-instruction-spans.json"
+      },
+      {
+        "actual_sha256": "bc0136f1c9747cc30e0397f308ab36c3ed2ba559dbfb9d3305ddb9965c537b6d",
+        "expected_sha256": "bc0136f1c9747cc30e0397f308ab36c3ed2ba559dbfb9d3305ddb9965c537b6d",
+        "expected_bytes": 2930,
+        "actual_bytes": 2930,
+        "match": true,
+        "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/functions.jsonl"
+      },
+      {
+        "actual_sha256": "ac20fbd655ae078f0837cb16d9358ac5e5043d2b346c0a1e6de56ee12ca474d1",
+        "expected_sha256": "ac20fbd655ae078f0837cb16d9358ac5e5043d2b346c0a1e6de56ee12ca474d1",
+        "expected_bytes": 2912,
+        "actual_bytes": 2912,
+        "match": true,
+        "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/instructions.json"
+      },
+      {
+        "actual_sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+        "expected_sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+        "expected_bytes": 1929,
+        "actual_bytes": 1929,
+        "match": true,
+        "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/inputs-before.json"
+      },
+      {
+        "actual_sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+        "expected_sha256": "c75376d7d612a379976939487f1896693a4084d3b7c212cabe23769decd00035",
+        "expected_bytes": 1929,
+        "actual_bytes": 1929,
+        "match": true,
+        "path": "implementation/evidence/selection-bootstrap-protocol/20261014/parent-uniqueid-classgetter/inputs-after.json"
+      }
+    ],
+    "all_match": true,
+    "count": 12
+  },
+  "archived_original_instruction_proof": {
+    "helper_3a30": {
+      "instruction_count": 38,
+      "body_bytes": 121.0,
+      "last": "0x3aa8",
+      "match_count": 38,
+      "first": "0x3a30",
+      "entry_rva": "0x3a30",
+      "mismatch_count": 0
+    },
+    "helper_12ca0": {
+      "basis": "parent-uniqueid-classgetter/instructions.json compared byte-for-byte using original PE .text map; extraction input before/after hashes identical",
+      "instruction_count": 24,
+      "all_24_independently_matched_to_original": true,
+      "contiguous": true,
+      "body_bytes": 95,
+      "entry": "0x140012ca0",
+      "inclusive_range": "0x140012ca0..0x140012cfe"
+    },
+    "original": {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+      "bytes": 31918592,
+      "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+    },
+    "f9020": {
+      "instruction_count": 559,
+      "body_bytes": 2275.0,
+      "last": "0xf9902",
+      "match_count": 559,
+      "first": "0xf9020",
+      "entry_rva": "0xf9020",
+      "mismatch_count": 0
+    }
+  },
+  "limits": [
+    "No archive vtable+8 implementation was added here; byte-stream order remains conditional as stated in the follow-up.",
+    "This erratum does not assert field-ID binding, runtime acceptance, account data or packet capture."
+  ],
+  "created_utc": "2026-10-14T20:04:02Z"
+}

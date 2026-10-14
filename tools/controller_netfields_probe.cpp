@@ -6,6 +6,7 @@
 #include "mech_setup_reader.hpp"
 #include "controller_sample_comparison.hpp"
 #include "live_player_reader.hpp"
+#include "gri_template_reader.hpp"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <array>
@@ -715,7 +716,83 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
     if (value.pri_offset) out.metadata["pri_offset"]=*value.pri_offset;
     return out;
 }
-int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player) {
+Sample gri_template_sample(Reader& reader,std::uint64_t module,PlayerLocator& locator) {
+    Sample out;
+    struct TraceScope {
+        Reader& reader;
+        std::vector<std::uint64_t>* previous;
+        ~TraceScope() { reader.trace_to(previous); }
+    } trace_scope{reader,reader.trace_to(&out.pointers)};
+    Names names(reader,module,out);
+    const auto kind=reader.read<std::uint64_t>(module,0x1bda990);
+    if (!kind || reader.read<std::uint64_t>(kind,0x50)!=kind) fail("gri_identity");
+    class_identity(reader,names,out,kind,"Class","Core","gri_identity");
+    constexpr std::array<std::string_view,2> targets={"HawkenGame","R_GameReplicationInfo"};
+    hawken::probe::FNameLookupSnapshot progress;
+    const auto initial=reader.used();
+    ++locator.lookups;
+    const auto record_lookup=[&] {
+        locator.name_count=progress.name_count;
+        locator.visited_nodes+=progress.scanned_entries;
+        locator.selected_heads+=progress.head_count;
+        locator.discovery_bytes+=reader.used()-initial;
+    };
+    try { hawken::probe::read_fixed_fname_targets(reader,module,targets,&progress); }
+    catch (...) { record_lookup(); throw; }
+    record_lookup();
+    if (progress.name_count!=out.metadata["name_count"].get<std::int32_t>()) fail("unstable_sample");
+    out.pointers.insert(out.pointers.end(),progress.trace.begin(),progress.trace.end());
+    const auto package=player_object_lookup(reader,module,out,progress.indices[0],0,0);
+    const auto package_type=reader.read<std::uint64_t>(package,0x50);
+    if (!package_type || reader.read<std::uint64_t>(package_type,0x50)!=kind) fail("gri_identity");
+    class_identity(reader,names,out,package_type,"Package","Core","gri_identity");
+    const auto klass=player_object_lookup(reader,module,out,progress.indices[1],package,kind);
+    auto identify=[&](std::uint64_t object) {
+        hawken::probe::GriIdentity id;
+        const auto name=names.get(object); instance_zero(name);
+        id.name=name.text; id.instance=name.raw[1];
+        const auto type=reader.read<std::uint64_t>(object,0x50);
+        if (!type || reader.read<std::uint64_t>(type,0x50)!=kind) fail("gri_identity");
+        const auto type_name=names.get(type); instance_zero(type_name);
+        id.type=type_name.text;
+        class_identity(reader,names,out,type,type_name.text,type==klass ? "HawkenGame" : "Core","gri_identity");
+        auto outer=reader.read<std::uint64_t>(object,0x40);
+        if (!outer) {
+            if (id.type!="Package") fail("gri_identity");
+            id.package=id.name;
+            return id;
+        }
+        std::vector<std::uint64_t> seen;
+        while (outer) {
+            if (std::find(seen.begin(),seen.end(),outer)!=seen.end()) fail("gri_cycle");
+            if (seen.size()==4) fail("gri_limit");
+            seen.push_back(outer);
+            const auto outer_name=names.get(outer); instance_zero(outer_name);
+            const auto parent=reader.read<std::uint64_t>(outer,0x40);
+            if (!parent) {
+                const auto outer_type=reader.read<std::uint64_t>(outer,0x50);
+                if (!outer_type || reader.read<std::uint64_t>(outer_type,0x50)!=kind) fail("gri_identity");
+                class_identity(reader,names,out,outer_type,"Package","Core","gri_identity");
+                id.package=outer_name.text;
+                return id;
+            }
+            if (seen.size()==1) id.owner=outer_name.text;
+            outer=parent;
+        }
+        fail("gri_identity");
+    };
+    const auto result=hawken::probe::read_gri_template(reader,module,klass,identify);
+    if (!result.template_verified || !result.getpc_null || !result.unique_id_metadata_verified) fail("gri_identity");
+    out.pointers.insert(out.pointers.end(),result.trace.begin(),result.trace.end());
+    // Only fixed schema names, booleans and the reflected offset escape this mode.
+    // No raw FNames, NetIndices, addresses, UniqueId value or ec word is serialized.
+    out.metadata={{"mode","gri_template"},{"gri_class","HawkenGame.R_GameReplicationInfo"},
+        {"template_verified",true},{"getpc_null",result.getpc_null},{"rotation_required",result.rotation_required},
+        {"unique_id_metadata_verified",true},{"unique_id_property","Engine.PlayerReplicationInfo.UniqueId"},
+        {"unique_id_type","Engine.OnlineSubsystem.UniqueNetId"},{"unique_id_offset",result.unique_id_offset}};
+    return out;
+}
+int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player,bool gri_template) {
     const Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if (!process) fail("process_unavailable");
     if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -730,12 +807,12 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
     PlayerLocator locator;
     Sample first,second;
     try {
-        first=live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+        first=gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
-        second=live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+        second=gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
     } catch (const std::runtime_error& error) {
-        if (!player_links || std::string_view(error.what())!="read_limit") throw;
+        if ((!player_links && !gri_template) || std::string_view(error.what())!="read_limit") throw;
         std::cout<<Json({{"status","inconclusive"},{"error","read_limit"},{"identity_verified",false},
             {"field_ids_accepted",false},{"diagnostics",{{"locator_name_count",locator.name_count},
                 {"locator_visited_nodes",locator.visited_nodes},{"locator_selected_heads",locator.selected_heads},
@@ -778,14 +855,16 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
             {"identity_verified",false},{"diagnostics",diagnostics}}).dump()<<'\n';
         return 1;
     }
-    if (!process_verified(process.get())) fail("original_identity_mismatch");
+    if (!process_verified(process.get()) || (gri_template &&
+        hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)) fail("original_identity_mismatch");
     // Agreement is not atomicity; the disk hash does not attest all loaded bytes.
     Json report={{"status","observed"},{"identity_verified",true},
         {"samples_equal",comparison.full_samples_equal},{"full_samples_equal",comparison.full_samples_equal},
         {"inspected_metadata_equal",comparison.inspected_metadata_equal},
         {"name_count_changed",comparison.name_count_changed},
         {"field_ids_accepted",false},{"metadata",second.metadata}};
-    if (player_links) report["diagnostics"]={{"locator_name_count",locator.name_count},
+    if (gri_template) report["original_sha256"]=original_sha;
+    if (player_links || gri_template) report["diagnostics"]={{"locator_name_count",locator.name_count},
         {"locator_visited_nodes",locator.visited_nodes},{"locator_selected_heads",locator.selected_heads},
         {"locator_lookups",locator.lookups},{"locator_read_bytes",locator.discovery_bytes},
         {"total_read_bytes",reader.used()}};
@@ -795,7 +874,7 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player]\n"
+        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--gri-template]\n"
             "Read-only bounded original-controller NetFields metadata; no process creation.\n";
         return 0;
     }
@@ -804,20 +883,21 @@ int main(int argc,char** argv) {
     const bool mech_setup=argc==3 && std::string_view(argv[2])=="--mech-setup";
     const bool player_links=argc==3 && std::string_view(argv[2])=="--player-links";
     const bool live_player=argc==3 && std::string_view(argv[2])=="--live-player";
-    if ((argc!=2 && !connection_cache && !mech_setup && !player_links && !live_player) || !parse_pid(argv[1],pid)) {
+    const bool gri_template=argc==3 && std::string_view(argv[2])=="--gri-template";
+    if ((argc!=2 && !connection_cache && !mech_setup && !player_links && !live_player && !gri_template) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid,connection_cache,mech_setup,player_links,live_player); }
+    try { return observe(pid,connection_cache,mech_setup,player_links,live_player,gri_template); }
     catch (const NameInstanceError& error) {
         Json report={{"status","inconclusive"},{"error","nonoriginal_name_instance"},{"identity_verified",false}};
-        if (!live_player) report["rejected_fname_raw"]=error.raw();
+        if (!live_player && !gri_template) report["rejected_fname_raw"]=error.raw();
         std::cout<<report.dump()<<'\n';
         return 1;
     }
     catch (const std::runtime_error& error) {
         // Only locally fixed codes are allowed to escape: file hashing may throw its own errors.
-        constexpr std::array<std::string_view,63> codes={"invalid_address","read_limit","read_unavailable",
+        constexpr std::array<std::string_view,69> codes={"invalid_address","read_limit","read_unavailable",
             "names_unavailable","invalid_name_index","invalid_name","nonoriginal_name_instance",
             "cdo_unavailable_or_mismatch","class_chain_mismatch","class_cycle","field_array_limit",
             "field_identity_mismatch","field_cycle","field_type_mismatch","process_unavailable","unstable_sample",
@@ -833,7 +913,8 @@ int main(int argc,char** argv) {
             "player_map_unsupported","player_cache_absent","player_names_uninitialized",
             "player_name_invalid","player_name_limit","player_name_cycle",
             "live_invalid","live_engine_absent","live_array_invalid","live_limit","live_identity",
-            "live_cycle","live_property_missing","live_property_mismatch","live_backlink_mismatch"};
+            "live_cycle","live_property_missing","live_property_mismatch","live_backlink_mismatch",
+            "gri_identity","gri_property_mismatch","gri_property_missing","gri_cycle","gri_limit","gri_invalid"};
         std::string_view code="observation_unavailable";
         for (const auto allowed:codes) if (allowed==error.what()) code=allowed;
         if (std::string_view(error.what())=="original_identity_mismatch" ||

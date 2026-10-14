@@ -1,0 +1,73 @@
+{
+  "phase": "READY_GREEN",
+  "sources": [
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd",
+      "bytes": 54841
+    },
+    {
+      "path": "tools/fname_hash_lookup.hpp",
+      "sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b",
+      "bytes": 7436
+    },
+    {
+      "path": "tools/gri_template_reader.hpp",
+      "sha256": "ded2264eff51d3abe45c9625a1f75a342d0745ffae53b37122da9c9c8c40f0f8",
+      "bytes": 7173
+    },
+    {
+      "path": "tests/gri_template_reader_tests.cpp",
+      "sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+      "bytes": 13399
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green/controller_netfields_probe.cpp",
+      "sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd",
+      "bytes": 54841
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green/fname_hash_lookup.hpp",
+      "sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b",
+      "bytes": 7436
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green/gri_template_reader.hpp",
+      "sha256": "ded2264eff51d3abe45c9625a1f75a342d0745ffae53b37122da9c9c8c40f0f8",
+      "bytes": 7173
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green/gri_template_reader_tests.cpp",
+      "sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+      "bytes": 13399
+    }
+  ],
+  "red_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/freeze.json",
+    "sha256": "1d01cf725494fcf9ce95f1306a0628778b1cf42de2e8cb572dccb9191ec02fb5",
+    "bytes": 3689
+  },
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green/source-vs-red.diff",
+    "sha256": "78a970d3de5c4575fcb9fb60ccb715260311fad6aa7af8c816e7bd3152a6b511",
+    "bytes": 15386
+  },
+  "notes": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green/notes.json",
+    "sha256": "9f85550f1f661e5d06bf787ad50decc10757e3c8ce5c9834e65e130346b76789",
+    "bytes": 2554
+  },
+  "static_contract": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/contract.json",
+    "sha256": "d74966d6d18dabad1c201260a237b12ac7958e75179fe19e0c6618f880937c9e",
+    "bytes": 2442
+  },
+  "parent_cmake_input": {
+    "path": "CMakeLists.txt",
+    "sha256": "d092ed8b61454a2eefec8015b5af9025f4f322ccd3e20e7085b21242e8cb6f11",
+    "bytes": 53494
+  },
+  "tests_not_run_by_writer": true
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "hawken.initstorm.identity-copy-freeze.v1",
+  "pins": [
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\close_identity_copy.py",
+      "sha256": "0fdbd9dda848b08459120a1430a25566452ef4bd7a3c14bce4fe7ae093fccb93"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\identity-copy-original-proof.json",
+      "sha256": "03d1f991f6851626a8fd92f4c6de2b1514284e8fe4d8298cf49c47be722e33c1"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\identity-copy-field-supplement.json",
+      "sha256": "fd1ec0e5da0e7cae051786f4b6d4591ed050b4f05c37307969749a2d9a5d98a8"
+    },
+    {
+      "path": "implementation\\evidence\\controller-effective-field-cache\\pri-schema-20261013\\derive-output.json",
+      "sha256": "727e3db4237c8b9e56aec3532e23b793a06a9af9db96ab1b65034f0df30f0f9c"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\derive_original.py",
+      "sha256": "c80c371691c686891000e794c239dfd021691afb1f42ca1c1c4081153737e354"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\parent-constructors-initstorm\\functions.jsonl",
+      "sha256": "7bf9f0bc6f44304d96dd4f45a03204a5d00b7523fa816f67c07be02427d9b6cf"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\parent-constructors-initstorm\\instructions.json",
+      "sha256": "1a49e13f3825b4674518dc7034a5bea903ed57db1d31d207c1b8e882df86b0df"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\parent-constructors-initstorm\\original-byte-proof.json",
+      "sha256": "8d2ecf4b7857c8896b59d96cc4b714bc258326a1fa47168a25a796f02453575e"
+    },
+    {
+      "path": "research\\2026-10-10\\evidence\\auth\\m4-login-wire-contract-native-profile\\functions.jsonl",
+      "sha256": "e6075bae94f113357a3bd49b8193cb962b5ef78043e43e51b2377522576207f8"
+    },
+    {
+      "path": "research\\2026-10-10\\evidence\\auth\\m4-login-wire-contract-native-profile\\instructions.json",
+      "sha256": "cfc33cf963ce552f58097a1f61b861e09098e4e05c50ff0837d0ddce0c346a06"
+    },
+    {
+      "path": "research\\2026-10-10\\evidence\\game\\account-playerid-binding\\contract.json",
+      "sha256": "079a54d98afc0be130bb15c9c0275bf9f2a6d4cd085fcbbbecf769fc2028ba93"
+    },
+    {
+      "path": "research\\2026-10-10\\evidence\\game\\login-authority-binding\\contract.json",
+      "sha256": "6dec2e5a744d41c1555f2ae9b263202f6fb2915e0c7ca8544cfda4bde7c61c6c"
+    }
+  ],
+  "preserved_prior_outputs": [
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\contract.json",
+      "sha256": "dcb1c9b03ae6516b6bd6f97d0c092daad441b67b47390e906777622e9ce60d42"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\freeze.json",
+      "sha256": "a12b143686aed3c3f9237040a2162bf5c41e0ea4634e82928a0e1303f848d137"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\freeze-v2.json",
+      "sha256": "418b3a997384b569084a34c61cfffd31cddc75b9093b3a51940fd49bde25e815"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm-identity-supplement.json",
+      "sha256": "6a830207d923617ad25d4bdd74ccdec118be98f1b94f4e49b0325aa0975580ea"
+    }
+  ],
+  "product_source_edits": false,
+  "original_asset_edits": false,
+  "builds_or_runtime": false
+}

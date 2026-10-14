@@ -1,0 +1,12 @@
+{
+  "Reason": "Old object has zero Ninja deps and predates the changed fname_hash_lookup.hpp. Archive only the demonstrated stale generated object; rebuild target under current rules.",
+  "Source": "F:\\HawkenServer\\build\\windows-msvc\\CMakeFiles\\hawken-connection-cache-reader-tests.dir\\tests\\connection_cache_reader_tests.cpp.obj",
+  "Archive": "F:\\HawkenServer\\implementation\\evidence\\selection-bootstrap-protocol\\20261014\\baseline-object-archive\\connection_cache_reader_tests.cpp.obj",
+  "SHA256": "25707102f849569c82bbd36824a63d1523d3e28da24351f1bb10a5ea9988741d",
+  "OriginalWriteTimeUtc": "2026-10-14T14:47:02.4023724Z",
+  "OriginalBytes": 1395199,
+  "SourceRemovedVerified": true,
+  "ArchivedHashVerified": true,
+  "OriginalSourceModified": false,
+  "AllOtherObjectsPreserved": true
+}

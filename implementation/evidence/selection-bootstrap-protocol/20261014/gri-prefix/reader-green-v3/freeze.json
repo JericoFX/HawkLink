@@ -1,0 +1,47 @@
+{
+  "phase": "READY_GREEN_V3",
+  "sources": [
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd",
+      "bytes": 54841
+    },
+    {
+      "path": "tools/fname_hash_lookup.hpp",
+      "sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b",
+      "bytes": 7436
+    },
+    {
+      "path": "tools/gri_template_reader.hpp",
+      "sha256": "f2e044ae14e92569ccfdeee07ec4eb1a9de01047d2c8be2792c58c1a1e54adfa",
+      "bytes": 8157
+    },
+    {
+      "path": "tests/gri_template_reader_tests.cpp",
+      "sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+      "bytes": 13399
+    }
+  ],
+  "previous_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v2/freeze.json",
+    "sha256": "42c4cb37679e9e8d30de6a55d755dde2b3c0ed8ced2694870e926471782c8b59",
+    "bytes": 1692
+  },
+  "preimage": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v3/gri_template_reader.hpp.before",
+    "sha256": "447655316d473ddcf7575b9d43445cd3013fa78e595b0b27a63fc639bae28b9c",
+    "bytes": 7241
+  },
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v3/source-vs-green2.diff",
+    "sha256": "d60394ed9db27a1220a90793b97a66602d2cf10800936afc4b68770d39e97957",
+    "bytes": 12112
+  },
+  "rename_map": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v3/renames.json",
+    "sha256": "c3ba00f43ae93029135f5e6f38cc3c0d8286c6c5e8ab1dae45fdab70692b9356",
+    "bytes": 905
+  },
+  "reason": "Mechanical function-local and lambda parameter gri_ prefix avoids C4459 fixture-global shadowing under /WX. Public struct/member/method names, literals, branches, guards, budgets and tests unchanged.",
+  "writer_builds_tests": 0
+}

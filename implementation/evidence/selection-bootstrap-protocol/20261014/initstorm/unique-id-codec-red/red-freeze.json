@@ -1,0 +1,43 @@
+{
+  "schema": "hawken.unique-id-codec.freeze.v1",
+  "stage": "RED",
+  "sources": [
+    {
+      "path": "include/hawken/unique_id_wire.hpp",
+      "sha256": "531f300b9dc705f6669653d2bbecd117910baef3009e1c8b42cea6715eed32a1",
+      "bytes": 1814
+    },
+    {
+      "path": "src/unique_id_wire.cpp",
+      "sha256": "cb54f3cf568f8efd8b9843390499ad8162b5481af0f89665540edae304bd7b7f",
+      "bytes": 665
+    },
+    {
+      "path": "tests/unique_id_wire_tests.cpp",
+      "sha256": "583ca7c9e66c7b32bed74ce1f1eb959f172f8252d96f4a8bc7c9af62ee84ccc9",
+      "bytes": 8302
+    }
+  ],
+  "cmake": {
+    "path": "CMakeLists.txt",
+    "sha256": "d092ed8b61454a2eefec8015b5af9025f4f322ccd3e20e7085b21242e8cb6f11",
+    "bytes": 53494
+  },
+  "diff": {
+    "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\unique-id-codec-red\\source.diff",
+    "sha256": "7d3e0dfbb8e96d05e178eb17b3d8da5147e0ea40a429fba4e3e8735493a42af8",
+    "bytes": 11434
+  },
+  "plan": {
+    "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\unique-id-codec-red\\red-plan.json",
+    "sha256": "7a930b77e8e35307a3d386547acf0aa382fbd545e61158f0e24e0134be0d8957",
+    "bytes": 3578
+  },
+  "native_proof": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/unique-id-wire-luna/wire-format-followup.json",
+    "sha256": "23d410ac909cc5851abdba91a91313b17652a029ac80b208960e99acdbd6cea9",
+    "bytes": 8442
+  },
+  "no_build_or_tests_executed": true,
+  "code_writes_stopped": true
+}

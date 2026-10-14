@@ -1,0 +1,42 @@
+{
+  "phase": "READY_GREEN_V4",
+  "sources": [
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd",
+      "bytes": 54841
+    },
+    {
+      "path": "tools/fname_hash_lookup.hpp",
+      "sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b",
+      "bytes": 7436
+    },
+    {
+      "path": "tools/gri_template_reader.hpp",
+      "sha256": "67f7ca763c7ba29ffe14afc99132fafa88bf3467cd62305f3caf8dbe32fc1944",
+      "bytes": 8161
+    },
+    {
+      "path": "tests/gri_template_reader_tests.cpp",
+      "sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+      "bytes": 13399
+    }
+  ],
+  "previous_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v3/freeze.json",
+    "sha256": "498bde1fedc5fd23f7b89cbe03c0d2abbbec7466c3e2fabf69142f0368cd94df",
+    "bytes": 1993
+  },
+  "preimage": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v4/gri_template_reader.hpp.before",
+    "sha256": "f2e044ae14e92569ccfdeee07ec4eb1a9de01047d2c8be2792c58c1a1e54adfa",
+    "bytes": 8157
+  },
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-green-v4/source-vs-green3.diff",
+    "sha256": "1f40d26141fb6bd12065046bdd2e4e64dbeea6411d42c963806d2ea551f00d4e",
+    "bytes": 608
+  },
+  "reason": "Only missed local identifier out.rotation_required -> gri_out.rotation_required corrected. No other edits.",
+  "writer_builds_tests": 0
+}

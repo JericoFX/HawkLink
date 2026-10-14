@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "report_path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\unique-id-wire-luna\\wire-format-followup-erratum.json",
+  "report_bytes": 8292,
+  "report_sha256": "1dddc2a5bd0c4252c4ee6306f853df6e7453a562097be3e2dd8b2210dca3b325",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "input_files": [
+    {
+      "sha256": "01a0c348913f716d461ec5e78784b4a778ff3d7b1ff0061ec6cdf9e5e64c62f2",
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\unique-id-wire-luna\\branch-review.json"
+    },
+    {
+      "sha256": "23d410ac909cc5851abdba91a91313b17652a029ac80b208960e99acdbd6cea9",
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\unique-id-wire-luna\\wire-format-followup.json"
+    },
+    {
+      "sha256": "5ed06813a5695f322a74212c9c0aa6b24de265843bb60d6af88bb0dd5f28f168",
+      "path": "implementation/evidence/mech-struct-wire/native/original-instruction-spans.json"
+    },
+    {
+      "sha256": "c4a81fa6b8e5e6227139d7f465586e8acc1dfd39c50091a90f77c6334da7aaf8",
+      "path": "implementation/evidence/mech-struct-wire/native-members/original-native-byte-verification.json"
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/main-functions.jsonl",
+      "sha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
+      "bytes": 71412757
+    }
+  ]
+}

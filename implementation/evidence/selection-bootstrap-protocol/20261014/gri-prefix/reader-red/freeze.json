@@ -1,0 +1,92 @@
+{
+  "phase": "READY_RED",
+  "sources": [
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "e20ff484c89d773af2bd5044a447054a92082eea3cf0e483ce979e2848cea9de",
+      "bytes": 50389
+    },
+    {
+      "path": "tools/fname_hash_lookup.hpp",
+      "sha256": "7bf80011bd219c47ef7f0c16cf975521e045e4fac5c22050321372c5b48e7b7e",
+      "bytes": 6764
+    },
+    {
+      "path": "tools/gri_template_reader.hpp",
+      "sha256": "20cb1bd3bb8a61817d7d52ebdb07756c9eeb2ca73424b0115ba066452c322014",
+      "bytes": 1867
+    },
+    {
+      "path": "tests/gri_template_reader_tests.cpp",
+      "sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+      "bytes": 13399
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/controller_netfields_probe.cpp.red",
+      "sha256": "e20ff484c89d773af2bd5044a447054a92082eea3cf0e483ce979e2848cea9de",
+      "bytes": 50389
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/fname_hash_lookup.hpp.red",
+      "sha256": "7bf80011bd219c47ef7f0c16cf975521e045e4fac5c22050321372c5b48e7b7e",
+      "bytes": 6764
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/gri_template_reader.hpp.red",
+      "sha256": "20cb1bd3bb8a61817d7d52ebdb07756c9eeb2ca73424b0115ba066452c322014",
+      "bytes": 1867
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/gri_template_reader_tests.cpp.red",
+      "sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+      "bytes": 13399
+    }
+  ],
+  "preimages": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/controller_netfields_probe.cpp",
+      "sha256": "486b09558845365cd3726cd6787ee8ba8c8693edb734b4f73e535ee309d4673d",
+      "bytes": 49817
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/fname_hash_lookup.hpp",
+      "sha256": "57759c2afbba664e5a864c0c4c250d8a8d96ce0b6c500ea1c33b7b961fca3f6c",
+      "bytes": 6497
+    }
+  ],
+  "evidence": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/fixture-proof.json",
+      "sha256": "de0899219ddb9f511808ba8d9072610c2cf6095995f557f22838a6ada120802a",
+      "bytes": 768
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/source.diff",
+      "sha256": "099ed6f5a45561806069538777adb24054e52a6ff13e78530d7d5384bb47e9be",
+      "bytes": 23286
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/reader-red/notes.json",
+      "sha256": "9eb7e53753dbe39d99e6eb5031b6a2f5e5d761a028c81eff02129c25b351f359",
+      "bytes": 1875
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/contract.json",
+      "sha256": "d74966d6d18dabad1c201260a237b12ac7958e75179fe19e0c6618f880937c9e",
+      "bytes": 2442
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-prefix/freeze.json",
+      "sha256": "347bba3f12f9370fd4bfbd5af26e36a76aace6340c7568f33c44c600b7783f6a",
+      "bytes": 1163
+    }
+  ],
+  "parent_cmake_input": {
+    "path": "CMakeLists.txt",
+    "sha256": "d092ed8b61454a2eefec8015b5af9025f4f322ccd3e20e7085b21242e8cb6f11",
+    "bytes": 53494
+  },
+  "tests_not_run_by_writer": true
+}

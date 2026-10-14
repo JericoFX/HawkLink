@@ -1,0 +1,7 @@
+[1/7] Building CXX object CMakeFiles\hawken-controller-netfields-probe.dir\tools\controller_netfields_probe.cpp.obj
+[2/7] Building CXX object CMakeFiles\hawken-gri-template-reader-tests.dir\tests\gri_template_reader_tests.cpp.obj
+[3/7] Building CXX object CMakeFiles\hawken-connection-cache-reader-tests.dir\tests\connection_cache_reader_tests.cpp.obj
+[4/7] Linking CXX executable hawken-controller-netfields-probe.exe
+[5/7] Linking CXX executable hawken-gri-template-reader-tests.exe
+[6/7] Linking CXX executable hawken-connection-cache-reader-tests.exe
+[7/7] Linking CXX executable hawken-unique-id-wire-tests.exe

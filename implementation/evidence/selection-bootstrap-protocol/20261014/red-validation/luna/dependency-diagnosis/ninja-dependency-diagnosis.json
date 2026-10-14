@@ -1,0 +1,163 @@
+{
+  "generated_utc": "2026-10-14T20:14:15.5581041Z",
+  "diagnostic_scope": "Read-only Ninja dependency metadata and generated MSVC configuration; no build or object mutation",
+  "observations": {
+    "baseline_reader_object_deps": "0 (Ninja reports VALID)",
+    "new_unique_id_obj_deps": "4; includes control_wire.hpp, game_wire.hpp, unique_id_wire.hpp, doctest.h",
+    "new_gri_obj_deps": "3; includes doctest.h, fname_hash_lookup.hpp, gri_template_reader.hpp",
+    "new_probe_obj_deps": "8; includes connection_cache_reader.hpp, fname_hash_lookup.hpp, gri_template_reader.hpp and other headers",
+    "current_compile_rule": "deps=msvc and command has /showIncludes",
+    "current_localized_prefix": "Nota: inclusión del archivo: ",
+    "baseline_obj_mtime_utc": "2026-10-14T14:47:02.4023724Z",
+    "baseline_object_ninja_log": [
+      "32091\t33397\t8136924211061945\tCMakeFiles/hawken-connection-cache-reader-tests.dir/tests/connection_cache_reader_tests.cpp.obj\ta65ea8b9547d860f"
+    ],
+    "baseline_exe_mtime_utc": "2026-10-14T14:50:07.2399922Z",
+    "changed_header_mtime_utc": "2026-10-14T20:03:58.3212533Z",
+    "test_source_mtime_utc": "2026-10-13T03:59:04.105985Z",
+    "cache_compiler_line": "CMAKE_CXX_COMPILER:STRING=C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+    "cache_build_type_line": "CMAKE_BUILD_TYPE:STRING=Release",
+    "cache_generator_line": "CMAKE_MAKE_PROGRAM:FILEPATH=C:/Users/Jerico/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/ninja.exe",
+    "baseline_build_edge": "build CMakeFiles\\hawken-connection-cache-reader-tests.dir\\tests\\connection_cache_reader_tests.cpp.obj: CXX_COMPILER__hawken-connection-cache-reader-tests_unscanned_Release F$:\\HawkenServer\\tests\\connection_cache_reader_tests.cpp || cmake_object_order_depends_target_hawken-connection-cache-reader-tests",
+    "rule_evidence": [
+      "msvc_deps_prefix = Nota: inclusión del archivo: ",
+      "  deps = msvc",
+      "  deps = msvc",
+      "  deps = msvc",
+      "  deps = msvc",
+      "  deps = msvc",
+      "  deps = msvc",
+      "  deps = msvc"
+    ],
+    "baseline_compile_command": "\"C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe\"  /nologo /TP  -IF:\\HawkenServer\\tools -external:IF:\\HawkenServer\\third_party -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MT /W4 /WX /permissive- /utf-8 /showIncludes /FoCMakeFiles\\hawken-connection-cache-reader-tests.dir\\tests\\connection_cache_reader_tests.cpp.obj /FdCMakeFiles\\hawken-connection-cache-reader-tests.dir\\ /FS -c F:\\HawkenServer\\tests\\connection_cache_reader_tests.cpp",
+    "historical_cause_status": "The current configuration is proven to emit Ninja-tracked MSVC dependencies; the 0-deps baseline object predates the changed fname header and current RED compile window. Available current artifacts do not establish why the earlier Ninja build produced no dependency record (e.g. historical rule/prefix or an object produced outside this Ninja dep-tracking regime). Do not claim exact historical cause without the earlier rules/command output.",
+    "candidate_explanation": "Stale pre-RED object with absent Ninja dependency metadata; rebuilding this object is needed before treating the old passing baseline as relevant to the changed header.",
+    "current_dep_rule": [
+      "rule CXX_COMPILER__hawken-connection-cache-reader-tests_unscanned_Release",
+      "  deps = msvc",
+      "  command = ${LAUNCHER}${CODE_CHECK}\"C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe\"  /nologo /TP $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in",
+      "  description = Building CXX object $out",
+      ""
+    ],
+    "compiler_file_version": "19.44.35228.0",
+    "ninja_version": "1.13.2",
+    "rules_ninja_mtime_utc": "2026-10-14T20:09:53.2248179Z",
+    "build_ninja_mtime_utc": "2026-10-14T20:09:53.2248179Z"
+  },
+  "files": [
+    {
+      "path": "build.ninja",
+      "bytes": 384903,
+      "mtime_utc": "2026-10-14T20:09:53.2248179Z",
+      "sha256": "7c0f97e48f468aec41bea8b29683809ba4057fed4452db46ab9cfe138d1bac3e"
+    },
+    {
+      "path": "CMakeFiles\\rules.ninja",
+      "bytes": 259258,
+      "mtime_utc": "2026-10-14T20:09:53.2248179Z",
+      "sha256": "1d887ae2f355e3888fef24aefba7c7c5f5d6c1b03f38a43aca4d74d6080f1e42"
+    },
+    {
+      "path": "CMakeCache.txt",
+      "bytes": 20449,
+      "mtime_utc": "2026-10-14T03:01:33.5858902Z",
+      "sha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563"
+    },
+    {
+      "path": ".ninja_deps",
+      "bytes": 31124,
+      "mtime_utc": "2026-10-14T20:10:06.567521Z",
+      "sha256": "2265d0f70b8e269aa4ad8bb807177ee00d93fce2a7c9419a0c5525889da567d4"
+    },
+    {
+      "path": ".ninja_log",
+      "bytes": 29716,
+      "mtime_utc": "2026-10-14T20:10:07.246976Z",
+      "sha256": "f463ec5e16e7445bdd07bad47f3ae25d3512e885b67bbf56f38e3c3364de4e20"
+    },
+    {
+      "path": "CMakeFiles\\hawken-connection-cache-reader-tests.dir\\tests\\connection_cache_reader_tests.cpp.obj",
+      "bytes": 1395199,
+      "mtime_utc": "2026-10-14T14:47:02.4023724Z",
+      "sha256": "25707102f849569c82bbd36824a63d1523d3e28da24351f1bb10a5ea9988741d"
+    },
+    {
+      "path": "hawken-connection-cache-reader-tests.exe",
+      "bytes": 554496,
+      "mtime_utc": "2026-10-14T14:50:07.2399922Z",
+      "sha256": "a876e12f4948fc18b75af4903a83961b404bf3b06b982f2464fc7cd6a5a4db3e"
+    },
+    {
+      "path": "CMakeFiles\\hawken-unique-id-wire-tests.dir\\tests\\unique_id_wire_tests.cpp.obj",
+      "bytes": 454388,
+      "mtime_utc": "2026-10-14T20:10:06.5586201Z",
+      "sha256": "f24e07dc6f0f6de281ab748b1bd55b66a7878e19a5b054d85b2dc9958bf49e73"
+    },
+    {
+      "path": "CMakeFiles\\hawken-gri-template-reader-tests.dir\\tests\\gri_template_reader_tests.cpp.obj",
+      "bytes": 685315,
+      "mtime_utc": "2026-10-14T20:10:03.2535054Z",
+      "sha256": "5d25433bc7644e1e0db0dfd6c0d390b2da6366618ee7eda78c3d4ffe8149e0b6"
+    },
+    {
+      "path": "CMakeFiles\\hawken-controller-netfields-probe.dir\\tools\\controller_netfields_probe.cpp.obj",
+      "bytes": 4743804,
+      "mtime_utc": "2026-10-14T20:09:59.0407506Z",
+      "sha256": "0e1ef219e36349a314403657e2c6026100ba11a8ca64b7f7f847af622ea5248c"
+    }
+  ],
+  "source_pins": [
+    {
+      "path": "tests\\connection_cache_reader_tests.cpp",
+      "mtime_utc": "2026-10-13T03:59:04.105985Z",
+      "bytes": 32517,
+      "sha256": "ecc7f5d3cf95319fe8537e1961bd1003a4558becca2d2a8b104545e54734aa20"
+    },
+    {
+      "path": "tools\\fname_hash_lookup.hpp",
+      "mtime_utc": "2026-10-14T20:03:58.3212533Z",
+      "bytes": 6764,
+      "sha256": "7bf80011bd219c47ef7f0c16cf975521e045e4fac5c22050321372c5b48e7b7e"
+    },
+    {
+      "path": "tools\\connection_cache_reader.hpp",
+      "mtime_utc": "2026-10-13T03:16:52.6604213Z",
+      "bytes": 7603,
+      "sha256": "2120971e3438305dbec13dd30745be6c111307f9d400876a3ae4debc0e0b141c"
+    },
+    {
+      "path": "third_party\\doctest\\doctest.h",
+      "mtime_utc": "2026-10-11T01:50:47.1275268Z",
+      "bytes": 323200,
+      "sha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced"
+    }
+  ],
+  "ninja_deps_output": [
+    "CMakeFiles/hawken-unique-id-wire-tests.dir/tests/unique_id_wire_tests.cpp.obj: #deps 4, deps mtime 8137118065586201 (VALID)",
+    "    ../../include/hawken/control_wire.hpp",
+    "    ../../include/hawken/game_wire.hpp",
+    "    ../../include/hawken/unique_id_wire.hpp",
+    "    ../../third_party/doctest/doctest.h",
+    "",
+    "CMakeFiles/hawken-gri-template-reader-tests.dir/tests/gri_template_reader_tests.cpp.obj: #deps 3, deps mtime 8137118032535054 (VALID)",
+    "    ../../third_party/doctest/doctest.h",
+    "    ../../tools/fname_hash_lookup.hpp",
+    "    ../../tools/gri_template_reader.hpp",
+    "",
+    "CMakeFiles/hawken-controller-netfields-probe.dir/tools/controller_netfields_probe.cpp.obj: #deps 8, deps mtime 8137117990407506 (VALID)",
+    "    ../../include/hawken/sha256.hpp",
+    "    ../../third_party/nlohmann/json.hpp",
+    "    ../../tools/connection_cache_reader.hpp",
+    "    ../../tools/controller_sample_comparison.hpp",
+    "    ../../tools/fname_hash_lookup.hpp",
+    "    ../../tools/gri_template_reader.hpp",
+    "    ../../tools/live_player_reader.hpp",
+    "    ../../tools/mech_setup_reader.hpp",
+    "",
+    "CMakeFiles/hawken-connection-cache-reader-tests.dir/tests/connection_cache_reader_tests.cpp.obj: #deps 0, deps mtime 8136924224023724 (VALID)",
+    ""
+  ],
+  "ninja_compile_command_output": [
+    "\"C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe\"  /nologo /TP  -IF:\\HawkenServer\\tools -external:IF:\\HawkenServer\\third_party -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MT /W4 /WX /permissive- /utf-8 /showIncludes /FoCMakeFiles\\hawken-connection-cache-reader-tests.dir\\tests\\connection_cache_reader_tests.cpp.obj /FdCMakeFiles\\hawken-connection-cache-reader-tests.dir\\ /FS -c F:\\HawkenServer\\tests\\connection_cache_reader_tests.cpp"
+  ]
+}

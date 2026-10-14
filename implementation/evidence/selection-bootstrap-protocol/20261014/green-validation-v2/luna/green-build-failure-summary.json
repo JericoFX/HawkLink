@@ -1,0 +1,68 @@
+{
+  "generated_utc": "2026-10-14T20:25:19.9518653Z",
+  "freeze_sha256": "10ed518aa1a1b41d9ba58180f14650ab0fbb4b10c304ce3ae03ad89dca5d1a0d",
+  "wrapper_sha256": "570c0025eecbb7a2957d2b2207d032f3ee7865d581d888abdb939c4e9f02abd5",
+  "step_exits": {
+    "devshell": "0",
+    "build": "2",
+    "outer_wrapper": "2",
+    "ctest": "not run",
+    "probe_help": "not run"
+  },
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "source_after_manifest": "input-hashes-after.json",
+  "build_steps": [
+    "[1/7] Building CXX object CMakeFiles\\hawken-controller-netfields-probe.dir\\tools\\controller_netfields_probe.cpp.obj",
+    "[2/7] Building CXX object CMakeFiles\\hawken-gri-template-reader-tests.dir\\tests\\gri_template_reader_tests.cpp.obj"
+  ],
+  "failed_commands": [
+    "FAILED: [code=2] CMakeFiles/hawken-gri-template-reader-tests.dir/tests/gri_template_reader_tests.cpp.obj "
+  ],
+  "compiler_diagnostics": [
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(52): error C2220: la siguiente advertencia se trata como un error",
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(52): warning C4459: la declaración de 'package' oculta la declaración global",
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(56): warning C4459: la declaración de 'kind' oculta la declaración global",
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(61): warning C4459: la declaración de 'package' oculta la declaración global",
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(64): warning C4459: la declaración de 'cdo' oculta la declaración global",
+    "F:\\HawkenServer\\tools\\gri_template_reader.hpp(96): warning C4459: la declaración de 'property' oculta la declaración global",
+    "ninja: build stopped: subcommand failed."
+  ],
+  "canonical_products": [
+    {
+      "path": "build\\windows-msvc\\hawken-server.exe",
+      "bytes": 2404864,
+      "mtime_utc": "2026-10-14T18:05:14.8425343Z",
+      "sha256": "260a6bdd8a78953941a8438aa78f38a8b4c10fa7e52136cb74ff2672f41b432f"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-master.exe",
+      "bytes": 727040,
+      "mtime_utc": "2026-10-14T18:05:14.3445182Z",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "bytes": 359424,
+      "mtime_utc": "2026-10-14T18:05:15.3752978Z",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+    },
+    {
+      "path": "build\\windows-msvc\\hawken-controller-netfields-probe.exe",
+      "bytes": 440320,
+      "mtime_utc": "2026-10-14T20:10:06.8614412Z",
+      "sha256": "0afd39250aa45b87420acbc705d0fcd10f487d6e0dfbe9c53c3f41dc492adcf6"
+    }
+  ],
+  "baseline_object_after_attempt": {
+    "path": "build\\windows-msvc\\CMakeFiles\\hawken-connection-cache-reader-tests.dir\\tests\\connection_cache_reader_tests.cpp.obj",
+    "exists": false
+  },
+  "ram_after": {
+    "used_percent": 71.4,
+    "free_kib": 9571776
+  },
+  "repo_build_processes_after": [],
+  "interpretation": "Build stopped compiling gri_template_reader_tests.cpp under /WX: C4459 shadow warnings for fixture identifiers package, kind, cdo, property (and related global declarations), promoted to C2220. The wrapper did not reach CTest or probe --help. This is compile failure, not a test result; no retry or source edit."
+}

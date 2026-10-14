@@ -1,0 +1,49 @@
+{
+  "schema": "hawken.unique-id-codec.freeze.v1",
+  "stage": "GREEN_CANDIDATE_NOT_YET_VERIFIED",
+  "sources": [
+    {
+      "path": "include/hawken/unique_id_wire.hpp",
+      "sha256": "531f300b9dc705f6669653d2bbecd117910baef3009e1c8b42cea6715eed32a1",
+      "bytes": 1814
+    },
+    {
+      "path": "src/unique_id_wire.cpp",
+      "sha256": "1d3aef4a2aef3625826ecc3cd4fc66582772b00f774fdf182141360be6bc0ccb",
+      "bytes": 1885
+    },
+    {
+      "path": "tests/unique_id_wire_tests.cpp",
+      "sha256": "583ca7c9e66c7b32bed74ce1f1eb959f172f8252d96f4a8bc7c9af62ee84ccc9",
+      "bytes": 8302
+    }
+  ],
+  "cmake": {
+    "path": "CMakeLists.txt",
+    "sha256": "d092ed8b61454a2eefec8015b5af9025f4f322ccd3e20e7085b21242e8cb6f11",
+    "bytes": 53494
+  },
+  "red_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/initstorm/unique-id-codec-red/red-freeze.json",
+    "sha256": "146a65f082a3e9f84a687b7537da42c0822087228fec835a3fe40b7c6b16110a",
+    "bytes": 1573
+  },
+  "before": {
+    "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\unique-id-codec-green\\unique_id_wire-before.cpp",
+    "sha256": "cb54f3cf568f8efd8b9843390499ad8162b5481af0f89665540edae304bd7b7f",
+    "bytes": 665
+  },
+  "diff": {
+    "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\unique-id-codec-green\\source.diff",
+    "sha256": "e449fbbe02a5ac54c2d3fb02a1e0c6f4c3aabe0250d6e6bf64d908c2ca68a7fc",
+    "bytes": 2261
+  },
+  "review": {
+    "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\initstorm\\unique-id-codec-green\\green-review.json",
+    "sha256": "616eb8168e3e91e6c9350251faaa19836b579dbc2f296dae19ac458505624787",
+    "bytes": 1821
+  },
+  "tests_header_identical_red": true,
+  "no_build_or_tests_executed": true,
+  "source_writes_stopped": true
+}

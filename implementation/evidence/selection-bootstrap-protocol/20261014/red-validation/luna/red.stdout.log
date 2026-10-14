@@ -1,0 +1,480 @@
+Test project F:/HawkenServer/build/windows-msvc
+    Start  3: gri_template_reader
+1/2 Test  #3: gri_template_reader ..............***Failed    0.10 sec
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(97):
+TEST CASE:  GRI template reads actual rotation bit and typed PRI field offset without identity value
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  rotation absent
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(103): ERROR: CHECK( result.template_verified ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(104): ERROR: CHECK( result.getpc_null ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(106): ERROR: CHECK( result.unique_id_metadata_verified ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(107): ERROR: CHECK( result.unique_id_offset==0x2d4 ) is NOT correct!
+  values: CHECK( 0 == 724 )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(108): ERROR: CHECK( fixture.memory.touched(cdo+0xec) ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(109): ERROR: CHECK_FALSE( result.trace.empty() ) is NOT correct!
+  values: CHECK_FALSE( true )
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(97):
+TEST CASE:  GRI template reads actual rotation bit and typed PRI field offset without identity value
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  rotation required
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(103): ERROR: CHECK( result.template_verified ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(104): ERROR: CHECK( result.getpc_null ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(105): ERROR: CHECK( result.rotation_required==expected_rotation ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(106): ERROR: CHECK( result.unique_id_metadata_verified ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(107): ERROR: CHECK( result.unique_id_offset==0x2d4 ) is NOT correct!
+  values: CHECK( 0 == 724 )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(108): ERROR: CHECK( fixture.memory.touched(cdo+0xec) ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(109): ERROR: CHECK_FALSE( result.trace.empty() ) is NOT correct!
+  values: CHECK_FALSE( true )
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong class name
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong package
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  class FName instance
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong class kind
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong class NetIndex
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  missing CDO
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  CDO wrong name
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  CDO FName instance
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  CDO archetype flags
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  not CDO
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong backref
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong outer
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong CDO NetIndex
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  foreign vtable
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(113):
+TEST CASE:  GRI CDO identity must precede reading private rotation word
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong GetPC slot
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong PRI ancestor
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong property owner
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong property type
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong struct type
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong struct owner
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong struct package
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong struct name
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  property array
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  negative offset
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(134):
+TEST CASE:  GRI mode rejects PRI field metadata with another owner or struct
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  excessive offset
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(149):
+TEST CASE:  GRI mode requires a unique field and bounded acyclic metadata traversal
+  absent
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(181):
+TEST CASE:  GRI complete snapshots retain scalar and field metadata changes
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(184): FATAL ERROR: REQUIRE( first.template_verified ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(192):
+TEST CASE:  GRI reader rejects module address overflow before any memory read
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(199):
+TEST CASE:  GRI reader propagates shared budget exhaustion
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(248):
+TEST CASE:  Fixed names reject invalid or duplicate observer targets before memory reads
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  empty
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(93): ERROR: CHECK( std::string(error.what())==expected ) is NOT correct!
+  values: CHECK( reader_error == 00007FF64BBCBA38 )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(256): ERROR: CHECK( fixture.memory.reads.empty() ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(248):
+TEST CASE:  Fixed names reject invalid or duplicate observer targets before memory reads
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  duplicate
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(92): FATAL ERROR: metadata must be rejected
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(248):
+TEST CASE:  Fixed names reject invalid or duplicate observer targets before memory reads
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  nonidentifier
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(93): ERROR: CHECK( std::string(error.what())==expected ) is NOT correct!
+  values: CHECK( reader_error == 00007FF64BBCBA38 )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(256): ERROR: CHECK( fixture.memory.reads.empty() ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(248):
+TEST CASE:  Fixed names reject invalid or duplicate observer targets before memory reads
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  over128
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(93): ERROR: CHECK( std::string(error.what())==expected ) is NOT correct!
+  values: CHECK( reader_error == 00007FF64BBCBA38 )
+
+F:\HawkenServer\tests\gri_template_reader_tests.cpp(256): ERROR: CHECK( fixture.memory.reads.empty() ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+[doctest] test cases: 10 |  2 passed |  8 failed | 0 skipped
+[doctest] assertions: 63 | 14 passed | 49 failed |
+[doctest] Status: FAILURE!
+
+    Start 42: unique_id_wire
+2/2 Test #42: unique_id_wire ...................***Failed    0.06 sec
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(48):
+TEST CASE:  UniqueId property matches independent six-bit tag and four-component goldens
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(48): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(64):
+TEST CASE:  UniqueId property preserves value-dependent bounded tag width
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(64): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(79):
+TEST CASE:  UniqueId value reads unaligned raw literals and leaves opaque suffix intact
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(79): ERROR: test case THREW exception: Game wire data could not be read or validated.
+  logged: offset := 0
+
+===============================================================================
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(99):
+TEST CASE:  UniqueId wire preserves zero and full-range unsigned words without presence
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(99): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(121):
+TEST CASE:  UniqueId property rejects invalid tag endian and insufficient total budgets
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8AE0 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8AE0 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B00 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B00 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B00 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B00 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B00 )
+
+===============================================================================
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(131):
+TEST CASE:  UniqueId value truncation rolls back cursor and does not poison caller reader
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 0
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 1
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 31
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 32
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 63
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 64
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 96
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B38 )
+  logged: available := 127
+
+===============================================================================
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(145):
+TEST CASE:  UniqueId value invalid inputs preserve cursor and exact128-bit budget
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8AE0 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B00 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(26): ERROR: CHECK( error.code == expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF7888C8B00 )
+
+F:\HawkenServer\tests\unique_id_wire_tests.cpp(145): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+[doctest] test cases:   7 |   0 passed |  7 failed | 0 skipped
+[doctest] assertions: 148 | 130 passed | 18 failed |
+[doctest] Status: FAILURE!
+
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =   1.76 sec
+
+The following tests FAILED:
+	  3 - gri_template_reader (Failed)
+	 42 - unique_id_wire (Failed)
