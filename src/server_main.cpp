@@ -348,6 +348,12 @@ public:
             << " actor_links_sent=" << observation.actor_links_sent
             << " pri_identity_sent=" << observation.pri_identity_sent
             << " pri_identity_acked=" << observation.pri_identity_acked
+            << " gri_sent=" << observation.gri_sent
+            << " gri_open_acked=" << observation.gri_open_acked
+            << " game_class_sent=" << observation.game_class_sent
+            << " game_class_acked=" << observation.game_class_acked
+            << " hud_sent=" << observation.hud_sent
+            << " hud_acked=" << observation.hud_acked
             << " spawn_validation_requested=" << observation.spawn_validation_requested
             << " spawn_validation_sent=" << observation.spawn_validation_sent
             << " spawn_validation_failed=" << observation.spawn_validation_failed
@@ -603,6 +609,18 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                 // SessionProvision.user_guid, never the client's Login.UniqueId.
                 trial_config.pri_identity = hawken::udp::PriIdentityDispatchPlan{
                     41,87,hawken::control::Endian::little,{true,true,true,true,true}};
+                // Version-pinned trial: actual R_GRI CDO GetPC-null/rotation-clear
+                // prefix was observed passively. Class/RPC field IDs remain the
+                // conditional PRIMARY all-members schema. These are LOCAL
+                // package NetIndices, resolved against this connection's ranges.
+                // GameClass and HUD are UClass references, not CDO references.
+                trial_config.selection_bootstrap = hawken::udp::SelectionBootstrapPlan{
+                    {{4,0,0,false},
+                        {0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U},
+                        9439,{0,0,0},std::nullopt},
+                    {0x5cd139c7U,0x4aa73e14U,0xbd1c8593U,0xf86056ddU},105,
+                    {0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U},32596,
+                    31,73,42,294,{true,true,true,true,true,true,true,true,true,true,true,true}};
                 // Our starter records are permanent; the current local domain
                 // has no achievement awards. The reader verifies account scope
                 // in SQL and must change before an award/import path is enabled.
@@ -612,6 +630,7 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                     << "udp_spawn_validation schema=conditional_primary_trial gameplay=0\n"
                     << "udp_spawn_admission schema=conditional_primary_trial gameplay=0\n"
                     << "udp_pri_identity schema=conditional_primary_trial gameplay=0\n"
+                    << "udp_selection_bootstrap schema=conditional_primary_trial gameplay=0\n"
                     << std::flush;
             }
             udp_trial = std::make_unique<hawken::udp::UdpTrialRuntime>(auth, trial_config);

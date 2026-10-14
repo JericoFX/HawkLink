@@ -98,6 +98,7 @@ struct UdpTrialRuntime::Impl {
     const std::optional<SpawnValidationSource> spawn_validation_source;
     const std::optional<SpawnAdmissionDispatchPlan> spawn_admission;
     const std::optional<PriIdentityDispatchPlan> pri_identity;
+    const std::optional<SelectionBootstrapPlan> selection_bootstrap;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -110,7 +111,8 @@ struct UdpTrialRuntime::Impl {
         : publication(config.publication), controller(config.controller), pawn(config.pawn), pri(config.pri),
           links(config.links), start_mech(config.start_mech), start_mech_source(config.start_mech_source),
           spawn_validation(config.spawn_validation), spawn_validation_source(config.spawn_validation_source),
-          spawn_admission(config.spawn_admission), pri_identity(config.pri_identity) {
+          spawn_admission(config.spawn_admission), pri_identity(config.pri_identity),
+          selection_bootstrap(config.selection_bootstrap) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -188,7 +190,7 @@ struct UdpTrialRuntime::Impl {
                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
                     return service->validate_login_response(id, response);
                 }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize),
-                spawn_validation,std::move(validate_selection),spawn_admission,pri_identity);
+                spawn_validation,std::move(validate_selection),spawn_admission,pri_identity,selection_bootstrap);
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();
@@ -229,6 +231,44 @@ UdpTrialRuntime::UdpTrialRuntime(auth::AuthService& auth, const UdpTrialConfig& 
             !eligibility.primary_package_map || !eligibility.pri_cache_correct ||
             !eligibility.unique_id_property_eligible || !eligibility.unique_net_id_serializer_correct ||
             !eligibility.integer_archive_order_correct)
+            startup_failed();
+    }
+    if (config.selection_bootstrap) {
+        const auto& plan = *config.selection_bootstrap;
+        const auto& eligibility = plan.eligibility;
+        if (!config.publication || !config.controller || !config.pri || !config.pawn || !config.links ||
+            plan.gri.channel.channel == 0 || plan.gri.channel.channel > 2047 ||
+            plan.gri.channel.channel == config.controller->channel.channel ||
+            plan.gri.channel.channel == config.pri->channel.channel ||
+            plan.gri.channel.channel == config.pawn->channel.channel ||
+            plan.gri.archetype_local_net_index < 0 || plan.game_class_local_net_index < 0 ||
+            plan.hud_local_net_index < 0 || plan.gri_exclusive_bound == 0 ||
+            plan.game_class_field_id >= plan.gri_exclusive_bound || plan.controller_exclusive_bound == 0 ||
+            plan.client_set_hud_field_id >= plan.controller_exclusive_bound ||
+            plan.controller_exclusive_bound != config.links->controller_exclusive_bound ||
+            plan.client_set_hud_field_id == config.links->controller_pri_field_id ||
+            plan.client_set_hud_field_id == config.links->controller_pawn_field_id ||
+            !eligibility.primary_package_map || !eligibility.common_gri_prefix_correct ||
+            !eligibility.gri_cdo_correct || !eligibility.gri_cache_correct ||
+            !eligibility.game_class_property_eligible || !eligibility.game_class_property_class_correct ||
+            !eligibility.game_class_meta_class_correct || !eligibility.controller_cache_correct ||
+            !eligibility.client_set_hud_rpc_eligible || !eligibility.hud_parameter_eligible ||
+            !eligibility.hud_parameter_class_correct || !eligibility.hud_meta_class_correct)
+            startup_failed();
+        if (config.start_mech &&
+            (plan.controller_exclusive_bound != config.start_mech->controller_exclusive_bound ||
+             plan.client_set_hud_field_id == config.start_mech->controller_rpc_field_id))
+            startup_failed();
+        if (config.spawn_validation &&
+            (plan.controller_exclusive_bound != config.spawn_validation->controller_exclusive_bound ||
+             plan.client_set_hud_field_id == config.spawn_validation->validate_rpc_field_id ||
+             plan.client_set_hud_field_id == config.spawn_validation->validated_rpc_field_id ||
+             plan.client_set_hud_field_id == config.spawn_validation->failed_rpc_field_id))
+            startup_failed();
+        if (config.spawn_admission &&
+            (plan.controller_exclusive_bound != config.spawn_admission->controller_exclusive_bound ||
+             plan.client_set_hud_field_id == config.spawn_admission->stage_rpc_field_id ||
+             plan.client_set_hud_field_id == config.spawn_admission->client_restart_rpc_field_id))
             startup_failed();
     }
     try { impl_ = std::make_unique<Impl>(auth, config); }

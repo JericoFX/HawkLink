@@ -1,0 +1,19 @@
+{
+  "schema": "hawken.final-client-log-selection.v1",
+  "full_log_read": true,
+  "bytes": 280409,
+  "line_count": 4164,
+  "sha256": "4af74dd555d1b98e5d83dcc0a038b865a7ccf146656cf3848b7bd29bd0e192b2",
+  "raw_log_saved": false,
+  "events": [
+    {
+      "line": 512,
+      "kind": "ReceivedGameClass",
+      "class": "R_PawnContent"
+    },
+    {
+      "line": 4163,
+      "kind": "LogClosed"
+    }
+  ]
+}

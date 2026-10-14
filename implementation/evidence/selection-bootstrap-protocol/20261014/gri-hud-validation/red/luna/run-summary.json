@@ -1,0 +1,93 @@
+{
+  "schema": "gri-hud-validation-red-summary.v1",
+  "freeze_sha256": "d521b318ef2dc1079d58b4ecb95a22dff61c162756e6c36979706b3c02b7e34d",
+  "expected_freeze_sha256": "d521b318ef2dc1079d58b4ecb95a22dff61c162756e6c36979706b3c02b7e34d",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "aux_pin_count": 3,
+  "aux_pin_matches": 3,
+  "build_exit": 0,
+  "ctest_exit": 8,
+  "wrapper_exit": 8,
+  "registered_suites": 2,
+  "failed_suites": 2,
+  "skipped_suites": 0,
+  "doctest_cases": {
+    "total": 152,
+    "passed": 144,
+    "failed": 8,
+    "skipped": 0
+  },
+  "assertions": {
+    "total": 9808,
+    "passed": 9720,
+    "failed": 88
+  },
+  "failed_suites_names": [
+    "local_udp_owner",
+    "udp_trial_runtime"
+  ],
+  "new_case_names": [
+    "UDP selection bootstrap opens fourth GRI then gates HUD on actual GameClass and link ACKs",
+    "UDP selection bootstrap retries GameClass on observed ACK gap before one HUD send",
+    "UDP selection bootstrap GameClass opening gate is independent of configured PRI identity",
+    "UDP selection bootstrap requires all schema premises and prior actors before retryable start",
+    "UDP selection bootstrap rejects channel reference schema and budget contradictions before commit",
+    "UDP selection bootstrap never completes after publication failure revocation or stop",
+    "UDP trial selection bootstrap copies policy and orders fourth actor GameClass and HUD by real ACKs",
+    "UDP trial selection bootstrap validates prerequisites channel ranges and explicit schema before startup"
+  ],
+  "build_steps": 8,
+  "binary_hashes": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "5396f980d3557adc97028556aa6ae9e9cf24a9253bf71859640f518de74506ee"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+      "sha256": "1429059ff1c3c7001c4fd41f3825c643ddd9bb1ca88c87aed1fea7df4408abf3"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-udp-trial-runtime-tests.exe",
+      "sha256": "6f2a6f7a18107b67b75e215b3953dbe39f9e3aa2625774649d328244f82f5012"
+    }
+  ],
+  "protected_processes": [
+    {
+      "pid": 21152,
+      "name": "hawken-server.exe",
+      "creation": "2026-10-14T21:58:13.3667680Z",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe"
+    },
+    {
+      "pid": 25784,
+      "name": "hawken-master.exe",
+      "creation": "2026-10-14T21:58:11.8135050Z",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe"
+    }
+  ],
+  "active_build_processes": [],
+  "ram_used_percent_after": 78.59,
+  "free_kib_after": 7163180,
+  "raw_files": [
+    "preflight.json",
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "devshell.exit.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "ctest.stdout.log",
+    "ctest.stderr.log",
+    "ctest.exit.txt",
+    "tests.xml",
+    "wrapper.exit.txt",
+    "launcher.exit.txt",
+    "input-hashes-after.json"
+  ]
+}

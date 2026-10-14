@@ -1,0 +1,26 @@
+[
+  {
+    "path": "include/hawken/local_udp_owner.hpp",
+    "before_sha256": "fc194d935d6015c4172c11282a1436786fad3642e866f46c603a0ee588c15af8",
+    "sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+    "bytes": 22708,
+    "diff": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/red/local_udp_owner.hpp.diff",
+    "diff_sha256": "e9403cafa1240ef4fd9834031a09d4f79609d3692fd92353859aac251255d461"
+  },
+  {
+    "path": "src/local_udp_owner.cpp",
+    "before_sha256": "3a74d74a0295cecac8fd92d598fd2e940471f3bf9e3d1b005051ff4c2c49bba2",
+    "sha256": "ebaed2566ae07ba4d2356f0ab8a985c21303aae6393ea7f579da8ad6b5bb81bb",
+    "bytes": 69115,
+    "diff": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/red/local_udp_owner.cpp.diff",
+    "diff_sha256": "f786d9b65c940e699abd02a76bc88f69d4c02b7351766af5d521a5d3eb7d4081"
+  },
+  {
+    "path": "tests/local_udp_owner_tests.cpp",
+    "before_sha256": "fd236a4c02dba410f0230708d2d88332a6960ae06c55397b858f4faeae1de5d7",
+    "sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+    "bytes": 196041,
+    "diff": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/red/local_udp_owner_tests.cpp.diff",
+    "diff_sha256": "cecbb198d31a0fc5dd5b077fb7c42641660c6c25c59cb22f240c4138dd980847"
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "schema": "gri-gameclass-correction-preflight.v1",
+  "utc": "2026-10-14T23:00:48.5314875Z",
+  "freeze_sha256": "82b8ae342f4b3fe3b63a990639aea398e33afc92e52ddde3734d69c2ce270677",
+  "expected_freeze_sha256": "82b8ae342f4b3fe3b63a990639aea398e33afc92e52ddde3734d69c2ce270677",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "aux_count": 3,
+  "aux_matches": 3,
+  "wrapper_sha256": "be8b4433ba779299e0a11e29e5e727a54ff8fb67fc38b7aaa534ba5a6b37a60c",
+  "skills": [
+    {
+      "name": "cpp-pro",
+      "sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2"
+    },
+    {
+      "name": "game-developer",
+      "sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec"
+    }
+  ],
+  "test_executable_count": 52,
+  "missing_test_executables": [],
+  "test_executables_path": "test-exe-hashes-before.json",
+  "product_artifacts": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "6444d7acb1c72b740a89f97711ed13c740e1782485e6e93b419348fc913da87d"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+    }
+  ],
+  "ram_used_percent": 74.78,
+  "free_kib": 8438056,
+  "active_builds": []
+}

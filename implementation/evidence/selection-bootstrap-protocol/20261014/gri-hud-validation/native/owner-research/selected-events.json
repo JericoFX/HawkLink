@@ -1,0 +1,28 @@
+{
+  "source_path": "C:/Users/Jerico/Documents/My Games/Hawken/HawkenGame/Logs/Launch.log",
+  "read_mode": "FileStream FileShare.ReadWrite, full read into memory; no raw copy persisted",
+  "snapshot_sha256": "a5bac85812289a2a13c14b54fe5c98d761bf67e1285dd1718fb936f3bfcb5e88",
+  "snapshot_bytes": 122880,
+  "split_line_count": 1735,
+  "encoding": "Windows1252",
+  "selected_event_count": 2,
+  "events": [
+    {
+      "first_line": 452,
+      "last_line": 452,
+      "count": 1,
+      "event": "[25565: 349.923] ScriptLog: (R_ZebraEntryPlayerController_0) R_PlayerController_Base::PlayerWaiting:OnJoinGameComplete - Join Game Successful, Traveling: open 127.0.0.1:7777"
+    },
+    {
+      "first_line": 507,
+      "last_line": 507,
+      "count": 1,
+      "event": "[25570: 350.800] Log: AR_PlayerController_Base::InitStormUserId failed - No PlayerReplicationInfo for R_PlayerController VS-Wreckage.TheWorld:PersistentLevel.R_PlayerController_0!"
+    }
+  ],
+  "limitations": [
+    "Live file may continue growing/buffered",
+    "Absent selected log lines are not proof predicates did not execute",
+    "Only fixed public event classes selected; credentials excluded, GUID/hex32/17digit IDs redacted"
+  ]
+}

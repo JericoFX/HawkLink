@@ -1,0 +1,50 @@
+--- RED/tests/udp_trial_runtime_tests.cpp
++++ fixture-corrected/tests/udp_trial_runtime_tests.cpp
+@@ -1534,6 +1534,10 @@
+ 
+ 
+ namespace {
++udp::InitialActorLinksPlan runtime_bootstrap_links_plan() {
++    // Same synthetic roles, with the single Controller cache shared by HUD.
++    return {3,5,294,1,6,8};
++}
+ udp::SelectionBootstrapPlan runtime_selection_bootstrap_plan() {
+     const std::array<std::uint32_t,4> package_guid={0x01020304U,0x12345678U,0x80000000U,0xffffffffU};
+     // FRoot's synthetic three-object map: CDO local0, GameClass local1, HUDClass
+@@ -1572,7 +1576,7 @@
+     {
+         auto selected=config(); selected.publication=public_publication();
+         selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+-        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
++        selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+         selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+         runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+         selected.selection_bootstrap->gri.channel.channel=7;
+@@ -1624,7 +1628,8 @@
+     const auto linked=runtime_bootstrap_packets(peer,client,2000ms,2);
+     REQUIRE(linked.properties.bunches.size()==2);
+     CHECK(linked.properties.bunches[0].channel==7); CHECK(linked.properties.bunches[0].sequence==43);
+-    CHECK(linked.properties.bunches[0].payload==public_hex("9b804600"));
++    CHECK(linked.properties.bunches[0].payload==public_hex("0326a0400400"));
++    CHECK(linked.properties.bunches[0].payload_bits==42);
+     CHECK(linked.properties.bunches[1].channel==8); CHECK(linked.properties.bunches[1].sequence==73);
+     CHECK(linked.properties.bunches[1].payload==public_hex("79004f00"));
+     CHECK_FALSE(runtime->diagnostics().hud_sent); // GameClass ACK does not ACK PC/Pawn data.
+@@ -1652,7 +1657,7 @@
+         CAPTURE(invalid);
+         auto selected=config(port); selected.publication=public_publication();
+         selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+-        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
++        selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+         selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+         auto& plan=*selected.selection_bootstrap;
+         switch (invalid) {
+@@ -1694,7 +1699,7 @@
+     }
+     auto selected=config(port); selected.publication=public_publication();
+     selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+-    selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
++    selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+     selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+     udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); CHECK(runtime.port()==port);
+     CHECK(provision(runtime,login).status==200); // Rollback preserves the first valid installation.

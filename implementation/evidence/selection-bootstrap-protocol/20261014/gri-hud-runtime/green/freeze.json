@@ -1,0 +1,58 @@
+{
+  "phase": "READY_GREEN",
+  "sources": [
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "650f6d0b563932d247b5f2ea66e23756b34892d8580054154a833bb3a44d4533",
+      "bytes": 7648
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "d9c635d37687064d7ab2786f7b3958dbb0379b778b006795ff62edcac813dd34",
+      "bytes": 16953
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "e3a12b8135a0f2a7fb91aa6dc4bf336c9c7e8dbf8efad90c7d75622741903d9e",
+      "bytes": 101925
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/udp_trial_runtime.hpp",
+      "sha256": "650f6d0b563932d247b5f2ea66e23756b34892d8580054154a833bb3a44d4533",
+      "bytes": 7648
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/udp_trial_runtime.cpp",
+      "sha256": "d9c635d37687064d7ab2786f7b3958dbb0379b778b006795ff62edcac813dd34",
+      "bytes": 16953
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/udp_trial_runtime_tests.cpp",
+      "sha256": "e3a12b8135a0f2a7fb91aa6dc4bf336c9c7e8dbf8efad90c7d75622741903d9e",
+      "bytes": 101925
+    }
+  ],
+  "red_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/freeze.json",
+    "sha256": "e8b578e2e4097f37e7613f2aced768c70646b74be7cb2c66716a46b6f6ecb80f",
+    "bytes": 3203
+  },
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/source-vs-red.diff",
+    "sha256": "59a803f297f59ec782dd3d67f6ded632f108b482f6b6289f6e4a20e5eddfcaee",
+    "bytes": 8177
+  },
+  "notes": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/notes.json",
+    "sha256": "959272cc844dfc831f24982e170ef844ae2a6a3184dd9b2608aecae531d1a3b3",
+    "bytes": 1620
+  },
+  "erratum": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/fixture-erratum/proof.json",
+    "sha256": "9b05679a741d452f7b3215e2a1f635bd13cabfd46c41920aa6a6f3c2f560db27",
+    "bytes": 1852
+  },
+  "writer_builds_tests_runtime": 0
+}

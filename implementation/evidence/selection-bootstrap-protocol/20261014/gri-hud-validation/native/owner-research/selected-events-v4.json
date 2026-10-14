@@ -1,0 +1,52 @@
+{
+  "source_path": "C:/Users/Jerico/Documents/My Games/Hawken/HawkenGame/Logs/Launch.log",
+  "read_mode": "FileStream FileShare.ReadWrite, full read into memory; no raw copy persisted",
+  "snapshot_sha256": "03fbb3178de21aaae12f97de16a5bc3c3b81aad6917111c86c92f06d00e5b939",
+  "snapshot_bytes": 163840,
+  "split_line_count": 2368,
+  "encoding": "Windows1252",
+  "selected_event_count": 6,
+  "events": [
+    {
+      "first_line": 452,
+      "last_line": 452,
+      "count": 1,
+      "event": "[25565: 349.923] ScriptLog: (R_ZebraEntryPlayerController_0) R_PlayerController_Base::PlayerWaiting:OnJoinGameComplete - Join Game Successful, Traveling: open 127.0.0.1:7777"
+    },
+    {
+      "first_line": 478,
+      "last_line": 481,
+      "count": 2,
+      "event": "[25569: 350.001] ScriptWarning: Accessed None 'RPRI' | \tR_GameReplicationInfo RobotsMainMenu.TheWorld:PersistentLevel.R_GameReplicationInfo_0 | \tFunction HawkenGame.R_GameReplicationInfo:RemovePRI:0111"
+    },
+    {
+      "first_line": 507,
+      "last_line": 507,
+      "count": 1,
+      "event": "[25570: 350.800] Log: AR_PlayerController_Base::InitStormUserId failed - No PlayerReplicationInfo for R_PlayerController VS-Wreckage.TheWorld:PersistentLevel.R_PlayerController_0!"
+    },
+    {
+      "first_line": 512,
+      "last_line": 512,
+      "count": 1,
+      "event": "[25571: 350.821] ScriptLog: === RECIEVED GAME CLASS R_PawnContent ==="
+    },
+    {
+      "first_line": 519,
+      "last_line": 2367,
+      "count": 309,
+      "event": "[25679: 352.464] ScriptWarning: Accessed None 'Ability' | \tR_HUD_Protips VS-Wreckage.TheWorld:PersistentLevel.R_HUD_DM_0.R_HUD_Protips_0 | \tFunction HawkenGame.R_HUD_Protips:TickCriteria_UC:00E6"
+    },
+    {
+      "first_line": 522,
+      "last_line": 2364,
+      "count": 308,
+      "event": "[25679: 352.464] ScriptWarning: Accessed None 'Ability' | \tR_HUD_Protips VS-Wreckage.TheWorld:PersistentLevel.R_HUD_DM_0.R_HUD_Protips_0 | \tFunction HawkenGame.R_HUD_Protips:TickCriteria_UC:013D"
+    }
+  ],
+  "limitations": [
+    "Live file may continue growing/buffered",
+    "Absent selected log lines are not proof predicates did not execute",
+    "Only fixed public event classes selected; credentials excluded, GUID/hex32/17digit IDs redacted"
+  ]
+}

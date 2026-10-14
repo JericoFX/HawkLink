@@ -1,0 +1,1112 @@
+[
+  {
+    "path": "CMakeLists.txt",
+    "expected_sha256": "23648a76e011b76d8cd1e02998ea5cad8820c806adf215b358fda285e8bc9ae1",
+    "actual_sha256": "23648a76e011b76d8cd1e02998ea5cad8820c806adf215b358fda285e8bc9ae1",
+    "match": true
+  },
+  {
+    "path": "CMakePresets.json",
+    "expected_sha256": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3",
+    "actual_sha256": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3",
+    "match": true
+  },
+  {
+    "path": "implementation/tools/local-steam-test.ps1",
+    "expected_sha256": "28ae09fe0ef27cf8d4d6d3817585f71da213a3c91aaedda74e3de3abcbcca7d1",
+    "actual_sha256": "28ae09fe0ef27cf8d4d6d3817585f71da213a3c91aaedda74e3de3abcbcca7d1",
+    "match": true
+  },
+  {
+    "path": "include/hawken/unique_id_wire.hpp",
+    "expected_sha256": "531f300b9dc705f6669653d2bbecd117910baef3009e1c8b42cea6715eed32a1",
+    "actual_sha256": "531f300b9dc705f6669653d2bbecd117910baef3009e1c8b42cea6715eed32a1",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\actor_transform_wire.hpp",
+    "expected_sha256": "b7e4b2c2dfb39c1030487f4da0bae0ab4e82f810f5a496a11ddce46071042f69",
+    "actual_sha256": "b7e4b2c2dfb39c1030487f4da0bae0ab4e82f810f5a496a11ddce46071042f69",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\auth_service.hpp",
+    "expected_sha256": "15f33f1e40b4d0df2654b7455daf5958ff28e87df54dbc97f8271157bf11e615",
+    "actual_sha256": "15f33f1e40b4d0df2654b7455daf5958ff28e87df54dbc97f8271157bf11e615",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\cli.hpp",
+    "expected_sha256": "eeb6f84d02a5b1c8db0fef5f8c79e1e6f92dd69c2835786d873ca1eb63ee8794",
+    "actual_sha256": "eeb6f84d02a5b1c8db0fef5f8c79e1e6f92dd69c2835786d873ca1eb63ee8794",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\client_routing.hpp",
+    "expected_sha256": "979cc061f3b9121bb3cb26b06de2b76f7422d4b6d3d8b84f6bcc6d44bf3304f1",
+    "actual_sha256": "979cc061f3b9121bb3cb26b06de2b76f7422d4b6d3d8b84f6bcc6d44bf3304f1",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\client_steam_identity_transport.hpp",
+    "expected_sha256": "f6ddd993eff1ff78490245a77c93d96b8d188b6a232034de168c4a6103cf948b",
+    "actual_sha256": "f6ddd993eff1ff78490245a77c93d96b8d188b6a232034de168c4a6103cf948b",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\control_handshake.hpp",
+    "expected_sha256": "8c2fe169a5d3057fdcbd0ffd60e7caeaeb546b32e8bb76991e933fc5f7bfecf2",
+    "actual_sha256": "8c2fe169a5d3057fdcbd0ffd60e7caeaeb546b32e8bb76991e933fc5f7bfecf2",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\control_wire.hpp",
+    "expected_sha256": "b1d2b2baea96e3a9e4bbbd68029dc1f3a36398aa92469f8263b0284300637fe7",
+    "actual_sha256": "b1d2b2baea96e3a9e4bbbd68029dc1f3a36398aa92469f8263b0284300637fe7",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\controller_admission_rpc_wire.hpp",
+    "expected_sha256": "45ab99df3ff676b0bd8e36b1210ba7dcfcf6c77a6602c1d20da2a12e41b9c6f8",
+    "actual_sha256": "45ab99df3ff676b0bd8e36b1210ba7dcfcf6c77a6602c1d20da2a12e41b9c6f8",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\creator_query.hpp",
+    "expected_sha256": "b25f6022ab046224efd1e7f149f891fc1a229e1ba5595fc06120ce79cffd40ac",
+    "actual_sha256": "b25f6022ab046224efd1e7f149f891fc1a229e1ba5595fc06120ce79cffd40ac",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\game_connection.hpp",
+    "expected_sha256": "1a6387083e6c79d26253ed0d6744b9a4da90ad4296918a0f8bcfae71868deb26",
+    "actual_sha256": "1a6387083e6c79d26253ed0d6744b9a4da90ad4296918a0f8bcfae71868deb26",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\game_wire.hpp",
+    "expected_sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2",
+    "actual_sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\http_diagnostics.hpp",
+    "expected_sha256": "bc806a777961325e17f10dc2f0a5d5fd1523f483d8b442bab9ad5b8041a90458",
+    "actual_sha256": "bc806a777961325e17f10dc2f0a5d5fd1523f483d8b442bab9ad5b8041a90458",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\initial_controller.hpp",
+    "expected_sha256": "2c3ccd2c91493c5677ed197582f796a85b738c545ce898b492e29fa87aed81e5",
+    "actual_sha256": "2c3ccd2c91493c5677ed197582f796a85b738c545ce898b492e29fa87aed81e5",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\initial_pawn.hpp",
+    "expected_sha256": "26228046143b36b4a7811562c55a5de06ceef45cf1ff3e208b487f3cc379201a",
+    "actual_sha256": "26228046143b36b4a7811562c55a5de06ceef45cf1ff3e208b487f3cc379201a",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\inventory_service.hpp",
+    "expected_sha256": "d431c61822b13ba80ffa3e2fe0d91157e612abc0a47efd5e0ba6c0aadc66a63e",
+    "actual_sha256": "d431c61822b13ba80ffa3e2fe0d91157e612abc0a47efd5e0ba6c0aadc66a63e",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\local_store.hpp",
+    "expected_sha256": "5b4f2f40948d0cb753c6a3d7f0ad9e5596762b7a8d63a1a7b6ce83314b4ea17a",
+    "actual_sha256": "5b4f2f40948d0cb753c6a3d7f0ad9e5596762b7a8d63a1a7b6ce83314b4ea17a",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\local_tcp_probe.hpp",
+    "expected_sha256": "996a24dc826d2d1d022c6cfb7bf4c3c1c111a31e5222f98ff1db3f44ddc5a02a",
+    "actual_sha256": "996a24dc826d2d1d022c6cfb7bf4c3c1c111a31e5222f98ff1db3f44ddc5a02a",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\local_udp_owner.hpp",
+    "expected_sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+    "actual_sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\master_directory.hpp",
+    "expected_sha256": "65dffcacf621f83c0e9af52270a22fc1e207893e70304224247ea668a0418bae",
+    "actual_sha256": "65dffcacf621f83c0e9af52270a22fc1e207893e70304224247ea668a0418bae",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\master_http.hpp",
+    "expected_sha256": "ea0b1b7ff81400b9d222f0603151b9e86853bde1072815b98f71bef687380d0e",
+    "actual_sha256": "ea0b1b7ff81400b9d222f0603151b9e86853bde1072815b98f71bef687380d0e",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\mech_setup_wire.hpp",
+    "expected_sha256": "df50dc4543cd7812f7d3dae10de6bcc3ee6cec432372f00c581390c418e6a302",
+    "actual_sha256": "df50dc4543cd7812f7d3dae10de6bcc3ee6cec432372f00c581390c418e6a302",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\menu_sync_service.hpp",
+    "expected_sha256": "aeef53fad47017fed90c0b52a3cfa58baa6d6f401b4a13a57ad896b7cb10a4bb",
+    "actual_sha256": "aeef53fad47017fed90c0b52a3cfa58baa6d6f401b4a13a57ad896b7cb10a4bb",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\meteor_compat.hpp",
+    "expected_sha256": "b534523fb4c1380ee6070e557b19015d2e1502dfd0d3851a0d04770fac8bf2e8",
+    "actual_sha256": "b534523fb4c1380ee6070e557b19015d2e1502dfd0d3851a0d04770fac8bf2e8",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\meteor_ini.hpp",
+    "expected_sha256": "502da75b2b9e62dd67ff8ec93f100030b508ea58b7f2fe04847ba03c814ee680",
+    "actual_sha256": "502da75b2b9e62dd67ff8ec93f100030b508ea58b7f2fe04847ba03c814ee680",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\object_property_wire.hpp",
+    "expected_sha256": "27c86d7f333e9b3462569a8ad5caed572877b2ffd4fc6d0460c8d6d71f20510c",
+    "actual_sha256": "27c86d7f333e9b3462569a8ad5caed572877b2ffd4fc6d0460c8d6d71f20510c",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\object_reference_wire.hpp",
+    "expected_sha256": "65a2f46dde2530b13eac559c39a606b9e6cc0ffeeb8ecfab4c2182539c6c7ac2",
+    "actual_sha256": "65a2f46dde2530b13eac559c39a606b9e6cc0ffeeb8ecfab4c2182539c6c7ac2",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\package_integrity.hpp",
+    "expected_sha256": "4d421b1b736106bea09cef3bca623946d600f81d02f12fe2f8522035c1d05cd3",
+    "actual_sha256": "4d421b1b736106bea09cef3bca623946d600f81d02f12fe2f8522035c1d05cd3",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\package_map_ranges.hpp",
+    "expected_sha256": "8e091fef25ae35e1deda9637b44757b777aa53d512fb93fa4ac4bc64cae19850",
+    "actual_sha256": "8e091fef25ae35e1deda9637b44757b777aa53d512fb93fa4ac4bc64cae19850",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\package_publication.hpp",
+    "expected_sha256": "08e23ad591cbd977c1c0bf3727c4b5e0a2578bd54e66f68439d4ef67f5c323b6",
+    "actual_sha256": "08e23ad591cbd977c1c0bf3727c4b5e0a2578bd54e66f68439d4ef67f5c323b6",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\packet_writer.hpp",
+    "expected_sha256": "187673edcc240c6b9bf56d0d1162072f5ae5ec48ecc53b698c3d56444cea716d",
+    "actual_sha256": "187673edcc240c6b9bf56d0d1162072f5ae5ec48ecc53b698c3d56444cea716d",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\pawn_rpc_wire.hpp",
+    "expected_sha256": "a614b11205226da5c16685dbe0c37929f2c3e97e3a38d3b3b84f92dac5cbce30",
+    "actual_sha256": "a614b11205226da5c16685dbe0c37929f2c3e97e3a38d3b3b84f92dac5cbce30",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\posthello_control.hpp",
+    "expected_sha256": "25d7918045c5624f1d506e61cb6bb38078003ccf5e8e722d58f3cbb7c61d4360",
+    "actual_sha256": "25d7918045c5624f1d506e61cb6bb38078003ccf5e8e722d58f3cbb7c61d4360",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\reliable_control_transport.hpp",
+    "expected_sha256": "520565d7651d2f53246e450610d6e4b4675c776de2299d6bdde7e0f6bf990e29",
+    "actual_sha256": "520565d7651d2f53246e450610d6e4b4675c776de2299d6bdde7e0f6bf990e29",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\server_http.hpp",
+    "expected_sha256": "f496b9edcd3af7a82106616d8bb6fcd0bc141ecd80610d03200f854aa943c530",
+    "actual_sha256": "f496b9edcd3af7a82106616d8bb6fcd0bc141ecd80610d03200f854aa943c530",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\server_login_handshake.hpp",
+    "expected_sha256": "38c70e76adc59f0e6c05f283a8b5a784cc35474c81646a15db516c04a56bc851",
+    "actual_sha256": "38c70e76adc59f0e6c05f283a8b5a784cc35474c81646a15db516c04a56bc851",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\session_assignment.hpp",
+    "expected_sha256": "7fffeab6eeb0f3604106c137aed7afd96801bc4edab6a8e773b57334661e7ca9",
+    "actual_sha256": "7fffeab6eeb0f3604106c137aed7afd96801bc4edab6a8e773b57334661e7ca9",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\session_wire.hpp",
+    "expected_sha256": "c2483a1cf1dc1bbde48cd5910224c3693b3d54d8da102ce6370769a5aa706a88",
+    "actual_sha256": "c2483a1cf1dc1bbde48cd5910224c3693b3d54d8da102ce6370769a5aa706a88",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\sha256.hpp",
+    "expected_sha256": "fd34c81b048beee4799c1d566df1aa233efde21e89c71f0bb242b37d364d40ae",
+    "actual_sha256": "fd34c81b048beee4799c1d566df1aa233efde21e89c71f0bb242b37d364d40ae",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\spawn_validation_rpc_wire.hpp",
+    "expected_sha256": "9f6f753121237276113497102d97f8db1ce5a07ea388fc3a4f9de7ff011af4db",
+    "actual_sha256": "9f6f753121237276113497102d97f8db1ce5a07ea388fc3a4f9de7ff011af4db",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\spawn_validation.hpp",
+    "expected_sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+    "actual_sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\start_mech_rpc_wire.hpp",
+    "expected_sha256": "262aed10c2686c6292113dc4c2f4a394cb357aa14fe10122bd69b5537c28f6d2",
+    "actual_sha256": "262aed10c2686c6292113dc4c2f4a394cb357aa14fe10122bd69b5537c28f6d2",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\starter_catalogue.hpp",
+    "expected_sha256": "385423924f1daa3116293a60a3841aa1dd0a0f869fb6b8155566ec92ab0bbe59",
+    "actual_sha256": "385423924f1daa3116293a60a3841aa1dd0a0f869fb6b8155566ec92ab0bbe59",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\starter_inventory.hpp",
+    "expected_sha256": "408d71adefb5fa5b4b76fadb16f22c3cbcf020da23e1f20a0559cd5f201079b4",
+    "actual_sha256": "408d71adefb5fa5b4b76fadb16f22c3cbcf020da23e1f20a0559cd5f201079b4",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\starter_mech_setup.hpp",
+    "expected_sha256": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0",
+    "actual_sha256": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\steam_auth.hpp",
+    "expected_sha256": "15d08f5cdb551fee1cd2a240dacf06bee3371f42bea1e7adedd3ec93ff76faf4",
+    "actual_sha256": "15d08f5cdb551fee1cd2a240dacf06bee3371f42bea1e7adedd3ec93ff76faf4",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\steam_local_auth.hpp",
+    "expected_sha256": "871094712d29f0d7efb35c6d0d08e9ac7ab5abfb0d1c51d1fd5af1529eba9e62",
+    "actual_sha256": "871094712d29f0d7efb35c6d0d08e9ac7ab5abfb0d1c51d1fd5af1529eba9e62",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\sync_service.hpp",
+    "expected_sha256": "489ddc5fd7fd783250602886fb5c9c7de88bb03aa1c5fdad1ab5b00146e51504",
+    "actual_sha256": "489ddc5fd7fd783250602886fb5c9c7de88bb03aa1c5fdad1ab5b00146e51504",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\udp_trial_runtime.hpp",
+    "expected_sha256": "650f6d0b563932d247b5f2ea66e23756b34892d8580054154a833bb3a44d4533",
+    "actual_sha256": "650f6d0b563932d247b5f2ea66e23756b34892d8580054154a833bb3a44d4533",
+    "match": true
+  },
+  {
+    "path": "include\\hawken\\wreckage_trial.hpp",
+    "expected_sha256": "22e4d7edb76b18b34152b32eb7e9ce3589c41c3b80cfc6596acf41aa8426b9f2",
+    "actual_sha256": "22e4d7edb76b18b34152b32eb7e9ce3589c41c3b80cfc6596acf41aa8426b9f2",
+    "match": true
+  },
+  {
+    "path": "profiles/hawken-client.toml",
+    "expected_sha256": "7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3",
+    "actual_sha256": "7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3",
+    "match": true
+  },
+  {
+    "path": "profiles/local-starter-catalogue.json",
+    "expected_sha256": "528c9a7685ff6686a23c07cb4e62bb4cc7389ae2bd64a8ea1bf5dcd945e996fe",
+    "actual_sha256": "528c9a7685ff6686a23c07cb4e62bb4cc7389ae2bd64a8ea1bf5dcd945e996fe",
+    "match": true
+  },
+  {
+    "path": "src/unique_id_wire.cpp",
+    "expected_sha256": "1d3aef4a2aef3625826ecc3cd4fc66582772b00f774fdf182141360be6bc0ccb",
+    "actual_sha256": "1d3aef4a2aef3625826ecc3cd4fc66582772b00f774fdf182141360be6bc0ccb",
+    "match": true
+  },
+  {
+    "path": "src\\actor_transform_wire.cpp",
+    "expected_sha256": "568372fa685546dfa445f61346f99257e2cf90ef7ebcad3a1c2f2b6713b1163e",
+    "actual_sha256": "568372fa685546dfa445f61346f99257e2cf90ef7ebcad3a1c2f2b6713b1163e",
+    "match": true
+  },
+  {
+    "path": "src\\auth_service.cpp",
+    "expected_sha256": "084270ca8a90ae1faa3fd2b86ba9cac8959683a7cbcfab9446a868457c1009f4",
+    "actual_sha256": "084270ca8a90ae1faa3fd2b86ba9cac8959683a7cbcfab9446a868457c1009f4",
+    "match": true
+  },
+  {
+    "path": "src\\cli.cpp",
+    "expected_sha256": "81c67ef460f1e48e8af8e2e17decb9bd5e9d26ec8162f4808df8280894bebf53",
+    "actual_sha256": "81c67ef460f1e48e8af8e2e17decb9bd5e9d26ec8162f4808df8280894bebf53",
+    "match": true
+  },
+  {
+    "path": "src\\client_bridge.cpp",
+    "expected_sha256": "e7e5f23b40c898bff4b16cf20d157d7e86b3e143716bb1da427bfad7233635ea",
+    "actual_sha256": "e7e5f23b40c898bff4b16cf20d157d7e86b3e143716bb1da427bfad7233635ea",
+    "match": true
+  },
+  {
+    "path": "src\\client_routing.cpp",
+    "expected_sha256": "55027672aa1279a3c52a05a01bd642168c500bcd74d6db8a0c67506989c91fe3",
+    "actual_sha256": "55027672aa1279a3c52a05a01bd642168c500bcd74d6db8a0c67506989c91fe3",
+    "match": true
+  },
+  {
+    "path": "src\\client_steam_identity_transport.cpp",
+    "expected_sha256": "cda338310ac53a84828c25d2de17442d05264b9a20b3e91aee2fa6c6bf920316",
+    "actual_sha256": "cda338310ac53a84828c25d2de17442d05264b9a20b3e91aee2fa6c6bf920316",
+    "match": true
+  },
+  {
+    "path": "src\\control_handshake.cpp",
+    "expected_sha256": "d160a61b19b7cf34f6a4b04bbabedf049a222f15cd7f0adb9639f48fee1d05f5",
+    "actual_sha256": "d160a61b19b7cf34f6a4b04bbabedf049a222f15cd7f0adb9639f48fee1d05f5",
+    "match": true
+  },
+  {
+    "path": "src\\control_wire.cpp",
+    "expected_sha256": "154cbbb09a4e9a463d23d00c19c973b52b35814956bbb407cf699dd772dba643",
+    "actual_sha256": "154cbbb09a4e9a463d23d00c19c973b52b35814956bbb407cf699dd772dba643",
+    "match": true
+  },
+  {
+    "path": "src\\controller_admission_rpc_wire.cpp",
+    "expected_sha256": "e803291317d1ef286c782b4301b31b0dbe33c8ca3ee2c3410c6c6bfb35b7fb3a",
+    "actual_sha256": "e803291317d1ef286c782b4301b31b0dbe33c8ca3ee2c3410c6c6bfb35b7fb3a",
+    "match": true
+  },
+  {
+    "path": "src\\creator_query.cpp",
+    "expected_sha256": "35a2d181837ff4e277eb63aba7b27ec48820ebeb765584b9c75d479aba54b3c0",
+    "actual_sha256": "35a2d181837ff4e277eb63aba7b27ec48820ebeb765584b9c75d479aba54b3c0",
+    "match": true
+  },
+  {
+    "path": "src\\game_connection.cpp",
+    "expected_sha256": "8fa56ba432df6d48ba5a8c643939a2f6b2a7c1af06a1fcbcde7773f11264f887",
+    "actual_sha256": "8fa56ba432df6d48ba5a8c643939a2f6b2a7c1af06a1fcbcde7773f11264f887",
+    "match": true
+  },
+  {
+    "path": "src\\game_wire.cpp",
+    "expected_sha256": "f5a919ed338583db0e3243142fa7491fb67d6c28d20870275b4d442d98309d6a",
+    "actual_sha256": "f5a919ed338583db0e3243142fa7491fb67d6c28d20870275b4d442d98309d6a",
+    "match": true
+  },
+  {
+    "path": "src\\http_diagnostics.cpp",
+    "expected_sha256": "dd9233d25626dc93f1b0a6d75575ad77335b5befb9348342acfc56488ba16fe0",
+    "actual_sha256": "dd9233d25626dc93f1b0a6d75575ad77335b5befb9348342acfc56488ba16fe0",
+    "match": true
+  },
+  {
+    "path": "src\\initial_controller.cpp",
+    "expected_sha256": "be4341cd21ab9d995b76bc8384cf2f237f560da2f48b2c7c316ec38ed50727d3",
+    "actual_sha256": "be4341cd21ab9d995b76bc8384cf2f237f560da2f48b2c7c316ec38ed50727d3",
+    "match": true
+  },
+  {
+    "path": "src\\initial_pawn.cpp",
+    "expected_sha256": "3e310b996254c8aeb5299492a99c65f1a8af92b65079406ef714c006c5d231b9",
+    "actual_sha256": "3e310b996254c8aeb5299492a99c65f1a8af92b65079406ef714c006c5d231b9",
+    "match": true
+  },
+  {
+    "path": "src\\inventory_service.cpp",
+    "expected_sha256": "c063f4efe469e8ef6e865112c684c8d357273530ab4936aac8d71fee79f383bb",
+    "actual_sha256": "c063f4efe469e8ef6e865112c684c8d357273530ab4936aac8d71fee79f383bb",
+    "match": true
+  },
+  {
+    "path": "src\\local_store.cpp",
+    "expected_sha256": "c5b79ecc04df9ec322867e0bbd1117ef59885e4a421201afb5b36519fcf2eca1",
+    "actual_sha256": "c5b79ecc04df9ec322867e0bbd1117ef59885e4a421201afb5b36519fcf2eca1",
+    "match": true
+  },
+  {
+    "path": "src\\local_tcp_probe.cpp",
+    "expected_sha256": "771fea7f2727b107d635404859af75d76d6519d98686a0358a1c04c87491f534",
+    "actual_sha256": "771fea7f2727b107d635404859af75d76d6519d98686a0358a1c04c87491f534",
+    "match": true
+  },
+  {
+    "path": "src\\local_udp_owner.cpp",
+    "expected_sha256": "ebaed2566ae07ba4d2356f0ab8a985c21303aae6393ea7f579da8ad6b5bb81bb",
+    "actual_sha256": "ebaed2566ae07ba4d2356f0ab8a985c21303aae6393ea7f579da8ad6b5bb81bb",
+    "match": true
+  },
+  {
+    "path": "src\\main.cpp",
+    "expected_sha256": "6f1bd8018050792ef32951c8eecd9366a94b58de0d6e8ef9f6ef613212c746a0",
+    "actual_sha256": "6f1bd8018050792ef32951c8eecd9366a94b58de0d6e8ef9f6ef613212c746a0",
+    "match": true
+  },
+  {
+    "path": "src\\master_directory.cpp",
+    "expected_sha256": "23fb20a7a3d29c23dd5e3c03873828902a6bcc41c21eea336be80509cea05694",
+    "actual_sha256": "23fb20a7a3d29c23dd5e3c03873828902a6bcc41c21eea336be80509cea05694",
+    "match": true
+  },
+  {
+    "path": "src\\master_http.cpp",
+    "expected_sha256": "8b2a1a0eeac19cef9aa463e9a6c59f93ba0e9d0a21df5f5932dea89faed61c94",
+    "actual_sha256": "8b2a1a0eeac19cef9aa463e9a6c59f93ba0e9d0a21df5f5932dea89faed61c94",
+    "match": true
+  },
+  {
+    "path": "src\\master_main.cpp",
+    "expected_sha256": "e360a9806c7cb4be56725ca0d9f059e683e7556ddec4d395f271d30ef6c2b06e",
+    "actual_sha256": "e360a9806c7cb4be56725ca0d9f059e683e7556ddec4d395f271d30ef6c2b06e",
+    "match": true
+  },
+  {
+    "path": "src\\mech_setup_wire.cpp",
+    "expected_sha256": "ed4e2dff24bc52d704bd813574499dd143a628287296ddc97f0710604ec73949",
+    "actual_sha256": "ed4e2dff24bc52d704bd813574499dd143a628287296ddc97f0710604ec73949",
+    "match": true
+  },
+  {
+    "path": "src\\menu_sync_service.cpp",
+    "expected_sha256": "fdf7ec1bec9b37d2d88327af09a6949b0f744ed78221a9807ff307e48934da4b",
+    "actual_sha256": "fdf7ec1bec9b37d2d88327af09a6949b0f744ed78221a9807ff307e48934da4b",
+    "match": true
+  },
+  {
+    "path": "src\\meteor_compat.cpp",
+    "expected_sha256": "10d57e4d270a3fb84809d5ac0c719514ed6944d0819be8daa1e35c7333c58a15",
+    "actual_sha256": "10d57e4d270a3fb84809d5ac0c719514ed6944d0819be8daa1e35c7333c58a15",
+    "match": true
+  },
+  {
+    "path": "src\\meteor_ini.cpp",
+    "expected_sha256": "e4d13f0b8da322fb46ba95563ede20b84a0fb19bb1a27ef4e1da40c92ac59970",
+    "actual_sha256": "e4d13f0b8da322fb46ba95563ede20b84a0fb19bb1a27ef4e1da40c92ac59970",
+    "match": true
+  },
+  {
+    "path": "src\\object_property_wire.cpp",
+    "expected_sha256": "9c72206240f4752796f10f9c48626a221182793e85abd6c3cb5cbee9e90b9284",
+    "actual_sha256": "9c72206240f4752796f10f9c48626a221182793e85abd6c3cb5cbee9e90b9284",
+    "match": true
+  },
+  {
+    "path": "src\\object_reference_wire.cpp",
+    "expected_sha256": "4e6853ec8179cfecce0d0f50f653005adefafe475248d1eb67a8996e81613a07",
+    "actual_sha256": "4e6853ec8179cfecce0d0f50f653005adefafe475248d1eb67a8996e81613a07",
+    "match": true
+  },
+  {
+    "path": "src\\package_integrity.cpp",
+    "expected_sha256": "8a53bb0144842b1ab44e9ec31067cf517280c9e3cce0de5616f4c477109597e3",
+    "actual_sha256": "8a53bb0144842b1ab44e9ec31067cf517280c9e3cce0de5616f4c477109597e3",
+    "match": true
+  },
+  {
+    "path": "src\\package_map_ranges.cpp",
+    "expected_sha256": "41327f1e01c31eb309d64e0524bbb379c610a4e10ab349a78987e110bf217dd3",
+    "actual_sha256": "41327f1e01c31eb309d64e0524bbb379c610a4e10ab349a78987e110bf217dd3",
+    "match": true
+  },
+  {
+    "path": "src\\package_publication.cpp",
+    "expected_sha256": "50f7c474c974b2b3213a6314b78645b75d47154142f778885cfb931d88daacbb",
+    "actual_sha256": "50f7c474c974b2b3213a6314b78645b75d47154142f778885cfb931d88daacbb",
+    "match": true
+  },
+  {
+    "path": "src\\packet_writer.cpp",
+    "expected_sha256": "75e1138fccd98b4a1717a0f666e06c0a7972b3217b09c8e837baf7a41fcc1c32",
+    "actual_sha256": "75e1138fccd98b4a1717a0f666e06c0a7972b3217b09c8e837baf7a41fcc1c32",
+    "match": true
+  },
+  {
+    "path": "src\\pawn_rpc_wire.cpp",
+    "expected_sha256": "78b9cb7dad771e738724949f03b913eb6c8103f9fb0f1783c96cd1dbd0d53303",
+    "actual_sha256": "78b9cb7dad771e738724949f03b913eb6c8103f9fb0f1783c96cd1dbd0d53303",
+    "match": true
+  },
+  {
+    "path": "src\\posthello_control.cpp",
+    "expected_sha256": "42cae244ae0b2e5ad8f1e151c19e2a5aa039602d38b7d25c0ed138030d9a60b8",
+    "actual_sha256": "42cae244ae0b2e5ad8f1e151c19e2a5aa039602d38b7d25c0ed138030d9a60b8",
+    "match": true
+  },
+  {
+    "path": "src\\reliable_control_transport.cpp",
+    "expected_sha256": "44bbdf2a6cf2019bcb31b0932947bbb60cd6ed73ead189e830316ea69fdfa6aa",
+    "actual_sha256": "44bbdf2a6cf2019bcb31b0932947bbb60cd6ed73ead189e830316ea69fdfa6aa",
+    "match": true
+  },
+  {
+    "path": "src\\server_http.cpp",
+    "expected_sha256": "3722f0fd979b9efbb2a11e27d8d2a7037d9d12ba1cbe6c6ac10cd53ad581b7dc",
+    "actual_sha256": "3722f0fd979b9efbb2a11e27d8d2a7037d9d12ba1cbe6c6ac10cd53ad581b7dc",
+    "match": true
+  },
+  {
+    "path": "src\\server_login_handshake.cpp",
+    "expected_sha256": "e28be7e039b59c235415f456c61c60c13bc9a363134611d5d98c50c0f17efe8a",
+    "actual_sha256": "e28be7e039b59c235415f456c61c60c13bc9a363134611d5d98c50c0f17efe8a",
+    "match": true
+  },
+  {
+    "path": "src\\server_main.cpp",
+    "expected_sha256": "e29ebc0956a2b7813d00b8cb1875287db8b4542075d0d36411f81ef36d38adaf",
+    "actual_sha256": "e29ebc0956a2b7813d00b8cb1875287db8b4542075d0d36411f81ef36d38adaf",
+    "match": true
+  },
+  {
+    "path": "src\\session_assignment.cpp",
+    "expected_sha256": "c2f5e6cef3a8bef4c97466e81f6c571f514eb58feb241d9a6dec0278524afead",
+    "actual_sha256": "c2f5e6cef3a8bef4c97466e81f6c571f514eb58feb241d9a6dec0278524afead",
+    "match": true
+  },
+  {
+    "path": "src\\session_wire.cpp",
+    "expected_sha256": "7936f917adeba9f2e9fd767e05b4823262c103f47212db324c8e1fc6255e98fd",
+    "actual_sha256": "7936f917adeba9f2e9fd767e05b4823262c103f47212db324c8e1fc6255e98fd",
+    "match": true
+  },
+  {
+    "path": "src\\sha256.cpp",
+    "expected_sha256": "33483f9f83e94a1eed1fd128661d67fce6c7f3257f977d6b996602bbca1dbc1b",
+    "actual_sha256": "33483f9f83e94a1eed1fd128661d67fce6c7f3257f977d6b996602bbca1dbc1b",
+    "match": true
+  },
+  {
+    "path": "src\\spawn_validation_rpc_wire.cpp",
+    "expected_sha256": "30fcf193770def0990418af24384ae26c7299d40d496858992a2de3af669bb4b",
+    "actual_sha256": "30fcf193770def0990418af24384ae26c7299d40d496858992a2de3af669bb4b",
+    "match": true
+  },
+  {
+    "path": "src\\spawn_validation.cpp",
+    "expected_sha256": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+    "actual_sha256": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+    "match": true
+  },
+  {
+    "path": "src\\start_mech_rpc_wire.cpp",
+    "expected_sha256": "90b58c9895d745688f3f9e8de9b8f6869160778c4770f5fdc72f3d1ce2009bef",
+    "actual_sha256": "90b58c9895d745688f3f9e8de9b8f6869160778c4770f5fdc72f3d1ce2009bef",
+    "match": true
+  },
+  {
+    "path": "src\\starter_catalogue.cpp",
+    "expected_sha256": "28c88060c564509814a91ea62d060328fc7bda62674c357ced2a413883e5548e",
+    "actual_sha256": "28c88060c564509814a91ea62d060328fc7bda62674c357ced2a413883e5548e",
+    "match": true
+  },
+  {
+    "path": "src\\starter_inventory.cpp",
+    "expected_sha256": "05a79a4dc44d455a91122e529edee874501e6fbbdf938c5b1ef05eb081d275ed",
+    "actual_sha256": "05a79a4dc44d455a91122e529edee874501e6fbbdf938c5b1ef05eb081d275ed",
+    "match": true
+  },
+  {
+    "path": "src\\starter_mech_setup.cpp",
+    "expected_sha256": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694",
+    "actual_sha256": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694",
+    "match": true
+  },
+  {
+    "path": "src\\steam_local_auth.cpp",
+    "expected_sha256": "8c5e5dffa26725fbddfcf0608a874987c63e4a7e46264a803c7bee4841bc9ee3",
+    "actual_sha256": "8c5e5dffa26725fbddfcf0608a874987c63e4a7e46264a803c7bee4841bc9ee3",
+    "match": true
+  },
+  {
+    "path": "src\\sync_service.cpp",
+    "expected_sha256": "f979a270c9dcb4fca92ce862b5b67ed47f60e7118bfbb7d45cef947ab2658f8b",
+    "actual_sha256": "f979a270c9dcb4fca92ce862b5b67ed47f60e7118bfbb7d45cef947ab2658f8b",
+    "match": true
+  },
+  {
+    "path": "src\\udp_trial_runtime.cpp",
+    "expected_sha256": "72471715bff8a2b052cea31a9603a361b6c69e7c4b56bcd023cbaba4c10d92fc",
+    "actual_sha256": "72471715bff8a2b052cea31a9603a361b6c69e7c4b56bcd023cbaba4c10d92fc",
+    "match": true
+  },
+  {
+    "path": "src\\wreckage_trial.cpp",
+    "expected_sha256": "00ff3d29219a2b61ec7ae8e144d31d50ff3fd41db716e926ba31e7b260e4f712",
+    "actual_sha256": "00ff3d29219a2b61ec7ae8e144d31d50ff3fd41db716e926ba31e7b260e4f712",
+    "match": true
+  },
+  {
+    "path": "tests/gri_template_reader_tests.cpp",
+    "expected_sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+    "actual_sha256": "afbc72895369a2d596276e47a7bc425c323ae4b7869cf824f852872618d10c76",
+    "match": true
+  },
+  {
+    "path": "tests/unique_id_wire_tests.cpp",
+    "expected_sha256": "583ca7c9e66c7b32bed74ce1f1eb959f172f8252d96f4a8bc7c9af62ee84ccc9",
+    "actual_sha256": "583ca7c9e66c7b32bed74ce1f1eb959f172f8252d96f4a8bc7c9af62ee84ccc9",
+    "match": true
+  },
+  {
+    "path": "tests\\actor_transform_wire_tests.cpp",
+    "expected_sha256": "bb2616c662f368d41928abc5f1031aceebf15f0de04c3580554919048f781299",
+    "actual_sha256": "bb2616c662f368d41928abc5f1031aceebf15f0de04c3580554919048f781299",
+    "match": true
+  },
+  {
+    "path": "tests\\auth_service_tests.cpp",
+    "expected_sha256": "70e0bd575a596481b6d95d14b1fda383e3acee10ba57d00355cc87761149e209",
+    "actual_sha256": "70e0bd575a596481b6d95d14b1fda383e3acee10ba57d00355cc87761149e209",
+    "match": true
+  },
+  {
+    "path": "tests\\cli_tests.cpp",
+    "expected_sha256": "c8326b9c15662c975ba349c4aa924d3a025a5439b5dd3d28a7a12810064a9744",
+    "actual_sha256": "c8326b9c15662c975ba349c4aa924d3a025a5439b5dd3d28a7a12810064a9744",
+    "match": true
+  },
+  {
+    "path": "tests\\client_bridge_harness.cpp",
+    "expected_sha256": "35575622f35e178a0847b381b90d4b5cbd8abcf3907eb0966cbad966c7ef79f7",
+    "actual_sha256": "35575622f35e178a0847b381b90d4b5cbd8abcf3907eb0966cbad966c7ef79f7",
+    "match": true
+  },
+  {
+    "path": "tests\\client_routing_tests.cpp",
+    "expected_sha256": "5c60086d38a046c229c3ad1ba45cf3fe4fa258d7abb1b62ba9dd0fc5f4b33c81",
+    "actual_sha256": "5c60086d38a046c229c3ad1ba45cf3fe4fa258d7abb1b62ba9dd0fc5f4b33c81",
+    "match": true
+  },
+  {
+    "path": "tests\\client_steam_identity_transport_tests.cpp",
+    "expected_sha256": "c723be889550c933ee720cd3be7b177e7817778e38fb2166a1bb49b35e568cbf",
+    "actual_sha256": "c723be889550c933ee720cd3be7b177e7817778e38fb2166a1bb49b35e568cbf",
+    "match": true
+  },
+  {
+    "path": "tests\\connection_cache_reader_tests.cpp",
+    "expected_sha256": "ecc7f5d3cf95319fe8537e1961bd1003a4558becca2d2a8b104545e54734aa20",
+    "actual_sha256": "ecc7f5d3cf95319fe8537e1961bd1003a4558becca2d2a8b104545e54734aa20",
+    "match": true
+  },
+  {
+    "path": "tests\\control_handshake_tests.cpp",
+    "expected_sha256": "80e4c17628a060f7f0f5dfe36f56ec5562538ab8e3d5dff08ba8a7f11c5d44e8",
+    "actual_sha256": "80e4c17628a060f7f0f5dfe36f56ec5562538ab8e3d5dff08ba8a7f11c5d44e8",
+    "match": true
+  },
+  {
+    "path": "tests\\control_wire_tests.cpp",
+    "expected_sha256": "c0717f40c1aa538c1a938093f730894d0d2bccc0baf83a5b2effaf8bccd8cdee",
+    "actual_sha256": "c0717f40c1aa538c1a938093f730894d0d2bccc0baf83a5b2effaf8bccd8cdee",
+    "match": true
+  },
+  {
+    "path": "tests\\controller_admission_rpc_wire_tests.cpp",
+    "expected_sha256": "d617a59df13a6176afbc5e37505d7ea33fd8249b259f6f170ea6f6370d67bea2",
+    "actual_sha256": "d617a59df13a6176afbc5e37505d7ea33fd8249b259f6f170ea6f6370d67bea2",
+    "match": true
+  },
+  {
+    "path": "tests\\controller_sample_comparison_tests.cpp",
+    "expected_sha256": "0bad5193fbd42530baf648f928d7aef1ba4f0a275b357636133865492700583c",
+    "actual_sha256": "0bad5193fbd42530baf648f928d7aef1ba4f0a275b357636133865492700583c",
+    "match": true
+  },
+  {
+    "path": "tests\\creator_query_tests.cpp",
+    "expected_sha256": "a74e88148892bf5cf03eec30a60b3b17abfa61b0902d971831b2cef06b2247eb",
+    "actual_sha256": "a74e88148892bf5cf03eec30a60b3b17abfa61b0902d971831b2cef06b2247eb",
+    "match": true
+  },
+  {
+    "path": "tests\\game_connection_tests.cpp",
+    "expected_sha256": "69465bcfc56c081acd9cb8dca3b7d63bf7e2956aaf7f94667937ad1db4d30b49",
+    "actual_sha256": "69465bcfc56c081acd9cb8dca3b7d63bf7e2956aaf7f94667937ad1db4d30b49",
+    "match": true
+  },
+  {
+    "path": "tests\\game_wire_tests.cpp",
+    "expected_sha256": "591210d7cdc2738c545cf813a891172fc0ef8c16ab9307fae17d514ed68bfe5f",
+    "actual_sha256": "591210d7cdc2738c545cf813a891172fc0ef8c16ab9307fae17d514ed68bfe5f",
+    "match": true
+  },
+  {
+    "path": "tests\\http_diagnostics_tests.cpp",
+    "expected_sha256": "6a61f17de06d6d2a3d9651736ff8e662632b9753ba22302925e6eafaabe02d92",
+    "actual_sha256": "6a61f17de06d6d2a3d9651736ff8e662632b9753ba22302925e6eafaabe02d92",
+    "match": true
+  },
+  {
+    "path": "tests\\initial_controller_tests.cpp",
+    "expected_sha256": "87653c146428c99e45938a30006ec25dd96f91e337c7f0412458e304632a9f0d",
+    "actual_sha256": "87653c146428c99e45938a30006ec25dd96f91e337c7f0412458e304632a9f0d",
+    "match": true
+  },
+  {
+    "path": "tests\\initial_pawn_tests.cpp",
+    "expected_sha256": "9e26399fee84c853c6be4ab4d1bf32a4f08ae75a2c57d230610aa6163ab83212",
+    "actual_sha256": "9e26399fee84c853c6be4ab4d1bf32a4f08ae75a2c57d230610aa6163ab83212",
+    "match": true
+  },
+  {
+    "path": "tests\\inventory_service_tests.cpp",
+    "expected_sha256": "dae94d3084fade2b8f346a9075a44bcea02d693c0077836dda13c7e604765f4e",
+    "actual_sha256": "dae94d3084fade2b8f346a9075a44bcea02d693c0077836dda13c7e604765f4e",
+    "match": true
+  },
+  {
+    "path": "tests\\live_player_reader_tests.cpp",
+    "expected_sha256": "1fb54fbbc41f40c4b24d07eef1509cf5e66fbb600b817b6729047fd63543e8ae",
+    "actual_sha256": "1fb54fbbc41f40c4b24d07eef1509cf5e66fbb600b817b6729047fd63543e8ae",
+    "match": true
+  },
+  {
+    "path": "tests\\local_store_tests.cpp",
+    "expected_sha256": "bcd401eab030644bf8802636dd4f44c7ef290ca862a773f23663e890f9adf381",
+    "actual_sha256": "bcd401eab030644bf8802636dd4f44c7ef290ca862a773f23663e890f9adf381",
+    "match": true
+  },
+  {
+    "path": "tests\\local_tcp_probe_tests.cpp",
+    "expected_sha256": "0ca26ee693521961e56923f12a456c9d6d47f2405cfd5a85805a1766dd544f03",
+    "actual_sha256": "0ca26ee693521961e56923f12a456c9d6d47f2405cfd5a85805a1766dd544f03",
+    "match": true
+  },
+  {
+    "path": "tests\\local_udp_owner_tests.cpp",
+    "expected_sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+    "actual_sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+    "match": true
+  },
+  {
+    "path": "tests\\master_directory_tests.cpp",
+    "expected_sha256": "f70b9455ed601d0fabf1284d0b979e1408d12d1c1de845001477491231e56c7b",
+    "actual_sha256": "f70b9455ed601d0fabf1284d0b979e1408d12d1c1de845001477491231e56c7b",
+    "match": true
+  },
+  {
+    "path": "tests\\master_http_tests.cpp",
+    "expected_sha256": "2bdd48759a5796c612c6a376e8e42168a46751d257477df4c8343a3e1c327955",
+    "actual_sha256": "2bdd48759a5796c612c6a376e8e42168a46751d257477df4c8343a3e1c327955",
+    "match": true
+  },
+  {
+    "path": "tests\\mech_setup_reader_tests.cpp",
+    "expected_sha256": "e0de7dd5e63818ef2c8c32ea99583361dce17b826d6376609e30718a3d20da23",
+    "actual_sha256": "e0de7dd5e63818ef2c8c32ea99583361dce17b826d6376609e30718a3d20da23",
+    "match": true
+  },
+  {
+    "path": "tests\\mech_setup_wire_tests.cpp",
+    "expected_sha256": "533ce1806014b8ce14b615842687211647c3e009c8f8592d307655fb01dc55c0",
+    "actual_sha256": "533ce1806014b8ce14b615842687211647c3e009c8f8592d307655fb01dc55c0",
+    "match": true
+  },
+  {
+    "path": "tests\\menu_sync_service_tests.cpp",
+    "expected_sha256": "4c3583144bbf9d45ee7c0a43a178993376843f4d3d9230adf9da013f15843334",
+    "actual_sha256": "4c3583144bbf9d45ee7c0a43a178993376843f4d3d9230adf9da013f15843334",
+    "match": true
+  },
+  {
+    "path": "tests\\meteor_compat_tests.cpp",
+    "expected_sha256": "0f33ce8f1dcfdaabf8e5a96d5119690cc89820ce3da8f54e586448c23b2f0ff6",
+    "actual_sha256": "0f33ce8f1dcfdaabf8e5a96d5119690cc89820ce3da8f54e586448c23b2f0ff6",
+    "match": true
+  },
+  {
+    "path": "tests\\meteor_ini_tests.cpp",
+    "expected_sha256": "ce4f8717f02a6d0154ed1bcb2d0d05d7716ec0bd5ac54974d3552d138eb9a265",
+    "actual_sha256": "ce4f8717f02a6d0154ed1bcb2d0d05d7716ec0bd5ac54974d3552d138eb9a265",
+    "match": true
+  },
+  {
+    "path": "tests\\object_property_wire_tests.cpp",
+    "expected_sha256": "277fcfe3e973ffe27f5ce3f84766fc1bae26d481ca742bd79d7fc7dfb84d08fd",
+    "actual_sha256": "277fcfe3e973ffe27f5ce3f84766fc1bae26d481ca742bd79d7fc7dfb84d08fd",
+    "match": true
+  },
+  {
+    "path": "tests\\object_reference_wire_tests.cpp",
+    "expected_sha256": "7f2832be6b352e9c67df7d25202aa0001cfbb3e3bbf374cda0e353e5433d3bbb",
+    "actual_sha256": "7f2832be6b352e9c67df7d25202aa0001cfbb3e3bbf374cda0e353e5433d3bbb",
+    "match": true
+  },
+  {
+    "path": "tests\\package_integrity_tests.cpp",
+    "expected_sha256": "52b45780c2caaa33b2be6b8fa0f5f712482ed8b5377c28c3a0f1beb35ad5975d",
+    "actual_sha256": "52b45780c2caaa33b2be6b8fa0f5f712482ed8b5377c28c3a0f1beb35ad5975d",
+    "match": true
+  },
+  {
+    "path": "tests\\package_map_ranges_tests.cpp",
+    "expected_sha256": "03b3ce93679dabbf296b10387fb0946d59a340b5d8f2d83d1e0672d5d84d5a83",
+    "actual_sha256": "03b3ce93679dabbf296b10387fb0946d59a340b5d8f2d83d1e0672d5d84d5a83",
+    "match": true
+  },
+  {
+    "path": "tests\\package_publication_tests.cpp",
+    "expected_sha256": "105878d6e33319e41e8cc0e32f4aef8053ec712416d05ccca0e89dbf3b7074e9",
+    "actual_sha256": "105878d6e33319e41e8cc0e32f4aef8053ec712416d05ccca0e89dbf3b7074e9",
+    "match": true
+  },
+  {
+    "path": "tests\\packet_writer_tests.cpp",
+    "expected_sha256": "b2340668fdd4aeff66f06102bed06d2c4681ec470cb851c00f15d7661dc61a7e",
+    "actual_sha256": "b2340668fdd4aeff66f06102bed06d2c4681ec470cb851c00f15d7661dc61a7e",
+    "match": true
+  },
+  {
+    "path": "tests\\pawn_rpc_wire_tests.cpp",
+    "expected_sha256": "f08fd09ada35cf172c4709533d4c018a1b6595c98a449cc901a3502dcf2ca93a",
+    "actual_sha256": "f08fd09ada35cf172c4709533d4c018a1b6595c98a449cc901a3502dcf2ca93a",
+    "match": true
+  },
+  {
+    "path": "tests\\posthello_control_tests.cpp",
+    "expected_sha256": "734e5005909c6f39902272951f6d5bd9fa6d1125c043e7b08781e2e7f01c7ef4",
+    "actual_sha256": "734e5005909c6f39902272951f6d5bd9fa6d1125c043e7b08781e2e7f01c7ef4",
+    "match": true
+  },
+  {
+    "path": "tests\\reliable_actor_transport_tests.cpp",
+    "expected_sha256": "190c431f94b7490aa7928c076d0d9d8d8cc894e3cca1961d2831963e61e41cf2",
+    "actual_sha256": "190c431f94b7490aa7928c076d0d9d8d8cc894e3cca1961d2831963e61e41cf2",
+    "match": true
+  },
+  {
+    "path": "tests\\reliable_control_transport_tests.cpp",
+    "expected_sha256": "8c7cfc9a4c3aadb61e687198fcdc5a98335ec4570ebc1d83f623a6a98149f037",
+    "actual_sha256": "8c7cfc9a4c3aadb61e687198fcdc5a98335ec4570ebc1d83f623a6a98149f037",
+    "match": true
+  },
+  {
+    "path": "tests\\server_assignment_http_tests.cpp",
+    "expected_sha256": "b849fb0f5a25b94f16f189efab13ca1a8e6d11749cc320ae6c86bf9b47c7df22",
+    "actual_sha256": "b849fb0f5a25b94f16f189efab13ca1a8e6d11749cc320ae6c86bf9b47c7df22",
+    "match": true
+  },
+  {
+    "path": "tests\\server_auth_http_tests.cpp",
+    "expected_sha256": "c6a1c0114e3e3c7abb529d64c881cfbc30351a72b318806ed6071a223dc10c5d",
+    "actual_sha256": "c6a1c0114e3e3c7abb529d64c881cfbc30351a72b318806ed6071a223dc10c5d",
+    "match": true
+  },
+  {
+    "path": "tests\\server_http_tests.cpp",
+    "expected_sha256": "fe787b526a1dbebff68773875611f84589a856d150ef6d10536e4940336eeace",
+    "actual_sha256": "fe787b526a1dbebff68773875611f84589a856d150ef6d10536e4940336eeace",
+    "match": true
+  },
+  {
+    "path": "tests\\server_inventory_http_tests.cpp",
+    "expected_sha256": "aea605a907971e0dbf159212a0bc7f2a11e50dffb40a861acdd172808132d4c5",
+    "actual_sha256": "aea605a907971e0dbf159212a0bc7f2a11e50dffb40a861acdd172808132d4c5",
+    "match": true
+  },
+  {
+    "path": "tests\\server_listing_http_tests.cpp",
+    "expected_sha256": "b62405904e55db7ec3a6f68bc1bb4df9fe7a5a4528e764aa0290addda1c49eba",
+    "actual_sha256": "b62405904e55db7ec3a6f68bc1bb4df9fe7a5a4528e764aa0290addda1c49eba",
+    "match": true
+  },
+  {
+    "path": "tests\\server_login_handshake_tests.cpp",
+    "expected_sha256": "6cbf47024732cd14b6d02e56c4bd1dec748164a5e9c3b4cfc0fe3e2c079086a2",
+    "actual_sha256": "6cbf47024732cd14b6d02e56c4bd1dec748164a5e9c3b4cfc0fe3e2c079086a2",
+    "match": true
+  },
+  {
+    "path": "tests\\server_menu_http_tests.cpp",
+    "expected_sha256": "56b934a9fc18fbdb34aa0a438ba5f11993961e0c9c35c0808864cdba41ea9257",
+    "actual_sha256": "56b934a9fc18fbdb34aa0a438ba5f11993961e0c9c35c0808864cdba41ea9257",
+    "match": true
+  },
+  {
+    "path": "tests\\session_assignment_tests.cpp",
+    "expected_sha256": "0e6e842d29b53006927cb119a69e15f96ac313c57d2684f5f390ec1a39570a2e",
+    "actual_sha256": "0e6e842d29b53006927cb119a69e15f96ac313c57d2684f5f390ec1a39570a2e",
+    "match": true
+  },
+  {
+    "path": "tests\\session_wire_tests.cpp",
+    "expected_sha256": "1db541cef60427d69be7787f19af99648aa1be571a1459962a623e99f262f186",
+    "actual_sha256": "1db541cef60427d69be7787f19af99648aa1be571a1459962a623e99f262f186",
+    "match": true
+  },
+  {
+    "path": "tests\\sha256_tests.cpp",
+    "expected_sha256": "38223ddaf8a471b76e9adec54743bb18337457fa4a85010503f5daa2bc1a1e87",
+    "actual_sha256": "38223ddaf8a471b76e9adec54743bb18337457fa4a85010503f5daa2bc1a1e87",
+    "match": true
+  },
+  {
+    "path": "tests\\spawn_validation_rpc_wire_tests.cpp",
+    "expected_sha256": "58ba67d35cf063158beda17348a669f714ab20821effdbcb4409a53d4d780af6",
+    "actual_sha256": "58ba67d35cf063158beda17348a669f714ab20821effdbcb4409a53d4d780af6",
+    "match": true
+  },
+  {
+    "path": "tests\\spawn_validation_tests.cpp",
+    "expected_sha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+    "actual_sha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+    "match": true
+  },
+  {
+    "path": "tests\\start_mech_rpc_wire_tests.cpp",
+    "expected_sha256": "7ea5256a75ea5295b1a4b5c3cb9bc2c05677e0b4c2c7918e3319316df003b248",
+    "actual_sha256": "7ea5256a75ea5295b1a4b5c3cb9bc2c05677e0b4c2c7918e3319316df003b248",
+    "match": true
+  },
+  {
+    "path": "tests\\starter_catalogue_tests.cpp",
+    "expected_sha256": "0dcd8e32fb23a75460f9612086236fe11a7d65570d76cc418933668964bec572",
+    "actual_sha256": "0dcd8e32fb23a75460f9612086236fe11a7d65570d76cc418933668964bec572",
+    "match": true
+  },
+  {
+    "path": "tests\\starter_inventory_tests.cpp",
+    "expected_sha256": "634f57b6c7840b27f16c786cdf8ce83fe44be7a8c6858a9e93b78f7a9e971aca",
+    "actual_sha256": "634f57b6c7840b27f16c786cdf8ce83fe44be7a8c6858a9e93b78f7a9e971aca",
+    "match": true
+  },
+  {
+    "path": "tests\\starter_mech_setup_tests.cpp",
+    "expected_sha256": "c995a854f9e219fced016db5079b4a4c033738263aab52f319d7b3c2424eec41",
+    "actual_sha256": "c995a854f9e219fced016db5079b4a4c033738263aab52f319d7b3c2424eec41",
+    "match": true
+  },
+  {
+    "path": "tests\\steam_local_auth_tests.cpp",
+    "expected_sha256": "61ff76813c5ec89d193bd760e99eb9c98f0dcbc16f70b6da7d1d9b8682f5be3d",
+    "actual_sha256": "61ff76813c5ec89d193bd760e99eb9c98f0dcbc16f70b6da7d1d9b8682f5be3d",
+    "match": true
+  },
+  {
+    "path": "tests\\steam_server_context_probe.cpp",
+    "expected_sha256": "01389fdc18d628bc483545c0799b5bdd177696a9001663819a9c79c2ae1d99c6",
+    "actual_sha256": "01389fdc18d628bc483545c0799b5bdd177696a9001663819a9c79c2ae1d99c6",
+    "match": true
+  },
+  {
+    "path": "tests\\storage_integration_tests.cpp",
+    "expected_sha256": "1837491410f8bd85104afc3ae23f66ae981a6d04471779b5ded191bf35fc4b86",
+    "actual_sha256": "1837491410f8bd85104afc3ae23f66ae981a6d04471779b5ded191bf35fc4b86",
+    "match": true
+  },
+  {
+    "path": "tests\\store_starter_inventory_tests.cpp",
+    "expected_sha256": "c00b85acb614d4f654ecbe3b930181a9329cf8d8d15f1f0e038264460d79768a",
+    "actual_sha256": "c00b85acb614d4f654ecbe3b930181a9329cf8d8d15f1f0e038264460d79768a",
+    "match": true
+  },
+  {
+    "path": "tests\\sync_service_tests.cpp",
+    "expected_sha256": "56935d1745e9e9662446bf42c8e26bccd0880836bb2a3fe8e91873a90c786cff",
+    "actual_sha256": "56935d1745e9e9662446bf42c8e26bccd0880836bb2a3fe8e91873a90c786cff",
+    "match": true
+  },
+  {
+    "path": "tests\\test_main.cpp",
+    "expected_sha256": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+    "actual_sha256": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+    "match": true
+  },
+  {
+    "path": "tests\\test_support.hpp",
+    "expected_sha256": "01bddc4ec75ee4c1a7cae0fff277c28054c13344737c17fc2ac2289c57e7099d",
+    "actual_sha256": "01bddc4ec75ee4c1a7cae0fff277c28054c13344737c17fc2ac2289c57e7099d",
+    "match": true
+  },
+  {
+    "path": "tests\\udp_trial_runtime_tests.cpp",
+    "expected_sha256": "92fa03bba94d23cc15b5e58026ac19bd64572ead3d073c54648d57a7f47a3634",
+    "actual_sha256": "92fa03bba94d23cc15b5e58026ac19bd64572ead3d073c54648d57a7f47a3634",
+    "match": true
+  },
+  {
+    "path": "tests\\wreckage_trial_tests.cpp",
+    "expected_sha256": "85cadfb1343797f18829f37f95d4b012642578c4e881ea0133afc384f747805d",
+    "actual_sha256": "85cadfb1343797f18829f37f95d4b012642578c4e881ea0133afc384f747805d",
+    "match": true
+  },
+  {
+    "path": "tools/connection_cache_reader.hpp",
+    "expected_sha256": "2120971e3438305dbec13dd30745be6c111307f9d400876a3ae4debc0e0b141c",
+    "actual_sha256": "2120971e3438305dbec13dd30745be6c111307f9d400876a3ae4debc0e0b141c",
+    "match": true
+  },
+  {
+    "path": "tools/controller_cdo_probe.cpp",
+    "expected_sha256": "7a7cf4483bd92a4eac4414db26632b3656923321de2bc420bc1f7b3fcadf13d5",
+    "actual_sha256": "7a7cf4483bd92a4eac4414db26632b3656923321de2bc420bc1f7b3fcadf13d5",
+    "match": true
+  },
+  {
+    "path": "tools/controller_netfields_probe.cpp",
+    "expected_sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd",
+    "actual_sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd",
+    "match": true
+  },
+  {
+    "path": "tools/controller_sample_comparison.hpp",
+    "expected_sha256": "b46c764d83267b011d49cbb22e145bd0a162afdfb27de53527f29cf9a17084e7",
+    "actual_sha256": "b46c764d83267b011d49cbb22e145bd0a162afdfb27de53527f29cf9a17084e7",
+    "match": true
+  },
+  {
+    "path": "tools/fname_hash_lookup.hpp",
+    "expected_sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b",
+    "actual_sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b",
+    "match": true
+  },
+  {
+    "path": "tools/gri_template_reader.hpp",
+    "expected_sha256": "67f7ca763c7ba29ffe14afc99132fafa88bf3467cd62305f3caf8dbe32fc1944",
+    "actual_sha256": "67f7ca763c7ba29ffe14afc99132fafa88bf3467cd62305f3caf8dbe32fc1944",
+    "match": true
+  },
+  {
+    "path": "tools/live_player_reader.hpp",
+    "expected_sha256": "b32cc06013da921ee601bb962acfe33b8561a5635cb29b50984101da07876187",
+    "actual_sha256": "b32cc06013da921ee601bb962acfe33b8561a5635cb29b50984101da07876187",
+    "match": true
+  },
+  {
+    "path": "tools/mech_setup_reader.hpp",
+    "expected_sha256": "294e39aa1dffb42d741d5d4e45bcae36795bec530b5011b90b0dbf66b65082f7",
+    "actual_sha256": "294e39aa1dffb42d741d5d4e45bcae36795bec530b5011b90b0dbf66b65082f7",
+    "match": true
+  },
+  {
+    "path": "tools/pawn_content_probe.cpp",
+    "expected_sha256": "ed1bfe3a3a5b7344bb32b0e68fd846311f3b509a591da6a1ddddb5ba3d78a91e",
+    "actual_sha256": "ed1bfe3a3a5b7344bb32b0e68fd846311f3b509a591da6a1ddddb5ba3d78a91e",
+    "match": true
+  },
+  {
+    "path": "tools/steam_runtime_probe.cpp",
+    "expected_sha256": "29ecdac3b9babd507d2b6580f970b4de4430db011e57d7e85467f61b929bb36f",
+    "actual_sha256": "29ecdac3b9babd507d2b6580f970b4de4430db011e57d7e85467f61b929bb36f",
+    "match": true
+  },
+  {
+    "path": "tools/wreckage_trial_probe.cpp",
+    "expected_sha256": "1abd37362f5e507991b76442491cbec88a902820c901ac66ca9b67d01a2279ea",
+    "actual_sha256": "1abd37362f5e507991b76442491cbec88a902820c901ac66ca9b67d01a2279ea",
+    "match": true
+  }
+]

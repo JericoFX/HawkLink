@@ -1,0 +1,8 @@
+[1/8] Building CXX object CMakeFiles\hawken_local_udp.dir\src\local_udp_owner.cpp.obj
+[2/8] Linking CXX static library hawken_local_udp.lib
+[3/8] Building CXX object CMakeFiles\hawken_udp_trial_runtime.dir\src\udp_trial_runtime.cpp.obj
+[4/8] Linking CXX static library hawken_udp_trial_runtime.lib
+[5/8] Building CXX object CMakeFiles\hawken-local-udp-tests.dir\tests\local_udp_owner_tests.cpp.obj
+[6/8] Building CXX object CMakeFiles\hawken-udp-trial-runtime-tests.dir\tests\udp_trial_runtime_tests.cpp.obj
+[7/8] Linking CXX executable hawken-local-udp-tests.exe
+[8/8] Linking CXX executable hawken-udp-trial-runtime-tests.exe

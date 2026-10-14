@@ -1,0 +1,38 @@
+--- before/src/local_udp_owner.cpp
++++ src/local_udp_owner.cpp
+@@ -940,7 +940,9 @@
+                std::optional<SpawnValidationDispatchPlan> spawn_validation,
+                SpawnSelectionValidator selection_validator,
+                std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
+-               std::optional<PriIdentityDispatchPlan> pri_identity) {
++               std::optional<PriIdentityDispatchPlan> pri_identity,
++               std::optional<SelectionBootstrapPlan> selection_bootstrap) {
++        static_cast<void>(selection_bootstrap); // Behavioural RED: no bootstrap dispatch yet.
+         if (!callback || started || stopping.load()) fail(LocalUdpErrorCode::invalid_lifecycle);
+         if (publication && !validator) fail(LocalUdpErrorCode::invalid_configuration);
+         if (controller) {
+@@ -1204,7 +1206,7 @@
+         impl_->registry->client_restart_sent.load(),impl_->registry->controller_open_acked.load(),
+         impl_->registry->pri_open_acked.load(),impl_->registry->pawn_open_acked.load(),
+         impl_->registry->actor_links_sent.load(),impl_->registry->pri_identity_sent.load(),
+-        impl_->registry->pri_identity_acked.load()};
++        impl_->registry->pri_identity_acked.load(),false,false,false,false,false,false};
+ }
+ bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {
+     return impl_->bound(destination);
+@@ -1218,12 +1220,13 @@
+                           std::optional<SpawnValidationDispatchPlan> spawn_validation,
+                           SpawnSelectionValidator selection_validator,
+                           std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
+-                          std::optional<PriIdentityDispatchPlan> pri_identity) {
++                          std::optional<PriIdentityDispatchPlan> pri_identity,
++                          std::optional<SelectionBootstrapPlan> selection_bootstrap) {
+     impl_->start(std::move(authorize),std::move(validate_response),std::move(publication),
+         std::move(controller),std::move(pawn),std::move(pri),std::move(links),
+         std::move(start_mech),std::move(mech_provider),
+         std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
+-        std::move(pri_identity));
++        std::move(pri_identity),std::move(selection_bootstrap));
+ }
+ void LocalUdpOwner::stop() noexcept { impl_->stop(); }
+ std::unique_ptr<assignment::UdpSessionLease> LocalUdpOwner::handoff(

@@ -1,0 +1,299 @@
+{
+  "status": "NATIVE_WRONG_GAMECLASS_DISCRIMINATOR_AND_APPEND_ONLY_ERRATUM",
+  "selected_log_snapshot": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/selected-events-v4.json",
+    "sha256": "e9ffe2c36d435e3d52c1d68c4fb7aad97fc9c121b7881413552dfcc90d7863fb",
+    "bytes": 2317
+  },
+  "raw_log_saved": false,
+  "native_observations": [
+    {
+      "line": 512,
+      "time_seconds": 350.821,
+      "text": "=== RECIEVED GAME CLASS R_PawnContent ===",
+      "meaning": "R_PlayerController.ReceivedGameClass logs the actual Class argument; current GameClass is the Pawn class, not R_Deathmatch."
+    },
+    {
+      "lines": [
+        519,
+        522
+      ],
+      "first_time_seconds": 352.464,
+      "text": "R_HUD_DM_0.R_HUD_Protips_0 TickCriteria_UC:00E6/013D Accessed None Ability",
+      "meaning": "HUD exists. Retained UC enters Ability access only after R_Pawn(PawnNative) is nonnull. No proof absent Ability directly blocks selection gate."
+    },
+    {
+      "line": 507,
+      "time_seconds": 350.8,
+      "meaning": "InitStormUserId lacked PRI initially; not persistent absence after later links."
+    },
+    {
+      "lines": [
+        478,
+        481
+      ],
+      "time_seconds": 350.001,
+      "meaning": "RemovePRI RPRI warning belongs to RobotsMainMenu before map; not the current Wreckage cause."
+    }
+  ],
+  "menu_predicate": {
+    "source": "Retained previously byte-verified bootstrap UC; do not reinterpret unresolved NFUN codes",
+    "required": [
+      "PlayerWaiting state",
+      "MechSelectStage==1",
+      "local PlayerController",
+      "nonnull WorldInfo.GRI",
+      "WorldInfo.GetGameClass casts to Class<R_Deathmatch>",
+      "usable R_HUD(myHUD)"
+    ],
+    "current_first_demonstrated_failure": "GameClass argument is R_PawnContent. Its Class is not R_Deathmatch, so the cast prerequisite fails. No match-start flag/UI force is needed to explain this failure.",
+    "other_predicates": "State/stage/local flags still not independently sampled, no universal claim they passed.",
+    "team_readiness": "After correct class, genuine readiness/team defaults choose MechSelect or TeamSelect; neither branch should be bypassed."
+  },
+  "erratum": {
+    "preserve_frozen_contract": {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/contract.json",
+      "sha256": "dcb1c9b03ae6516b6bd6f97d0c092daad441b67b47390e906777622e9ce60d42",
+      "bytes": 29180
+    },
+    "fields": [
+      "gri.game_class_value.serialized_class_net_index",
+      "gri.game_class_value.coordinate",
+      "gri.game_class_fixture"
+    ],
+    "generator": {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/close_contract.py",
+      "sha256": "234d22dadcb76f2f0a1102b393b0534d89fa0ad9581e9751ae9ae40d69a9345c",
+      "bytes": 16145
+    },
+    "generator_lines": [
+      59,
+      127,
+      128
+    ],
+    "incorrect": "physical_class_export1 HawkenDM combined with local232 from physicalexport19 R_PawnContent; this was my erroneous metadata association.",
+    "correct_original_source": {
+      "path": "implementation/evidence/deathmatch-pawn-class/original-export-inspection-v2.json",
+      "sha256": "b1a4dcbe5fe59167cce2d4ae64034fde4708db1b8218a6e300e81dc401b2668e",
+      "bytes": 13649
+    },
+    "original_upk": {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenDM_SF.upk",
+      "sha256": "20d88294963654ad2cda3f3a94987d1428b7e0807f238faab5979cf23cb85155",
+      "bytes": 1110917,
+      "virtual_sha256": "cebc1c3017d257f24e086580a6a4932662ff03b3c1f57d29b5df2e23c5dbd059",
+      "expected_virtual_sha256": "cebc1c3017d257f24e086580a6a4932662ff03b3c1f57d29b5df2e23c5dbd059",
+      "virtual_size": 1599230
+    },
+    "target_rows": [
+      {
+        "physical_export_index": 1,
+        "name": "HawkenDM",
+        "outer": {
+          "kind": "export",
+          "index": 180,
+          "path_from_inner_to_outer": [
+            {
+              "index": 180,
+              "name": "HawkenGameContent"
+            }
+          ],
+          "class_index": -25,
+          "super_index": 0
+        },
+        "super": {
+          "kind": "import",
+          "index": -101,
+          "chain_from_inner_to_outer": [
+            {
+              "index": -101,
+              "object_name": "R_Deathmatch",
+              "class_package": "Core",
+              "class_name": "Class",
+              "outer_index": -172,
+              "raw_record": "ef00000000000000be0000000000000054ffffff0203000000000000"
+            },
+            {
+              "index": -172,
+              "object_name": "HawkenGame",
+              "class_package": "Core",
+              "class_name": "Package",
+              "outer_index": 0,
+              "raw_record": "ef00000000000000b502000000000000000000009d01000000000000"
+            }
+          ]
+        },
+        "record_virtual_range": [
+          "0x8e78",
+          "0x8ebc"
+        ],
+        "record_sha256": "cbab7e3df70abfb1c455550b094e55063641e9a452548de58697fee0e85ffb72",
+        "serial_virtual_range": [
+          "0x1e11c",
+          "0x1e1aa"
+        ],
+        "serial_sha256": "0a191f7918e7d75c06f393c205dcff06e37e3934ab46cfb07d108cc29bd4fd23",
+        "serial_prefix_hex": "69000000",
+        "serialized_net_index": 105
+      },
+      {
+        "physical_export_index": 19,
+        "name": "R_PawnContent",
+        "outer": {
+          "kind": "export",
+          "index": 180,
+          "path_from_inner_to_outer": [
+            {
+              "index": 180,
+              "name": "HawkenGameContent"
+            }
+          ],
+          "class_index": -25,
+          "super_index": 0
+        },
+        "super": {
+          "kind": "import",
+          "index": -104,
+          "chain_from_inner_to_outer": [
+            {
+              "index": -104,
+              "object_name": "R_Pawn",
+              "class_package": "Core",
+              "class_name": "Class",
+              "outer_index": -172,
+              "raw_record": "ef00000000000000be0000000000000054ffffff0903000000000000"
+            },
+            {
+              "index": -172,
+              "object_name": "HawkenGame",
+              "class_package": "Core",
+              "class_name": "Package",
+              "outer_index": 0,
+              "raw_record": "ef00000000000000b502000000000000000000009d01000000000000"
+            }
+          ]
+        },
+        "record_virtual_range": [
+          "0x9340",
+          "0x9384"
+        ],
+        "record_sha256": "23f4de65a03c8bde4efee94ef155bdab38a9498b7aaecb3480a4a07a37865633",
+        "serial_virtual_range": [
+          "0x1e936",
+          "0x1eb94"
+        ],
+        "serial_sha256": "c9de9ad1998255a005cd5dc69d8ac1955970753833c23bedf38164d8580c3957",
+        "serial_prefix_hex": "e8000000",
+        "serialized_net_index": 232
+      }
+    ],
+    "net_index_layout_reference": {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/derive_original.py",
+      "sha256": "c80c371691c686891000e794c239dfd021691afb1f42ca1c1c4081153737e354",
+      "bytes": 10655
+    },
+    "net_index_layout_lines": [
+      52,
+      53
+    ],
+    "corrected_conditional_target": {
+      "package": "HawkenGameContent",
+      "guid_words": [
+        "5cd139c7",
+        "4aa73e14",
+        "bd1c8593",
+        "f86056dd"
+      ],
+      "physical_export": 1,
+      "class_name": "HawkenDM",
+      "parent_import": "HawkenGame.R_Deathmatch",
+      "local_net_index": 105,
+      "same_primary_base": 104786,
+      "coordinate": 104891,
+      "conditional_property_field": 31,
+      "exclusive_bound": 73,
+      "literal_hex": "9fddcc0000",
+      "logical_bits": 38
+    },
+    "native_boundary": "Local105 is positively serialized original metadata. Corrected send/native resolved class not yet observed; parent independently verifies before activation."
+  },
+  "existing_reader_boundary": {
+    "source": {
+      "path": "tools/live_player_reader.hpp",
+      "sha256": "b32cc06013da921ee601bb962acfe33b8561a5635cb29b50984101da07876187",
+      "bytes": 11178
+    },
+    "CLI": "hawken-controller-netfields-probe 27444 --live-player (parent only, not executed here)",
+    "observes": "First Engine LocalPlayer Controller/Pawn/PRI typed presence and reflected offsets/backlink in two matching snapshots",
+    "does_not_observe": [
+      "PlayerWaiting state",
+      "MechSelectStage",
+      "WorldInfo.GRI",
+      "GRI.GameClass instance value",
+      "HUD selection movie state"
+    ],
+    "next_action": "First repair explicit GameClass target metadata after parent byte cotejo. Additional passive predicate reader is only needed if correct-class application still lacks selection."
+  },
+  "uc_pins": [
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020294-HawkenGame.R_PlayerController.ReceivedGameClass.uc",
+      "sha256": "b8223e70e1203876a1cb6b647b001bc180b5e98defa9e5818b4aa32f5dda262c",
+      "bytes": 376
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/036367-HawkenGame.R_HUD_Protips.TickCriteria_UC.uc",
+      "sha256": "9357285ba0af91f8b9db61ff42c1e39b7820f00b64b33ebe064fd0e3e7452d73",
+      "bytes": 1370
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020586-HawkenGame.R_PlayerController.PlayerTick.uc",
+      "sha256": "a33d087616491c9e1d1b3ee5f1bc4adaeed072ec4c4367e782e9e16f75a61443",
+      "bytes": 1038
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020590-HawkenGame.R_PlayerController.DeadWaitingStuff.uc",
+      "sha256": "71ea37d344b5d62c71b28170bc28e51186aa0ec5cf610f0a41d9b06e19bbb1c0",
+      "bytes": 1207
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/021020-HawkenGame.R_PlayerController.PlayerWaiting.BeginState.uc",
+      "sha256": "8967dce76913dcb41558cb2607829bafec9398cc628a7e3c510651878e1bdac9",
+      "bytes": 427
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/021454-HawkenGame.R_PlayerController.GotoSelectionStage.uc",
+      "sha256": "fbe39be8cde8012943451a88edfaeb09c805a8935beb500e48d6a3f7459845ee",
+      "bytes": 234
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/009083-HawkenGame.R_HUD.UpdateTeamSelectMenu.uc",
+      "sha256": "9a3e603a67608337cc1f9e60104fa2b9703ecc33ce1307a787b50b52bc0fc578",
+      "bytes": 1997
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/009077-HawkenGame.R_HUD.ShowMenu.uc",
+      "sha256": "403cd307045bc0ebcc043a816b858fdfc7c09878fe54349df094a0516194e31f",
+      "bytes": 5762
+    }
+  ],
+  "frozen_source_inputs": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+      "bytes": 22708
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "b3313d0edd5f627020f05a647198d3681b99232f77a1d437c2b8e66f19af3d39",
+      "bytes": 78838
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+      "bytes": 196041
+    }
+  ],
+  "skills": "Full unchanged CPP53017f86/Game4578facc/Qt87411209/REA f1156f8a reused and rehashed; GraftOK7111 before source-reader inspection",
+  "no_source_build_git_runtime_ui": true,
+  "owned_persistent_helpers": 0
+}

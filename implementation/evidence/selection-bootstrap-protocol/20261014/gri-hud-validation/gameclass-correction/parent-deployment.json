@@ -1,0 +1,58 @@
+{
+  "schema": "hawken.gameclass-correction.deployment.v1",
+  "checkedUtc": "2026-10-14T23:03:16.5650381Z",
+  "status": "HTTP_AND_NATIVE_TEAM_SELECTION_VERIFIED_GAMEPLAY_PENDING",
+  "services": [
+    {
+      "pid": 30216,
+      "parent_pid": 30680,
+      "exe": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "createdUtc": "2026-10-14T23:01:58.533708Z",
+      "sha256": "b223e6f7122ac1c69e47c14f6689a5d7ca33616a381fbff6fc1f187eaabac801"
+    },
+    {
+      "pid": 30932,
+      "parent_pid": 30680,
+      "exe": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "createdUtc": "2026-10-14T23:01:57.780527Z",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    }
+  ],
+  "originals": [
+    {
+      "file": "HawkenGame-Win64-Shipping.exe",
+      "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "matches": true
+    },
+    {
+      "file": "Meteor.Sdk.Cpp.Win32.Client64.dll",
+      "sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "matches": true
+    },
+    {
+      "file": "StormConsumerSettings.ini",
+      "sha256": "08eda2cb20539996b7c1a91480c1ee2f64e02743c9bbee0bfc4f3543d8fec3d9",
+      "matches": true
+    },
+    {
+      "file": "steam_api64.dll",
+      "sha256": "38f6a1dd1e738e142160322638dae7b88dabcc30eea3f15c58eb08c5341f9b29",
+      "matches": true
+    },
+    {
+      "file": "steam_appid.txt",
+      "sha256": "7f8af64056cc012f81841069a6bb93ad471e5f738a82e05a4981030a6da34233",
+      "matches": true
+    }
+  ],
+  "helper_sha256": "9d70b8555c5e5513ad0e3a126ad0f7e9a71cd957073174fb8dd299c5c021a9f1",
+  "helper_parser_errors": 0,
+  "helper_default_pin_matches": true,
+  "session": "local-steam-routing-20261014-231020",
+  "native_client_launched": true,
+  "full_goal_complete": false,
+  "user_controls_next_client_attempt": true,
+  "computer_use_resumption_authorized": false,
+  "native_attempt_by": "user",
+  "native_evidence_sha256": "e2301ad6b2e2831704de2af7b42bbb69ba3ae58384e3cb9e1f6560de21b9b9c4"
+}

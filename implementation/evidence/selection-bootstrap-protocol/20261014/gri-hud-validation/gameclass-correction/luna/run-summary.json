@@ -1,0 +1,70 @@
+{
+  "schema": "gri-gameclass-correction-build-summary.v1",
+  "freeze_sha256": "82b8ae342f4b3fe3b63a990639aea398e33afc92e52ddde3734d69c2ce270677",
+  "expected_freeze_sha256": "82b8ae342f4b3fe3b63a990639aea398e33afc92e52ddde3734d69c2ce270677",
+  "inputs_count": 185,
+  "inputs_match_count": 185,
+  "inputs_mismatch_count": 0,
+  "aux_count": 3,
+  "aux_matches": 3,
+  "build_exit": 0,
+  "help_exit": 0,
+  "wrapper_exit": 0,
+  "build_steps": 2,
+  "rebuilt_object": "build/windows-msvc/CMakeFiles/hawken-server.dir/src/server_main.cpp.obj",
+  "main_object": {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\CMakeFiles\\hawken-server.dir\\src\\server_main.cpp.obj",
+    "sha256": "20e7a83760f7557dcdb5a293810c413cfd940a1fc5f0a9905aefdd5cff2289d5"
+  },
+  "test_executables": {
+    "before_count": 52,
+    "after_count": 52,
+    "unchanged": 52,
+    "changed": 0,
+    "before_manifest": "test-exe-hashes-before.json",
+    "after_manifest": "test-exe-hashes-after.json"
+  },
+  "product_artifacts": {
+    "before_manifest": "product-artifact-hashes-before.json",
+    "after_manifest": "product-artifact-hashes-after.json",
+    "items": [
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+        "before_sha256": "6444d7acb1c72b740a89f97711ed13c740e1782485e6e93b419348fc913da87d",
+        "after_sha256": "b223e6f7122ac1c69e47c14f6689a5d7ca33616a381fbff6fc1f187eaabac801",
+        "unchanged": false
+      },
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+        "before_sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+        "after_sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\client-bridge\\dinput8.dll",
+        "before_sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+        "after_sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a",
+        "unchanged": true
+      }
+    ]
+  },
+  "core_changed": true,
+  "raw_files": [
+    "preflight.json",
+    "test-exe-hashes-before.json",
+    "product-artifact-hashes-before.json",
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "devshell.exit.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "help.stdout.log",
+    "help.stderr.log",
+    "help.exit.txt",
+    "launcher.exit.txt",
+    "input-hashes-after.json",
+    "test-exe-hashes-after.json",
+    "product-artifact-hashes-after.json"
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "hawken.selection-bootstrap.parent-acceptance.v1",
+  "status": "ACCEPTED_IMPLEMENTATION_AND_NATIVE_TEAM_SELECTION_GAMEPLAY_OPEN",
+  "parent_review": "Actual eight code/helper diffs and tests reviewed; schema premises, per-entry authorization, real ACK/NAK ordering, collision/range/budget fail-closed guards and absent-plan regression preserved",
+  "source_files": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "b3313d0edd5f627020f05a647198d3681b99232f77a1d437c2b8e66f19af3d39"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0"
+    },
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "650f6d0b563932d247b5f2ea66e23756b34892d8580054154a833bb3a44d4533"
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "d9c635d37687064d7ab2786f7b3958dbb0379b778b006795ff62edcac813dd34"
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "e3a12b8135a0f2a7fb91aa6dc4bf336c9c7e8dbf8efad90c7d75622741903d9e"
+    },
+    {
+      "path": "src/server_main.cpp",
+      "sha256": "b7be1e3e5248012ced2b5df2d5277996237aa755d7694e6fcdd21c44ae02fd01"
+    },
+    {
+      "path": "implementation/tools/local-steam-test.ps1",
+      "sha256": "9d70b8555c5e5513ad0e3a126ad0f7e9a71cd957073174fb8dd299c5c021a9f1"
+    }
+  ],
+  "post_build_change": "Helper executable SHA default updated to corrected Core only; parser0errors/pin match rechecked before launch",
+  "full_green": {
+    "skips": 0,
+    "failures": 0,
+    "cases": 1437,
+    "suites": 52,
+    "assertions": 67834
+  },
+  "corrected_build": {
+    "only_main_recompiled": true,
+    "exit": 0,
+    "steps": 2,
+    "gate_reused_not_rerun": true,
+    "unchanged_test_executables": 52,
+    "help_exit": 0
+  },
+  "native_observed": {
+    "server_stays_running": true,
+    "user_controls_visible": true,
+    "class": "HawkenDM",
+    "user_operates_client": true,
+    "menu": "MENUMODE_TeamSelect"
+  },
+  "remaining": [
+    "Ready/start match lifecycle",
+    "Native selected loadout validation",
+    "Native spawn/possession and gameplay",
+    "Dynamic Core registration in Nexus",
+    "Central global accounts/economy",
+    "Creator/admin Windows/Linux",
+    "Complete safety/security and unresolved ASan exception-unwind finding"
+  ],
+  "evidence": [
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\gri-hud-validation\\gameclass-correction\\original-verification.json",
+      "sha256": "c0eeafba923de9edf6f1560dc02e97a891aadbf0c95e7c9fb75f44acf999fd23"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\gri-hud-validation\\gameclass-correction\\before-client-final.json",
+      "sha256": "f47e3611a304782c5f4f1bfd608b1994a7071c35b7c97d0ee560535a298748bc"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\gri-hud-validation\\gameclass-correction\\before-wire-flags.json",
+      "sha256": "397896338e5f1f472568aa953951642b0956acaec4e8b1b4d6889fc6f07c096f"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\gri-hud-validation\\gameclass-correction\\http-results.json",
+      "sha256": "ece0906851c47ba11163785cc9c252d94741e5b836097d4e430ca0f0d789bed7"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\gri-hud-validation\\gameclass-correction\\parent-deployment.json",
+      "sha256": "450b120fb30aa052529e8aa73ebab0fb64e94678d64f018ef53ad5b90bdb5450"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\gri-hud-validation\\gameclass-correction\\native-corrected-class.json",
+      "sha256": "e2301ad6b2e2831704de2af7b42bbb69ba3ae58384e3cb9e1f6560de21b9b9c4"
+    },
+    {
+      "path": "implementation\\evidence\\selection-bootstrap-protocol\\20261014\\gri-hud-validation\\gameclass-correction\\luna\\run-summary.json",
+      "sha256": "dde6211395177fc3d3e036c249b0e23e1bc1e81b6f00122a6dbf8b462c8a8b42"
+    }
+  ],
+  "originals_preserved": true,
+  "full_goal_complete": false
+}

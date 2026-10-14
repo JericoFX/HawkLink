@@ -1,0 +1,40 @@
+{
+  "fixture": "Entirely synthetic FRoot count3, mapbase0; no native effective-ID/class identity attestation",
+  "gri": {
+    "channel": 10,
+    "opening_sequence": 112,
+    "cdf_local_index": 0,
+    "reference32bits": "00000000",
+    "zero_position11bits": "Existing independent PRI prefix fixture 020000004005 stripped of only its mapped-reference32bits",
+    "payload": "000000004005",
+    "logical_bits": 43
+  },
+  "game_class": {
+    "field_id": 31,
+    "bound": 73,
+    "tag_bits": 6,
+    "package_local_index": 1,
+    "reference_raw32": 2,
+    "composition": "31 | (2 << 6)",
+    "hex": "9f00000000",
+    "bits": 38
+  },
+  "hud": {
+    "field_id": 42,
+    "bound": 294,
+    "tag_bits": 8,
+    "presence_bits": 1,
+    "package_local_index": 2,
+    "reference_raw32": 4,
+    "composition": "42 | (1 << 8) | (4 << 9)",
+    "hex": "2a0900000000",
+    "bits": 41
+  },
+  "references": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/udp_trial_runtime_tests.cpp.before",
+      "sha256": "67b7d2b15b935ba3661d2510340de4f3483a8ae106f370910a6aae55b0c7e3ed",
+      "bytes": 90737
+    }
+  ]
+}

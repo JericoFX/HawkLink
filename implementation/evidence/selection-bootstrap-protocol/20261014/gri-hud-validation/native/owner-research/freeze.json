@@ -1,0 +1,120 @@
+{
+  "status": "NATIVE_WRONG_GAMECLASS_DISCRIMINATOR_AND_APPEND_ONLY_ERRATUM",
+  "owned_files": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/contract.json",
+      "sha256": "328797fd214182ccd5f38871334dc51beb124dcc5f35f190812d21a78b461bdc",
+      "bytes": 11731
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/read-selected-log-v2.ps1",
+      "sha256": "f1bc91ae6650714c425819172e330994473021b79b89a0c41ed9c29490a578a4",
+      "bytes": 2314
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/read-selected-log-v3.ps1",
+      "sha256": "9e4a5a1a5b0fce7e2087023b7c7c2e1c419342a43b06005ef0aabd788727f5fe",
+      "bytes": 2452
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/read-selected-log-v4.ps1",
+      "sha256": "25d27e4aa33631539d15adadcc6e332f5e489f84b3a32fafd1bfe125d3406b43",
+      "bytes": 2506
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/read-selected-log.ps1",
+      "sha256": "c19a5f2df42c8d26ee80437a58604a49c948cff9f7e7bcf44b1e8d8560f7006e",
+      "bytes": 2174
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/selected-events-v2.json",
+      "sha256": "c983b271832398bda1ef4c47fef04ca7fd4cb5ac4b83db25a138c4711f45387b",
+      "bytes": 1719
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/selected-events-v3.json",
+      "sha256": "4c423609c3bf5715ea1a6b4160e09b2929e61ca6b454b40c7cdc9561b4195132",
+      "bytes": 2144
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/selected-events-v4.json",
+      "sha256": "e9ffe2c36d435e3d52c1d68c4fb7aad97fc9c121b7881413552dfcc90d7863fb",
+      "bytes": 2317
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/owner-research/selected-events.json",
+      "sha256": "3d260bef4204b649f72e0346d2a5ac205a08afd26eee566e78862423586a8162",
+      "bytes": 1231
+    }
+  ],
+  "proof_inputs": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/contract.json",
+      "sha256": "dcb1c9b03ae6516b6bd6f97d0c092daad441b67b47390e906777622e9ce60d42",
+      "bytes": 29180
+    },
+    {
+      "path": "implementation/evidence/deathmatch-pawn-class/original-export-inspection-v2.json",
+      "sha256": "b1a4dcbe5fe59167cce2d4ae64034fde4708db1b8218a6e300e81dc401b2668e",
+      "bytes": 13649
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020294-HawkenGame.R_PlayerController.ReceivedGameClass.uc",
+      "sha256": "b8223e70e1203876a1cb6b647b001bc180b5e98defa9e5818b4aa32f5dda262c",
+      "bytes": 376
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/036367-HawkenGame.R_HUD_Protips.TickCriteria_UC.uc",
+      "sha256": "9357285ba0af91f8b9db61ff42c1e39b7820f00b64b33ebe064fd0e3e7452d73",
+      "bytes": 1370
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020586-HawkenGame.R_PlayerController.PlayerTick.uc",
+      "sha256": "a33d087616491c9e1d1b3ee5f1bc4adaeed072ec4c4367e782e9e16f75a61443",
+      "bytes": 1038
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020590-HawkenGame.R_PlayerController.DeadWaitingStuff.uc",
+      "sha256": "71ea37d344b5d62c71b28170bc28e51186aa0ec5cf610f0a41d9b06e19bbb1c0",
+      "bytes": 1207
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/021020-HawkenGame.R_PlayerController.PlayerWaiting.BeginState.uc",
+      "sha256": "8967dce76913dcb41558cb2607829bafec9398cc628a7e3c510651878e1bdac9",
+      "bytes": 427
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/021454-HawkenGame.R_PlayerController.GotoSelectionStage.uc",
+      "sha256": "fbe39be8cde8012943451a88edfaeb09c805a8935beb500e48d6a3f7459845ee",
+      "bytes": 234
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/009083-HawkenGame.R_HUD.UpdateTeamSelectMenu.uc",
+      "sha256": "9a3e603a67608337cc1f9e60104fa2b9703ecc33ce1307a787b50b52bc0fc578",
+      "bytes": 1997
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/009077-HawkenGame.R_HUD.ShowMenu.uc",
+      "sha256": "403cd307045bc0ebcc043a816b858fdfc7c09878fe54349df094a0516194e31f",
+      "bytes": 5762
+    }
+  ],
+  "source_inputs": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+      "bytes": 22708
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "b3313d0edd5f627020f05a647198d3681b99232f77a1d437c2b8e66f19af3d39",
+      "bytes": 78838
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+      "bytes": 196041
+    }
+  ],
+  "stop_research_writes": true
+}

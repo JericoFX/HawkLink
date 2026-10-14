@@ -1,0 +1,88 @@
+{
+  "source_session": "local-steam-routing-20261014-224032",
+  "original_core_sha256": "6444d7acb1c72b740a89f97711ed13c740e1782485e6e93b419348fc913da87d",
+  "flags": [
+    {
+      "flag": "controller_sent",
+      "value": true
+    },
+    {
+      "flag": "pri_sent",
+      "value": true
+    },
+    {
+      "flag": "pawn_sent",
+      "value": true
+    },
+    {
+      "flag": "gri_sent",
+      "value": true
+    },
+    {
+      "flag": "controller_open_acked",
+      "value": true
+    },
+    {
+      "flag": "pri_open_acked",
+      "value": true
+    },
+    {
+      "flag": "pawn_open_acked",
+      "value": true
+    },
+    {
+      "flag": "gri_open_acked",
+      "value": true
+    },
+    {
+      "flag": "actor_links_sent",
+      "value": true
+    },
+    {
+      "flag": "pri_identity_sent",
+      "value": true
+    },
+    {
+      "flag": "pri_identity_acked",
+      "value": true
+    },
+    {
+      "flag": "game_class_sent",
+      "value": true
+    },
+    {
+      "flag": "game_class_acked",
+      "value": true
+    },
+    {
+      "flag": "hud_sent",
+      "value": true
+    },
+    {
+      "flag": "hud_acked",
+      "value": true
+    },
+    {
+      "flag": "spawn_validation_requested",
+      "value": false
+    },
+    {
+      "flag": "spawn_validation_sent",
+      "value": false
+    },
+    {
+      "flag": "stage3_requested",
+      "value": false
+    },
+    {
+      "flag": "client_restart_sent",
+      "value": false
+    },
+    {
+      "flag": "closed",
+      "value": false
+    }
+  ],
+  "interpretation": "Sent and actual ACK evidence, not full native identity/selection/possession acceptance. Native log proves GameClass R_PawnContent.",
+  "selected_sample": "Last nonclosed diagnostic state before client exit; later closed-state rows are not substituted"
+}

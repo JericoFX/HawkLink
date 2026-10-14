@@ -1,0 +1,22 @@
+{
+  "phase": "READY_GREEN_UNBUILT",
+  "changes": [
+    "Const Impl selection_bootstrap copied from config; forwarded at the final Owner start argument after pri_identity.",
+    "Before Impl/socket, require publication/controller/PRI/Pawn/links, distinct channel1..2047, nonnegative local indices, positive cache bounds/IDs within bounds, all12explicitpremises.",
+    "Shared Controller bound with links and each optional StartMech/SpawnValidation/Admission policy; HUD ID cannot collide with Controller link properties or configured RPC IDs.",
+    "Same fixed startup_failed, existing callbacks, Session/Context, auth, SQL and stop lifetime. No identity/class inference or match-state write."
+  ],
+  "fixture_erratum": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/fixture-erratum/proof.json",
+    "sha256": "9b05679a741d452f7b3215e2a1f635bd13cabfd46c41920aa6a6f3c2f560db27",
+    "bytes": 1852
+  },
+  "old_test_prefix_byte_exact": true,
+  "count_boundary": "Luna measured34 prior Runtime platform cases, not the earlier textual notes33; two new cases unchanged except parent-authorized cache/oracle correction.",
+  "limits": [
+    "Runtime validates scalar/premise/channel configuration before bind; existing Owner additionally validates transform/payload quotas and resolves actual negotiated package ranges after Join.",
+    "Typed premises and explicit coordinates do not establish native application, HUD/UI or gameplay. No forced bMatchHasBegun/ready/UI policy."
+  ],
+  "writer_builds_tests_runtime_git": 0,
+  "own_persistent_helpers": 0
+}

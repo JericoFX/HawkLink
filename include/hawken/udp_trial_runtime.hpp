@@ -78,6 +78,10 @@ struct UdpTrialConfig {
     // integer order and all premises before bind; Owner rechecks and uses its
     // server-owned SessionProvision.user_guid. No inferred fields or identity.
     std::optional<PriIdentityDispatchPlan> pri_identity = std::nullopt;
+    // Optional copied GRI/GameClass/ClientSetHUD metadata policy. Requires the
+    // publication and existing Controller/PRI/Pawn/link plans; no schema/class
+    // identity, match-start, UI state or native actor application is inferred.
+    std::optional<SelectionBootstrapPlan> selection_bootstrap = std::nullopt;
 
 
 };

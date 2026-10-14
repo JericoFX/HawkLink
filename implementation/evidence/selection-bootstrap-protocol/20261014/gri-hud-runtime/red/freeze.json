@@ -1,0 +1,80 @@
+{
+  "phase": "READY_RED",
+  "sources": [
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "650f6d0b563932d247b5f2ea66e23756b34892d8580054154a833bb3a44d4533",
+      "bytes": 7648
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "72471715bff8a2b052cea31a9603a361b6c69e7c4b56bcd023cbaba4c10d92fc",
+      "bytes": 14021
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "92fa03bba94d23cc15b5e58026ac19bd64572ead3d073c54648d57a7f47a3634",
+      "bytes": 101666
+    }
+  ],
+  "preimages": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/udp_trial_runtime.hpp.before",
+      "sha256": "81769d329aef8c43c3be50324275b1ddd71edc9ae283670b39a77fabfe47e669",
+      "bytes": 7330
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/udp_trial_runtime.cpp.before",
+      "sha256": "1b2b4ac8656ce7f73d0060b0b3768bb88ace4d17ab548c36427484c74a3a5f80",
+      "bytes": 13971
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/udp_trial_runtime_tests.cpp.before",
+      "sha256": "67b7d2b15b935ba3661d2510340de4f3483a8ae106f370910a6aae55b0c7e3ed",
+      "bytes": 90737
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/udp_trial_runtime.hpp",
+      "sha256": "650f6d0b563932d247b5f2ea66e23756b34892d8580054154a833bb3a44d4533",
+      "bytes": 7648
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/udp_trial_runtime.cpp",
+      "sha256": "72471715bff8a2b052cea31a9603a361b6c69e7c4b56bcd023cbaba4c10d92fc",
+      "bytes": 14021
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/udp_trial_runtime_tests.cpp",
+      "sha256": "92fa03bba94d23cc15b5e58026ac19bd64572ead3d073c54648d57a7f47a3634",
+      "bytes": 101666
+    }
+  ],
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/source.diff",
+    "sha256": "237eef3895eee3392cbeb1b4f5f03c6ae48e8fb7676bbede027bd9fc5dc66c69",
+    "bytes": 13001
+  },
+  "notes": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/notes.json",
+    "sha256": "e2a3eff8f4f425f87dba8e65b24e4e04235b058bfe2142a5072b884775b57d8d",
+    "bytes": 1203
+  },
+  "fixture_proof": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/fixture-proof.json",
+    "sha256": "69839e7f19f013167795fe61dae777336a92ff976c96a6c18171469400e3e2e8",
+    "bytes": 1185
+  },
+  "owner_header_api": {
+    "path": "include/hawken/local_udp_owner.hpp",
+    "sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+    "bytes": 22708
+  },
+  "parent_cmake": {
+    "path": "CMakeLists.txt",
+    "sha256": "23648a76e011b76d8cd1e02998ea5cad8820c806adf215b358fda285e8bc9ae1",
+    "bytes": 53511
+  },
+  "writer_builds_tests_runtime": 0
+}

@@ -1,0 +1,370 @@
+UpdateCTestConfiguration  from :F:/HawkenServer/build/windows-msvc/DartConfiguration.tcl
+Parse Config file:F:/HawkenServer/build/windows-msvc/DartConfiguration.tcl
+Test project F:/HawkenServer/build/windows-msvc
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 9
+    Start  9: local_udp_owner
+
+9: Test command: F:\HawkenServer\build\windows-msvc\hawken-local-udp-tests.exe
+9: Working Directory: F:/HawkenServer/build/windows-msvc
+9: Test timeout computed to be: 120
+9: [doctest] doctest version is "2.4.12"
+9: [doctest] run with "--help" for options
+9: ===============================================================================
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(2917):
+9: TEST CASE:  UDP selection bootstrap opens fourth GRI then gates HUD on actual GameClass and link ACKs
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(2864): FATAL ERROR: REQUIRE( actors.bunches.size()==4 ) is NOT correct!
+9:   values: REQUIRE( 3 == 4 )
+9: 
+9: ===============================================================================
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(2959):
+9: TEST CASE:  UDP selection bootstrap retries GameClass on observed ACK gap before one HUD send
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(2864): FATAL ERROR: REQUIRE( actors.bunches.size()==4 ) is NOT correct!
+9:   values: REQUIRE( 3 == 4 )
+9: 
+9: ===============================================================================
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(2986):
+9: TEST CASE:  UDP selection bootstrap GameClass opening gate is independent of configured PRI identity
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(2864): FATAL ERROR: REQUIRE( actors.bunches.size()==4 ) is NOT correct!
+9:   values: REQUIRE( 3 == 4 )
+9: 
+9: ===============================================================================
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3000):
+9: TEST CASE:  UDP selection bootstrap requires all schema premises and prior actors before retryable start
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 5
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 5
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 6
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 6
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 7
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 7
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 8
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 8
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 9
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 9
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 10
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 10
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 11
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 11
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 12
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 12
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 13
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 13
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 14
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 14
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 15
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 15
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 16
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 16
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: missing := 17
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3018): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: missing := 17
+9: 
+9: ===============================================================================
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3026):
+9: TEST CASE:  UDP selection bootstrap rejects channel reference schema and budget contradictions before commit
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 0
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 0
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 1
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 1
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 2
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 2
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 3
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 3
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 4
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 4
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 5
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 5
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 6
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 6
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 7
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 7
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 8
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 8
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 9
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 9
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 10
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 10
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 11
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 11
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 12
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 12
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 13
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 13
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+9:   logged: bad := 14
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3051): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: bad := 14
+9: 
+9: ===============================================================================
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3056):
+9: TEST CASE:  UDP selection bootstrap never completes after publication failure revocation or stop
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3069): ERROR: CHECK( wait_until([&]{return f.owner.diagnostics().closed;}) ) is NOT correct!
+9:   values: CHECK( false )
+9:   logged: terminal := 0
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(3070): ERROR: CHECK_FALSE( f.service->authorize_udp(public_id) ) is NOT correct!
+9:   values: CHECK_FALSE( true )
+9:   logged: terminal := 0
+9: 
+9: F:\HawkenServer\tests\local_udp_owner_tests.cpp(2864): FATAL ERROR: REQUIRE( actors.bunches.size()==4 ) is NOT correct!
+9:   values: REQUIRE( 3 == 4 )
+9:   logged: terminal := 1
+9: 
+9: ===============================================================================
+9: [doctest] test cases:  116 |  110 passed |  6 failed | 0 skipped
+9: [doctest] assertions: 6528 | 6466 passed | 62 failed |
+9: [doctest] Status: FAILURE!
+1/2 Test  #9: local_udp_owner ..................***Failed   63.63 sec
+test 10
+    Start 10: udp_trial_runtime
+
+10: Test command: F:\HawkenServer\build\windows-msvc\hawken-udp-trial-runtime-tests.exe
+10: Working Directory: F:/HawkenServer/build/windows-msvc
+10: Test timeout computed to be: 120
+10: [doctest] doctest version is "2.4.12"
+10: [doctest] run with "--help" for options
+10: ===============================================================================
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1570):
+10: TEST CASE:  UDP trial selection bootstrap copies policy and orders fourth actor GameClass and HUD by real ACKs
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1599): FATAL ERROR: REQUIRE( opened.openings.bunches.size()==4 ) is NOT correct!
+10:   values: REQUIRE( 3 == 4 )
+10: 
+10: ===============================================================================
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1647):
+10: TEST CASE:  UDP trial selection bootstrap validates prerequisites channel ranges and explicit schema before startup
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 4
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 5
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 6
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 7
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 8
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 9
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 10
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 11
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 12
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 13
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 14
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 15
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 16
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 17
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 18
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 19
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 20
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 21
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 22
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 23
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 24
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 25
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 26
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 27
+10: 
+10: F:\HawkenServer\tests\udp_trial_runtime_tests.cpp(1691): ERROR: CHECK_THROWS_WITH_AS( udp::UdpTrialRuntime(f.auth,selected), "UDP trial runtime could not start.", std::runtime_error ) did NOT throw at all!
+10:   logged: invalid := 28
+10: 
+10: ===============================================================================
+10: [doctest] test cases:   36 |   34 passed |  2 failed | 0 skipped
+10: [doctest] assertions: 3280 | 3254 passed | 26 failed |
+10: [doctest] Status: FAILURE!
+2/2 Test #10: udp_trial_runtime ................***Failed   10.50 sec
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =  74.32 sec
+
+The following tests FAILED:
+	  9 - local_udp_owner (Failed)
+	 10 - udp_trial_runtime (Failed)

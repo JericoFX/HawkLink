@@ -1,0 +1,33 @@
+{
+  "schema": "gri-hud-green-preflight.v1",
+  "utc": "2026-10-14T22:37:16.5951773Z",
+  "freeze_sha256": "1ffcde80b4f281542cb8eae240e53c3e320e591b853d79b213f9e547adfb7256",
+  "expected_freeze_sha256": "1ffcde80b4f281542cb8eae240e53c3e320e591b853d79b213f9e547adfb7256",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "aux_count": 3,
+  "aux_matches": 3,
+  "wrapper_sha256": "49a079e12d99ddc582115d109034c6e94a4e0ba54dd62909c01e8818b922d477",
+  "ram_used_percent": 78.25,
+  "free_kib": 7276708,
+  "active_builds": [],
+  "tracked_processes": [
+    {
+      "pid": 21152,
+      "present": false
+    },
+    {
+      "pid": 25784,
+      "present": false
+    },
+    {
+      "pid": 26104,
+      "present": false
+    },
+    {
+      "pid": 29844,
+      "present": false
+    }
+  ]
+}

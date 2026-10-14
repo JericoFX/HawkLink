@@ -165,6 +165,7 @@ struct Entry {
     bool links_sent=false; // Worker-only per-session emission state, not a diagnostic gate.
     std::optional<wire::identity::UniqueId> pri_identity;
     bool pri_identity_sent=false;
+    bool gri_sent=false,game_class_sent=false,hud_sent=false;
     std::optional<wire::rpc::StartMechArguments> pending_mech;
     std::uint8_t setup_id;
     std::optional<wire::rpc::StartMechArguments> accepted_mech;
@@ -193,6 +194,8 @@ struct Registry {
     std::atomic<bool> stage3_requested{false},client_restart_sent{false};
     std::atomic<bool> controller_open_acked{false},pri_open_acked{false},pawn_open_acked{false};
     std::atomic<bool> actor_links_sent{false},pri_identity_sent{false},pri_identity_acked{false};
+    std::atomic<bool> gri_sent{false},gri_open_acked{false},game_class_sent{false},game_class_acked{false};
+    std::atomic<bool> hud_sent{false},hud_acked{false};
 
     void retire(const std::shared_ptr<Entry>& target) noexcept {
         if (!target) return;
@@ -299,6 +302,7 @@ struct LocalUdpOwner::Impl {
     SpawnSelectionValidator spawn_validator;
     std::optional<SpawnAdmissionDispatchPlan> admission_plan;
     std::optional<PriIdentityDispatchPlan> pri_identity_plan;
+    std::optional<SelectionBootstrapPlan> bootstrap_plan;
     bool provision_identity_enabled=false; // Immutable after start, also read by handoff.
     std::uint8_t initial_setup_id=0; // Immutable after start publishes running, also read by handoff.
     struct MechWork {
@@ -428,6 +432,63 @@ struct LocalUdpOwner::Impl {
             entry.links_sent=true; registry->actor_links_sent=true;
             return true;
         } catch (...) { return false; } // Caller retires only AFTER releasing Use.
+    }
+    bool send_bootstrap(Entry& entry,double now) noexcept {
+        if (!bootstrap_plan) return true;
+        if (stopping.load() || entry.connection->snapshot().closed) return false;
+        if (!entry.gri_sent) return true;
+        try {
+            const auto& plan=*bootstrap_plan;
+            const auto gri=entry.connection->channel_snapshot(plan.gri.channel.channel);
+            if (!gri || !gri->opening_packet_id || !gri->outgoing_open_acked || gri->closed)
+                return true;
+            registry->gri_open_acked=true;
+            const auto cap=static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8;
+            if (!entry.game_class_sent) {
+                // ClassProperty uses the verified ObjectProperty PRIMARY reference
+                // serializer. Resolve the UClass, not its CDO, after publication.
+                const auto reference=entry.connection->resolve_package_reference(
+                    plan.game_class_package_guid,plan.game_class_local_net_index);
+                const std::array fields{wire::property::ObjectProperty{plan.game_class_field_id,reference}};
+                auto payload=wire::property::encode_object_properties(fields,plan.gri_exclusive_bound,cap);
+                wire::Bunch bunch;
+                bunch.reliable=true; bunch.channel_type=2; bunch.channel=plan.gri.channel.channel;
+                bunch.payload_bits=payload.logical_bits; bunch.payload=std::move(payload.payload);
+                const auto step=entry.connection->send_actor(bunch,now);
+                if (step.datagrams.empty() || step.closed || stopping.load() ||
+                    !send(entry,step) || stopping.load()) return false;
+                entry.game_class_sent=true; registry->game_class_sent=true;
+                return true; // The new reliable property has not been ACKed yet.
+            }
+            if (gri->outgoing_bunches!=0) return true;
+            registry->game_class_acked=true;
+            if (!entry.links_sent) return true;
+            const auto controller=entry.connection->channel_snapshot(controller_plan->channel.channel);
+            const auto pawn=entry.connection->channel_snapshot(pawn_plan->channel.channel);
+            if (!controller || !pawn || controller->closed || pawn->closed ||
+                !controller->opening_packet_id || !pawn->opening_packet_id ||
+                !controller->outgoing_open_acked || !pawn->outgoing_open_acked)
+                return true;
+            if (entry.hud_sent) {
+                if (controller->outgoing_bunches==0) registry->hud_acked=true;
+                return true;
+            }
+            // links_sent records sends only. Both reliable queues must actually
+            // drain before this RPC; GameClass is independently gated from UID.
+            if (controller->outgoing_bunches!=0 || pawn->outgoing_bunches!=0) return true;
+            const auto reference=entry.connection->resolve_package_reference(
+                plan.hud_package_guid,plan.hud_local_net_index);
+            auto payload=wire::rpc::encode_rpc({plan.client_set_hud_field_id,reference},
+                plan.controller_exclusive_bound,true,cap);
+            wire::Bunch bunch;
+            bunch.reliable=true; bunch.channel_type=2; bunch.channel=controller_plan->channel.channel;
+            bunch.payload_bits=payload.logical_bits; bunch.payload=std::move(payload.payload);
+            const auto step=entry.connection->send_actor(bunch,now);
+            if (step.datagrams.empty() || step.closed || stopping.load() ||
+                !send(entry,step) || stopping.load()) return false;
+            entry.hud_sent=true; registry->hud_sent=true;
+            return true;
+        } catch (...) { return false; } // The same pinned caller retires after Use.
     }
     bool collect_start_mech(Entry& entry,const std::vector<wire::Bunch>& bunches) {
         if (!start_mech_plan) return true;
@@ -821,6 +882,27 @@ struct LocalUdpOwner::Impl {
                                             registry->pawn_sent=true;
                                         else terminal=true;
                                     }
+                                    if (!terminal && bootstrap_plan) {
+                                        const auto& gri=bootstrap_plan->gri;
+                                        const auto gri_reference=entry.connection->resolve_package_reference(
+                                            gri.archetype_package_guid,gri.archetype_local_net_index);
+                                        // GRI shares the verified null-GetPC actor prefix,
+                                        // with caller-supplied CDO/rotation eligibility.
+                                        auto gri_payload=wire::actor::encode_initial_pawn(
+                                            {gri_reference,gri.position,gri.rotation},
+                                            static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
+                                        entry.connection->register_actor_channel(gri.channel);
+                                        wire::Bunch gri_bunch;
+                                        gri_bunch.control=true; gri_bunch.open=true; gri_bunch.reliable=true;
+                                        gri_bunch.channel=gri.channel.channel; gri_bunch.channel_type=2;
+                                        gri_bunch.payload_bits=gri_payload.payload_bits;
+                                        gri_bunch.payload=std::move(gri_payload.payload);
+                                        const auto gri_step=entry.connection->send_actor(gri_bunch,now);
+                                        if (!gri_step.datagrams.empty() && !stopping.load() &&
+                                            send(entry,gri_step) && !stopping.load() && !gri_step.closed) {
+                                            entry.gri_sent=true; registry->gri_sent=true;
+                                        } else terminal=true;
+                                    }
                                 }
                                 else terminal=true;
                             }
@@ -828,6 +910,7 @@ struct LocalUdpOwner::Impl {
                     }
                 }
                 if (!terminal && !send_links(entry,now)) terminal=true;
+                if (!terminal && !send_bootstrap(entry,now)) terminal=true;
                 if (!terminal && !collect_start_mech(entry,step.actor_bunches)) terminal=true;
                 if (!terminal && !take_start_mech(*use,mech)) terminal=true;
             } catch (const game::ConnectionError&) {
@@ -864,6 +947,7 @@ struct LocalUdpOwner::Impl {
                 const bool sent=send(entry,step);
                 terminal=step.closed || !sent;
                 if (!terminal && !send_links(entry,now)) terminal=true;
+                if (!terminal && !send_bootstrap(entry,now)) terminal=true;
                 if (!terminal && !take_start_mech(*use,mech)) terminal=true;
             } catch (...) { terminal=true; }
         }
@@ -940,7 +1024,8 @@ struct LocalUdpOwner::Impl {
                std::optional<SpawnValidationDispatchPlan> spawn_validation,
                SpawnSelectionValidator selection_validator,
                std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
-               std::optional<PriIdentityDispatchPlan> pri_identity) {
+               std::optional<PriIdentityDispatchPlan> pri_identity,
+               std::optional<SelectionBootstrapPlan> selection_bootstrap) {
         if (!callback || started || stopping.load()) fail(LocalUdpErrorCode::invalid_lifecycle);
         if (publication && !validator) fail(LocalUdpErrorCode::invalid_configuration);
         if (controller) {
@@ -1094,6 +1179,48 @@ struct LocalUdpOwner::Impl {
                     static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
             } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
         }
+        if (selection_bootstrap) {
+            const auto& plan=*selection_bootstrap;
+            const auto& e=plan.eligibility;
+            if (!validator || !publication || !controller || !pri || !pawn || !links ||
+                !e.primary_package_map || !e.common_gri_prefix_correct || !e.gri_cdo_correct ||
+                !e.gri_cache_correct || !e.game_class_property_eligible ||
+                !e.game_class_property_class_correct || !e.game_class_meta_class_correct ||
+                !e.controller_cache_correct || !e.client_set_hud_rpc_eligible ||
+                !e.hud_parameter_eligible || !e.hud_parameter_class_correct || !e.hud_meta_class_correct ||
+                plan.gri.channel.channel==0 || plan.gri.channel.channel>2047 ||
+                plan.gri.channel.channel==controller->channel.channel ||
+                plan.gri.channel.channel==pri->channel.channel || plan.gri.channel.channel==pawn->channel.channel ||
+                plan.gri.archetype_local_net_index<0 || plan.game_class_local_net_index<0 || plan.hud_local_net_index<0 ||
+                plan.gri_exclusive_bound==0 || plan.game_class_field_id>=plan.gri_exclusive_bound ||
+                plan.controller_exclusive_bound!=links->controller_exclusive_bound ||
+                plan.client_set_hud_field_id>=plan.controller_exclusive_bound ||
+                plan.client_set_hud_field_id==links->controller_pri_field_id ||
+                plan.client_set_hud_field_id==links->controller_pawn_field_id)
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (start_mech && (plan.controller_exclusive_bound!=start_mech->controller_exclusive_bound ||
+                plan.client_set_hud_field_id==start_mech->controller_rpc_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (spawn_validation && (plan.controller_exclusive_bound!=spawn_validation->controller_exclusive_bound ||
+                plan.client_set_hud_field_id==spawn_validation->validate_rpc_field_id ||
+                plan.client_set_hud_field_id==spawn_validation->validated_rpc_field_id ||
+                plan.client_set_hud_field_id==spawn_validation->failed_rpc_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (spawn_admission && (plan.controller_exclusive_bound!=spawn_admission->controller_exclusive_bound ||
+                plan.client_set_hud_field_id==spawn_admission->stage_rpc_field_id ||
+                plan.client_set_hud_field_id==spawn_admission->client_restart_rpc_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            try {
+                const auto cap=static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8;
+                static_cast<void>(wire::actor::encode_initial_pawn(
+                    {{0},plan.gri.position,plan.gri.rotation},cap));
+                const std::array fields{wire::property::ObjectProperty{plan.game_class_field_id,
+                    wire::object::PackageExportReference{0}}};
+                static_cast<void>(wire::property::encode_object_properties(fields,plan.gri_exclusive_bound,cap));
+                static_cast<void>(wire::rpc::encode_rpc({plan.client_set_hud_field_id,
+                    wire::object::PackageExportReference{0}},plan.controller_exclusive_bound,true,cap));
+            } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
+        }
         authorizer=std::move(callback); login_validator=std::move(validator);
         publication_provider=std::move(publication); controller_plan=std::move(controller);
         pawn_plan=std::move(pawn); pri_plan=std::move(pri); links_plan=std::move(links);
@@ -1103,6 +1230,7 @@ struct LocalUdpOwner::Impl {
         admission_plan=std::move(spawn_admission);
         provision_identity_enabled=pri_identity.has_value();
         pri_identity_plan=std::move(pri_identity);
+        bootstrap_plan=std::move(selection_bootstrap);
         started=true;
         {
             std::lock_guard lock(registry->mutex); registry->accepting=true;
@@ -1110,14 +1238,14 @@ struct LocalUdpOwner::Impl {
         running=true;
         try { worker=std::thread([this]{loop();}); }
         catch (...) {
-            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset();
+            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset();
             fail(LocalUdpErrorCode::invalid_lifecycle);
         }
     }
     void stop() noexcept {
         running=false; stopping=true; registry->close();
         if (worker.joinable()) worker.join();
-        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset();
+        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset();
         { std::lock_guard lock(clock_mutex); clock={}; }
         std::lock_guard lock(socket_mutex); socket.close();
     }
@@ -1204,7 +1332,9 @@ LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
         impl_->registry->client_restart_sent.load(),impl_->registry->controller_open_acked.load(),
         impl_->registry->pri_open_acked.load(),impl_->registry->pawn_open_acked.load(),
         impl_->registry->actor_links_sent.load(),impl_->registry->pri_identity_sent.load(),
-        impl_->registry->pri_identity_acked.load()};
+        impl_->registry->pri_identity_acked.load(),impl_->registry->gri_sent.load(),
+        impl_->registry->gri_open_acked.load(),impl_->registry->game_class_sent.load(),
+        impl_->registry->game_class_acked.load(),impl_->registry->hud_sent.load(),impl_->registry->hud_acked.load()};
 }
 bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {
     return impl_->bound(destination);
@@ -1218,12 +1348,13 @@ void LocalUdpOwner::start(Authorizer authorize, LoginResponseValidator validate_
                           std::optional<SpawnValidationDispatchPlan> spawn_validation,
                           SpawnSelectionValidator selection_validator,
                           std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
-                          std::optional<PriIdentityDispatchPlan> pri_identity) {
+                          std::optional<PriIdentityDispatchPlan> pri_identity,
+                          std::optional<SelectionBootstrapPlan> selection_bootstrap) {
     impl_->start(std::move(authorize),std::move(validate_response),std::move(publication),
         std::move(controller),std::move(pawn),std::move(pri),std::move(links),
         std::move(start_mech),std::move(mech_provider),
         std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
-        std::move(pri_identity));
+        std::move(pri_identity),std::move(selection_bootstrap));
 }
 void LocalUdpOwner::stop() noexcept { impl_->stop(); }
 std::unique_ptr<assignment::UdpSessionLease> LocalUdpOwner::handoff(

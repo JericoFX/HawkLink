@@ -1531,3 +1531,177 @@ TEST_CASE("UDP trial PRI identity preflight preserves bind rollback and authenti
     CHECK(provision(runtime,login).status==200); // No failed preflight consumed the first installation.
     CHECK(f.store.wallet(account->ref)==wallet); runtime.stop();
 }
+
+
+namespace {
+udp::InitialActorLinksPlan runtime_bootstrap_links_plan() {
+    // Same synthetic roles, with the single Controller cache shared by HUD.
+    return {3,5,294,1,6,8};
+}
+udp::SelectionBootstrapPlan runtime_selection_bootstrap_plan() {
+    const std::array<std::uint32_t,4> package_guid={0x01020304U,0x12345678U,0x80000000U,0xffffffffU};
+    // FRoot's synthetic three-object map: CDO local0, GameClass local1, HUDClass
+    // local2. PackageExport0 is not an actor-channel0/null reference.
+    udp::InitialPawnPlan gri{{10,111,0,false},package_guid,0,{0,0,0},std::nullopt};
+    return {gri,package_guid,1,package_guid,2,31,73,42,294,
+        {true,true,true,true,true,true,true,true,true,true,true,true}};
+}
+struct RuntimeBootstrapPackets {
+    RuntimeLinksPackets properties;
+    RuntimeLinksPackets openings;
+};
+RuntimeBootstrapPackets runtime_bootstrap_packets(Peer& peer,session::Context& client,
+    std::chrono::milliseconds budget,std::size_t expected_properties,std::size_t expected_openings=0) {
+    RuntimeBootstrapPackets output;
+    const auto deadline=std::chrono::steady_clock::now()+budget;
+    while (std::chrono::steady_clock::now()<deadline) {
+        const auto datagram=peer.receive(20ms); if (!datagram) continue;
+        const auto value=wire::decode_packet(client.decode(*datagram),512);
+        for (const auto& record:value.records) {
+            if (record.is_ack || record.bunch.channel==0) continue;
+            auto& destination=record.bunch.open ? output.openings : output.properties;
+            destination.bunches.push_back(record.bunch); destination.packet_ids.push_back(value.packet_id);
+        }
+        if (output.properties.bunches.size()>=expected_properties &&
+            output.openings.bunches.size()>=expected_openings) break;
+    }
+    return output;
+}
+void runtime_bootstrap_append_acks(std::vector<std::uint16_t>& ids,const RuntimeLinksPackets& packets) {
+    ids.insert(ids.end(),packets.packet_ids.begin(),packets.packet_ids.end());
+}
+}
+TEST_CASE("UDP trial selection bootstrap copies policy and orders fourth actor GameClass and HUD by real ACKs") {
+    Fixture f; std::unique_ptr<udp::UdpTrialRuntime> runtime;
+    {
+        auto selected=config(); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+        selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+        runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+        selected.selection_bootstrap->gri.channel.channel=7;
+        selected.selection_bootstrap->game_class_field_id=99;
+        selected.selection_bootstrap->eligibility.hud_parameter_eligible=false;
+        selected.selection_bootstrap.reset(); selected.links.reset();
+    }
+    Peer peer;
+    peer.send(runtime->port(),Bytes(64,0)); // No installed authenticated Context.
+    CHECK_FALSE(peer.receive(20ms));
+    CHECK(runtime->diagnostics().authenticated_datagrams==0);
+    CHECK_FALSE(runtime->diagnostics().gri_sent); CHECK_FALSE(runtime->diagnostics().game_class_sent);
+    CHECK_FALSE(runtime->diagnostics().hud_sent);
+    const auto login=f.login(); const auto dto=provision(*runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    const auto account=f.store.find_account("76561197960265729"); REQUIRE(account);
+    const auto wallet=f.store.wallet(account->ref);
+    session::Context client(session::Role::client,id,key);
+    runtime_publish(*runtime,login,peer,client);
+    peer.send(runtime->port(),packet(client,4,5,
+        public_hex("08040302017856341200000080ffffffff0200000009")));
+    const auto opened=runtime_bootstrap_packets(peer,client,2000ms,0,4);
+    REQUIRE(opened.openings.bunches.size()==4); REQUIRE(opened.openings.packet_ids.size()==4);
+    CHECK(opened.properties.bunches.empty());
+    constexpr std::array<std::uint16_t,4> channels={7,9,8,10};
+    constexpr std::array<std::uint16_t,4> sequences={42,92,72,112};
+    for (std::size_t i=0;i<4;++i) {
+        REQUIRE(opened.openings.bunches[i].channel==channels[i]);
+        CHECK(opened.openings.bunches[i].sequence==sequences[i]);
+        CHECK(opened.openings.bunches[i].open); CHECK(opened.openings.bunches[i].reliable);
+    }
+    CHECK(opened.openings.bunches[3].payload==public_hex("000000004005"));
+    CHECK(opened.openings.bunches[3].payload_bits==43);
+    CHECK_FALSE(runtime->diagnostics().game_class_sent); CHECK_FALSE(runtime->diagnostics().hud_sent);
+    // GRI ACK is independent of the other three opening ACKs. Preserve all
+    // opening copies actually observed while collecting the GameClass payload.
+    peer.send(runtime->port(),runtime_links_ack(client,5,{opened.openings.packet_ids[3]}));
+    const auto game_class=runtime_bootstrap_packets(peer,client,2000ms,1);
+    REQUIRE(game_class.properties.bunches.size()==1); const auto& gri=game_class.properties.bunches[0];
+    CHECK(gri.channel==10); CHECK(gri.sequence==113); CHECK(gri.reliable); CHECK(gri.channel_type==2);
+    CHECK_FALSE(gri.open); CHECK_FALSE(gri.close);
+    CHECK(gri.payload_bits==38); CHECK(gri.payload==public_hex("9f00000000"));
+    CHECK_FALSE(runtime->diagnostics().hud_sent);
+    std::vector<std::uint16_t> ready={opened.openings.packet_ids[0],opened.openings.packet_ids[1],opened.openings.packet_ids[2]};
+    runtime_bootstrap_append_acks(ready,game_class.openings);
+    runtime_bootstrap_append_acks(ready,game_class.properties);
+    peer.send(runtime->port(),runtime_links_ack(client,6,ready));
+    const auto linked=runtime_bootstrap_packets(peer,client,2000ms,2);
+    REQUIRE(linked.properties.bunches.size()==2);
+    CHECK(linked.properties.bunches[0].channel==7); CHECK(linked.properties.bunches[0].sequence==43);
+    CHECK(linked.properties.bunches[0].payload==public_hex("0326a0400400"));
+    CHECK(linked.properties.bunches[0].payload_bits==42);
+    CHECK(linked.properties.bunches[1].channel==8); CHECK(linked.properties.bunches[1].sequence==73);
+    CHECK(linked.properties.bunches[1].payload==public_hex("79004f00"));
+    CHECK_FALSE(runtime->diagnostics().hud_sent); // GameClass ACK does not ACK PC/Pawn data.
+    ready.clear(); runtime_bootstrap_append_acks(ready,linked.openings);
+    runtime_bootstrap_append_acks(ready,linked.properties);
+    peer.send(runtime->port(),runtime_links_ack(client,7,ready));
+    const auto hud=runtime_bootstrap_packets(peer,client,2000ms,1);
+    REQUIRE(hud.properties.bunches.size()==1); const auto& controller=hud.properties.bunches[0];
+    CHECK(controller.channel==7); CHECK(controller.sequence==44);
+    CHECK(controller.reliable); CHECK(controller.channel_type==2);
+    CHECK_FALSE(controller.open); CHECK_FALSE(controller.close);
+    CHECK(controller.payload_bits==41); CHECK(controller.payload==public_hex("2a0900000000"));
+    peer.send(runtime->port(),runtime_links_ack(client,8,hud.properties.packet_ids));
+    REQUIRE(wait_until([&] { return runtime->diagnostics().game_class_acked && runtime->diagnostics().hud_acked; }));
+    CHECK(runtime_bootstrap_packets(peer,client,200ms,1).properties.bunches.empty());
+    CHECK(runtime->assignment().authorize_udp(id)); CHECK_FALSE(runtime->diagnostics().closed);
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    runtime->stop(); CHECK_FALSE(runtime->running()); CHECK_FALSE(runtime->assignment().authorize_udp(id));
+}
+TEST_CASE("UDP trial selection bootstrap validates prerequisites channel ranges and explicit schema before startup") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto wallet=f.store.wallet(account->ref);
+    std::uint16_t port=0; { Peer reservation; port=reservation.port(); }
+    for (unsigned invalid=0;invalid<29;++invalid) {
+        CAPTURE(invalid);
+        auto selected=config(port); selected.publication=public_publication();
+        selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+        selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+        selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+        auto& plan=*selected.selection_bootstrap;
+        switch (invalid) {
+        case 0: selected.publication.reset(); break;
+        case 1: selected.controller.reset(); break;
+        case 2: selected.pri.reset(); break;
+        case 3: selected.pawn.reset(); break;
+        case 4: selected.links.reset(); break;
+        case 5: plan.gri.channel.channel=7; break;
+        case 6: plan.gri.channel.channel=9; break;
+        case 7: plan.gri.channel.channel=8; break;
+        case 8: plan.gri.channel.channel=0; break;
+        case 9: plan.gri.channel.channel=2048; break;
+        case 10: plan.gri.archetype_local_net_index=-1; break;
+        case 11: plan.game_class_local_net_index=-1; break;
+        case 12: plan.hud_local_net_index=-1; break;
+        case 13: plan.gri_exclusive_bound=0; break;
+        case 14: plan.game_class_field_id=73; break;
+        case 15: plan.controller_exclusive_bound=0; break;
+        case 16: plan.client_set_hud_field_id=294; break;
+        case 17: plan.eligibility.primary_package_map=false; break;
+        case 18: plan.eligibility.common_gri_prefix_correct=false; break;
+        case 19: plan.eligibility.gri_cdo_correct=false; break;
+        case 20: plan.eligibility.gri_cache_correct=false; break;
+        case 21: plan.eligibility.game_class_property_eligible=false; break;
+        case 22: plan.eligibility.game_class_property_class_correct=false; break;
+        case 23: plan.eligibility.game_class_meta_class_correct=false; break;
+        case 24: plan.eligibility.controller_cache_correct=false; break;
+        case 25: plan.eligibility.client_set_hud_rpc_eligible=false; break;
+        case 26: plan.eligibility.hud_parameter_eligible=false; break;
+        case 27: plan.eligibility.hud_parameter_class_correct=false; break;
+        case 28: plan.eligibility.hud_meta_class_correct=false; break;
+        }
+        CHECK(udp::validate_trial_config(selected));
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        { Peer rebound(port); CHECK(rebound.port()==port); }
+        CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    }
+    auto selected=config(port); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+    selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+    udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); CHECK(runtime.port()==port);
+    CHECK(provision(runtime,login).status==200); // Rollback preserves the first valid installation.
+    CHECK(f.store.wallet(account->ref)==wallet); runtime.stop();
+}

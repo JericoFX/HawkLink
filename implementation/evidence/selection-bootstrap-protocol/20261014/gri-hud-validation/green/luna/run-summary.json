@@ -1,0 +1,94 @@
+{
+  "schema": "gri-hud-validation-green-summary.v1",
+  "freeze_sha256": "1ffcde80b4f281542cb8eae240e53c3e320e591b853d79b213f9e547adfb7256",
+  "expected_freeze_sha256": "1ffcde80b4f281542cb8eae240e53c3e320e591b853d79b213f9e547adfb7256",
+  "input_count": 185,
+  "input_matches": 185,
+  "input_mismatches": 0,
+  "aux_pin_count": 3,
+  "aux_pin_matches": 3,
+  "build_exit": 0,
+  "ctest_exit": 0,
+  "wrapper_exit": 0,
+  "registered_suites": 52,
+  "failed_suites": 0,
+  "skipped_suites": 0,
+  "doctest_cases": {
+    "total": 1437,
+    "passed": 1437,
+    "failed": 0,
+    "skipped": 0
+  },
+  "assertions": {
+    "total": 67834,
+    "passed": 67834,
+    "failed": 0
+  },
+  "failed_suites_names": [],
+  "build_steps": 17,
+  "rebuilt": [
+    "src/local_udp_owner.cpp",
+    "src/udp_trial_runtime.cpp",
+    "src/wreckage_trial.cpp",
+    "tools/wreckage_trial_probe.cpp",
+    "src/server_main.cpp",
+    "tests/server_listing_http_tests.cpp",
+    "tests/local_udp_owner_tests.cpp",
+    "tests/udp_trial_runtime_tests.cpp",
+    "tests/wreckage_trial_tests.cpp"
+  ],
+  "binary_hashes": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "sha256": "6444d7acb1c72b740a89f97711ed13c740e1782485e6e93b419348fc913da87d"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\client-bridge\\dinput8.dll",
+      "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+      "sha256": "1f782d2a626b0c58f5420a95801524b945fc4fda5d381595be87bf3ad3fcb10e"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-udp-trial-runtime-tests.exe",
+      "sha256": "d44c0a3f82e095bed52d583a7e4fa669406ee4362b85f2c6359ce2878b6e10d0"
+    }
+  ],
+  "protected_processes": [
+    {
+      "pid": 21152,
+      "present": false
+    },
+    {
+      "pid": 25784,
+      "present": false
+    }
+  ],
+  "active_build_processes": [],
+  "ram_used_percent_after": 76.55,
+  "free_kib_after": 7847676,
+  "dependency_inventory": "ninja-deps-after.txt: five listed objects have VALID nonzero deps; Owner/Runtime/Main include changed headers",
+  "raw_files": [
+    "preflight.json",
+    "devshell.stdout.log",
+    "devshell.stderr.log",
+    "devshell.exit.txt",
+    "build.stdout.log",
+    "build.stderr.log",
+    "build.exit.txt",
+    "ctest.stdout.log",
+    "ctest.stderr.log",
+    "ctest.exit.txt",
+    "tests.xml",
+    "wrapper.exit.txt",
+    "launcher.exit.txt",
+    "ninja-deps-after.txt",
+    "ninja-deps-after.exit.txt",
+    "input-hashes-after.json"
+  ]
+}

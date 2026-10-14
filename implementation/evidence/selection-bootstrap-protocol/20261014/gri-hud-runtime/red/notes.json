@@ -1,0 +1,14 @@
+{
+  "phase": "READY_RED",
+  "test_filter": "*UDP trial selection bootstrap*",
+  "new_cases": 2,
+  "invalid_constructor_variants": 29,
+  "old_tests_prefix_byte_identical": true,
+  "scaffold": "Optional config appended; explicit trailing nullopt Owner argument. No copy/forward/prereq bootstrap algorithm yet.",
+  "positive": "Real Auth/Assignment/SQL/Context/UDP; only external Steam verifier fake. Actor4 GRI literal; actual GRIopening ACK -> GameClass38bits independent other openings; GameClass ACK+PC/Pawn actual link property ACKs -> HUD41bits; duplicates after ACK do not resend. No auth/no opening ACK no bootstrap send.",
+  "packet_policy": "Collector retains every opening packet copy actually received during each property phase; ACK only observed IDs, never invented/future PID or timeout-forced acceptance.",
+  "premises": "12 explicit metadata booleans + publication/controller/PRI/Pawn/links + distinct valid channel + local index/bound/field ranges. Startup rollback checks real port rebind, wallet unchanged/no grants.",
+  "absent_plan": "Existing33 Runtime cases preserved, no prior oracles changed",
+  "writer_builds_tests_runtime_git": 0,
+  "own_persistent_helpers": 0
+}

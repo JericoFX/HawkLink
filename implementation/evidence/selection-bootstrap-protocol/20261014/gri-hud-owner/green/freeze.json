@@ -1,0 +1,74 @@
+{
+  "phase": "READY_GREEN_CANDIDATE",
+  "source_inputs": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+      "red_sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+      "bytes": 22708,
+      "changed": false
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "b3313d0edd5f627020f05a647198d3681b99232f77a1d437c2b8e66f19af3d39",
+      "red_sha256": "ebaed2566ae07ba4d2356f0ab8a985c21303aae6393ea7f579da8ad6b5bb81bb",
+      "bytes": 78838,
+      "changed": true
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+      "red_sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+      "bytes": 196041,
+      "changed": false
+    }
+  ],
+  "evidence_inputs": [
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/before-local_udp_owner.cpp",
+      "sha256": "ebaed2566ae07ba4d2356f0ab8a985c21303aae6393ea7f579da8ad6b5bb81bb",
+      "bytes": 69115
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/before-local_udp_owner.hpp",
+      "sha256": "da9a49553de46601219267acf8b175c1694801c98866ff3de3bece80798b0e8c",
+      "bytes": 22708
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/before-local_udp_owner_tests.cpp",
+      "sha256": "aa709f52bc5e60f7a69099a2a827295089ba68f548398c471d207dc4660bf3e0",
+      "bytes": 196041
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/before-pins.json",
+      "sha256": "6fd6f16a328ac63f5075a0c34b84a59040670698eea81e4f7a9e06b98e1f8788",
+      "bytes": 423
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/inputs.json",
+      "sha256": "ac10df5fbb14b118b6f61bd61364f265031ab990ebf746b654d027976f45e406",
+      "bytes": 816
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/local_udp_owner.cpp.diff",
+      "sha256": "f4069c7c0f2bf0309796e531c0fd46df89c242e428c14d7b8eb476d45adf0f85",
+      "bytes": 16112
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/make-diff.py",
+      "sha256": "376deada5d13c8af207fcb92b4022374decdc73eef861b66de56be0fa9c69bc9",
+      "bytes": 969
+    },
+    {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/green/report.json",
+      "sha256": "ab321f429ac5263f454c4e1311eb9b8f8e442ac1476b7a25d5c330ac25b009e0",
+      "bytes": 3045
+    }
+  ],
+  "previous_red_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-owner/red/freeze.json",
+    "sha256": "6e934e7b087922a7c0741cc3b20ece3fef96a46148bce5f99eb57a6b0aad11c8",
+    "bytes": 4702
+  },
+  "stop_all_owned_source_writes": true
+}

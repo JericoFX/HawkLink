@@ -1,0 +1,320 @@
+--- before/tests/local_udp_owner_tests.cpp
++++ tests/local_udp_owner_tests.cpp
+@@ -730,7 +730,8 @@
+                                    std::optional<udp::SpawnValidationDispatchPlan> spawn_validation=std::nullopt,
+                                    udp::LocalUdpOwner::SpawnSelectionValidator selection_validator={},
+                                    std::optional<udp::SpawnAdmissionDispatchPlan> spawn_admission=std::nullopt,
+-                                   std::optional<udp::PriIdentityDispatchPlan> pri_identity=std::nullopt)
++                                   std::optional<udp::PriIdentityDispatchPlan> pri_identity=std::nullopt,
++                                   std::optional<udp::SelectionBootstrapPlan> selection_bootstrap=std::nullopt)
+         : decision(std::move(action)),publication_decision(std::move(publisher)),
+           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
+         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
+@@ -760,12 +761,12 @@
+             },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links),
+                 std::move(start_mech),std::move(mech_provider),
+                 std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
+-                std::move(pri_identity));
++                std::move(pri_identity),std::move(selection_bootstrap));
+         else owner.start(std::move(authorize),{},std::move(publish),
+                             std::move(controller),std::move(pawn),std::move(pri),std::move(links),
+                 std::move(start_mech),std::move(mech_provider),
+                 std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
+-                std::move(pri_identity));
++                std::move(pri_identity),std::move(selection_bootstrap));
+     }
+     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
+     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
+@@ -2810,3 +2811,292 @@
+         CHECK(owner.running());
+     }
+ }
++
++namespace {
++constexpr std::array<std::uint32_t,4> bootstrap_hg{0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U};
++constexpr std::array<std::uint32_t,4> bootstrap_hgc{0x5cd139c7U,0x4aa73e14U,0xbd1c8593U,0xf86056ddU};
++game::WorldPublication bootstrap_world() {
++    // Synthetic metadata only: padding roots reproduce the retained PRIMARY
++    // coordinates HG=38336 and HGC=104786. No original assets/SHA gates here.
++    auto world=public_world();
++    world.packages[0].generation_net_counts={0,1639};
++    world.packages.push_back({"SPad",{10,11,12,13},{0,36697}});
++    world.packages.push_back({"HawkenGame",bootstrap_hg,{0,49101}});
++    world.packages.push_back({"TPad",{20,21,22,23},{0,17349}});
++    world.contained_packages.push_back({{"HawkenGameContent",bootstrap_hgc,{0,533}},"TPad"});
++    return world;
++}
++LoginAuthorityFixture::PublicationDecision bootstrap_publisher() {
++    return [](LoginAuthorityFixture&,const session::SessionId&,const control::posthello::Login&) {
++        return std::optional{bootstrap_world()};
++    };
++}
++udp::InitialActorLinksPlan bootstrap_links() {
++    auto links=public_links_plan(); links.controller_exclusive_bound=294; return links;
++}
++udp::SelectionBootstrapPlan public_bootstrap_plan() {
++    return {{{10,111,0,false},bootstrap_hg,9439,{0,0,0},std::nullopt},
++        bootstrap_hgc,232,bootstrap_hg,32596,31,73,42,294,
++        {true,true,true,true,true,true,true,true,true,true,true,true}};
++}
++Bytes bootstrap_join(session::Context& client) {
++    // Five independent PackageAck8 archives, generationCOUNT2, followed by Join9.
++    // The netcounts above are not the ACK values.
++    return authority_request(client,4,5,hex(
++        "08040302017856341200000080ffffffff02000000"
++        "080a0000000b0000000c0000000d00000002000000"
++        "0821675abf2b093349802f52e844c18f2302000000"
++        "081400000015000000160000001700000002000000"
++        "08c739d15c143ea74a93851cbddd5660f80200000009"));
++}
++struct BootstrapOpenings {
++    ControllerOutput actors;
++    std::vector<std::uint16_t> control_ids;
++};
++BootstrapOpenings bootstrap_openings(LoginAuthorityFixture& fixture,const auth::AuthReply& login,
++                                    Peer& peer,session::Context& client,bool rotated=false) {
++    publication_login(fixture,login,peer,client);
++    const auto publication=publication_packets(peer,client,6);
++    REQUIRE(publication.logical.size()==6);
++    CHECK_FALSE(fixture.owner.diagnostics().gri_sent);
++    peer.send(fixture.owner.port(),bootstrap_join(client));
++    auto actors=controller_output(peer,client,2000ms,4);
++    REQUIRE(actors.bunches.size()==4); REQUIRE(actors.packet_ids.size()==4);
++    const std::uint16_t channels[]{7,9,8,10};
++    const std::uint32_t sequences[]{42,102,72,112};
++    for (std::size_t i=0;i<4;++i) {
++        const auto& bunch=actors.bunches[i]; CHECK(bunch.channel==channels[i]); CHECK(bunch.sequence==sequences[i]);
++        CHECK(bunch.reliable); CHECK(bunch.control); CHECK(bunch.open); CHECK_FALSE(bunch.close);
++        CHECK(bunch.channel_type==2);
++    }
++    // GRI: primary coordinate47775 <<1, then the independently verified zero
++    // position11bits. No Controller NetPlayerIndex byte; optional zero rotation3bits.
++    CHECK(actors.bunches[3].payload==hex("3e7501004005"));
++    CHECK(actors.bunches[3].payload_bits==(rotated ? 46U : 43U));
++    CHECK(wait_until([&]{return fixture.owner.diagnostics().gri_sent;}));
++    std::vector<std::uint16_t> controls{1,3,5}; // Existing Hello literal fixture replies.
++    controls.insert(controls.end(),publication.packet_ids.begin(),publication.packet_ids.end());
++    return {std::move(actors),std::move(controls)};
++}
++std::vector<std::uint16_t> bootstrap_opening_acks(const BootstrapOpenings& out,bool include_gri=true) {
++    auto ids=out.control_ids;
++    ids.insert(ids.end(),out.actors.packet_ids.begin(),
++        out.actors.packet_ids.begin()+(include_gri ? 4 : 3));
++    return ids;
++}
++void bootstrap_property_literal(const ControllerOutput& out) {
++    REQUIRE(out.bunches.size()==1); REQUIRE(out.packet_ids.size()==1);
++    const auto& bunch=out.bunches[0];
++    // Field31/bound73 + PRIMARY Class coordinate105018. No RPC presence bit.
++    CHECK(bunch.channel==10); CHECK(bunch.sequence==113);
++    CHECK(bunch.payload==hex("1f1dcd0000")); CHECK(bunch.payload_bits==38);
++    CHECK(bunch.reliable); CHECK(bunch.channel_type==2);
++    CHECK_FALSE(bunch.control); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
++}
++void bootstrap_hud_literal(const ControllerOutput& out) {
++    REQUIRE(out.bunches.size()==1); REQUIRE(out.packet_ids.size()==1);
++    const auto& bunch=out.bunches[0];
++    // Field42/bound294 + present Class parameter + PRIMARY coordinate70932.
++    CHECK(bunch.channel==7); CHECK(bunch.sequence==44);
++    CHECK(bunch.payload==hex("2a5154040000")); CHECK(bunch.payload_bits==41);
++    CHECK(bunch.reliable); CHECK(bunch.channel_type==2);
++    CHECK_FALSE(bunch.control); CHECK_FALSE(bunch.open); CHECK_FALSE(bunch.close);
++}
++void bootstrap_start(udp::LocalUdpOwner& owner,const udp::SelectionBootstrapPlan& plan,
++                     udp::LocalUdpOwner::LoginResponseValidator validator,
++                     udp::LocalUdpOwner::PublicationProvider publisher,
++                     std::optional<udp::InitialControllerPlan> controller=public_controller_plan(),
++                     std::optional<udp::InitialPawnPlan> pawn=public_pawn_plan(),
++                     std::optional<udp::InitialPriPlan> pri=public_pri_plan(),
++                     std::optional<udp::InitialActorLinksPlan> links=bootstrap_links()) {
++    owner.start([](const session::SessionId&){return true;},std::move(validator),std::move(publisher),
++        controller,pawn,pri,links,{},{},{},{},{},{},plan);
++}
++}
++
++TEST_CASE("UDP selection bootstrap opens fourth GRI then gates HUD on actual GameClass and link ACKs") {
++    auto plan=public_bootstrap_plan(); plan.gri.rotation=wire::actor::Rotation{0,0,0};
++    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
++        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},{},plan);
++    // Caller mutation after start must not change any copied reference/rotation/schema.
++    plan.gri.rotation.reset(); plan.gri.channel.channel=11; plan.game_class_local_net_index=1;
++    plan.hud_local_net_index=1; plan.game_class_field_id=2; plan.client_set_hud_field_id=3;
++    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
++    const auto opens=bootstrap_openings(f,login,peer,client,true);
++    peer.send(f.owner.port(),links_ack(client,5,bootstrap_opening_acks(opens,false)));
++    const auto links=links_output(peer,client,2000ms,2); REQUIRE(links.bunches.size()==2);
++    REQUIRE(links.packet_ids.size()==2); CHECK(links.bunches[0].channel==7); CHECK(links.bunches[0].sequence==43);
++    CHECK(links.bunches[1].channel==8); CHECK(links.bunches[1].sequence==73);
++    CHECK(wait_until([&]{return f.owner.diagnostics().actor_links_sent;})); CHECK_FALSE(f.owner.diagnostics().gri_open_acked);
++    CHECK_FALSE(f.owner.diagnostics().game_class_sent); CHECK_FALSE(f.owner.diagnostics().hud_sent);
++    peer.send(f.owner.port(),links_ack(client,6,{opens.actors.packet_ids[3]}));
++    const auto property=links_output(peer,client,2000ms,1); bootstrap_property_literal(property);
++    CHECK(f.owner.diagnostics().gri_open_acked); CHECK(wait_until([&]{return f.owner.diagnostics().game_class_sent;}));
++    CHECK_FALSE(f.owner.diagnostics().game_class_acked); CHECK_FALSE(f.owner.diagnostics().hud_sent);
++    // Deliver only the Controller link. GameClass ACK is later than the still
++    // pending Pawn link, so that real ACK gap must retry the Pawn link first.
++    peer.send(f.owner.port(),links_ack(client,7,{links.packet_ids[0]}));
++    CHECK(links_output(peer,client).bunches.empty());
++    peer.send(f.owner.port(),links_ack(client,8,property.packet_ids));
++    const auto pawn_retry=links_output(peer,client,2000ms,1); REQUIRE(pawn_retry.bunches.size()==1);
++    REQUIRE(pawn_retry.packet_ids.size()==1); CHECK(pawn_retry.bunches[0].channel==8);
++    CHECK(pawn_retry.bunches[0].sequence==73); CHECK(pawn_retry.bunches[0].payload==links.bunches[1].payload);
++    CHECK(pawn_retry.packet_ids[0]>links.packet_ids[1]);
++    CHECK(wait_until([&]{return f.owner.diagnostics().game_class_acked;})); CHECK_FALSE(f.owner.diagnostics().hud_sent);
++    peer.send(f.owner.port(),links_ack(client,9,pawn_retry.packet_ids));
++    const auto hud=links_output(peer,client,2000ms,1); bootstrap_hud_literal(hud);
++    CHECK(wait_until([&]{return f.owner.diagnostics().hud_sent;})); CHECK_FALSE(f.owner.diagnostics().hud_acked);
++    peer.send(f.owner.port(),links_ack(client,10,hud.packet_ids));
++    CHECK(links_output(peer,client).bunches.empty());
++    CHECK(wait_until([&]{return f.owner.diagnostics().hud_acked;}));
++    peer.send(f.owner.port(),links_ack(client,11,hud.packet_ids));
++    CHECK(links_output(peer,client).bunches.empty());
++    peer.send(f.owner.port(),bootstrap_join(client)); // Duplicate reliable Join, fresh crypto nonce.
++    CHECK(controller_output(peer,client,200ms).bunches.empty());
++    CHECK(f.service->authorize_udp(public_id)); CHECK_FALSE(f.owner.diagnostics().closed);
++}
++
++TEST_CASE("UDP selection bootstrap retries GameClass on observed ACK gap before one HUD send") {
++    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
++        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},{},public_bootstrap_plan());
++    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
++    const auto opens=bootstrap_openings(f,login,peer,client);
++    peer.send(f.owner.port(),links_ack(client,5,bootstrap_opening_acks(opens)));
++    const auto initial=links_output(peer,client,2000ms,3); REQUIRE(initial.bunches.size()==3);
++    REQUIRE(initial.packet_ids.size()==3); CHECK(initial.bunches[0].channel==7); CHECK(initial.bunches[1].channel==8);
++    ControllerOutput property{{initial.bunches[2]},{initial.packet_ids[2]}}; bootstrap_property_literal(property);
++    peer.send(f.owner.port(),links_ack(client,6,{initial.packet_ids[0],initial.packet_ids[1]}));
++    CHECK(links_output(peer,client).bunches.empty()); CHECK_FALSE(f.owner.diagnostics().hud_sent);
++    std::vector<std::uint16_t> later_ids;
++    peer.send(f.owner.port(),links_ack(client,7,{opens.actors.packet_ids[3]}));
++    CHECK(links_output(peer,client,200ms,2,nullptr,nullptr,&later_ids).bunches.empty());
++    const auto later=std::find_if(later_ids.begin(),later_ids.end(),
++        [&](std::uint16_t id){return id>property.packet_ids[0];});
++    REQUIRE(later!=later_ids.end());
++    peer.send(f.owner.port(),links_ack(client,8,{*later}));
++    const auto retry=links_output(peer,client,2000ms,1); bootstrap_property_literal(retry);
++    CHECK(retry.packet_ids[0]>property.packet_ids[0]); CHECK_FALSE(f.owner.diagnostics().game_class_acked);
++    CHECK_FALSE(f.owner.diagnostics().hud_sent);
++    peer.send(f.owner.port(),links_ack(client,9,retry.packet_ids));
++    const auto hud=links_output(peer,client,2000ms,1); bootstrap_hud_literal(hud);
++    peer.send(f.owner.port(),links_ack(client,10,hud.packet_ids));
++    CHECK(links_output(peer,client).bunches.empty()); CHECK(f.owner.diagnostics().hud_acked);
++}
++
++TEST_CASE("UDP selection bootstrap GameClass opening gate is independent of configured PRI identity") {
++    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
++        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},public_identity_plan(),public_bootstrap_plan());
++    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
++    const auto opens=bootstrap_openings(f,login,peer,client);
++    auto ids=opens.control_ids; ids.push_back(opens.actors.packet_ids[3]);
++    // Later GRI ACK can retry the three unacknowledged actor openings, but the
++    // class property needs neither a fabricated UID ACK nor actor-link delivery.
++    peer.send(f.owner.port(),links_ack(client,5,ids));
++    bootstrap_property_literal(links_output(peer,client,2000ms,1));
++    CHECK_FALSE(f.owner.diagnostics().pri_identity_sent); CHECK_FALSE(f.owner.diagnostics().pri_identity_acked);
++    CHECK_FALSE(f.owner.diagnostics().actor_links_sent); CHECK_FALSE(f.owner.diagnostics().hud_sent);
++}
++
++TEST_CASE("UDP selection bootstrap requires all schema premises and prior actors before retryable start") {
++    using E=udp::SelectionBootstrapEligibility;
++    bool E::* const premises[]{&E::primary_package_map,&E::common_gri_prefix_correct,&E::gri_cdo_correct,
++        &E::gri_cache_correct,&E::game_class_property_eligible,&E::game_class_property_class_correct,
++        &E::game_class_meta_class_correct,&E::controller_cache_correct,&E::client_set_hud_rpc_eligible,
++        &E::hud_parameter_eligible,&E::hud_parameter_class_correct,&E::hud_meta_class_correct};
++    for (unsigned missing=0;missing<18;++missing) {
++        CAPTURE(missing); auto plan=public_bootstrap_plan();
++        udp::LocalUdpOwner::LoginResponseValidator validator=[](const session::SessionId&,const control::posthello::RawString&){return true;};
++        udp::LocalUdpOwner::PublicationProvider publisher=[](const session::SessionId&,const control::posthello::Login&){return std::optional{bootstrap_world()};};
++        std::optional<udp::InitialControllerPlan> controller=public_controller_plan();
++        std::optional<udp::InitialPawnPlan> pawn=public_pawn_plan(); std::optional<udp::InitialPriPlan> pri=public_pri_plan();
++        std::optional<udp::InitialActorLinksPlan> links=bootstrap_links();
++        if (missing==0) validator={}; if (missing==1) publisher={}; if (missing==2) controller.reset();
++        if (missing==3) pawn.reset(); if (missing==4) pri.reset(); if (missing==5) links.reset();
++        if (missing>=6) plan.eligibility.*premises[missing-6]=false;
++        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
++        error([&]{bootstrap_start(owner,plan,validator,publisher,controller,pawn,pri,links);},udp::LocalUdpErrorCode::invalid_configuration);
++        CHECK_FALSE(owner.running()); if (owner.running()) {owner.stop();continue;} // Ignored-plan semantic RED cleanup.
++        bootstrap_start(owner,public_bootstrap_plan(),
++            [](const session::SessionId&,const control::posthello::RawString&){return true;},
++            [](const session::SessionId&,const control::posthello::Login&){return std::optional{bootstrap_world()};});
++        CHECK(owner.running());
++    }
++}
++
++TEST_CASE("UDP selection bootstrap rejects channel reference schema and budget contradictions before commit") {
++    for (unsigned bad=0;bad<15;++bad) {
++        CAPTURE(bad); auto plan=public_bootstrap_plan(); auto config=authority_skeleton();
++        switch (bad) {
++        case 0: plan.gri.channel.channel=0; break;
++        case 1: plan.gri.channel.channel=2048; break;
++        case 2: plan.gri.channel.channel=7; break;
++        case 3: plan.gri.channel.channel=8; break;
++        case 4: plan.gri.channel.channel=9; break;
++        case 5: plan.gri.archetype_local_net_index=-1; break;
++        case 6: plan.game_class_local_net_index=-1; break;
++        case 7: plan.hud_local_net_index=-1; break;
++        case 8: plan.gri_exclusive_bound=0; break;
++        case 9: plan.game_class_field_id=73; break;
++        case 10: plan.controller_exclusive_bound=293; break;
++        case 11: plan.client_set_hud_field_id=294; break;
++        case 12: plan.client_set_hud_field_id=bootstrap_links().controller_pri_field_id; break;
++        case 13: config.transport.max_packet_bytes=8; plan.gri.position={1048575,1048575,1048575}; break;
++        case 14: plan.gri.rotation=wire::actor::Rotation{1,0,0}; break; // Unquantized angle, not a budget failure.
++        }
++        udp::LocalUdpOwner owner(0,config,[]{return 100.0;},5ms);
++        error([&]{bootstrap_start(owner,plan,
++            [](const session::SessionId&,const control::posthello::RawString&){return true;},
++            [](const session::SessionId&,const control::posthello::Login&){return std::optional{bootstrap_world()};});},
++            udp::LocalUdpErrorCode::invalid_configuration);
++        CHECK_FALSE(owner.running()); if (owner.running()) {owner.stop();continue;}
++        owner.start([](const session::SessionId&){return true;}); CHECK(owner.running());
++    }
++}
++
++TEST_CASE("UDP selection bootstrap never completes after publication failure revocation or stop") {
++    for (unsigned terminal=0;terminal<5;++terminal) {
++        CAPTURE(terminal); auto plan=public_bootstrap_plan();
++        if (terminal==0) plan.gri.archetype_local_net_index=49101; // Outside HG range.
++        if (terminal==1) plan.game_class_local_net_index=533; // Outside contained HGC range.
++        if (terminal==4) plan.hud_local_net_index=49101; // Outside HG range.
++        LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
++            public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},{},plan);
++        const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
++        if (terminal==0) {
++            publication_login(f,login,peer,client); REQUIRE(publication_packets(peer,client,6).logical.size()==6);
++            peer.send(f.owner.port(),bootstrap_join(client));
++            static_cast<void>(controller_output(peer,client,200ms,4));
++            CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
++            CHECK_FALSE(f.service->authorize_udp(public_id)); CHECK_FALSE(f.owner.diagnostics().gri_sent);
++        } else {
++            const auto opens=bootstrap_openings(f,login,peer,client);
++            if (terminal==3) f.owner.stop();
++            else {
++                if (terminal==2) f.verifier.active=false;
++                peer.send(f.owner.port(),links_ack(client,5,bootstrap_opening_acks(opens)));
++            }
++            const auto output=links_output(peer,client,200ms,3);
++            if (terminal==4) {
++                REQUIRE(output.bunches.size()==3); REQUIRE(output.packet_ids.size()==3);
++                peer.send(f.owner.port(),links_ack(client,6,output.packet_ids));
++                CHECK(links_output(peer,client).bunches.empty());
++            }
++            CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
++            CHECK_FALSE(f.service->authorize_udp(public_id));
++        }
++        CHECK_FALSE(f.owner.diagnostics().hud_sent); CHECK_FALSE(f.owner.diagnostics().hud_acked);
++    }
++}
++
++TEST_CASE("UDP selection bootstrap absent plan preserves three actor openings and old link payloads") {
++    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
++        public_pawn_plan(),public_pri_plan(),public_links_plan());
++    const auto login=f.login(); Peer peer; session::Context client(session::Role::client,public_id,public_key);
++    const auto opens=links_openings(f,login,peer,client);
++    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(opens)));
++    links_literals(links_output(peer,client,2000ms));
++    const auto diagnostic=f.owner.diagnostics();
++    CHECK_FALSE(diagnostic.gri_sent); CHECK_FALSE(diagnostic.gri_open_acked);
++    CHECK_FALSE(diagnostic.game_class_sent); CHECK_FALSE(diagnostic.game_class_acked);
++    CHECK_FALSE(diagnostic.hud_sent); CHECK_FALSE(diagnostic.hud_acked);
++}

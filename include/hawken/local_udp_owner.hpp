@@ -60,6 +60,12 @@ struct LocalUdpDiagnostics {
     bool actor_links_sent = false;
     bool pri_identity_sent = false;
     bool pri_identity_acked = false;
+    bool gri_sent = false;
+    bool gri_open_acked = false;
+    bool game_class_sent = false;
+    bool game_class_acked = false;
+    bool hud_sent = false;
+    bool hud_acked = false;
 
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
@@ -168,6 +174,33 @@ struct PriIdentityDispatchPlan {
     std::uint32_t exclusive_bound;
     control::Endian integer_order;
     PriIdentityEligibility eligibility;
+};
+
+struct SelectionBootstrapEligibility {
+    bool primary_package_map;
+    bool common_gri_prefix_correct;
+    bool gri_cdo_correct;
+    bool gri_cache_correct;
+    bool game_class_property_eligible;
+    bool game_class_property_class_correct;
+    bool game_class_meta_class_correct;
+    bool controller_cache_correct;
+    bool client_set_hud_rpc_eligible;
+    bool hud_parameter_eligible;
+    bool hud_parameter_class_correct;
+    bool hud_meta_class_correct;
+};
+struct SelectionBootstrapPlan {
+    InitialPawnPlan gri;
+    std::array<std::uint32_t,4> game_class_package_guid;
+    std::int32_t game_class_local_net_index;
+    std::array<std::uint32_t,4> hud_package_guid;
+    std::int32_t hud_local_net_index;
+    std::uint32_t game_class_field_id;
+    std::uint32_t gri_exclusive_bound;
+    std::uint32_t client_set_hud_field_id;
+    std::uint32_t controller_exclusive_bound;
+    SelectionBootstrapEligibility eligibility;
 };
 
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
@@ -310,6 +343,14 @@ public:
     // auth/Entry/lifecycle and existing retirement rules remain in force.
     // Sent/ACK diagnostics do not prove native identity application. No plan
     // preserves the prior wire behavior and retains no provision identity.
+    // Selection bootstrap is explicit: a fourth GRI opening uses the common
+    // no-controller prefix. Only its real opening ACK permits GameClass; only
+    // GameClass and both previously sent actor-link queues being acknowledged
+    // permits ClientSetHUD on the existing Controller. All twelve caller schema
+    // premises, distinct channels and shared Controller cache must be coherent.
+    // References are package GUID + LOCAL NetIndex, never global coordinates.
+    // HUD is created locally by the RPC, not a fifth server actor. Sent/ACK
+    // diagnostics do not establish native application, UI, match or possession.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
                std::optional<InitialControllerPlan> controller = std::nullopt,
@@ -321,7 +362,8 @@ public:
                std::optional<SpawnValidationDispatchPlan> spawn_validation = std::nullopt,
                SpawnSelectionValidator selection_validator = {},
                std::optional<SpawnAdmissionDispatchPlan> spawn_admission = std::nullopt,
-               std::optional<PriIdentityDispatchPlan> pri_identity = std::nullopt);
+               std::optional<PriIdentityDispatchPlan> pri_identity = std::nullopt,
+               std::optional<SelectionBootstrapPlan> selection_bootstrap = std::nullopt);
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied

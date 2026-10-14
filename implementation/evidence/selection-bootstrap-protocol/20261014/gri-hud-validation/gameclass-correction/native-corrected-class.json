@@ -1,0 +1,40 @@
+{
+  "schema": "hawken.corrected-gameclass.live-native.v1",
+  "readUtc": "2026-10-14T23:06:00.3226348Z",
+  "full_log_read": true,
+  "log_bytes": 81920,
+  "split_entries": 1065,
+  "log_sha256": "eff0a9f7478a8677dbed7e789eef7d18b3bccdc812b7f98a9b929aaaf33fdd87",
+  "raw_log_saved": false,
+  "events": [
+    {
+      "line": 506,
+      "kind": "EarlyInitStormUserIdNoPri"
+    },
+    {
+      "line": 511,
+      "kind": "ReceivedGameClass",
+      "class": "HawkenDM"
+    },
+    {
+      "line": 527,
+      "kind": "SelectionOrReadiness",
+      "text": "[1058: 041.018] ScriptLog: ######### SHOW MECH MENU mode = MENUMODE_TeamSelect (R_HUD_DM_0) oldMode MENUMODE_Closed"
+    },
+    {
+      "line": 532,
+      "kind": "SelectionOrReadiness",
+      "text": "[1058: 041.797] ScriptLog: RegisterActiveMenu Replacing Manager.ActiveMenu:'None' with NewActiveMenu:'R_Gfx_MechSelect_0' on Manager:'R_UIManager_0'"
+    },
+    {
+      "line": 601,
+      "kind": "SelectionOrReadiness",
+      "text": "[1058: 041.803] ScriptLog: !!!!!!!!!!!!!!MENUMODE_TeamSelect ShowLegend"
+    }
+  ],
+  "user_confirmed_controls_visible": true,
+  "user_screenshot_path": "C:/Users/Jerico/AppData/Local/Temp/codex-clipboard-f885e118-476c-417a-95b2-3ae6fecacdeb.png",
+  "user_screenshot_sha256": "c68f242a9f8b3c937d99e77081cec1ef434b2824b30f47789b56489cb1435e14",
+  "screenshot_published": false,
+  "spawn_possession_verified": false
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "gri-hud-red-preflight.v1",
+  "utc": "2026-10-14T22:24:47.0560072Z",
+  "freeze_sha256": "d521b318ef2dc1079d58b4ecb95a22dff61c162756e6c36979706b3c02b7e34d",
+  "expected_freeze_sha256": "d521b318ef2dc1079d58b4ecb95a22dff61c162756e6c36979706b3c02b7e34d",
+  "paths_count": 185,
+  "paths_hash_matches": 185,
+  "paths_mismatch_count": 0,
+  "aux_pins": 3,
+  "aux_matches": 3,
+  "wrapper_sha256": "e6f4c31f01df0d6bc60babbc556bedbe24e609807d8e5fb46b822edd0d475d2d",
+  "ram_used_percent": 77.87,
+  "free_kib": 7405160,
+  "active_builds": [],
+  "protected_processes": [
+    {
+      "pid": 21152,
+      "name": "hawken-server.exe",
+      "creation": "2026-10-14T18:58:13.366768-03:00",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "exe_sha256": "5396f980d3557adc97028556aa6ae9e9cf24a9253bf71859640f518de74506ee"
+    },
+    {
+      "pid": 25784,
+      "name": "hawken-master.exe",
+      "creation": "2026-10-14T18:58:11.813505-03:00",
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "exe_sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    }
+  ]
+}

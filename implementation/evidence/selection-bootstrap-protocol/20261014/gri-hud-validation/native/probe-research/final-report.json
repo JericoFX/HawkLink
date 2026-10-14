@@ -1,0 +1,73 @@
+{
+  "status": "STOPPED_SECONDARY_DIAGNOSTIC_AT_PARENT_REQUEST_NO_SOURCE_CHANGES",
+  "observed_error": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/live-player.stdout.json",
+    "sha256": "0bece1fee1ad2f3d2465b22676192ead7de6608bc1456d624c940a53e35409f9"
+  },
+  "source_pins": [
+    {
+      "path": "tools/live_player_reader.hpp",
+      "sha256": "b32cc06013da921ee601bb962acfe33b8561a5635cb29b50984101da07876187"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd"
+    }
+  ],
+  "throw_sites": [
+    {
+      "path": "tools/live_player_reader.hpp",
+      "line": 80,
+      "condition": "class chain attempts17th node",
+      "cap": 16
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "line": 119,
+      "condition": "GamePlayers count>4 or capacity>4",
+      "cap": 4
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "line": 139,
+      "condition": "own children attempts513th node",
+      "cap": 512
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "line": 139,
+      "condition": "all four property scans attempt2049th child",
+      "cap": 2048
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "line": 158,
+      "condition": "reflected ObjectProperty Offset>65536",
+      "cap": 65536
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "line": 693,
+      "condition": "metadata Identify outer chain attempts5th node",
+      "cap": 4
+    }
+  ],
+  "retained_static_counts": {
+    "proof": {
+      "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-validation/native/probe-research/retained-children-counts.json",
+      "sha256": "a7dd55e417f3d9754c4265e01a81b930fcb374ae0ab2261c788b60dc03658754"
+    },
+    "Engine.Player": 10,
+    "Engine.PlayerController": 575,
+    "Engine.Controller": 196,
+    "actual_algorithm_static_total": 977,
+    "meaning": "Property scanner only walks Player once, PlayerController once, Controller twice. Own PC512 is below retained serialized Next-chain575. Cumulative2048 exceeds the static total977. These are retained normalized package facts, not the cause or runtime pointer/layout evidence."
+  },
+  "minimal_future_discriminator": "If resumed, distinguish these six guards by fixed error category or safe already-read counter/owner enum. Do not add remote reads/dumps or raise bounds first. Generic current live_limit does not distinguish capacity4 early failure from own575 later failure.",
+  "parent_priority_update": {
+    "source": "Parent direct message, no independent new native read by writer",
+    "fact": "Current native log proves GRI.GameClass resolves R_PawnContent from HGC local232. Parent reports actual HawkenDM class local105 from original retained export. Secondary live_limit research stopped; source fix belongs parent."
+  },
+  "resource": "At81.05% avoided large JSON/tree/helper loads; bounded stream of existing export rows and selected normalized headers only. No persistent helper/Java/process-memory reads or probe rerun.",
+  "builds_tests_runtime_source_git": 0
+}

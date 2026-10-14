@@ -1,0 +1,14 @@
+[
+  {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+    "sha256": "6444d7acb1c72b740a89f97711ed13c740e1782485e6e93b419348fc913da87d"
+  },
+  {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+    "sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+  },
+  {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\client-bridge\\dinput8.dll",
+    "sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+  }
+]

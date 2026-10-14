@@ -1,0 +1,124 @@
+--- RED/src/udp_trial_runtime.cpp
++++ GREEN/src/udp_trial_runtime.cpp
+@@ -98,6 +98,7 @@
+     const std::optional<SpawnValidationSource> spawn_validation_source;
+     const std::optional<SpawnAdmissionDispatchPlan> spawn_admission;
+     const std::optional<PriIdentityDispatchPlan> pri_identity;
++    const std::optional<SelectionBootstrapPlan> selection_bootstrap;
+     std::unique_ptr<LocalUdpOwner> owner;
+     std::unique_ptr<assignment::SessionAssignmentService> service;
+ 
+@@ -110,7 +111,8 @@
+         : publication(config.publication), controller(config.controller), pawn(config.pawn), pri(config.pri),
+           links(config.links), start_mech(config.start_mech), start_mech_source(config.start_mech_source),
+           spawn_validation(config.spawn_validation), spawn_validation_source(config.spawn_validation_source),
+-          spawn_admission(config.spawn_admission), pri_identity(config.pri_identity) {
++          spawn_admission(config.spawn_admission), pri_identity(config.pri_identity),
++          selection_bootstrap(config.selection_bootstrap) {
+         try {
+             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
+                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
+@@ -188,7 +190,7 @@
+                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
+                     return service->validate_login_response(id, response);
+                 }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize),
+-                spawn_validation,std::move(validate_selection),spawn_admission,pri_identity,std::nullopt); // RED: bootstrap not forwarded yet.
++                spawn_validation,std::move(validate_selection),spawn_admission,pri_identity,selection_bootstrap);
+         } catch (...) {
+             // If start partially succeeded, join before unwinding service/this.
+             stop();
+@@ -231,6 +233,44 @@
+             !eligibility.integer_archive_order_correct)
+             startup_failed();
+     }
++    if (config.selection_bootstrap) {
++        const auto& plan = *config.selection_bootstrap;
++        const auto& eligibility = plan.eligibility;
++        if (!config.publication || !config.controller || !config.pri || !config.pawn || !config.links ||
++            plan.gri.channel.channel == 0 || plan.gri.channel.channel > 2047 ||
++            plan.gri.channel.channel == config.controller->channel.channel ||
++            plan.gri.channel.channel == config.pri->channel.channel ||
++            plan.gri.channel.channel == config.pawn->channel.channel ||
++            plan.gri.archetype_local_net_index < 0 || plan.game_class_local_net_index < 0 ||
++            plan.hud_local_net_index < 0 || plan.gri_exclusive_bound == 0 ||
++            plan.game_class_field_id >= plan.gri_exclusive_bound || plan.controller_exclusive_bound == 0 ||
++            plan.client_set_hud_field_id >= plan.controller_exclusive_bound ||
++            plan.controller_exclusive_bound != config.links->controller_exclusive_bound ||
++            plan.client_set_hud_field_id == config.links->controller_pri_field_id ||
++            plan.client_set_hud_field_id == config.links->controller_pawn_field_id ||
++            !eligibility.primary_package_map || !eligibility.common_gri_prefix_correct ||
++            !eligibility.gri_cdo_correct || !eligibility.gri_cache_correct ||
++            !eligibility.game_class_property_eligible || !eligibility.game_class_property_class_correct ||
++            !eligibility.game_class_meta_class_correct || !eligibility.controller_cache_correct ||
++            !eligibility.client_set_hud_rpc_eligible || !eligibility.hud_parameter_eligible ||
++            !eligibility.hud_parameter_class_correct || !eligibility.hud_meta_class_correct)
++            startup_failed();
++        if (config.start_mech &&
++            (plan.controller_exclusive_bound != config.start_mech->controller_exclusive_bound ||
++             plan.client_set_hud_field_id == config.start_mech->controller_rpc_field_id))
++            startup_failed();
++        if (config.spawn_validation &&
++            (plan.controller_exclusive_bound != config.spawn_validation->controller_exclusive_bound ||
++             plan.client_set_hud_field_id == config.spawn_validation->validate_rpc_field_id ||
++             plan.client_set_hud_field_id == config.spawn_validation->validated_rpc_field_id ||
++             plan.client_set_hud_field_id == config.spawn_validation->failed_rpc_field_id))
++            startup_failed();
++        if (config.spawn_admission &&
++            (plan.controller_exclusive_bound != config.spawn_admission->controller_exclusive_bound ||
++             plan.client_set_hud_field_id == config.spawn_admission->stage_rpc_field_id ||
++             plan.client_set_hud_field_id == config.spawn_admission->client_restart_rpc_field_id))
++            startup_failed();
++    }
+     try { impl_ = std::make_unique<Impl>(auth, config); }
+     catch (...) { startup_failed(); }
+ }
+--- RED/tests/udp_trial_runtime_tests.cpp
++++ GREEN/tests/udp_trial_runtime_tests.cpp
+@@ -1534,6 +1534,10 @@
+ 
+ 
+ namespace {
++udp::InitialActorLinksPlan runtime_bootstrap_links_plan() {
++    // Same synthetic roles, with the single Controller cache shared by HUD.
++    return {3,5,294,1,6,8};
++}
+ udp::SelectionBootstrapPlan runtime_selection_bootstrap_plan() {
+     const std::array<std::uint32_t,4> package_guid={0x01020304U,0x12345678U,0x80000000U,0xffffffffU};
+     // FRoot's synthetic three-object map: CDO local0, GameClass local1, HUDClass
+@@ -1572,7 +1576,7 @@
+     {
+         auto selected=config(); selected.publication=public_publication();
+         selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+-        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
++        selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+         selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+         runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+         selected.selection_bootstrap->gri.channel.channel=7;
+@@ -1624,7 +1628,8 @@
+     const auto linked=runtime_bootstrap_packets(peer,client,2000ms,2);
+     REQUIRE(linked.properties.bunches.size()==2);
+     CHECK(linked.properties.bunches[0].channel==7); CHECK(linked.properties.bunches[0].sequence==43);
+-    CHECK(linked.properties.bunches[0].payload==public_hex("9b804600"));
++    CHECK(linked.properties.bunches[0].payload==public_hex("0326a0400400"));
++    CHECK(linked.properties.bunches[0].payload_bits==42);
+     CHECK(linked.properties.bunches[1].channel==8); CHECK(linked.properties.bunches[1].sequence==73);
+     CHECK(linked.properties.bunches[1].payload==public_hex("79004f00"));
+     CHECK_FALSE(runtime->diagnostics().hud_sent); // GameClass ACK does not ACK PC/Pawn data.
+@@ -1652,7 +1657,7 @@
+         CAPTURE(invalid);
+         auto selected=config(port); selected.publication=public_publication();
+         selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+-        selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
++        selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+         selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+         auto& plan=*selected.selection_bootstrap;
+         switch (invalid) {
+@@ -1694,7 +1699,7 @@
+     }
+     auto selected=config(port); selected.publication=public_publication();
+     selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+-    selected.pri=runtime_pri_plan(); selected.links=runtime_links_plan();
++    selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+     selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+     udp::UdpTrialRuntime runtime(f.auth,selected); CHECK(runtime.running()); CHECK(runtime.port()==port);
+     CHECK(provision(runtime,login).status==200); // Rollback preserves the first valid installation.

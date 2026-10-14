@@ -1,0 +1,34 @@
+{
+  "status": "ORIGINAL_BYTES_AND_CONFIGURED_GAMECLASS_VERIFIED",
+  "original_path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenDM_SF.upk",
+  "original_sha256": "20d88294963654ad2cda3f3a94987d1428b7e0807f238faab5979cf23cb85155",
+  "retained_proof_sha256": "b1a4dcbe5fe59167cce2d4ae64034fde4708db1b8218a6e300e81dc401b2668e",
+  "block_plain_sha256": "280ec7ccdd7a93d2d58cc0669e1c0ea58fd30e708f869c08ef817b5815c9447b",
+  "exports": [
+    {
+      "physical_export": 1,
+      "class_name": "HawkenDM",
+      "parent_name": "R_Deathmatch",
+      "serial_offset": "0x1e11c",
+      "serial_sha256": "0a191f7918e7d75c06f393c205dcff06e37e3934ab46cfb07d108cc29bd4fd23",
+      "record_sha256": "cbab7e3df70abfb1c455550b094e55063641e9a452548de58697fee0e85ffb72",
+      "local_net_index": 105
+    },
+    {
+      "physical_export": 19,
+      "class_name": "R_PawnContent",
+      "parent_name": "R_Pawn",
+      "serial_offset": "0x1e936",
+      "serial_sha256": "c9de9ad1998255a005cd5dc69d8ac1955970753833c23bedf38164d8580c3957",
+      "record_sha256": "23f4de65a03c8bde4efee94ef155bdab38a9498b7aaecb3480a4a07a37865633",
+      "local_net_index": 232
+    }
+  ],
+  "corrected_package": "HawkenGameContent",
+  "corrected_local_net_index": 105,
+  "conditional_primary_base": 104786,
+  "conditional_coordinate": 104891,
+  "main_sha256": "b7be1e3e5248012ced2b5df2d5277996237aa755d7694e6fcdd21c44ae02fd01",
+  "native_corrected_class_observed": false,
+  "limitation": "Class names use retained hash-bound export/name metadata; serial, class/super export and parent import bytes were reread from original compressed UPK. Native acceptance remains pending."
+}

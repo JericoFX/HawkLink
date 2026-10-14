@@ -1,0 +1,12 @@
+Usage: hawken-server [--port 1..65535] | --help
+Local backend bootstrap listener on 127.0.0.1; default port 80.
+Optional local Steam test: --steam-local --database ABSOLUTE_FILE
+  --server-id ID --diagnostics ABSOLUTE_FILE --stop-file ABSOLUTE_FILE
+  [--starter-profile ABSOLUTE_FILE] for the explicit local starter policy.
+  Optional UDP trial: --udp-port 1..65535 --udp-server-guid UUID --udp-region REGION
+  All three UDP options require --steam-local; handshake only, no hosted world.
+  UDP trials also bind the original TCP establishment probe on 127.0.0.1:15520.
+  Optional world publication trial: --udp-world-root ABSOLUTE_GAME_ROOT
+  Requires all UDP options; verifies pinned original Wreckage assets before startup.
+Original Steam user and AppID 271290 license required; one auth attempt.
+Game admission and gameplay remain unavailable.

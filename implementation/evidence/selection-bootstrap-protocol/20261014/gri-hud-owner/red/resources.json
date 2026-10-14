@@ -1,0 +1,359 @@
+{
+  "ram_used_percent": 76.53,
+  "free_gib": 7.49,
+  "owned_persistent_helpers": 0,
+  "auxiliary_processes": [
+    {
+      "pid": 24388,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:26.857472-03:00",
+      "working_set_bytes": 55709696,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 13972,
+      "parent_pid": 21384,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:26.896265-03:00",
+      "working_set_bytes": 63959040,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 27996,
+      "parent_pid": 24948,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:26.896855-03:00",
+      "working_set_bytes": 115511296,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 22200,
+      "parent_pid": 22508,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:26.898941-03:00",
+      "working_set_bytes": 2556104704,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 28340,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.212201-03:00",
+      "working_set_bytes": 55730176,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 24200,
+      "parent_pid": 28120,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.27144-03:00",
+      "working_set_bytes": 295981056,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 19448,
+      "parent_pid": 24328,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.274039-03:00",
+      "working_set_bytes": 116224000,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 9628,
+      "parent_pid": 28404,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.283236-03:00",
+      "working_set_bytes": 63082496,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 22524,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.392649-03:00",
+      "working_set_bytes": 55742464,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 16456,
+      "parent_pid": 25900,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.452557-03:00",
+      "working_set_bytes": 70184960,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 16728,
+      "parent_pid": 19512,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.454402-03:00",
+      "working_set_bytes": 115421184,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 16816,
+      "parent_pid": 16616,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:16:27.455026-03:00",
+      "working_set_bytes": 63299584,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 1504,
+      "parent_pid": 18616,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:22:30.64161-03:00",
+      "working_set_bytes": 82898944,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 13128,
+      "parent_pid": 18616,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:22:30.646838-03:00",
+      "working_set_bytes": 71704576,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 18556,
+      "parent_pid": 22220,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:33:42.727383-03:00",
+      "working_set_bytes": 2518470656,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 16412,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:46:28.884895-03:00",
+      "working_set_bytes": 58077184,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 28368,
+      "parent_pid": 16060,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:52:04.833603-03:00",
+      "working_set_bytes": 390803456,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 11128,
+      "parent_pid": 5536,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T09:52:35.389664-03:00",
+      "working_set_bytes": 588898304,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 29544,
+      "parent_pid": 18052,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T10:04:53.121657-03:00",
+      "working_set_bytes": 75632640,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 18592,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T10:21:36.294747-03:00",
+      "working_set_bytes": 58085376,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 22172,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T10:32:19.935139-03:00",
+      "working_set_bytes": 57884672,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 27936,
+      "parent_pid": 14392,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T10:39:07.711793-03:00",
+      "working_set_bytes": 75022336,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 28776,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:02:29.81591-03:00",
+      "working_set_bytes": 58007552,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 12132,
+      "parent_pid": 14028,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:05:40.029993-03:00",
+      "working_set_bytes": 586502144,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 26944,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:15:26.920305-03:00",
+      "working_set_bytes": 58191872,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 15288,
+      "parent_pid": 26676,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:26:19.969772-03:00",
+      "working_set_bytes": 647299072,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 29164,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:29:15.261123-03:00",
+      "working_set_bytes": 57954304,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 6360,
+      "parent_pid": 20688,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:29:15.289903-03:00",
+      "working_set_bytes": 117727232,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 19212,
+      "parent_pid": 17644,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:29:15.292107-03:00",
+      "working_set_bytes": 65708032,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 6760,
+      "parent_pid": 18144,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T11:36:35.2003-03:00",
+      "working_set_bytes": 75911168,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 17196,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:12:00.311421-03:00",
+      "working_set_bytes": 58241024,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 19284,
+      "parent_pid": 20572,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:12:00.343087-03:00",
+      "working_set_bytes": 65568768,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 4652,
+      "parent_pid": 23796,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:12:00.344477-03:00",
+      "working_set_bytes": 74743808,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 29588,
+      "parent_pid": 22688,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:12:00.345693-03:00",
+      "working_set_bytes": 117944320,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 21388,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:25:40.481072-03:00",
+      "working_set_bytes": 57786368,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 28712,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:46:11.337875-03:00",
+      "working_set_bytes": 58040320,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 14412,
+      "parent_pid": 16468,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:46:11.373607-03:00",
+      "working_set_bytes": 118067200,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 20968,
+      "parent_pid": 25328,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T12:46:11.379537-03:00",
+      "working_set_bytes": 65298432,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 14312,
+      "parent_pid": 7356,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T16:20:11.760194-03:00",
+      "working_set_bytes": 58101760,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 1508,
+      "parent_pid": 3672,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T16:20:11.792601-03:00",
+      "working_set_bytes": 65736704,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 13236,
+      "parent_pid": 17140,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T16:20:11.792912-03:00",
+      "working_set_bytes": 1000017920,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 1620,
+      "parent_pid": 24716,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T16:20:11.793142-03:00",
+      "working_set_bytes": 117788672,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 26004,
+      "parent_pid": 25008,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T17:36:13.297817-03:00",
+      "working_set_bytes": 70709248,
+      "ownership": "not_started_by_this_slice_preserved"
+    },
+    {
+      "pid": 2424,
+      "parent_pid": 25008,
+      "name": "node.exe",
+      "creation_time": "2026-10-14T17:36:13.304258-03:00",
+      "working_set_bytes": 66424832,
+      "ownership": "not_started_by_this_slice_preserved"
+    }
+  ]
+}

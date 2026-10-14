@@ -1,0 +1,59 @@
+{
+  "reason": "One Controller class cache must share exclusive bound for links and ClientSetHUD. RED fixture incorrectly paired link bound8/HUDbound294. Correct fixture only; no weakened invariant/encoder.",
+  "before_test": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/fixture-erratum/udp_trial_runtime_tests.cpp.before",
+    "sha256": "92fa03bba94d23cc15b5e58026ac19bd64572ead3d073c54648d57a7f47a3634",
+    "bytes": 101666
+  },
+  "red_freeze": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/red/freeze.json",
+    "sha256": "e8b578e2e4097f37e7613f2aced768c70646b74be7cb2c66716a46b6f6ecb80f",
+    "bytes": 3203
+  },
+  "after_test": {
+    "path": "tests/udp_trial_runtime_tests.cpp",
+    "sha256": "e3a12b8135a0f2a7fb91aa6dc4bf336c9c7e8dbf8efad90c7d75622741903d9e",
+    "bytes": 101925
+  },
+  "controller_links": {
+    "fields": [
+      3,
+      5
+    ],
+    "bound": 294,
+    "tag_widths": [
+      9,
+      9
+    ],
+    "actor_channels": [
+      9,
+      8
+    ],
+    "reference_raw_values": [
+      19,
+      17
+    ],
+    "item_bit_widths": [
+      21,
+      21
+    ],
+    "packed": "3 + (19 << 9) + (5 << 21) + (17 << 30)",
+    "hex": "0326a0400400",
+    "logical_bits": 42
+  },
+  "unaltered": [
+    "Prior test prefix",
+    "Pawn links79004f00/30",
+    "GRI000000004005/43",
+    "GameClass9f00000000/38",
+    "HUD2a0900000000/41",
+    "All channel sequences, budgets and ACK gates"
+  ],
+  "diff": {
+    "path": "implementation/evidence/selection-bootstrap-protocol/20261014/gri-hud-runtime/green/fixture-erratum/source.diff",
+    "sha256": "83e6177e709e4a31503bf8d20a9289f9c3743448dfbdd669ba1cf3df36432af7",
+    "bytes": 3088
+  },
+  "parent_authorized": true,
+  "writer_tests_builds": 0
+}

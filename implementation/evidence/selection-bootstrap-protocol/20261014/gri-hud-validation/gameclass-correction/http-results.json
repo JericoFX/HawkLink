@@ -1,0 +1,24 @@
+[
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1/gameServerListings",
+    "status": 200,
+    "listed_servers": 1
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:18080/gameServerListings",
+    "status": 200,
+    "listed_servers": 0
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1/version",
+    "status": 200
+  },
+  {
+    "method": "POST",
+    "url": "http://127.0.0.1/steam/login",
+    "status": 400
+  }
+]
