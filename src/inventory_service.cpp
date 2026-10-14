@@ -203,6 +203,13 @@ StarterInventoryIds graph(const store::StarterItems& rows) {
             {rows[6].type_id, rows[6].instance_id}, {rows[7].type_id, rows[7].instance_id},
             {rows[8].type_id, rows[8].instance_id}};
 }
+void overlay_owned_attributes(nlohmann::json& row, const store::ItemAttributes& attributes) {
+    for (const auto& [key, value] : attributes) {
+        // Root identity and ReadOnly graph always come from the owned tree.
+        if (!key.starts_with("Preset.")) throw std::runtime_error("Invalid owned inventory.");
+        row[key] = value;
+    }
+}
 }
 std::string_view put_reason_name(PutReason reason) noexcept {
     switch (reason) {
@@ -277,6 +284,16 @@ store::StarterMechSnapshot InventoryService::owned_starter_mech(const store::Acc
     const auto type_ids = types(ids_);
     for (std::size_t i = 0; i < snapshot.items.size(); ++i)
         if (snapshot.items.at(i).type_id != type_ids[i]) throw std::runtime_error("Invalid owned inventory.");
+    return snapshot;
+}
+store::StarterMechSnapshot InventoryService::effective_owned_starter_mech(const store::AccountRef& account,
+                                                                         std::string_view instance_id) {
+    auto snapshot = owned_starter_mech(account, instance_id);
+    auto mech = starter_inventory_result(graph(snapshot.items)).at(0);
+    overlay_owned_attributes(mech, snapshot.attributes);
+    snapshot.attributes.clear();
+    for (const auto& [key, value] : mech.items())
+        if (key.starts_with("Preset.")) snapshot.attributes.emplace(key, value.get<std::string>());
     return snapshot;
 }
 bool InventoryService::supports_target(std::string_view raw_target) const {
@@ -393,11 +410,7 @@ nlohmann::json InventoryService::owned_result(const store::AccountRef& account,
         result.at(i)["ItemName"] = catalogue_.at(i).at("ItemName");
         result.at(i)["Version"] = catalogue_.at(i).at("Version");
         const auto attributes = store_.owned_item_attributes(account, rows.at(i).instance_id);
-        for (const auto& [key, value] : attributes) {
-            // Root identity and ReadOnly graph always come from the owned tree.
-            if (!key.starts_with("Preset.")) throw std::runtime_error("Invalid owned inventory.");
-            result.at(i)[key] = value;
-        }
+        overlay_owned_attributes(result.at(i), attributes);
     }
     return result;
 }

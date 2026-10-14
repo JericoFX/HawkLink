@@ -1424,3 +1424,108 @@ TEST_CASE("Owned starter mech service validates every persisted type against its
     CHECK(hawken::test::read_bytes(f.temporary.path()/"accounts.sqlite")==before);
     CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
 }
+
+namespace {
+hawken::store::ItemAttributes http_preset_attributes(const nlohmann::json& mech) {
+    hawken::store::ItemAttributes attributes;
+    for(const auto& [key,value]:mech.items())
+        if(key.starts_with("Preset."))attributes.emplace(key,value.get<std::string>());
+    return attributes;
+}
+}
+
+TEST_CASE("Effective owned starter mech initial preset matches HTTP baseline while RAW remains empty") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto access=f.auth.access(header(login)); REQUIRE(access.status==200); REQUIRE(access.account);
+    const auto account=access.account->account; REQUIRE(f.store.grant_starter_items(account,persisted_expected()));
+    const auto path=f.temporary.path()/"accounts.sqlite"; const auto before=hawken::test::read_bytes(path);
+    auto snapshot=f.inventory.effective_owned_starter_mech(account,instance_ids[0]);
+    CHECK(snapshot.items==persisted_expected());
+    const hawken::store::ItemAttributes literal_values{
+        {"Preset.PrimaryWeapon_0","0"},{"Preset.SecondaryWeapon","1"},
+        {"Preset.Style.UpperPart","10"},{"Preset.Style.MidPart","10"},
+        {"Preset.Style.ArmPart","10"},{"Preset.Style.LowerPart","10"},{"Preset.Ability","3"},
+        {"Preset.MechInternals.Internal1","-1"},{"Preset.MechInternals.Internal2","-1"},
+        {"Preset.MechInternals.Internal3","-1"},{"Preset.MechInternals.Internal4","-1"},
+        {"Preset.MechInternals.Internal5","-1"},{"Preset.MechInternals.Internal6","-1"}};
+    for(const auto& [key,value]:literal_values) {
+        CHECK(snapshot.attributes.contains(key));
+        if(snapshot.attributes.contains(key))CHECK(snapshot.attributes.at(key)==value);
+    }
+    CHECK(snapshot.attributes.contains("Preset.PrimaryWeapon_InstanceId_0"));
+    if(snapshot.attributes.contains("Preset.PrimaryWeapon_InstanceId_0"))
+        CHECK(snapshot.attributes.at("Preset.PrimaryWeapon_InstanceId_0")==instance_ids[1]);
+    const auto http=f.inventory.get(owned_path(login),header(login)); REQUIRE(http.status==200);
+    CHECK(snapshot.attributes==http_preset_attributes(http.result.at(0)));
+    CHECK_FALSE(snapshot.attributes.contains("ReadOnly_Children"));
+    CHECK_FALSE(snapshot.attributes.contains("ItemName"));
+    CHECK(f.inventory.owned_starter_mech(account,instance_ids[0]).attributes.empty());
+    CHECK(f.store.owned_item_attributes(account,instance_ids[0]).empty());
+    snapshot.attributes["Preset.Ability"]="changed";
+    CHECK(f.inventory.owned_starter_mech(account,instance_ids[0]).attributes.empty());
+    CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
+    CHECK(hawken::test::read_bytes(path)==before);
+}
+
+TEST_CASE("Effective owned starter mech preserves saved empty values and absent baseline values like HTTP") {
+    Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+    const auto access=f.auth.access(header(login)); REQUIRE(access.status==200); REQUIRE(access.account);
+    const auto account=access.account->account; REQUIRE(f.store.grant_starter_items(account,persisted_expected()));
+    const hawken::store::ItemAttributes saved{{"Preset.PrimaryWeapon_0","9"},{"Preset.Style.UpperPart",""},
+        {"Preset.Label","custom"},{"Preset.Internals1_InstanceId","empty"}};
+    REQUIRE(f.store.merge_owned_item_attributes(account,instance_ids[0],saved));
+    unsigned observed=0;
+    InventoryService service(f.store,f.auth,ids(),balance(),offer_id,[&](const auto&){++observed;});
+    const auto path=f.temporary.path()/"accounts.sqlite"; const auto before=hawken::test::read_bytes(path);
+    const auto snapshot=service.effective_owned_starter_mech(account,instance_ids[0]);
+    CHECK(snapshot.items==persisted_expected());
+    CHECK(snapshot.attributes.at("Preset.PrimaryWeapon_0")=="9");
+    CHECK(snapshot.attributes.at("Preset.Style.UpperPart").empty());
+    CHECK(snapshot.attributes.at("Preset.Internals1_InstanceId")=="empty");
+    CHECK(snapshot.attributes.at("Preset.Label")=="custom");
+    CHECK(snapshot.attributes.contains("Preset.SecondaryWeapon"));
+    if(snapshot.attributes.contains("Preset.SecondaryWeapon"))CHECK(snapshot.attributes.at("Preset.SecondaryWeapon")=="1");
+    const auto http=service.get(owned_path(login),header(login)); REQUIRE(http.status==200);
+    CHECK(snapshot.attributes==http_preset_attributes(http.result.at(0)));
+    CHECK(service.owned_starter_mech(account,instance_ids[0]).attributes==saved);
+    CHECK(f.store.owned_item_attributes(account,instance_ids[0])==saved);
+    CHECK(observed==0); CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
+    CHECK(hawken::test::read_bytes(path)==before);
+}
+
+TEST_CASE("Effective owned starter mech rejects missing foreign equipment and catalogue mismatches without writes") {
+    SUBCASE("Ownership and canonical selection") {
+        Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+        const auto access=f.auth.access(header(login)); REQUIRE(access.status==200); REQUIRE(access.account);
+        const auto account=access.account->account; auto scoped=account; auto selected=std::string(instance_ids[0]);
+        auto expected=hawken::store::StoreErrorCode::not_found;
+        SUBCASE("Missing grant") {}
+        SUBCASE("Another owned slot") {REQUIRE(f.store.grant_starter_items(account,persisted_expected()));selected=instance_ids[1];}
+        SUBCASE("Foreign account") {
+            REQUIRE(f.store.grant_starter_items(account,persisted_expected()));
+            scoped=f.store.get_or_create_account(fixture_second_id_text,1000).ref;
+        }
+        SUBCASE("Malformed instance") {selected="not-a-mech";expected=hawken::store::StoreErrorCode::invalid_input;}
+        const auto grant_before=f.store.starter_items(account);
+        const auto path=f.temporary.path()/"accounts.sqlite"; const auto before=hawken::test::read_bytes(path);
+        bool caught=false;
+        try{(void)f.inventory.effective_owned_starter_mech(scoped,selected);}
+        catch(const hawken::store::StoreError& error){caught=true;CHECK(error.code()==expected);}
+        CHECK(caught); CHECK(f.store.starter_items(account)==grant_before);
+        CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
+        CHECK(hawken::test::read_bytes(path)==before);
+    }
+    SUBCASE("Every configured type is required") {
+        for(std::size_t slot=0;slot<9;++slot) {
+            CAPTURE(slot); Fixture f; const auto login=f.login(); REQUIRE(login.status==200);
+            const auto access=f.auth.access(header(login)); REQUIRE(access.status==200); REQUIRE(access.account);
+            const auto account=access.account->account; REQUIRE(f.store.grant_starter_items(account,persisted_expected()));
+            const auto path=f.temporary.path()/"accounts.sqlite";
+            const auto sql="UPDATE starter_items SET type_id='30000000-0000-0000-0000-000000000099' WHERE slot="+std::to_string(slot);
+            fixture_sql(path,sql.c_str()); const auto before=hawken::test::read_bytes(path);
+            CHECK_THROWS_WITH(f.inventory.effective_owned_starter_mech(account,instance_ids[0]),"Invalid owned inventory.");
+            CHECK(f.store.wallet(account)==hawken::store::WalletBalances{});
+            CHECK(hawken::test::read_bytes(path)==before);
+        }
+    }
+}

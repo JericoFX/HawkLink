@@ -69,6 +69,12 @@ public:
     // configured type IDs, and returns saved attributes without GET/autogrant,
     // rendering, default seeding, PUT observation or gameplay authority.
     store::StarterMechSnapshot owned_starter_mech(const store::AccountRef& account, std::string_view instance_id);
+    // Same owned starter snapshot and caller authorization requirement, with
+    // effective Preset attributes matching the owned-list HTTP view: the existing
+    // starter baseline overridden by raw SQL strings (including present empty).
+    // RAW API/SQL remain unchanged; no grant, new default or gameplay authority.
+    store::StarterMechSnapshot effective_owned_starter_mech(const store::AccountRef& account,
+                                                          std::string_view instance_id);
     // Exact POST /userGameItemsBatch/<nonzero canonical lower-case UUID36>.
     // Read only the requested existing instances, in request order, with saved
     // Presets. Body UUIDs are ASCII case-insensitive; normalized duplicates fail.
