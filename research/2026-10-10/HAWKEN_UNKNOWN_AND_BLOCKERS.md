@@ -228,3 +228,16 @@ Evidencia: [captura original del usuario](../../implementation/evidence/menu-ui-
 | Conexión del chat | El área inferior permanece en «CONNECTING», según el reporte del usuario y la captura. | Investigar el servicio/protocolo de chat y su autenticación; comprobar conexión y envío/recepción entre clientes autorizados. Causa y servicio compatible no verificados. |
 
 No se consideran reparados ni se asignan causas a partir de la imagen. Estos pendientes de menú no sustituyen la aceptación de una partida alojada por Core.
+
+
+## Brechas visibles desde el mapa global — 2026-10-13
+
+El [índice unificado](HAWKEN_BINARY_INVENTORY.md) evita volver a analizar funciones ya recuperadas. **CONFIRMADO:** 946 originales intactos; metadata PE86 y UPK360; 22519 exports propios enlazados a salidas UC; índices completos de las funciones conocidas en dos bases Ghidra. **NO VERIFICADO:** semántica completa de esos binarios y de los 3845 métodos UPK con flag native. La cifra de funciones conocidas no prueba que Ghidra encontrara cada función del archivo.
+
+Las siguientes brechas conservan el trabajo realizado: hosting autoritativo utilizable en el cliente actual; inventario/preset efectivo completo (el snapshot SQL crudo puede no contener los defaults que sí proyecta la respuesta HTTP); ready/posesión/spawn y replicación de partida; resultados y economía persistentes; equivalencia entre versiones de proyectos de referencia y esta copia; identidad exacta del proxy instalado. Resolverlas exige una prueba específica por borde, no repetir inventario o descompilar todo otra vez.
+
+Dependencia operativa: REA6.3.0 instalada, pero el diagnóstico actual informa registro MCP Codex ausente/desalineado y no hay tools REA conectadas en este turno. Las bases Ghidra y las herramientas UPK siguen disponibles y este mapa se obtuvo sin reparar configuración. Una reparación del registro requiere el plan/revisión establecidos por SKILL.md si fuese necesaria; no bloquea consultar los resultados retenidos ni usar Ghidra directo.
+
+No se declara acceso al servidor local terminado. El Launch.log leído íntegro mantiene fallos de PRI y refresh de mechs; no se abrió el juego ni se repitió el tutorial para esta consolidación. El audit de seguridad completo permanece en la fase acordada posterior a la partida funcional.
+
+Estado operativo de este corte: la consulta de procesos y listeners no encontró Hawken, backend ni Master, ni listeners en los puertos 80/7777/15520/18080. Esta investigación no inició ni detuvo servicios. El mapa no implica que el ensayo siga encendido; se deberá verificar su arranque antes de otro test HTTP o del cliente.

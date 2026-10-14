@@ -1,0 +1,1551 @@
+{
+  "scope": "All inventoried PE linkage and retained top-level JSONL native dossiers under research/evidence and implementation/evidence; no fresh decompilation.",
+  "inventory_files": 946,
+  "pe_files": 86,
+  "pe_linkage_descriptors": 399,
+  "jsonl_files_examined": 376,
+  "jsonl_files_with_pseudocode": 364,
+  "native_dossier_occurrences": 1170,
+  "native_unique_sha_entry": 886,
+  "native_by_original": {
+    "38f6a1dd1e738e142160322638dae7b88dabcc30eea3f15c58eb08c5341f9b29": 29,
+    "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2": 611,
+    "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57": 246
+  },
+  "unique_provider_call_edges": 5742,
+  "callee_frontier_without_dossier": 4515,
+  "retained_failure_records": [],
+  "jsonl_parse_errors": [],
+  "non_dossier_logs_with_jsonl_suffix": [
+    {
+      "path": "implementation/evidence/server-steam-idle-20261011/diagnostics.jsonl",
+      "line": 1,
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "path": "implementation/evidence/server-steam-idle-20261011/diagnostics.jsonl",
+      "line": 2,
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "path": "implementation/evidence/server-steam-idle-20261011/diagnostics.jsonl",
+      "line": 3,
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "path": "implementation/evidence/server-steam-idle-20261011/diagnostics.jsonl",
+      "line": 4,
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "path": "implementation/evidence/server-steam-idle-20261011/diagnostics.jsonl",
+      "line": 5,
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    }
+  ],
+  "report_sections": 183,
+  "inputs": [
+    {
+      "path": "implementation/evidence/actor-channel-transport/nak-9ee4a0/focused-functions.jsonl",
+      "sha256": "2b95aaff023c555f95af1e42617de2880a1f4d76d34dc21034467151508b9e45"
+    },
+    {
+      "path": "implementation/evidence/actor-controller-prefix/cached-functions.jsonl",
+      "sha256": "66513501fb0a891a47c878f54c4e9b5073e49c462afacda6cdb174adb3c2dfb2"
+    },
+    {
+      "path": "implementation/evidence/actor-controller-prefix/focused-functions.jsonl",
+      "sha256": "e859dba76b2d97367b5fa5915d1a736dcfdf8333634c73e3c1a2f6f9adcfc978"
+    },
+    {
+      "path": "implementation/evidence/actor-initial-reference/cached-functions.jsonl",
+      "sha256": "f764a88efbae0e0b7eab89cc3f879dd07028586d6e2337c59bfac9f52a8ccf40"
+    },
+    {
+      "path": "implementation/evidence/actor-initial-reference/class-identity/focused-functions.jsonl",
+      "sha256": "78b58b2552ed61089c3f32ffaa8a81973198d3f3a79d80e84b217d5f05b8cab6"
+    },
+    {
+      "path": "implementation/evidence/actor-initial-reference/focused-functions.jsonl",
+      "sha256": "bfa5aa8aa824a6866a06275588fc7f39ed8a634ce177c6688a96b9a06354e0f4"
+    },
+    {
+      "path": "implementation/evidence/actor-initial-tail/sender-9efa60/focused-functions.jsonl",
+      "sha256": "225b1258b582741d1b52553dd37b259ada6ad5546ffda12774ef6e442c387890"
+    },
+    {
+      "path": "implementation/evidence/actor-initial-transform/ghidra/focused-functions.jsonl",
+      "sha256": "a5f7ea9239c49cb94503e5b1bd549e07719d1c2966be39bde8fff1e2d0daa331"
+    },
+    {
+      "path": "implementation/evidence/actor-transform-archive-bindings/focused-functions.jsonl",
+      "sha256": "2e6d42cebe32e8e5da93692bfe3aed1d0d520b21d1a560422a38105f0f0598a1"
+    },
+    {
+      "path": "implementation/evidence/browser-listing-consumer/version/native-0c1ba0/focused-functions.jsonl",
+      "sha256": "d4681c031a34c3ab8fbeff62e6ebe4910d63e15c7b8f5cff963a664660de6f49"
+    },
+    {
+      "path": "implementation/evidence/browser-listing-consumer/version/native-998a10/focused-functions.jsonl",
+      "sha256": "ce05671df0d18b21c7eeec400766684921af2323a75cbcd222fe3d56f194e2f6"
+    },
+    {
+      "path": "implementation/evidence/calendar-local-routing/functions.jsonl",
+      "sha256": "1d306e6d8035b61fa67b667e98956a98763e4ffb8d71742fbaaec5d38f979085"
+    },
+    {
+      "path": "implementation/evidence/calendar-local-routing/native-poll-defined/functions.jsonl",
+      "sha256": "2721538bef4cf7438a818e114097a56ac6d775a06c49b8f08501dd4a841a7d1d"
+    },
+    {
+      "path": "implementation/evidence/calendar-local-routing/native-poll/functions.jsonl",
+      "sha256": "c2cbcea546a6fd16ae7672414ab82671b07752e9d6651a71d4072753a6d303db"
+    },
+    {
+      "path": "implementation/evidence/calendar-local-routing/reused-functions.jsonl",
+      "sha256": "fdc012c32476946ae7c5cf1c7d7070583b0e2a8a01ae62235013c15b290e94fe"
+    },
+    {
+      "path": "implementation/evidence/catalogue-globals-contract/ranked-native/focused-functions.jsonl",
+      "sha256": "1b13e9a726fdabe0b59d24da8b0e139d1b55e56786f3ded54745cd838c2c5d22"
+    },
+    {
+      "path": "implementation/evidence/connection-cache-locator/native-0430d0/focused-functions.jsonl",
+      "sha256": "5133dc46c0be59b2704278809d9209b559483ba8c036c2399ea6c5ac4be31d6c"
+    },
+    {
+      "path": "implementation/evidence/connection-cache-locator/native-3123a0/focused-functions.jsonl",
+      "sha256": "d5184eac5df5f2ab7a9474d0309fe12545574b6ca607079a8189fd923c9ecb78"
+    },
+    {
+      "path": "implementation/evidence/connection-cache-locator/native-47ee80/focused-functions.jsonl",
+      "sha256": "6b1d1e852191441307268875e32da4b00b2038ad735ba76e2c30ac446c7d03ff"
+    },
+    {
+      "path": "implementation/evidence/connection-world-identity/class-binding/focused-functions.jsonl",
+      "sha256": "d76fa543fbd9f545b918c67f7718037416317c736d0166c81dff97d6c46e398a"
+    },
+    {
+      "path": "implementation/evidence/connection-world-identity/constructor/focused-functions.jsonl",
+      "sha256": "69b7f61b59ac0acc707e41fec928d0a412475c2c07fd852882e101d0a6e75f74"
+    },
+    {
+      "path": "implementation/evidence/connection-world-identity/global-writer/focused-functions.jsonl",
+      "sha256": "ced83ed0ad4acfcda40305c44630a478f30477d440c9aabfcadd46db3dd26a5a"
+    },
+    {
+      "path": "implementation/evidence/contained-game-package/ghidra-09f6a0/focused-functions.jsonl",
+      "sha256": "5f6cec679b416c96969b03dfd9143cd7d67596fb0b9ca789481baade1c4226fb"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/cooked-link/base-serializer/focused-functions.jsonl",
+      "sha256": "2b7ba409c1ed0221978cd0c89425a7630c09f5f255b2caf0bca19a380930330e"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/cooked-link/focused-functions.jsonl",
+      "sha256": "fc28694ea5c1933c3ec0cfaabd05da72b35c099dbcf6b8acb940772ec64b549e"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/cooked-link/reused-functions.jsonl",
+      "sha256": "2bdd9e9ec0385a7add70e965d31f6213f4dd63cab7fb0d796c001992889f13ec"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/ghidra-field-owner-20261013/functions.jsonl",
+      "sha256": "44fb1c2548e7a2b0c3f913c7c1a3eafdb1c9a8d1e0c3186c1e43f964946c8e15"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/ghidra-field-owner-20261013/switch-recovery-single-path/functions.jsonl",
+      "sha256": "6e44d48dfad66810acc2baa9e452ff472ed8241579a2d90173b2cd0b33a3c46d"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/ghidra-pre-rebuild-link-20261013/functions.jsonl",
+      "sha256": "c8620cd25fea54e015c06f3283edb4550fabfd2c33d86cfd4348380f3483d22a"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/property-link-ghidra-20261013/functions.jsonl",
+      "sha256": "e58f03ec85714eb4be846d54ef865e49452027b7a46f0938545325a30242be25"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/reused-functions.jsonl",
+      "sha256": "3fde5362c15fdc001dfdca4473e91066a19bfa590cecf1a364bea84e52bcbc3e"
+    },
+    {
+      "path": "implementation/evidence/controller-initial-rotation/cdo-initialization/cached-functions.jsonl",
+      "sha256": "15c7c627fcecd274ceb37421a29582b510418f49d00ab766a31682178f10fb97"
+    },
+    {
+      "path": "implementation/evidence/controller-initial-rotation/class-storage/focused-functions.jsonl",
+      "sha256": "e45f0fc7ce250ed81240c305a6905823f45e67238117234d4c509c0d1c4578fa"
+    },
+    {
+      "path": "implementation/evidence/controller-initial-rotation/constructors/base-object/focused-functions.jsonl",
+      "sha256": "1a4057ea2676c3dd26db0f605ae8713cea4dd7385d44fa649917f06a3e225039"
+    },
+    {
+      "path": "implementation/evidence/controller-initial-rotation/constructors/direct-pwsh/focused-functions.jsonl",
+      "sha256": "b0e9cc717b7b79a8404cbfcbaa770b9731780dd140068fe7a8d028193c897a31"
+    },
+    {
+      "path": "implementation/evidence/controller-initial-rotation/constructors/focused-functions.jsonl",
+      "sha256": "d9e7916701327991d14e8f34bc2a1ee70a5f273bd9f1fb3f720d3f0390fe0148"
+    },
+    {
+      "path": "implementation/evidence/controller-net-index/cached-functions.jsonl",
+      "sha256": "88a8324648f3cca989655573ef6373a3be633245d55198c0ea5c1bef6f822d84"
+    },
+    {
+      "path": "implementation/evidence/controller-net-index/focused-functions.jsonl",
+      "sha256": "d95e8a84a50bebeafceaff13038c96da1f6b0adb7fd1898bfe1621deec5fa057"
+    },
+    {
+      "path": "implementation/evidence/controller-net-index/header-parser/focused-functions.jsonl",
+      "sha256": "db68c1f917aff9a33fb82d7bf20a852f8e92d08a4dadd67c7deb01fbd2f495a2"
+    },
+    {
+      "path": "implementation/evidence/controller-net-index/loader/focused-functions.jsonl",
+      "sha256": "3c31be1f20f555cfcb2ca6f52c579bc8c1c2aed556624aaae25bcc9f95943efe"
+    },
+    {
+      "path": "implementation/evidence/controller-net-index/serializer/focused-functions.jsonl",
+      "sha256": "8aa994af8cf987ad4da5ead2e29a18a8c0d424a1aec7ade563314396e01c8ca9"
+    },
+    {
+      "path": "implementation/evidence/controller-net-index/summary/focused-functions.jsonl",
+      "sha256": "f404b309a718d6323c06e9d76a7a2fb0f34aaa86b982ac8eb7cc50b09f5d734b"
+    },
+    {
+      "path": "implementation/evidence/controller-netfield-cache/cached-functions.jsonl",
+      "sha256": "4c80375718a742b7c0c7567781dc582361059d23cc59dfadee326d2705ac9e4e"
+    },
+    {
+      "path": "implementation/evidence/controller-netfield-cache/focused-functions.jsonl",
+      "sha256": "132430ca486a63d4923be46ac01c91834354beac96e785bfa5b4f4fd963da6d9"
+    },
+    {
+      "path": "implementation/evidence/controller-netfield-cache/sort/focused-functions.jsonl",
+      "sha256": "dc92ccf2f4f402b26ba9348143ababf7aa71c85303aeba3daed983a10730e3ff"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-sender/callers/focused-functions.jsonl",
+      "sha256": "5830a362d75a78641d1ea9070be02dd35c70fe70d0c1e7fac07b5e682b6b6693"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-sender/field-cache/focused-functions.jsonl",
+      "sha256": "afc28be05c65623040e2dac05cd3bbedb4ea65a051848706d7b04f7720a514a5"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-sender/helpers/focused-functions.jsonl",
+      "sha256": "8354a841023364eeaa242e6f7cef8ae1ca0e6fe3fa3cae52be23f37230a484ad"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-sender/native/focused-functions.jsonl",
+      "sha256": "9b0997c32a9bd042290af6083cec357771cebb8130a415a40c10f805e2df5941"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-sender/reused-functions.jsonl",
+      "sha256": "c9b85e61ef4cea130619702786062cf8ccf7a3455cecafd1daebe1f3db580ed3"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-wire/cached-functions.jsonl",
+      "sha256": "c101e17a951e22e790553c304ff5364dd5f1aeee2ca5c19bfd31a9d2df946cc5"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-wire/native/focused-functions.jsonl",
+      "sha256": "bd3e9c4c2d0a8b11bb72e8afc1b0532464ad7a7611a19972c55a7aff0efb0a3c"
+    },
+    {
+      "path": "implementation/evidence/hawken-movement-native-entry-20261012/native/focused-functions.jsonl",
+      "sha256": "ad289e24bc8ce1010bb9059d055723ec67143e253c6ea8085f73836886211303"
+    },
+    {
+      "path": "implementation/evidence/inventory-visor-hardcoded/builtin-producer/focused-functions.jsonl",
+      "sha256": "cbb2be5523ff18da301b0790a7761a941250b776170091907476c844a9743bc0"
+    },
+    {
+      "path": "implementation/evidence/inventory-visor-producer/class-registration/focused-functions.jsonl",
+      "sha256": "d4840295614dff97ecc7d1825ef2379d48acc6f45c59d01104ce33547ea72391"
+    },
+    {
+      "path": "implementation/evidence/inventory-visor-producer/dictionary-dispatch/focused-functions.jsonl",
+      "sha256": "eb853757915c47bcf0e38086d1b63ad624ee0764432196c6d9bb355f223ef70f"
+    },
+    {
+      "path": "implementation/evidence/inventory-visor-producer/object-constructor/focused-functions.jsonl",
+      "sha256": "5e91543558ca10dc7f25be827aa30115c944c597441f2d3eb70c2aa93bdc9c64"
+    },
+    {
+      "path": "implementation/evidence/item-purchase-request-contract/inventory-result-functions.jsonl",
+      "sha256": "a2781bd92bae0076baa3ffaab803f4c70f87575f6ed7d2e80ea8ae4b4191b522"
+    },
+    {
+      "path": "implementation/evidence/item-purchase-request-contract/inventory-tail-functions.jsonl",
+      "sha256": "c6c05b0ae340e142d89f4bb126cf347eda6e3ee3b160426471c9b62dd1b9cad6"
+    },
+    {
+      "path": "implementation/evidence/item-purchase-request-contract/purchase-functions.jsonl",
+      "sha256": "8d8ae5ae9a402f6a50f7cb0dac0e4ffab29fea424b80454ff064b4034f23ff97"
+    },
+    {
+      "path": "implementation/evidence/item-purchase-request-contract/purchase-helpers-functions.jsonl",
+      "sha256": "eedfd34d0383719fbaa364f9e9bdf1a854151d269e3306d72c60f90077cfee98"
+    },
+    {
+      "path": "implementation/evidence/item-purchase-request-contract/transaction-proof-functions.jsonl",
+      "sha256": "803942504f90665d9c869c81f13e4dbfe21e0d8876c6478e9aad4a6996c4f426"
+    },
+    {
+      "path": "implementation/evidence/join-player-controller/cached-functions.jsonl",
+      "sha256": "3cce66dc6029cc75ec26256b13d7e46e8e0248b1a683ae9836c97de6de740230"
+    },
+    {
+      "path": "implementation/evidence/join-player-controller/focused-functions.jsonl",
+      "sha256": "74fe0d3f6cd971f5bd6b85f4eb259e4b7d13b98e1a32547644bf8ab0f92d436e"
+    },
+    {
+      "path": "implementation/evidence/join-player-controller/helpers/focused-functions.jsonl",
+      "sha256": "6b671eb4a852aa957d32d38acd150e9620bcad93849133e076b5ed697af5019a"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/main-attributes-functions.jsonl",
+      "sha256": "9e32f7b98cad3717b60496a74d3a32c2208e24ef7c63f3713eedf92d0d04eb2e"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/main-exec-functions.jsonl",
+      "sha256": "db323c35fd85c9c3d700f949db91bc8b840279943372eb2b52f514bd0864b3d4"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/main-filter-functions.jsonl",
+      "sha256": "f12a514e076ba268d42df4bbb81b666465e2e296b19a8c7b4b5390917d35596c"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/main-functions.jsonl",
+      "sha256": "ed597898cf6dbc44e05937f5414f79db60aa7dc6515ef7ac235b91e7d170de32"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/main-producer-functions.jsonl",
+      "sha256": "20002d0da12a45e40cdd1839b70cadd48aceb603e9d51e45f6666966cf7348be"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/main-task-functions.jsonl",
+      "sha256": "242aa6322fc5cfdb7c648a2f487b72c88ac6be6958307e198300b5ae969a0f9c"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/main-update-functions.jsonl",
+      "sha256": "fb475a78a5a820e5eb86e5dfb540d35fb85159f3082217b5de8eb8d8ad6ad8e7"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/reference-value-format/functions.jsonl",
+      "sha256": "89a939e6a1478a0d21d85b83bd1b3823e49a7939b8b51caa02e6df6088c389ad"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/sdk-executor-functions.jsonl",
+      "sha256": "742486189dcd62066a9c1e7142057b24bebacdd2b5971aeb57327de8c84538d6"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/sdk-functions.jsonl",
+      "sha256": "b706e3ec36a5f64cd4818afc409893f8c35c947db995d9920bb8883de94ed46b"
+    },
+    {
+      "path": "implementation/evidence/loadout-save-request-contract/sdk-update-functions.jsonl",
+      "sha256": "0b5fb080892184dfc941e619a459705f578643c43d80be463dfc6c6bdb901275"
+    },
+    {
+      "path": "implementation/evidence/local-steam-routing-20261011-171311/luna-crash/candidate-function-program.jsonl",
+      "sha256": "2cefd186e64eeb8a6c35959e67e18ed146ac8d54517839aa202e8dfe7753eaa8"
+    },
+    {
+      "path": "implementation/evidence/m1-server-viability/engine-init.jsonl",
+      "sha256": "99f0bc4e5c2ee2db0791f8b9ef1f2c062d2aa20c25286f44dbe4e65d74c63c99"
+    },
+    {
+      "path": "implementation/evidence/m1-server-viability/ghidra-main-entrypoint.jsonl",
+      "sha256": "beb8ed36fce67ea9eb4d60d567500d17ce439e3571ad04c3985ea1b59eaaab4f"
+    },
+    {
+      "path": "implementation/evidence/m1-server-viability/localserver-consumers.jsonl",
+      "sha256": "fe129d0cd639447d702870807307e74ffff2d9f774a70e3ab6f1d20a43212ac1"
+    },
+    {
+      "path": "implementation/evidence/m1-server-viability/startup-commandline.jsonl",
+      "sha256": "831efb1db3d0a7bd270600d4fdd2897b9732320c363382c6f2be2fa687db57aa"
+    },
+    {
+      "path": "implementation/evidence/m2-sdk-results/sdk-results.jsonl",
+      "sha256": "b759b25c6a52a6969126bf97e7a193c30bf4a23bf305f66550d23ecbf9817615"
+    },
+    {
+      "path": "implementation/evidence/m4-routing-init/containing-function/functions.jsonl",
+      "sha256": "2797df72b0e1ea3446ee8aa963f29c947b739137ab6cc11658c2780f8fb7c18c"
+    },
+    {
+      "path": "implementation/evidence/m7-control-archive/functions.jsonl",
+      "sha256": "d98b14f73b7ac99932ffcf1f774cd78f73abad5bc9155c066933f8549b066a48"
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/ancestor-binding/native/focused-functions.jsonl",
+      "sha256": "78a9d2e7d77db1439e860467af36a3995be6e544910062ee8e81246351d863de"
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/archive-order/received-raw/focused-functions.jsonl",
+      "sha256": "b4f90c659455deec2c6fcad0ac5243ed01f3c89f64bce3daf5de7eee93b4c068"
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/concrete-ancestor/native/focused-functions.jsonl",
+      "sha256": "76b34fb405d48d0cc31646dea49f6d556db44a37fd48b29e543e6e1fd0250879"
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/native-members/focused-functions.jsonl",
+      "sha256": "4c9ee75f371231b3ccb3017d84dc8adab098c10fec65317cf7db2f3cca5c98a3"
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/native/focused-functions.jsonl",
+      "sha256": "7b8ef6d97b3e5556db0de5f5a071f5a8af8aa8d30eefce16732f32c83fec633d"
+    },
+    {
+      "path": "implementation/evidence/movement-wire-native-20261012/native/focused-functions.jsonl",
+      "sha256": "3eceb708600a540d9b3e1ffea32c56e8685b36bd8382447150c0a0fbc5fbfec8"
+    },
+    {
+      "path": "implementation/evidence/native-port-tester/functions-1.jsonl",
+      "sha256": "cd9a6580a41a8227d9602707af30ef9a3e72cb1286209e94929242c23c005b73"
+    },
+    {
+      "path": "implementation/evidence/native-port-tester/functions-2.jsonl",
+      "sha256": "f53066f4703250943a595a00aa2249c6485150405b17698fe5bc2c5b19db4b83"
+    },
+    {
+      "path": "implementation/evidence/native-port-tester/functions-3.jsonl",
+      "sha256": "fc5d514bc09a4e5c18004d221ed3fe512ae40a6cdc4066a92f6baa0f7e52eaa9"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-class-loader/functions.jsonl",
+      "sha256": "a0a4d986c585dbadf50127149f92ce1bd144ef123e68e435ff28996dfc1a7ed6"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-create-named-driver-wrapper/functions.jsonl",
+      "sha256": "d4624b6fd2b3c827bd56a3b08b2d570b52252ffd7693e5572ce5049017652192"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-create-named-driver/functions.jsonl",
+      "sha256": "4859cc741dbb533a01b3ee787a089d2bf973a717e1c517d31ab1b48e43f54978"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-driver-class-factory/functions.jsonl",
+      "sha256": "50cc699849ff2019eb6e3275c3bb43fcb6076dbc10ec662b0edd5753b857dd87"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-driver-class-postinit/functions.jsonl",
+      "sha256": "a08aecd43036acefe614745b4d00532b847b436bc0547ded298e6e05d29271e4"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-driver-class-registry/functions.jsonl",
+      "sha256": "af4ad3711745f306bd3fafae3fb5e51da26b8fbc03f24ff7b4c629fe88878f88"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-driver-init-base/functions.jsonl",
+      "sha256": "4b36e592819b4db93c34689559d7294a3ddfe1ac9674c2c4851194eebec27fde"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-driver-init-callback/functions.jsonl",
+      "sha256": "01509b67dc2dd4bfdc1ef9a002bda94521df3393f2babe87f76868ee1124a6c3"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-driver-init-listen/functions.jsonl",
+      "sha256": "6caf9741ad9f0b2360936d21a3e6a9c09469bd6bff3b3779324c1c430790465f"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-driver-instance-create/functions.jsonl",
+      "sha256": "54798fe5bf96b08be986b206a52ede87a3635e6038d4599b915c4d3e111ca3f5"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-engine-base-loader/functions.jsonl",
+      "sha256": "62da0da87cd402e681b82900e70f10bf0a088571bcf42d5433b22bc42f5855a0"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-engine-init-tick/functions.jsonl",
+      "sha256": "ece3db22a2d3490931b17be87bc570438621a98914a3ad9c8a4537d5ffcb2315"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-net-driver-wrapper/functions.jsonl",
+      "sha256": "08cb6a862e97fd09213347ecd4f6c9c3eadec24a8e73b2a83ff6c523a76837f4"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-startup-tick/functions.jsonl",
+      "sha256": "cff83126175328f8d6cccc8d4ad6e6dd33189e53d1650d37336d3d352a4942af"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-world-driver-lifecycle/functions.jsonl",
+      "sha256": "d545d74d6ed003c0b2f18d0acd81009b9537ce12772dbd2ea1ee2deb06fe1169"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-world-init/functions.jsonl",
+      "sha256": "5729e7a8dceeb179bb4a04f0f496cf8a9fc8330d009f3a14f821a07fbc80a998"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-world-listen-candidate/functions.jsonl",
+      "sha256": "dd3177ba42f6e9606620dc9d82f3b6c7a8b5e2cce743c61c0339bb0ba32644a8"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-world-load-tick/functions.jsonl",
+      "sha256": "edb95fb4f4a64495087065e8f2e4e31e8fa1efdcd79790a8a481e3a7b4a77642"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-world-set-game-info/functions.jsonl",
+      "sha256": "7e0d0d04def2c11fed3d71b96691f6d8100c75856cba3ccc38b0ab84315a3c77"
+    },
+    {
+      "path": "implementation/evidence/netfield-package-eligibility/ghidra-86ac0/focused-functions.jsonl",
+      "sha256": "7d692b2ca4f5b927b08e4a4a5fdda1b3d90c2e5f61588ab8c99aed057d1a6292"
+    },
+    {
+      "path": "implementation/evidence/package-ack-wire/focused-functions.jsonl",
+      "sha256": "eadcf98bc7cc322298998dc1c3317f0ef3f2cc2ce1a8a98c7fe7ce6e0ef89332"
+    },
+    {
+      "path": "implementation/evidence/package-descriptor-completion/focused-functions.jsonl",
+      "sha256": "51e2472da1709c980a01f2961adc6902413721f905b726174bf1c1f7ca4dce78"
+    },
+    {
+      "path": "implementation/evidence/package-descriptor-origins/constructor/focused-functions.jsonl",
+      "sha256": "fea751456b108d35089af092a66d8786de75daeb8eb66a3b9a909d6014f2d583"
+    },
+    {
+      "path": "implementation/evidence/package-descriptor-origins/focused-functions.jsonl",
+      "sha256": "546e6264a744a82b62ef641375e01bfae8bfd0fd77a6b524764ca6f81eaf0d45"
+    },
+    {
+      "path": "implementation/evidence/package-descriptor-origins/loader/focused-functions.jsonl",
+      "sha256": "474554df52d4cd2f88bfcbc489ed0af5414a370b1dcb1d612a286278027281aa"
+    },
+    {
+      "path": "implementation/evidence/package-descriptor-origins/origins/focused-functions.jsonl",
+      "sha256": "86257dc6b40c90978fc75853c648042be5f0b92777619c1e8b3a98a1053853ab"
+    },
+    {
+      "path": "implementation/evidence/package-descriptor-origins/package-state/focused-functions.jsonl",
+      "sha256": "5e89061e214953ad2a05ecdbe77a3668cc606996419a1d1268df93976cfa02ff"
+    },
+    {
+      "path": "implementation/evidence/package-map-ranges/reused-functions.jsonl",
+      "sha256": "3046bd46b5084ee39028212d2dacf26b0283588cbb2579343ad66191303ad91d"
+    },
+    {
+      "path": "implementation/evidence/package-map-selection/cached-functions.jsonl",
+      "sha256": "4c75f2af4d30f601ec5e9799033e8a59dfe3dc497f2018271fd08083ddba1c2e"
+    },
+    {
+      "path": "implementation/evidence/package-map-selection/focused-functions.jsonl",
+      "sha256": "aaaf7c0a5ab5ab8ffab5c902c26024e1667bc89ae7bfeaf5aab9c8a5ca9bd299"
+    },
+    {
+      "path": "implementation/evidence/package-map-selection/matching-helper/focused-functions.jsonl",
+      "sha256": "beff3e74474f697a4b85a68f494acdf7ab234ab6026d9005779ffe2df162276d"
+    },
+    {
+      "path": "implementation/evidence/pawn-runtime-locator/find-object/focused-functions.jsonl",
+      "sha256": "b340442c268fc73eca5bf8cb8364e2a1569f5e5a97ee289de261174e8707d4be"
+    },
+    {
+      "path": "implementation/evidence/pawn-runtime-locator/focused-functions.jsonl",
+      "sha256": "7df9a1dd2ff9f5a57814d042f96c90c6dcadaa5d3613053170ddbe878927aaeb"
+    },
+    {
+      "path": "implementation/evidence/pawn-runtime-locator/hash-leaf/focused-functions.jsonl",
+      "sha256": "0e711ec07f6b8ab57f4fe143c9179d6c06c60b0933eb47b746a0ec8fa15a6e2a"
+    },
+    {
+      "path": "implementation/evidence/pawn-runtime-locator/object-leaf/focused-functions.jsonl",
+      "sha256": "a641b7b9743d454702f7983a2f6cf79fa2ed51f82ea5b6e7a87b1b635d487330"
+    },
+    {
+      "path": "implementation/evidence/pawn-runtime-locator/reused-functions.jsonl",
+      "sha256": "2a98e70d192bdcdc576168efa0f861b401a6e5ae364dd87c65b60415693fc177"
+    },
+    {
+      "path": "implementation/evidence/postlogin-playerid-layout/focused-functions.jsonl",
+      "sha256": "7b8d434ef64b5acd5dd5a2d42e91ed389f959fd57329c02219ff5474df7b39c0"
+    },
+    {
+      "path": "implementation/evidence/postlogin-playerid-layout/registration/focused-functions.jsonl",
+      "sha256": "2661ea479c3a1a4dcd468d2ab45bf92afa5c85486cc1fca4209d13ce5f646e88"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/delegate-closure/focused-functions.jsonl",
+      "sha256": "6488a87670346ea70d2f82bcf7590b0efedb88c6fd0152daa268252874716bda"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/dispatch-closure/focused-functions.jsonl",
+      "sha256": "2478e051e0bfb4032de01e85001e1cc714376bc60e4e9d16ec0cff99e03f8ee8"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/event-closure/focused-functions.jsonl",
+      "sha256": "ee541665026aae749c9501a634cd4f59342cb4f154863d7f0ae34f1c6b7671ec"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/focused-functions.jsonl",
+      "sha256": "e0e3aa7439871423a3a65f2c307ddfb2b04fb5db53c577c2d2d61f3e8d739297"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/short-repro-contract/attribute-reader/focused-functions.jsonl",
+      "sha256": "6faf7c337302ed6694b0a7c3f0ffc35eb746ba1a9fedd8ee57498ae5f82a0b59"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/short-repro-contract/focused-functions.jsonl",
+      "sha256": "3a494b9e741bd7f5ab8f04f361b5f3398a01b3602871cafe8a93d6b29c5efd1e"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/short-repro-contract/globals-implementation/focused-functions.jsonl",
+      "sha256": "d2a13c479e8298c0bf8235415c980b6558e92dcb4f52b8a526d5cbac8710d99e"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/short-repro-contract/item-constructor/focused-functions.jsonl",
+      "sha256": "1d89b07b9a617752fbc8452b335ccda8b30d663ea2cc9415062d3126b3630c12"
+    },
+    {
+      "path": "implementation/evidence/postmatch-sync-contract/single-delegate-closure/focused-functions.jsonl",
+      "sha256": "cb00d5e2b40066f2071703cb5e2b2a3d3cac0d981aa10a4647a438f31c5d7682"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-dedicated-continuation-20261013/fname-wrappers/functions.jsonl",
+      "sha256": "b7377e4960c84bb8546ce96fd80c3fe9cabd4b7bcf18ebf3efcfd2771f73e6e7"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-dedicated-continuation-20261013/functions.jsonl",
+      "sha256": "210acdc5e9217d052ad6b0d06322eb8cf0e9d591e900d454b5c5c3ca6bf4312c"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-dedicated-continuation-20261013/native-exec-wrappers/functions.jsonl",
+      "sha256": "807a707bdf993d18022424c1e0f861c4b2a7f83a6a77bdaaf9bd0760a68c162a"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-dedicated-continuation-20261013/preset-caller/functions.jsonl",
+      "sha256": "b39766a288674da5643dfddc55db5feb714c1a47e1ea05d735bf6815de39d403"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-dedicated-continuation-20261013/preset-tick/functions.jsonl",
+      "sha256": "c66bb16a3ab1cad14b0088e31af87f64b0b9f8137e7bb33ed95ad06959a77d48"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-item-getter-20261013/stage-1/functions.jsonl",
+      "sha256": "c7196f94b635e0383d70fdbf568e933db0821c643c856b52d6f7ad687f2e4663"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-item-getter-20261013/stage-2/functions.jsonl",
+      "sha256": "f9f613a851040ff146797bda76e837a6ab48f0529da86952dca9ee2edafcea56"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-item-getter-20261013/stage-3/functions.jsonl",
+      "sha256": "5d34da60dc55643366294ce0ca4e7537dfa8635c47c824ca222b6b705818edf2"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-item-getter-20261013/stage-4/functions.jsonl",
+      "sha256": "f66bdd14780250ff39c9c862d86c7723ef8fa68c20c9dfd2b8c9a79c5810d5a7"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/native-item-getter-20261013/stage-5/functions.jsonl",
+      "sha256": "894b03f63a0fa7c712e9b5abd3ff8d3020c990c29c604ad6ffb4b6212d94e27b"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/single-preset-loader-20261013/native-edges/functions.jsonl",
+      "sha256": "7767a5f42de04e7f702bf8972d6ebf4fe2a5134ef88ca839f7b9c1b38581f8b6"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/single-preset-loader-20261013/upgrade-wrapper/functions.jsonl",
+      "sha256": "b92cf59ea6cb213593fd42c6fd588f45768a04850e5c59c1ee49c66d8ffd98d4"
+    },
+    {
+      "path": "implementation/evidence/pri-native-prefix/constructors/focused-functions.jsonl",
+      "sha256": "c6498d948544faa564d703062f93d6cb408e76ef355fc63774a1fbb9b2929084"
+    },
+    {
+      "path": "implementation/evidence/steam-callback-poll-contract/focused-functions.jsonl",
+      "sha256": "d7d8dbdcb5c4bdb20963349b7aadefebd98c9f7d06b35b5b4becf2e6362e6ee0"
+    },
+    {
+      "path": "implementation/evidence/steam-native-auth-feasibility-research/ghidra-steam-api/steam-api-focused-functions-v2.jsonl",
+      "sha256": "389121c2b77a3e692beb8a238a78bf096b24be8da814cf73b8af915b19ce1ab2"
+    },
+    {
+      "path": "implementation/evidence/steam-native-auth-feasibility-research/ghidra-steam-api/steam-api-focused-functions.jsonl",
+      "sha256": "91f03bb943fb2a614c7d0628df74933956edd2aebce5fa3fcf8ac2cb22f1f57b"
+    },
+    {
+      "path": "implementation/evidence/user-game-items-batch-contract/sdk-functions.jsonl",
+      "sha256": "7f2db400ea75286963d623345ed3dcfe37111cb8c4f47314c6d48e209e975e70"
+    },
+    {
+      "path": "implementation/evidence/welcome-world-inputs/focused-functions.jsonl",
+      "sha256": "ecdd032190a75cba014d7bd19ea6506537d2aa804cf7e55f175ed8059e971100"
+    },
+    {
+      "path": "implementation/evidence/welcome-world-inputs/name-leaves/focused-functions.jsonl",
+      "sha256": "f8bba5200059254cc5a659eab81dbe32523264dc0d0549e8975dd654771e2089"
+    },
+    {
+      "path": "implementation/evidence/welcome-world-inputs/names/focused-functions.jsonl",
+      "sha256": "ab6f9bf0d5e39c99f1a86ff75de653a7756a280c0ea26df7cdb25f45968b52e9"
+    },
+    {
+      "path": "research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md",
+      "sha256": "dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8"
+    },
+    {
+      "path": "research/2026-10-10/HAWKEN_BINARY_INVENTORY.md",
+      "sha256": "17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05"
+    },
+    {
+      "path": "research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md",
+      "sha256": "eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53"
+    },
+    {
+      "path": "research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md",
+      "sha256": "eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb"
+    },
+    {
+      "path": "research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md",
+      "sha256": "76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b"
+    },
+    {
+      "path": "research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md",
+      "sha256": "85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f"
+    },
+    {
+      "path": "research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md",
+      "sha256": "d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/client-steam-identity-transport/cached-functions.jsonl",
+      "sha256": "a18b23190c3b9d312449568edd73f1c1193c89effcf216d3414483ae7f6ee53d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-achievement-completion-functions.jsonl",
+      "sha256": "4f6f7a40d94e5e68625a9e7ae53d90f4c625120e58f30fe42eeacaf814a74aa1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-achievement-materializer-functions.jsonl",
+      "sha256": "42ca2cd64a5103ed71e37d61319541da1d913c5e4a4479790350eebc570a920c"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-achievement-start-functions.jsonl",
+      "sha256": "589b56f02f9f9b7aefc2ad2edfecc5377814b6d5f6406e62c1a57ba4117060ae"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-core-getters-functions.jsonl",
+      "sha256": "c781cbb303d6316537e92a3700eff1fa709b4d696f3b3b7228c19657e893c770"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-achievement-builders-functions.jsonl",
+      "sha256": "4d4714aafd2a990df24afcea92372564e397be93337033bce25b67aa0550c791"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-builders-functions.jsonl",
+      "sha256": "45d9e3d852bca93765367fae0e6640c6bd2ea655d3e4fcb4924e5a2f159e1e83"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-collections-functions.jsonl",
+      "sha256": "f3812db2092e6b803d5e731b7283daa7b1fdd6ef6dd9ac87c1a1dc1dd983bd0e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-consumer-calls-functions.jsonl",
+      "sha256": "43cc8d52c378dcb7696aa7637e065517c71ac362ecbe93bc1c8425647d73aa4d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-consumer-init-functions.jsonl",
+      "sha256": "b3f5198e89403cf6f8e4acc0b64793941f6ad67156ab82a567395510438cc822"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-core-constructor-functions.jsonl",
+      "sha256": "a1529e159a4019dadc9f87983d9647ad2c46c14fc743bf21a475adf9da739bb0"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-dispatch-functions.jsonl",
+      "sha256": "889ff22465f3f2169c189709605cdf5899114c5b7a926a634f11f411ab12c09d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-models-functions.jsonl",
+      "sha256": "3f9c68a6b63da87be160ae9f97f05e9c1032b89db72f6b3afa6514965193e5ad"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-result-parsers-functions.jsonl",
+      "sha256": "a58fc95a16b62c48a37514c1b03ffd2f530dfc8166e4dc3c56e5757ed4953178"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-sdk-success-transport-functions.jsonl",
+      "sha256": "721273d3a3e32c1148cc77cf5de59d7dbae5aba534bcebdfbd6eaa1971a1e449"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-task-constructors-functions.jsonl",
+      "sha256": "17b45f608fa9cc588afcd59ea1d128e7c5e40cf9889e2c2e31867994d16f9135"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-task-dispatch-functions.jsonl",
+      "sha256": "e0a83527f33ebeeec3053ba66011d5313c453df09ee6148e8383a9074fd3f0e5"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-task-ticks-functions.jsonl",
+      "sha256": "aad9f27ca209f5d3d97fbe6ca11e2d6a13a8dfd7d44631a48fce4b57e39b4fd1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/initial-wrappers-functions.jsonl",
+      "sha256": "1dcbfed0f72263a001383ca8dc5ed1de69ea4c05294d11457d9b871f82ce8791"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-initial-sync-contract/wallet-materialize-functions.jsonl",
+      "sha256": "3e13ff18931e0e7eea2a99a9457e85313cf6c36e135981b5513855e95b00e12e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-login-wire-contract-native-profile/functions-callback.jsonl",
+      "sha256": "c0de3819cd77815530eee3f6f4d62af30246ada8485c5b2f02e5155c664ff9a7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-login-wire-contract-native-profile/functions-hydration.jsonl",
+      "sha256": "4491e7f14edbf50fea53f74664236651782aa300ba94c8e5f29f6437240b04a1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-login-wire-contract-native-profile/functions.jsonl",
+      "sha256": "e6075bae94f113357a3bd49b8193cb962b5ef78043e43e51b2377522576207f8"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/catalog-builders-functions.jsonl",
+      "sha256": "2b27dc379f27f1fc4cc58f7c5fa3e47dbab3f66a12b0905b16330137648ee6fb"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/catalog-executors-functions.jsonl",
+      "sha256": "dbaf3733ebc637951edb7bda9e43e5554c4b96002e9ec6f1dbad4c16bcba523d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/collection-completion-functions.jsonl",
+      "sha256": "943e405f572096d3ab69facb4fd3cf04e698120ac33725ce69edf589cfc511bb"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/collection-dispatch-functions.jsonl",
+      "sha256": "c51667b00c2117df24269ae109968ae71683a8d3028390c50e85273d3f30c91e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/collection-tasks-functions.jsonl",
+      "sha256": "7bcc7490a25a677845a9668b06ed6fc8c5e7b6ecc2e7462b6970bd578ef41986"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/collection-ticks-functions.jsonl",
+      "sha256": "860a283331165769a46380c9e884931138b46671ce04fbc9622a80576b60a4ef"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/item-ue-bridge-functions.jsonl",
+      "sha256": "0d0e2d0914ac6fa225a73341ab127159bf03e4f1878420a43f0772b79b4e0108"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/offer-numeric-helpers-functions.jsonl",
+      "sha256": "9d53dc12a18efd7606f4444457c878869025bcc7aa26b8f64e662647ab4244ae"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/offer-parser-functions.jsonl",
+      "sha256": "59e9a240b9f3f75d4efa4f85924914c445e985f97a5c75c4be0fa9f15cd7150c"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-menu-catalog-contract/offer-ue-bridge-functions.jsonl",
+      "sha256": "211f0b5e20211509ff6655764dc43666fc173c35c8228f8b68d5e26f9fdaa304"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-original-catalog-data/property-getters-functions.jsonl",
+      "sha256": "3ef19bee1a5fb561fefe2acf37a2d890f9afe6e327ec6379ee91f1cf6d0d7703"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-original-catalog-data/xp-kill-functions.jsonl",
+      "sha256": "75da0d7dd4ce6a7c6bbfcea58790228b749970fb561a694461d7dcb077e08088"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-original-catalog-data/xp-wrappers-functions.jsonl",
+      "sha256": "8a26c191ed731072210d0211d2aa8b74cbd43d0845a23746c4b3005f0a65d89c"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/availability-functions.jsonl",
+      "sha256": "acb38e6a23b541d75f49edbd3bf2f73f40642c1d231e4e3775c38637abfe325c"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/class-functions.jsonl",
+      "sha256": "8f81a6bd3cec69f3364802927475b078a8882df7876d40d8652aa3ba7fcfa980"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/constructor-functions.jsonl",
+      "sha256": "b5c9c3ac0fd9c6350e1b7318cdc23ee3966a7a828983039b2430ebe01f1203c7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/instance-functions.jsonl",
+      "sha256": "3897032e6b74b28bef6c1ee6746ecec1e4d0291b6170c893d3eb7360eb583540"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/integrity-functions.jsonl",
+      "sha256": "8d52f4c6123fc3c4e88a3acb15cb1724ed2c1d5ef66e6aacbcb32175db8dbbd7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/ownership-functions.jsonl",
+      "sha256": "840f0e9f5242b79390345e8f0445e78981324deebbd68098a57e232953efeb4f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/preset-functions.jsonl",
+      "sha256": "c6557f12c1faa7b4f8ab0bbf39236c095a873661b068e2dec40cb6926620cfbd"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/relations-functions.jsonl",
+      "sha256": "30ffb320daa21e8ff01bc4c1f6dff196dd644950be32ab2fe46f33d5a1a73e47"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/selection-functions.jsonl",
+      "sha256": "dc06e6220cb3c885cef5f5ab304307e2b2f1c8fb26f43db7ad5cdfb8120d7835"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/validity-functions.jsonl",
+      "sha256": "83fd25b4571a1e940c5cf28fa1600c70c14056c162a1d56524b9fd4a56d3ec7e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-owned-loadout-contract/wrappers-functions.jsonl",
+      "sha256": "227d2f19e4603c9277376d48461d807a8ccf41b63b4cf57ae47b230dd03b52bb"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/functions.jsonl",
+      "sha256": "d373d0da7e72e2fbec4a4455b4b5a622d54547ded5a3f8ea017bb3712590bb8e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-apply-functions.jsonl",
+      "sha256": "607ade37f206c96d5eac29457873fda5268f5b2800a96bed07597088030b5142"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-dispatch-functions.jsonl",
+      "sha256": "46eb70c666cb45e97ca8a75cc6a50ce1408aee146627b150ff8ee48553f89be8"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-functions.jsonl",
+      "sha256": "67ecaf4bffdc0bcbd100147c9c85acf572f19a9430d77508f930d9d8eae0e155"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-settings-builder-functions.jsonl",
+      "sha256": "a031a893dc257a956ea03ae049fafa98a776eabc1b29765a60ce639909eddbb5"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-settings-executor-functions.jsonl",
+      "sha256": "d7673bf5ce8051bdf435e35de4aaf29dface2920977607faf8e77f1f04354ef3"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-settings-functions.jsonl",
+      "sha256": "4be4f577afd428c047ab16dff1663cd168f5dde67714d5a1f025d1d624a8848b"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-settings-request-functions.jsonl",
+      "sha256": "4bf111ac4898b5d80c46bc3e1b8f4f64ab41a7949ff485121ccf5f4343760cb5"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-settings-url-model-functions.jsonl",
+      "sha256": "393a8b6eb9355f290f170697dafa3ba1ca8c64c8da71e5463e3634dea8a70459"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-task-functions.jsonl",
+      "sha256": "cb115deed6546434e8b4c0d786377cefea39a7a2c17475751f6164ac44849694"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-post-login-activation/nickname-tick-functions.jsonl",
+      "sha256": "629b8c2cb03273284577fb445329dd823b3932250eac3bf674d790c3df616339"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-startup-status/main/functions.jsonl",
+      "sha256": "4702fc2dc653499f463430b8d2114a24e762a96a0e744b4139f07b98001b4db1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-startup-status/sdk/functions.jsonl",
+      "sha256": "f6705b5e2d785d5d5cfeed6a9102e23bd53e59708521826f13459e9b4f5dcbfd"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-steam-provider-abi/callback-functions.jsonl",
+      "sha256": "6065b8fe977d2427ccf0153f38b59ec0bac5ecee3122d82862e82fe25c64917f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/m4-steam-provider-abi/functions.jsonl",
+      "sha256": "50747697bb40eb26e551f214c5f1197a9e1730fe3b383ca777cec6ac8a190961"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-assignment-write-functions.jsonl",
+      "sha256": "cdb9e1b6a8136df66ed38693fcc6095c0d6f109f9e5625d837f61a39cb9740af"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-mc-executor-functions.jsonl",
+      "sha256": "a060476b00eeb1f8ccf4246d02651cf7a59a8512030abfc7dd2d8a3375fcefb4"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-mc-task-functions.jsonl",
+      "sha256": "f15dc58aa535e0f3f66ccd67121c87d80b920b08617a7883cf3e8d4cf55a5500"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-new-user-flags-functions.jsonl",
+      "sha256": "b9f128177f04008c95364ce808551293e8d6eb2081fcb49de52bc7fbeae509e0"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-new-user-flags-persist-functions.jsonl",
+      "sha256": "a76c04b60396596b09a666af02b4d3eeafd933427e06eb01ab686d6092c05e3d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-offer-parser-functions.jsonl",
+      "sha256": "92d5535df5e73a04dedd2487c34510f983be2feb1849e1c3d521fc6a10912841"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-player-classes-functions.jsonl",
+      "sha256": "0f873cf4d0855e0a8b1f23df66d7c98cd2014167ab465731fda3c9183c2988f1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-player-constructors-functions.jsonl",
+      "sha256": "caa787f684883440f6e4cabf883e58343b01a0c5fcc4923c9d570672d7ab06d2"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-premium-functions.jsonl",
+      "sha256": "5519ee1635880bd426392f38bf520ce99b27403eaf123a03b22e0d1486f8ae71"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-setting-category-int-functions.jsonl",
+      "sha256": "2031253ee1cea3076501dafa19b60bbf210af51cb32697cd1d69a47fb82d027b"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-settings-async-functions.jsonl",
+      "sha256": "523eb4fb93bf4e9176203a3bad1f258c4a91187829be5a85de2763e2109affe4"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-settings-builder-functions.jsonl",
+      "sha256": "cb151a30d41044481cb17a016f497be47ef5dacde396a5af435d4c2ea74c3df7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-settings-consumer-functions.jsonl",
+      "sha256": "d44bcbfc7a43220bbb389eb610496227568110f1978490f71ace250a8317aed3"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-settings-execution-functions.jsonl",
+      "sha256": "eeb246f7ab859c13ca804156e8af664fb4c549c9d7c7b04ec36f4d84e21bd3ad"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-settings-interface-functions.jsonl",
+      "sha256": "1035be9bc2e83d435de0a65f0a2df325b221aa13111542e1a2a066c94657f3db"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-settings-write-functions.jsonl",
+      "sha256": "379a553a8ace7fbdccb4e965c5f619de80a487072795ce36059390ddd74ae7ab"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-steam-offers-functions.jsonl",
+      "sha256": "afa731f7203a8beb0b999c5210e6158b998dbb5a32dbc9a034dd45907a0ecdee"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-user-flags-functions.jsonl",
+      "sha256": "2d3cd8677177656574565e7654b338ea6cbc2bb9f62340e361e510305caa61e1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-write-executors-functions.jsonl",
+      "sha256": "ebfed28bb63f7f87ecad87c32db4c2fb83e954ddc01d3c467b4d78d44085b045"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/post-sync-menu-contract/post-sync-write-task-functions.jsonl",
+      "sha256": "a25d1111f2687919f03c9e38a839357b05d025ae82d4ccf11fbea78c94abb4c7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-account-completions-functions.jsonl",
+      "sha256": "59c78e521b1384ef4e4be1da95424aaecbeb64997170290845c64de96d3c49b0"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-achievement-arrays-functions.jsonl",
+      "sha256": "964669da199ca94afd045d64cba240980da9b7c16ab0a332d2c624fbd0fc10af"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-calendar-lambda-functions.jsonl",
+      "sha256": "6c9df66e524200db1b0e6e72c6b584f7c258d01ad50952b18511f13dca536af6"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-calendar-transport-functions.jsonl",
+      "sha256": "31b1934c0c405fa7cd5ef0f3ae4c8ab29c34b798c0d1d3bb9229860ecfa06c3f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-dispatch-functions.jsonl",
+      "sha256": "5baa831402596551f75b3e00bcf83b78ba82d71bd0ef10b87325b296cbc24569"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-empty-achievement-guard-functions.jsonl",
+      "sha256": "f02233b9ce34649579cc1e420ca0ff809d23cb3a82eb71cf90a384ce321fbef6"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-empty-results-functions.jsonl",
+      "sha256": "1b598e273a07189e073370aec79277f2afb6e36b33a5631a6807e5190a1ffe93"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-legacy-calendar-functions.jsonl",
+      "sha256": "e9aec9fdc86a954c3d3ffa912f0281b4f2de6b679422afc864870b7a28efe7f1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-null-writer-functions.jsonl",
+      "sha256": "f4f47ad724ccb600db14d80ee6877ce57dc39c4c250867459d3b4614ced20e77"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-builders-functions.jsonl",
+      "sha256": "a7b2006ae26ec09b01db4139b487f44798a54f32c54a789b525271d7955430d3"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-dispatch-functions.jsonl",
+      "sha256": "f0677088367046df45b7b716997694b61d3c064b82797a777d23b8e933a0aaff"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-models-functions.jsonl",
+      "sha256": "2d889f177101796fc5e9a9959c9b3aae28aea70e8e4150790c19125c095aec66"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-parsers-functions.jsonl",
+      "sha256": "f0a0f3a853f96b95caacce4aa6c92f011b6038c3989bd0da0ab1b6f4531374d8"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-read-builders-functions.jsonl",
+      "sha256": "b9bd233484343c6be9b89a66220e9186a9f467fa0c758b92dd1f3678f49b761b"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-readers-functions.jsonl",
+      "sha256": "93453706a3c6c20b914e835709dee55c70c1d2b9ebbe037a9614291fbb96f40f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-rest-functions.jsonl",
+      "sha256": "3b358efaca7d44de423dc7bdb9818916c0661c05eeaba2d80d40b495c4782a13"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-sdk-results-functions.jsonl",
+      "sha256": "d4899ca7e27a0093953ee6eae4ba47e8e80b21439c00cf7824fcd840ce17e202"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-stat-calendar-consumers-functions.jsonl",
+      "sha256": "4049cd07d02fe56bbcef10c01ef991bf33ea6ae800ea5e0b702cc2bc80cda64d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-task-executors-functions.jsonl",
+      "sha256": "49cd6e8b3ef70a9c76423bcf20f566d55f25509009ef41b87ee9b53f0eeae214"
+    },
+    {
+      "path": "research/2026-10-10/evidence/auth/remaining-menu-sync-contract/sync-tasks-functions.jsonl",
+      "sha256": "c0da57da1dc1f2374c0dc2ff323793b003be841d68e748d439a8ff1a6b5ac92e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/account-playerid-binding/closure/focused-functions.jsonl",
+      "sha256": "05f02a183339a867ab706d8ebe727695717ae4773be88718fac8100f8b5b2ac6"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/account-playerid-binding/focused-functions.jsonl",
+      "sha256": "cbd7d1f2e1a37d003c00ade3e581a36eb0a51d0c91cb0d51e5b1ea321c1c069e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/binding-functions.jsonl",
+      "sha256": "722229ae95f4c3e4493e7d42b80bcd22d5abc613237fb101934040c238cf9235"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/control-functions.jsonl",
+      "sha256": "a1992531564e2acfacfadffc1a1d4c02387a442ce588077b46a4d1040d3a7d74"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/initial-functions.jsonl",
+      "sha256": "c5d850556729452ee03bb7200d631e259651706c7d2b7dd94af825906197f46e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/lowlevel-functions.jsonl",
+      "sha256": "45dc3a542cd87bada82f0ce80c3a275fa6cba776583377f21d690b3e118e826f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/packet-framing-functions.jsonl",
+      "sha256": "665c27c6930361aedc599079e669f920239818b814ce09f017b25535a2b36f64"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/responses-functions.jsonl",
+      "sha256": "191457eaa8501830d1455569f2922a9e1d3c7996ece7b166ee0f46f6e1d24a60"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/reused-transport.jsonl",
+      "sha256": "f7881bedace7534fdcdc7aaba90ece7ee287952601985d6410d5896349ccae1d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/reused.jsonl",
+      "sha256": "3d2764d3d2a3cf888e85fd39f6ff49c83fe8a7ffd22544a8749813f7bee7100c"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/send-framing-functions.jsonl",
+      "sha256": "af7e261ee0dbbeaf015ea300bb181a837f03f6fd682b7f86ef4aa3e3120e774c"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/send-layer-functions.jsonl",
+      "sha256": "5be58f84a43bc986f51d7f180b3b4fb55bf2bee61f3d18a19680e712be91120b"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/server-dispatch-functions.jsonl",
+      "sha256": "7c7079c3a158d884eb25382a8d8acfda085264361eb81f3a3854aa6197ff55db"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/control-notifier/world-functions.jsonl",
+      "sha256": "ed56791d95aa6819c9372b5b03aa4b3422b3bfcc3380901399cd8ecbcc1d2fc0"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/delivery-functions.jsonl",
+      "sha256": "dc43baa8302223397d0980c2a12fbc7b521f0fe31107791a2b817203bda783b2"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/functions.jsonl",
+      "sha256": "514da3717d852c9b18d0cda4d2b79a904773a93d071b0b98b983d714210383ca"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/next-serialization/functions.jsonl",
+      "sha256": "4b90a72e28b95a49df7a60187ff78aed78ed4aefd173c90be721aa58596f3e6a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/next-serialization/helper-functions.jsonl",
+      "sha256": "202a980f484afdbe62cca8d2d6329a0427112fce72b1303aa96058734fefdb64"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/object-functions.jsonl",
+      "sha256": "99cdeada3e7c427dfd2350c7da4988a841449b992665b27c331bc9c76039682e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/bunch-fastpath/reference-functions.jsonl",
+      "sha256": "707381b80f765292cc1a4f4852779a93748ddddf36d0cc2af9a39560d10795ea"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/additional-reused-functions.jsonl",
+      "sha256": "e37f7208af0ae994ad09340714f45dd99f972de2c859a1ebdb96b5dd3686dcee"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/allocation-functions.jsonl",
+      "sha256": "cefe192c9e292247edd495cc148fb26bd37fd7adee615bbd0d12a1000761d487"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/base-class-functions.jsonl",
+      "sha256": "510163069974b4ac2a2a8c426e086ee243c4d9df6bbc59d6d86fcfb638ac0aeb"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/base-constructor-functions.jsonl",
+      "sha256": "971131a36e73177ea8df09cc8e8372e399ef2f09186f7a9ec82a92f243661f2b"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/class-defaults-functions.jsonl",
+      "sha256": "24d7a1a5f11149490bc12be6e3e886fc1910751693cf7f14d03c0e88f20e8e08"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/class-link-functions.jsonl",
+      "sha256": "fff102a74828ed80bfc937757f1d8c9c19631fd8aaaa42175dee1084631ba453"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/driver-class-functions.jsonl",
+      "sha256": "ee5f376c61f408d4d86be34d490989d526f5981c3484df7a9fb357d5769b2e47"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/hierarchy-functions.jsonl",
+      "sha256": "69b74d30a5787fc6038c1844fa89082bfc4900d8253a333c2d543959456e1b7a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/initialization-functions.jsonl",
+      "sha256": "f68c00a215eb0ec21ff17dbf187631442b71abf5d43eb39e95145d29c9329b23"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/parent-link-functions.jsonl",
+      "sha256": "fa97471b3b0024da379dca2bef3dc6c89cc9dbbf0464c376bfc313c5e66b4310"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/post-defaults-functions.jsonl",
+      "sha256": "9335220c066e8d5d7b9a1de2155f32aac6e2b686f82d33486092cf99478ad2bb"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/properties-functions.jsonl",
+      "sha256": "36a3411a611d8d729de3f8a45a2b670ce842e2884af47ff495840c4e17b30c29"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/reused-functions.jsonl",
+      "sha256": "aaced118fb9c5316334b18a98024f3861353a24c81d2890baa26ccab4f1437a9"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/connection-defaults/zeroing-functions.jsonl",
+      "sha256": "924517fd648f5844176123036ba5ded21948ae53adc04e2103443bd2535b5fa7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/initial-server-handshake/additional-reused-functions.jsonl",
+      "sha256": "b7b245456442d78d733d08c5aca4e5042ad12f855c93755b06869b5f286d5130"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/initial-server-handshake/core-functions.jsonl",
+      "sha256": "727b1f6143d43363e4a5a86ffa803652a9301b3bc59b3fe487ce4d7844ed4566"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/initial-server-handshake/package-writer-functions.jsonl",
+      "sha256": "e54e8d042f9754f35f7ed3bf293fe09d7bb6dcefe2d1275eb7fb189487ef43e9"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/initial-server-handshake/publication-functions.jsonl",
+      "sha256": "8c73d8d10a00e33fbe60ed035cf703d33dbf65c115c283fcbf138a8397a75259"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/initial-server-handshake/reused-functions.jsonl",
+      "sha256": "4411fbc3ec9828c9fdbddbd18ec2ec41a483fa9e161c574508db826e73b4f6c7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/local-host-feasibility/native-closure/functions.jsonl",
+      "sha256": "3ba8dcbf475f276471bfb05c9fe9084a93f85595a7a85bafba3c93c9b619dbf1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/login-authority-binding/cached-functions.jsonl",
+      "sha256": "68e3a8ac846843779cd7bbd64c3ec03703fe11c9719450afa9871f8450247869"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/login-authority-binding/corrected/focused-functions.jsonl",
+      "sha256": "89d7c7de851f40e6214fdd3c89e8b5102fe13eece90a23af541bd985d93931b5"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/post-hello-control-contract/cached-functions.jsonl",
+      "sha256": "e808e3dd7dc9ceb8a23aad85d9164fd3ed98bfa71f79ecb1e933701b2d0ab530"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/post-hello-control-contract/copy-functions.jsonl",
+      "sha256": "439796ec7ec20647e91255131495bbb219b56d4284f6d961089a63c3e03a26ca"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/post-hello-control-contract/package-functions.jsonl",
+      "sha256": "c79c04e83bdc42aa88fed92787bad99c625a28a0703d2f8582e0721172201d11"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/reliable-control-tick-ack-completion/completion-functions.jsonl",
+      "sha256": "807569c4fb8af6df635b73e7cf6b0a34e2c8a8c697289436adc1200077570112"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/reliable-control-tick-ack-completion/reused-constructors.jsonl",
+      "sha256": "755e046383dff6f442d8ebc9fe81b88dae443ee9c994b51ae3e141e81f109c64"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/reliable-control-transport-contract/retry-functions.jsonl",
+      "sha256": "b14c292b4751728efe0e0045667c286f592f5989094c6bb115843064dc6e3c45"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/reliable-control-transport-contract/reused-functions.jsonl",
+      "sha256": "ad55c5339bb71590f70bfe68cfe6903665ff58113a96718f1d9601917edfdbb5"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/reliable-control-transport-contract/transport-functions.jsonl",
+      "sha256": "83e483cfde7c0860156a78ffdfce27766cf7f61956e8bc2e3876bdb8f20ec7b3"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/session-provision-contract/path-join-functions.jsonl",
+      "sha256": "aa135ffb3f31e81482aa2a4ce604b5bcdb031ad3605f150765ca3332d233488e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/session-provision-contract/reused-functions.jsonl",
+      "sha256": "650521fa2b509985ed59ab43ec5b149786589251fcd6746b8bf093fd62bd0ee2"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/session-provision-contract/session-async-ctor-functions.jsonl",
+      "sha256": "0c0b5c6b7ddd098349c55dd777c186fe91070d92be7a7b0499b4b270a3d8a2c7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/session-provision-contract/session-async-worker-functions.jsonl",
+      "sha256": "714f262a062ab0c666e08ab454a05edf5bde2c457b6aae9e6385838f6fcf77a3"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/session-provision-contract/session-seam-functions.jsonl",
+      "sha256": "abe4d007bbc72c5722b56ec8e30bf526e0581e5dd1e1e1cf5ff303c0f424e064"
+    },
+    {
+      "path": "research/2026-10-10/evidence/game/session-wrapper-native/reused-functions.jsonl",
+      "sha256": "0ee3207f2e12532e113172b1ec46750088c8b1497971ad1c0f3806e76779a7f5"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-admission.jsonl",
+      "sha256": "10cbbebcefa75cbb80883846b5776c36a47e35267a0c552def326f5250dce66d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-auth-socket.jsonl",
+      "sha256": "8805f77f9fd698b0d99687911237ac8f737f73ef5772a5ae038198f92856ba11"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-bitreader-atend.jsonl",
+      "sha256": "beab06429a6d35ed35ef5a936575e9dcd36842167c37d1482acdaad34e2b4fac"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-bitreader-ctor.jsonl",
+      "sha256": "cbd61674d54c22eb6653a571021119db5742f7512080a3adbb7ef36e03451bf2"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-bitreader-methods.jsonl",
+      "sha256": "fe7d2efb30e7565d6ec34635b135f0fc6fd8b52763aa3f2030dfed0d2e919c28"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-bunch-delivery.jsonl",
+      "sha256": "722e24c9d29d968bd9422de897fd741c380fb47b0ae0d080419e5cf60fed6c67"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-creator-credit.jsonl",
+      "sha256": "309cb6eb59bc292f72f7590246c1ab2cb0275c4101bd4efbafbbd192590e1ac4"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-creator-functions.jsonl",
+      "sha256": "87c9c5b12f4b85c689de1eed8c9615368efa68bbb196b011f034d9ac801232c1"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-creator-wallet-method.jsonl",
+      "sha256": "12512d14eea3a94566817c84b564d706990d736bc5c1df4a5246589ad568fa05"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-creator-wallet-task.jsonl",
+      "sha256": "1c8010799b1e460cb740fe11fbbe89544f69d215a4c5bf987bc75a8fe8266dac"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-crypto-primitives.jsonl",
+      "sha256": "4ff9b330d71f89f5571b625cfd1a9e8424541e8e9d4ddfd176166a1b05baaf5c"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-crypto-steam.jsonl",
+      "sha256": "2742380ebd73b61ab618c10e371f0b0e51690e27d609d7a6ed5b22d6948b1ccc"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-crypto-wire.jsonl",
+      "sha256": "0a1b3658dca70f60c82c577d8bf6465af9d8ba167d30f1f90665981995ad94ee"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-final-bits.jsonl",
+      "sha256": "e3de319cd693335cf7259cf688840032baab00028e2ab962ca1e3764c93c57ac"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-final-reader.jsonl",
+      "sha256": "b34f0e5fb8785955847aafffb4bd20dfd46c7f946700e8dc48853638e9f7c5f3"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-flow.jsonl",
+      "sha256": "bf8cb7448761f4931f28d3407238bbea94d55b9199dd1578cf62c050c4f8ccef"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-functions.jsonl",
+      "sha256": "5c8962d70fa314b4e01067f7418b999b97b81230b43bea60c55d26a69a7671bc"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-gameplay.jsonl",
+      "sha256": "dabac9283cd88b646c4fdbf5c612a2e00bdde73c31030fa0b960d31421b76b58"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-helpers.jsonl",
+      "sha256": "25efb855a26328b3b7068e451067d4c57c156175f783da2e2da631a1c428b7cd"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-packet-receiver.jsonl",
+      "sha256": "345b6990f792971178959f0d0b32be0d9adc828f3d05f6bc47f94e33ff790875"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-session-consumers.jsonl",
+      "sha256": "227fedd5ae3965e13bf9f02c982ac0d990275728f52512981e52beeaa63c64ad"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-session-packet.jsonl",
+      "sha256": "a2b7b95f7de42e70fb099054dcc20d3233fa6e3ef3cd28e2629b0c2d8e233e6d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-auth-helpers.jsonl",
+      "sha256": "65170d5b9be07eb3a0a2f22b2789ef4256d27d5e43b37018522efae250b12e02"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-event-and-override.jsonl",
+      "sha256": "edee3bc6f50485f38f05178c7d2424eb7fe791d45dc5df9b06036586b8388459"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-http-producers.jsonl",
+      "sha256": "20cb9c13c51b16693874992f1a7edd3d7c38d59b633aa9312468b3ae6314a63f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-listing-producers.jsonl",
+      "sha256": "e801f4bba5e3d47ac82656c822150d0866f1f4f7b636c32499003edbe18ff850"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-native-bindings.jsonl",
+      "sha256": "edde0d50664a67414f641a64aa216eba13b2caf25d7c73268f410fb350a1bc90"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-native-consumers.jsonl",
+      "sha256": "7256bad279805a4b2261946b0105d0a0c7947d515941461c0f24645df194ad94"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-override-source.jsonl",
+      "sha256": "4fc7ea8494b99d09035375b0418cc80538303f8bf83fdf116fb9c7cb0494e195"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-query-callback.jsonl",
+      "sha256": "d5a080521ba267c2b770538d04770fad0bf633c604c8ce89f8d9f7bd2c0dff48"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-region-event-final.jsonl",
+      "sha256": "fc9d28cca75d0a095ead499289d5d92cd540ba549547b4b5b00f98f30e69fd3d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-main-upk-virtual-implementations.jsonl",
+      "sha256": "dfadc946a85119d940266416681b0bce32ddbb782d17e79ec075567e07f7cdb2"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-account-contracts.jsonl",
+      "sha256": "451ac4ca051ab298c4a30304f7b91636ada2a9120cca1625d25efd05c02eb87b"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-account-events.jsonl",
+      "sha256": "178bda21ff188596c43eab2148bbe275aba75dbb181cb4afb0f58f3b782fc85d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-account-final.jsonl",
+      "sha256": "bc80c79d7cdbd6f2a12dff8fe4e5bc01e0ca900d193e5ac85abba02734eb5cb4"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-account-metadata.jsonl",
+      "sha256": "47e7c37a0432375051ddb6832503db3842130151013f410ee72973e0770ee9e8"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-account-parsers.jsonl",
+      "sha256": "2078bd36a55f866caa94934adae55c93bc07bf96f55a0a089e3bd77bf7e52dbc"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-auxiliary.jsonl",
+      "sha256": "0102501bb41e5783ba6d4e0c821f622fee0f1a7f5148f965aeb56560b5a4cab7"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-final-models.jsonl",
+      "sha256": "e12bd146747828050cfa09250dca373e25027bf132d68336a8893023ff50f353"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-functions.jsonl",
+      "sha256": "6f08ff1d5a4616c050e85a074bb44927c93a44c9e2012a6dc34bceb87a0e042a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-results.jsonl",
+      "sha256": "743378209e7dcd35bd5c312e83ed5119209944945578e5970b6eac23b6d9806a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-schemas.jsonl",
+      "sha256": "4296d65041276bfcfc7874060e994a882effbfedfcc64b5afbeff1551b7b8207"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-services.jsonl",
+      "sha256": "d613e15c9011c416ab8748af2d5784ca03cbc1c29fa39524efcbc7e4b42c4650"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-upk-event-transport.jsonl",
+      "sha256": "f2797a254e68c40da0f0a0d4c8a522ee7e62e58b153435eb5d2b66eb01152871"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-upk-event-worker.jsonl",
+      "sha256": "9e76169f2f0475e7a92f4cf2e2efd8a13d89eafd4416f41eb8a08750feb28991"
+    },
+    {
+      "path": "research/2026-10-10/evidence/ghidra-sdk-upk-linked-consumers.jsonl",
+      "sha256": "1884d11f45a60217a2ba1aa3f69221996cdcb5a6293455edbde465746f5c2bea"
+    },
+    {
+      "path": "research/2026-10-10/evidence/inventory.csv",
+      "sha256": "e275ba3e4de40808e3a28925de8ae656a815bde7430362c2f36e3092004ded53"
+    },
+    {
+      "path": "research/2026-10-10/evidence/pe-linkage.json",
+      "sha256": "230ff112677aeabb791ce0b323bb98da0a10e3c0cc27215a4d51b53834668bd9"
+    }
+  ],
+  "limits": [
+    "Index coverage is not full semantic recovery or original source.",
+    "Repeated dossiers include retained copies; occurrences are not analysis runs.",
+    "JSON-only/native-instruction evidence without top-level pseudocode is outside the native-function count; remains in the reports and prior evidence.",
+    "Missing dossier image bases are bound from PE metadata by original SHA-256. Non-JSON logs with a JSONL suffix are retained separately; malformed lines in a file containing pseudocode dossiers fail acceptance.",
+    "Bundled module basename matches are candidates, not observed loader resolution.",
+    "Provider call edges do not close indirect/virtual calls or demonstrate execution.",
+    "UPK coverage is provided by the separate package map; native declarations are not implementations, and virtual package offsets are not compressed file offsets.",
+    "No original SHA revalidation performed by this index generator; independent streamed original-file validation is a separate gate."
+  ]
+}

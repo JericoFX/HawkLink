@@ -1,0 +1,134 @@
+{
+  "schema": "hawken.complete-artifact-map.validation-closure.v1",
+  "closedUtc": "2026-10-14T02:07:30.9581218Z",
+  "inventory": {
+    "inventoryCsvSha256": "e275ba3e4de40808e3a28925de8ae656a815bde7430362c2f36e3092004ded53",
+    "rows": 946,
+    "originalFilesHashed": 946,
+    "stable": 946,
+    "changed": 0,
+    "missing": 0,
+    "hashErrors": 0,
+    "addedPaths": [
+      {
+        "relativePath": "HawkenGame\\PropSheetCache.txt",
+        "absolutePath": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\PropSheetCache.txt",
+        "bytes": 1225,
+        "mtimeUtc": "2026-10-13T02:31:01.567068Z",
+        "sha256": "b2455cb737747ff43a68b2b30f5f726b39263ff55717ede65c283f78a82209ae",
+        "creationUtc": "2026-10-11T16:42:49.9909997Z",
+        "originalFilename": null
+      },
+      {
+        "relativePath": "Binaries\\Win64\\hawken-client.toml",
+        "absolutePath": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\hawken-client.toml",
+        "bytes": 284,
+        "mtimeUtc": "2026-10-11T04:26:06.3758075Z",
+        "sha256": "7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3",
+        "creationUtc": "2026-10-12T23:57:20.6319985Z",
+        "originalFilename": null
+      },
+      {
+        "relativePath": "Binaries\\Win64\\dinput8.dll",
+        "absolutePath": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\dinput8.dll",
+        "bytes": 359424,
+        "mtimeUtc": "2026-10-12T01:50:48.834129Z",
+        "sha256": "fe45fe000189477aa884c680a63ca20340702b5d405bca92428ce51c076b5c16",
+        "creationUtc": "2026-10-12T23:57:20.5885625Z",
+        "originalFilename": null
+      }
+    ]
+  },
+  "launchLog": {
+    "sha256": "5b9df0560ef8208ddbe7e2bbea9e4a76cb923a5822fb5418de75997a3d629037",
+    "bytes": 40655,
+    "lines": 477,
+    "encoding": "Windows-1252",
+    "sanitizedRelevantLines": 132
+  },
+  "metadata": {
+    "summarySha256": "b83d339ffd0a5470fca038ceb1dd7b90f7c04b156ed77029bb1fa918c04c427a",
+    "programs": [
+      {
+        "program": "HawkenGame-Win64-Shipping.exe",
+        "file": "main-functions.jsonl",
+        "fileSha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
+        "records": 131954,
+        "uniqueProgramEntryKeys": 131954,
+        "calleeEdges": 241766,
+        "thunks": 7081,
+        "externalFunctions": 0,
+        "malformedLines": 0,
+        "wrongProgramRecords": 0,
+        "wrongOriginalHashRecords": 0,
+        "duplicateProgramEntryCount": 0,
+        "duplicateCalleeExamples": []
+      },
+      {
+        "program": "Meteor.Sdk.Cpp.Win32.Client64.dll",
+        "file": "sdk-functions.jsonl",
+        "fileSha256": "b6e456a5fb28f65ed6815c4277493008931a608ca024004c8ad737cd04227af4",
+        "records": 14371,
+        "uniqueProgramEntryKeys": 14371,
+        "calleeEdges": 28262,
+        "thunks": 232,
+        "externalFunctions": 0,
+        "malformedLines": 0,
+        "wrongProgramRecords": 0,
+        "wrongOriginalHashRecords": 0,
+        "duplicateProgramEntryCount": 0,
+        "duplicateCalleeExamples": []
+      }
+    ],
+    "valid": {
+      "allJsonLinesParsed": true,
+      "noDuplicateProgramEntryKeys": true,
+      "programHashesMatchExpected": true,
+      "duplicateCalleeExamples": []
+    }
+  },
+  "tools": {
+    "statusEvidenceSha256": "bc957520d5df26f936b3e581c4f88f31658d63601732f093adb29f68abcb36b3",
+    "ghidra": "12.1.4",
+    "jdk": "21.0.12.1",
+    "ueExplorer": "1.6.2",
+    "reaDoctorHealthy": false,
+    "reaProviderGhidraConfigured": false
+  },
+  "closure": {
+    "ramFreeBytes": 18058416128,
+    "ramTotalBytes": 34265743360,
+    "observedProcesses": [],
+    "listeners": [],
+    "didNotStartOrStopServices": true,
+    "didNotStartGhidraOrJava": true
+  },
+  "evidenceFiles": [
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/validation/artifact-map-validation.json",
+      "bytes": 29617,
+      "sha256": "b55e5b67458d59df37a8bafea5c924a8180a3a2aac9884276f3fb0aeec42248a"
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/validation/artifact-identities.json",
+      "bytes": 4256,
+      "sha256": "3425fc058baf3131ff18bc94e37c4cfd5a7bc098bbff3be669112ebc3738eb5f"
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/validation/metadata-validation.json",
+      "bytes": 2144,
+      "sha256": "3f99660b069126faafdcd7ccaf30b40e2fd16cbf009a868153cb86dc88111cc6"
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/validation/tool-dependency-status.json",
+      "bytes": 3519,
+      "sha256": "bc957520d5df26f936b3e581c4f88f31658d63601732f093adb29f68abcb36b3"
+    }
+  ],
+  "limits": [
+    "Original install tree unchanged relative to 946-row inventory at the captured stream snapshot; this is not continuous integrity monitoring.",
+    "Three added files are not part of that original manifest; dinput8.dll is proxy-like but exact producer/version is unverified.",
+    "Known-function exports cover retained Ghidra DB metadata only; they do not claim exhaustive binary code recovery or runtime execution.",
+    "REA doctor reported provider/config registration gaps; installed tools are not equivalent to an active provider integration."
+  ]
+}

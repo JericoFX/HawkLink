@@ -838,3 +838,34 @@ La tabla runtime `uint32[256]` está en RVA `0x1bee030`; los heads son un array 
 NO VERIFICADO en runtime: inicialización y estabilidad de la tabla, presencia/unicidad de `HawkenGameContent` y `R_PawnContent`, IDs efectivos y elegibilidad de la conexión. La tabla es zero-fill en el PE; no se sustituye por un CRC estándar supuesto. El observer revisará hasta cuatro buckets ANSI/UTF-16 como política propia, con límite256 por cadena y presupuesto compartido1MiB para dos muestras. Cap, ciclo, ambigüedad, identidad o tabla inválida producen resultado inconcluso. `field_ids_accepted` permanece false.
 
 La extracción del barrido previo compila; la regresión sintética de 200000 nombres falla con `reader_error` al exigir sólo slots objetivo. Las otras19 pruebas pasan (suite20casos/143aserciones); el fixture no demuestra valores nativos de hash ni gameplay. [RED real](../../implementation/evidence/native-post-save-player-links/name-hash-red/luna/reader-red-resume.stdout.log). La sustitución hash está escrita y revisada ([freeze](../../implementation/evidence/native-post-save-player-links/name-hash-green/green-freeze.json)); compilación GREEN y observación nativa siguen pendientes. Backend y Master permanecen encendidos.
+
+
+## Mapa de cobertura UPK
+
+Corte estático de la instalación original al 2026-10-13, sin nueva extracción ni ejecución del cliente. Se recorrió `F:/SteamLibrary/steamapps/common/Hawken` y se volvieron a calcular los SHA-256 de los paquetes: **360 UPK, 0 UDK**, 939371917 bytes; los 360 hashes coinciden con el inventario retenido. Los conteos y la correspondencia completa están en [inventario/cobertura](../../implementation/evidence/complete-artifact-map-20261013/upk/inventory-and-coverage.json) y [mapa paquete→clase→función](../../implementation/evidence/complete-artifact-map-20261013/upk/package-class-function-map.jsonl).
+
+| Nivel comprobado | Paquetes / registros | Alcance y límite |
+|---|---:|---|
+| Original presente, SHA y conteos Names/Imports/Exports | 360/360 | Hash actual cotejado con el scan original; no equivale a deserializar correctamente cada asset. |
+| Exports propios Class/Function seleccionados por el scan | 75 paquetes; 22519 registros | 3160 Class y 19359 Function, con índice físico, offset virtual y tamaño. Los otros 285 paquetes no tienen registros en este selector; no se afirma ausencia universal de código. |
+| Paquetes con Class propio seleccionado | 75 | Definición extraída sujeta a revisión, no equivalencia con clase viva. |
+| Paquetes con Function propia seleccionada | 42 | Se conserva su clase propietaria identificada en el mismo paquete. |
+| Manifests UC canónicos conservados | 76; 24558 salidas | 3837 UClass y 20721 UFunction; los archivos y hashes de todas las salidas fueron cotejados. |
+| Correspondencia del set propio seleccionado con UC | 22519/22519 | Los 587 registros de la corrección indexed se enlazan por export/offset/tamaño; el resto por path original exacto. No prueba semántica del pseudocódigo. |
+| Salidas fuera de ese set propio | 2039 | Incluyen imports, metadata nativa y otros registros del lector. No incrementan cobertura propia. Startup tiene 17 salidas UClass, pero cero exports de código propios en el selector. |
+| Funciones propias con flag native | 3845 | La declaración UC no recupera su implementación EXE; necesita binding y cuerpo nativo independientes. |
+
+La base reutilizada es el [scan de 360 paquetes](evidence/upk/all-package-endpoint-scan.json), las [seis extracciones iniciales](evidence/upk/decompilation-summary.json), los [cuatro paquetes adicionales prioritarios](evidence/upk/additional-decompilation-summary.json) y la [corrección indexed de otros 66 paquetes](evidence/upk/indexed-additional-decompilation-summary.json). Esta última aporta 587 registros propios; los prioritarios BaseAI/GameFramework/GFxUI/UDKBase aportan 1994. El intento histórico `owned-additional` de 7942 salidas queda excluido del cómputo canónico: su selector no cerró la correspondencia esperada. Los manifests enlazan copias normalizadas derivadas con hashes originales; dichas copias no reemplazan ni modifican los UPK instalados.
+
+Ejemplos positivos de enlace a EXE, **CONFIRMADO estático bajo el binding de clase indicado**, no un mapa global de todos los métodos nativos:
+
+| Paquete → clase → función | Export / offset virtual original | Binding EXE original |
+|---|---|---|
+| HawkenGame → R_MechSetup → SetupMechPresetFromInstance | 35437 / `0xb2e50e` | Exec `d1b860` → virtual360; vtable17bd490+360 → `db9fb0`. |
+| HawkenGame → R_MechSetup → UpdateMechPresetsStatsFromInstances | 35363 / `0xb2d561` | Exec `d19110` → virtual2c0; misma vtable → `dcd160`. Se conserva la corrección de identidad: dcd160 no es SetupMechPresetFromInstance. |
+| HawkenGame → R_MechSetup → GetPresetUpgradeFlags | 35636 / `0xb30d62` | Exec `d224d0` → virtual468; misma vtable → `d99330`. |
+| Engine → GameEngine → CreateNamedNetDriver | 14327 / `0x403df8` | Exec `3faec0` → `4821c0`; con vtable concreta HawkenGameEngine17d73b0, slot338 → `481cd0`. Creación/registro estáticos; hosting no demostrado. |
+
+Los hashes, paths UC, declaraciones, celdas y contratos previos de estos cuatro ejemplos están en [bindings conservados](../../implementation/evidence/complete-artifact-map-20261013/upk/native-binding-examples.json). EXE original: SHA-256 `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`. Export físico, ordinal del lector, NetIndex, GUID de paquete e identidad de una instancia/canal son coordenadas distintas.
+
+**Límites y dependencias pendientes:** toda salida UC conserva `OUTPUT_REQUIRES_REVIEW`. Los avisos de PropertyTag y los tokens nativos `__NFUN_*__` no resueltos del lector siguen documentados en los summaries. El cotejo de hashes o un exit0 no certifica el orden/semántica de todo el bytecode, las propiedades de todos los assets ni un binding EXE exhaustivo. Este mapa permite reutilizar material existente y localizar brechas; no declara «todo decompilado», paquetes aceptados por el cliente, IDs efectivos de conexión, preset humano dedicado, posesión, físicas autoritativas ni partida funcional.

@@ -1,0 +1,155 @@
+{
+  "scope": "Four reused positive package/class/function→EXE examples; no new native extraction or global binding count",
+  "examples": [
+    {
+      "status": "CONFIRMED_STATIC_EXAMPLE_NOT_EXHAUSTIVE",
+      "original_upk_record": {
+        "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+        "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export_index": 35437,
+        "path": "HawkenGame.R_MechSetup.SetupMechPresetFromInstance",
+        "class": "Function",
+        "serial_offset": "0xb2e50e",
+        "serial_size": 75,
+        "containing_class_path": "HawkenGame.R_MechSetup",
+        "uc": {
+          "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039168-HawkenGame.R_MechSetup.SetupMechPresetFromInstance.uc",
+          "sha256": "8130f7df043b168cda31d7cd2faa843c20860dd57d6f666d6645290ca15349be",
+          "status": "OUTPUT_REQUIRES_REVIEW",
+          "correspondence": "exact_original_full_path",
+          "object_ordinal": 39168,
+          "net_index": "35446",
+          "script_size": "12",
+          "function_flags_raw": "0x40401"
+        },
+        "owner_path": "HawkenGame.R_MechSetup"
+      },
+      "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "named_exec_rva": "0xd1b860",
+      "virtual_slot_if_bound": "0x360",
+      "implementation_or_direct_callee_rva": "0xdb9fb0",
+      "binding": "R_MechSetup ctord95040 installs17bd490; named exec forwards+360; cell17bd7f0→db9fb0. Corrected prior mislabeled dcd160."
+    },
+    {
+      "status": "CONFIRMED_STATIC_EXAMPLE_NOT_EXHAUSTIVE",
+      "original_upk_record": {
+        "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+        "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export_index": 35363,
+        "path": "HawkenGame.R_MechSetup.UpdateMechPresetsStatsFromInstances",
+        "class": "Function",
+        "serial_offset": "0xb2d561",
+        "serial_size": 80,
+        "containing_class_path": "HawkenGame.R_MechSetup",
+        "uc": {
+          "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039095-HawkenGame.R_MechSetup.UpdateMechPresetsStatsFromInstances.uc",
+          "sha256": "2e0e2c18fec78924b52f761f6b3f07d924fccc48d73bc7495dfd6fccd50b380c",
+          "status": "OUTPUT_REQUIRES_REVIEW",
+          "correspondence": "exact_original_full_path",
+          "object_ordinal": 39095,
+          "net_index": "35372",
+          "script_size": "17",
+          "function_flags_raw": "0x24400"
+        },
+        "owner_path": "HawkenGame.R_MechSetup"
+      },
+      "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "named_exec_rva": "0xd19110",
+      "virtual_slot_if_bound": "0x2c0",
+      "implementation_or_direct_callee_rva": "0xdcd160",
+      "binding": "Same class binding; named exec forwards+2c0; cell17bd750→dcd160."
+    },
+    {
+      "status": "CONFIRMED_STATIC_EXAMPLE_NOT_EXHAUSTIVE",
+      "original_upk_record": {
+        "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+        "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+        "export_index": 35636,
+        "path": "HawkenGame.R_MechSetup.GetPresetUpgradeFlags",
+        "class": "Function",
+        "serial_offset": "0xb30d62",
+        "serial_size": 80,
+        "containing_class_path": "HawkenGame.R_MechSetup",
+        "uc": {
+          "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039366-HawkenGame.R_MechSetup.GetPresetUpgradeFlags.uc",
+          "sha256": "27fc1cd278a1a1794aaa505a81cdf485ce1cc559e59bc4c1e7357602bb657db1",
+          "status": "OUTPUT_REQUIRES_REVIEW",
+          "correspondence": "exact_original_full_path",
+          "object_ordinal": 39366,
+          "net_index": "35645",
+          "script_size": "17",
+          "function_flags_raw": "0x20400"
+        },
+        "owner_path": "HawkenGame.R_MechSetup"
+      },
+      "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "named_exec_rva": "0xd224d0",
+      "virtual_slot_if_bound": "0x468",
+      "implementation_or_direct_callee_rva": "0xd99330",
+      "binding": "Same class binding; named exec3int→+468; cell17bd8f8→d99330; concrete class condition retained."
+    },
+    {
+      "status": "CONFIRMED_STATIC_EXAMPLE_NOT_EXHAUSTIVE",
+      "original_upk_record": {
+        "package": "HawkenGame/CookedPCConsole/Engine.upk",
+        "source_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+        "export_index": 14327,
+        "path": "Engine.GameEngine.CreateNamedNetDriver",
+        "class": "Function",
+        "serial_offset": "0x403df8",
+        "serial_size": 70,
+        "containing_class_path": "Engine.GameEngine",
+        "uc": {
+          "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\014521-Engine.GameEngine.CreateNamedNetDriver.uc",
+          "sha256": "b435e729c1649bd13494b66968fe645e6ccbd180cb309880d1e91d8f263be840",
+          "status": "OUTPUT_REQUIRES_REVIEW",
+          "correspondence": "exact_original_full_path",
+          "object_ordinal": 14521,
+          "net_index": "14286",
+          "script_size": "7",
+          "function_flags_raw": "0x20401"
+        },
+        "owner_path": "Engine.GameEngine"
+      },
+      "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "named_exec_rva": "0x3faec0",
+      "virtual_slot_if_bound": null,
+      "implementation_or_direct_callee_rva": "0x4821c0",
+      "binding": "PE name/exec pair→wrapper directcalls4821c0; actual bound HawkenGameEngine vt17d73b0+338→481cd0, creates selected class and registers result. Hosting remains unverified."
+    }
+  ],
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\dedicated-producer-20261013\\native-function-pairs.json",
+      "sha256": "f66588823aa80d441e0ce8181d7234e514d91bf83fa4f9c3c50f41e118be398e"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\dedicated-producer-20261013\\native-method-binding-proof.json",
+      "sha256": "9472bc09826af6440513bb3e47781fe957914489f24587491885f78abae61ea6"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\dedicated-producer-20261013\\method-binding-and-callback-supplement.json",
+      "sha256": "be802dd7b5a90ad6eebfa1ec01aa93b3efb5194d44fa3167fa8c99998f214b45"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\dedicated-producer-20261013\\parent-method-binding-acceptance.json",
+      "sha256": "f58c2584462b7c0fbcac5143853d3ae33ed39ea2a003f814c22b9922c81d3af2"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\upgrade-and-getter-binding-supplement.json",
+      "sha256": "73a99f5ef5ca554de1b76a6b2cd24366b44eb6cb17825f51641261cdb54af244"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-item-getter-20261013\\worker-setup-sources\\setup-sources-contract.json",
+      "sha256": "9ee4c123e751a3dbfc7bdddddd8f98cb82526f229695a87db2e83707fbc33c80"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\native-server-reuse-research\\engine-followup-12\\contract.json",
+      "sha256": "1cc6d68600067862fc870905e6c11eeb94d730171511d8ba3226d84f838aa498"
+    }
+  ],
+  "limits": [
+    "NativeToken, object ordinal and NetIndex are not substituted for runtime fieldIDs or function pointers.",
+    "Conditional vtable bindings require the actual object class to match; these are static proofs, not native runtime/hosting/physics/possession acceptance."
+  ]
+}

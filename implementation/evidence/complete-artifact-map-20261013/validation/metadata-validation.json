@@ -1,0 +1,53 @@
+{
+  "schema": "hawken.complete-artifact-map.metadata-validation.v1",
+  "validatedUtc": "2026-10-14T02:06:58.2355952Z",
+  "scope": "Streaming structural validation of retained known-function JSONL exports; no new analysis/decompilation and no semantic/runtime claim.",
+  "inputs": {
+    "summarySha256": "b83d339ffd0a5470fca038ceb1dd7b90f7c04b156ed77029bb1fa918c04c427a",
+    "requestSha256": "4d45a287758c3b341ee5b2524dce4fcc94bd01027c3df730ad9137e20bfa6a01",
+    "scriptSha256": "c6e542982f4d69dc8e216543cb378c4392c16c94e404a3c50c53b00a36110b93"
+  },
+  "programs": [
+    {
+      "program": "HawkenGame-Win64-Shipping.exe",
+      "file": "main-functions.jsonl",
+      "fileSha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
+      "records": 131954,
+      "uniqueProgramEntryKeys": 131954,
+      "calleeEdges": 241766,
+      "thunks": 7081,
+      "externalFunctions": 0,
+      "malformedLines": 0,
+      "wrongProgramRecords": 0,
+      "wrongOriginalHashRecords": 0,
+      "duplicateProgramEntryCount": 0,
+      "duplicateCalleeExamples": []
+    },
+    {
+      "program": "Meteor.Sdk.Cpp.Win32.Client64.dll",
+      "file": "sdk-functions.jsonl",
+      "fileSha256": "b6e456a5fb28f65ed6815c4277493008931a608ca024004c8ad737cd04227af4",
+      "records": 14371,
+      "uniqueProgramEntryKeys": 14371,
+      "calleeEdges": 28262,
+      "thunks": 232,
+      "externalFunctions": 0,
+      "malformedLines": 0,
+      "wrongProgramRecords": 0,
+      "wrongOriginalHashRecords": 0,
+      "duplicateProgramEntryCount": 0,
+      "duplicateCalleeExamples": []
+    }
+  ],
+  "validation": {
+    "allJsonLinesParsed": true,
+    "noDuplicateProgramEntryKeys": true,
+    "programHashesMatchExpected": true,
+    "duplicateCalleeExamples": []
+  },
+  "limits": [
+    "Callee records are retained Ghidra metadata edges, not proof of runtime execution.",
+    "Indirect/unresolved calls and initial-analysis omissions remain outside this validation.",
+    "Structural uniqueness is checked per program+entry and per caller callee-entry; no semantic function completeness is claimed."
+  ]
+}

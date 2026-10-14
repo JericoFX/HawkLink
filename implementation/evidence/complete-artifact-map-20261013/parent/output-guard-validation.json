@@ -1,0 +1,5 @@
+{
+  "native_exit": 1,
+  "expected_refusal": true,
+  "game_path_created": false
+}

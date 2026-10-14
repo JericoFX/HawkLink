@@ -1,0 +1,19 @@
+{
+  "scope": "Read existing Ghidra database metadata; no new analysis, disassembly or decompilation; original game not executed",
+  "script": "research\\2026-10-10\\analysis\\ExportKnownFunctionMap.java",
+  "script_sha256": "c6e542982f4d69dc8e216543cb378c4392c16c94e404a3c50c53b00a36110b93",
+  "read_only": true,
+  "noanalysis": true,
+  "cpu": 1,
+  "heap": "768m",
+  "main_original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "sdk_original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+  "projects": [
+    "research/2026-10-10/analysis/ghidra-projects/HawkenMain.gpr",
+    "research/2026-10-10/analysis/ghidra-projects/HawkenSDK.gpr"
+  ],
+  "limits": [
+    "All known functions in retained DB, not all possible code in original binary. Initial analysis timeout and unresolved indirect edges remain limits.",
+    "Program executable SHA is loader metadata; current original hash independently revalidated. No complete loaded-memory equality claim."
+  ]
+}

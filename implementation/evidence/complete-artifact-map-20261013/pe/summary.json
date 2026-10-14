@@ -1,0 +1,202 @@
+{
+  "schema": "hawken.complete-artifact-map.pe.v2",
+  "join_keys": [
+    "artifact_relative_path",
+    "sha256"
+  ],
+  "identity_source_date": "retained original Steam snapshot2026-10-10, not newly rehashed86files",
+  "generation_scope": "Metadata reuse only; no original execution/import/decompilation or new extraction",
+  "counts": {
+    "artifacts": 86,
+    "exe": 3,
+    "dll": 83,
+    "x86_64": 81,
+    "x86": 5,
+    "cli_directory_present": 5,
+    "normal_import_descriptors": 383,
+    "delay_import_descriptors": 16,
+    "export_entries": 60558,
+    "export_names": 60558,
+    "objdump_success": 85,
+    "objdump_failed": 1,
+    "registered_focused_functional_projects": 2,
+    "metadata_only_registered_corpus": 83,
+    "whole_binary_decompiled_verified": 0,
+    "registered_retained_dossier_modules": 3,
+    "retained_completed_unique_dossiers": 886,
+    "retained_dossier_occurrences": 1170
+  },
+  "sources": [
+    {
+      "path": "research/2026-10-10/evidence/inventory.csv",
+      "sha256": "e275ba3e4de40808e3a28925de8ae656a815bde7430362c2f36e3092004ded53",
+      "bytes": 269497
+    },
+    {
+      "path": "research/2026-10-10/evidence/inventory-summary.json",
+      "sha256": "e037a9cc0f810c8eefb7f5ebe291d8af3d5269be35cd6288303efca408ebe84e",
+      "bytes": 4178
+    },
+    {
+      "path": "research/2026-10-10/evidence/pe-linkage.json",
+      "sha256": "230ff112677aeabb791ce0b323bb98da0a10e3c0cc27215a4d51b53834668bd9",
+      "bytes": 19368570
+    },
+    {
+      "path": "research/2026-10-10/evidence/pe-cross-validation.json",
+      "sha256": "0d61b2f2415dae6b26b7a5c3de9471d8b9de27ac6509a6a94c538e30e9509ce9",
+      "bytes": 59049
+    },
+    {
+      "path": "research/2026-10-10/evidence/pe-objdump-exit-codes.csv",
+      "sha256": "3bc87f0ed34e5e6a3be5b61ee56676887914e69663c742777ec75ac76add9dcf",
+      "bytes": 45561
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/parent/native-functions.json",
+      "sha256": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12",
+      "bytes": 870156
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/parent/map-summary.json",
+      "sha256": "a7c336a8bab6db8f0068899890fe7621a3aace8af47bf00c5a1df4474323f726",
+      "bytes": 77957
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/summary.json",
+      "sha256": "b83d339ffd0a5470fca038ceb1dd7b90f7c04b156ed77029bb1fa918c04c427a",
+      "bytes": 2240
+    }
+  ],
+  "retained_rea_main_metadata": {
+    "procedure_count_derived": 133184,
+    "string_count_derived": 45047,
+    "selected_network_body_batch_total": 29,
+    "selected_network_body_batch_succeeded": 29,
+    "selected_network_body_batch_failed": 0,
+    "interpretation": "Procedure catalogue and29selected bodies, NOT complete decompilation of133184procedures."
+  },
+  "historical_sdk_rea_adapter_limit": "rea-sdk/open-binary.json records REA provider DLL target_role_unsupported; directGhidra HawkenSDK project and retained ownDLLbody contracts exist. Wrapper rejection does not mean DLL lacks analysis.",
+  "cross_validation_limits": [
+    "objdump import comparison covers normal import table DLL names; PE-linkage delay-import modules are not included in that comparison.",
+    "Export comparison uses named-export count from the Name Pointer/Ordinal table; the address table can include ordinal-only exports.",
+    "Header agreement corroborates the parser fields but is not a full independent PE parser validation."
+  ],
+  "no_new_86_live_hash_audit": true,
+  "no_whole_module_completeness_claim": true,
+  "skills": {
+    "cpp_pro_sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer_sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "rea_sha256": "f1156f8a608297f839bde968d47132db3cefd69371b311d22b0c397944f18094",
+    "coverage": "Complete prior readings reused and hashes rechecked this task"
+  },
+  "graft": "AuthoritativeF:/HawkenServercheckOK6736tier0; these metadata/script/doc artifacts are unindexed; no product code explored",
+  "parent_native_index": {
+    "sources": [
+      {
+        "path": "implementation/evidence/complete-artifact-map-20261013/parent/native-functions.json",
+        "sha256": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12",
+        "bytes": 870156
+      },
+      {
+        "path": "implementation/evidence/complete-artifact-map-20261013/parent/map-summary.json",
+        "sha256": "a7c336a8bab6db8f0068899890fe7621a3aace8af47bf00c5a1df4474323f726",
+        "bytes": 77957
+      }
+    ],
+    "unique_sha_entry": 886,
+    "by_original": {
+      "38f6a1dd1e738e142160322638dae7b88dabcc30eea3f15c58eb08c5341f9b29": 29,
+      "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2": 611,
+      "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57": 246
+    },
+    "occurrences": 1170,
+    "occurrences_meaning": "Retained files/copies of dossiers, not decompilation or analysis runs",
+    "selected_jsonl_files_examined": 376,
+    "selected_jsonl_files_with_pseudocode": 364,
+    "semantic_review_of_all_dossiers_claimed": false,
+    "limits": [
+      "Index coverage is not full semantic recovery or original source.",
+      "Repeated dossiers include retained copies; occurrences are not analysis runs.",
+      "JSON-only/native-instruction evidence without top-level pseudocode is outside the native-function count; remains in the reports and prior evidence.",
+      "Missing dossier image bases are bound from PE metadata by original SHA-256. Non-JSON logs with a JSONL suffix are retained separately; malformed lines in a file containing pseudocode dossiers fail acceptance.",
+      "Bundled module basename matches are candidates, not observed loader resolution.",
+      "Provider call edges do not close indirect/virtual calls or demonstrate execution.",
+      "UPK coverage is provided by the separate package map; native declarations are not implementations, and virtual package offsets are not compressed file offsets.",
+      "No original SHA revalidation performed by this index generator; independent streamed original-file validation is a separate gate."
+    ]
+  },
+  "current_ghidra_metadata_summary": {
+    "source": {
+      "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/summary.json",
+      "sha256": "b83d339ffd0a5470fca038ceb1dd7b90f7c04b156ed77029bb1fa918c04c427a",
+      "bytes": 2240
+    },
+    "programs": [
+      {
+        "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/main-functions.jsonl",
+        "sha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
+        "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+        "known_functions": 131954,
+        "provider_call_edges": 241766,
+        "thunks": 7081,
+        "exit_code": 0,
+        "retained_completed_dossiers_in_known_database": 573,
+        "retained_completed_dossiers_outside_known_database": [
+          "0x14006d7d0",
+          "0x140073a70",
+          "0x14007e370",
+          "0x1400f3300",
+          "0x1400f3400",
+          "0x1400f3420",
+          "0x1400f3710",
+          "0x1400f8fd0",
+          "0x1403238d0",
+          "0x14069021d",
+          "0x140690453",
+          "0x1409e7c30",
+          "0x140b84060",
+          "0x140b884e0",
+          "0x140b8d030",
+          "0x140b8ee20",
+          "0x140b96990",
+          "0x140b979a0",
+          "0x140ba8ae0",
+          "0x140ba8b1c",
+          "0x140bba060",
+          "0x140bbaf80",
+          "0x140bc19e0",
+          "0x140bc1a40",
+          "0x140bc1a70",
+          "0x140bc1ab0",
+          "0x140bc2740",
+          "0x140bc28f0",
+          "0x140bc2a80",
+          "0x140bc2b10",
+          "0x140bc2b40",
+          "0x140bc2b70",
+          "0x140bde890",
+          "0x140bde910",
+          "0x140be4400",
+          "0x140d93760",
+          "0x140d98950",
+          "0x140db9010"
+        ]
+      },
+      {
+        "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/sdk-functions.jsonl",
+        "sha256": "b6e456a5fb28f65ed6815c4277493008931a608ca024004c8ad737cd04227af4",
+        "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+        "known_functions": 14371,
+        "provider_call_edges": 28262,
+        "thunks": 232,
+        "exit_code": 0,
+        "retained_completed_dossiers_in_known_database": 246,
+        "retained_completed_dossiers_outside_known_database": []
+      }
+    ],
+    "meaning": "Readonly/noanalysis metadata export of existing databases; no fresh pseudocode and not exhaustive originalmachinecode recovery.38EXEdossiers not in this current database retained separately, not erased."
+  },
+  "old_rea_main_catalogue_note": "Historical2026-10-10REAoverview133184procedures kept distinct from currentGhidra131954known functions; counts reflect different snapshots/catalogues, not repeated decompilation or proof of lost body.",
+  "functional_reference_registry_count": 15
+}

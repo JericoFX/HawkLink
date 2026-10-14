@@ -238,3 +238,40 @@ La revisión también cotejó imports normales/diferidos de DINPUT8/DXGI y la au
 ## Límite de cobertura
 
 Inventario/hash completo no equivale a recuperación exhaustiva de todo el protocolo. Se conservan todas las identidades y el linkage PE; análisis de funciones, paquetes, flujos y datos dinámicos está delimitado en cada informe y en [HAWKEN_UNKNOWN_AND_BLOCKERS.md](HAWKEN_UNKNOWN_AND_BLOCKERS.md). No hubo observación de tráfico, resolución DNS, conexión a servicios de Hawken ni captura de credenciales.
+
+
+## Mapa global reutilizable — 2026-10-13
+
+Este corte consolida la instalación completa y las investigaciones anteriores. No reinicia el análisis de los binarios. Se conservaron los proyectos Ghidra `HawkenMain`/`HawkenSDK` y todos los dossiers, incluidos los que proceden de sesiones temporales. El export nuevo sólo lee metadata de esas bases: `readOnly/noanalysis`, sin descompilador, sin crear funciones ni ejecutar el juego.
+
+| Capa | Cobertura verificada | Qué permite consultar |
+|---|---:|---|
+| Identidad del árbol original | 946/946 SHA-256 y tamaños coincidentes | Archivo y versión exactos; cero originales ausentes o alterados. |
+| Interfaces PE | 3 EXE + 83 DLL; 399 descriptores normales/diferidos | Módulos importados, funciones/ordinales/IAT, exports y arquitectura. |
+| Paquetes | 360 UPK; 75 con exports de código propios seleccionados | Names/Imports/Exports, clases, funciones, offsets virtuales y hashes. |
+| Correspondencia de código UPK | 22519 exports propios; 24558 salidas UC canónicas | El mapa distingue imports, declaraciones native y código que requiere revisión. |
+| Base Ghidra del cliente | 131954 funciones conocidas; 241766 relaciones de llamada | Entry, nombre, firma propuesta, rangos de cuerpo y callees conocidos. |
+| Base Ghidra de Meteor | 14371 funciones conocidas; 28262 relaciones de llamada | El mismo índice sobre la DLL de servicios. |
+| Dossiers con pseudocódigo retenido | 886 identidades SHA+entry: EXE611, Meteor246, Steam29 | Reutilizar el cuerpo ya recuperado, sus fuentes y sus variantes. No significa 886 funciones íntegramente comprendidas. |
+
+**Evidencia:** [validación de los originales](../../implementation/evidence/complete-artifact-map-20261013/validation/artifact-map-validation.json), [matriz de los PE](../../implementation/evidence/complete-artifact-map-20261013/pe/coverage-matrix.json), [mapa UPK](../../implementation/evidence/complete-artifact-map-20261013/upk/inventory-and-coverage.json), [resumen de bases Ghidra](../../implementation/evidence/complete-artifact-map-20261013/ghidra/summary.json) y [índice nativo consolidado](../../implementation/evidence/complete-artifact-map-20261013/parent/map-summary.json). Las interpretaciones funcionales permanecen en los informes de protocolos enlazados abajo.
+
+### Consulta antes de una nueva investigación
+
+1. Identificar el archivo por ruta+SHA; consultar su fila PE o paquete. Las coincidencias de basename de DLL son candidatos del bundle, no prueba de resolución efectiva por Windows.
+2. Para una función nativa consultar [dossiers únicos](../../implementation/evidence/complete-artifact-map-20261013/parent/native-functions.json) y [ocurrencias con archivo/hash/línea](../../implementation/evidence/complete-artifact-map-20261013/parent/native-occurrences.csv). Cada RVA se calcula usando la base del programa identificado. Se conservan las variantes de pseudocódigo; no se sobrescribe una con otra ni se suman copias como funciones nuevas.
+3. Si falta el dossier, consultar el índice completo de la base [cliente](../../implementation/evidence/complete-artifact-map-20261013/ghidra/main-functions.jsonl) o [Meteor](../../implementation/evidence/complete-artifact-map-20261013/ghidra/sdk-functions.jsonl), y sus callees. Hay 38 dossiers del EXE cuyo entry no existe en la base principal: están preservados en el índice consolidado, no se consideran perdidos ni se vuelven a extraer sólo por esa ausencia.
+4. Para Unreal consultar [paquete→clase→función](../../implementation/evidence/complete-artifact-map-20261013/upk/package-class-function-map.jsonl) y [bindings positivos UPK→EXE](../../implementation/evidence/complete-artifact-map-20261013/upk/native-binding-examples.json). Export físico, ordinal de salida UC, NetIndex, RVA y offset virtual no son intercambiables.
+5. Abrir el hallazgo en su informe. Sólo una pregunta concreta sin respuesta, un input cambiado o una salida previa incompleta justifican nueva extracción. Mantener el archivo/hash, coordenadas, observación, interpretación y estado CONFIRMADO/PROBABLE/NO VERIFICADO.
+
+El [generador del índice](analysis/build_research_map.py) procesa los JSONL retenidos y las interfaces PE, sin cargar DLL ni tocar el juego. El [export de metadata Ghidra](analysis/ExportKnownFunctionMap.java) recorre únicamente las funciones existentes. Los índices de [dependencias PE](../../implementation/evidence/complete-artifact-map-20261013/parent/pe-module-edges.csv), [llamadas recuperadas](../../implementation/evidence/complete-artifact-map-20261013/parent/native-call-edges.json) y [secciones de los siete informes](../../implementation/evidence/complete-artifact-map-20261013/parent/report-sections.csv) permiten localizar las fuentes de cada relación.
+
+### Alcance y brechas
+
+**CONFIRMADO:** identidad e interfaces de los originales, correspondencia de tablas/salidas UPK indicada y metadata/dossiers de este corte. **NO VERIFICADO:** recuperación semántica de todo el código, todas las funciones posibles del PE, todos los despachos virtuales y funcionamiento completo de una partida. El autoanálisis histórico del EXE terminó por timeout; exportar toda la base no vuelve exhaustivas sus referencias negativas. Los errores/avisos del lector UPK y sus `OUTPUT_REQUIRES_REVIEW` siguen vigentes. Los 1170 registros de pseudocódigo son ocurrencias retenidas, incluidas copias; no equivalen a 1170 trabajos de Ghidra. Cinco líneas de un antiguo archivo llamado `diagnostics.jsonl` son texto de diagnóstico, no dossiers; se conservan separadas. Cero errores al interpretar los dossiers aceptados.
+
+Se detectaron tres archivos añadidos desde el inventario original: `HawkenGame/PropSheetCache.txt`, `Binaries/Win64/hawken-client.toml` y `Binaries/Win64/dinput8.dll`. La validación los identifica por separado; no forman parte de los 946 originales. El hash del proxy instalado difiere del build de puente identificado, de modo que su correspondencia exacta queda pendiente. No se reemplazó ni eliminó ninguno.
+
+La skill REA34 y sus guías se reutilizan. El diagnóstico actual de la CLI REA6.3.0 detecta registro MCP Codex ausente/desalineado; no hay herramientas REA conectadas en este turno. Las evidencias REA anteriores conservan sus IDs. Ghidra directo y las herramientas UPK existentes permiten este mapa sin reinstalar software ni modificar configuración global. No se presenta el rechazo histórico de DLL por REA Windows P0 como fallo de la descompilación directa de Meteor.
+
+Entrada al resto del mapa: [endpoints](HAWKEN_ENDPOINT_CATALOG.md), [autenticación/inventario](HAWKEN_AUTH_PROTOCOL.md), [Master](HAWKEN_MASTER_SERVER_PROTOCOL.md), [partida/replicación](HAWKEN_GAME_SERVER_PROTOCOL.md), [arquitectura](HAWKEN_NETWORK_ARCHITECTURE.md) y [brechas](HAWKEN_UNKNOWN_AND_BLOCKERS.md).

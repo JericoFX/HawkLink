@@ -1,0 +1,184 @@
+report,line,heading,report_sha256
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,1,HAWKEN — inventario binario y cobertura,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,5,Inventario completo,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,18,Identificación verificada de motor y cliente,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,24,"Importaciones, exportaciones y módulos vinculados",17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,51,Componentes de terceros,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,65,Todos los ejecutables y DLL: identidad y versiones,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,158,Configuración y paquetes de código relevantes,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,176,Herramientas y evidencia REA/Ghidra,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,194,Descompilación de los paquetes UPK,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,215,Cobertura final de los 360 UPK y del código adicional,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,238,Límite de cobertura,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,243,Mapa global reutilizable — 2026-10-13,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,259,Consulta antes de una nueva investigación,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_BINARY_INVENTORY.md,269,Alcance y brechas,17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,1,"Hawken: catálogo de endpoints (2026-10-10, actualizado2026-10-11)",eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,3,Guardado del mech previo a entrar — 2026-10-12,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,48,"Cierre de SteamLogin, 2026-10-11",eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,60,Alcance y evidencia,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,86,Destinos de Hawken y SDK personalizados,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,98,Precedencia del INI y selección del cliente original,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,104,Rutas construidas en Meteor,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,193,Reconstrucciones específicas,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,205,"Puertos, IP y servicios de terceros",eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,215,Crash reporter y configuración de desarrollo,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,227,Inventario literal completo del ámbito binario,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,231,AutoReporter.exe,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,296,libeay32.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,339,Meteor.Sdk.Cpp.Win32.Client64.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,392,ortp.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,408,ortp_x64.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,429,ssleay32.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,461,steam_api64.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,491,twitchsdk_64_release.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,537,vivoxoal_x64.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,553,vivoxplatform.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,574,vivoxsdk_x64.dll,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,645,Candidatos IPv6 y tokens cortos,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,663,Límites de cobertura y próximos datos necesarios,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,671,Endpoints literales del EXE principal aportados por el segundo escritor,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,784,Contratos REST recuperados por Ghidra,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,803,Evidencia auxiliar de construcción/auth,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,811,Schemas de respuesta internos recuperados,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,824,Cobertura adicional aportada por el padre,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,842,Cotejo final de evidencia,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,847,"Ampliación de cuentas, progresión y eventos",eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,851,Consumidores UPK recuperados y límites de la selección de servicio,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,887,Cierre del dispatcher nativo y del escritor global,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,893,Barrido adicional de paquetes y clasificación de candidatos,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,940,Enlaces nativos de listing y eventos SDK,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,946,Cuerpos adicionales de consumidores stock recuperados,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md,962,Transporte diferido de EventConsumer Meteor,eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,1,Hawken: protocolo de autenticación observado,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,3,Corrección del flujo de canje y errores de compra,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,15,Separación cliente / servidor corregida2026-10-11,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,25,Requisito de acceso del diseño solicitado,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,42,"Identidad, estados y evidencia",dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,78,Selección de servicio y frontera con UE3,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,90,Login Meteor con email y contraseña,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,108,"Grant heredado, estado y logout",dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,120,"Steam: autenticar, crear, vincular y DLC",dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,149,Transporte HTTP y encabezados,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,167,Envelope de respuesta Meteor,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,173,PlayFab: segundo consumidor de autenticación,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,181,"Voz, presencia y autorización para una partida",dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,189,Verificación y límites para reconstrucción,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,195,Cotejo final de evidencia,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,200,Evidencia adicional de Steam y frontera con progresión,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,206,Consumidores UPK recuperados y límites de la selección de servicio,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,229,Cierre del dispatcher nativo y del escritor global,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,237,Ampliación del inventario de paquetes,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,241,Frontera de autenticación social stock,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,245,Aceptación local de eventos frente a autenticación remota,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,250,Visor predeterminado y guardado del mech — 2026-10-12,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,273,Lectura agrupada de ítems — 2026-10-13,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md,284,Mapa de cobertura EXE y DLL,dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,1,"Hawken: descubrimiento, matchmaking y supuesto «master server»",76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,13,Arquitectura acordada y evidencia histórica,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,21,Resultado,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,31,Identidad y trazabilidad,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,55,"Interior de UPK descompilado: región, búsqueda y registro",76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,61,La región del navegador procede de datos de items,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,89,Bindings nativos y alcance del registro,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,115,Configuración realmente observada,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,127,Listados y asignación de partidas,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,161,"Solicitudes, anuncios y heartbeat",76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,189,Relación con el servidor de partida,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,202,Contratos cliente REST corroborados en el SDK,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,234,Flujo nativo corroborado del cliente,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,258,Adaptación confirmada SDK → listado local,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,275,"Registro, descubrimiento y múltiples masters: pendientes explícitos",76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,291,"Administración, mensajes y eventos: evidencia parcial y frontera nueva",76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,301,Límites y aceptación de esta investigación,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md,314,Ruta de hosting en proyectos de referencia,76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,1,Hawken: protocolo de reserva y conexión al servidor de partida,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,19,Runtime y callbacks de propiedades — 2026-10-13,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,29,Preset y preparación del mech: límites del flujo recuperado,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,35,Envío propio de los cuatro enlaces — 2026-10-13,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,43,Caché de campos y callback final de Link — 2026-10-13,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,61,Enlaces de actores y configuración del mech — 2026-10-13,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,81,MechSetup: ancestros concretos — 2026-10-12,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,87,"Daño de bots: discrepancia reportada, causa pendiente",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,99,Recepción de RPC con parámetro Pawn: formato condicionado,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,107,Dependencias de posesión y configuración del mech,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,117,"Controlador observado en el cliente original (2026-10-11, 23:52 UTC)",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,123,Referencias y primer actor: evidencia estática de 2026-10-11,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,131,Reconstrucción: paquetes locales y entrada al mundo (2026-10-11),eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,145,"Proyectiles del ensayo local, 2026-10-11",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,157,"Identidad y PreLogin: cierre estático acotado, 2026-10-11",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,173,"Cierre del arranque de conexión, 2026-10-11",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,210,Diseño acordado y límites de esta investigación,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,214,Resultado,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,224,Artefactos y localización,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,250,Configuración de red y puertos,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,267,Declaraciones de PartyBeacon recuperadas del paquete,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,307,Buffers construidos por código máquina,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,309,Heartbeat,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,332,Transporte separado del driver de partida,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,336,Lectura y framing observado del beacon,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,342,Primitivas de serialización,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,351,Solicitud inicial o actualización de reserva,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,370,Respuesta de reserva,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,387,"Cancelación, actualización de plazas y viaje",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,399,Handshake de juego y replicación: evidencia parcial,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,421,"Destino y sesión REST: contrato recuperado, uso en gameplay pendiente",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,443,Wrapper de paquetes que consume la sesión,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,462,Primitivas identificadas y recepción antes del archive UE3,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,480,"Reader interior de paquetes, ACK y bunches",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,533,Administración del host y ciclo de partida: superficies declaradas,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,556,Mensajes personalizados y comandos,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,570,Eventos de gameplay y cierre del match,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,588,"UPK descompilados: administración, mapas, mensajes y XP",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,594,Controles de administración observados,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,610,Mapas y cambios de partida,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,618,Mensajes personalizados y diferencia entre equipo y público,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,628,XP y eventos de progresión,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,648,Comprobaciones realizadas y cobertura,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,675,Pendientes que impiden afirmar compatibilidad,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,689,"Apéndice Creator: bots, modos, mapas y paquetes cocinados",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,695,Bots y AI,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,714,Modos y mapas,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,740,Puertos y paquetes cocinados,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,762,"Próximas pruebas, todavía NO VERIFICADAS",eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,773,Apéndice: medidas de partida y autoridad de premios,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,803,Conexión activa y caché de campos: evidencia estática adicional,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,820,Propiedades de objeto replicadas — emisor y receptor originales,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,832,Lookup acotado de nombres del jugador — 2026-10-13,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md,843,Mapa de cobertura UPK,eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,1,HAWKEN — arquitectura observada y diseño futuro,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,11,Integración Runtime y preparación pendiente — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,15,Enlaces iniciales y siguiente integración — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,21,Inicialización concreta del driver — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,27,Reglas comunitarias y modo hardcore solicitados,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,33,Nombres y despliegue previstos de HawkLink,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,60,Evidencia que determina las fronteras,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,85,Modelo observado,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,106,Arquitectura futura propuesta,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,125,Registro y salud de servidores,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,131,Descubrimiento de varios Master Servers,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,137,"Encaminamiento por INI y HTTPS, sin launcher",85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,141,"Panel, eventos y persistencia del Server Creator",85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,147,Autoridad de recompensas — decisión global y evidencia local histórica,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,155,Comparación de enfoques,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,163,Orden de validación futura,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,173,"Reutilización del motor mediante DLL — trazado de principio a fin, 2026-10-13",85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,194,Contraste con repositorios externos — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,206,"Continuación sin cliente — SetGameInfo e inicialización del mundo, 2026-10-13",85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,213,Registro de drivers y cambio de mundo — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,219,Creación de la instancia y registro en Engine — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,227,Lector pasivo de instancias locales — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,235,Contexto del driver antes del bind de escucha — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md,242,Mapa unificado de componentes y fronteras — 2026-10-13,85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,1,"HAWKEN — cobertura, desconocidos y obstáculos",d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,43,Guardado previo a entrada — 2026-10-12,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,61,Estado vigente de reconstrucción — 2026-10-11,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,81,Cómo interpretar los resultados,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,115,Lista original de requisitos y cobertura,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,136,Identidades para los pendientes de código,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,149,Pendientes que limitan la compatibilidad,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,177,Herramientas: problemas reales y soluciones,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,195,Observación de tráfico y material ausente,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,201,Entregables,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,218,Pendientes de interfaz reportados por el usuario — 2026-10-12,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef
+research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md,233,Brechas visibles desde el mapa global — 2026-10-13,d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef

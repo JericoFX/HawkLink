@@ -1,0 +1,261 @@
+{
+  "schema": "hawken.complete-artifact-map.integration-validation.v1",
+  "created_utc": "2026-10-14T02:24:57.5177140Z",
+  "status": "VALIDATION_COMPLETE_PARENT_ACCEPTANCE_PENDING",
+  "scope": "Read-only validation of frozen PE/UPK/reference/native metadata map, current documentation append proofs and retained provenance; no source/config/Git/build/runtime/game modifications.",
+  "mandatory_skills": {
+    "cpp_pro": {
+      "path": "C:/Users/Jerico/.codex/skills/cpp-pro/SKILL.md",
+      "sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+      "coverage": "complete prior reading reused; current hash matched"
+    },
+    "game_developer": {
+      "path": "C:/Users/Jerico/.codex/skills/game-developer/SKILL.md",
+      "sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+      "coverage": "complete prior reading reused; current hash matched"
+    },
+    "reverse_engineer_anything": {
+      "path": "C:/Users/Jerico/.agents/skills/reverse-engineer-anything/SKILL.md",
+      "sha256": "f1156f8a608297f839bde968d47132db3cefd69371b311d22b0c397944f18094",
+      "coverage": "complete prior reading reused; current hash matched"
+    }
+  },
+  "graft": {
+    "authoritative_checkout": "F:/HawkenServer",
+    "prior_check": "current graph check OK, 6736 nodes; evidence/metadata scripts are unindexed, so bounded direct reads were used for those artifacts only",
+    "product_code_exploration": "none"
+  },
+  "resource_close": {
+    "sample_utc": "2026-10-14T02:23:43.8074082Z",
+    "free_kib": 17956796,
+    "total_kib": 33462640,
+    "memory_intensive_jobs_started": false,
+    "task_owned_persistent_helpers": 0
+  },
+  "frozen_manifest_pins": {
+    "pe": {
+      "path": "implementation/evidence/complete-artifact-map-20261013/pe/freeze.json",
+      "sha256": "5374c9aaa88f449734f1ea5a7ed97e6b91fb493e582ad263c0fabd5a366bd49d",
+      "pins_checked": 31,
+      "matches": 31,
+      "mismatches": 0
+    },
+    "upk": {
+      "path": "implementation/evidence/complete-artifact-map-20261013/upk/freeze.json",
+      "sha256": "a4c4ff1027c4f3effe44069d1d464017fea592b51a8e7b5f4f019aeb366d9afa",
+      "pins_checked": 99,
+      "matches": 99,
+      "mismatches": 0
+    },
+    "references": {
+      "path": "implementation/evidence/complete-artifact-map-20261013/references/freeze.json",
+      "sha256": "d29271d7def1e06ea834b4cbf1c6c8e4d32da5260332a23fe00c8f48771410e",
+      "pins_checked": 50,
+      "matches": 50,
+      "mismatches": 0
+    }
+  },
+  "pe_matrix": {
+    "summary_path": "implementation/evidence/complete-artifact-map-20261013/pe/summary.json",
+    "summary_sha256": "f20dbf1b0114a04812d81039366dc48066d953366f014db9b759bba95c135e09",
+    "verification_path": "implementation/evidence/complete-artifact-map-20261013/pe/verification.json",
+    "verification_sha256": "d16267d9b047086747c5bee57ff10b1fb2ff567a00e55f82f4f840c5e8a349c2",
+    "status": "PASS_METADATA_JOIN_AND_DOC_APPEND",
+    "rows_joined": 86,
+    "inventory_original_rows": 946,
+    "inventory_full_stream_rehash": "previously accepted 946/946 stable, 0 changed/missing/errors; not repeated per parent instruction",
+    "no_new_86_binary_hash_audit": true,
+    "counts": {
+      "exe": 3,
+      "dll": 83,
+      "x64": 81,
+      "x86": 5,
+      "normal_import_descriptors": 383,
+      "delay_import_descriptors": 16,
+      "export_names": 60558,
+      "objdump_success": 85,
+      "objdump_failed": 1,
+      "unique_completed_dossiers": 886,
+      "retained_dossier_occurrences": 1170,
+      "whole_binary_decompiled": 0
+    }
+  },
+  "upk_map": {
+    "inventory_path": "implementation/evidence/complete-artifact-map-20261013/upk/inventory-and-coverage.json",
+    "inventory_sha256": "af715e257480f2783ed0b37ebde5a0b19aa81ddb21bcaaad3491b6bfc30aa46a",
+    "installed_packages": 360,
+    "retained_original_hash_matches": 360,
+    "udk": 0,
+    "source_bytes": 939371917,
+    "canonical_manifests": 76,
+    "canonical_uc_records": 24558,
+    "uc_classes": 3837,
+    "uc_functions": 20721,
+    "selected_own_exports_mapped": 22519,
+    "selected_functions": 19359,
+    "selected_classes": 3160,
+    "output_hash_errors": 0,
+    "input_package_tree_rehashed_this_task": false
+  },
+  "parent_native_index": {
+    "summary_path": "implementation/evidence/complete-artifact-map-20261013/parent/map-summary.json",
+    "summary_sha256": "a7c336a8bab6db8f0068899890fe7621a3aace8af47bf00c5a1df4474323f726",
+    "native_functions_path": "implementation/evidence/complete-artifact-map-20261013/parent/native-functions.json",
+    "native_functions_sha256": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12",
+    "native_edges_path": "implementation/evidence/complete-artifact-map-20261013/parent/native-call-edges.json",
+    "native_edges_sha256": "9b591e3ff14e21f27636a0a9aa8504a84f949dc96fa158a0ad8d35932d28b585",
+    "module_edges_path": "implementation/evidence/complete-artifact-map-20261013/parent/pe-module-edges.csv",
+    "module_edges_sha256": "b38f74d7956ffb1cfbc143c4e48a322f26412f03d1dc6e4c755a628d739ccd2d",
+    "report_sections_path": "implementation/evidence/complete-artifact-map-20261013/parent/report-sections.csv",
+    "report_sections_sha256": "7c3acbad7409c5682fb45cfa717312d46ab3641daa5b8d98d4519e3007b8e30a",
+    "summary_counts": {
+      "source_jsonl_pins": 373,
+      "unique_sha_entry_dossiers": 886,
+      "occurrences": 1170,
+      "provider_edges": 5742,
+      "selected_jsonl_files_examined": 376,
+      "with_pseudocode": 364,
+      "pe_modules": 86,
+      "linkage_descriptors": 399,
+      "report_sections": 183,
+      "malformed_pseudocode_jsonl_lines": 0,
+      "separately_recorded_non_dossier_log_lines": 5
+    },
+    "independent_raw_reference_validation": {
+      "all_373_source_files_stream_sha256_match": true,
+      "function_source_occurrences_checked": 1170,
+      "edge_source_references_checked": 7968,
+      "bad_json_lines_at_referenced_rows": 0,
+      "source_sha_entry_program_pseudocode_or_edge_target_mismatches": 0,
+      "method": "Streamed each pinned source JSONL once; compared normalized hex strings without integer conversion; matched exact source line, expected original program SHA, function entry and pseudocode hash or edge caller/callee."
+    },
+    "base_named_source_subset": {
+      "source_files": 6,
+      "occurrence_rows": 11,
+      "included_in_full_reference_validation": true,
+      "semantic_inheritance_claim": false
+    },
+    "prior_collector_erratum": {
+      "earlier_attempt": "failed on an overly strict address-to-integer parse; this was a validation-script error",
+      "resolution": "corrected validator now compares normalized address strings and independently verifies all source pins/line references; 0 mismatches"
+    }
+  },
+  "ghidra_metadata": {
+    "summary_path": "implementation/evidence/complete-artifact-map-20261013/ghidra/summary.json",
+    "summary_sha256": "b83d339ffd0a5470fca038ceb1dd7b90f7c04b156ed77029bb1fa918c04c427a",
+    "main": {
+      "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/main-functions.jsonl",
+      "sha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
+      "records": 131954,
+      "provider_call_edges": 241766,
+      "exit": 0
+    },
+    "sdk": {
+      "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/sdk-functions.jsonl",
+      "sha256": "b6e456a5fb28f65ed6815c4277493008931a608ca024004c8ad737cd04227af4",
+      "records": 14371,
+      "provider_call_edges": 28262,
+      "exit": 0
+    },
+    "export_script": {
+      "path": "research/2026-10-10/analysis/ExportKnownFunctionMap.java",
+      "sha256": "c6e542982f4d69dc8e216543cb378c4392c16c94e404a3c50c53b00a36110b93",
+      "matches_ghidra_summary": true
+    },
+    "scope_limit": "Known-function metadata from existing databases, not exhaustive machine-code recovery or runtime evidence."
+  },
+  "map_generator": {
+    "path": "research/2026-10-10/analysis/build_research_map.py",
+    "sha256": "f3b5c208a6b4f0ef2d25d4cdbeee95427fb18a63fe79cda097071d47fdfcf07f",
+    "output_guard": "retained negative test exit 1; output guard is validated before output-directory creation"
+  },
+  "external_sources": {
+    "intake_path": "implementation/evidence/complete-artifact-map-20261013/references/source-intake.json",
+    "intake_sha256": "59693c2a8b64b8674e5a4dc1097b11feaa843b35aa1a26911a7d86de09822557",
+    "current_text_files_checked": 23,
+    "total_bytes": 153657,
+    "sha256_and_git_blob_matches": 23,
+    "mismatches": 0,
+    "execution_claims": false
+  },
+  "documentation": {
+    "proofs": [
+      {
+        "path": "research/2026-10-10/HAWKEN_BINARY_INVENTORY.md",
+        "prefix_bytes": 41204,
+        "current_sha256": "17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05",
+        "prefix_preserved": true,
+        "proof": "implementation/evidence/complete-artifact-map-20261013/parent/doc-append-audit.json"
+      },
+      {
+        "path": "research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md",
+        "prefix_bytes": 56942,
+        "current_sha256": "85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f",
+        "prefix_preserved": true,
+        "proof": "implementation/evidence/complete-artifact-map-20261013/parent/doc-append-audit.json"
+      },
+      {
+        "path": "research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md",
+        "prefix_bytes": 64854,
+        "current_sha256": "d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef",
+        "prefix_preserved": true,
+        "proof": "implementation/evidence/complete-artifact-map-20261013/parent/doc-append-audit.json"
+      },
+      {
+        "path": "research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md",
+        "prefix_bytes": 74711,
+        "current_sha256": "dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8",
+        "prefix_preserved": true,
+        "proof": "implementation/evidence/complete-artifact-map-20261013/pe/doc-append-proof.json and direct byte-prefix comparison"
+      },
+      {
+        "path": "research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md",
+        "prefix_bytes": 184836,
+        "current_sha256": "eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb",
+        "prefix_preserved": true,
+        "proof": "implementation/evidence/complete-artifact-map-20261013/upk/append-verification.json and direct byte-prefix comparison"
+      },
+      {
+        "path": "research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md",
+        "prefix_bytes": 56874,
+        "current_sha256": "76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b",
+        "prefix_preserved": true,
+        "proof": "implementation/evidence/complete-artifact-map-20261013/references/master-append-verification.json and direct byte-prefix comparison"
+      }
+    ],
+    "all_current_after_hashes_match": true,
+    "all_six_prefix_preservation_checks_positive": true
+  },
+  "original_install_snapshot": {
+    "inventory_path": "research/2026-10-10/evidence/inventory.csv",
+    "inventory_sha256": "e275ba3e4de40808e3a28925de8ae656a815bde7430362c2f36e3092004ded53",
+    "accepted_previous_stream_scan": "946/946 original paths stable, 0 changed/missing/errors; not repeated by instruction",
+    "added_files": 3,
+    "dinput8": "proxy-like addition, exact producer/version not established"
+  },
+  "launch_log": {
+    "path": "C:/Users/Jerico/Documents/My Games/Hawken/HawkenGame/Logs/Launch.log",
+    "encoding": "Windows-1252",
+    "sha256": "5b9df0560ef8208ddbe7e2bbea9e4a76cb923a5822fb5418de75997a3d629037",
+    "bytes": 40655,
+    "lines": 477,
+    "matches_retained_identity_record": true,
+    "sensitive_content": "not copied; evidence is redacted",
+    "interpretation_limit": "single launch log; does not prove player entry or gameplay"
+  },
+  "tool_status": {
+    "status_evidence": "implementation/evidence/complete-artifact-map-20261013/validation/tool-dependency-status.json",
+    "sha256": "bc957520d5df26f936b3e581c4f88f31658d63601732f093adb29f68abcb36b3",
+    "ghidra": "12.1.4",
+    "jdk": "21.0.12.1 Temurin",
+    "ue_explorer": "1.6.2",
+    "rea": "doctor recorded provider registration/configuration absent; no REA MCP tools in session; installation presence is not provider integration"
+  },
+  "limits": [
+    "PE and UPK counts are metadata coverage, not complete binary decompilation or runtime resolution.",
+    "Occurrence counts represent retained JSONL dossier provenance and copies, not analysis runs.",
+    "Provider call edges omit indirect/virtual dispatch and do not show execution.",
+    "The original 946-artifact tree was not rehashed again in this final integration check; its prior full streamed validation is cited.",
+    "No client/server was launched, and no gameplay or runtime compatibility is claimed."
+  ]
+}

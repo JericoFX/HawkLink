@@ -1,0 +1,26 @@
+{
+  "accepted": "STATIC_MAP_ONLY",
+  "preserved_original_doc_prefixes": 7,
+  "dossier_index": "886 SHA+entry, 1170 retained occurrences",
+  "database_metadata": "146325 known functions, not exhaustive machine code",
+  "original_audit": "946 current originals unchanged; independent streamed validation reused",
+  "no_gameplay_acceptance": true,
+  "source_python_syntax": "py_compile exit0",
+  "output_guard": "negative probe refused before path creation",
+  "java_script": "Actual Main/SDK readonly exports exit0; 112 newly examined helper instructions belong to next materializer phase, not this map snapshot",
+  "independent_validation_sha256": "5160ca72fbe8cca36a896e8d28cc129d99ec169a33c45104a4b78d716e64d364",
+  "current_doc_hashes": {
+    "research/2026-10-10/HAWKEN_BINARY_INVENTORY.md": "17e79b9ca3528fd6aab09e23cc207c0d6c8161d1eb514812f92827aa9b911a05",
+    "research/2026-10-10/HAWKEN_ENDPOINT_CATALOG.md": "eabb929f8a5df1e438b2b4c13821f23f080e984dfa55473e70c304e2f0298e53",
+    "research/2026-10-10/HAWKEN_AUTH_PROTOCOL.md": "dd7c80f040f64184ef97f0a827bed2212c352a07b5c600b725066a73a76f09a8",
+    "research/2026-10-10/HAWKEN_MASTER_SERVER_PROTOCOL.md": "76393d98a0c49c424abf25362a1d4dab2eba2b09af68cf83208fee9e286b3d1b",
+    "research/2026-10-10/HAWKEN_GAME_SERVER_PROTOCOL.md": "eba86b20ebdcf673332f58945985481d8a72a98e522ee593495cebe5c8bd5cfb",
+    "research/2026-10-10/HAWKEN_NETWORK_ARCHITECTURE.md": "85036e2815520db9c69a5dad31234cf979b5e1820b85180ff0cab64b9afccf7f",
+    "research/2026-10-10/HAWKEN_UNKNOWN_AND_BLOCKERS.md": "d46b6de484ac839b638e6be0875d1bd8a87a15bd81152592e130a431ea16a3ef"
+  },
+  "preserved_unknown_git_changes": [
+    "CMakePresets.json",
+    "src/.gitignore",
+    "src/.ignore"
+  ]
+}

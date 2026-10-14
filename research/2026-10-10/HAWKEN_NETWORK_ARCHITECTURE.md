@@ -237,3 +237,34 @@ El [contrato original del locator](../../implementation/evidence/live-player-ins
 EXE original SHA `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`. [Contrato13](../../implementation/evidence/native-server-reuse-research/engine-followup-13/contract.json), SHA `cbfed30437ac72205e86f0cd38ae264672e2c06aa1bed08972351b44a8a8ceda`: la llamada directa RVAa648da del InitListen concreto a648b0 llega a RVA9e70e0/raw9e64e0. **CONFIRMADO estáticamente**, cuerpo completo de13 instrucciones: conserva el objeto RCX y contexto RDX, llama el slot virtual+298 del mismo objeto, guarda el contexto preservado en objeto+88 y retorna EAX1. No lee el URL ni contiene una comprobación explícita de fallo; el comportamiento del callback y sus posibles excepciones permanece abierto. No se deduce una firma externa del pseudocódigo sin argumentos.
 
 El papel de notificación del contexto es **PROBABLE**, apoyado en el flujo World+60→driver+88 ya documentado. Esta función usa un objeto existente y no asigna World+120, crea drivers, abre sockets ni crea actores de servidor. La [aceptación del padre](../../implementation/evidence/headless-integration-20261013/parent/driver-init-base-acceptance.json) conserva13 instrucciones verificadas por Luna,50 spans originales seleccionados cotejados por el padre y31 pins revalidados. Los15 spans de ventanas de lookup sirven como diagnóstico limitado; no acreditan cuerpos completos, ausencia global ni otro método Listen. El consumidor de hosting y la partida propia siguen **NO VERIFICADOS**. Sin juego, invocaciones nativas, modificaciones de originales ni tutorial.
+
+
+## Mapa unificado de componentes y fronteras — 2026-10-13
+
+El [mapa global del inventario](HAWKEN_BINARY_INVENTORY.md) reúne las interfaces de todos los EXE/DLL y las tablas de todos los UPK, junto al índice de funciones existente. La consolidación preserva backend, Nexus, puente, pruebas y hallazgos; no cambia su implementación ni reinicia el netcode.
+
+```mermaid
+flowchart LR
+    CFG[INI y configuración] --> CLIENT[Cliente UE3 original]
+    UPK[UPK: clases, bytecode y recursos] --> CLIENT
+    CLIENT --> SDK[Meteor SDK: servicios]
+    CLIENT --> STEAM[Steam API: identidad y tickets]
+    SDK --> HTTP[HTTP: cuenta, inventario y sesiones]
+    CLIENT --> UE3[UE3: conexión y replicación UDP]
+    UE3 --> GAME[Destino de partida]
+```
+
+Las flechas representan dependencias/interfaces estáticas; no certifican ejecución ni una partida compatible. El linkage del EXE original SHA `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2` demuestra imports de Meteor y Steam. El selector `DefaultOnlineSubsystemName` de DefaultEngine.ini y los exports positivos de OnlineSubsystemMeteor.upk enlazan la configuración con las clases. Los bindings de MechSetup y GameEngine del [mapa UPK](../../implementation/evidence/complete-artifact-map-20261013/upk/native-binding-examples.json) enlazan declaraciones concretas con wrappers y destinos virtuales demostrados para sus vtables.
+
+| Tramo de principio a fin | Evidencia reutilizable | Estado del comportamiento |
+|---|---|---|
+| Arranque y selección del engine/commandlet | Cadenas RVA y contratos de esta sección de reutilización nativa; índice cliente | CONFIRMADO estático. Servidor dedicado ejecutable en esta build NO VERIFICADO. |
+| Configuración → subsystem → servicios HTTP | INI, imports Meteor y catálogo de endpoints/consumidores | CONFIRMADO por componente; totalidad de respuestas dinámicas NO VERIFICADA. |
+| Cuenta/inventario → preset concreto | Contratos MechSetup, snapshots propios y mapa de exports | Confirmadas fronteras estáticas y pruebas acotadas. Materialización humana completa pendiente. |
+| Listado → asignación → conexión UDP | Protocolo Master/Assignment/control y log del cliente | Travel a Wreckage observado en el log histórico; no prueba admisión completa ni jugabilidad. |
+| Controller/PRI/Pawn → ready/posesión → partida | Contratos de actores/MechSetup y Game Server Protocol | Enlaces y partes del wire comprobados; el flujo de partida completo sigue NO VERIFICADO. |
+| Fin de partida → estadísticas/recompensas persistentes | Contratos postmatch, eventos y cuenta/economía | Requisitos registrados; sincronización final y partida autoritativa no aceptadas. |
+
+El Launch.log original SHA `5b9df0560ef8208ddbe7e2bbea9e4a76cb923a5822fb5418de75997a3d629037`, leído íntegramente, conserva `InitStormUserId failed - No PlayerReplicationInfo` y `Refreshing Mechs Online Stats Failed`. Esas observaciones se mantienen como criterio de diagnóstico. Un HTTP200, un mapa cargado, metadata de Ghidra o un test sintético no los resuelven por sí solos.
+
+Antes de otro análisis se consulta el mapa por SHA+entry o por paquete/export. La nueva pasada debe cerrar un borde identificado de esta cadena; si ya existe un dossier válido, se reutiliza. El Master sigue siendo directorio regional; cuentas/economía global permanecen como servicio separado según la decisión del usuario. Una DLL de integración de Windows no establece por sí misma un servidor Linux.
