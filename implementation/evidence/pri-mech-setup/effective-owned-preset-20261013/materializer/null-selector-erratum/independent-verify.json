@@ -1,0 +1,39 @@
+{
+  "basis": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\actor-initial-reference\\contract.json",
+      "sha256": "b7c3c7da15054a1b13de49d26cb8778f90ddbb410398e8451d8f66a969ad1ba1"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\object-reference-codec\\provenance.json",
+      "sha256": "b17b868cd8f810273b4d800d47f65f7f14840ea165e2346c97b639bdbdadde83"
+    }
+  ],
+  "original_EXE_SHA256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "native_rva": "0x9f4080",
+  "native_raw": "0x9f3480",
+  "cause": "Fixturemistooksemanticnull forzero selector; existingproductionobjectcodec correct. Correctedwirebits are1 then11zeros.",
+  "fixture_checks": [
+    {
+      "fixture": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\baseline-fixture.json",
+      "before_hex": "00000000000000000000000000383c19000703010e06021c0c043818a8a0a0a0007050f0ffffffffffffffffffefffffffffff1fa00c0060000800000078000000d80000",
+      "after_hex": "00000000000000000000000000383c19000703010e06021c0c043818a8a0a0a0007050f0ffffffffffffffffffefffffffffff1fa00c0060000800000078000000d81000",
+      "changed_bits": [
+        532
+      ],
+      "logical_bits": 544,
+      "all_other_rows_and_caller_values_unchanged": true
+    },
+    {
+      "fixture": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\baseline-fixture-holo255.json",
+      "before_hex": "00000000000000000000000000383c19000703010e06021c0c043818a8a0a0a000f05ff0ffffffffffffffffffefffffffffff1fa00c0060000800000078000000180000",
+      "after_hex": "00000000000000000000000000383c19000703010e06021c0c043818a8a0a0a000f05ff0ffffffffffffffffffefffffffffff1fa00c0060000800000078000000181000",
+      "changed_bits": [
+        532
+      ],
+      "logical_bits": 544,
+      "all_other_rows_and_caller_values_unchanged": true
+    }
+  ],
+  "no_production_execution_or_output_used_to_repack": true
+}

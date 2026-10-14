@@ -1,0 +1,493 @@
+{
+  "scope": "Synthetic9owned-role baseline fixture; nohistorical/nativepayload claim",
+  "caller": {
+    "requested_primary_index": 0,
+    "holo_taunt_index": 7,
+    "previous_setup_id": 12,
+    "prior_template_reference": null,
+    "loaded_completion": true
+  },
+  "expected_rows": [
+    {
+      "ordinal": 0,
+      "path": "SMechSetupStruct.AllocatedOptimizations.Damage",
+      "value": 0,
+      "absolute_bit_offset": 0,
+      "bits": 8
+    },
+    {
+      "ordinal": 1,
+      "path": "SMechSetupStruct.AllocatedOptimizations.FireRate",
+      "value": 0,
+      "absolute_bit_offset": 8,
+      "bits": 8
+    },
+    {
+      "ordinal": 2,
+      "path": "SMechSetupStruct.AllocatedOptimizations.HealRate",
+      "value": 0,
+      "absolute_bit_offset": 16,
+      "bits": 8
+    },
+    {
+      "ordinal": 3,
+      "path": "SMechSetupStruct.AllocatedOptimizations.HeatGen",
+      "value": 0,
+      "absolute_bit_offset": 24,
+      "bits": 8
+    },
+    {
+      "ordinal": 4,
+      "path": "SMechSetupStruct.AllocatedOptimizations.Armor",
+      "value": 0,
+      "absolute_bit_offset": 32,
+      "bits": 8
+    },
+    {
+      "ordinal": 5,
+      "path": "SMechSetupStruct.AllocatedOptimizations.FuelCapacity",
+      "value": 0,
+      "absolute_bit_offset": 40,
+      "bits": 8
+    },
+    {
+      "ordinal": 6,
+      "path": "SMechSetupStruct.AllocatedOptimizations.BoostSpeed",
+      "value": 0,
+      "absolute_bit_offset": 48,
+      "bits": 8
+    },
+    {
+      "ordinal": 7,
+      "path": "SMechSetupStruct.AllocatedOptimizations.FuelRegen",
+      "value": 0,
+      "absolute_bit_offset": 56,
+      "bits": 8
+    },
+    {
+      "ordinal": 8,
+      "path": "SMechSetupStruct.AllocatedOptimizations.RunSpeed",
+      "value": 0,
+      "absolute_bit_offset": 64,
+      "bits": 8
+    },
+    {
+      "ordinal": 9,
+      "path": "SMechSetupStruct.AllocatedOptimizations.AirEfficiency",
+      "value": 0,
+      "absolute_bit_offset": 72,
+      "bits": 8
+    },
+    {
+      "ordinal": 10,
+      "path": "SMechSetupStruct.AllocatedOptimizations.RadarRange",
+      "value": 0,
+      "absolute_bit_offset": 80,
+      "bits": 8
+    },
+    {
+      "ordinal": 11,
+      "path": "SMechSetupStruct.AllocatedOptimizations.OverheatRecovery",
+      "value": 0,
+      "absolute_bit_offset": 88,
+      "bits": 8
+    },
+    {
+      "ordinal": 12,
+      "path": "SMechSetupStruct.AllocatedOptimizations.Dodge",
+      "value": 0,
+      "absolute_bit_offset": 96,
+      "bits": 8
+    },
+    {
+      "ordinal": 13,
+      "path": "SMechSetupStruct.MechAppearance.AccentHue",
+      "value": 56,
+      "absolute_bit_offset": 104,
+      "bits": 8
+    },
+    {
+      "ordinal": 14,
+      "path": "SMechSetupStruct.MechAppearance.AccentSaturation",
+      "value": 60,
+      "absolute_bit_offset": 112,
+      "bits": 8
+    },
+    {
+      "ordinal": 15,
+      "path": "SMechSetupStruct.MechAppearance.AccentValue",
+      "value": 25,
+      "absolute_bit_offset": 120,
+      "bits": 8
+    },
+    {
+      "ordinal": 16,
+      "path": "SMechSetupStruct.MechAppearance.Upper.CamoPattern",
+      "value": 0,
+      "absolute_bit_offset": 128,
+      "bits": 8
+    },
+    {
+      "ordinal": 17,
+      "path": "SMechSetupStruct.MechAppearance.Upper.CamoSaturation",
+      "value": 7,
+      "absolute_bit_offset": 136,
+      "bits": 8
+    },
+    {
+      "ordinal": 18,
+      "path": "SMechSetupStruct.MechAppearance.Upper.CamoScale",
+      "value": 3,
+      "absolute_bit_offset": 144,
+      "bits": 8
+    },
+    {
+      "ordinal": 19,
+      "path": "SMechSetupStruct.MechAppearance.Upper.bAccent",
+      "value": true,
+      "absolute_bit_offset": 152,
+      "bits": 1
+    },
+    {
+      "ordinal": 20,
+      "path": "SMechSetupStruct.MechAppearance.Middle.CamoPattern",
+      "value": 0,
+      "absolute_bit_offset": 153,
+      "bits": 8
+    },
+    {
+      "ordinal": 21,
+      "path": "SMechSetupStruct.MechAppearance.Middle.CamoSaturation",
+      "value": 7,
+      "absolute_bit_offset": 161,
+      "bits": 8
+    },
+    {
+      "ordinal": 22,
+      "path": "SMechSetupStruct.MechAppearance.Middle.CamoScale",
+      "value": 3,
+      "absolute_bit_offset": 169,
+      "bits": 8
+    },
+    {
+      "ordinal": 23,
+      "path": "SMechSetupStruct.MechAppearance.Middle.bAccent",
+      "value": true,
+      "absolute_bit_offset": 177,
+      "bits": 1
+    },
+    {
+      "ordinal": 24,
+      "path": "SMechSetupStruct.MechAppearance.Lower.CamoPattern",
+      "value": 0,
+      "absolute_bit_offset": 178,
+      "bits": 8
+    },
+    {
+      "ordinal": 25,
+      "path": "SMechSetupStruct.MechAppearance.Lower.CamoSaturation",
+      "value": 7,
+      "absolute_bit_offset": 186,
+      "bits": 8
+    },
+    {
+      "ordinal": 26,
+      "path": "SMechSetupStruct.MechAppearance.Lower.CamoScale",
+      "value": 3,
+      "absolute_bit_offset": 194,
+      "bits": 8
+    },
+    {
+      "ordinal": 27,
+      "path": "SMechSetupStruct.MechAppearance.Lower.bAccent",
+      "value": true,
+      "absolute_bit_offset": 202,
+      "bits": 1
+    },
+    {
+      "ordinal": 28,
+      "path": "SMechSetupStruct.MechAppearance.Arm.CamoPattern",
+      "value": 0,
+      "absolute_bit_offset": 203,
+      "bits": 8
+    },
+    {
+      "ordinal": 29,
+      "path": "SMechSetupStruct.MechAppearance.Arm.CamoSaturation",
+      "value": 7,
+      "absolute_bit_offset": 211,
+      "bits": 8
+    },
+    {
+      "ordinal": 30,
+      "path": "SMechSetupStruct.MechAppearance.Arm.CamoScale",
+      "value": 3,
+      "absolute_bit_offset": 219,
+      "bits": 8
+    },
+    {
+      "ordinal": 31,
+      "path": "SMechSetupStruct.MechAppearance.Arm.bAccent",
+      "value": true,
+      "absolute_bit_offset": 227,
+      "bits": 1
+    },
+    {
+      "ordinal": 32,
+      "path": "SMechSetupStruct.MechAppearance.LowerPart",
+      "value": 10,
+      "absolute_bit_offset": 228,
+      "bits": 8
+    },
+    {
+      "ordinal": 33,
+      "path": "SMechSetupStruct.MechAppearance.MidPart",
+      "value": 10,
+      "absolute_bit_offset": 236,
+      "bits": 8
+    },
+    {
+      "ordinal": 34,
+      "path": "SMechSetupStruct.MechAppearance.UpperPart",
+      "value": 10,
+      "absolute_bit_offset": 244,
+      "bits": 8
+    },
+    {
+      "ordinal": 35,
+      "path": "SMechSetupStruct.MechAppearance.ArmPart",
+      "value": 10,
+      "absolute_bit_offset": 252,
+      "bits": 8
+    },
+    {
+      "ordinal": 36,
+      "path": "SMechSetupStruct.MechAppearance.DroneType",
+      "value": 0,
+      "absolute_bit_offset": 260,
+      "bits": 8
+    },
+    {
+      "ordinal": 37,
+      "path": "SMechSetupStruct.MechAppearance.HoloTauntType",
+      "value": 7,
+      "absolute_bit_offset": 268,
+      "bits": 8
+    },
+    {
+      "ordinal": 38,
+      "path": "SMechSetupStruct.MechAppearance.AnimTauntType",
+      "value": 5,
+      "absolute_bit_offset": 276,
+      "bits": 8
+    },
+    {
+      "ordinal": 39,
+      "path": "SMechSetupStruct.MechAppearance.BoosterPart",
+      "value": 255,
+      "absolute_bit_offset": 284,
+      "bits": 8
+    },
+    {
+      "ordinal": 40,
+      "path": "SMechSetupStruct.MechAppearance.ArmorPart",
+      "value": 255,
+      "absolute_bit_offset": 292,
+      "bits": 8
+    },
+    {
+      "ordinal": 41,
+      "path": "SMechSetupStruct.MechAppearance.CockpitDecoration[0]",
+      "value": 255,
+      "absolute_bit_offset": 300,
+      "bits": 8
+    },
+    {
+      "ordinal": 42,
+      "path": "SMechSetupStruct.MechAppearance.CockpitDecoration[1]",
+      "value": 255,
+      "absolute_bit_offset": 308,
+      "bits": 8
+    },
+    {
+      "ordinal": 43,
+      "path": "SMechSetupStruct.MechAppearance.CockpitDecoration[2]",
+      "value": 255,
+      "absolute_bit_offset": 316,
+      "bits": 8
+    },
+    {
+      "ordinal": 44,
+      "path": "SMechSetupStruct.MechAppearance.PrimaryReticle",
+      "value": 255,
+      "absolute_bit_offset": 324,
+      "bits": 8
+    },
+    {
+      "ordinal": 45,
+      "path": "SMechSetupStruct.MechAppearance.SecondaryReticle",
+      "value": 255,
+      "absolute_bit_offset": 332,
+      "bits": 8
+    },
+    {
+      "ordinal": 46,
+      "path": "SMechSetupStruct.MechAppearance.FriendHUDColor",
+      "value": 255,
+      "absolute_bit_offset": 340,
+      "bits": 8
+    },
+    {
+      "ordinal": 47,
+      "path": "SMechSetupStruct.MechAppearance.FoeHUDColor",
+      "value": 255,
+      "absolute_bit_offset": 348,
+      "bits": 8
+    },
+    {
+      "ordinal": 48,
+      "path": "SMechSetupStruct.MechAppearance.NeutralHUDColor",
+      "value": 255,
+      "absolute_bit_offset": 356,
+      "bits": 8
+    },
+    {
+      "ordinal": 49,
+      "path": "SMechSetupStruct.MechAppearance.bTintReticle",
+      "value": false,
+      "absolute_bit_offset": 364,
+      "bits": 1
+    },
+    {
+      "ordinal": 50,
+      "path": "SMechSetupStruct.MechInternals.Internal1",
+      "value": 255,
+      "absolute_bit_offset": 365,
+      "bits": 8
+    },
+    {
+      "ordinal": 51,
+      "path": "SMechSetupStruct.MechInternals.Internal2",
+      "value": 255,
+      "absolute_bit_offset": 373,
+      "bits": 8
+    },
+    {
+      "ordinal": 52,
+      "path": "SMechSetupStruct.MechInternals.Internal3",
+      "value": 255,
+      "absolute_bit_offset": 381,
+      "bits": 8
+    },
+    {
+      "ordinal": 53,
+      "path": "SMechSetupStruct.MechInternals.Internal4",
+      "value": 255,
+      "absolute_bit_offset": 389,
+      "bits": 8
+    },
+    {
+      "ordinal": 54,
+      "path": "SMechSetupStruct.MechInternals.Internal5",
+      "value": 255,
+      "absolute_bit_offset": 397,
+      "bits": 8
+    },
+    {
+      "ordinal": 55,
+      "path": "SMechSetupStruct.MechInternals.Internal6",
+      "value": 255,
+      "absolute_bit_offset": 405,
+      "bits": 8
+    },
+    {
+      "ordinal": 56,
+      "path": "SMechSetupStruct.MechWeapons.PrimaryIdx",
+      "value": 0,
+      "absolute_bit_offset": 413,
+      "bits": 8
+    },
+    {
+      "ordinal": 57,
+      "path": "SMechSetupStruct.MechWeapons.SecondaryIdx",
+      "value": 101,
+      "absolute_bit_offset": 421,
+      "bits": 8
+    },
+    {
+      "ordinal": 58,
+      "path": "SMechSetupStruct.MechWeapons.PrimaryUpgradeFlags",
+      "value": 0,
+      "absolute_bit_offset": 429,
+      "bits": 8
+    },
+    {
+      "ordinal": 59,
+      "path": "SMechSetupStruct.MechWeapons.SecondaryUpgradeFlags",
+      "value": 0,
+      "absolute_bit_offset": 437,
+      "bits": 8
+    },
+    {
+      "ordinal": 60,
+      "path": "SMechSetupStruct.AbilityIndex",
+      "value": 3,
+      "absolute_bit_offset": 445,
+      "bits": 6
+    },
+    {
+      "ordinal": 61,
+      "path": "SMechSetupStruct.AbilityUpgradeFlags",
+      "value": 0,
+      "absolute_bit_offset": 451,
+      "bits": 8
+    },
+    {
+      "ordinal": 62,
+      "path": "SMechSetupStruct.MechType",
+      "value": 1,
+      "absolute_bit_offset": 459,
+      "bits": 32
+    },
+    {
+      "ordinal": 63,
+      "path": "SMechSetupStruct.MechSubType",
+      "value": 15,
+      "absolute_bit_offset": 491,
+      "bits": 32
+    },
+    {
+      "ordinal": 64,
+      "path": "SMechSetupStruct.bReadyForSetup",
+      "value": true,
+      "absolute_bit_offset": 523,
+      "bits": 1
+    },
+    {
+      "ordinal": 65,
+      "path": "SMechSetupStruct.SetupID",
+      "value": 13,
+      "absolute_bit_offset": 524,
+      "bits": 8
+    },
+    {
+      "ordinal": 66,
+      "path": "SMechSetupStruct.Template",
+      "value": 1,
+      "absolute_bit_offset": 532,
+      "bits": 12,
+      "semantic_value": null,
+      "wire_encoding": {
+        "primary_selector": 1,
+        "channel_index": 0,
+        "channel_index_bits": 11,
+        "packed_LSB_value": 1,
+        "distinction": "SemanticTemplateNone is primarychannel0; selector0 identifies a32bitpackageexportcoordinate, not null."
+      }
+    }
+  ],
+  "logical_bits": 544,
+  "integer_order": "little",
+  "hex": "00000000000000000000000000383c19000703010e06021c0c043818a8a0a0a0007050f0ffffffffffffffffffefffffffffff1fa00c0060000800000078000000d81000",
+  "independence": "Expected67values handselectedfromv3normalbaseline andexplicitcaller. Packing uses absoluteoriginalledger offsets, no productionbuilder/encoder or its helpers. TemplateNone encoding corrected fromoriginalPRIMARY_WIRE_PREFIX9f4080: selector1+11zerochannelbits. Packed independently fromabsoluteoffsets; no productoutput used."
+}

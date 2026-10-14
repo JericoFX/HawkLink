@@ -1,0 +1,2548 @@
+{
+  "schema": "hawken.effective-owned-starter67.research.v3",
+  "scope": "Finite starter-role materialization research, no product edits or extraction/runtime",
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "original_upk_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+  "rows": [
+    {
+      "ordinal": 0,
+      "path": "SMechSetupStruct.AllocatedOptimizations.Damage",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.Damage",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 0
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 1,
+      "path": "SMechSetupStruct.AllocatedOptimizations.FireRate",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.FireRate",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 1
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 2,
+      "path": "SMechSetupStruct.AllocatedOptimizations.HealRate",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.HealRate",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 2
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 3,
+      "path": "SMechSetupStruct.AllocatedOptimizations.HeatGen",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.HeatGen",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 3
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 4,
+      "path": "SMechSetupStruct.AllocatedOptimizations.Armor",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.Armor",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 4
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 5,
+      "path": "SMechSetupStruct.AllocatedOptimizations.FuelCapacity",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.FuelCapacity",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 5
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 6,
+      "path": "SMechSetupStruct.AllocatedOptimizations.BoostSpeed",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.BoostSpeed",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 6
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 7,
+      "path": "SMechSetupStruct.AllocatedOptimizations.FuelRegen",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.FuelRegen",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 7
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 8,
+      "path": "SMechSetupStruct.AllocatedOptimizations.RunSpeed",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.RunSpeed",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 8
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 9,
+      "path": "SMechSetupStruct.AllocatedOptimizations.AirEfficiency",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.AirEfficiency",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 9
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 10,
+      "path": "SMechSetupStruct.AllocatedOptimizations.RadarRange",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.RadarRange",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 10
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 11,
+      "path": "SMechSetupStruct.AllocatedOptimizations.OverheatRecovery",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.OverheatRecovery",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 11
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 12,
+      "path": "SMechSetupStruct.AllocatedOptimizations.Dodge",
+      "bits": 8,
+      "source": "Presets[presetIndex].AllocOpt.Dodge",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 12
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_NONLOCAL_XP_ZERO_NORMALIZATION",
+      "rule": "NewAddslotzero plus confirmedd52060â†’dddb40â†’FNameCheckMechLevelUnlocks. SetPresetLevelsFromXP alwaystotalOptimizationPoints0 (Clamp[...,0,0]); nonlocalCheckLevelUnlocks_OptimizationPoints sums13unsignedbytes. Anypositive sum resetsall13zero; sum0 alreadyallzero. Subtype.defaultAllocation (offlineCopy route) cannot override this completednormalization."
+    },
+    {
+      "ordinal": 13,
+      "path": "SMechSetupStruct.MechAppearance.AccentHue",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.AccentHue",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 13
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AccentHue",
+        "literal_rva": "0x177d698",
+        "literal_raw": "0x177ca98",
+        "default_argument": "80.0",
+        "native_preset_offset": "0x280",
+        "pseudocode_line": 626,
+        "store_anchors": [
+          {
+            "rva": "0xdbb390",
+            "raw": "0xdba790",
+            "bytes": "888680020000",
+            "instruction": "MOV byte ptr [RSI + 0x280],AL"
+          }
+        ],
+        "conversion": "*(char *)(lVar12 + 0x280) = (char)(int)((float)dVar13 * 0.0027777778 * 255.0);",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtof; float *0.0027777778 *255; truncate to int then low byte",
+      "final_clamp": [
+        0,
+        255
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 56,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 14,
+      "path": "SMechSetupStruct.MechAppearance.AccentSaturation",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.AccentSaturation",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 14
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AccentSaturation",
+        "literal_rva": "0x177dbe8",
+        "literal_raw": "0x177cfe8",
+        "default_argument": "0.6",
+        "native_preset_offset": "0x281",
+        "pseudocode_line": 635,
+        "store_anchors": [
+          {
+            "rva": "0xdbb41d",
+            "raw": "0xdba81d",
+            "bytes": "888681020000",
+            "instruction": "MOV byte ptr [RSI + 0x281],AL"
+          }
+        ],
+        "conversion": "*(char *)(lVar12 + 0x281) = (char)(int)((float)dVar13 * 100.0);",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtof; float *100; truncate to int then low byte",
+      "final_clamp": [
+        0,
+        100
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 60,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 15,
+      "path": "SMechSetupStruct.MechAppearance.AccentValue",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.AccentValue",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 15
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AccentValue",
+        "literal_rva": "0x177e248",
+        "literal_raw": "0x177d648",
+        "default_argument": "0.25",
+        "native_preset_offset": "0x282",
+        "pseudocode_line": 644,
+        "store_anchors": [
+          {
+            "rva": "0xdbb4aa",
+            "raw": "0xdba8aa",
+            "bytes": "888682020000",
+            "instruction": "MOV byte ptr [RSI + 0x282],AL"
+          }
+        ],
+        "conversion": "*(char *)(lVar12 + 0x282) = (char)(int)((float)dVar13 * 100.0);",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtof; float *100; truncate to int then low byte",
+      "final_clamp": [
+        0,
+        100
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 25,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 16,
+      "path": "SMechSetupStruct.MechAppearance.Upper.CamoPattern",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Upper.CamoPattern",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 16
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.CamoPattern",
+        "literal_rva": "0x177eb40",
+        "literal_raw": "0x177df40",
+        "default_argument": "0",
+        "native_preset_offset": "0x284",
+        "pseudocode_line": 653,
+        "store_anchors": [
+          {
+            "rva": "0xdbb524",
+            "raw": "0xdba924",
+            "bytes": "888684020000",
+            "instruction": "MOV byte ptr [RSI + 0x284],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x284) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        500
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 17,
+      "path": "SMechSetupStruct.MechAppearance.Upper.CamoSaturation",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Upper.CamoSaturation",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 17
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.CamoSaturation",
+        "literal_rva": "0x177f450",
+        "literal_raw": "0x177e850",
+        "default_argument": "7",
+        "native_preset_offset": "0x285",
+        "pseudocode_line": 671,
+        "store_anchors": [
+          {
+            "rva": "0xdbb618",
+            "raw": "0xdbaa18",
+            "bytes": "888685020000",
+            "instruction": "MOV byte ptr [RSI + 0x285],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x285) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        10
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 7,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 18,
+      "path": "SMechSetupStruct.MechAppearance.Upper.CamoScale",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Upper.CamoScale",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 18
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.CamoScale",
+        "literal_rva": "0x177ef88",
+        "literal_raw": "0x177e388",
+        "default_argument": "3",
+        "native_preset_offset": "0x286",
+        "pseudocode_line": 662,
+        "store_anchors": [
+          {
+            "rva": "0xdbb59e",
+            "raw": "0xdba99e",
+            "bytes": "888686020000",
+            "instruction": "MOV byte ptr [RSI + 0x286],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x286) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        7
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 3,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 19,
+      "path": "SMechSetupStruct.MechAppearance.Upper.bAccent",
+      "bits": 1,
+      "source": "Presets[presetIndex].MechStyle.Upper.bAccent",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 19
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AccentUpper",
+        "literal_rva": "0x1788a20",
+        "literal_raw": "0x1787e20",
+        "default_argument": "1",
+        "native_preset_offset": "0x288",
+        "pseudocode_line": 915,
+        "store_anchors": [
+          {
+            "rva": "0xdbc24f",
+            "raw": "0xdbb64f",
+            "bytes": "83a688020000fe",
+            "instruction": "AND dword ptr [RSI + 0x288],0xfffffffe"
+          },
+          {
+            "rva": "0xdbc259",
+            "raw": "0xdbb659",
+            "bytes": "099e88020000",
+            "instruction": "OR dword ptr [RSI + 0x288],EBX"
+          }
+        ],
+        "conversion": "*(uint *)(lVar12 + 0x288) = *(uint *)(lVar12 + 0x288) & 0xfffffffe;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi &1 into packed in-memory bool; copied as bool, not GUID",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": true,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 20,
+      "path": "SMechSetupStruct.MechAppearance.Middle.CamoPattern",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Middle.CamoPattern",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 20
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Mid.CamoPattern",
+        "literal_rva": "0x177f898",
+        "literal_raw": "0x177ec98",
+        "default_argument": "SignedInt32 decimalFString of loadedUpper.CamoPattern via original0c0ba0→0c0bf0; formatter body anddigitliterals closed.",
+        "native_preset_offset": "0x28c",
+        "pseudocode_line": 680,
+        "store_anchors": [
+          {
+            "rva": "0xdbb690",
+            "raw": "0xdbaa90",
+            "bytes": "88868c020000",
+            "instruction": "MOV byte ptr [RSI + 0x28c],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x28c) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        500
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_DYNAMIC_FALLBACK_CLOSED",
+      "dynamic_fallback": "Original0c0ba0 constructsFString with0c0bf0 signed32decimalformatter of alreadyloadedUpper.CamoPatternbyte. Thus missingkey integerdefault=Upperbyte exactly; presentempty still0, notinherit."
+    },
+    {
+      "ordinal": 21,
+      "path": "SMechSetupStruct.MechAppearance.Middle.CamoSaturation",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Middle.CamoSaturation",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 21
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Mid.CamoSaturation",
+        "literal_rva": "0x17804a0",
+        "literal_raw": "0x177f8a0",
+        "default_argument": "7",
+        "native_preset_offset": "0x28d",
+        "pseudocode_line": 698,
+        "store_anchors": [
+          {
+            "rva": "0xdbb775",
+            "raw": "0xdbab75",
+            "bytes": "88868d020000",
+            "instruction": "MOV byte ptr [RSI + 0x28d],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x28d) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        10
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 7,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 22,
+      "path": "SMechSetupStruct.MechAppearance.Middle.CamoScale",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Middle.CamoScale",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 22
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Mid.CamoScale",
+        "literal_rva": "0x177fe68",
+        "literal_raw": "0x177f268",
+        "default_argument": "3",
+        "native_preset_offset": "0x28e",
+        "pseudocode_line": 689,
+        "store_anchors": [
+          {
+            "rva": "0xdbb704",
+            "raw": "0xdbab04",
+            "bytes": "88868e020000",
+            "instruction": "MOV byte ptr [RSI + 0x28e],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x28e) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        7
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 3,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 23,
+      "path": "SMechSetupStruct.MechAppearance.Middle.bAccent",
+      "bits": 1,
+      "source": "Presets[presetIndex].MechStyle.Middle.bAccent",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 23
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AccentMid",
+        "literal_rva": "0x1788f18",
+        "literal_raw": "0x1788318",
+        "default_argument": "1",
+        "native_preset_offset": "0x290",
+        "pseudocode_line": 925,
+        "store_anchors": [
+          {
+            "rva": "0xdbc2cc",
+            "raw": "0xdbb6cc",
+            "bytes": "83a690020000fe",
+            "instruction": "AND dword ptr [RSI + 0x290],0xfffffffe"
+          },
+          {
+            "rva": "0xdbc2d6",
+            "raw": "0xdbb6d6",
+            "bytes": "099e90020000",
+            "instruction": "OR dword ptr [RSI + 0x290],EBX"
+          }
+        ],
+        "conversion": "*(uint *)(lVar12 + 0x290) = *(uint *)(lVar12 + 0x290) & 0xfffffffe;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi &1 into packed in-memory bool; copied as bool, not GUID",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": true,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 24,
+      "path": "SMechSetupStruct.MechAppearance.Lower.CamoPattern",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Lower.CamoPattern",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 24
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Low.CamoPattern",
+        "literal_rva": "0x1780a00",
+        "literal_raw": "0x177fe00",
+        "default_argument": "SignedInt32 decimalFString of loadedUpper.CamoPattern via original0c0ba0→0c0bf0; formatter body anddigitliterals closed.",
+        "native_preset_offset": "0x294",
+        "pseudocode_line": 707,
+        "store_anchors": [
+          {
+            "rva": "0xdbb7ea",
+            "raw": "0xdbabea",
+            "bytes": "888694020000",
+            "instruction": "MOV byte ptr [RSI + 0x294],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x294) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        500
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_DYNAMIC_FALLBACK_CLOSED",
+      "dynamic_fallback": "Original0c0ba0 constructsFString with0c0bf0 signed32decimalformatter of alreadyloadedUpper.CamoPatternbyte. Thus missingkey integerdefault=Upperbyte exactly; presentempty still0, notinherit."
+    },
+    {
+      "ordinal": 25,
+      "path": "SMechSetupStruct.MechAppearance.Lower.CamoSaturation",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Lower.CamoSaturation",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 25
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Low.CamoSaturation",
+        "literal_rva": "0x17815f0",
+        "literal_raw": "0x17809f0",
+        "default_argument": "7",
+        "native_preset_offset": "0x295",
+        "pseudocode_line": 725,
+        "store_anchors": [
+          {
+            "rva": "0xdbb8cf",
+            "raw": "0xdbaccf",
+            "bytes": "888695020000",
+            "instruction": "MOV byte ptr [RSI + 0x295],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x295) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        10
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 7,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 26,
+      "path": "SMechSetupStruct.MechAppearance.Lower.CamoScale",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Lower.CamoScale",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 26
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Low.CamoScale",
+        "literal_rva": "0x1780f30",
+        "literal_raw": "0x1780330",
+        "default_argument": "3",
+        "native_preset_offset": "0x296",
+        "pseudocode_line": 716,
+        "store_anchors": [
+          {
+            "rva": "0xdbb85e",
+            "raw": "0xdbac5e",
+            "bytes": "888696020000",
+            "instruction": "MOV byte ptr [RSI + 0x296],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x296) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        7
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 3,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 27,
+      "path": "SMechSetupStruct.MechAppearance.Lower.bAccent",
+      "bits": 1,
+      "source": "Presets[presetIndex].MechStyle.Lower.bAccent",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 27
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AccentLower",
+        "literal_rva": "0x1789440",
+        "literal_raw": "0x1788840",
+        "default_argument": "1",
+        "native_preset_offset": "0x298",
+        "pseudocode_line": 935,
+        "store_anchors": [
+          {
+            "rva": "0xdbc349",
+            "raw": "0xdbb749",
+            "bytes": "83a698020000fe",
+            "instruction": "AND dword ptr [RSI + 0x298],0xfffffffe"
+          },
+          {
+            "rva": "0xdbc353",
+            "raw": "0xdbb753",
+            "bytes": "099e98020000",
+            "instruction": "OR dword ptr [RSI + 0x298],EBX"
+          }
+        ],
+        "conversion": "*(uint *)(lVar12 + 0x298) = *(uint *)(lVar12 + 0x298) & 0xfffffffe;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi &1 into packed in-memory bool; copied as bool, not GUID",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": true,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 28,
+      "path": "SMechSetupStruct.MechAppearance.Arm.CamoPattern",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Arm.CamoPattern",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 28
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Arm.CamoPattern",
+        "literal_rva": "0x1781998",
+        "literal_raw": "0x1780d98",
+        "default_argument": "SignedInt32 decimalFString of loadedUpper.CamoPattern via original0c0ba0→0c0bf0; formatter body anddigitliterals closed.",
+        "native_preset_offset": "0x29c",
+        "pseudocode_line": 734,
+        "store_anchors": [
+          {
+            "rva": "0xdbb942",
+            "raw": "0xdbad42",
+            "bytes": "88869c020000",
+            "instruction": "MOV byte ptr [RSI + 0x29c],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x29c) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        500
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_DYNAMIC_FALLBACK_CLOSED",
+      "dynamic_fallback": "Original0c0ba0 constructsFString with0c0bf0 signed32decimalformatter of alreadyloadedUpper.CamoPatternbyte. Thus missingkey integerdefault=Upperbyte exactly; presentempty still0, notinherit."
+    },
+    {
+      "ordinal": 29,
+      "path": "SMechSetupStruct.MechAppearance.Arm.CamoSaturation",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Arm.CamoSaturation",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 29
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Arm.CamoSaturation",
+        "literal_rva": "0x1782560",
+        "literal_raw": "0x1781960",
+        "default_argument": "7",
+        "native_preset_offset": "0x29d",
+        "pseudocode_line": 752,
+        "store_anchors": [
+          {
+            "rva": "0xdbba2e",
+            "raw": "0xdbae2e",
+            "bytes": "88869d020000",
+            "instruction": "MOV byte ptr [RSI + 0x29d],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x29d) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        10
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 7,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 30,
+      "path": "SMechSetupStruct.MechAppearance.Arm.CamoScale",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.Arm.CamoScale",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 30
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.Arm.CamoScale",
+        "literal_rva": "0x1781f78",
+        "literal_raw": "0x1781378",
+        "default_argument": "3",
+        "native_preset_offset": "0x29e",
+        "pseudocode_line": 743,
+        "store_anchors": [
+          {
+            "rva": "0xdbb9b5",
+            "raw": "0xdbadb5",
+            "bytes": "88869e020000",
+            "instruction": "MOV byte ptr [RSI + 0x29e],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x29e) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte before clamp",
+      "final_clamp": [
+        0,
+        7
+      ],
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 3,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 31,
+      "path": "SMechSetupStruct.MechAppearance.Arm.bAccent",
+      "bits": 1,
+      "source": "Presets[presetIndex].MechStyle.Arm.bAccent",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 31
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AccentArms",
+        "literal_rva": "0x1789958",
+        "literal_raw": "0x1788d58",
+        "default_argument": "1",
+        "native_preset_offset": "0x2a0",
+        "pseudocode_line": 945,
+        "store_anchors": [
+          {
+            "rva": "0xdbc3cf",
+            "raw": "0xdbb7cf",
+            "bytes": "83a6a0020000fe",
+            "instruction": "AND dword ptr [RSI + 0x2a0],0xfffffffe"
+          },
+          {
+            "rva": "0xdbc3d9",
+            "raw": "0xdbb7d9",
+            "bytes": "099ea0020000",
+            "instruction": "OR dword ptr [RSI + 0x2a0],EBX"
+          }
+        ],
+        "conversion": "*(uint *)(lVar12 + 0x2a0) = *(uint *)(lVar12 + 0x2a0) & 0xfffffffe;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi &1 into packed in-memory bool; copied as bool, not GUID",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": true,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 32,
+      "path": "SMechSetupStruct.MechAppearance.LowerPart",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.LowerPart",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 32
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.LowerPart",
+        "literal_rva": "0x1783748",
+        "literal_raw": "0x1782b48",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2a4",
+        "pseudocode_line": 779,
+        "store_anchors": [
+          {
+            "rva": "0xdbbb90",
+            "raw": "0xdbaf90",
+            "bytes": "8886a4020000",
+            "instruction": "MOV byte ptr [RSI + 0x2a4],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2a4) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "10",
+      "conditional_baseline_value": 10,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 33,
+      "path": "SMechSetupStruct.MechAppearance.MidPart",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.MidPart",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 33
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.MidPart",
+        "literal_rva": "0x1783240",
+        "literal_raw": "0x1782640",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2a5",
+        "pseudocode_line": 770,
+        "store_anchors": [
+          {
+            "rva": "0xdbbb17",
+            "raw": "0xdbaf17",
+            "bytes": "8886a5020000",
+            "instruction": "MOV byte ptr [RSI + 0x2a5],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2a5) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "10",
+      "conditional_baseline_value": 10,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 34,
+      "path": "SMechSetupStruct.MechAppearance.UpperPart",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.UpperPart",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 34
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.UpperPart",
+        "literal_rva": "0x1782ca8",
+        "literal_raw": "0x17820a8",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2a6",
+        "pseudocode_line": 761,
+        "store_anchors": [
+          {
+            "rva": "0xdbbaa4",
+            "raw": "0xdbaea4",
+            "bytes": "8886a6020000",
+            "instruction": "MOV byte ptr [RSI + 0x2a6],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2a6) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "10",
+      "conditional_baseline_value": 10,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 35,
+      "path": "SMechSetupStruct.MechAppearance.ArmPart",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.ArmPart",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 35
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.ArmPart",
+        "literal_rva": "0x1783ea0",
+        "literal_raw": "0x17832a0",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2a7",
+        "pseudocode_line": 788,
+        "store_anchors": [
+          {
+            "rva": "0xdbbc0c",
+            "raw": "0xdbb00c",
+            "bytes": "8886a7020000",
+            "instruction": "MOV byte ptr [RSI + 0x2a7],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2a7) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "10",
+      "conditional_baseline_value": 10,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 36,
+      "path": "SMechSetupStruct.MechAppearance.DroneType",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.DroneType",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 36
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.DroneType",
+        "literal_rva": "0x1785130",
+        "literal_raw": "0x1784530",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2a8",
+        "pseudocode_line": 815,
+        "store_anchors": [
+          {
+            "rva": "0xdbbd71",
+            "raw": "0xdbb171",
+            "bytes": "8886a8020000",
+            "instruction": "MOV byte ptr [RSI + 0x2a8],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2a8) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "0",
+      "conditional_baseline_value": 0,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 37,
+      "path": "SMechSetupStruct.MechAppearance.HoloTauntType",
+      "bits": 8,
+      "source": "LoadedMechPreset saves previous HoloTauntType, copies MechStyle, restores previous value. ServerSetStartMech sets byte(HoloTauntType). Preset.Style.HoloTauntType read by db9fb0 does not become final PRI field through this callback.",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 37
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": "caller.holo_taunt_index",
+      "status": "EXPLICIT_PREVIOUS_OR_REQUESTED_HOLO",
+      "rule": "Loaded saves/restores previousHolo; ServerSetStartMech may replacebyte from requested argument. Never take loaderStyle.Holo as final unconditionally."
+    },
+    {
+      "ordinal": 38,
+      "path": "SMechSetupStruct.MechAppearance.AnimTauntType",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.AnimTauntType",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 38
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.AnimTauntType",
+        "literal_rva": "0x1785c28",
+        "literal_raw": "0x1785028",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2aa",
+        "pseudocode_line": 833,
+        "store_anchors": [
+          {
+            "rva": "0xdbbe57",
+            "raw": "0xdbb257",
+            "bytes": "8886aa020000",
+            "instruction": "MOV byte ptr [RSI + 0x2aa],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2aa) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "*(undefined1 *)(lVar12 + 0x2aa) = uVar2;",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "post_loaded_rule": "SetDefaultAnimTaunt:255 and BaseMechType1Ã¢â€ â€™5",
+      "conditional_baseline_value": 5,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 39,
+      "path": "SMechSetupStruct.MechAppearance.BoosterPart",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.BoosterPart",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 39
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.BoosterPart",
+        "literal_rva": "0x1784400",
+        "literal_raw": "0x1783800",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2ab",
+        "pseudocode_line": 797,
+        "store_anchors": [
+          {
+            "rva": "0xdbbc88",
+            "raw": "0xdbb088",
+            "bytes": "8886ab020000",
+            "instruction": "MOV byte ptr [RSI + 0x2ab],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2ab) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 40,
+      "path": "SMechSetupStruct.MechAppearance.ArmorPart",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.ArmorPart",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 40
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.ArmorPart",
+        "literal_rva": "0x17849d8",
+        "literal_raw": "0x1783dd8",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2ac",
+        "pseudocode_line": 806,
+        "store_anchors": [
+          {
+            "rva": "0xdbbcfe",
+            "raw": "0xdbb0fe",
+            "bytes": "8886ac020000",
+            "instruction": "MOV byte ptr [RSI + 0x2ac],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2ac) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 41,
+      "path": "SMechSetupStruct.MechAppearance.CockpitDecoration[0]",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.CockpitDecoration[0]",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 41
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.CockpitDecoration%d",
+        "literal_rva": "0x1786570",
+        "literal_raw": "0x1785970",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2ad+element",
+        "pseudocode_lines": [
+          837,
+          851
+        ],
+        "format_indices": [
+          1,
+          2,
+          3
+        ],
+        "store_anchors": [
+          {
+            "rva": "0xdbbee1",
+            "raw": "0xdbb2e1",
+            "bytes": "88841ead020000",
+            "instruction": "MOV byte ptr [RSI + RBX*0x1 + 0x2ad],AL"
+          }
+        ],
+        "conversion": "_wtoi -> low byte; no alignment or GUID interpretation",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; no alignment or GUID interpretation",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "effective_key": "Preset.Style.CockpitDecoration0",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 42,
+      "path": "SMechSetupStruct.MechAppearance.CockpitDecoration[1]",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.CockpitDecoration[1]",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 42
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.CockpitDecoration%d",
+        "literal_rva": "0x1786570",
+        "literal_raw": "0x1785970",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2ad+element",
+        "pseudocode_lines": [
+          837,
+          851
+        ],
+        "format_indices": [
+          1,
+          2,
+          3
+        ],
+        "store_anchors": [
+          {
+            "rva": "0xdbbee1",
+            "raw": "0xdbb2e1",
+            "bytes": "88841ead020000",
+            "instruction": "MOV byte ptr [RSI + RBX*0x1 + 0x2ad],AL"
+          }
+        ],
+        "conversion": "_wtoi -> low byte; no alignment or GUID interpretation",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; no alignment or GUID interpretation",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "effective_key": "Preset.Style.CockpitDecoration1",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 43,
+      "path": "SMechSetupStruct.MechAppearance.CockpitDecoration[2]",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.CockpitDecoration[2]",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 43
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Style.CockpitDecoration%d",
+        "literal_rva": "0x1786570",
+        "literal_raw": "0x1785970",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2ad+element",
+        "pseudocode_lines": [
+          837,
+          851
+        ],
+        "format_indices": [
+          1,
+          2,
+          3
+        ],
+        "store_anchors": [
+          {
+            "rva": "0xdbbee1",
+            "raw": "0xdbb2e1",
+            "bytes": "88841ead020000",
+            "instruction": "MOV byte ptr [RSI + RBX*0x1 + 0x2ad],AL"
+          }
+        ],
+        "conversion": "_wtoi -> low byte; no alignment or GUID interpretation",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; no alignment or GUID interpretation",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "effective_key": "Preset.Style.CockpitDecoration2",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 44,
+      "path": "SMechSetupStruct.MechAppearance.PrimaryReticle",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.PrimaryReticle",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 44
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.VisorStyle.PrimaryReticle",
+        "literal_rva": "0x1786ae0",
+        "literal_raw": "0x1785ee0",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2b0",
+        "pseudocode_line": 857,
+        "store_anchors": [
+          {
+            "rva": "0xdbbf64",
+            "raw": "0xdbb364",
+            "bytes": "8886b0020000",
+            "instruction": "MOV byte ptr [RSI + 0x2b0],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2b0) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 45,
+      "path": "SMechSetupStruct.MechAppearance.SecondaryReticle",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.SecondaryReticle",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 45
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.VisorStyle.SecondaryReticle",
+        "literal_rva": "0x1787000",
+        "literal_raw": "0x1786400",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2b1",
+        "pseudocode_line": 866,
+        "store_anchors": [
+          {
+            "rva": "0xdbbfd5",
+            "raw": "0xdbb3d5",
+            "bytes": "8886b1020000",
+            "instruction": "MOV byte ptr [RSI + 0x2b1],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2b1) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 46,
+      "path": "SMechSetupStruct.MechAppearance.FriendHUDColor",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.FriendHUDColor",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 46
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.VisorStyle.FriendHUDColor",
+        "literal_rva": "0x1787580",
+        "literal_raw": "0x1786980",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2b2",
+        "pseudocode_line": 875,
+        "store_anchors": [
+          {
+            "rva": "0xdbc046",
+            "raw": "0xdbb446",
+            "bytes": "8886b2020000",
+            "instruction": "MOV byte ptr [RSI + 0x2b2],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2b2) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 47,
+      "path": "SMechSetupStruct.MechAppearance.FoeHUDColor",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.FoeHUDColor",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 47
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.VisorStyle.FoeHUDColor",
+        "literal_rva": "0x1787948",
+        "literal_raw": "0x1786d48",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2b3",
+        "pseudocode_line": 884,
+        "store_anchors": [
+          {
+            "rva": "0xdbc0b7",
+            "raw": "0xdbb4b7",
+            "bytes": "8886b3020000",
+            "instruction": "MOV byte ptr [RSI + 0x2b3],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2b3) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 48,
+      "path": "SMechSetupStruct.MechAppearance.NeutralHUDColor",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechStyle.NeutralHUDColor",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 48
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.VisorStyle.NeutralHUDColor",
+        "literal_rva": "0x1787f30",
+        "literal_raw": "0x1787330",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2b4",
+        "pseudocode_line": 893,
+        "store_anchors": [
+          {
+            "rva": "0xdbc12e",
+            "raw": "0xdbb52e",
+            "bytes": "8886b4020000",
+            "instruction": "MOV byte ptr [RSI + 0x2b4],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x2b4) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 49,
+      "path": "SMechSetupStruct.MechAppearance.bTintReticle",
+      "bits": 1,
+      "source": "Presets[presetIndex].MechStyle.bTintReticle",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 49
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.VisorStyle.bTintReticle",
+        "literal_rva": "0x1788448",
+        "literal_raw": "0x1787848",
+        "default_argument": "0",
+        "native_preset_offset": "0x2b8",
+        "pseudocode_line": 902,
+        "store_anchors": [
+          {
+            "rva": "0xdbc1a8",
+            "raw": "0xdbb5a8",
+            "bytes": "83a6b8020000fe",
+            "instruction": "AND dword ptr [RSI + 0x2b8],0xfffffffe"
+          },
+          {
+            "rva": "0xdbc1b2",
+            "raw": "0xdbb5b2",
+            "bytes": "0986b8020000",
+            "instruction": "OR dword ptr [RSI + 0x2b8],EAX"
+          }
+        ],
+        "conversion": "*(uint *)(lVar12 + 0x2b8) = *(uint *)(lVar12 + 0x2b8) & 0xfffffffe;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi &1",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "ABSENT",
+      "conditional_baseline_value": false,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 50,
+      "path": "SMechSetupStruct.MechInternals.Internal1",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechInternals.Internal1",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 50
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.MechInternals.Internal1",
+        "literal_rva": "0x1777768",
+        "literal_raw": "0x1776b68",
+        "default_argument": "-1",
+        "native_preset_offset": "0x3c",
+        "pseudocode_line": 335,
+        "store_anchors": [
+          {
+            "rva": "0xdba9db",
+            "raw": "0xdb9ddb",
+            "bytes": "88463c",
+            "instruction": "MOV byte ptr [RSI + 0x3c],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x3c) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "-1",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 51,
+      "path": "SMechSetupStruct.MechInternals.Internal2",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechInternals.Internal2",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 51
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.MechInternals.Internal2",
+        "literal_rva": "0x1777d88",
+        "literal_raw": "0x1777188",
+        "default_argument": "-1",
+        "native_preset_offset": "0x3d",
+        "pseudocode_line": 355,
+        "store_anchors": [
+          {
+            "rva": "0xdbaa74",
+            "raw": "0xdb9e74",
+            "bytes": "88463d",
+            "instruction": "MOV byte ptr [RSI + 0x3d],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x3d) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "-1",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 52,
+      "path": "SMechSetupStruct.MechInternals.Internal3",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechInternals.Internal3",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 52
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.MechInternals.Internal3",
+        "literal_rva": "0x1778328",
+        "literal_raw": "0x1777728",
+        "default_argument": "-1",
+        "native_preset_offset": "0x3e",
+        "pseudocode_line": 375,
+        "store_anchors": [
+          {
+            "rva": "0xdbab0d",
+            "raw": "0xdb9f0d",
+            "bytes": "88463e",
+            "instruction": "MOV byte ptr [RSI + 0x3e],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x3e) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "-1",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 53,
+      "path": "SMechSetupStruct.MechInternals.Internal4",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechInternals.Internal4",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 53
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.MechInternals.Internal4",
+        "literal_rva": "0x1778a10",
+        "literal_raw": "0x1777e10",
+        "default_argument": "-1",
+        "native_preset_offset": "0x3f",
+        "pseudocode_line": 395,
+        "store_anchors": [
+          {
+            "rva": "0xdbaba6",
+            "raw": "0xdb9fa6",
+            "bytes": "88463f",
+            "instruction": "MOV byte ptr [RSI + 0x3f],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x3f) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "-1",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 54,
+      "path": "SMechSetupStruct.MechInternals.Internal5",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechInternals.Internal5",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 54
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.MechInternals.Internal5",
+        "literal_rva": "0x1779058",
+        "literal_raw": "0x1778458",
+        "default_argument": "-1",
+        "native_preset_offset": "0x40",
+        "pseudocode_line": 415,
+        "store_anchors": [
+          {
+            "rva": "0xdbac3f",
+            "raw": "0xdba03f",
+            "bytes": "884640",
+            "instruction": "MOV byte ptr [RSI + 0x40],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x40) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "-1",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 55,
+      "path": "SMechSetupStruct.MechInternals.Internal6",
+      "bits": 8,
+      "source": "Presets[presetIndex].MechInternals.Internal6",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 55
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.MechInternals.Internal6",
+        "literal_rva": "0x1779608",
+        "literal_raw": "0x1778a08",
+        "default_argument": "-1",
+        "native_preset_offset": "0x41",
+        "pseudocode_line": 435,
+        "store_anchors": [
+          {
+            "rva": "0xdbacd8",
+            "raw": "0xdba0d8",
+            "bytes": "884641",
+            "instruction": "MOV byte ptr [RSI + 0x41],AL"
+          }
+        ],
+        "conversion": "*(undefined1 *)(lVar12 + 0x41) = uVar2;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "-1",
+      "conditional_baseline_value": 255,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 56,
+      "path": "SMechSetupStruct.MechWeapons.PrimaryIdx",
+      "bits": 8,
+      "source": "ServerSetStartMech sets byte(PrimaryWeapon); SetPrimaryWeaponUpgradeFlags also sets byte(PrimaryWeapon). LoadedMechPreset does not assign PrimaryIdx.",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 56
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": "caller.requested_primary_index (0 for sole owned primary type)",
+      "status": "EXPLICIT_SELECTION_REQUIRED",
+      "rule": "Index of selectedweapon, not ordinalslot; SetPrimaryWeaponUpgradeFlags storesbyte(requested) and selects base/alt/prestige flags.9role baseline onlyequippedPrimary_0=0."
+    },
+    {
+      "ordinal": 57,
+      "path": "SMechSetupStruct.MechWeapons.SecondaryIdx",
+      "bits": 8,
+      "source": "byte(Preset.Right_Weapon+100), Core native146=int addition; missing default -1 would produce99, not zero or sentinel invented here.",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 57
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.SecondaryWeapon",
+        "literal_rva": "0x1774da0",
+        "literal_raw": "0x17741a0",
+        "default_argument": "-1",
+        "native_preset_offset": "0x2c",
+        "pseudocode_line": 142,
+        "store_anchors": [
+          {
+            "rva": "0xdba369",
+            "raw": "0xdb9769",
+            "bytes": "89462c",
+            "instruction": "MOV dword ptr [RSI + 0x2c],EAX"
+          }
+        ],
+        "conversion": "*(undefined4 *)(lVar12 + 0x2c) = uVar4;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "*(undefined4 *)(lVar12 + 0x2c) = uVar4;",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "1",
+      "conditional_baseline_value": 101,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 58,
+      "path": "SMechSetupStruct.MechWeapons.PrimaryUpgradeFlags",
+      "bits": 8,
+      "source": "R_MechSetup.SetUpgradeFlags -> native GetPresetUpgradeFlags(presetIndex, invType=28, MechTier).",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 58
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "CONDITIONAL_CONCRETE_NATIVE_ZERO_FLAG_ROUTE",
+      "rule": "ConfirmedCheckMechLevelUnlocks nonlocalcallSetUpgradeFlags; exactR_MechSetupvtable468â†’d99330 calls4a8check thenreturn0. NoProgressionUnlockFlagsalias, differentderivedclass/runtimeimplementation notgeneralized."
+    },
+    {
+      "ordinal": 59,
+      "path": "SMechSetupStruct.MechWeapons.SecondaryUpgradeFlags",
+      "bits": 8,
+      "source": "R_MechSetup.SetUpgradeFlags -> native GetPresetUpgradeFlags(presetIndex, invType=31, MechTier).",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 59
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "CONDITIONAL_CONCRETE_NATIVE_ZERO_FLAG_ROUTE",
+      "rule": "ConfirmedCheckMechLevelUnlocks nonlocalcallSetUpgradeFlags; exactR_MechSetupvtable468â†’d99330 calls4a8check thenreturn0. NoProgressionUnlockFlagsalias, differentderivedclass/runtimeimplementation notgeneralized."
+    },
+    {
+      "ordinal": 60,
+      "path": "SMechSetupStruct.AbilityIndex",
+      "bits": 6,
+      "source": "byte(Preset.Ability) in LoadedMechPreset",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 60
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "instance_read": {
+        "key": "Preset.Ability",
+        "literal_rva": "0x177be10",
+        "literal_raw": "0x177b210",
+        "default_argument": "-1",
+        "native_preset_offset": "0x48",
+        "pseudocode_line": 581,
+        "store_anchors": [
+          {
+            "rva": "0xdbb139",
+            "raw": "0xdba539",
+            "bytes": "894648",
+            "instruction": "MOV dword ptr [RSI + 0x48],EAX"
+          }
+        ],
+        "conversion": "*(undefined4 *)(lVar12 + 0x48) = uVar4;",
+        "missing_key_status": "Confirmed concreteinstancegetter b88140→lookup1e6f0; absent returns providedDefault, matchedempty remains empty. KnownASCIIkey casefold/_wcsicmp proven byv3key-semantics. Runtimevalidreceiver/map premise retained."
+      },
+      "conversion": "*(undefined4 *)(lVar12 + 0x48) = uVar4;",
+      "final_clamp": null,
+      "effective_input_rule": "Case-insensitive knownASCII lookup in effective HTTP attributes: stored overrides overlay baseline; absent returns native Default; present empty stays empty (not fallback).",
+      "baseline_input": "3",
+      "conditional_baseline_value": 3,
+      "status": "STATIC_FORMULA_WITH_EFFECTIVE_ATTRIBUTES_AND_LOADED_PREMISES"
+    },
+    {
+      "ordinal": 61,
+      "path": "SMechSetupStruct.AbilityUpgradeFlags",
+      "bits": 8,
+      "source": "R_MechSetup.SetUpgradeFlags -> native GetPresetUpgradeFlags(presetIndex, invType=32, MechTier).",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 61
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 0,
+      "status": "CONDITIONAL_CONCRETE_NATIVE_ZERO_FLAG_ROUTE",
+      "rule": "ConfirmedCheckMechLevelUnlocks nonlocalcallSetUpgradeFlags; exactR_MechSetupvtable468â†’d99330 calls4a8check thenreturn0. NoProgressionUnlockFlagsalias, differentderivedclass/runtimeimplementation notgeneralized."
+    },
+    {
+      "ordinal": 62,
+      "path": "SMechSetupStruct.MechType",
+      "bits": 32,
+      "source": "SetupMechPresetFromType: type.GetAttributeValue(index,-1); reject index<0 or>=MechSubTypes.Length; SubType=index, BaseType=R_MechSetup.default.MechSubTypes[index].default.BaseMechType. LoadedMechPreset copies result.",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 62
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 1,
+      "status": "RECOVERED_UC_DEFAULT_TABLE_AND_EXPLICIT_CATALOGUE_INDEX",
+      "rule": "ConfiguredMech type.index15Ã¢â€ â€™MechSubTypes[15]=R_MechSubType_B_RookieÃ¢â€ â€™BaseMechType1=EMechType.MT_Mech_B. Invalidtypeindex fails original SetupFromType."
+    },
+    {
+      "ordinal": 63,
+      "path": "SMechSetupStruct.MechSubType",
+      "bits": 32,
+      "source": "SetupMechPresetFromType: type.GetAttributeValue(index,-1); reject index<0 or>=MechSubTypes.Length; SubType=index, BaseType=R_MechSetup.default.MechSubTypes[index].default.BaseMechType. LoadedMechPreset copies result.",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 63
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": 15,
+      "status": "RECOVERED_UC_DEFAULT_TABLE_AND_EXPLICIT_CATALOGUE_INDEX",
+      "rule": "ConfiguredMech type.index15Ã¢â€ â€™MechSubTypes[15]=R_MechSubType_B_RookieÃ¢â€ â€™BaseMechType1=EMechType.MT_Mech_B. Invalidtypeindex fails original SetupFromType."
+    },
+    {
+      "ordinal": 64,
+      "path": "SMechSetupStruct.bReadyForSetup",
+      "bits": 1,
+      "source": "SetReadyForSetup sets true after LoadedMechPreset; not inventory attribute",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 64
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": true,
+      "status": "EXPLICIT_COMPLETION_PHASE",
+      "rule": "SetReadyForSetup only after successfulLoaded callback equivalent; notinventoryattribute and no automaticadmission fromHTTP200."
+    },
+    {
+      "ordinal": 65,
+      "path": "SMechSetupStruct.SetupID",
+      "bits": 8,
+      "source": "SetReadyForSetup byte++ and repeats if result255 (original tokens139/154). Preserve previous revision, not constant.",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 65
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": "next(caller.previous_setup_id)",
+      "status": "EXPLICIT_LIFECYCLE_REVISION",
+      "rule": "uint8increment; if result255 incrementagain (254Ã¢â€ â€™0,255Ã¢â€ â€™0). No constant1 withoutcallerprevious0."
+    },
+    {
+      "ordinal": 66,
+      "path": "SMechSetupStruct.Template",
+      "bits": null,
+      "source": "LoadedMechPreset and db9fb0 do not assign Template. SMechSetupStruct defaultNone at PRI UC321; class defaultNone at3630; expectedclass R_NPC_Template from original property5105.",
+      "old_source_record": {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+        "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+        "ordinal": 66
+      },
+      "runtime_value": "NOT_OBSERVED",
+      "conditional_baseline_value": null,
+      "status": "EXPLICIT_HUMAN_TEMPLATE_NONE_PRECONDITION",
+      "rule": "HumanLoaded doesnotassignTemplate. Requirecaller priorTemplateNone; originalPRI declaresNone and propertyexpected R_NPC_Template. No UClass/archetype inferred orNPCvalue fabricated."
+    }
+  ],
+  "leaf_count": 67,
+  "original_uc_records": [
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 35007,
+      "path": "HawkenGame.R_Mech_CamoPresets.ClampVisualInfoValues",
+      "class": "Function",
+      "serial_offset": "0xaab3f3",
+      "serial_size": 972,
+      "containing_class_path": "HawkenGame.R_Mech_CamoPresets",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\038740-HawkenGame.R_Mech_CamoPresets.ClampVisualInfoValues.uc",
+        "sha256": "1629007c59fc377c96ceb1fd67052de8c896ca666b95266b97c10afb65840515",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 38740,
+        "net_index": "35016",
+        "script_size": "909",
+        "function_flags_raw": "0x422102"
+      },
+      "owner_path": "HawkenGame.R_Mech_CamoPresets"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 35442,
+      "path": "HawkenGame.R_MechSetup.SetupMechPresetFromType",
+      "class": "Function",
+      "serial_offset": "0xb2e5fd",
+      "serial_size": 707,
+      "containing_class_path": "HawkenGame.R_MechSetup",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039172-HawkenGame.R_MechSetup.SetupMechPresetFromType.uc",
+        "sha256": "d66d23c6b3c1bd738495aab064c12b95b1df43b2753ea59413741e247c29ebf4",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 39172,
+        "net_index": "35451",
+        "script_size": "644",
+        "function_flags_raw": "0x40803"
+      },
+      "owner_path": "HawkenGame.R_MechSetup"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 35664,
+      "path": "HawkenGame.R_MechSetup.CheckMechLevelUnlocks",
+      "class": "Function",
+      "serial_offset": "0xb3137e",
+      "serial_size": 620,
+      "containing_class_path": "HawkenGame.R_MechSetup",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039391-HawkenGame.R_MechSetup.CheckMechLevelUnlocks.uc",
+        "sha256": "cddbc4e18a2117bb119a231051b6786959b74da3dcd14b34a5070ec52000a34d",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 39391,
+        "net_index": "35673",
+        "script_size": "557",
+        "function_flags_raw": "0x20802"
+      },
+      "owner_path": "HawkenGame.R_MechSetup"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 35679,
+      "path": "HawkenGame.R_MechSetup.CheckLevelUnlocks_OptimizationPoints",
+      "class": "Function",
+      "serial_offset": "0xb319f6",
+      "serial_size": 4531,
+      "containing_class_path": "HawkenGame.R_MechSetup",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039407-HawkenGame.R_MechSetup.CheckLevelUnlocks_OptimizationPoints.uc",
+        "sha256": "17618db4b78c0a215cb88ea144978dfef710ff4754b17e89f94202c994333cdc",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 39407,
+        "net_index": "35688",
+        "script_size": "4468",
+        "function_flags_raw": "0x40003"
+      },
+      "owner_path": "HawkenGame.R_MechSetup"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 35864,
+      "path": "HawkenGame.R_MechSetup.SetPresetLevelsFromXP",
+      "class": "Function",
+      "serial_offset": "0xb36f24",
+      "serial_size": 195,
+      "containing_class_path": "HawkenGame.R_MechSetup",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039595-HawkenGame.R_MechSetup.SetPresetLevelsFromXP.uc",
+        "sha256": "3a3a901457cd6d4c45e11e2d19e6720108d4ee40d9edde5fbc7eb3743358d50e",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 39595,
+        "net_index": "35873",
+        "script_size": "132",
+        "function_flags_raw": "0x24802"
+      },
+      "owner_path": "HawkenGame.R_MechSetup"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 35900,
+      "path": "HawkenGame.R_MechSetup.ResetOptimizationsForMechPreset",
+      "class": "Function",
+      "serial_offset": "0xb3ab27",
+      "serial_size": 534,
+      "containing_class_path": "HawkenGame.R_MechSetup",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039633-HawkenGame.R_MechSetup.ResetOptimizationsForMechPreset.uc",
+        "sha256": "1b97c5903e0eaa3dd4b41b22e100d2dce1a00cdb27758de71f70b6860e5ae587",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 39633,
+        "net_index": "35909",
+        "script_size": "471",
+        "function_flags_raw": "0x20002"
+      },
+      "owner_path": "HawkenGame.R_MechSetup"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 36229,
+      "path": "HawkenGame.R_MechSetup",
+      "class": "Class",
+      "serial_offset": "0xb4f73b",
+      "serial_size": 2578,
+      "containing_class_path": "HawkenGame.R_MechSetup",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\038987-HawkenGame.R_MechSetup.uc",
+        "sha256": "7c74994c8363edee4ebc5ceb2ec391d6e880284bb98691d4b7bf6e8c5696846f",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 38987,
+        "net_index": "36238",
+        "script_size": "0",
+        "function_flags_raw": null
+      }
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 36538,
+      "path": "HawkenGame.R_MechSubType_B_Rookie",
+      "class": "Class",
+      "serial_offset": "0xba243a",
+      "serial_size": 118,
+      "containing_class_path": "HawkenGame.R_MechSubType_B_Rookie",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\040271-HawkenGame.R_MechSubType_B_Rookie.uc",
+        "sha256": "6e13cb87c3c99b33bf21ae392c1cd06f0e275c3246df3eb5a60839dc6d55a8f2",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 40271,
+        "net_index": "36547",
+        "script_size": "0",
+        "function_flags_raw": null
+      }
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 38341,
+      "path": "HawkenGame.R_PlayerReplicationInfo.LoadedMechPreset",
+      "class": "Function",
+      "serial_offset": "0xbea801",
+      "serial_size": 1162,
+      "containing_class_path": "HawkenGame.R_PlayerReplicationInfo",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042072-HawkenGame.R_PlayerReplicationInfo.LoadedMechPreset.uc",
+        "sha256": "98c63d2491e0b49dbd5003c7e4410e4764975bc2688f4d1a02431da586f62c5a",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 42072,
+        "net_index": "38358",
+        "script_size": "1099",
+        "function_flags_raw": "0x20802"
+      },
+      "owner_path": "HawkenGame.R_PlayerReplicationInfo"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 38342,
+      "path": "HawkenGame.R_PlayerReplicationInfo.SetReadyForSetup",
+      "class": "Function",
+      "serial_offset": "0xbeac8b",
+      "serial_size": 148,
+      "containing_class_path": "HawkenGame.R_PlayerReplicationInfo",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042076-HawkenGame.R_PlayerReplicationInfo.SetReadyForSetup.uc",
+        "sha256": "be598536823fb1cb7db3591a567bd921301dd6e0c7759f0146c350fbe19678a5",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 42076,
+        "net_index": "38359",
+        "script_size": "85",
+        "function_flags_raw": "0x20002"
+      },
+      "owner_path": "HawkenGame.R_PlayerReplicationInfo"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 38350,
+      "path": "HawkenGame.R_PlayerReplicationInfo.SetPrimaryWeaponUpgradeFlags",
+      "class": "Function",
+      "serial_offset": "0xbeae37",
+      "serial_size": 705,
+      "containing_class_path": "HawkenGame.R_PlayerReplicationInfo",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042077-HawkenGame.R_PlayerReplicationInfo.SetPrimaryWeaponUpgradeFlags.uc",
+        "sha256": "85d8247c18dca31e2c4db2e5ca73d67ef7a24b872bd2690c228d4b9af6d165c1",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 42077,
+        "net_index": "38367",
+        "script_size": "642",
+        "function_flags_raw": "0x20002"
+      },
+      "owner_path": "HawkenGame.R_PlayerReplicationInfo"
+    },
+    {
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "source_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 38371,
+      "path": "HawkenGame.R_PlayerReplicationInfo.SetDefaultAnimTaunt",
+      "class": "Function",
+      "serial_offset": "0xbebc42",
+      "serial_size": 228,
+      "containing_class_path": "HawkenGame.R_PlayerReplicationInfo",
+      "uc": {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042104-HawkenGame.R_PlayerReplicationInfo.SetDefaultAnimTaunt.uc",
+        "sha256": "8ea90c0ca35bbba09982d5bc7a3bef827ccb8bf81075184c9f05a8ea95d3bf45",
+        "status": "OUTPUT_REQUIRES_REVIEW",
+        "correspondence": "exact_original_full_path",
+        "object_ordinal": 42104,
+        "net_index": "38388",
+        "script_size": "165",
+        "function_flags_raw": "0x20102"
+      },
+      "owner_path": "HawkenGame.R_PlayerReplicationInfo"
+    }
+  ],
+  "baseline_roles": {
+    "names": [
+      "Mech B - Rookie",
+      "Weap Prim - Point-D Vulcan",
+      "Weap Sec - TOW Rocket",
+      "FRED UPPER",
+      "FRED MIDDLE",
+      "FRED ARMS",
+      "FRED LOWER",
+      "RD-TR1",
+      "Ability - Coolant"
+    ],
+    "inv_types": [
+      0,
+      20,
+      21,
+      8,
+      9,
+      10,
+      11,
+      33,
+      34
+    ],
+    "catalogue_indices": [
+      15,
+      0,
+      1,
+      10,
+      10,
+      10,
+      10,
+      0,
+      3
+    ],
+    "identity_limit": "Configured typeIDs and validatedlocalownedinstances, not9historicalvendorGUIDs. No liveDBread."
+  },
+  "attributes": {
+    "raw_sql_snapshot": "Only persistedattribute map; anempty map doesnotmean loadersees everyPresetkeymissing.",
+    "effective_http_view": "InventoryService.owned_result386..403 startsstarter_inventory_result thenoverlayspersistedPresetattributes; identity/ReadOnlytree remainowned.",
+    "native_lookup": "KnownASCIIkeys casefoldhash+_wcsicmp; matchedentry empty staysselected. Absencealone usesfielddefault.",
+    "case_collision_limit": "Lookup mustfold knownASCIIkeys. StoredPresetoverrides mustbecombinedwith HTTPbaseline explicitly. Ifmultiplepersistedcasealiases conflict, insertionorder/SDKsetter behavior outsideknownsinglecanonicalnativewriter remainsunspecified; fail ambiguous ratherthansilentlychoose. Doesnotblocknormalcanonicalstarter.",
+    "parsing": "KnownnormalCRTconversion rules: _wtoi empty/nonnumeric-prefix yields0; validleadingdecimal parsed; lowbyte orbit1 afterwards. _wtof convertsnormalASCIIdecimal thennativefloat32multiplications. Missingalone usesDefault; presentemptyis0 in numericfield, neverreplacewithdefault. Buildermayrejectnonfinite/overflow orconflictingcasealiases conservatively aslocalcheckedpolicy; notclaimfulllegacyCRT/Unicode emulation."
+  },
+  "type_proof": {
+    "type_index_source": "starter_catalogue.cpp indicesarrayfirst15; explicitconfiguredrole",
+    "setup_from_type_uc": [
+      17,
+      28
+    ],
+    "mech_setup_default_line": 6576,
+    "rookie_default_line": 6,
+    "enum_lines": [
+      880,
+      885
+    ],
+    "values": {
+      "mech_sub_type": 15,
+      "mech_type": 1
+    },
+    "limits": "Recoveredoriginal-linkedUC defaults, notanewliveCDOsample; arrays/defaults semanticbytecertification dependsretainedreaderreview. No classCDO pointerderivedfromordinal."
+  },
+  "normalization": {
+    "appearance": "LoadedcopyÃ¢â€ â€™ClampVisualInfoValues; Holo restored; Anim255Ã¢â€ â€™5 forB viaSetDefaultAnimTaunt. NumericVisorbytes separatefromFAKE*_InstanceId strings.",
+    "allocation": "All13zero after nonlocalXPnormalization confirmedbyoriginalcallbackbridge plus originalUCsum/reset andtotalpointsClamp0; noinheritofflineSubType.defaultAllocation. OriginalnewAddslotzero independentinitialroutealso retained.",
+    "lifecycle": "requestedprimaryindex, requested/priorHolo, previousSetupID, priorTemplateNone are explicitcaller inputs; completedready phase mustbechosenexplicitly."
+  },
+  "exact_pending_static_edges": [],
+  "implementation_seam": "Purefinite9-role builder: validatedownedgrant/tree/typeIDs; sameHTTPnumericbaseline thenstoredattributeoverlay withknownASCIIlookup; alloriginalnativefieldformulas/byteconversion/clamps; validatedcataloguetype.index15 withoriginaltableBase1; normalizedOpt13andnativeboundupgradeflags0; explicitcaller requested_primary_index, Holo, previousSetupID, priorTemplateNone/completionphase. NoGhidra/helpergap remainsfornormalstarter scalarvalues; no automaticMain/nativefieldID/send/possessionclaim.",
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+      "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-item-getter-20261013\\worker-item-attributes\\key-semantics-supplement-v3.json",
+      "sha256": "6a06191bae95fb977b350aad522bdc4cf93d7ded375c08b692322353903a5532"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-item-getter-20261013\\worker-item-attributes\\lookup-supplement-v2.json",
+      "sha256": "e23b6badcbba1faa73152369640ed4ebdea9aca67a405801fafc77384fff94fa"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-item-getter-20261013\\worker-setup-sources\\init-supplement.json",
+      "sha256": "bb5be0d7246de93e0f8ff13f4d35d19d2d73527eea2468039caec20d3e8b65cb"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-item-getter-20261013\\worker-setup-sources\\setup-sources-contract.json",
+      "sha256": "9ee4c123e751a3dbfc7bdddddd8f98cb82526f229695a87db2e83707fbc33c80"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\complete-artifact-map-20261013\\parent\\native-functions.json",
+      "sha256": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\complete-artifact-map-20261013\\ghidra\\main-functions.jsonl",
+      "sha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\m4-owned-loadout-contract\\preset-functions.jsonl",
+      "sha256": "c6557f12c1faa7b4f8ab0bbf39236c095a873661b068e2dec40cb6926620cfbd"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\m4-owned-loadout-contract\\preset-instructions.json",
+      "sha256": "7ef8e92c54ea347fbbe9dcff7d1182f05c44808626e9b8e9052091b41224aedc"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\starter_inventory.cpp",
+      "sha256": "05a79a4dc44d455a91122e529edee874501e6fbbdf938c5b1ef05eb081d275ed"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\starter_catalogue.cpp",
+      "sha256": "28c88060c564509814a91ea62d060328fc7bda62674c357ced2a413883e5548e"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\inventory_service.cpp",
+      "sha256": "dc727218850531549d2e2d4a6362c9bd63a74c6caac6ee85066eb4d2acfec8a9"
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\mech_setup_wire.hpp",
+      "sha256": "965a1e612b5eb02a1bab04df4bc66e5479cc9fb71c7e8be72b91588ca7851b84"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\upk-native-token-map.json",
+      "sha256": "1e9f19d0f26fa113e424f5779f6afcef1106e2efe7c4572f216f48c7aea808f5"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\038740-HawkenGame.R_Mech_CamoPresets.ClampVisualInfoValues.uc",
+      "sha256": "1629007c59fc377c96ceb1fd67052de8c896ca666b95266b97c10afb65840515"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039172-HawkenGame.R_MechSetup.SetupMechPresetFromType.uc",
+      "sha256": "d66d23c6b3c1bd738495aab064c12b95b1df43b2753ea59413741e247c29ebf4"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039391-HawkenGame.R_MechSetup.CheckMechLevelUnlocks.uc",
+      "sha256": "cddbc4e18a2117bb119a231051b6786959b74da3dcd14b34a5070ec52000a34d"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039407-HawkenGame.R_MechSetup.CheckLevelUnlocks_OptimizationPoints.uc",
+      "sha256": "17618db4b78c0a215cb88ea144978dfef710ff4754b17e89f94202c994333cdc"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039595-HawkenGame.R_MechSetup.SetPresetLevelsFromXP.uc",
+      "sha256": "3a3a901457cd6d4c45e11e2d19e6720108d4ee40d9edde5fbc7eb3743358d50e"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\039633-HawkenGame.R_MechSetup.ResetOptimizationsForMechPreset.uc",
+      "sha256": "1b97c5903e0eaa3dd4b41b22e100d2dce1a00cdb27758de71f70b6860e5ae587"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\038987-HawkenGame.R_MechSetup.uc",
+      "sha256": "7c74994c8363edee4ebc5ceb2ec391d6e880284bb98691d4b7bf6e8c5696846f"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\040271-HawkenGame.R_MechSubType_B_Rookie.uc",
+      "sha256": "6e13cb87c3c99b33bf21ae392c1cd06f0e275c3246df3eb5a60839dc6d55a8f2"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042072-HawkenGame.R_PlayerReplicationInfo.LoadedMechPreset.uc",
+      "sha256": "98c63d2491e0b49dbd5003c7e4410e4764975bc2688f4d1a02431da586f62c5a"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042076-HawkenGame.R_PlayerReplicationInfo.SetReadyForSetup.uc",
+      "sha256": "be598536823fb1cb7db3591a567bd921301dd6e0c7759f0146c350fbe19678a5"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042077-HawkenGame.R_PlayerReplicationInfo.SetPrimaryWeaponUpgradeFlags.uc",
+      "sha256": "85d8247c18dca31e2c4db2e5ca73d67ef7a24b872bd2690c228d4b9af6d165c1"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\042104-HawkenGame.R_PlayerReplicationInfo.SetDefaultAnimTaunt.uc",
+      "sha256": "8ea90c0ca35bbba09982d5bc7a3bef827ccb8bf81075184c9f05a8ea95d3bf45"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\003733-HawkenGame.HawkenTypes.uc",
+      "sha256": "4dd7baf8e775af04f10349a51dacb3909ab783a164c821e1e548b394307fc3ca"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\008752-HawkenGame.R_PlayerReplicationInfo.uc",
+      "sha256": "ab7c117e4031a913450c59e288e05e179dfd240ef09f6d1e6ee0cac3c0b424ca"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\native-defaults\\functions.jsonl",
+      "sha256": "9075455b0c41704753629a83ebbcb1c897a79c5e666aa28459b10fca03358fd4"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\native-defaults\\instructions.json",
+      "sha256": "0037317a54836eab950dbacad52bb684700efdb7e18f8652164daf4d362c2b20"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\native-defaults\\original-byte-verification.json",
+      "sha256": "f0365716fd5c3d0ee683992e444ccbac0327105b989956a53e21f1b93cb88b3c"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\native-defaults\\fname-binding.json",
+      "sha256": "abb659171c8ddbacdedd88aff30e1ce66c6f9a0ffc2f001ed1936d1d7fe98d21"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\research\\native-defaults-bridge-proof.json",
+      "sha256": "dab04354ada92c6af35e29dcbc6029ca4634161e4b4ff7740f783f408e26a171"
+    }
+  ],
+  "coverage": "CPP/Game/REA fullreadreused unchanged; Graftfreshask/skeleton used before indexedcode; artifacts/UC readdirect; noGhidra/build/Git/runtime.",
+  "status": "STATIC67_FORMULAS_AND_NORMAL_STARTER_BASELINE_CLOSED; EXPLICIT_LIFECYCLE_AND_NATIVE_RUNTIME_PREMISES_RETAINED",
+  "prior_candidate_preserved": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\research\\contract-candidate.json",
+    "sha256": "4e341f06f346e6edd099f51f5ef05e7cab3b525e669194e93a345431375a998f"
+  },
+  "native_default_closure": {
+    "read_full_bodies": [
+      "0xc0ba0",
+      "0xc0bf0",
+      "0xdddb40"
+    ],
+    "parent_verified_instructions": 112,
+    "parent_verified_digit_literals": 10,
+    "own_constructor_binding_spans": 12,
+    "proof": {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\research\\native-defaults-bridge-proof.json",
+      "sha256": "dab04354ada92c6af35e29dcbc6029ca4634161e4b4ff7740f783f408e26a171"
+    },
+    "formatter": "c0ba0 initializesemptyFString then0c0bf0 formats signed32decimal; sourcebyte0..255 roundtrips through _wtoi tosameinteger. This closes normalstarter missingMid/Low/ArmCamoPattern without artificialrejectingnormalstarter.",
+    "unlock_callback": "Originald49100 literal17686b0â†’c5f70â†’FName1d40948; dddb40readsit thenreceiverProcessEvent240 withindex; d52060 invokeswrapper attail.",
+    "limits": "Staticproofonly; parentoriginalverification reused. IndependentLunavalidation mayfollow; nofunctioninvokedinsidegame."
+  },
+  "caller_contract": {
+    "requested_primary_index": "Index ofselectedownedprimarytype, notordinalslot. Sole9-role primary index0; correlateeligibleconfiguredcatalogueandownedinstance, do notgrantunknownweapon.",
+    "holo_taunt_index": "Explicitprior/requesteduint8 fromcaller; Loadedpreservespreviousvalue. No implicitnative0.",
+    "previous_setup_id": "Explicitbyte; incrementmod256 andskip255. previous254â†’0,255â†’0,0â†’1.",
+    "template_reference": "RequireNone forhumanstarterpath; explicitinput/previousstate invariant, not inferredNPCarchetype.",
+    "completion_phase": "Only aftervalidmaterialization correspondingLoaded/SetReady phase; readiness doesnotprove possession/gameplay."
+  },
+  "baseline_view_limits": [
+    "Conditionalbaseline listed in67rows assumes no storednumericPresetoverrides; it is not a liveSQL/nativepayload capture.",
+    "KnownfakeVisor*_InstanceId strings are separateattributes, notnumericwirebytevalues.",
+    "Normalowned9role indices/types mustmatchconfiguredcatalogue; ownership/integrity is prerequisite, loaderalone nevergrantsitem. Genericbadvalues/unknowninventoryfallback notfullyemulatedhere.",
+    "Rookie/B table is recoveredUCdefaults source-linkedtoactualUPK exports; not a newliveruntimeCDOtable read.",
+    "Full all-members schema, enumwidth6bits, integerbyte-order andPackageMap eligibility remain codec/caller preconditions. NoIDs acceptance."
+  ],
+  "prior_v2_preserved": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\research\\contract-v2.json",
+    "sha256": "643becac19c4faf18e242d10d04b58a099ba3530774348c0ea2bb8b26188bd6d"
+  },
+  "erratum_v3": {
+    "formatter_rows_corrected": [
+      20,
+      24,
+      28
+    ],
+    "nested_missing_key_status_corrected_for_all_instance_reads": true,
+    "scope": "Onlynewv3; priorv2 andall source matrices preserved. Nestedhistorical unresolved labels mustnot be interpreted asactivegaps."
+  }
+}

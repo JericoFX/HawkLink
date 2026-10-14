@@ -1,0 +1,152 @@
+{
+  "corrects": "final-summary.json parser undercounted CTest result lines and omitted assertion sums; raw logs were not rerun or modified.",
+  "freeze_sha256": "0fc12e868cacad60883b0e8370dad156811f4155e94fe1f1ac6d65d0872b226f",
+  "all_freeze_pins_match": true,
+  "pin_count": 15,
+  "post_pins": [
+    {
+      "group": "inputs",
+      "path": "F:\\HawkenServer\\include\\hawken\\starter_mech_setup.hpp",
+      "expected": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0",
+      "actual": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0",
+      "match": true
+    },
+    {
+      "group": "inputs",
+      "path": "F:\\HawkenServer\\src\\starter_mech_setup.cpp",
+      "expected": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694",
+      "actual": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694",
+      "match": true
+    },
+    {
+      "group": "inputs",
+      "path": "F:\\HawkenServer\\tests\\starter_mech_setup_tests.cpp",
+      "expected": "c995a854f9e219fced016db5079b4a4c033738263aab52f319d7b3c2424eec41",
+      "actual": "c995a854f9e219fced016db5079b4a4c033738263aab52f319d7b3c2424eec41",
+      "match": true
+    },
+    {
+      "group": "fixtures",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\baseline-fixture.json",
+      "expected": "ccc323428f95e70e82e6616942d9a87b82f1fe3aeac5e2c536f37d036ce045f7",
+      "actual": "ccc323428f95e70e82e6616942d9a87b82f1fe3aeac5e2c536f37d036ce045f7",
+      "match": true
+    },
+    {
+      "group": "fixtures",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\baseline-fixture-holo255.json",
+      "expected": "95302ada6c12a764d263d35c0c2924e93cfc2bb960810f1459b4da24992887e3",
+      "actual": "95302ada6c12a764d263d35c0c2924e93cfc2bb960810f1459b4da24992887e3",
+      "match": true
+    },
+    {
+      "group": "original_proof",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\actor-initial-reference\\contract.json",
+      "expected": "b7c3c7da15054a1b13de49d26cb8778f90ddbb410398e8451d8f66a969ad1ba1",
+      "actual": "b7c3c7da15054a1b13de49d26cb8778f90ddbb410398e8451d8f66a969ad1ba1",
+      "match": true
+    },
+    {
+      "group": "original_proof",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\object-reference-codec\\provenance.json",
+      "expected": "b17b868cd8f810273b4d800d47f65f7f14840ea165e2346c97b639bdbdadde83",
+      "actual": "b17b868cd8f810273b4d800d47f65f7f14840ea165e2346c97b639bdbdadde83",
+      "match": true
+    },
+    {
+      "group": "before",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\before\\baseline-fixture-holo255.json",
+      "expected": "55fb01bd0e8d1eb81e6e6707db19243d87d3c43fc41e35ba151d9eb76cd8c836",
+      "actual": "55fb01bd0e8d1eb81e6e6707db19243d87d3c43fc41e35ba151d9eb76cd8c836",
+      "match": true
+    },
+    {
+      "group": "before",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\before\\baseline-fixture.json",
+      "expected": "89b27f56cf2c3f537610482f0dfd53b95de227738fa3eff6b16399d403e74afa",
+      "actual": "89b27f56cf2c3f537610482f0dfd53b95de227738fa3eff6b16399d403e74afa",
+      "match": true
+    },
+    {
+      "group": "before",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\before\\starter_mech_setup.cpp",
+      "expected": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694",
+      "actual": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694",
+      "match": true
+    },
+    {
+      "group": "before",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\before\\starter_mech_setup.hpp",
+      "expected": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0",
+      "actual": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0",
+      "match": true
+    },
+    {
+      "group": "before",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\before\\starter_mech_setup_tests.cpp",
+      "expected": "27dcc648b347fc5d8de81781a381419650eef6edd937c772b227ad1fd9e2fd05",
+      "actual": "27dcc648b347fc5d8de81781a381419650eef6edd937c772b227ad1fd9e2fd05",
+      "match": true
+    },
+    {
+      "group": "outputs",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\independent-verify.json",
+      "expected": "759604f710f9c296f94188463c11b9d3c747947e85cd4d11e13324f55e4abf2b",
+      "actual": "759604f710f9c296f94188463c11b9d3c747947e85cd4d11e13324f55e4abf2b",
+      "match": true
+    },
+    {
+      "group": "outputs",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\erratum.diff",
+      "expected": "65a7b36bf67fa9fddc1c7b75f86ab694a0d61a4fef4a5d9d991ca2d63f99a02d",
+      "actual": "65a7b36bf67fa9fddc1c7b75f86ab694a0d61a4fef4a5d9d991ca2d63f99a02d",
+      "match": true
+    },
+    {
+      "group": "outputs",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\effective-owned-preset-20261013\\materializer\\null-selector-erratum\\verify-fixtures.py",
+      "expected": "3b4261e79ff162ccabaea8c796f14f87488b9cadf571548c969ea3473211385f",
+      "actual": "3b4261e79ff162ccabaea8c796f14f87488b9cadf571548c969ea3473211385f",
+      "match": true
+    }
+  ],
+  "CMakeLists_sha256": "d6728c5eee58c051ddd845f883e1b90d6ea7a202e946392afd5597a1e627d4e0",
+  "CMakeCache_sha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+  "build_ninja_sha256": "ae9ec3142103876fbcb0579be862dbc1fa07141417bd0f7955772f7ad22a1a24",
+  "rules_ninja_sha256": "0023ccb4f2c6330cbccda561f836d4c184c69ed5a2d9dbfe51450bde53cbf29c",
+  "build_exit": "0",
+  "focused_ctest_exit": "0",
+  "full_ctest_exit": "0",
+  "focused_cases": "14 passed / 14; 101 assertions passed / 101; 0 skipped",
+  "full_registered_suites": 46,
+  "full_CTest_passed_suites": 46,
+  "full_LastTest_passed_count": 46,
+  "full_LastTest_failed_count": 0,
+  "full_doctest_summary_records": 46,
+  "full_doctest_cases": {
+    "total": 1340,
+    "passed": 1340,
+    "skipped": 0,
+    "failed": 0
+  },
+  "full_doctest_assertions_summary_records": 46,
+  "full_doctest_assertions": {
+    "total": 51447,
+    "passed": 51447,
+    "failed": 0
+  },
+  "full_ctest_log_sha256": "e75607f148e4bb5f25651f0096f3229fc5e32cb388f3d7ce41b479d18dc602d3",
+  "full_LastTest_log_sha256": "37163cf4826cda59fbcb9d4b10f2f76af28ce2bcc7d9e89728395900f870ffb7",
+  "materializer_test_exe_sha256": "3b4c7ab4a59f30f43a78bef175c5e7bdd3e6343c351feab2403ef948648c5cb6",
+  "fixture_independent_verifier_exit": "0",
+  "Launch_log_sha256_before": "5b9df0560ef8208ddbe7e2bbea9e4a76cb923a5822fb5418de75997a3d629037",
+  "Launch_log_sha256_after": "5b9df0560ef8208ddbe7e2bbea9e4a76cb923a5822fb5418de75997a3d629037",
+  "Launch_log_unchanged": true,
+  "memory": {
+    "free_bytes": 11828039680,
+    "total_bytes": 34265743360
+  },
+  "processes": null,
+  "graft": "No manifest; check reports only tests/starter_mech_setup_tests.cpp stale due frozen test change; no source exploration.",
+  "collector_correction": "The full_CTest_passed_suites value is 46 individual Test Passed entries from LastTest.log; the single 100% CTest summary line is global, not a suite."
+}
