@@ -1,0 +1,28 @@
+{
+  "schema": "hawken.gri-template.passive-observation.v1",
+  "observation_order": "Native tool result precedes the saved client-log snapshot at 2026-10-14T20:52:04.3665836Z; no exact probe timestamp retained.",
+  "trial": "implementation/evidence/local-steam-routing-20261014-204500",
+  "client_pid": 1768,
+  "client_start_utc": "2026-10-14T20:44:30.4888104Z",
+  "probe_sha256": "c98965811df5046682c722559af4482aa984fb00234fd9ce97fd12d4a4c4206a",
+  "invocation": "hawken-controller-netfields-probe.exe 1768 --gri-template",
+  "exit_code": 0,
+  "stdout": {
+    "diagnostics": {"locator_lookups": 2, "locator_name_count": 87677, "locator_read_bytes": 2588, "locator_selected_heads": 8, "locator_visited_nodes": 18, "total_read_bytes": 60226},
+    "field_ids_accepted": false,
+    "full_samples_equal": true,
+    "identity_verified": true,
+    "inspected_metadata_equal": true,
+    "metadata": {"getpc_null": true, "gri_class": "HawkenGame.R_GameReplicationInfo", "mode": "gri_template", "rotation_required": false, "template_verified": true, "unique_id_metadata_verified": true, "unique_id_offset": 724, "unique_id_property": "Engine.PlayerReplicationInfo.UniqueId", "unique_id_type": "Engine.OnlineSubsystem.UniqueNetId"},
+    "name_count_changed": false,
+    "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "samples_equal": true,
+    "status": "observed"
+  },
+  "interpretation": {
+    "status": "CONFIRMADO",
+    "unique_id_reflected_offset": "0x2d4",
+    "gri_initial_prefix": "Actual script-derived CDO rotation bit is false; verified GetPC target is null. No rotation or Controller player-index prefix is supplied for this class.",
+    "limits": "Menu-only passive metadata observation, two equal bounded samples. identity_verified is target/schema identity, not an account-authentication result. Does not observe an in-map replicated GRI, effective connection field IDs, identity value, Controller->PRI application, selection controls, admission or gameplay. Original code bytes are bound by retained static proof, not a live code integrity measurement."
+  }
+}

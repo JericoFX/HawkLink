@@ -1,0 +1,34 @@
+{
+  "Schema": "hawken.passive-metadata.input-freeze.v1",
+  "CreatedUtc": "2026-10-14T20:58:10.4102214Z",
+  "Paths": [
+    {
+      "Path": "implementation/evidence/selection-bootstrap-protocol/20261014/live-metadata/gri-template-observed.json",
+      "Sha256": "837e42fcf28968365bed0d1626ce788c746af348ae336c12b2371d6a80589476"
+    },
+    {
+      "Path": "implementation/evidence/selection-bootstrap-protocol/20261014/live-metadata/client-log-snapshot.json",
+      "Sha256": "9d005920ce2850b4df006e85f9070f14dc51688d3338e0e298f957a9cbae43e1"
+    },
+    {
+      "Path": "implementation/evidence/selection-bootstrap-protocol/20261014/live-metadata/post-menu-health-and-originals.json",
+      "Sha256": "a2857a469984de70582e20091c574610d373e0a448e4578f9ce8251db3f13dab"
+    },
+    {
+      "Path": "tools/controller_netfields_probe.cpp",
+      "Sha256": "23607a3c1aa701c14869692c7e344eb5998f7c1b7a8c40ddd17217181d4dd7dd"
+    },
+    {
+      "Path": "tools/fname_hash_lookup.hpp",
+      "Sha256": "c262931221f051ae2c74c9a7626c1b0ce8d2288053d806e008fcb1ae3118575b"
+    },
+    {
+      "Path": "tools/gri_template_reader.hpp",
+      "Sha256": "67f7ca763c7ba29ffe14afc99132fafa88bf3467cd62305f3caf8dbe32fc1944"
+    },
+    {
+      "Path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+      "Sha256": "c98965811df5046682c722559af4482aa984fb00234fd9ce97fd12d4a4c4206a"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "ObservedUtc": "2026-10-14T20:56:41.6999533Z",
+  "ClientClosed": true,
+  "CorePid": 27424,
+  "CoreRunning": true,
+  "MasterPid": 22384,
+  "MasterRunning": true,
+  "CoreHealthHttpStatus": 200,
+  "OriginalPins": [
+    {
+      "File": "steam_appid.txt",
+      "Sha256": "7f8af64056cc012f81841069a6bb93ad471e5f738a82e05a4981030a6da34233",
+      "ExpectedMatch": true
+    },
+    {
+      "File": "StormConsumerSettings.ini",
+      "Sha256": "08eda2cb20539996b7c1a91480c1ee2f64e02743c9bbee0bfc4f3543d8fec3d9",
+      "ExpectedMatch": true
+    },
+    {
+      "File": "HawkenGame-Win64-Shipping.exe",
+      "Sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "ExpectedMatch": true
+    },
+    {
+      "File": "steam_api64.dll",
+      "Sha256": "38f6a1dd1e738e142160322638dae7b88dabcc30eea3f15c58eb08c5341f9b29",
+      "ExpectedMatch": true
+    },
+    {
+      "File": "Meteor.Sdk.Cpp.Win32.Client64.dll",
+      "Sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "ExpectedMatch": true
+    }
+  ],
+  "PinPathCorrection": "SDK filename taken from the authoritative local-steam-test.ps1 originals list; shorthand MeteorSDK.dll was not a file path."
+}
