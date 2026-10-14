@@ -1,0 +1,509 @@
+{
+  "status": "CONFIRMED_STATIC_FIVE_HELPER_FLOW;LOCAL_APIS_SUPPLY_PARTIAL_DATA_NOT_NATIVE_SUCCESS",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "validation": {
+    "instructions": 877,
+    "bytes": 3836,
+    "gaps": 0,
+    "mismatches": 0,
+    "summary_sha256": "1bf2cbd3aee802b2f20c28fe32b8690d4c51a225002481ca777bd5568f2ba417"
+  },
+  "checks": [
+    {
+      "label": "ItemInstanceCollection",
+      "offset": "0x10fb",
+      "entry": "140dc98d0",
+      "guard": "own1 AND response7",
+      "success": "Cast/helperd31a40(Controller+258) nonnull; pointers+8c0 and+8b8 nonnull; collection bytes+b0 AND+b1 BOTH2 => own3. These child states are not aggregate validation states.",
+      "failure": "Missing pointer => response0/own2. Either child3 => response1/own2.",
+      "pending": "Neither child3 and notboth2 => no own-status write.",
+      "existing_data": "InventoryService owned_starter_mech supplies nine complete owned roles; effective variant overlays baseline+Preset strings. No native collection lifecycle b0/b1 exposed by this API.",
+      "gap": "Binding collection+8c0 childrequeststates and the preparation of native collection to our owned snapshot; must be explicit reconstructed local policy, not inferred from HTTP200.",
+      "body_ranges": "[[140dc98d0, 140dc9b03]]",
+      "decompile_completed": true,
+      "machine_anchors": [
+        {
+          "rva": "0xdc98f1",
+          "bytes": "80b9fb10000001",
+          "instruction": "CMP byte ptr [RCX + 0x10fb],0x1"
+        },
+        {
+          "rva": "0xdc98fe",
+          "bytes": "80b90011000007",
+          "instruction": "CMP byte ptr [RCX + 0x1100],0x7"
+        },
+        {
+          "rva": "0xdc9a19",
+          "bytes": "c686fb10000003",
+          "instruction": "MOV byte ptr [RSI + 0x10fb],0x3"
+        },
+        {
+          "rva": "0xdc9a66",
+          "bytes": "c6860011000001",
+          "instruction": "MOV byte ptr [RSI + 0x1100],0x1"
+        },
+        {
+          "rva": "0xdc9ae1",
+          "bytes": "c6860011000000",
+          "instruction": "MOV byte ptr [RSI + 0x1100],0x0"
+        },
+        {
+          "rva": "0xdc9ae8",
+          "bytes": "c686fb10000002",
+          "instruction": "MOV byte ptr [RSI + 0x10fb],0x2"
+        }
+      ]
+    },
+    {
+      "label": "PresetLoaded",
+      "offset": "0x10fc",
+      "entry": "140dce680",
+      "guard": "own1 AND collection3 AND response7",
+      "success": "MechSetup pointer+8b8; select index throughvirtual518(requestedFString+8e0), then wrapperddf3d0; virtual4b0 valid; virtual4f0==0 AND virtual4e0!=0 => own3.",
+      "failure": "Missing PRI/MechSetup response0; invalidcurrentpreset response2; virtual4f0!=0 => response5 or6 selected byvirtual508; own2.",
+      "pending": "Validcurrentpreset ANDvirtual4f0==0 ANDvirtual4e0==0 => no own-status write.",
+      "existing_data": "Accepted pure materializer validates role baseline and loaded_completion caller premise; successful materialization constructs values but does not observe native CurrentPreset status/IsLoaded.",
+      "gap": "Concrete4b0/518/4f0/4e0/508 binding and statuses; present MechSetup property or ACK is not loaded completion.",
+      "body_ranges": "[[140dce680, 140dcea69]]",
+      "decompile_completed": true,
+      "machine_anchors": [
+        {
+          "rva": "0xdce6a3",
+          "bytes": "80b9fc10000001",
+          "instruction": "CMP byte ptr [RCX + 0x10fc],0x1"
+        },
+        {
+          "rva": "0xdce6b0",
+          "bytes": "80b9fb10000003",
+          "instruction": "CMP byte ptr [RCX + 0x10fb],0x3"
+        },
+        {
+          "rva": "0xdce6bd",
+          "bytes": "80b90011000007",
+          "instruction": "CMP byte ptr [RCX + 0x1100],0x7"
+        },
+        {
+          "rva": "0xdce6ff",
+          "bytes": "ff9018050000",
+          "instruction": "CALL qword ptr [RAX + 0x518]"
+        },
+        {
+          "rva": "0xdce70a",
+          "bytes": "e8c10c0100",
+          "instruction": "CALL 0x140ddf3d0"
+        },
+        {
+          "rva": "0xdce86a",
+          "bytes": "41c6870011000002",
+          "instruction": "MOV byte ptr [R15 + 0x1100],0x2"
+        },
+        {
+          "rva": "0xdce92d",
+          "bytes": "ff90f0040000",
+          "instruction": "CALL qword ptr [RAX + 0x4f0]"
+        },
+        {
+          "rva": "0xdce97e",
+          "bytes": "ff9008050000",
+          "instruction": "CALL qword ptr [RAX + 0x508]"
+        },
+        {
+          "rva": "0xdce98b",
+          "bytes": "41888700110000",
+          "instruction": "MOV byte ptr [R15 + 0x1100],AL"
+        },
+        {
+          "rva": "0xdce99d",
+          "bytes": "ff90e0040000",
+          "instruction": "CALL qword ptr [RAX + 0x4e0]"
+        },
+        {
+          "rva": "0xdce9f1",
+          "bytes": "41c687fc10000003",
+          "instruction": "MOV byte ptr [R15 + 0x10fc],0x3"
+        },
+        {
+          "rva": "0xdcea3e",
+          "bytes": "41c6870011000000",
+          "instruction": "MOV byte ptr [R15 + 0x1100],0x0"
+        },
+        {
+          "rva": "0xdcea46",
+          "bytes": "41c687fc10000002",
+          "instruction": "MOV byte ptr [R15 + 0x10fc],0x2"
+        }
+      ]
+    },
+    {
+      "label": "MechInstance",
+      "offset": "0x10fd",
+      "entry": "140dcaab0",
+      "guard": "own1 AND collection3 AND response7",
+      "success": "Currentpreset byte+438 bit2 =>own3 specialroute; otherwise requestedFString count+8e8 not0/1, collectionvirtual290(requestedFString) nonnull, instancevirtual2d8==0 =>own3.",
+      "failure": "Missing MechSetup/collection response0; requestedFStringcount0/1 response3; lookupnull response4; instancevirtual2d8!=0 response6; ifresponse!=7 =>own2.",
+      "pending": "No false-success from pointer presence alone. Other behavior follows explicit guard.",
+      "existing_data": "LocalStore::owned_starter_mech binds exact root instance and account; type-role check plus materializer rejects foreign/corrupt role IDs. StarterItem exposes only type_id/instance_id, no expiry attribute/clock policy.",
+      "gap": "Concreteexpiryvirtual2d8 and specialbit2 meaning; owned record alone does not prove unexpirednativeinstance.",
+      "body_ranges": "[[140dcaab0, 140dcad64]]",
+      "decompile_completed": true,
+      "machine_anchors": [
+        {
+          "rva": "0xdcaad3",
+          "bytes": "80b9fd10000001",
+          "instruction": "CMP byte ptr [RCX + 0x10fd],0x1"
+        },
+        {
+          "rva": "0xdcaae0",
+          "bytes": "80b9fb10000003",
+          "instruction": "CMP byte ptr [RCX + 0x10fb],0x3"
+        },
+        {
+          "rva": "0xdcaaed",
+          "bytes": "80b90011000007",
+          "instruction": "CMP byte ptr [RCX + 0x1100],0x7"
+        },
+        {
+          "rva": "0xdcab29",
+          "bytes": "8b80e8080000",
+          "instruction": "MOV EAX,dword ptr [RAX + 0x8e8]"
+        },
+        {
+          "rva": "0xdcab8d",
+          "bytes": "f684083804000002",
+          "instruction": "TEST byte ptr [RAX + RCX*0x1 + 0x438],0x2"
+        },
+        {
+          "rva": "0xdcab97",
+          "bytes": "c687fd10000003",
+          "instruction": "MOV byte ptr [RDI + 0x10fd],0x3"
+        },
+        {
+          "rva": "0xdcabb4",
+          "bytes": "ff9090020000",
+          "instruction": "CALL qword ptr [RAX + 0x290]"
+        },
+        {
+          "rva": "0xdcabc2",
+          "bytes": "c6870011000004",
+          "instruction": "MOV byte ptr [RDI + 0x1100],0x4"
+        },
+        {
+          "rva": "0xdcabd1",
+          "bytes": "ff90d8020000",
+          "instruction": "CALL qword ptr [RAX + 0x2d8]"
+        },
+        {
+          "rva": "0xdcac21",
+          "bytes": "c6870011000006",
+          "instruction": "MOV byte ptr [RDI + 0x1100],0x6"
+        },
+        {
+          "rva": "0xdcac68",
+          "bytes": "c687fd10000003",
+          "instruction": "MOV byte ptr [RDI + 0x10fd],0x3"
+        },
+        {
+          "rva": "0xdcac71",
+          "bytes": "c6870011000003",
+          "instruction": "MOV byte ptr [RDI + 0x1100],0x3"
+        },
+        {
+          "rva": "0xdcac7a",
+          "bytes": "4488bf00110000",
+          "instruction": "MOV byte ptr [RDI + 0x1100],R15B"
+        },
+        {
+          "rva": "0xdcac81",
+          "bytes": "80bf0011000007",
+          "instruction": "CMP byte ptr [RDI + 0x1100],0x7"
+        },
+        {
+          "rva": "0xdcac98",
+          "bytes": "0fb69f00110000",
+          "instruction": "MOVZX EBX,byte ptr [RDI + 0x1100]"
+        },
+        {
+          "rva": "0xdcacdb",
+          "bytes": "c687fd10000002",
+          "instruction": "MOV byte ptr [RDI + 0x10fd],0x2"
+        },
+        {
+          "rva": "0xdcace4",
+          "bytes": "80bffd10000003",
+          "instruction": "CMP byte ptr [RDI + 0x10fd],0x3"
+        },
+        {
+          "rva": "0xdcacfb",
+          "bytes": "0fb69f00110000",
+          "instruction": "MOVZX EBX,byte ptr [RDI + 0x1100]"
+        },
+        {
+          "rva": "0xdcad02",
+          "bytes": "0fb6bffd100000",
+          "instruction": "MOVZX EDI,byte ptr [RDI + 0x10fd]"
+        }
+      ]
+    },
+    {
+      "label": "SelectedPrimaryWeapon",
+      "offset": "0x10fe",
+      "entry": "140dd1100",
+      "guard": "own1 AND preset3 AND response7",
+      "success": "Validcurrentpresetvirtual4b0; d538c0!=0; object Controller+e00 virtual330!=0; Controllervirtualc90(0) nonnull; pointer[(Controller+e00)+330]+78 nonnull; itsvirtual290(currentpreset+43c) nonnull; d97820(MechSetup,currentpreset+80,lookupresult+currentpreset+60)!=0 =>own3.",
+      "failure": "Missing cast/MechSetup or d538c0/virtual330 false =>response0; invalidpreset response2; c90/collection pointermissing response1; lookupnull ORd97820==0 response8. own2.",
+      "pending": "Before preset3 leaves status unchanged.",
+      "existing_data": "Materializer validates requestedprimary0 and Preset.PrimaryWeapon_0 index0/reference matchesowned primaryslot, fixedconfiguredtype. No current API proves d97820 compatibility comparator or native catalogue context.",
+      "gap": "Highestvalue nextstaticedge isOWNd97820 (comparator), then d538c0 gate and positivebinding c90/330. Do not infer comparison semantics from its name or equalGUIDs.",
+      "body_ranges": "[[140dd1100, 140dd159b]]",
+      "decompile_completed": true,
+      "machine_anchors": [
+        {
+          "rva": "0xdd1123",
+          "bytes": "80b9fe10000001",
+          "instruction": "CMP byte ptr [RCX + 0x10fe],0x1"
+        },
+        {
+          "rva": "0xdd1130",
+          "bytes": "80b90011000007",
+          "instruction": "CMP byte ptr [RCX + 0x1100],0x7"
+        },
+        {
+          "rva": "0xdd113d",
+          "bytes": "80b9fc10000003",
+          "instruction": "CMP byte ptr [RCX + 0x10fc],0x3"
+        },
+        {
+          "rva": "0xdd12cf",
+          "bytes": "41c6870011000002",
+          "instruction": "MOV byte ptr [R15 + 0x1100],0x2"
+        },
+        {
+          "rva": "0xdd138f",
+          "bytes": "e82c25f8ff",
+          "instruction": "CALL 0x140d538c0"
+        },
+        {
+          "rva": "0xdd13a6",
+          "bytes": "ff9030030000",
+          "instruction": "CALL qword ptr [RAX + 0x330]"
+        },
+        {
+          "rva": "0xdd13bc",
+          "bytes": "ff90900c0000",
+          "instruction": "CALL qword ptr [RAX + 0xc90]"
+        },
+        {
+          "rva": "0xdd13c9",
+          "bytes": "488b9130030000",
+          "instruction": "MOV RDX,qword ptr [RCX + 0x330]"
+        },
+        {
+          "rva": "0xdd1444",
+          "bytes": "41ff9090020000",
+          "instruction": "CALL qword ptr [R8 + 0x290]"
+        },
+        {
+          "rva": "0xdd1450",
+          "bytes": "41c6870011000008",
+          "instruction": "MOV byte ptr [R15 + 0x1100],0x8"
+        },
+        {
+          "rva": "0xdd150c",
+          "bytes": "e80f63fcff",
+          "instruction": "CALL 0x140d97820"
+        },
+        {
+          "rva": "0xdd1519",
+          "bytes": "41c687fe10000003",
+          "instruction": "MOV byte ptr [R15 + 0x10fe],0x3"
+        },
+        {
+          "rva": "0xdd1523",
+          "bytes": "41c6870011000001",
+          "instruction": "MOV byte ptr [R15 + 0x1100],0x1"
+        },
+        {
+          "rva": "0xdd1570",
+          "bytes": "41c6870011000000",
+          "instruction": "MOV byte ptr [R15 + 0x1100],0x0"
+        },
+        {
+          "rva": "0xdd1578",
+          "bytes": "41c687fe10000002",
+          "instruction": "MOV byte ptr [R15 + 0x10fe],0x2"
+        }
+      ]
+    },
+    {
+      "label": "AchievementsLoaded",
+      "offset": "0x10ff",
+      "entry": "140dc4220",
+      "guard": "own1 AND response7",
+      "success": "Cast/helperd31a40(Controller+258), childpointer+8c8, child+b0==2 =>own3.",
+      "failure": "child+b0==3 =>WORDwrite at+10ff0x0302: own2,response3. Missing pointer path writesresponse0; pseudocode still has subsequent dereference, so no safe reconstructed nullsuccess.",
+      "pending": "Child+b0 neither2nor3 onlydiagnostic, no own-status write.",
+      "existing_data": "SyncService GET/game-client/achievements/<region> yieldsauthenticatedemptydefinitionarray aslocalpolicy. MenuSyncService GET/userAchievements/<guid>?countryCode=<region> yieldsHTTP200/API404/[] for no unlock resource. Neither service retains childrequestcompletion or account achievementvalidation status.",
+      "gap": "Need classify exact childcollectionrequestproducer/completion identity; emptysuccessfuldata and missing-resource404 must not silentlybecome nativechild2.",
+      "body_ranges": "[[140dc4220, 140dc43ac]]",
+      "decompile_completed": true,
+      "machine_anchors": [
+        {
+          "rva": "0xdc423c",
+          "bytes": "80b9ff10000001",
+          "instruction": "CMP byte ptr [RCX + 0x10ff],0x1"
+        },
+        {
+          "rva": "0xdc4249",
+          "bytes": "80b90011000007",
+          "instruction": "CMP byte ptr [RCX + 0x1100],0x7"
+        },
+        {
+          "rva": "0xdc4274",
+          "bytes": "c6860011000000",
+          "instruction": "MOV byte ptr [RSI + 0x1100],0x0"
+        },
+        {
+          "rva": "0xdc429b",
+          "bytes": "0fb69e00110000",
+          "instruction": "MOVZX EBX,byte ptr [RSI + 0x1100]"
+        },
+        {
+          "rva": "0xdc42da",
+          "bytes": "66c786ff1000000203",
+          "instruction": "MOV word ptr [RSI + 0x10ff],0x302"
+        },
+        {
+          "rva": "0xdc432c",
+          "bytes": "c686ff10000003",
+          "instruction": "MOV byte ptr [RSI + 0x10ff],0x3"
+        },
+        {
+          "rva": "0xdc433b",
+          "bytes": "0fb6be00110000",
+          "instruction": "MOVZX EDI,byte ptr [RSI + 0x1100]"
+        },
+        {
+          "rva": "0xdc4342",
+          "bytes": "0fb6b6ff100000",
+          "instruction": "MOVZX ESI,byte ptr [RSI + 0x10ff]"
+        }
+      ]
+    }
+  ],
+  "original_request": {
+    "function": "HawkenGame.R_PlayerController.ServerValidatePlayerSpawnSelection",
+    "uc_lines": "3392..3425",
+    "export": 17231,
+    "serial_virtual_offset": "0x89ba02",
+    "conditional_field_id": 249,
+    "conditional_bound": 294,
+    "not_live_accepted": true,
+    "guard": "SelectionValidationResponse7; castRPRI andRPRI.MechSetup required; missing sets0 and invokesClientSpawnSelectionFailed, otherwise allfive+overall reset1. No synchronous successcallback in thisbody."
+  },
+  "responses": {
+    "source": "HawkenTypes.uc1216..1227",
+    "0": "GeneralFailure",
+    "1": "InstanceCollectionFailure",
+    "2": "NoMechPreset",
+    "3": "NoMechInstanceID",
+    "4": "NoMechInstance",
+    "5": "MechNotLoaded",
+    "6": "InstanceExpired",
+    "7": "Valid",
+    "8": "PrimaryWeaponFailure"
+  },
+  "scope_api": {
+    "symbol": "SessionAssignmentService::account_for_udp",
+    "lines": "src/session_assignment.cpp460..469;include/hawken/session_assignment.hpp110..116",
+    "behavior": "Fresh retainedgrant/ban/expiry/lease checks, returnsownedAccountRef ornullopt, notatomicadmission. MustcalloutsideOwnerUse/locks; revalidate exactaccount andexactEntry afterSQL beforeapplyingcheckresult."
+  },
+  "smallest_future_plan": [
+    "Retain five independent checked states; recognize originalServerValidate request separately from ServerSetStartMech; no automatic success after preset propertysend orACK.",
+    "Acquire exactfreshaccount+effectiveownedsnapshot outsideUse; only derive finiteconfiguredrole/root checks supported by those data; unsupportedexpiry/achievements/nativehelperpredicates remainpending or explicitunsupported, never fabricatedsuccess.",
+    "CloseOWNd97820 comparator and bind existingMechSetupstatusvirtuals against retainedtable; map achievementchildproducer before assigning itsloadedstatus. Applyaggregate only after genuineindividualresults; success250/294 andfailedresponse RPCframing remain separate explicitgate."
+  ],
+  "boundaries": [
+    "No callback success, spawn, fieldID/liveeligibility, possession, authgrant orgameplay accepted by this staticreport.",
+    "No source/config/docs/build/test/Git/runtime/Ghidra execution bywriter; parent owns implementation approval and Luna validation.",
+    "Source comparisons reflect current frozen implementation, no changes applied."
+  ],
+  "skills_reused": {
+    "cpp": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "rea": "f1156f8a608297f839bde968d47132db3cefd69371b311d22b0c397944f18094"
+  },
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\functions.jsonl",
+      "sha256": "dd483d082af301c8ed930dd7554bd8a369630ad1255f8e9f0c8a14aac718e933"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\instructions.json",
+      "sha256": "dc9f6f1b4d187c8b7958af7c97ff0ca9e59f3e2d79c538d2671fef1c5922a032"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\validation-summary.json",
+      "sha256": "1bf2cbd3aee802b2f20c28fe32b8690d4c51a225002481ca777bd5568f2ba417"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\original-byte-validation.json",
+      "sha256": "739cdf28535134d2e4f438aeeacc4ae16d3b8c7d479780370686c6c5c912eb51"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate-predicate-supplement.json",
+      "sha256": "d78e2ef58c4db84f7cb9c5ecbf51f58e1f28be39da306aea8541ec0684e79463"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020155-HawkenGame.R_PlayerController.uc",
+      "sha256": "e7de9faf9a214b77ecb47e5744449bdda5e62f36f4c1b57efc428a3f0a5b5296"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\003733-HawkenGame.HawkenTypes.uc",
+      "sha256": "4dd7baf8e775af04f10349a51dacb3909ab783a164c821e1e548b394307fc3ca"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\inventory_service.cpp",
+      "sha256": "c063f4efe469e8ef6e865112c684c8d357273530ab4936aac8d71fee79f383bb"
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\inventory_service.hpp",
+      "sha256": "d431c61822b13ba80ffa3e2fe0d91157e612abc0a47efd5e0ba6c0aadc66a63e"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\local_store.cpp",
+      "sha256": "dce4bc874a886aced09761a63e7988293d2eacad7e261e3a43462e6a851de5c4"
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\local_store.hpp",
+      "sha256": "62e1ef79027bec2416b667781852112994281716b822c4f679d54ed1e6591207"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\session_assignment.cpp",
+      "sha256": "c2f5e6cef3a8bef4c97466e81f6c571f514eb58feb241d9a6dec0278524afead"
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\session_assignment.hpp",
+      "sha256": "7fffeab6eeb0f3604106c137aed7afd96801bc4edab6a8e773b57334661e7ca9"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\menu_sync_service.cpp",
+      "sha256": "fdf7ec1bec9b37d2d88327af09a6949b0f744ed78221a9807ff307e48934da4b"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\sync_service.cpp",
+      "sha256": "f979a270c9dcb4fca92ce862b5b67ed47f60e7118bfbb7d45cef947ab2658f8b"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\starter_mech_setup.cpp",
+      "sha256": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694"
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\starter_mech_setup.hpp",
+      "sha256": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0"
+    }
+  ]
+}

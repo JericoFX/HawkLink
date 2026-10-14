@@ -1,0 +1,130 @@
+{
+  "capturedUtc": "2026-10-14T15:38:31.7153935Z",
+  "resources": {
+    "freeKiB": 11936048,
+    "totalKiB": 33462640,
+    "usedPercent": 64.33
+  },
+  "processes": [],
+  "inputs": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "bytes": 922,
+      "sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "bytes": 658,
+      "sha256": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "bytes": 3788,
+      "sha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df"
+    },
+    {
+      "path": "F:\\HawkenServer\\CMakeLists.txt",
+      "bytes": 49827,
+      "sha256": "4d8e3576b9361d4dc393020922b4984c9b1d88a56cd18708be3f6fb55d04c178"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\test_main.cpp",
+      "bytes": 72,
+      "sha256": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5"
+    },
+    {
+      "path": "F:\\HawkenServer\\third_party\\doctest\\doctest.h",
+      "bytes": 323200,
+      "sha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced"
+    },
+    {
+      "path": "F:\\HawkenServer\\CMakePresets.json",
+      "bytes": 4024,
+      "sha256": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3"
+    }
+  ],
+  "portableLlvm": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\clang-cl.exe",
+      "bytes": 113284096,
+      "sha256": "9584244d83bb095c5a2983f814692cb50e0b8d2916585516cad8f3e8596d8261",
+      "lastWriteUtc": "2026-10-06T12:12:23.0000000Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\lld-link.exe",
+      "bytes": 76341760,
+      "sha256": "ccfe54db0d5164d3e05350606a464402c3bfedcba05deacbbdbfba82228933ac",
+      "lastWriteUtc": "2026-10-06T12:12:20.0000000Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\llvm-symbolizer.exe",
+      "bytes": 6321152,
+      "sha256": "1554979e1ba1f18c5f2469e862db225a223f512124eed94455934cff88d21124",
+      "lastWriteUtc": "2026-10-06T12:09:31.0000000Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\lib\\clang\\23\\lib\\windows\\clang_rt.asan_dynamic-x86_64.dll",
+      "bytes": 532480,
+      "sha256": "10eb44b5bf951af91591476ad25d5cc3d34689cbc699b1d0bb1a95220a5427ba",
+      "lastWriteUtc": "2026-10-06T12:11:52.0000000Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\lib\\clang\\23\\lib\\windows\\clang_rt.asan_dynamic-x86_64.lib",
+      "bytes": 110938,
+      "sha256": "d7b1528432b69fe4fc924b29bf17729ec1eac1e2a9f6ff3384059ae71743d00c",
+      "lastWriteUtc": "2026-10-06T12:11:52.0000000Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\lib\\clang\\23\\lib\\windows\\clang_rt.asan_static_runtime_thunk-x86_64.lib",
+      "bytes": 198540,
+      "sha256": "13cf805586f65d6aa2d50afa4bf474a2c2cd3fe338ce8a273627dcb38089a3f1",
+      "lastWriteUtc": "2026-10-06T11:52:14.0000000Z"
+    }
+  ],
+  "generatedAndProtectedFiles": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-clang-asan\\CMakeCache.txt",
+      "bytes": 20710,
+      "sha256": "3784046af124773f1288e634a9361085d7327501849d8c14a9031afd1ecc0288",
+      "lastWriteUtc": "2026-10-13T00:57:39.2448736Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-clang-asan\\build.ninja",
+      "bytes": 392453,
+      "sha256": "0f6f3878a32f68a0f7de719029b4746e9d6fbd5c27b4d92ef17e2da2a08ca084",
+      "lastWriteUtc": "2026-10-13T00:57:39.3941991Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "bytes": 2342912,
+      "sha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+      "lastWriteUtc": "2026-10-13T15:50:45.6218275Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "bytes": 727040,
+      "sha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+      "lastWriteUtc": "2026-10-13T00:42:55.1203132Z"
+    }
+  ],
+  "clangVersionExit": 0,
+  "clangVersion": [
+    "clang version 23.1.3 (https://github.com/llvm/llvm-project 0d261d1ca552c95a8f007e061c787ac7132fbcbc)",
+    "Target: x86_64-pc-windows-msvc",
+    "Thread model: posix",
+    "InstalledDir: F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin",
+    "Build config: +alloc:rpmalloc"
+  ],
+  "testPresetEnvironment": {
+    "name": "windows-clang-asan",
+    "configurePreset": "windows-clang-asan",
+    "environment": {
+      "ASAN_OPTIONS": "alloc_dealloc_mismatch=1",
+      "ASAN_SYMBOLIZER_PATH": "${sourceDir}/implementation/tools/llvm-23.1.3/portable/clang+llvm-23.1.3-x86_64-pc-windows-msvc/bin/llvm-symbolizer.exe",
+      "PATH": "${sourceDir}/implementation/tools/llvm-23.1.3/portable/clang+llvm-23.1.3-x86_64-pc-windows-msvc/lib/clang/23/lib/windows;$penv{PATH}"
+    },
+    "output": {
+      "outputOnFailure": true
+    }
+  }
+}

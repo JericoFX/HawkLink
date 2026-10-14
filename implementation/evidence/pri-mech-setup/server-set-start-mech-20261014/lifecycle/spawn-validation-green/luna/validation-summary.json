@@ -1,0 +1,149 @@
+{
+  "normal": {
+    "buildExit": "0",
+    "focusedCTestExit": "0",
+    "fullCTestExit": "0",
+    "registeredSuites": 48,
+    "cases": {
+      "lines": 48,
+      "total": 1370,
+      "passed": 1370,
+      "failed": 0,
+      "skipped": 0
+    },
+    "assertions": {
+      "lines": 48,
+      "total": 60783,
+      "passed": 60783,
+      "failed": 0
+    },
+    "sourceAndConfigAndGeneratedInputs": [
+      {
+        "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+        "before": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+        "after": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+        "before": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+        "after": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+        "before": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+        "after": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\CMakeLists.txt",
+        "before": "4d8e3576b9361d4dc393020922b4984c9b1d88a56cd18708be3f6fb55d04c178",
+        "after": "4d8e3576b9361d4dc393020922b4984c9b1d88a56cd18708be3f6fb55d04c178",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\tests\\test_main.cpp",
+        "before": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+        "after": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\third_party\\doctest\\doctest.h",
+        "before": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+        "after": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\CMakePresets.json",
+        "before": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3",
+        "after": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3",
+        "unchanged": true
+      }
+    ],
+    "dependencyClosures": {
+      "normalTestObject": "CMakeFiles/hawken-spawn-validation-tests.dir/tests/spawn_validation_tests.cpp.obj: #deps 2, deps mtime 8136947850190091 (VALID)\r\n    ../../include/hawken/spawn_validation.hpp\r\n    ../../third_party/doctest/doctest.h\r\n\r\n",
+      "normalLibraryObject": "CMakeFiles/hawken_spawn_validation.dir/src/spawn_validation.cpp.obj: #deps 1, deps mtime 8136951444939719 (VALID)\r\n    ../../include/hawken/spawn_validation.hpp\r\n\r\n"
+    },
+    "exeHashes": [
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+        "bytes": 2342912,
+        "sha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+        "lastWriteUtc": "2026-10-13T15:50:45.6218275Z"
+      },
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+        "bytes": 727040,
+        "sha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+        "lastWriteUtc": "2026-10-13T00:42:55.1203132Z"
+      },
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-spawn-validation-tests.exe",
+        "bytes": 456704,
+        "sha256": "273b76e868521dacbf1a671b6e3d4943b895f105c6beedec979b7bec83942b1c",
+        "lastWriteUtc": "2026-10-14T15:32:24.7167855Z"
+      },
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc-asan\\hawken-spawn-validation-tests.exe",
+        "bytes": 1732608,
+        "sha256": "463eefa044ff33b352f932dd0143f1dc78120b33a0a5c9e59b20dc1973219a7a",
+        "lastWriteUtc": "2026-10-14T15:35:10.5306676Z"
+      }
+    ],
+    "fullCTestOutputSha256": "63cbe67bdcb19660dfa534ae83038face50e70fd93e00b6e5ebd154fae7b75fd",
+    "lastTestSha256": "3169f1732f813d3a79b16751ee08d6703e3d262cf429db83c26bee3b3e49b612"
+  },
+  "asan": {
+    "buildExit": "0",
+    "ctestExit": "8",
+    "uniqueDoctestCaseSummaries": [
+      "[doctest] test cases:    4 |    4 passed | 0 failed | 0 skipped"
+    ],
+    "uniqueDoctestAssertionSummaries": [
+      "[doctest] assertions: 4854 | 4854 passed | 0 failed"
+    ],
+    "dependencyClosures": {
+      "testObject": "CMakeFiles/hawken-spawn-validation-tests.dir/tests/spawn_validation_tests.cpp.obj: #deps 2, deps mtime 8136953102111896 (VALID)\r\n    ../../include/hawken/spawn_validation.hpp\r\n    ../../third_party/doctest/doctest.h\r\n\r\n",
+      "libraryObject": "CMakeFiles/hawken_spawn_validation.dir/src/spawn_validation.cpp.obj: #deps 1, deps mtime 8136953073561840 (VALID)\r\n    ../../include/hawken/spawn_validation.hpp\r\n\r\n"
+    },
+    "result": "CTest failed after all 4/4 test cases and 4854/4854 assertions passed; AddressSanitizer alloc-dealloc-mismatch (operator new vs operator delete[]) in doctest::String::~String at third_party/doctest/doctest.h:3640",
+    "lastTestSha256": "4962773f15688b14af86f9da54b9cc1956b4ec52ac65cf7e0a1d49e5867de0a3"
+  },
+  "postflight": {
+    "capturedUtc": "2026-10-14T15:37:03.2558853Z",
+    "resources": {
+      "freeKiB": 11855056,
+      "totalKiB": 33462640,
+      "usedPercent": 64.57
+    },
+    "protectedPidObservation": [],
+    "activeRelevantProcesses": []
+  },
+  "generatedState": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\CMakeCache.txt",
+      "before": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+      "after": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\build.ninja",
+      "before": "b5d4b18f000fc2a7a863609ff2f56e9e62d085ee8d6990b753a9e29e91f1f034",
+      "after": "b5d4b18f000fc2a7a863609ff2f56e9e62d085ee8d6990b753a9e29e91f1f034",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc-asan\\CMakeCache.txt",
+      "before": "36c72638ec832d94e023d15875a0416dacd87204a15ae2129e3e8bdc44b95bd9",
+      "after": "36c72638ec832d94e023d15875a0416dacd87204a15ae2129e3e8bdc44b95bd9",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc-asan\\build.ninja",
+      "before": "c2f50d7c3103cb6cd411267f53d4dfba857d45fedb3d3d0e4b65e4b07dbfcd1b",
+      "after": "c1f38fb704c8f4c807af046f8d6ede46f342f175a107879127f1dfef85644319",
+      "unchanged": false
+    }
+  ]
+}

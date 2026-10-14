@@ -1,0 +1,927 @@
+{
+  "scope": "Only exact retained empty/absent achievement branch and SDK guards. No new decompilation or original modification.",
+  "instruction_spans": [
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5a64",
+      "raw_offset": "0xbd4e64",
+      "bytes": "488dac2470feffff",
+      "instruction": "LEA RBP,[RSP + -0x190]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5aae",
+      "raw_offset": "0xbd4eae",
+      "bytes": "817960c8000000",
+      "instruction": "CMP dword ptr [RCX + 0x60],0xc8",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5abb",
+      "raw_offset": "0xbd4ebb",
+      "bytes": "81b96404000094010000",
+      "instruction": "CMP dword ptr [RCX + 0x464],0x194",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5ac7",
+      "raw_offset": "0xbd4ec7",
+      "bytes": "488d5860",
+      "instruction": "LEA RBX,[RAX + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5bec",
+      "raw_offset": "0xbd4fec",
+      "bytes": "488d4d50",
+      "instruction": "LEA RCX,[RBP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5bf6",
+      "raw_offset": "0xbd4ff6",
+      "bytes": "488b9800010000",
+      "instruction": "MOV RBX,qword ptr [RAX + 0x100]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5cce",
+      "raw_offset": "0xbd50ce",
+      "bytes": "488d4550",
+      "instruction": "LEA RAX,[RBP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5cef",
+      "raw_offset": "0xbd50ef",
+      "bytes": "488d4d50",
+      "instruction": "LEA RCX,[RBP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5cf9",
+      "raw_offset": "0xbd50f9",
+      "bytes": "488b9800010000",
+      "instruction": "MOV RBX,qword ptr [RAX + 0x100]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5d00",
+      "raw_offset": "0xbd5100",
+      "bytes": "488b4c2450",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5d28",
+      "raw_offset": "0xbd5128",
+      "bytes": "89442458",
+      "instruction": "MOV dword ptr [RSP + 0x58],EAX",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5d46",
+      "raw_offset": "0xbd5146",
+      "bytes": "4889442450",
+      "instruction": "MOV qword ptr [RSP + 0x50],RAX",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5d4b",
+      "raw_offset": "0xbd514b",
+      "bytes": "8b442458",
+      "instruction": "MOV EAX,dword ptr [RSP + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5d71",
+      "raw_offset": "0xbd5171",
+      "bytes": "488d4550",
+      "instruction": "LEA RAX,[RBP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5d97",
+      "raw_offset": "0xbd5197",
+      "bytes": "8b442458",
+      "instruction": "MOV EAX,dword ptr [RSP + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5da4",
+      "raw_offset": "0xbd51a4",
+      "bytes": "8b4da0",
+      "instruction": "MOV ECX,dword ptr [RBP + -0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5dcd",
+      "raw_offset": "0xbd51cd",
+      "bytes": "8b442458",
+      "instruction": "MOV EAX,dword ptr [RSP + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e0c",
+      "raw_offset": "0xbd520c",
+      "bytes": "488b4c2450",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e2b",
+      "raw_offset": "0xbd522b",
+      "bytes": "8b442458",
+      "instruction": "MOV EAX,dword ptr [RSP + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e55",
+      "raw_offset": "0xbd5255",
+      "bytes": "488b442450",
+      "instruction": "MOV RAX,qword ptr [RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e73",
+      "raw_offset": "0xbd5273",
+      "bytes": "488d55a8",
+      "instruction": "LEA RDX,[RBP + -0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e77",
+      "raw_offset": "0xbd5277",
+      "bytes": "488d4c2450",
+      "instruction": "LEA RCX,[RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e84",
+      "raw_offset": "0xbd5284",
+      "bytes": "488d442450",
+      "instruction": "LEA RAX,[RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e99",
+      "raw_offset": "0xbd5299",
+      "bytes": "89542458",
+      "instruction": "MOV dword ptr [RSP + 0x58],EDX",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5e9d",
+      "raw_offset": "0xbd529d",
+      "bytes": "488b4c2450",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5ebb",
+      "raw_offset": "0xbd52bb",
+      "bytes": "4889442450",
+      "instruction": "MOV qword ptr [RSP + 0x50],RAX",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5ec0",
+      "raw_offset": "0xbd52c0",
+      "bytes": "8b542458",
+      "instruction": "MOV EDX,dword ptr [RSP + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5ef4",
+      "raw_offset": "0xbd52f4",
+      "bytes": "8b542458",
+      "instruction": "MOV EDX,dword ptr [RSP + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5ef8",
+      "raw_offset": "0xbd52f8",
+      "bytes": "488b4c2450",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5f18",
+      "raw_offset": "0xbd5318",
+      "bytes": "48897db0",
+      "instruction": "MOV qword ptr [RBP + -0x50],RDI",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5f1c",
+      "raw_offset": "0xbd531c",
+      "bytes": "488b4da8",
+      "instruction": "MOV RCX,qword ptr [RBP + -0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5f2a",
+      "raw_offset": "0xbd532a",
+      "bytes": "48897da8",
+      "instruction": "MOV qword ptr [RBP + -0x58],RDI",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5f2e",
+      "raw_offset": "0xbd532e",
+      "bytes": "48897da0",
+      "instruction": "MOV qword ptr [RBP + -0x60],RDI",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5f65",
+      "raw_offset": "0xbd5365",
+      "bytes": "488d4d50",
+      "instruction": "LEA RCX,[RBP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5f6f",
+      "raw_offset": "0xbd536f",
+      "bytes": "488b9000010000",
+      "instruction": "MOV RDX,qword ptr [RAX + 0x100]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd5f90",
+      "raw_offset": "0xbd5390",
+      "bytes": "488d4550",
+      "instruction": "LEA RAX,[RBP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd60de",
+      "raw_offset": "0xbd54de",
+      "bytes": "488b4c2460",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd60f9",
+      "raw_offset": "0xbd54f9",
+      "bytes": "4889442460",
+      "instruction": "MOV qword ptr [RSP + 0x60],RAX",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd6137",
+      "raw_offset": "0xbd5537",
+      "bytes": "488b442460",
+      "instruction": "MOV RAX,qword ptr [RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd61e9",
+      "raw_offset": "0xbd55e9",
+      "bytes": "488b4c2460",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd61f8",
+      "raw_offset": "0xbd55f8",
+      "bytes": "48897c2460",
+      "instruction": "MOV qword ptr [RSP + 0x60],RDI",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd61fd",
+      "raw_offset": "0xbd55fd",
+      "bytes": "48897c2458",
+      "instruction": "MOV qword ptr [RSP + 0x58],RDI",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd6311",
+      "raw_offset": "0xbd5711",
+      "bytes": "8b442458",
+      "instruction": "MOV EAX,dword ptr [RSP + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd633b",
+      "raw_offset": "0xbd573b",
+      "bytes": "4c8b4c2450",
+      "instruction": "MOV R9,qword ptr [RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd637f",
+      "raw_offset": "0xbd577f",
+      "bytes": "488b4c2460",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd638e",
+      "raw_offset": "0xbd578e",
+      "bytes": "48897c2460",
+      "instruction": "MOV qword ptr [RSP + 0x60],RDI",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd6393",
+      "raw_offset": "0xbd5793",
+      "bytes": "48897c2458",
+      "instruction": "MOV qword ptr [RSP + 0x58],RDI",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd6398",
+      "raw_offset": "0xbd5798",
+      "bytes": "488b4c2450",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd63ba",
+      "raw_offset": "0xbd57ba",
+      "bytes": "41c6879825000000",
+      "instruction": "MOV byte ptr [R15 + 0x2598],0x0",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd63c9",
+      "raw_offset": "0xbd57c9",
+      "bytes": "c680b000000002",
+      "instruction": "MOV byte ptr [RAX + 0xb0],0x2",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd63d6",
+      "raw_offset": "0xbd57d6",
+      "bytes": "c680b000000003",
+      "instruction": "MOV byte ptr [RAX + 0xb0],0x3",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd63f8",
+      "raw_offset": "0xbd57f8",
+      "bytes": "41c6879825000011",
+      "instruction": "MOV byte ptr [R15 + 0x2598],0x11",
+      "match": true
+    },
+    {
+      "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-instructions.json",
+      "entry": "140bd5a50",
+      "rva": "0xbd6407",
+      "raw_offset": "0xbd5807",
+      "bytes": "c680b000000003",
+      "instruction": "MOV byte ptr [RAX + 0xb0],0x3",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31821",
+      "raw_offset": "0x30c21",
+      "bytes": "4c894c2458",
+      "instruction": "MOV qword ptr [RSP + 0x58],R9",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x3182d",
+      "raw_offset": "0x30c2d",
+      "bytes": "48895c2450",
+      "instruction": "MOV qword ptr [RSP + 0x50],RBX",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31879",
+      "raw_offset": "0x30c79",
+      "bytes": "ff5050",
+      "instruction": "CALL qword ptr [RAX + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x318b0",
+      "raw_offset": "0x30cb0",
+      "bytes": "83f863",
+      "instruction": "CMP EAX,0x63",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x318c4",
+      "raw_offset": "0x30cc4",
+      "bytes": "83f863",
+      "instruction": "CMP EAX,0x63",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x318dc",
+      "raw_offset": "0x30cdc",
+      "bytes": "83f863",
+      "instruction": "CMP EAX,0x63",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31904",
+      "raw_offset": "0x30d04",
+      "bytes": "ff5058",
+      "instruction": "CALL qword ptr [RAX + 0x58]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31a99",
+      "raw_offset": "0x30e99",
+      "bytes": "4889742460",
+      "instruction": "MOV qword ptr [RSP + 0x60],RSI",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31b30",
+      "raw_offset": "0x30f30",
+      "bytes": "488d542460",
+      "instruction": "LEA RDX,[RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31b46",
+      "raw_offset": "0x30f46",
+      "bytes": "4889742460",
+      "instruction": "MOV qword ptr [RSP + 0x60],RSI",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31b5a",
+      "raw_offset": "0x30f5a",
+      "bytes": "488d542460",
+      "instruction": "LEA RDX,[RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-instructions.json",
+      "entry": "1800317d0",
+      "rva": "0x31b9c",
+      "raw_offset": "0x30f9c",
+      "bytes": "4889742460",
+      "instruction": "MOV qword ptr [RSP + 0x60],RSI",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9c2",
+      "raw_offset": "0x2cdc2",
+      "bytes": "498b4508",
+      "instruction": "MOV RAX,qword ptr [R13 + 0x8]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9c6",
+      "raw_offset": "0x2cdc6",
+      "bytes": "488b4808",
+      "instruction": "MOV RCX,qword ptr [RAX + 0x8]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9ca",
+      "raw_offset": "0x2cdca",
+      "bytes": "482b08",
+      "instruction": "SUB RCX,qword ptr [RAX]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9cd",
+      "raw_offset": "0x2cdcd",
+      "bytes": "48f7c1e0ffffff",
+      "instruction": "TEST RCX,-0x20",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9d4",
+      "raw_offset": "0x2cdd4",
+      "bytes": "0f8583000000",
+      "instruction": "JNZ 0x18002da5d",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9da",
+      "raw_offset": "0x2cdda",
+      "bytes": "488d15d75b1700",
+      "instruction": "LEA RDX,[0x1801a35b8]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9e1",
+      "raw_offset": "0x2cde1",
+      "bytes": "488d8df0250000",
+      "instruction": "LEA RCX,[RBP + 0x25f0]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9e8",
+      "raw_offset": "0x2cde8",
+      "bytes": "e853ab0000",
+      "instruction": "CALL 0x180038540",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9ed",
+      "raw_offset": "0x2cded",
+      "bytes": "90",
+      "instruction": "NOP",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9ee",
+      "raw_offset": "0x2cdee",
+      "bytes": "488bd0",
+      "instruction": "MOV RDX,RAX",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9f1",
+      "raw_offset": "0x2cdf1",
+      "bytes": "498bcf",
+      "instruction": "MOV RCX,R15",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9f4",
+      "raw_offset": "0x2cdf4",
+      "bytes": "e817aa0000",
+      "instruction": "CALL 0x180038410",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-instructions.json",
+      "entry": "18002d920",
+      "rva": "0x2d9f9",
+      "raw_offset": "0x2cdf9",
+      "bytes": "c744243001000000",
+      "instruction": "MOV dword ptr [RSP + 0x30],0x1",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37be4",
+      "raw_offset": "0x36fe4",
+      "bytes": "488d6c24a0",
+      "instruction": "LEA RBP,[RSP + -0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37bf0",
+      "raw_offset": "0x36ff0",
+      "bytes": "48c7442458feffffff",
+      "instruction": "MOV qword ptr [RSP + 0x58],-0x2",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37bf9",
+      "raw_offset": "0x36ff9",
+      "bytes": "48899c2490010000",
+      "instruction": "MOV qword ptr [RSP + 0x190],RBX",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37c0b",
+      "raw_offset": "0x3700b",
+      "bytes": "48894550",
+      "instruction": "MOV qword ptr [RBP + 0x50],RAX",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37c29",
+      "raw_offset": "0x37029",
+      "bytes": "4889742450",
+      "instruction": "MOV qword ptr [RSP + 0x50],RSI",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37c46",
+      "raw_offset": "0x37046",
+      "bytes": "4088742460",
+      "instruction": "MOV byte ptr [RSP + 0x60],SIL",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37c6d",
+      "raw_offset": "0x3706d",
+      "bytes": "488d4c2460",
+      "instruction": "LEA RCX,[RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37c7f",
+      "raw_offset": "0x3707f",
+      "bytes": "488d542460",
+      "instruction": "LEA RDX,[RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37cbb",
+      "raw_offset": "0x370bb",
+      "bytes": "488b4c2460",
+      "instruction": "MOV RCX,qword ptr [RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37cf3",
+      "raw_offset": "0x370f3",
+      "bytes": "488d542460",
+      "instruction": "LEA RDX,[RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37d0a",
+      "raw_offset": "0x3710a",
+      "bytes": "488d4c2460",
+      "instruction": "LEA RCX,[RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37d20",
+      "raw_offset": "0x37120",
+      "bytes": "488d4c2460",
+      "instruction": "LEA RCX,[RSP + 0x60]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37db9",
+      "raw_offset": "0x371b9",
+      "bytes": "488b4d50",
+      "instruction": "MOV RCX,qword ptr [RBP + 0x50]",
+      "match": true
+    },
+    {
+      "original_sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+      "source": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-achievement-arrays-instructions.json",
+      "entry": "180037be0",
+      "rva": "0x37dc5",
+      "raw_offset": "0x371c5",
+      "bytes": "488b9c2490010000",
+      "instruction": "MOV RBX,qword ptr [RSP + 0x190]",
+      "match": true
+    }
+  ],
+  "matched": 92,
+  "gaps_or_wholebody_claim": false
+}

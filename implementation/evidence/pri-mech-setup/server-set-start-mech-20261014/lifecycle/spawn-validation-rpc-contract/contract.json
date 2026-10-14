@@ -1,0 +1,273 @@
+{
+  "status": "STATIC_ZEROARG_RPC_AND_ENUM_FAILURE_WIRE_CLOSED_WITH_EXPLICIT_CACHE_ELIGIBILITY_PREMISES",
+  "scope": "Retainedoriginalevidence+targetedoriginalzlib/PEverification;no source/build/runtime/Ghidra.",
+  "original_package_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "functions": [
+    {
+      "metadata": {
+        "path": "HawkenGame.R_PlayerController.ServerValidatePlayerSpawnSelection",
+        "physical_export_index": 17231,
+        "serial_virtual_offset": "0x89ba02",
+        "function_flags": "0x2200c2",
+        "children_export": 17230
+      },
+      "eligible_parameters": 0,
+      "direction": "client_to_server",
+      "reliable": true
+    },
+    {
+      "metadata": {
+        "path": "HawkenGame.R_PlayerController.ClientSpawnSelectionValidated",
+        "physical_export_index": 17232,
+        "serial_virtual_offset": "0x89bbd1",
+        "function_flags": "0x10209c2",
+        "children_export": 0
+      },
+      "eligible_parameters": 0,
+      "direction": "server_to_client",
+      "reliable": true
+    },
+    {
+      "metadata": {
+        "path": "HawkenGame.R_PlayerController.ClientSpawnSelectionFailed",
+        "physical_export_index": 17237,
+        "serial_virtual_offset": "0x89bd14",
+        "function_flags": "0x10209c2",
+        "children_export": 17236
+      },
+      "eligible_parameters": 1,
+      "direction": "server_to_client",
+      "reliable": true
+    }
+  ],
+  "conditional_ids": [
+    {
+      "name": "ServerValidatePlayerSpawnSelection",
+      "own_rank": 38,
+      "base": 211,
+      "field_id": 249,
+      "bound": 294,
+      "serialized_local_net_index": 17236,
+      "status": "STATIC_CONDITIONAL_NOT_RUNTIME_OBSERVED"
+    },
+    {
+      "name": "ClientSpawnSelectionValidated",
+      "own_rank": 39,
+      "base": 211,
+      "field_id": 250,
+      "bound": 294,
+      "serialized_local_net_index": 17237,
+      "status": "STATIC_CONDITIONAL_NOT_RUNTIME_OBSERVED"
+    },
+    {
+      "name": "ClientSpawnSelectionFailed",
+      "own_rank": 40,
+      "base": 211,
+      "field_id": 251,
+      "bound": 294,
+      "serialized_local_net_index": 17242,
+      "status": "STATIC_CONDITIONAL_NOT_RUNTIME_OBSERVED"
+    }
+  ],
+  "premises": [
+    "Link rebuild global1bb640c==0",
+    "Effective NetIndex equals serialized NetIndex for every field",
+    "Every enumerated NetField and superclass class passes PackageMap+298",
+    "No extra native fields or runtime mutations change class NetFields",
+    "No equal-index unstable sort ambiguity",
+    "Concretefunctionschema/Childrenorder/ArrayDim1 unchanged; Reason mapseligible for presence/value schedule.",
+    "Reason enum pointer resolves originalenum4551 and nativeNamescount10."
+  ],
+  "wire": {
+    "field_tag": "LSB conditionalSerializeInt(field_id,exclusivebound), actualwidth may vary;249/250/251 under294consume8bits.",
+    "zero_arguments": "Noeligibleparameters: tagonly. No presencebit, padding, bytealignment, lengthenvelope, typeRPCdiscriminator orsentinel.",
+    "reason": {
+      "parameter_export": 17236,
+      "serial_virtual_offset": "0x89bce8",
+      "flags": "0x80",
+      "array_dim": 1,
+      "enum_export": 4551,
+      "enum_count_including_sentinel": 10,
+      "raw_width_bits": 4,
+      "presence": "Ifmapeligible: sender writes0forreasonzero(comparatorf3300defaultNULLtrue);otherwise1then4rawLSBbits. Receiverpresence0orMapfalse leaveszero-initializedreason0.",
+      "ineligible": "No presenceorvaluebits; default0.",
+      "endianness": "No multibytescalarhere; rawfourlogicalbits,noEndianbranch.",
+      "range_boundary": "f8f30 hasno enumvalueguard; bitwidthcanrepresent0..15 andSVR_MAX9. Rejecting9..15 wouldbe explicitlocalpolicy,notnativehistoricalvalidation.",
+      "high_bits": "OriginalByte serializer onlywriteslow4bits; codecshouldnot silentlytruncateinputuint8 withoutexplicitpolicy.",
+      "labels": [
+        [
+          0,
+          "SVR_GeneralFailure"
+        ],
+        [
+          1,
+          "SVR_InstanceCollectionFailure"
+        ],
+        [
+          2,
+          "SVR_NoMechPreset"
+        ],
+        [
+          3,
+          "SVR_NoMechInstanceID"
+        ],
+        [
+          4,
+          "SVR_NoMechInstance"
+        ],
+        [
+          5,
+          "SVR_MechNotLoaded"
+        ],
+        [
+          6,
+          "SVR_InstanceExpired"
+        ],
+        [
+          7,
+          "SVR_Valid"
+        ],
+        [
+          8,
+          "SVR_PrimaryWeaponFailure"
+        ],
+        [
+          9,
+          "SVR_MAX"
+        ]
+      ]
+    },
+    "suffix": "ConsumeoneknownprefixatcurrentBitReadercursor; keepallremainingbitsopaque. Logicalbitcount,notphysicalceilbytepadding,definesend."
+  },
+  "minimal_api_proposal": {
+    "not_implemented": true,
+    "reuse": "ExistingBitReader/BitWriter andwire::rpc::RpcPayload;no genericFStringlibrary ornewtransport.",
+    "zeroargs": "encode_no_arg_rpc(field_id,bound,max_rpc_bits); read_no_arg_rpc(BitReader&,bound,max_rpc_bits)->{field_id,consumed_bits},transactionalprefixpolicy. Callerdispatchesexacteffectivetype/direction.",
+    "failed": "Targetedreasonarguments codec withexpliciteligibility/nativeenumcount10; encodecanonicalpresenceforreason0/nonzero, decodepresence/default0andfourrawbits; includeexplicitconsumed_bits. Combinefieldtagviasharedboundedwriter/readertoconsumeoneprefix.",
+    "caller_boundary": "Doesnotexecutevalidation,markstatesready,emitsuccessbyownedreadorperformspawn."
+  },
+  "current_source_gap": {
+    "symbol": "LocalUdpOwner::Impl::collect_start_mech",
+    "file": "src/local_udp_owner.cpp:364",
+    "behavior": "OnlyfirstknownServerSetStartMechfield recognized;nonmatchingfieldkeptopaque. Noparserfor249orspawnvalidationcallbackprovidedbythatpath.",
+    "policy": "Do notinterpret/scanunknownsuffix."
+  },
+  "online_callback_lifecycle": {
+    "already_frozen_source": {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc",
+      "bytes": 40223
+    },
+    "sequence": [
+      "ClientSpawnSelectionValidated(serverreliableclientevent) setsbEnteredWorldtrue,GotoSelectionStage3.",
+      "GotoSelectionStage locallysetsstageandcallsServerUpdateSelectionStage(int).",
+      "ServerUpdateSelectionStage serverreliableRPC storesbytecaststage;stage3callsServerRestartPlayer.",
+      "EngineServerRestartPlayer: beforeWaitDelay orNM_Clientreturns;waitingmatchsetsready;elseGame.RestartPlayer.",
+      "Game.RestartPlayer requiresStartSpot andPawn/spawn success;Possess/ClientRestart arelaterseparate lifecycle."
+    ],
+    "no_proof": "NeitherpureaggregationsuccessnorHTTP200provesspawn/admission/possession. Individualfivevalidationinputrulesandcaa090contextgate remainunresolved."
+  },
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-rpc-contract\\derive.py",
+      "sha256": "b72d45f4bd3f06ba409507b90c93ec9ae2c47da2a70fd3d10876756e2fbbb6ea",
+      "bytes": 6763
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-rpc-contract\\package-proof.json",
+      "sha256": "cf2e28b1be354473eacbe1599b0af33907775f90033f6402133e0e6456b034f3",
+      "bytes": 22723
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-rpc-contract\\native-proof.json",
+      "sha256": "49aa5c27486bcd2eef68c5a332ba21b42db06a0d5d37423db66be9eae30ab9df",
+      "bytes": 11761
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-rpc-contract\\fixtures.json",
+      "sha256": "41a575e1f9f953acac3ec6bca3e9b0731420ac70375b5fe4575c99d3632deafe",
+      "bytes": 1249
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\HawkenGame.upk.json",
+      "sha256": "1eff14a8f5886933ea83a7c3a732c8ffc5ff1193a33ff1f31c0c5e768013a1e7",
+      "bytes": 46151956
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\manifest.json",
+      "sha256": "3db61ae49086526d8f5b881d5da7d89feb7aa4502a9217d91da0b5647b45fb00",
+      "bytes": 5272889
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-effective-field-cache\\conditional-all-mapped-cache.json",
+      "sha256": "b118fff2c7bb7806fe8616e2097ce81fcf549de8c532218763320138d3d65258",
+      "bytes": 57064
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-effective-field-cache\\serialized-child-fields.json",
+      "sha256": "8ada65dca910693084ee14447e7b071105f62336b80efb33afef1c61a415d4dc",
+      "bytes": 3063754
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\mech-struct-wire\\native-members\\contract.json",
+      "sha256": "3ec06be6abc2b6cf07c6c9899c5089b18b237ff34748a303e0c78770c79a973f",
+      "bytes": 19734
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\mech-struct-wire\\native-members\\vtable-bindings.json",
+      "sha256": "2e0ee673bb945601e1920db314fd2b15fc68e0ab58fd0d6b1ee9bcf46300921c",
+      "bytes": 452
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\movement-wire-native-20261012\\native\\focused-functions.jsonl",
+      "sha256": "3eceb708600a540d9b3e1ffea32c56e8685b36bd8382447150c0a0fbc5fbfec8",
+      "bytes": 16682
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\movement-wire-native-20261012\\native\\focused-instructions.json",
+      "sha256": "c9e45d9f8ad156404a103d904ce6528a1b912467ed22fbc6481e19b42eb69779",
+      "bytes": 18173
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\mech-struct-wire\\native-members\\focused-instructions.json",
+      "sha256": "b11a5b6a26532f800e3cf69d713b7f032f2ab2e656d171ab26a02e053f86bc1f",
+      "bytes": 29129
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-sender\\contract.json",
+      "sha256": "8c329ca1ede2c3ea1f4b07dcf6b6f3283b44c581032b33abcbc3c7e6e7c5bc51",
+      "bytes": 18940
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-rpc-wire\\contract.json",
+      "sha256": "38c87d879c96e144a22684a9dc1f0ecba419953f03be7b14bf85e1544bd04f45",
+      "bytes": 17184
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\contract-v3.json",
+      "sha256": "a59959fca4fd4158d07c588f7b8e5879845696c02c90800849bcdd9d10894208",
+      "bytes": 10932
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc",
+      "bytes": 40223
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\game_wire.hpp",
+      "sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2",
+      "bytes": 2026
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\game_wire.cpp",
+      "sha256": "f5a919ed338583db0e3243142fa7491fb67d6c28d20870275b4d442d98309d6a",
+      "bytes": 4925
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\local_udp_owner.cpp",
+      "sha256": "515f41c2adcd37e56e7382a72de3b73da1ea23ba4bf7b1edb61450a3f6a219eb",
+      "bytes": 47395
+    }
+  ]
+}

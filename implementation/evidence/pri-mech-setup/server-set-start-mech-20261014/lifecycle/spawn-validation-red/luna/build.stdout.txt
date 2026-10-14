@@ -1,0 +1,9 @@
+[0/1] Re-running CMake...
+-- Configuring done (0.2s)
+-- Generating done (0.2s)
+-- Build files have been written to: F:/HawkenServer/build/windows-msvc
+[1/6] Building CXX object CMakeFiles\hawken_spawn_validation.dir\src\spawn_validation.cpp.obj
+[2/6] Linking CXX static library hawken_spawn_validation.lib
+[3/6] Building CXX object CMakeFiles\hawken-spawn-validation-tests.dir\tests\test_main.cpp.obj
+[4/6] Building CXX object CMakeFiles\hawken-spawn-validation-tests.dir\tests\spawn_validation_tests.cpp.obj
+[5/6] Linking CXX executable hawken-spawn-validation-tests.exe

@@ -1,0 +1,136 @@
+{
+  "schema": "focused-ghidra-validation-summary-v1",
+  "target_entry": "0x140dce050",
+  "function": "FUN_140dce050",
+  "function_entry": "140dce050",
+  "body_ranges": "[[140dce050, 140dce253]]",
+  "decompile_completed": true,
+  "program_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "ghidra_exit_code": 0,
+  "instruction_count": 122,
+  "first_instruction_address": "140dce050",
+  "last_instruction_address": "140dce253",
+  "original_byte_validation": {
+    "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "expected_original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "verified_instruction_count": 122,
+    "total_instruction_count": 122,
+    "all_match": true,
+    "contiguous": true,
+    "gaps": 0,
+    "mismatches": 0,
+    "byte_stream_sha256": "6ddf8279f071c7d4c61919edb50efe6cf3e94a10965f0e0bea4171f62796d36c",
+    "body_start": "140dce050",
+    "body_end_exclusive": "0x140dce254",
+    "byte_length": 516
+  },
+  "callers": [
+    {
+      "name": "FUN_140dc03d0",
+      "entry": "140dc03d0"
+    }
+  ],
+  "callees": [
+    {
+      "name": "FUN_1400ae830",
+      "entry": "1400ae830"
+    },
+    {
+      "name": "FUN_140020d30",
+      "entry": "140020d30"
+    },
+    {
+      "name": "FUN_14004e9d0",
+      "entry": "14004e9d0"
+    },
+    {
+      "name": "FUN_1400bd490",
+      "entry": "1400bd490"
+    },
+    {
+      "name": "FUN_1400aea00",
+      "entry": "1400aea00"
+    },
+    {
+      "name": "FUN_140002c20",
+      "entry": "140002c20"
+    }
+  ],
+  "input_stability": {
+    "input_count": 8,
+    "all_match": true,
+    "changed_paths": []
+  },
+  "frozen_references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\freeze-completion.json",
+      "sha256": "3525ebcda28d108e214a8a751a19d69a15e382999b6c6fb7bc71d7d1e163cf1b"
+    }
+  ],
+  "output_hashes": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\functions.jsonl",
+      "sha256": "08ec10090a69d0a122f3f21acaa0eaacd0bc631cbfda64205e699c5a44d37922",
+      "bytes": 7585
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\instructions.json",
+      "sha256": "d58699efee12a679591accac228be1d6bc72c82c7e58824936f8634563b9d15d",
+      "bytes": 9815
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\original-byte-validation.json",
+      "sha256": "9547996dc0369adc6f085920e60474d1ae3e7227928dbe8d9fb4f20a814c4aaf",
+      "bytes": 24451
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\stdout.txt",
+      "sha256": "45d751948d8c5a3d9c419df48341a1b80cc475128258b58899689e4f6ec11766",
+      "bytes": 4254
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\ghidra.log",
+      "sha256": "26072d5a77e88485d0d79bb1be5800434fd9b75fee11de39cf67dd31a6ef452c",
+      "bytes": 4821
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\addresses.txt",
+      "sha256": "da8093f1e20b06f81827f2c7c8a838655bf56d46881aa5c47ff3aa05df363e95",
+      "bytes": 13
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\run-aggregate-callee.cmd",
+      "sha256": "e2231da4a51f4371f72098f17dceada6e216f5635d7a8e5e41c2860ba7f5967f",
+      "bytes": 1751
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate\\luna\\inputs-after.json",
+      "sha256": "65ceb5b195ebb72cdcf69953dd8e7517b2c21be1d7ce454f093b2150f2c9c59b",
+      "bytes": 2986
+    }
+  ],
+  "static_control_flow": [
+    "If any state byte at param_1+0x10FB through +0x10FF equals 2, this branch stores 2 at param_1+0x10FA.",
+    "Else, if all five state bytes equal 3, this branch stores 3 at param_1+0x10FA.",
+    "Otherwise, the default branch stores 1 at param_1+0x10FA.",
+    "All three branches call FUN_140020d30. The second and default branches also call FUN_140002c20 and FUN_1400aea00. The state-2 branch calls FUN_1400ae830 and contains a length check plus a FUN_1400bd490 call path."
+  ],
+  "interpretation_limits": [
+    "This is static decompilation plus instruction-byte agreement only; it does not establish runtime or gameplay behavior.",
+    "Callee/global semantics are not identified beyond the recorded function names and addresses."
+  ]
+}

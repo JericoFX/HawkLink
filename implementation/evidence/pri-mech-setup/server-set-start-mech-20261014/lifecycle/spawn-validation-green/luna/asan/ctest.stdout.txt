@@ -1,0 +1,123 @@
+UpdateCTestConfiguration  from :F:/HawkenServer/DartConfiguration.tcl
+Test project F:/HawkenServer/build/windows-msvc-asan
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 38
+    Start 38: spawn_validation
+
+38: Test command: F:\HawkenServer\build\windows-msvc-asan\hawken-spawn-validation-tests.exe
+38: Working Directory: F:/HawkenServer/build/windows-msvc-asan
+38: Test timeout computed to be: 10000000
+38: [doctest] doctest version is "2.4.12"
+38: [doctest] run with "--help" for options
+38: ===============================================================================
+38: [doctest] test cases:    4 |    4 passed | 0 failed | 0 skipped
+38: [doctest] assertions: 4854 | 4854 passed | 0 failed |
+38: [doctest] Status: SUCCESS!
+38: =================================================================
+38: ==7860==ERROR: AddressSanitizer: alloc-dealloc-mismatch (operator new vs operator delete []) on 0x113f2a7a09e0
+38:     #0 0x7ff7f5f5517e in operator delete[](void *) D:\a\_work\1\s\src\vctools\asan\llvm\compiler-rt\lib\asan\asan_win_delete_array_thunk.cpp:43
+38:     #1 0x7ff7f5eb657c in doctest::String::~String(void) F:\HawkenServer\third_party\doctest\doctest.h:3640
+38:     #2 0x7ff7f5e9d0ea in std::_Tree_val<struct std::_Tree_simple_types<struct doctest::detail::TestCase>>::_Erase_tree<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:770
+38:     #3 0x7ff7f5e9d0a3 in std::_Tree_val<struct std::_Tree_simple_types<struct doctest::detail::TestCase>>::_Erase_tree<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:769
+38:     #4 0x7ff7f5e9d0a3 in std::_Tree_val<struct std::_Tree_simple_types<struct doctest::detail::TestCase>>::_Erase_tree<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:769
+38:     #5 0x7ff7f5eb4752 in std::_Tree<class std::_Tset_traits<struct doctest::detail::TestCase, struct std::less<struct doctest::detail::TestCase>, class std::allocator<struct doctest::detail::TestCase>, 0>>::~_Tree<class std::_Tset_traits<struct doctest::detail::TestCase, struct std::less<struct doctest::detail::TestCase>, class std::allocator<struct doctest::detail::TestCase>, 0>>(void) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:1097
+38:     #6 0x7ff7f5fd158f in `doctest::detail::getRegisteredTests'::`2'::`dynamic atexit destructor for 'data'' (F:\HawkenServer\build\windows-msvc-asan\hawken-spawn-validation-tests.exe+0x14014158f)
+38:     #7 0x7ff7f5fa7399 in <lambda_f03950bc5685219e0bcd2087efbe011e>::operator() minkernel\crts\ucrt\src\appcrt\startup\onexit.cpp:204
+38:     #8 0x7ff7f5fa6fe4 in __crt_seh_guarded_call<int>::operator()<<lambda_7777bce6b2f8c936911f934f8298dc43>,<lambda_f03950bc5685219e0bcd2087efbe011e> &,<lambda_3883c3dff614d5e0c5f61bb1ac94921c> > VCCRT\vcruntime\inc\internal_shared.h:204
+38:     #9 0x7ff7f5fa74a8 in __acrt_lock_and_call minkernel\crts\ucrt\inc\corecrt_internal.h:983
+38:     #10 0x7ff7f5fa74a8 in _execute_onexit_table minkernel\crts\ucrt\src\appcrt\startup\onexit.cpp:160
+38:     #11 0x7ff7f5f6b11d in <lambda_6e4b09c48022b2350581041d5f6b0c4c>::operator() minkernel\crts\ucrt\src\appcrt\startup\exit.cpp:230
+38:     #12 0x7ff7f5f6afd4 in __crt_seh_guarded_call<void>::operator()<<lambda_d80eeec6fff315bfe5c115232f3240e3>,<lambda_6e4b09c48022b2350581041d5f6b0c4c> &,<lambda_2358e3775559c9db80273638284d5e45> > VCCRT\vcruntime\inc\internal_shared.h:224
+38:     #13 0x7ff7f5f6b27a in __acrt_lock_and_call minkernel\crts\ucrt\inc\corecrt_internal.h:983
+38:     #14 0x7ff7f5f6b27a in common_exit minkernel\crts\ucrt\src\appcrt\startup\exit.cpp:199
+38:     #15 0x7ff7f5f56102 in __scrt_common_main_seh D:\a\_work\1\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl:295
+38:     #16 0x7ff970aecdf6  (C:\WINDOWS\System32\KERNEL32.DLL+0x18002cdf6)
+38:     #17 0x7ff97115ee4b  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x18007ee4b)
+38: 
+38: 0x113f2a7a09e0 is located 0 bytes inside of 49-byte region [0x113f2a7a09e0,0x113f2a7a0a11)
+38: allocated by thread T0 here:
+38:     #0 0x7ff7f5f54f95 in operator new(unsigned __int64) D:\a\_work\1\s\src\vctools\asan\llvm\compiler-rt\lib\asan\asan_win_new_scalar_thunk.cpp:40
+38:     #1 0x7ff7f5f5511d in operator new[](unsigned __int64) D:\a\_work\1\s\src\vctools\asan\llvm\compiler-rt\lib\asan\asan_win_new_array_thunk.cpp:44
+38:     #2 0x7ff7f5ed257d in doctest::String::allocate(unsigned int) F:\HawkenServer\third_party\doctest\doctest.h:3612
+38:     #3 0x7ff7f5ed5e6a in doctest::String::copy(class doctest::String const &) F:\HawkenServer\third_party\doctest\doctest.h:3629
+38:     #4 0x7ff7f5eb8d49 in doctest::String::operator=(class doctest::String const &) F:\HawkenServer\third_party\doctest\doctest.h:3661
+38:     #5 0x7ff7f5eb8e74 in doctest::detail::TestCase::operator=(struct doctest::detail::TestCase const &) F:\HawkenServer\third_party\doctest\doctest.h:4344
+38:     #6 0x7ff7f5eb166f in doctest::detail::TestCase::TestCase(struct doctest::detail::TestCase const &) F:\HawkenServer\third_party\doctest\doctest.h:4340
+38:     #7 0x7ff7f5e92bf2 in std::construct_at C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xutility:463
+38:     #8 0x7ff7f5e92bf2 in std::_Default_allocator_traits<std::allocator<std::_Tree_node<doctest::detail::TestCase,void *> > >::construct C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xmemory:730
+38:     #9 0x7ff7f5e92bf2 in std::_Tree_temp_node<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>::_Tree_temp_node<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>><struct doctest::detail::TestCase const &>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *, struct doctest::detail::TestCase const &) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:830
+38:     #10 0x7ff7f5e97816 in std::_Tree<class std::_Tset_traits<struct doctest::detail::TestCase, struct std::less<struct doctest::detail::TestCase>, class std::allocator<struct doctest::detail::TestCase>, 0>>::_Emplace<struct doctest::detail::TestCase const &>(struct doctest::detail::TestCase const &) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:1023
+38:     #11 0x7ff7f5ee8608 in doctest::detail::regTest(struct doctest::detail::TestCase const &) F:\HawkenServer\third_party\doctest\doctest.h:4529
+38:     #12 0x7ff7f5e91629 in `dynamic initializer for 'DOCTEST_ANON_VAR_24'' F:\HawkenServer\tests\spawn_validation_tests.cpp:76
+38:     #13 0x7ff7f5f99c91 in _initterm minkernel\crts\ucrt\src\appcrt\startup\initterm.cpp:21
+38:     #14 0x7ff7f5f56010 in __scrt_common_main_seh D:\a\_work\1\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl:256
+38:     #15 0x7ff970aecdf6  (C:\WINDOWS\System32\KERNEL32.DLL+0x18002cdf6)
+38:     #16 0x7ff97115ee4b  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x18007ee4b)
+38: 
+38: SUMMARY: AddressSanitizer: alloc-dealloc-mismatch F:\HawkenServer\third_party\doctest\doctest.h:3640 in doctest::String::~String(void)
+38: ==7860==HINT: if you don't care about these errors you may set ASAN_OPTIONS=alloc_dealloc_mismatch=0
+38: ==7860==ABORTING
+1/1 Test #38: spawn_validation .................***Failed    0.39 sec
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:    4 |    4 passed | 0 failed | 0 skipped
+[doctest] assertions: 4854 | 4854 passed | 0 failed |
+[doctest] Status: SUCCESS!
+=================================================================
+==7860==ERROR: AddressSanitizer: alloc-dealloc-mismatch (operator new vs operator delete []) on 0x113f2a7a09e0
+    #0 0x7ff7f5f5517e in operator delete[](void *) D:\a\_work\1\s\src\vctools\asan\llvm\compiler-rt\lib\asan\asan_win_delete_array_thunk.cpp:43
+    #1 0x7ff7f5eb657c in doctest::String::~String(void) F:\HawkenServer\third_party\doctest\doctest.h:3640
+    #2 0x7ff7f5e9d0ea in std::_Tree_val<struct std::_Tree_simple_types<struct doctest::detail::TestCase>>::_Erase_tree<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:770
+    #3 0x7ff7f5e9d0a3 in std::_Tree_val<struct std::_Tree_simple_types<struct doctest::detail::TestCase>>::_Erase_tree<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:769
+    #4 0x7ff7f5e9d0a3 in std::_Tree_val<struct std::_Tree_simple_types<struct doctest::detail::TestCase>>::_Erase_tree<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:769
+    #5 0x7ff7f5eb4752 in std::_Tree<class std::_Tset_traits<struct doctest::detail::TestCase, struct std::less<struct doctest::detail::TestCase>, class std::allocator<struct doctest::detail::TestCase>, 0>>::~_Tree<class std::_Tset_traits<struct doctest::detail::TestCase, struct std::less<struct doctest::detail::TestCase>, class std::allocator<struct doctest::detail::TestCase>, 0>>(void) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:1097
+    #6 0x7ff7f5fd158f in `doctest::detail::getRegisteredTests'::`2'::`dynamic atexit destructor for 'data'' (F:\HawkenServer\build\windows-msvc-asan\hawken-spawn-validation-tests.exe+0x14014158f)
+    #7 0x7ff7f5fa7399 in <lambda_f03950bc5685219e0bcd2087efbe011e>::operator() minkernel\crts\ucrt\src\appcrt\startup\onexit.cpp:204
+    #8 0x7ff7f5fa6fe4 in __crt_seh_guarded_call<int>::operator()<<lambda_7777bce6b2f8c936911f934f8298dc43>,<lambda_f03950bc5685219e0bcd2087efbe011e> &,<lambda_3883c3dff614d5e0c5f61bb1ac94921c> > VCCRT\vcruntime\inc\internal_shared.h:204
+    #9 0x7ff7f5fa74a8 in __acrt_lock_and_call minkernel\crts\ucrt\inc\corecrt_internal.h:983
+    #10 0x7ff7f5fa74a8 in _execute_onexit_table minkernel\crts\ucrt\src\appcrt\startup\onexit.cpp:160
+    #11 0x7ff7f5f6b11d in <lambda_6e4b09c48022b2350581041d5f6b0c4c>::operator() minkernel\crts\ucrt\src\appcrt\startup\exit.cpp:230
+    #12 0x7ff7f5f6afd4 in __crt_seh_guarded_call<void>::operator()<<lambda_d80eeec6fff315bfe5c115232f3240e3>,<lambda_6e4b09c48022b2350581041d5f6b0c4c> &,<lambda_2358e3775559c9db80273638284d5e45> > VCCRT\vcruntime\inc\internal_shared.h:224
+    #13 0x7ff7f5f6b27a in __acrt_lock_and_call minkernel\crts\ucrt\inc\corecrt_internal.h:983
+    #14 0x7ff7f5f6b27a in common_exit minkernel\crts\ucrt\src\appcrt\startup\exit.cpp:199
+    #15 0x7ff7f5f56102 in __scrt_common_main_seh D:\a\_work\1\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl:295
+    #16 0x7ff970aecdf6  (C:\WINDOWS\System32\KERNEL32.DLL+0x18002cdf6)
+    #17 0x7ff97115ee4b  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x18007ee4b)
+
+0x113f2a7a09e0 is located 0 bytes inside of 49-byte region [0x113f2a7a09e0,0x113f2a7a0a11)
+allocated by thread T0 here:
+    #0 0x7ff7f5f54f95 in operator new(unsigned __int64) D:\a\_work\1\s\src\vctools\asan\llvm\compiler-rt\lib\asan\asan_win_new_scalar_thunk.cpp:40
+    #1 0x7ff7f5f5511d in operator new[](unsigned __int64) D:\a\_work\1\s\src\vctools\asan\llvm\compiler-rt\lib\asan\asan_win_new_array_thunk.cpp:44
+    #2 0x7ff7f5ed257d in doctest::String::allocate(unsigned int) F:\HawkenServer\third_party\doctest\doctest.h:3612
+    #3 0x7ff7f5ed5e6a in doctest::String::copy(class doctest::String const &) F:\HawkenServer\third_party\doctest\doctest.h:3629
+    #4 0x7ff7f5eb8d49 in doctest::String::operator=(class doctest::String const &) F:\HawkenServer\third_party\doctest\doctest.h:3661
+    #5 0x7ff7f5eb8e74 in doctest::detail::TestCase::operator=(struct doctest::detail::TestCase const &) F:\HawkenServer\third_party\doctest\doctest.h:4344
+    #6 0x7ff7f5eb166f in doctest::detail::TestCase::TestCase(struct doctest::detail::TestCase const &) F:\HawkenServer\third_party\doctest\doctest.h:4340
+    #7 0x7ff7f5e92bf2 in std::construct_at C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xutility:463
+    #8 0x7ff7f5e92bf2 in std::_Default_allocator_traits<std::allocator<std::_Tree_node<doctest::detail::TestCase,void *> > >::construct C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xmemory:730
+    #9 0x7ff7f5e92bf2 in std::_Tree_temp_node<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>>::_Tree_temp_node<class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>>><struct doctest::detail::TestCase const &>(class std::allocator<struct std::_Tree_node<struct doctest::detail::TestCase, void *>> &, struct std::_Tree_node<struct doctest::detail::TestCase, void *> *, struct doctest::detail::TestCase const &) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:830
+    #10 0x7ff7f5e97816 in std::_Tree<class std::_Tset_traits<struct doctest::detail::TestCase, struct std::less<struct doctest::detail::TestCase>, class std::allocator<struct doctest::detail::TestCase>, 0>>::_Emplace<struct doctest::detail::TestCase const &>(struct doctest::detail::TestCase const &) C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\include\xtree:1023
+    #11 0x7ff7f5ee8608 in doctest::detail::regTest(struct doctest::detail::TestCase const &) F:\HawkenServer\third_party\doctest\doctest.h:4529
+    #12 0x7ff7f5e91629 in `dynamic initializer for 'DOCTEST_ANON_VAR_24'' F:\HawkenServer\tests\spawn_validation_tests.cpp:76
+    #13 0x7ff7f5f99c91 in _initterm minkernel\crts\ucrt\src\appcrt\startup\initterm.cpp:21
+    #14 0x7ff7f5f56010 in __scrt_common_main_seh D:\a\_work\1\s\src\vctools\crt\vcstartup\src\startup\exe_common.inl:256
+    #15 0x7ff970aecdf6  (C:\WINDOWS\System32\KERNEL32.DLL+0x18002cdf6)
+    #16 0x7ff97115ee4b  (C:\WINDOWS\SYSTEM32\ntdll.dll+0x18007ee4b)
+
+SUMMARY: AddressSanitizer: alloc-dealloc-mismatch F:\HawkenServer\third_party\doctest\doctest.h:3640 in doctest::String::~String(void)
+==7860==HINT: if you don't care about these errors you may set ASAN_OPTIONS=alloc_dealloc_mismatch=0
+==7860==ABORTING
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.42 sec
+
+The following tests FAILED:
+	 38 - spawn_validation (Failed)

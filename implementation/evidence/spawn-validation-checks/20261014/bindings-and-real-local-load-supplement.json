@@ -1,0 +1,261 @@
+{
+  "status": "STATIC_BINDINGS_AND_REAL_LOCAL_VALIDATION_PLAN;NO_INTEGRATION_OR_NATIVE_GAMEPLAY_ACCEPTANCE",
+  "v1_errata": [
+    {
+      "previous": "Achievements MenuSync API404 is not a SQL load; achievement statusproducer unknown.",
+      "precision": "SQL lookup stillmissing, but native404absence DOESmean successfulEMPTYload: bd5a50 HTTP200+API404 clears collection, error0,+b0=2. Do not conflateAPI404absent with ERROR3 or change toAPI200empty."
+    },
+    {
+      "previous": "d97820 thirdparameter described aslookupresult+currentpreset+60.",
+      "correction": "dd1100 reassigns lVar6 toPresetarraydata; d97820 params are MechSetup, currentpreset+80 weaponinstanceFString, currentpreset+60 rootmechFString. Not lookupresultpointer arithmetic."
+    },
+    {
+      "previous": "Missing nativeinstanceexpiry/asyncstatus implies inabilitytoimplementvalidation untilallnativebindings.",
+      "clarification": "Server reconstruction neednotcloneasyncobjects. Successfullycheckedandcommitted ownSQLload can produceLOADED; localpermanentstarterpolicy can proveunexpiredwithoutclaiminghistoricalexpiry. Namedbindings remainusefulreference, not an artificialintegrationblocker."
+    }
+  ],
+  "concrete_cells": [
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x518",
+      "cell_rva": "0x17bd9a8",
+      "raw_offset": "0x17bcda8",
+      "section": ".rdata",
+      "bytes": "c0d3d64001000000",
+      "target_rva": "0xd6d3c0",
+      "semantic_name": "GetMechPresetIndex",
+      "binding_status": "CONFIRMED_NAMED_PAIR_WRAPPER_THIS518_AND_OWNBODY"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x4b0",
+      "cell_rva": "0x17bd940",
+      "raw_offset": "0x17bcd40",
+      "section": ".rdata",
+      "bytes": "5062d94001000000",
+      "target_rva": "0xd96250",
+      "semantic_name": "IsCurrentPresetIndexValid",
+      "binding_status": "CANDIDATE_LABEL;DATA_CELL_CONFIRMED;OWNBODY_AND_NAMEDWRAPPER_NOT_RETAINED"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x4f0",
+      "cell_rva": "0x17bd980",
+      "raw_offset": "0x17bcd80",
+      "section": ".rdata",
+      "bytes": "309cd54001000000",
+      "target_rva": "0xd59c30",
+      "semantic_name": "DidCurrentPresetLoadFail",
+      "binding_status": "CANDIDATE_LABEL;DATA_CELL_CONFIRMED;OWNBODY_AND_NAMEDWRAPPER_NOT_RETAINED"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x4e0",
+      "cell_rva": "0x17bd970",
+      "raw_offset": "0x17bcd70",
+      "section": ".rdata",
+      "bytes": "6062d94001000000",
+      "target_rva": "0xd96260",
+      "semantic_name": "IsCurrentPresetLoaded",
+      "binding_status": "CANDIDATE_LABEL;DATA_CELL_CONFIRMED;OWNBODY_AND_NAMEDWRAPPER_NOT_RETAINED"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x508",
+      "cell_rva": "0x17bd998",
+      "raw_offset": "0x17bcd98",
+      "section": ".rdata",
+      "bytes": "3062d94001000000",
+      "target_rva": "0xd96230",
+      "semantic_name": "IsCurrentPresetExpired",
+      "binding_status": "CANDIDATE_LABEL;DATA_CELL_CONFIRMED;OWNBODY_AND_NAMEDWRAPPER_NOT_RETAINED"
+    },
+    {
+      "vtable_rva": "0x169db60",
+      "slot": "0x2d8",
+      "cell_rva": "0x169de38",
+      "raw_offset": "0x169d238",
+      "section": ".rdata",
+      "bytes": "a0f3b84001000000",
+      "target_rva": "0xb8f3a0",
+      "semantic_name": "OnlineGameItemInstance.IsExpired",
+      "binding_status": "CANDIDATE_NAMED_PAIR_AND_RESPONSE6_CONTEXT;OWNBODY_METADATA_EXISTS_NO_PSEUDOCODE_RETAINED"
+    }
+  ],
+  "own_bodies_available": {
+    "0xd6d3c0": "MechPresetarray+284/count28c stride470; GUIDFString+60 matchedvia002b60/_wcsicmp; returnindexor-1. Namedwrapperd26c40 known518withthis.",
+    "0xd97820": "NonemptyweaponFString(countnot0/1); MechSetupvirtual520->collection; missingcollection returnsTRUE nativebypass; nonnullcollection290(weaponGUID)->instance; instance+e8 FStringParent comparedcaseinsensitivewithrootMechGUID via002b60. Ourcheckedpolicy requirescompleteownedsnapshot; it neednotadoptmissingcollectionbypass.",
+    "0x002b60": "Stage4 fullbody uses_wcsicmp; normalizesmissingFStringdata toemptycharliteral; returnscomparison==0."
+  },
+  "missing_own_bodies_reference_only": [
+    "0xd96250",
+    "0xd59c30",
+    "0xd96260",
+    "0xd96230",
+    "0xb8f3a0"
+  ],
+  "achievement_producer_edges": {
+    "confirmed_uc": "RPRI.Reset/ResetHawkenProperties createsOnlineUnlockedAchievementCollection; InitOnlineStats nonStandalone createsowncollection; ConditionalLinkStormEntitiesToLocalPlayer borrowsLocalPlayerAccountonlyStandalone. CollectionenumUACS_LOADED2/UACS_ERROR3.",
+    "native_named_pairs": "AR_DeathmatchexecReadOnlinePlayerAccount\u2192d1fbf0; AR_DeathmatchexecOnReadUnlockedAchievementCollectionCompleted\u2192d201d0; registrationInitGame delegates in UC. Their ownbodies/dispatchtargets notretainedincheckedindex. A targeted futurebody couldclosewhoassignsPRI+8c8, but localSQLload doesnotneedtoreconstructthatobject.",
+    "literal_prefix_erratum": "UCgeneratedcommentUR_Deathmatch didnotmatchnativeASCII; exactoriginalliteral isAR_Deathmatch. AbsentURliteral isnotabsenceoffunction."
+  },
+  "original_empty_achievement_path": {
+    "contract": "remaining-menu-sync-contract unlocked_empty_end_to_end",
+    "exe_bd5a50": "HTTP task+60==200 ANDAPI task+464==404 =>clearcollection; thenerror+2598=0, collection+b0=2. Internal401 guardoverride error17/state3 remainsauthfailure.",
+    "sdk_317d0": "HTTP/API2xx+internal0or2xx invokesphase2 evenwhenids[]; non2xxAPI404 bypassesphase2andcopiesHTTP200/API404/internal0.",
+    "sdk_2d920": "IDsvectoremptyguard2d9c2..2d9f4 invokes38540(Achievement ids.), producesinternal400/HTTP0; noPOST. ThusHTTP200/API200/[] isNOTvalidemptyGETabsencepolicy.",
+    "shape": "GET/userAchievements/{escapedguid}?countryCode={escapedregion}; ResultarrayofIDstrings; emptyactualabsenceHTTP200/API404/[]; nofakeGUID orreward.",
+    "original_checks": "92retainedinstructionspans independentlyremappedandMATCHoriginalEXE/SDK inretained-empty-achievement-byte-check.json; notnewfulldecompilation."
+  },
+  "real_server_data": {
+    "existing": "SessionAssignment.account_for_udp freshgrant/ban/lease/expiry scope copy; LocalStore.owned_starter_mech readonlytransactionrequireaccount/grant+9orderedroles/exactroot; InventoryService checks9configuredtypeIDs andbuildseffectivebaseline+overrides; materializer validatesroles+selectedindices andconstructsall67fields.",
+    "primary_parent": "starter_inventory_result lines58..64 constructsReadOnly_Parent=rootfor8ownedchildren andRootChildrenlist; effectivevalidatedprimaryreference matchesprimaryrow. Compareownedprimary.parent/root withASCIIcaseinsensitiveGUID semantics, not typeGUIDorLocalNetIndex.",
+    "permanence": "Parentexplicitreconstructionpolicy: currentStarterinstances arepermanent, withnoexpiry/revokeengine. This isserverownedpolicy, notoriginalhistoricmerchandiseclaim; account/grantrevocation stillfreshchecked.",
+    "loaded": "Markowncollectionloaded onlyafter successfulSQLownedload+configuredrolecheck; markownpresetloaded onlyaftermaterializercompletes exactacceptedselection/root; encode/sendACK doesnotcreate loadedproof.",
+    "scope_revalidation": "EverySQL/materializercallback outsideOwnerUse/locks; before/afterfreshassignmentAccountRef equal andexactEntry/selectionrevision/rootunchangedbeforeapplication."
+  },
+  "achievement_sql_gap": {
+    "no_existing_reader": true,
+    "proof": "LocalStore headerAPI+source11strictschema tablenames includeaccounts/wallets/starter_grants/starter_items/game_settings/owned_item_attributes; noachievementtable/API. Graftcasepattern[Aa]chievement findsnosymbolsLocalStore.",
+    "smallest_truthful_existing_schema_policy": {
+      "proposed_api": "AccountAchievementSnapshot LocalStore::account_achievements(const AccountRef&) const",
+      "return": "OwnedimmutableIDscollection, emptyforcurrentno-awardslocalpolicy, returnedonlyafter readonlySQLtransaction state.check(), require_account(server/account), successcommit. Exceptions=>loadfailure, neveremptyfallback.",
+      "truth_boundary": "This is aSQL-verifiedaccountscope PLUSexplicitserverpolicy noawardengine/noactiveearnedachievementrecords, NOTreadinghistoricalachievementstableorimportingSteamawards. Do not call itpersistedearnedawardread. No grant orwrite ornewHTTPfieldsneeded.",
+      "activation": "Permitonlycurrentownserverdomainwithoutawardengine; anyfutureaward/write/import path mustfirstreplacepolicyreaderwithactualpersistedquery. It cannot silentlyignoreknownawards."
+    },
+    "persistent_option_if_parentrequires_table": {
+      "schema": "Formal5\u21926migration newaccount_achievements(account_idFKaccounts,achievement_idTEXT,unlocked_atINT64UTC) primarykey(account_id,achievement_id); schema/index/FKvalidationpreandpost; readrequireAccountRef/server/readtransaction; []onlyafterquerysuccess.",
+      "policy": "These columnnames/time storage andcanonicalUUID36validation wouldbenewlocalstoragepolicy, notnewwiremetadata. Noinsertion/grantAPIorphantomIDs inthisslice. NonemptyHTTPmapping requiresoriginaldefinitioncatalogue+DateEarnedformat acceptance; emptyreaderdoesnot.",
+      "tradeoff": "Notnecessaryfortruthfulcurrentno-awardspolicy; usefulwhenrealawardpersistenceisinactualscope. Parentdecidesauthority."
+    }
+  },
+  "minimal_integration_plan": [
+    "Addonlyaccount-achievementreadonlyseamwithexplicitno-awardsauthoritativepolicy(orapprovedpersistenttable), reuseexistingInventoryeffectiveowned/materializer; do notbuildfivefakeUObjectasyncstates.",
+    "Retain exactacceptedStartMechselection/root/setuprevision perEntry aftersuccessfulownedloadandPRIpropertysend, withtypedproof/data orcallbackvalidationfresh. RecognizeServerValidatePlayerSpawnSelection separately; requiresController/PRI/MechSetup-equivalentownstate andresetsfivechecks1. No fabricatedrequest orautomaticvalidatedevent fromACK.",
+    "Runtime validationcallback freshlyreauthorizesexactaccount; readsownedroot+effective67selection+achievementsscope; producescollection3,preset3,mech3 onlyifrootownedandexplicitpermanentpolicy,primary3 onlyifselectedownedprimaryParent==root,achievement3 onlyifverifiedSQLscope+completeempty/realcollectionload. Anyload/invalidselectionfailure2oruncheckedcondition1; useacceptedpureaggregator.",
+    "Ownerapply onlyafterreauthorization/exactEntrypin+selectionrevisioncheck, realactorACKs+links prerequisite; useexplicitRPCmetadatafromotherwriter (noIDsfromthisnote). ClientSpawnSelectionValidated emittedonceafterALLfive3; failuresrequireexplicitnativefailedRPC/responsecontract, notsilentforcedsuccess. NativepostvalidatedServerUpdateSelectionStage/Restart/ClientRestart/Pawnadmission remainseparatefutureconsumer."
+  ],
+  "no_source_changes_build_tests_runtime_git_ghidra_bywriter": true,
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-checks\\20261014\\check-semantics-and-api-notes.json",
+      "sha256": "5fde54fda7f9422bec3e4643d89270a057517a385d31cb0247352cffa99b2e80"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-checks\\20261014\\freeze.json",
+      "sha256": "7563f4eb1749779277e424a30b79777d7aebf2fec0b682cca1e27cd0ee2d13f1"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-checks\\20261014\\concrete-vtable-cells.json",
+      "sha256": "1493670838f4d94f60b33921faf88932d1b1d33b1a16b3e65c791ed4bc891f8d"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-checks\\20261014\\named-method-data-pairs.json",
+      "sha256": "b7f9290ee7fa3ba91713c77752b167c7dc7dc0ca16c8e5b5362d063d335e929d"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-checks\\20261014\\achievement-native-name-pairs.json",
+      "sha256": "f3eb93858c1682c2d57afdb2d7a105bb1e7d2489835f58e0dbfe349b06d4bff3"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\spawn-validation-checks\\20261014\\retained-empty-achievement-byte-check.json",
+      "sha256": "88aff8f3b8f6ecfb1f5cc95db345b01ce83e561b0146249aadbfcf7df2f705dd"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\contract.json",
+      "sha256": "32e5118187c10585e2f76be92ea00c21b15c7e306bc1b931173c92c2faa478a2"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-legacy-calendar-functions.jsonl",
+      "sha256": "e9aec9fdc86a954c3d3ffa912f0281b4f2de6b679422afc864870b7a28efe7f1"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-rest-functions.jsonl",
+      "sha256": "3b358efaca7d44de423dc7bdb9818916c0661c05eeaba2d80d40b495c4782a13"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\remaining-menu-sync-contract\\sync-sdk-parsers-functions.jsonl",
+      "sha256": "f0a0f3a853f96b95caacce4aa6c92f011b6038c3989bd0da0ab1b6f4531374d8"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\m4-owned-loadout-contract\\ownership-functions.jsonl",
+      "sha256": "840f0e9f5242b79390345e8f0445e78981324deebbd68098a57e232953efeb4f"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\m4-owned-loadout-contract\\ownership-instructions.json",
+      "sha256": "b10abfea1033196bec59108e0a17a1001506d2be918902a67e9de4adf4f93967"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\m4-owned-loadout-contract\\relations-functions.jsonl",
+      "sha256": "30ffb320daa21e8ff01bc4c1f6dff196dd644950be32ab2fe46f33d5a1a73e47"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\m4-owned-loadout-contract\\relations-instructions.json",
+      "sha256": "0a831c01e84042f1dbc1e989cae3ca3e3bb13ea43d297b68f6b3d54747ab234f"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\auth\\m4-owned-loadout-contract\\selection-functions.jsonl",
+      "sha256": "dc06e6220cb3c885cef5f5ab304307e2b2f1c8fb26f43db7ad5cdfb8120d7835"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\dedicated-producer-20261013\\native-method-binding-proof.json",
+      "sha256": "9472bc09826af6440513bb3e47781fe957914489f24587491885f78abae61ea6"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-item-getter-20261013\\stage-1\\functions.jsonl",
+      "sha256": "c7196f94b635e0383d70fdbf568e933db0821c643c856b52d6f7ad687f2e4663"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\native-item-getter-20261013\\stage-4\\functions.jsonl",
+      "sha256": "f66bdd14780250ff39c9c862d86c7723ef8fa68c20c9dfd2b8c9a79c5810d5a7"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\OnlineSubsystemMeteor\\002951-OnlineSubsystemMeteor.OnlineUnlockedAchievementCollection.uc",
+      "sha256": "aa537665bae313405a7cb629d4131be6aa3acf974d013156e9182666ff401d1e"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\OnlineSubsystemMeteor\\002226-OnlineSubsystemMeteor.OnlineGameItemInstance.uc",
+      "sha256": "aebb6b5892c52729f239827f8afb9ef5d14bf78e047a13d9ffb6010337d92ec0"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\008752-HawkenGame.R_PlayerReplicationInfo.uc",
+      "sha256": "ab7c117e4031a913450c59e288e05e179dfd240ef09f6d1e6ee0cac3c0b424ca"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\038987-HawkenGame.R_MechSetup.uc",
+      "sha256": "7c74994c8363edee4ebc5ceb2ec391d6e880284bb98691d4b7bf6e8c5696846f"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\013575-HawkenGame.R_Deathmatch.uc",
+      "sha256": "16f8df0709af3d6a69cde6772e94385dd0b0f8e0b5d254196b93348554aac6f7"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\local_store.cpp",
+      "sha256": "dce4bc874a886aced09761a63e7988293d2eacad7e261e3a43462e6a851de5c4"
+    },
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\local_store.hpp",
+      "sha256": "62e1ef79027bec2416b667781852112994281716b822c4f679d54ed1e6591207"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\starter_inventory.cpp",
+      "sha256": "05a79a4dc44d455a91122e529edee874501e6fbbdf938c5b1ef05eb081d275ed"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\inventory_service.cpp",
+      "sha256": "c063f4efe469e8ef6e865112c684c8d357273530ab4936aac8d71fee79f383bb"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\menu_sync_service.cpp",
+      "sha256": "fdf7ec1bec9b37d2d88327af09a6949b0f744ed78221a9807ff307e48934da4b"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\starter_mech_setup.cpp",
+      "sha256": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\session_assignment.cpp",
+      "sha256": "c2f5e6cef3a8bef4c97466e81f6c571f514eb58feb241d9a6dec0278524afead"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "READY_RED_SOURCES_FROZEN_AWAIT_PARENT_CMAKE_AND_LUNA",
+  "owned_inputs": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "bytes": 922
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "sha256": "5ebe4e5657ee3ba10eb5505e466a44b6455aad401027d38f1f11d91b665984e7",
+      "bytes": 285
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "sha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "bytes": 3788
+    }
+  ],
+  "preimages": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "state": "ABSENT_NEW_FILE"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "state": "ABSENT_NEW_FILE"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "state": "ABSENT_NEW_FILE"
+    }
+  ],
+  "actual_diff": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\red-source.diff",
+    "sha256": "6dd714d2b5fdb7ef62cba7ededb37d88cee3931b4c45f6a84d16613daef8b32c",
+    "bytes": 5454
+  },
+  "original_proof": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate-predicate-supplement.json",
+    "sha256": "d78e2ef58c4db84f7cb9c5ecbf51f58e1f28be39da306aea8541ec0684e79463",
+    "bytes": 33043
+  },
+  "api_namespace": "hawken::game",
+  "stub": "Constantin_process,no actualaggregation; transient scaffoldbeforebehavioralRED.",
+  "tests": {
+    "cases": 4,
+    "partition": "Independent1024Cartesian-sliceoracle:781failed/242pending/1success.",
+    "byte_sweep": "Eachposition0..255withotherfour3.",
+    "priority": "Eachpositionfailed2withothersallraw0..255.",
+    "permutations": "Fiveexplicitnativeoutcomes.",
+    "executed_by_writer": false
+  },
+  "product_integration": false,
+  "builds_tests_runtime_git_native_jobs": 0,
+  "graph_before": "OK6962;parent refreshnew3filesbeforeindexedreliance",
+  "line_endings": "LFnewfiles",
+  "owned_helpers": "No persistenthelpers."
+}

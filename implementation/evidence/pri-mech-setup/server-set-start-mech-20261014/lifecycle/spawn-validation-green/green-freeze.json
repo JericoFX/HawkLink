@@ -1,0 +1,54 @@
+{
+  "status": "READY_GREEN_INPUTS_FROZEN_PENDING_LUNA_VALIDATION",
+  "owned_inputs": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "bytes": 922
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "sha256": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+      "bytes": 658
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "sha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "bytes": 3788
+    }
+  ],
+  "red_before": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\spawn_validation.before.cpp",
+    "sha256": "5ebe4e5657ee3ba10eb5505e466a44b6455aad401027d38f1f11d91b665984e7",
+    "bytes": 285
+  },
+  "actual_diff": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\green-source.diff",
+    "sha256": "568bd08e6f67990229a7a168d862ae985f959b09ea3c4d10f736550494558394",
+    "bytes": 996
+  },
+  "unchanged_header_tests": true,
+  "only_product_change": "src/spawn_validation.cpp aggregate_spawn_validation body; onepass/noallocation/noexcept.",
+  "semantic_review": [
+    "An encountered2 returnsfailed immediately regardlessofanyprior/futurestatus.",
+    "No2 andallfive3 returnssucceeded.",
+    "Everyothercombination remainsin_process; raw0/4..255 notnormalized."
+  ],
+  "integration": "None: no actualvalidators/RPC/spawn/transport changed.",
+  "references": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\red-freeze.json",
+      "sha256": "607952c5660e3db1b55ceb97da94dfb335e834671da56de6fcd979ecddaabe62",
+      "bytes": 2317
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\completion-aggregate-predicate-supplement.json",
+      "sha256": "d78e2ef58c4db84f7cb9c5ecbf51f58e1f28be39da306aea8541ec0684e79463",
+      "bytes": 33043
+    }
+  ],
+  "validation": "Writer performedsource/diff/pinreview only; no builds/tests/runtime/Git. Luna soleowner willrunGREEN.",
+  "graph_before": "OK6969 authoritativeF:/HawkenServer",
+  "line_endings": "LFpreserved",
+  "task_helpers": "No persistenthelperscreated."
+}

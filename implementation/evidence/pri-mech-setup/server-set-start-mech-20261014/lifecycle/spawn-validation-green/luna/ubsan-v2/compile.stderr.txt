@@ -1,0 +1,5 @@
+lld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_symbolizer.cpp.obj): locally defined symbol imported: _errno (defined in libucrt.lib(errno.obj)) [LNK4217]
+lld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_win.cpp.obj): locally defined symbol imported: _errno (defined in libucrt.lib(errno.obj)) [LNK4217]
+lld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_win.cpp.obj): locally defined symbol imported: qsort (defined in libucrt.lib(qsort.obj)) [LNK4217]
+lld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_symbolizer_win.cpp.obj): locally defined symbol imported: wcslen (defined in libucrt.lib(strnlen.obj)) [LNK4217]
+lld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_symbolizer_win.cpp.obj): locally defined symbol imported: wcscat_s (defined in libucrt.lib(wcscat_s.obj)) [LNK4217]

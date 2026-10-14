@@ -1,0 +1,51 @@
+{
+  "status": "OFFLINE_ALGORITHM_METADATA_GOLDENS_NOT_NATIVE_CAPTURE",
+  "fixtures": [
+    {
+      "name": "server_validate_zero_arguments",
+      "bytes_hex": "f9",
+      "logical_bits": 8
+    },
+    {
+      "name": "client_validated_zero_arguments",
+      "bytes_hex": "fa",
+      "logical_bits": 8
+    },
+    {
+      "name": "client_failed_reason0_absent",
+      "bytes_hex": "fb00",
+      "logical_bits": 9
+    },
+    {
+      "name": "client_failed_reason7_present",
+      "bytes_hex": "fb0f",
+      "logical_bits": 13
+    },
+    {
+      "name": "client_failed_reason8_present",
+      "bytes_hex": "fb11",
+      "logical_bits": 13
+    },
+    {
+      "name": "client_failed_reason_ineligible",
+      "bytes_hex": "fb",
+      "logical_bits": 8
+    },
+    {
+      "name": "coalesced_zeroarg_rpc_prefixes",
+      "bytes_hex": "f9fa",
+      "logical_bits": 16,
+      "first_consumed_bits": 8,
+      "opaque_suffix_bits": 8
+    },
+    {
+      "name": "unaligned_validate_with_opaque_suffix",
+      "bytes_hex": "357f01",
+      "logical_bits": 17,
+      "initial_cursor": 5,
+      "rpc_consumed_bits": 8,
+      "remaining_suffix_bits": 4
+    }
+  ],
+  "no_packet_alignment_or_terminator_added": true
+}

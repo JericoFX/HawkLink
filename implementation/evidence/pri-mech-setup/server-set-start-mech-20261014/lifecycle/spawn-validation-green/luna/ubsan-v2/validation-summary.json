@@ -1,0 +1,216 @@
+{
+  "compileExit": "0",
+  "runExit": "0",
+  "command": "@echo off\nsetlocal\ncall \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat\" -arch=amd64 -host_arch=amd64 > \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\devshell.stdout.txt\" 2> \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\devshell.stderr.txt\"\nset \"rc=%ERRORLEVEL%\"\n>\"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\devshell.exit.txt\" echo %rc%\nif not \"%rc%\"==\"0\" exit /b %rc%\nset MSBUILDDISABLENODEREUSE=1\nwhere cl > \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\where-cl.stdout.txt\" 2> \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\where-cl.stderr.txt\"\nset \"rc=%ERRORLEVEL%\"\n>\"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\where-cl.exit.txt\" echo %rc%\nif not \"%rc%\"==\"0\" exit /b %rc%\nset \"PATH=F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin;%PATH%\"\n\"F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\clang-cl.exe\" /nologo /std:c++20 /EHsc /W4 /WX /utf-8 /Iinclude /external:Ithird_party /external:W0 -fsanitize=undefined /clang:-fno-sanitize-recover=all /Fo:\"F:/HawkenServer/implementation/evidence/pri-mech-setup/server-set-start-mech-20261014/lifecycle/spawn-validation-green/luna/ubsan-v2/obj/\" /Fe:\"F:/HawkenServer/implementation/evidence/pri-mech-setup/server-set-start-mech-20261014/lifecycle/spawn-validation-green/luna/ubsan-v2/spawn_validation_ubsan.exe\" /Fd:\"F:/HawkenServer/implementation/evidence/pri-mech-setup/server-set-start-mech-20261014/lifecycle/spawn-validation-green/luna/ubsan-v2/spawn_validation_ubsan.pdb\" \"F:\\HawkenServer\\tests\\test_main.cpp\" \"F:\\HawkenServer\\tests\\spawn_validation_tests.cpp\" \"F:\\HawkenServer\\src\\spawn_validation.cpp\" > \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\compile.stdout.txt\" 2> \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\compile.stderr.txt\"\nset \"rc=%ERRORLEVEL%\"\n>\"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\compile.exit.txt\" echo %rc%\nif not \"%rc%\"==\"0\" exit /b %rc%\nset \"UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1\"\n\"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\spawn_validation_ubsan.exe\" > \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\run.stdout.txt\" 2> \"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\run.stderr.txt\"\nset \"rc=%ERRORLEVEL%\"\n>\"F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\run.exit.txt\" echo %rc%\nexit /b %rc%\r\n",
+  "runEnvironment": "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1; PATH prepended to the existing portable LLVM bin directory",
+  "result": "Standalone UBSan test executable ran successfully: 4/4 cases, 4854/4854 assertions, zero skipped, no UBSan diagnostic",
+  "compilerWarnings": "lld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_symbolizer.cpp.obj): locally defined symbol imported: _errno (defined in libucrt.lib(errno.obj)) [LNK4217]\r\nlld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_win.cpp.obj): locally defined symbol imported: _errno (defined in libucrt.lib(errno.obj)) [LNK4217]\r\nlld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_win.cpp.obj): locally defined symbol imported: qsort (defined in libucrt.lib(qsort.obj)) [LNK4217]\r\nlld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_symbolizer_win.cpp.obj): locally defined symbol imported: wcslen (defined in libucrt.lib(strnlen.obj)) [LNK4217]\r\nlld-link: warning: clang_rt.ubsan_standalone-x86_64.lib(sanitizer_symbolizer_win.cpp.obj): locally defined symbol imported: wcscat_s (defined in libucrt.lib(wcscat_s.obj)) [LNK4217]\r\n",
+  "toolComparison": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\clang-cl.exe",
+      "before": "9584244d83bb095c5a2983f814692cb50e0b8d2916585516cad8f3e8596d8261",
+      "after": "9584244d83bb095c5a2983f814692cb50e0b8d2916585516cad8f3e8596d8261",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\lld-link.exe",
+      "before": "ccfe54db0d5164d3e05350606a464402c3bfedcba05deacbbdbfba82228933ac",
+      "after": "ccfe54db0d5164d3e05350606a464402c3bfedcba05deacbbdbfba82228933ac",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\bin\\llvm-symbolizer.exe",
+      "before": "1554979e1ba1f18c5f2469e862db225a223f512124eed94455934cff88d21124",
+      "after": "1554979e1ba1f18c5f2469e862db225a223f512124eed94455934cff88d21124",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\lib\\clang\\23\\lib\\windows\\clang_rt.ubsan_standalone-x86_64.lib",
+      "before": "e0c724adce2d3b5647dd502d1e848484f7b862ba46b377bcb0a46828ac34f7f9",
+      "after": "e0c724adce2d3b5647dd502d1e848484f7b862ba46b377bcb0a46828ac34f7f9",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\tools\\llvm-23.1.3\\portable\\clang+llvm-23.1.3-x86_64-pc-windows-msvc\\lib\\clang\\23\\lib\\windows\\clang_rt.ubsan_standalone_cxx-x86_64.lib",
+      "before": "66156cb2b370fe6a4155bd3315c6787829609b5e4b3849eb908e0f37735a5692",
+      "after": "66156cb2b370fe6a4155bd3315c6787829609b5e4b3849eb908e0f37735a5692",
+      "unchanged": true
+    }
+  ],
+  "outputs": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\obj\\spawn_validation_tests.obj",
+      "bytes": 190785,
+      "sha256": "9a0b02b9748868a21f96209c02834a76ccd509a7125254a184d3b330eb9c4ec0"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\obj\\spawn_validation.obj",
+      "bytes": 7072,
+      "sha256": "1e45e00ec4c03e5800dc961bbe5ce9e1e4d004389c7727125660a6fa36a8a3cc"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\obj\\test_main.obj",
+      "bytes": 2689810,
+      "sha256": "9238f75cbd8cbd561a7f774dbf080f88fd44d652b5bc419c950431d16ccdc42b"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\spawn_validation_ubsan.exe",
+      "bytes": 1816064,
+      "sha256": "0558e1c084b3b135ed728721e61094fb241bd18611250e21742f1c8f0065b693"
+    }
+  ],
+  "postflightResources": {
+    "freeKiB": 11913340,
+    "totalKiB": 33462640,
+    "usedPercent": 64.4
+  },
+  "protectedPidObservation": [],
+  "activeRelevantProcesses": [],
+  "evidenceFiles": [
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\compile-and-run-ubsan.cmd",
+      "bytes": 3484,
+      "sha256": "6d52681a5f88765057776a4167cc3973374de0e01426a5f344b3c818fc26783f"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\compile.exit.txt",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\compile.stderr.txt",
+      "bytes": 870,
+      "sha256": "0f01209e3608fedab0c384b0e2dad5f94d7cc600c6bdb2000d25db9f7d36303f"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\compile.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\devshell.exit.txt",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\devshell.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\devshell.stdout.txt",
+      "bytes": 247,
+      "sha256": "513c1bd5aff6d1b6b2490f74ccbebbd856b62ef50e1c895a1f305a93b148d95e"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\run.exit.txt",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\run.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\run.stdout.txt",
+      "bytes": 309,
+      "sha256": "03550c610894dc2fbb27fd2967b8a41c989ffad6b10aeb4e46b1dbb42a028650"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\runner.exit.txt",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\spawn_validation_ubsan.exe",
+      "bytes": 1816064,
+      "sha256": "0558e1c084b3b135ed728721e61094fb241bd18611250e21742f1c8f0065b693"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\spawn_validation_ubsan.lib",
+      "bytes": 34068,
+      "sha256": "9e8ea8722da3ceba76c852dfe344a958b3df02f03fe8ecb5a9f00f7a9914756d"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\where-cl.exit.txt",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\where-cl.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\where-cl.stdout.txt",
+      "bytes": 113,
+      "sha256": "bfb606e1aa26ee832edee09da70fa6f855169ffa6f175a71c08ab7f80c37f8e1"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\obj\\spawn_validation_tests.obj",
+      "bytes": 190785,
+      "sha256": "9a0b02b9748868a21f96209c02834a76ccd509a7125254a184d3b330eb9c4ec0"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\obj\\spawn_validation.obj",
+      "bytes": 7072,
+      "sha256": "1e45e00ec4c03e5800dc961bbe5ce9e1e4d004389c7727125660a6fa36a8a3cc"
+    },
+    {
+      "path": "implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-green\\luna\\ubsan-v2\\obj\\test_main.obj",
+      "bytes": 2689810,
+      "sha256": "9238f75cbd8cbd561a7f774dbf080f88fd44d652b5bc419c950431d16ccdc42b"
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "before": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "after": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "before": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+      "after": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "before": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "after": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\test_main.cpp",
+      "before": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+      "after": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\third_party\\doctest\\doctest.h",
+      "before": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+      "after": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+      "unchanged": true
+    }
+  ],
+  "canonicalExecutables": {
+    "baselineSource": "Earlier Clang-ASan preflight, before this UBSan attempt; no canonical product action occurred between that capture and this run.",
+    "baselineCapturedUtc": "2026-10-14T15:38:31.7153935Z",
+    "rows": [
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+        "baselineSha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+        "finalSha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+        "unchanged": true
+      },
+      {
+        "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+        "baselineSha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+        "finalSha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+        "unchanged": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,295 @@
+{
+  "schema": "spawn-validation-red-run-summary-v1",
+  "capturedUtc": "2026-10-14T15:27:52.2785793Z",
+  "frozenManifestPath": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\red-freeze.json",
+  "frozenManifestSha256": "607952c5660e3db1b55ceb97da94dfb335e834671da56de6fcd979ecddaabe62",
+  "expectedOwnedInputPins": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "bytes": 922
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "sha256": "5ebe4e5657ee3ba10eb5505e466a44b6455aad401027d38f1f11d91b665984e7",
+      "bytes": 285
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "sha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "bytes": 3788
+    }
+  ],
+  "inputPinsAfter": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "beforeSha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "afterSha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "beforeBytes": 922,
+      "afterBytes": 922,
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "beforeSha256": "5ebe4e5657ee3ba10eb5505e466a44b6455aad401027d38f1f11d91b665984e7",
+      "afterSha256": "5ebe4e5657ee3ba10eb5505e466a44b6455aad401027d38f1f11d91b665984e7",
+      "beforeBytes": 285,
+      "afterBytes": 285,
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "beforeSha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "afterSha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "beforeBytes": 3788,
+      "afterBytes": 3788,
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\CMakeLists.txt",
+      "beforeSha256": "4d8e3576b9361d4dc393020922b4984c9b1d88a56cd18708be3f6fb55d04c178",
+      "afterSha256": "4d8e3576b9361d4dc393020922b4984c9b1d88a56cd18708be3f6fb55d04c178",
+      "beforeBytes": 49827,
+      "afterBytes": 49827,
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\test_main.cpp",
+      "beforeSha256": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+      "afterSha256": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+      "beforeBytes": 72,
+      "afterBytes": 72,
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\third_party\\doctest\\doctest.h",
+      "beforeSha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+      "afterSha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+      "beforeBytes": 323200,
+      "afterBytes": 323200,
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\CMakePresets.json",
+      "beforeSha256": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3",
+      "afterSha256": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3",
+      "beforeBytes": 4024,
+      "afterBytes": 4024,
+      "match": true
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\CMakeCache.txt",
+      "beforeSha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+      "afterSha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+      "beforeBytes": 20449,
+      "afterBytes": 20449,
+      "match": true
+    }
+  ],
+  "stableNonGeneratedInputs": true,
+  "generatedBuildFiles": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\build.ninja",
+      "beforeSha256": null,
+      "afterSha256": "b5d4b18f000fc2a7a863609ff2f56e9e62d085ee8d6990b753a9e29e91f1f034",
+      "beforeBytes": null,
+      "afterBytes": 360536,
+      "changed": null,
+      "beforeSnapshotCaptured": false,
+      "note": "Post-build file was hashed; its pre-build hash was not captured, so no before/after change is claimed."
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\CMakeCache.txt",
+      "beforeSha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+      "afterSha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+      "beforeBytes": 20449,
+      "afterBytes": 20449,
+      "changed": false,
+      "beforeSnapshotCaptured": true
+    }
+  ],
+  "buildExit": 0,
+  "ctestExit": 8,
+  "target": "hawken-spawn-validation-tests",
+  "ctestSelector": "^spawn_validation$",
+  "ctestRegisteredTestLine": "1/1 Test #38: spawn_validation .................***Failed    0.16 sec",
+  "doctestSummary": {
+    "testCases": 4,
+    "passed": 0,
+    "failed": 4,
+    "skipped": 0,
+    "assertions": 4854,
+    "passedAssertions": 2661,
+    "failedAssertions": 2193,
+    "caseFailureCheckLines": [
+      {
+        "name": "Spawn validation exhausts the independent four-state truth partition",
+        "printedFailureCheckLines": 782
+      },
+      {
+        "name": "Spawn validation preserves every raw-byte boundary in each position",
+        "printedFailureCheckLines": 10
+      },
+      {
+        "name": "Spawn validation failure takes priority over all other byte values",
+        "printedFailureCheckLines": 1280
+      },
+      {
+        "name": "Spawn validation role permutations retain explicit native outcomes",
+        "printedFailureCheckLines": 121
+      }
+    ]
+  },
+  "semanticRedObservation": "All four cases execute and fail assertions in aggregate_spawn_validation against the constant-pending scaffold; this is a behavioral RED, not a compile failure.",
+  "testExecutable": {
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-spawn-validation-tests.exe",
+    "sha256": "e8bcebac97a1a54ba2cf6146763b2e8f0905a2fd0f4caa703e946f3c3ec5a8c6",
+    "bytes": 456704
+  },
+  "ninjaDependencyQueries": [
+    {
+      "target": "CMakeFiles\\hawken-spawn-validation-tests.dir\\tests\\spawn_validation_tests.cpp.obj",
+      "exit": 0,
+      "summary": [
+        "CMakeFiles/hawken-spawn-validation-tests.dir/tests/spawn_validation_tests.cpp.obj: #deps 2, deps mtime 8136947850190091 (VALID)",
+        "    ../../include/hawken/spawn_validation.hpp",
+        "    ../../third_party/doctest/doctest.h",
+        ""
+      ]
+    },
+    {
+      "target": "CMakeFiles\\hawken_spawn_validation.dir\\src\\spawn_validation.cpp.obj",
+      "exit": 0,
+      "summary": [
+        "CMakeFiles/hawken_spawn_validation.dir/src/spawn_validation.cpp.obj: #deps 1, deps mtime 8136947819897417 (VALID)",
+        "    ../../include/hawken/spawn_validation.hpp",
+        ""
+      ]
+    }
+  ],
+  "canonicalExecutables": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "beforeExists": true,
+      "afterExists": true,
+      "beforeSha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+      "afterSha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+      "beforeBytes": 2342912,
+      "afterBytes": 2342912,
+      "unchanged": true
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "beforeExists": true,
+      "afterExists": true,
+      "beforeSha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+      "afterSha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+      "beforeBytes": 727040,
+      "afterBytes": 727040,
+      "unchanged": true
+    }
+  ],
+  "matchingProcessesAfter": [],
+  "matchingServicesAfter": [],
+  "resourcesAfter": {
+    "freeKiB": 7891044,
+    "totalKiB": 33462640
+  },
+  "logHashes": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\devshell.stdout.txt",
+      "sha256": "513c1bd5aff6d1b6b2490f74ccbebbd856b62ef50e1c895a1f305a93b148d95e",
+      "bytes": 247
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\devshell.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\devshell.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\where-cl.stdout.txt",
+      "sha256": "bfb606e1aa26ee832edee09da70fa6f855169ffa6f175a71c08ab7f80c37f8e1",
+      "bytes": 113
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\where-cl.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\where-cl.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\build.stdout.txt",
+      "sha256": "5c8a9738770b1a7f4e7926d624d37190d1cf87ef124fd4eec6b7253f5c2887aa",
+      "bytes": 578
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\build.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\build.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\ctest.stdout.txt",
+      "sha256": "6d787282a1549065cafe7f3ebecd2123af8b44eff0dcd55689631119a1de2d99",
+      "bytes": 891184
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\ctest.stderr.txt",
+      "sha256": "18e00877dc1071c85cd4f479d451bebeef8309022e46cf8c63b0bed5151984a4",
+      "bytes": 27
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\ctest.exit.txt",
+      "sha256": "e0c18a6a8d48da87994c100bbb324c758d413e95f0fa5135bd0738a692b4d56f",
+      "bytes": 3
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\deps-test-object.stdout.txt",
+      "sha256": "3aaa7f32827e741430cab1a7b01ddd44d02518513b1ffabbe607923704b90960",
+      "bytes": 219
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\deps-test-object.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\deps-test-object.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\deps-library-object.stdout.txt",
+      "sha256": "4125ee4c86bfa03c25691a576dda634b182cb72bff8142228eee0f897fbcc933",
+      "bytes": 164
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\deps-library-object.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\spawn-validation-red\\luna\\deps-library-object.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    }
+  ],
+  "limits": [
+    "Only the new spawn_validation test target and focused CTest selector ran.",
+    "The result is a semantic scaffold RED; no product server/master executable was linked.",
+    "Build regeneration may update generated build.ninja/CMakeCache; their before/after hashes are reported separately."
+  ]
+}

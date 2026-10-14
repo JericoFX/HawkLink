@@ -1,0 +1,456 @@
+{
+  "schema": "focused-ghidra-five-helper-validation-v1",
+  "capturedUtc": "2026-10-14T15:18:32.6662516Z",
+  "program": "HawkenGame-Win64-Shipping.exe",
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "expectedOriginalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "originalShaMatches": true,
+  "execution": {
+    "ghidraExitCode": 0,
+    "projectReadOnly": true,
+    "analysisDisabled": true,
+    "maxHeap": "2G",
+    "maxCpu": 1,
+    "requestedAddresses": [
+      "0x140dc98d0",
+      "0x140dce680",
+      "0x140dcaab0",
+      "0x140dd1100",
+      "0x140dc4220"
+    ],
+    "extractionRecordCount": 5,
+    "instructionDumpFunctionCount": 5
+  },
+  "inputStability": {
+    "pins": [
+      {
+        "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+        "beforeSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+        "afterSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+        "beforeLength": 31918592,
+        "afterLength": 31918592,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ExtractNetworkFunctions.java",
+        "beforeSha256": "761a5ffa33baf0ae25367df81fc0cafe598ddcd77384f956d9bad17b8282e081",
+        "afterSha256": "761a5ffa33baf0ae25367df81fc0cafe598ddcd77384f956d9bad17b8282e081",
+        "beforeLength": 5034,
+        "afterLength": 5034,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\DumpFocusedInstructions.java",
+        "beforeSha256": "7bafd2c2921c5bab5c8a35fc86b4b4e4dd586250bfcabf020dbbed2cc54539d9",
+        "afterSha256": "7bafd2c2921c5bab5c8a35fc86b4b4e4dd586250bfcabf020dbbed2cc54539d9",
+        "beforeLength": 1836,
+        "afterLength": 1836,
+        "match": true
+      },
+      {
+        "path": "C:\\tools\\ghidra_12.1.4_PUBLIC\\support\\analyzeHeadless.bat",
+        "beforeSha256": "dd7b9d17d32ed70a71df82a43a21cdaed6c4ce67064e30f8642c149f81c2ae07",
+        "afterSha256": "dd7b9d17d32ed70a71df82a43a21cdaed6c4ce67064e30f8642c149f81c2ae07",
+        "beforeLength": 2930,
+        "afterLength": 2930,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\tools\\jdk-21.0.12.1+1\\bin\\java.exe",
+        "beforeSha256": "82051fdab26319d77d20cc0065045d05ec00b3e3d05f44935d7c06b96b621d55",
+        "afterSha256": "82051fdab26319d77d20cc0065045d05ec00b3e3d05f44935d7c06b96b621d55",
+        "beforeLength": 50304,
+        "afterLength": 50304,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ghidra-projects\\HawkenMain.gpr",
+        "beforeSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "afterSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "beforeLength": 0,
+        "afterLength": 0,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+        "beforeSha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc",
+        "afterSha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc",
+        "beforeLength": 40223,
+        "afterLength": 40223,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\freeze-completion.json",
+        "beforeSha256": "3525ebcda28d108e214a8a751a19d69a15e382999b6c6fb7bc71d7d1e163cf1b",
+        "afterSha256": "3525ebcda28d108e214a8a751a19d69a15e382999b6c6fb7bc71d7d1e163cf1b",
+        "beforeLength": 5916,
+        "afterLength": 5916,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\addresses.txt",
+        "beforeSha256": "b7c748f5a7c4c5690988b3473c1d48c52113cead0e2c4206ceb25df026486879",
+        "afterSha256": "b7c748f5a7c4c5690988b3473c1d48c52113cead0e2c4206ceb25df026486879",
+        "beforeLength": 65,
+        "afterLength": 65,
+        "match": true
+      },
+      {
+        "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\run-helper-bodies.cmd",
+        "beforeSha256": "166cfbafc5b4f998146164fcf9d2737a6821ca5cf994382a286b0ea156ca56cc",
+        "afterSha256": "166cfbafc5b4f998146164fcf9d2737a6821ca5cf994382a286b0ea156ca56cc",
+        "beforeLength": 1829,
+        "afterLength": 1829,
+        "match": true
+      }
+    ],
+    "stable": true
+  },
+  "functions": [
+    {
+      "requestedAddress": "0x140dc98d0",
+      "entry": "140dc98d0",
+      "name": "FUN_140dc98d0",
+      "signature": "undefined FUN_140dc98d0(void)",
+      "bodyRanges": "[[140dc98d0, 140dc9b03]]",
+      "decompileCompleted": true,
+      "status": "decompiled_static",
+      "instructionCount": 126,
+      "instructionBytes": 564,
+      "firstInstruction": "140dc98d0",
+      "lastInstruction": "140dc9b03",
+      "contiguous": true,
+      "originalBytesMatch": true,
+      "byteStreamSha256": "f1baffe1d194fc2496cb513f16bdf7be80faa6b6b3d48e10fc464fcc7bb7af01",
+      "callers": [
+        {
+          "name": "FUN_140dc03d0",
+          "entry": "140dc03d0"
+        }
+      ],
+      "callees": [
+        {
+          "name": "FUN_1400aea00",
+          "entry": "1400aea00"
+        },
+        {
+          "name": "FUN_140002c20",
+          "entry": "140002c20"
+        },
+        {
+          "name": "FUN_14004e9d0",
+          "entry": "14004e9d0"
+        },
+        {
+          "name": "FUN_1400bd490",
+          "entry": "1400bd490"
+        },
+        {
+          "name": "FUN_140d31a40",
+          "entry": "140d31a40"
+        },
+        {
+          "name": "FUN_1400ae830",
+          "entry": "1400ae830"
+        },
+        {
+          "name": "FUN_140020d30",
+          "entry": "140020d30"
+        }
+      ],
+      "entryPredicate": "Top-level gate: *(char*)(param_1+0x10FB)==1 AND *(char*)(param_1+0x1100)==7."
+    },
+    {
+      "requestedAddress": "0x140dce680",
+      "entry": "140dce680",
+      "name": "FUN_140dce680",
+      "signature": "undefined FUN_140dce680(void)",
+      "bodyRanges": "[[140dce680, 140dcea69]]",
+      "decompileCompleted": true,
+      "status": "decompiled_static",
+      "instructionCount": 234,
+      "instructionBytes": 1002,
+      "firstInstruction": "140dce680",
+      "lastInstruction": "140dcea69",
+      "contiguous": true,
+      "originalBytesMatch": true,
+      "byteStreamSha256": "03ae2df70447e350a43401c60d8cb898d5223038f3a16d60197cf34ada204cce",
+      "callers": [
+        {
+          "name": "FUN_140dc03d0",
+          "entry": "140dc03d0"
+        }
+      ],
+      "callees": [
+        {
+          "name": "FUN_1400aea00",
+          "entry": "1400aea00"
+        },
+        {
+          "name": "FUN_140002c20",
+          "entry": "140002c20"
+        },
+        {
+          "name": "FUN_14004e9d0",
+          "entry": "14004e9d0"
+        },
+        {
+          "name": "FUN_1400bd490",
+          "entry": "1400bd490"
+        },
+        {
+          "name": "FUN_140d31a40",
+          "entry": "140d31a40"
+        },
+        {
+          "name": "FUN_1400ae830",
+          "entry": "1400ae830"
+        },
+        {
+          "name": "FUN_140ddf3d0",
+          "entry": "140ddf3d0"
+        },
+        {
+          "name": "FUN_140020d30",
+          "entry": "140020d30"
+        }
+      ],
+      "entryPredicate": "Top-level gate: *(char*)(param_1+0x10FC)==1 AND *(char*)(param_1+0x10FB)==3 AND *(char*)(param_1+0x1100)==7."
+    },
+    {
+      "requestedAddress": "0x140dcaab0",
+      "entry": "140dcaab0",
+      "name": "FUN_140dcaab0",
+      "signature": "undefined FUN_140dcaab0(void)",
+      "bodyRanges": "[[140dcaab0, 140dcad64]]",
+      "decompileCompleted": true,
+      "status": "decompiled_static",
+      "instructionCount": 158,
+      "instructionBytes": 693,
+      "firstInstruction": "140dcaab0",
+      "lastInstruction": "140dcad64",
+      "contiguous": true,
+      "originalBytesMatch": true,
+      "byteStreamSha256": "f51a45b391b13fcfe8f5b7c722babab707d5167e6c6ea7fc75c9a77818363581",
+      "callers": [
+        {
+          "name": "FUN_140dc03d0",
+          "entry": "140dc03d0"
+        }
+      ],
+      "callees": [
+        {
+          "name": "FUN_1400aea00",
+          "entry": "1400aea00"
+        },
+        {
+          "name": "FUN_140002c20",
+          "entry": "140002c20"
+        },
+        {
+          "name": "FUN_14004e9d0",
+          "entry": "14004e9d0"
+        },
+        {
+          "name": "FUN_1400bd490",
+          "entry": "1400bd490"
+        },
+        {
+          "name": "FUN_140d31a40",
+          "entry": "140d31a40"
+        },
+        {
+          "name": "FUN_140020d30",
+          "entry": "140020d30"
+        }
+      ],
+      "entryPredicate": "Top-level gate: *(char*)(param_1+0x10FD)==1 AND *(char*)(param_1+0x10FB)==3 AND *(char*)(param_1+0x1100)==7."
+    },
+    {
+      "requestedAddress": "0x140dd1100",
+      "entry": "140dd1100",
+      "name": "FUN_140dd1100",
+      "signature": "undefined FUN_140dd1100(void)",
+      "bodyRanges": "[[140dd1100, 140dd159b]]",
+      "decompileCompleted": true,
+      "status": "decompiled_static",
+      "instructionCount": 268,
+      "instructionBytes": 1180,
+      "firstInstruction": "140dd1100",
+      "lastInstruction": "140dd159b",
+      "contiguous": true,
+      "originalBytesMatch": true,
+      "byteStreamSha256": "dd7df2e4ab6afe18524da46b18be786ff7e048eda2449962141b0b8198763521",
+      "callers": [
+        {
+          "name": "FUN_140dc03d0",
+          "entry": "140dc03d0"
+        }
+      ],
+      "callees": [
+        {
+          "name": "FUN_140d97820",
+          "entry": "140d97820"
+        },
+        {
+          "name": "FUN_1400aea00",
+          "entry": "1400aea00"
+        },
+        {
+          "name": "FUN_140d538c0",
+          "entry": "140d538c0"
+        },
+        {
+          "name": "FUN_140002c20",
+          "entry": "140002c20"
+        },
+        {
+          "name": "FUN_14004e9d0",
+          "entry": "14004e9d0"
+        },
+        {
+          "name": "FUN_1400bd490",
+          "entry": "1400bd490"
+        },
+        {
+          "name": "FUN_140d31a40",
+          "entry": "140d31a40"
+        },
+        {
+          "name": "FUN_1400ae830",
+          "entry": "1400ae830"
+        },
+        {
+          "name": "FUN_140020d30",
+          "entry": "140020d30"
+        }
+      ],
+      "entryPredicate": "Sequential early returns unless *(char*)((longlong)param_1+0x10FE)==1, (char)param_1[0x220]==7, and *(char*)((longlong)param_1+0x10FC)==3."
+    },
+    {
+      "requestedAddress": "0x140dc4220",
+      "entry": "140dc4220",
+      "name": "FUN_140dc4220",
+      "signature": "undefined FUN_140dc4220(void)",
+      "bodyRanges": "[[140dc4220, 140dc43ac]]",
+      "decompileCompleted": true,
+      "status": "decompiled_static",
+      "instructionCount": 91,
+      "instructionBytes": 397,
+      "firstInstruction": "140dc4220",
+      "lastInstruction": "140dc43ac",
+      "contiguous": true,
+      "originalBytesMatch": true,
+      "byteStreamSha256": "42094e6d3b47483c57788b0abf5389b91bd39b2cad87adcb1f4f645ff8665aae",
+      "callers": [
+        {
+          "name": "FUN_140dc03d0",
+          "entry": "140dc03d0"
+        }
+      ],
+      "callees": [
+        {
+          "name": "FUN_1400aea00",
+          "entry": "1400aea00"
+        },
+        {
+          "name": "FUN_140002c20",
+          "entry": "140002c20"
+        },
+        {
+          "name": "FUN_14004e9d0",
+          "entry": "14004e9d0"
+        },
+        {
+          "name": "FUN_140d31a40",
+          "entry": "140d31a40"
+        },
+        {
+          "name": "FUN_1400ae830",
+          "entry": "1400ae830"
+        },
+        {
+          "name": "FUN_140020d30",
+          "entry": "140020d30"
+        }
+      ],
+      "entryPredicate": "Top-level gate: *(char*)(param_1+0x10FF)==1 AND *(char*)(param_1+0x1100)==7."
+    }
+  ],
+  "instructionBytes": {
+    "allVerifiedAgainstOriginal": true,
+    "functionsVerified": 5,
+    "instructionCount": 877.0,
+    "byteCount": 3836.0,
+    "gaps": 0,
+    "mismatches": 0,
+    "originalByteValidationPath": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\original-byte-validation.json",
+    "originalByteValidationSha256": "739cdf28535134d2e4f438aeeacc4ae16d3b8c7d479780370686c6c5c912eb51"
+  },
+  "frozenLifecycleReferences": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\freeze-completion.json",
+      "sha256": "3525ebcda28d108e214a8a751a19d69a15e382999b6c6fb7bc71d7d1e163cf1b"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\functions.jsonl",
+      "sha256": "dd483d082af301c8ed930dd7554bd8a369630ad1255f8e9f0c8a14aac718e933",
+      "bytes": 57619
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\instructions.json",
+      "sha256": "dc9f6f1b4d187c8b7958af7c97ff0ca9e59f3e2d79c538d2671fef1c5922a032",
+      "bytes": 69490
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\original-byte-validation.json",
+      "sha256": "739cdf28535134d2e4f438aeeacc4ae16d3b8c7d479780370686c6c5c912eb51",
+      "bytes": 197848
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\stdout.txt",
+      "sha256": "d5fd429e98e91779d8fcb5a7b95ef43f50e8337c9bc7995ef5c98d5de5149c10",
+      "bytes": 4722
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\ghidra.log",
+      "sha256": "cfdb4c95a3d65cb0bd5c4b1a14135a7dc169437a53a3b6b1a2829e2b639a2043",
+      "bytes": 5369
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\addresses.txt",
+      "sha256": "b7c748f5a7c4c5690988b3473c1d48c52113cead0e2c4206ceb25df026486879",
+      "bytes": 65
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\run-helper-bodies.cmd",
+      "sha256": "166cfbafc5b4f998146164fcf9d2737a6821ca5cf994382a286b0ea156ca56cc",
+      "bytes": 1829
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\pri-mech-setup\\server-set-start-mech-20261014\\lifecycle\\validation-helper-bodies\\luna\\inputs-after.json",
+      "sha256": "c8c6e4426780d5b9af934d210b44a6b31c627855c3a619714f2ceec2ce9d729b",
+      "bytes": 3788
+    }
+  ],
+  "interpretationLimits": [
+    "These are static function bodies and instruction bytes from the retained Ghidra program, matched against the original PE. They do not establish runtime behavior.",
+    "Function names/callees remain Ghidra-generated addresses unless separately identified by other evidence."
+  ]
+}

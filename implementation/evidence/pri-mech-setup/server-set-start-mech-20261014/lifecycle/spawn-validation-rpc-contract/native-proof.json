@@ -1,0 +1,424 @@
+{
+  "status": "CONFIRMED_BYTE_COMPARATOR_AND_ENUM_SERIALIZER_ORIGINAL_BYTES",
+  "original_exe": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "bytes": 31918592
+  },
+  "vtable_cells": [
+    {
+      "vtable_rva": "0x12d5440",
+      "slot": "0x2b8",
+      "cell_rva": "0x12d56f8",
+      "raw_offset": "0x12d4af8",
+      "bytes": "00330f4001000000",
+      "target_rva": "0xf3300",
+      "original_match": true
+    },
+    {
+      "vtable_rva": "0x12d5440",
+      "slot": "0x2c8",
+      "cell_rva": "0x12d5708",
+      "raw_offset": "0x12d4b08",
+      "bytes": "308f0f4001000000",
+      "target_rva": "0xf8f30",
+      "original_match": true
+    }
+  ],
+  "bodies": [
+    {
+      "rva": "0xf3300",
+      "end_exclusive": "0xf3321",
+      "instructions": 13,
+      "bytes": 33,
+      "contiguous": true,
+      "spans": [
+        {
+          "rva": "0xf3300",
+          "raw_offset": "0xf2700",
+          "bytes": "33c0",
+          "instruction": "XOR EAX,EAX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3302",
+          "raw_offset": "0xf2702",
+          "bytes": "4d85c0",
+          "instruction": "TEST R8,R8",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3305",
+          "raw_offset": "0xf2705",
+          "bytes": "740e",
+          "instruction": "JZ 0x1400f3315",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3307",
+          "raw_offset": "0xf2707",
+          "bytes": "450fb600",
+          "instruction": "MOVZX R8D,byte ptr [R8]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf330b",
+          "raw_offset": "0xf270b",
+          "bytes": "0fb60a",
+          "instruction": "MOVZX ECX,byte ptr [RDX]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf330e",
+          "raw_offset": "0xf270e",
+          "bytes": "413bc8",
+          "instruction": "CMP ECX,R8D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3311",
+          "raw_offset": "0xf2711",
+          "bytes": "0f94c0",
+          "instruction": "SETZ AL",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3314",
+          "raw_offset": "0xf2714",
+          "bytes": "c3",
+          "instruction": "RET",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3315",
+          "raw_offset": "0xf2715",
+          "bytes": "0fb60a",
+          "instruction": "MOVZX ECX,byte ptr [RDX]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3318",
+          "raw_offset": "0xf2718",
+          "bytes": "448bc0",
+          "instruction": "MOV R8D,EAX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf331b",
+          "raw_offset": "0xf271b",
+          "bytes": "3bc8",
+          "instruction": "CMP ECX,EAX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf331d",
+          "raw_offset": "0xf271d",
+          "bytes": "0f94c0",
+          "instruction": "SETZ AL",
+          "original_match": true
+        },
+        {
+          "rva": "0xf3320",
+          "raw_offset": "0xf2720",
+          "bytes": "c3",
+          "instruction": "RET",
+          "original_match": true
+        }
+      ]
+    },
+    {
+      "rva": "0xf8f30",
+      "end_exclusive": "0xf8fac",
+      "instructions": 40,
+      "bytes": 124,
+      "contiguous": true,
+      "spans": [
+        {
+          "rva": "0xf8f30",
+          "raw_offset": "0xf8330",
+          "bytes": "4053",
+          "instruction": "PUSH RBX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f32",
+          "raw_offset": "0xf8332",
+          "bytes": "4883ec20",
+          "instruction": "SUB RSP,0x20",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f36",
+          "raw_offset": "0xf8336",
+          "bytes": "488b81a8000000",
+          "instruction": "MOV RAX,qword ptr [RCX + 0xa8]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f3d",
+          "raw_offset": "0xf833d",
+          "bytes": "488bda",
+          "instruction": "MOV RBX,RDX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f40",
+          "raw_offset": "0xf8340",
+          "bytes": "4885c0",
+          "instruction": "TEST RAX,RAX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f43",
+          "raw_offset": "0xf8343",
+          "bytes": "744a",
+          "instruction": "JZ 0x1400f8f8f",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f45",
+          "raw_offset": "0xf8345",
+          "bytes": "448b5870",
+          "instruction": "MOV R11D,dword ptr [RAX + 0x70]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f49",
+          "raw_offset": "0xf8349",
+          "bytes": "41ba1f000000",
+          "instruction": "MOV R10D,0x1f",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f4f",
+          "raw_offset": "0xf834f",
+          "bytes": "458d4201",
+          "instruction": "LEA R8D,[R10 + 0x1]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f53",
+          "raw_offset": "0xf8353",
+          "bytes": "41ffcb",
+          "instruction": "DEC R11D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f56",
+          "raw_offset": "0xf8356",
+          "bytes": "7505",
+          "instruction": "JNZ 0x1400f8f5d",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f58",
+          "raw_offset": "0xf8358",
+          "bytes": "418bc8",
+          "instruction": "MOV ECX,R8D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f5b",
+          "raw_offset": "0xf835b",
+          "bytes": "eb09",
+          "instruction": "JMP 0x1400f8f66",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f5d",
+          "raw_offset": "0xf835d",
+          "bytes": "410fbdc3",
+          "instruction": "BSR EAX,R11D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f61",
+          "raw_offset": "0xf8361",
+          "bytes": "418bca",
+          "instruction": "MOV ECX,R10D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f64",
+          "raw_offset": "0xf8364",
+          "bytes": "2bc8",
+          "instruction": "SUB ECX,EAX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f66",
+          "raw_offset": "0xf8366",
+          "bytes": "c1e11a",
+          "instruction": "SHL ECX,0x1a",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f69",
+          "raw_offset": "0xf8369",
+          "bytes": "c1f91f",
+          "instruction": "SAR ECX,0x1f",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f6c",
+          "raw_offset": "0xf836c",
+          "bytes": "41ffcb",
+          "instruction": "DEC R11D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f6f",
+          "raw_offset": "0xf836f",
+          "bytes": "750d",
+          "instruction": "JNZ 0x1400f8f7e",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f71",
+          "raw_offset": "0xf8371",
+          "bytes": "458bd0",
+          "instruction": "MOV R10D,R8D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f74",
+          "raw_offset": "0xf8374",
+          "bytes": "f7d1",
+          "instruction": "NOT ECX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f76",
+          "raw_offset": "0xf8376",
+          "bytes": "452bc0",
+          "instruction": "SUB R8D,R8D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f79",
+          "raw_offset": "0xf8379",
+          "bytes": "4423c1",
+          "instruction": "AND R8D,ECX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f7c",
+          "raw_offset": "0xf837c",
+          "bytes": "eb17",
+          "instruction": "JMP 0x1400f8f95",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f7e",
+          "raw_offset": "0xf837e",
+          "bytes": "410fbdc3",
+          "instruction": "BSR EAX,R11D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f82",
+          "raw_offset": "0xf8382",
+          "bytes": "f7d1",
+          "instruction": "NOT ECX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f84",
+          "raw_offset": "0xf8384",
+          "bytes": "442bd0",
+          "instruction": "SUB R10D,EAX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f87",
+          "raw_offset": "0xf8387",
+          "bytes": "452bc2",
+          "instruction": "SUB R8D,R10D",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f8a",
+          "raw_offset": "0xf838a",
+          "bytes": "4423c1",
+          "instruction": "AND R8D,ECX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f8d",
+          "raw_offset": "0xf838d",
+          "bytes": "eb06",
+          "instruction": "JMP 0x1400f8f95",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f8f",
+          "raw_offset": "0xf838f",
+          "bytes": "41b808000000",
+          "instruction": "MOV R8D,0x8",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f95",
+          "raw_offset": "0xf8395",
+          "bytes": "488b02",
+          "instruction": "MOV RAX,qword ptr [RDX]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f98",
+          "raw_offset": "0xf8398",
+          "bytes": "488bcb",
+          "instruction": "MOV RCX,RBX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f9b",
+          "raw_offset": "0xf839b",
+          "bytes": "498bd1",
+          "instruction": "MOV RDX,R9",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8f9e",
+          "raw_offset": "0xf839e",
+          "bytes": "ff5010",
+          "instruction": "CALL qword ptr [RAX + 0x10]",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8fa1",
+          "raw_offset": "0xf83a1",
+          "bytes": "b801000000",
+          "instruction": "MOV EAX,0x1",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8fa6",
+          "raw_offset": "0xf83a6",
+          "bytes": "4883c420",
+          "instruction": "ADD RSP,0x20",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8faa",
+          "raw_offset": "0xf83aa",
+          "bytes": "5b",
+          "instruction": "POP RBX",
+          "original_match": true
+        },
+        {
+          "rva": "0xf8fab",
+          "raw_offset": "0xf83ab",
+          "bytes": "c3",
+          "instruction": "RET",
+          "original_match": true
+        }
+      ]
+    }
+  ],
+  "type_binding_source": {
+    "path": "F:\\HawkenServer\\implementation\\evidence\\mech-struct-wire\\native-members\\contract.json",
+    "sha256": "3ec06be6abc2b6cf07c6c9899c5089b18b237ff34748a303e0c78770c79a973f",
+    "bytes": 19734
+  }
+}

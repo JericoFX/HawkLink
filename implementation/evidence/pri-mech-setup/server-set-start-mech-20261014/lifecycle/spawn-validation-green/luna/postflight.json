@@ -1,0 +1,102 @@
+{
+  "capturedUtc": "2026-10-14T15:37:03.2558853Z",
+  "resources": {
+    "freeKiB": 11855056,
+    "totalKiB": 33462640,
+    "usedPercent": 64.57
+  },
+  "files": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\spawn_validation.hpp",
+      "bytes": 922,
+      "sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493",
+      "lastWriteUtc": "2026-10-14T15:17:09.7570589Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\spawn_validation.cpp",
+      "bytes": 658,
+      "sha256": "1bd3ea4b1f3ff58565983538508e3224e85eb97bc94891417f2d1c24a857a14f",
+      "lastWriteUtc": "2026-10-14T15:29:28.5314806Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\spawn_validation_tests.cpp",
+      "bytes": 3788,
+      "sha256": "bf8493a8d7813a1cba2ef225e2e7d1353104c3ddf4b3d4df11c15aa118c5d0df",
+      "lastWriteUtc": "2026-10-14T15:17:09.7582547Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\CMakeLists.txt",
+      "bytes": 49827,
+      "sha256": "4d8e3576b9361d4dc393020922b4984c9b1d88a56cd18708be3f6fb55d04c178",
+      "lastWriteUtc": "2026-10-14T15:24:46.0372482Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\test_main.cpp",
+      "bytes": 72,
+      "sha256": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5",
+      "lastWriteUtc": "2026-10-11T01:52:13.1392416Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\third_party\\doctest\\doctest.h",
+      "bytes": 323200,
+      "sha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+      "lastWriteUtc": "2026-10-11T01:50:47.1275268Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\CMakePresets.json",
+      "bytes": 4024,
+      "sha256": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3",
+      "lastWriteUtc": "2026-10-13T00:56:13.1293234Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\CMakeCache.txt",
+      "bytes": 20449,
+      "sha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563",
+      "lastWriteUtc": "2026-10-14T03:01:33.5858902Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\build.ninja",
+      "bytes": 360536,
+      "sha256": "b5d4b18f000fc2a7a863609ff2f56e9e62d085ee8d6990b753a9e29e91f1f034",
+      "lastWriteUtc": "2026-10-14T15:26:21.2656759Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc-asan\\CMakeCache.txt",
+      "bytes": 18364,
+      "sha256": "36c72638ec832d94e023d15875a0416dacd87204a15ae2129e3e8bdc44b95bd9",
+      "lastWriteUtc": "2026-10-13T00:45:36.2418015Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc-asan\\build.ninja",
+      "bytes": 373788,
+      "sha256": "c1f38fb704c8f4c807af046f8d6ede46f342f175a107879127f1dfef85644319",
+      "lastWriteUtc": "2026-10-14T15:35:06.7735644Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "bytes": 2342912,
+      "sha256": "bb75ea09ea87f32dd1f9a9f20e2347264913ab426b6468d97f43e72fb57ba742",
+      "lastWriteUtc": "2026-10-13T15:50:45.6218275Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "bytes": 727040,
+      "sha256": "f646a35cb04844e2a3b90a4cd9afcbf2b4b086b9df16688aa029ceee80b32d3f",
+      "lastWriteUtc": "2026-10-13T00:42:55.1203132Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-spawn-validation-tests.exe",
+      "bytes": 456704,
+      "sha256": "273b76e868521dacbf1a671b6e3d4943b895f105c6beedec979b7bec83942b1c",
+      "lastWriteUtc": "2026-10-14T15:32:24.7167855Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc-asan\\hawken-spawn-validation-tests.exe",
+      "bytes": 1732608,
+      "sha256": "463eefa044ff33b352f932dd0143f1dc78120b33a0a5c9e59b20dc1973219a7a",
+      "lastWriteUtc": "2026-10-14T15:35:10.5306676Z"
+    }
+  ],
+  "relevantProcesses": [],
+  "protectedPidObservation": []
+}

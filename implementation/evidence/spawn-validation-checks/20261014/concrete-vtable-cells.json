@@ -1,0 +1,63 @@
+{
+  "original": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "slots": [
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x518",
+      "cell_rva": "0x17bd9a8",
+      "raw_offset": "0x17bcda8",
+      "section": ".rdata",
+      "bytes": "c0d3d64001000000",
+      "target_rva": "0xd6d3c0"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x4b0",
+      "cell_rva": "0x17bd940",
+      "raw_offset": "0x17bcd40",
+      "section": ".rdata",
+      "bytes": "5062d94001000000",
+      "target_rva": "0xd96250"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x4f0",
+      "cell_rva": "0x17bd980",
+      "raw_offset": "0x17bcd80",
+      "section": ".rdata",
+      "bytes": "309cd54001000000",
+      "target_rva": "0xd59c30"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x4e0",
+      "cell_rva": "0x17bd970",
+      "raw_offset": "0x17bcd70",
+      "section": ".rdata",
+      "bytes": "6062d94001000000",
+      "target_rva": "0xd96260"
+    },
+    {
+      "vtable_rva": "0x17bd490",
+      "slot": "0x508",
+      "cell_rva": "0x17bd998",
+      "raw_offset": "0x17bcd98",
+      "section": ".rdata",
+      "bytes": "3062d94001000000",
+      "target_rva": "0xd96230"
+    },
+    {
+      "vtable_rva": "0x169db60",
+      "slot": "0x2d8",
+      "cell_rva": "0x169de38",
+      "raw_offset": "0x169d238",
+      "section": ".rdata",
+      "bytes": "a0f3b84001000000",
+      "target_rva": "0xb8f3a0"
+    }
+  ],
+  "limit": "Data cells from proven constructor tables; semantic names require positive exec-wrapper binding or own body, not offset adjacency."
+}
