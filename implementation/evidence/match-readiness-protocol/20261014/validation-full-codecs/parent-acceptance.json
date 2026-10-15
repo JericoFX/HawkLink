@@ -1,0 +1,25 @@
+{
+  "utc": "2026-10-15T01:07:36.1563830Z",
+  "decision": "ACCEPTED_FULL_WINDOWS_SCALAR_CODEC_GATE",
+  "buildExit": 0,
+  "ctestExit": 0,
+  "wrapperExit": 0,
+  "suites": 54,
+  "cases": 1463,
+  "assertions": 68142,
+  "failures": 0,
+  "skips": 0,
+  "inputs": 191,
+  "inputDrift": 0,
+  "resultSha256": "238091aaa8fb887d9db7c77b90e24c388972ad4f451c98c80593ac0e28fc4724",
+  "freezeSha256": "53165082bb9d8b7994076c1e6a0366e78adf53266677dfab5600c94c2a44eb3c",
+  "parentEvidence": [
+    "Actual five-action incremental compile/link log reviewed",
+    "Actual XML per-suite doctest counts independently summed",
+    "Actual exit files0",
+    "191 source/config hashes rechecked",
+    "Current Core/Master SHA match prior focal before this gate; same live PIDs/creation"
+  ],
+  "knownLimitation": "LocalUdpOwner object freshly rebuilt in this gate, but Ninja post-build dependencies0. Future changes to relevant headers require explicit fresh object compilation until dependency recording is repaired. Do not infer valid future header tracking from VALID alone.",
+  "runtime": "Pure scalar codecs accepted; no Ready state/Owner/Runtime integration, Core deployment, native possession/gameplay or Linux acceptance"
+}

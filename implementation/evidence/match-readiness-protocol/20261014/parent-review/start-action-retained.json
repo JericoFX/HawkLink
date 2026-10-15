@@ -1,0 +1,89 @@
+{
+  "utc": "2026-10-15T00:59:44.6125041Z",
+  "scope": "Retained original generated UnrealScript, bounded parent inspection; no new decompiler/runtime",
+  "observations": [
+    "ServerPlayerReady writes PRI.bReadyToPlay, reapplies current Team, and calls NotifyPlayerReadyChanged; latter only writes LastReadyTime.",
+    "Engine.GameInfo.StartMatch invokes MatchStarting on actors, StartHumans, StartBots, sets waiting false, starts online game, and notifies WorldInfo.",
+    "GRI.StartMatch sets match begun; inherited Hawken GRI resets elapsed and notifies visor.",
+    "GRI ReplicatedEvent bMatchHasBegun invokes Engine WorldInfo.NotifyMatchStarted and Hawken NotifyMatchStarted, whose retained body only updates camera visor.",
+    "A replicated match-begun bit alone does not reproduce authoritative StartHumans/bots/possession or full gameplay.",
+    "R_HUD.UpdateTeamSelectMenu polls NumPlayersWaitingFor/ToReadyUp/StartMatchCountdownRemaining and uses timer UI only when no waiting counts and countdown>=0.",
+    "R_PlayerController.DeadWaitingStuff in local PlayerWaiting/MechSelectStage1 opens ShowMenu1 when GRI.bMatchHasBegun, otherwise UpdateTeamSelectMenu. This closes the retained client conditional between TeamSelect and MechSelect, not current runtime acceptance.",
+    "Engine.StartHumans only calls RestartPlayer for PawnNone and CanRestartPlayer; initial Pawn binding is not automatically equivalent to possession."
+  ],
+  "status": "CONFIRMED_RETAINED_DECLARATIONS_NOT_NEW_NATIVE_ACCEPTANCE",
+  "files": [
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/013035-HawkenGame.R_GameReplicationInfo.ReplicatedEvent.uc",
+      "sha256": "37c7657a16127fc09e8c1743748e5997ce8fa80a4ba0f4ae71a60dbd80f8f69e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/015860-Engine.GameReplicationInfo.ReplicatedEvent.uc",
+      "sha256": "f0fd6cd047bad84c22a01a56dc439771a824cda201e85d92a2204fc99cede682"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/013053-HawkenGame.R_GameReplicationInfo.NotifyMatchStarted.uc",
+      "sha256": "355326fc79b09e420c62cd04f2ee9701009c09ffba5f11a978344e4b635f67a2"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/013420-HawkenGame.R_MPGameBase.NotifyPlayerReadyChanged.uc",
+      "sha256": "e07058a63c82f7bb1cc7fce87950871db295d574ee03cfa2825bb0f9f654efa8"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/014756-Engine.GameInfo.StartMatch.uc",
+      "sha256": "27e86907a630eba738be06d06602ec4e39b372333418814322b57a9b3ebce967"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/015106-Engine.GameInfo.PendingMatch.StartMatch.uc",
+      "sha256": "8c73a9361c833d583602bcf2c590cf621a572a33da4177437ec19f602e5c2b14"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/015879-Engine.GameReplicationInfo.StartMatch.uc",
+      "sha256": "58f8095a51ef43cef08297640bcea53bcf45fdde71d8aaa65b7b8c5ae7a5653a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/008022-HawkenGame.R_GameInfoBase.StartMatch.uc",
+      "sha256": "c01b32b176d02467d5c34901ac2b3ef4602ee8f07d37ef8ba49cad7a10a181fd"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/013451-HawkenGame.R_MPGameBase.PendingMatch.StartMatch.uc",
+      "sha256": "5eb63848867e957bfdf28eac8ee0d4f61b512b2ba98234e39701ac48638bdeec"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/013986-HawkenGame.R_Deathmatch.StartMatch.uc",
+      "sha256": "c55c3f2abbcc0d15608097b08d25762c1503aa38d4304c414a9f0430e1b74562"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/013052-HawkenGame.R_GameReplicationInfo.StartMatch.uc",
+      "sha256": "b21155fceed55c2e68fc14fc3bcf351a634327a5607ed5fd2798f0051db0af2e"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/021443-HawkenGame.R_PlayerController.ServerPlayerReady.uc",
+      "sha256": "bcc2b930f365d2dc9b9bf597a8f00e0add685f7ad2cbe1e7b23a8f2262710154"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/009083-HawkenGame.R_HUD.UpdateTeamSelectMenu.uc",
+      "sha256": "9a3e603a67608337cc1f9e60104fa2b9703ecc33ce1307a787b50b52bc0fc578"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020590-HawkenGame.R_PlayerController.DeadWaitingStuff.uc",
+      "sha256": "71ea37d344b5d62c71b28170bc28e51186aa0ec5cf610f0a41d9b06e19bbb1c0"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/019617-HawkenGame.R_PlayerController_Base.PlayerTick.uc",
+      "sha256": "22852d94c81e55fd23c61419410baaecb7df04ba7ae3d445d783e20693442daf"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/033042-HawkenGame.R_Gfx_MechSelect.SetReady.uc",
+      "sha256": "e6b31cbc260406fe180a4c49b360cc0a762e32ee1686f920b94a6d7aaae649a6"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/014765-Engine.GameInfo.StartHumans.uc",
+      "sha256": "8544e7985f9a88193ab3d7753825f0a52fd0326d38dfa3d4595e2607ff037fcd"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/013927-Engine.WorldInfo.NotifyMatchStarted.uc",
+      "sha256": "7306bb5d211c3d1f5091a5081b15a7981c63d0bf444ed6d4d1f54e1a8ffeae9c"
+    }
+  ]
+}

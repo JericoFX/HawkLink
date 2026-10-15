@@ -131,3 +131,81 @@ TEST_CASE("Selection stage decoder rolls back budget and integer-order rejection
     });
     CHECK(invalid_order.position() == 9);
 }
+
+
+TEST_CASE("Ready decoder reads the original single bool after conditional tag without presence") {
+    for (const bool ready : std::array<bool,2>{false,true}) {
+        const Bytes bytes{0x18, static_cast<std::uint8_t>(ready ? 0x03 : 0x01)};
+        BitReader reader(bytes,10);
+        REQUIRE(reader.read_bounded(294) == 280);
+        REQUIRE(reader.position() == 9);
+        const auto decoded = hawken::wire::rpc::read_ready_arguments(reader,1);
+        CHECK(decoded.ready == ready);
+        CHECK(decoded.consumed_bits == 1);
+        CHECK(reader.position() == 10);
+        CHECK(reader.at_end());
+    }
+}
+
+TEST_CASE("Ready decoder leaves the next known field at exact bit ten") {
+    // Independent words: 280 | (ready << 9) | (281 << 10), logical19bits.
+    const Bytes yes{0x18,0x67,0x04};
+    const Bytes no{0x18,0x65,0x04};
+    for (const bool ready : std::array<bool,2>{false,true}) {
+        BitReader reader(ready ? yes : no,19);
+        REQUIRE(reader.read_bounded(294) == 280);
+        const auto decoded = hawken::wire::rpc::read_ready_arguments(reader,1);
+        CHECK(decoded.ready == ready);
+        CHECK(decoded.consumed_bits == 1);
+        REQUIRE(reader.position() == 10);
+        CHECK(reader.read_bounded(294) == 281);
+        CHECK(reader.position() == 19);
+    }
+}
+
+TEST_CASE("Ready decoder treats false as data rather than absent or a second presence prefix") {
+    const Bytes bits{0x02}; // boolfalse then opaquetrue, logical2.
+    BitReader reader(bits,2);
+    const auto decoded = hawken::wire::rpc::read_ready_arguments(reader,1);
+    CHECK_FALSE(decoded.ready);
+    CHECK(decoded.consumed_bits == 1);
+    REQUIRE(reader.position() == 1);
+    CHECK(reader.read_bit());
+}
+
+TEST_CASE("Ready decoder starts at every unaligned cursor and preserves opaque suffix") {
+    for (std::size_t offset=0; offset<8; ++offset) {
+        for (const bool ready : std::array<bool,2>{false,true}) {
+            CAPTURE(offset);
+            CAPTURE(ready);
+            const auto word = (0x55ULL & ((1ULL<<offset)-1ULL)) |
+                (static_cast<std::uint64_t>(ready)<<offset) | (0x0aULL<<(offset+1));
+            const std::array<std::uint8_t,2> bytes{
+                static_cast<std::uint8_t>(word),static_cast<std::uint8_t>(word>>8)};
+            BitReader reader(bytes,offset+5);
+            for (std::size_t bit=0; bit<offset; ++bit) reader.read_bit();
+            const auto decoded = hawken::wire::rpc::read_ready_arguments(reader,1);
+            CHECK(decoded.ready == ready);
+            CHECK(decoded.consumed_bits == 1);
+            CHECK(reader.position() == offset+1);
+            CHECK(reader.read_bits(4) == Bytes{0x0a});
+        }
+    }
+}
+
+TEST_CASE("Ready decoder rolls back a truncated argument at the resolved field boundary") {
+    const Bytes bytes{0x18,0x03};
+    BitReader reader(bytes,9);
+    REQUIRE(reader.read_bounded(294) == 280);
+    expect_code("truncated",[&] { hawken::wire::rpc::read_ready_arguments(reader,1); });
+    CHECK(reader.position() == 9);
+}
+
+TEST_CASE("Ready decoder zero budget rejects transactionally without consuming the bool") {
+    const Bytes bytes{0x18,0x03};
+    BitReader reader(bytes,10);
+    REQUIRE(reader.read_bounded(294) == 280);
+    expect_code("invalid_limit",[&] { hawken::wire::rpc::read_ready_arguments(reader,0); });
+    CHECK(reader.position() == 9);
+    CHECK(reader.read_bit());
+}

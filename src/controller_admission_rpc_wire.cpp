@@ -25,4 +25,14 @@ SelectionStageArgumentsResult read_selection_stage_arguments(BitReader& reader,
     reader = cursor;
     return {stage, consumed};
 }
+
+ReadyArgumentsResult read_ready_arguments(BitReader& reader,
+    std::size_t max_argument_bits) {
+    if (max_argument_bits == 0) throw WireError("invalid_limit");
+
+    auto cursor = reader;
+    const bool ready = cursor.read_bit();
+    reader = cursor;
+    return {ready, 1};
+}
 }

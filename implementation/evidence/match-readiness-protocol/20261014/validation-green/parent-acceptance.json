@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-15T00:56:40.3449512Z",
+  "decision": "ACCEPTED_FOCAL_SCALAR_CODEC_GREEN_ONLY",
+  "buildExit": 0,
+  "ctestExit": 0,
+  "testSuites": 3,
+  "testCases": 32,
+  "assertions": 811,
+  "skipped": 0,
+  "inputCount": 191,
+  "inputsChanged": 0,
+  "inputFreezeSha256": "0b63394a19e1a48bb6b9c7036386b6a93f5912f35ab0c8560ed4701423551a18",
+  "lunaResultSha256": "013ec96df711a69888aab0b5e74be5ed4214219f28e44d154664ecf534ace9c3",
+  "parentChecks": [
+    "Actual C++ algorithms and relevant header/test/CMake diffs reviewed",
+    "Actual build/CTest/wrapper exits0 and XML reviewed",
+    "32 cases/811 assertions all pass, no skips",
+    "All191 inputs match immutable launch freeze",
+    "Live Core/Master binaries remain previous versions"
+  ],
+  "pending": [
+    "Full Windows regression gate",
+    "Owner/Runtime integration of Ready and scalar properties",
+    "PendingMatch countdown/state transition",
+    "Actual native Ready to gameplay and possession"
+  ],
+  "scope": "Pure scalar codecs only; not Core deployment, native match or full-goal acceptance"
+}

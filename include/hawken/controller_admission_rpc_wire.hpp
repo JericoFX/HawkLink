@@ -21,4 +21,19 @@ struct SelectionStageArgumentsResult {
 // Fixed WireError: invalid_limit, invalid_value, field_too_large, truncated.
 SelectionStageArgumentsResult read_selection_stage_arguments(BitReader& reader,
     control::Endian integer_order, std::size_t max_argument_bits);
+
+struct ReadyArgumentsResult {
+    bool ready = false;
+    std::size_t consumed_bits = 0;
+};
+
+// Arguments only, AFTER the caller resolves the effective ServerPlayerReady
+// field and the eligible scalar BoolProperty NET argument (ArrayDim1).
+// Native sender mask0x20000 skips RPC presence for this bool: consume exactly
+// one data bit, even when false. No alignment, endian conversion or terminator.
+// Read one prefix at the existing cursor; leave any suffix opaque and commit
+// the reader only after complete success. No RPC execution or match decision.
+// Budget must be positive. Fixed WireError: invalid_limit, truncated.
+ReadyArgumentsResult read_ready_arguments(BitReader& reader,
+    std::size_t max_argument_bits);
 }
