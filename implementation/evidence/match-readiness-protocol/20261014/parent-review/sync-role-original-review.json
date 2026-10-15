@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-14T23:59:15.1199481Z",
+  "scope": "Static supplement byte/pin review only; no compiled or native runtime acceptance",
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "supplementSha256": "0177b0e0b53f03737ae62fa4a37f0fa2519e1d66513018d69c05c2894b017115",
+  "mappedOriginalSpans": 557,
+  "freezePins": 51,
+  "allMatched": true,
+  "codecFrozenInputs": 188,
+  "codecRedRun": false,
+  "remaining": [
+    "Actual ItemsLoadingState materializer",
+    "RDeathmatch account/achievement callbacks and PRI assignment",
+    "Ready RPC and BoolProperty implementations and tests",
+    "IntProperty codec and shared match lifecycle",
+    "Native possession and gameplay"
+  ]
+}

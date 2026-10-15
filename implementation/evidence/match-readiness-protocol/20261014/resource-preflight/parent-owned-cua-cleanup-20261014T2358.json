@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-14T23:59:14.9031524Z",
+  "action": "Supported CUA js_reset",
+  "identifiedWorkers": [
+    {
+      "pid": 26004,
+      "createdUtc": "2026-10-14T20:36:13.2978170Z",
+      "purpose": "HawkLink CUA kernel; working-dir F:\\HawkenServer"
+    },
+    {
+      "pid": 2424,
+      "createdUtc": "2026-10-14T20:36:13.3042580Z",
+      "purpose": "HawkLink trusted worker; F:\\HawkenServer"
+    }
+  ],
+  "absenceConfirmed": true,
+  "sharedBroker25008Preserved": true,
+  "forcedStopAttempt": "Identity guard rejected before Stop-Process; no forced termination from that command",
+  "beforeUsedPercent": 76.45,
+  "afterUsedPercent": 75.89,
+  "note": "Workers absent after supported reset; closure cause and whole-system RAM variation not attributed solely to this action. Graft with unknown ownership retained."
+}
