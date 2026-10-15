@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-15T01:25:33.3664488Z",
+  "decision": "ACCEPTED_PURE_PENDING_MATCH_GREEN",
+  "buildExit": 0,
+  "ctestExit": 0,
+  "wrapperExit": 0,
+  "suites": 1,
+  "cases": 19,
+  "assertions": 155,
+  "failures": 0,
+  "skips": 0,
+  "inputs": 194,
+  "inputDrift": 0,
+  "cppSha256": "0ee70b545b9fd481571f44f836f2e956b8a72a661b82a0128955d1cea2ecf82c",
+  "headerAndTestsUnchangedFromSemanticRed": true,
+  "parentReview": [
+    "Actual142line implementation reviewed against retained native rules",
+    "Checked float-int boundary and transactional commit/clock/action latch",
+    "Actual buildlog3actions: one CPP compile then lib andEXElink; testobj retained fromRED",
+    "Actual exitfiles/XML19/155 verified",
+    "194 final source/config pins verified"
+  ],
+  "scope": "Shared-world pure model only; no Ready dispatch/PRI/GRI sending, Account stats source, Core/Main activation, native possession or gameplay acceptance"
+}

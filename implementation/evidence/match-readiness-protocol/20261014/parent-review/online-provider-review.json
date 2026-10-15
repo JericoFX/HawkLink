@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-15T01:19:27.3554100Z",
+  "status": "ACCEPTED_BOUNDED_STATIC_EVIDENCE_ONLY",
+  "pins": 31,
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "bodyRva": "0xbd1a80",
+  "bodyRaw": "0xbd0e80",
+  "bodySize": 152,
+  "bodySha256": "0305a53d9d331bd1e962398762e940d6ebf1b0bbb8553a9400e869333f4947e3",
+  "importByteChecks": [
+    {
+      "part": "descriptor",
+      "raw": "0x1ad2480",
+      "bytes": 20,
+      "matched": true
+    },
+    {
+      "part": "thunk",
+      "raw": "0x1ad34f8",
+      "bytes": 8,
+      "matched": true
+    },
+    {
+      "part": "import_by_name",
+      "raw": "0x1ad4fea",
+      "bytes": 45,
+      "matched": true
+    }
+  ],
+  "interpretation": "Imported SDK ApiResultBase::Success produces completion flag; target+0xb0 transitions2/3. Target identity/account assignment and task+0x850 status domain remain unverified. Existing C++ owned/achievement readers do not supply gameplay/item-stat snapshots; do not infer fullSync from HTTP200/auth/ACK."
+}

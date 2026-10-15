@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-15T01:28:47.9953519Z",
+  "status": "ACCEPTED_COMPOSITE_WINDOWS_EVIDENCE",
+  "priorFullGate": "implementation/evidence/match-readiness-protocol/20261014/validation-full-codecs/parent-acceptance.json",
+  "priorGateSuites": 54,
+  "priorGateCases": 1463,
+  "priorGateAssertions": 68142,
+  "priorExesRehashed": 54,
+  "priorExesChanged": 0,
+  "addedFocalGate": "parent-acceptance.json",
+  "addedSuites": 1,
+  "addedCases": 19,
+  "addedAssertions": 155,
+  "totalSuites": 55,
+  "totalCases": 1482,
+  "totalAssertions": 68297,
+  "failures": 0,
+  "skips": 0,
+  "scope": "54 unchanged suite executables reused plus actual new PendingMatch focal execution; not one rerun of all55 and not Core integration",
+  "sourceBoundary": "Parent reviewed only18 additiveCMake lines for independent library/test; old191 source/config pins match aside fromCMake; three new model files frozen. Existing product targets unchanged."
+}

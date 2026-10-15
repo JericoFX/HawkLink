@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-15T01:17:08.3317570Z",
+  "decision": "ACCEPTED_PENDING_MATCH_SEMANTIC_RED",
+  "buildExit": 0,
+  "ctestExit": 8,
+  "cases": 19,
+  "passed": 1,
+  "failed": 18,
+  "skipped": 0,
+  "inputCount": 194,
+  "inputsChanged": 0,
+  "inputFreezeSha256": "3e84654651fa4ae47d4e8fe2f0f7f819f3d131c9f88afdcc4f01cc9514b5c1c6",
+  "cause": "Frozen empty evaluate and nonvalidating constructor; 18 failed behavior/validation cases, 1 preservation case passed",
+  "parentReview": "All3 RED files, rules/timing from original UC and actual build/CTest/XML/exits reviewed; no tests weakened",
+  "scope": "Pure PendingMatch model only; no Owner/Runtime/Main or client acceptance"
+}
