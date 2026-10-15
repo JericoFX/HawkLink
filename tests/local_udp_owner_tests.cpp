@@ -3572,3 +3572,200 @@ TEST_CASE("UDP Ready false after active countdown cancels only after its real PR
     CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
     CHECK(f.service->authorize_udp(public_id));CHECK_FALSE(f.owner.diagnostics().closed);
 }
+
+
+namespace {
+// Exact known fields from retained package metadata; this fixture does not
+// assert that an observed native packet contained this coalesced stream.
+Bytes active_index_coalesced_request(session::Context& client,control::Endian order,
+    bool present,bool truncated,bool behind_unknown) {
+    wire::BitWriter bits;
+    const auto u32=[&](std::uint32_t value) {
+        for (unsigned byte=0;byte<4;++byte) {
+            const auto shift=order==control::Endian::little?byte*8:(3-byte)*8;
+            bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(value>>shift)},8);
+        }
+    };
+    bits.write_bounded(253,294);
+    bits.write_bit(true);u32(37);
+    for (const auto c:std::string_view("20000000-0000-0000-0000-000000000001"))
+        bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(c)},8);
+    bits.write_bits(std::array<std::uint8_t,1>{0},8);
+    bits.write_bit(true);u32(256);bits.write_bit(true);u32(0xffffffffU);
+    if (behind_unknown) bits.write_bounded(215,294);
+    bits.write_bounded(214,294);bits.write_bit(present);
+    if (present) {
+        if (truncated) bits.write_bits(std::array<std::uint8_t,1>{0x04},8);
+        else u32(0x01020304U);
+    }
+    if (!truncated) bits.write_bounded(249,294);
+    wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=7;bunch.sequence=1;
+    bunch.payload=bits.payload_bytes();bunch.payload_bits=bits.bit_count();
+    wire::Packet packet;packet.packet_id=6;wire::PacketRecord record;record.bunch=std::move(bunch);
+    packet.records.push_back(std::move(record));return client.encode(wire::encode_packet(packet,256));
+}
+udp::StartMechDispatchPlan active_index_start_plan(bool enabled=true) {
+    auto plan=public_start_mech_plan();plan.controller_rpc_field_id=253;plan.controller_exclusive_bound=294;
+    if (enabled) plan.active_item_index=udp::ActiveItemIndexRpcPlan{214,true,true};
+    return plan;
+}
+udp::SpawnValidationDispatchPlan active_index_validation_plan() {
+    auto plan=public_spawn_validation_plan();plan.validate_rpc_field_id=249;
+    plan.validated_rpc_field_id=250;plan.failed_rpc_field_id=251;plan.controller_exclusive_bound=294;
+    return plan;
+}
+ControllerOutput active_index_openings(LoginAuthorityFixture& f,const auth::AuthReply& login,
+    Peer& peer,session::Context& client,control::Endian order) {
+    if (order==control::Endian::little) return links_openings(f,login,peer,client);
+    // Independent big-endian control archives for the same authenticated harness.
+    authority_select(f,login);
+    peer.send(f.owner.port(),authority_request(client,0,1,hex("1a00000007"),true));
+    REQUIRE(authority_messages(peer,client)==std::vector<Bytes>{hex("1b00000000")});peer.drain();
+    peer.send(f.owner.port(),authority_request(client,1,2,hex("1c8d3f36c3")));
+    REQUIRE(authority_messages(peer,client)==std::vector<Bytes>{hex("1d")});peer.drain();
+    peer.send(f.owner.port(),authority_request(client,2,3,hex("000000000800000014fedcba98")));
+    REQUIRE(authority_messages(peer,client)==std::vector<Bytes>{hex("030000000b00000009313233344142434400")});peer.drain();
+    Bytes response=hex("0500000025");
+    const auto guid=login.result.at("UserId").get<std::string>();
+    response.insert(response.end(),guid.begin(),guid.end());response.push_back(0);
+    const auto tail=hex("00000000010203041234567880000000ffffffff");
+    response.insert(response.end(),tail.begin(),tail.end());
+    peer.send(f.owner.port(),authority_request(client,3,4,response));
+    REQUIRE(publication_packets(peer,client).logical.size()==2);
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().world_published;}));
+    peer.send(f.owner.port(),authority_request(client,4,5,
+        hex("08010203041234567880000000ffffffff0000000209")));
+    const auto out=controller_output(peer,client,2000ms,3);
+    REQUIRE(out.bunches.size()==3);REQUIRE(out.packet_ids.size()==3);
+    CHECK(out.bunches[0].channel==7);CHECK(out.bunches[1].channel==9);CHECK(out.bunches[2].channel==8);
+    return out;
+}
+}
+TEST_CASE("UDP ActiveItemIndex coalesced StartMech index Validate reaches validation only after selected PRI ACK") {
+    for (unsigned mode=0;mode<3;++mode) {
+        CAPTURE(mode);const auto order=mode==1?control::Endian::big:control::Endian::little;
+        auto config=authority_skeleton();config.endian=order;
+        std::atomic<int> checked{0};
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),config,
+            public_pawn_plan(),public_pri_plan(),bootstrap_links(),active_index_start_plan(),
+            [](const session::SessionId&,const wire::rpc::StartMechArguments& args,std::uint8_t previous) {
+                CHECK(args.primary_weapon==256);CHECK(args.holo_taunt_type==-1);
+                return std::optional{public_mech_result(previous)};
+            },active_index_validation_plan(),[&](const session::SessionId&,
+                const wire::rpc::StartMechArguments&,std::uint8_t setup) {
+                CHECK(setup==42);++checked;return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+            });
+        const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+        const auto opened=active_index_openings(f,login,peer,client,order);
+        peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(opened)));
+        std::vector<std::uint16_t> received_opens;
+        const auto links=links_output(peer,client,2000ms,2,nullptr,&received_opens);
+        REQUIRE(links.bunches.size()==2);
+        CHECK(links.bunches[0].payload_bits==42);CHECK(links.bunches[0].payload==hex("0326a0400400"));
+        CHECK(links.bunches[1].payload_bits==30);CHECK(links.bunches[1].payload==hex("79004f00"));
+        peer.send(f.owner.port(),active_index_coalesced_request(client,order,mode!=2,false,false));
+        const auto property=links_output(peer,client,2000ms,1,nullptr,&received_opens);
+        start_mech_property_literal(property);CHECK(checked==0);CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent);
+        auto ids=links.packet_ids;ids.insert(ids.end(),property.packet_ids.begin(),property.packet_ids.end());
+        ids.insert(ids.end(),received_opens.begin(),received_opens.end());
+        peer.send(f.owner.port(),links_ack(client,7,ids));
+        const auto reply=links_output(peer,client,2000ms,1);
+        CHECK(reply.bunches.size()==1);
+        if (reply.bunches.size()==1) validation_literal(reply,0xfa,8);
+        CHECK(checked==1);CHECK(f.owner.diagnostics().spawn_validation_requested);
+        CHECK(f.owner.diagnostics().spawn_validation_sent);CHECK_FALSE(f.owner.diagnostics().closed);
+    }
+}
+TEST_CASE("UDP ActiveItemIndex truncated known int closes without calling selection validation") {
+    std::atomic<int> checked{0};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),active_index_start_plan(),
+        [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t p) {
+            return std::optional{public_mech_result(p)};
+        },active_index_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+            ++checked;return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        });
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    const auto opened=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(opened)));
+    REQUIRE(links_output(peer,client,2000ms,2).bunches.size()==2);
+    peer.send(f.owner.port(),active_index_coalesced_request(client,control::Endian::little,true,true,false));
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));CHECK(checked==0);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_requested);CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent);
+}
+TEST_CASE("UDP ActiveItemIndex behind unknown prefix never scans through it to Validate") {
+    std::atomic<int> checked{0};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),active_index_start_plan(),
+        [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t p) {
+            return std::optional{public_mech_result(p)};
+        },active_index_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+            ++checked;return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        });
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    const auto opened=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(opened)));
+    const auto links=links_output(peer,client,2000ms,2);REQUIRE(links.bunches.size()==2);
+    peer.send(f.owner.port(),active_index_coalesced_request(client,control::Endian::little,true,false,true));
+    const auto property=links_output(peer,client,2000ms,1);start_mech_property_literal(property);
+    auto ids=links.packet_ids;ids.insert(ids.end(),property.packet_ids.begin(),property.packet_ids.end());
+    peer.send(f.owner.port(),links_ack(client,7,ids));
+    CHECK(links_output(peer,client,200ms).bunches.empty());CHECK(checked==0);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_requested);CHECK_FALSE(f.owner.diagnostics().closed);
+}
+
+TEST_CASE("UDP ActiveItemIndex absent optional schema retains legacy unknown suffix behavior") {
+    std::atomic<int> checked{0};
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),active_index_start_plan(false),
+        [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t p) {
+            return std::optional{public_mech_result(p)};
+        },active_index_validation_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+            ++checked;return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+        });
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    const auto opened=links_openings(f,login,peer,client);
+    peer.send(f.owner.port(),links_ack(client,5,links_opening_acks(opened)));
+    const auto links=links_output(peer,client,2000ms,2);REQUIRE(links.bunches.size()==2);
+    peer.send(f.owner.port(),active_index_coalesced_request(client,control::Endian::little,true,false,false));
+    const auto property=links_output(peer,client,2000ms,1);start_mech_property_literal(property);
+    auto ids=links.packet_ids;ids.insert(ids.end(),property.packet_ids.begin(),property.packet_ids.end());
+    peer.send(f.owner.port(),links_ack(client,7,ids));
+    CHECK(links_output(peer,client,200ms).bunches.empty());CHECK(checked==0);
+    CHECK_FALSE(f.owner.diagnostics().spawn_validation_requested);CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP ActiveItemIndex preflight rejects ineligible out of range and every configured Controller collision") {
+    for (unsigned invalid=0;invalid<13;++invalid) {
+        CAPTURE(invalid);
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        auto start=active_index_start_plan();start.pri_exclusive_bound=87;
+        switch(invalid) {
+        case 0:start.active_item_index->rpc_eligible=false;break;
+        case 1:start.active_item_index->argument_eligible=false;break;
+        case 2:start.active_item_index->field_id=294;break;
+        case 3:start.active_item_index->field_id=253;break;
+        case 4:start.active_item_index->field_id=3;break;
+        case 5:start.active_item_index->field_id=5;break;
+        case 6:start.active_item_index->field_id=42;break;
+        case 7:start.active_item_index->field_id=280;break;
+        case 8:start.active_item_index->field_id=249;break;
+        case 9:start.active_item_index->field_id=250;break;
+        case 10:start.active_item_index->field_id=251;break;
+        case 11:start.active_item_index->field_id=281;break;
+        case 12:start.active_item_index->field_id=83;break;
+        }
+        udp::SpawnAdmissionDispatchPlan admission{281,83,294,{true,true,true,true,true,true}};
+        error([&]{owner.start([](const session::SessionId&){return true;},
+            [](const session::SessionId&,const control::posthello::RawString&){return true;},
+            [](const session::SessionId&,const control::posthello::Login&){return std::optional{bootstrap_world()};},
+            public_controller_plan(),public_pawn_plan(),public_pri_plan(),bootstrap_links(),start,
+            [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t p) {
+                return std::optional{public_mech_result(p)};
+            },active_index_validation_plan(),[](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+                return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+            },admission,ready_identity_plan(),public_bootstrap_plan(),ready_match_plan());
+        },udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;}));owner.stop();
+    }
+}

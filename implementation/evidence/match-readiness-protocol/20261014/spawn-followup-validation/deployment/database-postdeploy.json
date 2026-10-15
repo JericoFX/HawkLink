@@ -1,0 +1,87 @@
+{
+  "utc": "2026-10-15T04:04:47.823753+00:00",
+  "schema_before": 6,
+  "schema_after": 6,
+  "tables": [
+    {
+      "table": "accounts",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same": true
+    },
+    {
+      "table": "aliases",
+      "rows_before": 0,
+      "rows_after": 0,
+      "same": true
+    },
+    {
+      "table": "bans",
+      "rows_before": 0,
+      "rows_after": 0,
+      "same": true
+    },
+    {
+      "table": "game_settings",
+      "rows_before": 8,
+      "rows_after": 8,
+      "same": true
+    },
+    {
+      "table": "owned_item_attributes",
+      "rows_before": 91,
+      "rows_after": 91,
+      "same": true
+    },
+    {
+      "table": "owned_item_stats",
+      "rows_before": 0,
+      "rows_after": 0,
+      "same": true
+    },
+    {
+      "table": "roles",
+      "rows_before": 0,
+      "rows_after": 0,
+      "same": true
+    },
+    {
+      "table": "server_metadata",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same": true
+    },
+    {
+      "table": "starter_grants",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same": true
+    },
+    {
+      "table": "starter_items",
+      "rows_before": 9,
+      "rows_after": 9,
+      "same": true
+    },
+    {
+      "table": "unranked_gameplay_stats",
+      "rows_before": 0,
+      "rows_after": 0,
+      "same": true
+    },
+    {
+      "table": "visits",
+      "rows_before": 0,
+      "rows_after": 0,
+      "same": true
+    },
+    {
+      "table": "wallets",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same": true
+    }
+  ],
+  "same_all_tables": true,
+  "scope": "Private in-memory comparison only; no identifiers or row contents emitted; no SQL writes"
+}

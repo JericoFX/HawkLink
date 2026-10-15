@@ -22,7 +22,7 @@ param(
     [ValidatePattern('^HawkenLocalOnly-[0-9a-f]{32}$')]
     [string]$ExistingIsolationRuleName = '',
     [ValidatePattern('^[0-9a-f]{64}$')]
-    [string]$ServerExecutableHash = 'c30d00e89672d83c62c15e9bba007f90faaa0074b625c80ee1406bbe828a89c7'
+    [string]$ServerExecutableHash = 'b078e13373c98a524908186986314c9fecd3e1fc13bc5b3e086c5967aa8df9b8'
 )
 
 $ErrorActionPreference = 'Stop'

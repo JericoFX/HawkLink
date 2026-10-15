@@ -1,0 +1,14 @@
+[
+  {
+    "url": "http://127.0.0.1/version",
+    "http_status": 200,
+    "api_status": 200,
+    "bytes": 93
+  },
+  {
+    "url": "http://127.0.0.1/status/services/",
+    "http_status": 200,
+    "api_status": 200,
+    "bytes": 61
+  }
+]

@@ -1,0 +1,127 @@
+{
+  "status": "COMPLETED",
+  "exit": 1,
+  "wrapper": {
+    "pid": 27628,
+    "creation_wmi": "2026-10-15T00:56:25.5506-03:00",
+    "creation_process": "2026-10-15T03:56:25.5506009Z",
+    "exe": "C:\\WINDOWS\\system32\\cmd.exe",
+    "priority": "BelowNormal"
+  },
+  "ram_samples": [
+    {
+      "utc": "2026-10-15T03:56:26.7188855Z",
+      "ram_used_percent": 67.69,
+      "free_bytes": 11072479232
+    },
+    {
+      "utc": "2026-10-15T03:56:27.8013352Z",
+      "ram_used_percent": 67.79,
+      "free_bytes": 11037540352
+    },
+    {
+      "utc": "2026-10-15T03:56:28.8916002Z",
+      "ram_used_percent": 68.1,
+      "free_bytes": 10931593216
+    },
+    {
+      "utc": "2026-10-15T03:56:29.9649810Z",
+      "ram_used_percent": 68.41,
+      "free_bytes": 10824994816
+    },
+    {
+      "utc": "2026-10-15T03:56:31.0422437Z",
+      "ram_used_percent": 68.5,
+      "free_bytes": 10794094592
+    },
+    {
+      "utc": "2026-10-15T03:56:32.1261301Z",
+      "ram_used_percent": 68.71,
+      "free_bytes": 10722316288
+    },
+    {
+      "utc": "2026-10-15T03:56:33.2159407Z",
+      "ram_used_percent": 68.9,
+      "free_bytes": 10657198080
+    },
+    {
+      "utc": "2026-10-15T03:56:34.3159745Z",
+      "ram_used_percent": 68.11,
+      "free_bytes": 10926280704
+    },
+    {
+      "utc": "2026-10-15T03:56:35.4146047Z",
+      "ram_used_percent": 68.29,
+      "free_bytes": 10867257344
+    },
+    {
+      "utc": "2026-10-15T03:56:36.5271210Z",
+      "ram_used_percent": 68.49,
+      "free_bytes": 10796445696
+    },
+    {
+      "utc": "2026-10-15T03:56:37.6113926Z",
+      "ram_used_percent": 67.78,
+      "free_bytes": 11041722368
+    },
+    {
+      "utc": "2026-10-15T03:56:38.6908780Z",
+      "ram_used_percent": 68.16,
+      "free_bytes": 10908930048
+    },
+    {
+      "utc": "2026-10-15T03:56:39.7789796Z",
+      "ram_used_percent": 68.41,
+      "free_bytes": 10824081408
+    },
+    {
+      "utc": "2026-10-15T03:56:40.8623388Z",
+      "ram_used_percent": 67.86,
+      "free_bytes": 11014447104
+    },
+    {
+      "utc": "2026-10-15T03:56:41.9496673Z",
+      "ram_used_percent": 67.7,
+      "free_bytes": 11066470400
+    },
+    {
+      "utc": "2026-10-15T03:56:43.0248918Z",
+      "ram_used_percent": 67.7,
+      "free_bytes": 11067060224
+    },
+    {
+      "utc": "2026-10-15T03:56:44.0955004Z",
+      "ram_used_percent": 67.73,
+      "free_bytes": 11056779264
+    },
+    {
+      "utc": "2026-10-15T03:56:45.1692370Z",
+      "ram_used_percent": 67.75,
+      "free_bytes": 11050786816
+    },
+    {
+      "utc": "2026-10-15T03:56:46.2510877Z",
+      "ram_used_percent": 67.73,
+      "free_bytes": 11057319936
+    },
+    {
+      "utc": "2026-10-15T03:56:47.3266839Z",
+      "ram_used_percent": 67.74,
+      "free_bytes": 11054620672
+    },
+    {
+      "utc": "2026-10-15T03:56:48.4098063Z",
+      "ram_used_percent": 67.76,
+      "free_bytes": 11045830656
+    },
+    {
+      "utc": "2026-10-15T03:56:49.4823558Z",
+      "ram_used_percent": 67.79,
+      "free_bytes": 11035860992
+    }
+  ],
+  "max_sampled_ram_percent": 68.9,
+  "input_count": 194,
+  "input_mismatches": 0,
+  "cancelled_tree": []
+}

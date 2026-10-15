@@ -1,0 +1,10 @@
+{
+  "file": "implementation/tools/local-steam-test.ps1",
+  "before_sha256": "578dd281653028f00d9ac46fd24b72188528ca9c02610ec045758f912045ebb7",
+  "after_sha256": "d2276cef7646c59e3cd0424cfb9b66511b236ad45af6915a1fa6205dc0e98bb3",
+  "parser_errors": 0,
+  "default_matches_actual_core": true,
+  "core_sha256": "b078e13373c98a524908186986314c9fecd3e1fc13bc5b3e086c5967aa8df9b8",
+  "native_logic_changed": false,
+  "post_gate_operational_change": true
+}

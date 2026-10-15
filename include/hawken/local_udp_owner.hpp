@@ -121,6 +121,15 @@ struct StartMechEligibility {
     bool pri_property_eligible;
     bool all_members_eligible;
 };
+// Optional known-prefix compatibility schema for the no-consumables trial.
+// Inherits StartMech's PRIMARY map, Controller cache and exclusive bound.
+// Consumes the eligible IntProperty argument only; no active-item/PRI gameplay
+// state or consumable execution is implemented by this compatibility path.
+struct ActiveItemIndexRpcPlan {
+    std::uint32_t field_id;
+    bool rpc_eligible;
+    bool argument_eligible;
+};
 struct StartMechDispatchPlan {
     std::uint32_t controller_rpc_field_id;
     std::uint32_t controller_exclusive_bound;
@@ -128,6 +137,7 @@ struct StartMechDispatchPlan {
     std::uint32_t pri_exclusive_bound;
     StartMechEligibility eligibility;
     std::uint8_t initial_setup_id;
+    std::optional<ActiveItemIndexRpcPlan> active_item_index = std::nullopt;
 };
 
 // Explicit PRIMARY Controller-cache/RPC premises supplied by the caller.

@@ -1,0 +1,27 @@
+[
+  {
+    "file": "HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "match": true
+  },
+  {
+    "file": "Meteor.Sdk.Cpp.Win32.Client64.dll",
+    "sha256": "f63fef02ffb517ca7844a769d03412ad82bd22198397302ee3c090c63a970c57",
+    "match": true
+  },
+  {
+    "file": "StormConsumerSettings.ini",
+    "sha256": "08eda2cb20539996b7c1a91480c1ee2f64e02743c9bbee0bfc4f3543d8fec3d9",
+    "match": true
+  },
+  {
+    "file": "steam_api64.dll",
+    "sha256": "38f6a1dd1e738e142160322638dae7b88dabcc30eea3f15c58eb08c5341f9b29",
+    "match": true
+  },
+  {
+    "file": "steam_appid.txt",
+    "sha256": "7f8af64056cc012f81841069a6bb93ad471e5f738a82e05a4981030a6da34233",
+    "match": true
+  }
+]

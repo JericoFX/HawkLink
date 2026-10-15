@@ -220,8 +220,10 @@ wire::mech::SMechSetupStruct materialize_starter_mech(
     const std::array<std::string_view, 6> internal_keys = {"Preset.MechInternals.Internal1",
         "Preset.MechInternals.Internal2", "Preset.MechInternals.Internal3",
         "Preset.MechInternals.Internal4", "Preset.MechInternals.Internal5", "Preset.MechInternals.Internal6"};
-    for (const auto key : internal_keys)
-        if (integer_attribute(attributes, key, -1) != -1) invalid();
+    for (const auto key : internal_keys) {
+        const auto index = integer_attribute(attributes, key, -1);
+        if (index != -1 && index != 255) invalid();
+    }
     result.mech_internals = {255, 255, 255, 255, 255, 255};
     result.mech_weapons = {0, 101, 0, 0};
     result.ability_index = 3;

@@ -1,0 +1,32 @@
+[
+  {
+    "object": "CMakeFiles/hawken_udp_trial_runtime.dir/src/udp_trial_runtime.cpp.obj",
+    "before_sha256": "F9F1F02E26262DADD7590BBD46FE56E713D318D2142EE770F3C16FA6927812AB",
+    "archive": "F:\\HawkenServer\\implementation\\evidence\\match-readiness-protocol\\20261014\\spawn-followup-validation\\parent-green\\stale-config-objects\\CMakeFiles__hawken_udp_trial_runtime.dir__src__udp_trial_runtime.cpp.obj",
+    "reason": "StartMechDispatchPlan layout grows; prior Ninja deps0 means target timestamps alone cannot prove fresh ABI"
+  },
+  {
+    "object": "CMakeFiles/hawken-udp-trial-runtime-tests.dir/tests/udp_trial_runtime_tests.cpp.obj",
+    "before_sha256": "358ED744BDBAC9C079339DC7AD4C56E14BB00D3E0C6F4EC53195DD774AF21329",
+    "archive": "F:\\HawkenServer\\implementation\\evidence\\match-readiness-protocol\\20261014\\spawn-followup-validation\\parent-green\\stale-config-objects\\CMakeFiles__hawken-udp-trial-runtime-tests.dir__tests__udp_trial_runtime_tests.cpp.obj",
+    "reason": "StartMechDispatchPlan layout grows; prior Ninja deps0 means target timestamps alone cannot prove fresh ABI"
+  },
+  {
+    "object": "CMakeFiles/hawken_wreckage_trial.dir/src/wreckage_trial.cpp.obj",
+    "before_sha256": "1602237AD240CFCA80B20DEA034DF400C35F7CAB568D297C1D47D2C83CD075CC",
+    "archive": "F:\\HawkenServer\\implementation\\evidence\\match-readiness-protocol\\20261014\\spawn-followup-validation\\parent-green\\stale-config-objects\\CMakeFiles__hawken_wreckage_trial.dir__src__wreckage_trial.cpp.obj",
+    "reason": "StartMechDispatchPlan layout grows; prior Ninja deps0 means target timestamps alone cannot prove fresh ABI"
+  },
+  {
+    "object": "CMakeFiles/hawken-wreckage-trial-tests.dir/tests/wreckage_trial_tests.cpp.obj",
+    "before_sha256": "4D271601100CFCD83F90F52477D2B86487F7777839DD3D6A28B8F9D50D22667E",
+    "archive": "F:\\HawkenServer\\implementation\\evidence\\match-readiness-protocol\\20261014\\spawn-followup-validation\\parent-green\\stale-config-objects\\CMakeFiles__hawken-wreckage-trial-tests.dir__tests__wreckage_trial_tests.cpp.obj",
+    "reason": "StartMechDispatchPlan layout grows; prior Ninja deps0 means target timestamps alone cannot prove fresh ABI"
+  },
+  {
+    "object": "CMakeFiles/hawken-server-listing-tests.dir/tests/server_listing_http_tests.cpp.obj",
+    "before_sha256": "D1AF8A8FB024D23CA38094CD81601358B29DCE152A1A7836E76A5CB31A7B34FA",
+    "archive": "F:\\HawkenServer\\implementation\\evidence\\match-readiness-protocol\\20261014\\spawn-followup-validation\\parent-green\\stale-config-objects\\CMakeFiles__hawken-server-listing-tests.dir__tests__server_listing_http_tests.cpp.obj",
+    "reason": "StartMechDispatchPlan layout grows; prior Ninja deps0 means target timestamps alone cannot prove fresh ABI"
+  }
+]

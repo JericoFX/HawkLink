@@ -1,0 +1,15 @@
+{
+  "status": "ACCEPTED_SEMANTIC_RED_PRODUCTION_UNCHANGED",
+  "build_exit": 0,
+  "starter_cases": 2,
+  "starter_failed_cases": 1,
+  "starter_negative_assertions_passed": 257,
+  "owner_cases": 3,
+  "owner_failed_cases": 2,
+  "owner_failed_assertions": 13,
+  "input_count": 194,
+  "input_drift": 0,
+  "peak_ram": 68.9,
+  "expected": "255 absence throws; known214 blocks validation and malformed-known closure; unknown prefix control passes",
+  "native_causal_acceptance": false
+}

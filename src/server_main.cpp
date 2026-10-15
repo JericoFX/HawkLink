@@ -595,6 +595,8 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                 // activates an experiment, not native cache/possession proof.
                 trial_config.start_mech = hawken::udp::StartMechDispatchPlan{
                     253,294,53,87,{true,true,true,{true,true,true},true,true,true},0};
+                // Original ServerChangeActiveItemIndex(int), conditional PRIMARY cache.
+                trial_config.start_mech->active_item_index = hawken::udp::ActiveItemIndexRpcPlan{214,true,true};
                 trial_config.start_mech_source = hawken::udp::StartMechSource{
                     policy->ids,[service=inventory.get()](const hawken::store::AccountRef& account,
                                                         std::string_view instance) {

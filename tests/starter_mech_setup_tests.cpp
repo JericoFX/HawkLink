@@ -332,3 +332,34 @@ TEST_CASE("starter materializer consumes separate part and decoration override k
     CHECK(value.mech_appearance.cockpit_decoration[1] == 13);
     CHECK(value.mech_appearance.cockpit_decoration[2] == 14);
 }
+
+TEST_CASE("starter materializer accepts saved internal absence as 255 or mixed minus one") {
+    auto snapshot = effective_starter();
+    SUBCASE("six saved 255 values") {
+        for (int slot = 1; slot <= 6; ++slot)
+            snapshot.attributes["Preset.MechInternals.Internal" + std::to_string(slot)] = "255";
+    }
+    SUBCASE("mixed minus one and 255 values") {
+        for (const int slot : {2, 4, 6})
+            snapshot.attributes["Preset.MechInternals.Internal" + std::to_string(slot)] = "255";
+    }
+    const auto original_attributes = snapshot.attributes;
+    const auto value = inventory::materialize_starter_mech(snapshot, expected_types(), selection());
+    const std::array<std::uint8_t, 6> actual = {value.mech_internals.internal1,
+        value.mech_internals.internal2, value.mech_internals.internal3,
+        value.mech_internals.internal4, value.mech_internals.internal5, value.mech_internals.internal6};
+    const std::array<std::uint8_t, 6> absent = {255, 255, 255, 255, 255, 255};
+    CHECK(actual == absent);
+    CHECK(snapshot.attributes == original_attributes);
+}
+
+TEST_CASE("starter materializer rejects unsupported internal indices despite absence compatibility") {
+    for (int index = -2; index <= 256; ++index) {
+        if (index == -1 || index == 255) continue;
+        auto snapshot = effective_starter();
+        snapshot.attributes["Preset.MechInternals.Internal1"] = std::to_string(index);
+        CAPTURE(index);
+        CHECK_THROWS_WITH_AS(inventory::materialize_starter_mech(snapshot, expected_types(), selection()),
+            "Invalid starter mech setup.", std::invalid_argument);
+    }
+}

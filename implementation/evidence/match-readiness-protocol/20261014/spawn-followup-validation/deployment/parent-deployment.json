@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-15T04:04:47.9946532Z",
+  "status": "UPDATED_SERVICES_READY_NATIVE_RETEST_PENDING",
+  "session": "local-steam-routing-20261015-040329",
+  "processes": [
+    {
+      "pid": 34760,
+      "parent": 28092,
+      "exe": "C:\\Users\\Jerico\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+      "creation": "2026-10-15T04:03:29.3107570Z"
+    },
+    {
+      "pid": 27808,
+      "parent": 34760,
+      "exe": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+      "creation": "2026-10-15T04:03:33.1186970Z"
+    },
+    {
+      "pid": 34240,
+      "parent": 34760,
+      "exe": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+      "creation": "2026-10-15T04:03:34.8515760Z"
+    }
+  ],
+  "core_sha256": "b078e13373c98a524908186986314c9fecd3e1fc13bc5b3e086c5967aa8df9b8",
+  "master_sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+  "core_http200": true,
+  "udp_port": 7777,
+  "originals5_unchanged": true,
+  "all_sql_tables_unchanged": true,
+  "game_started": false,
+  "native_spawn_confirmed": false,
+  "full_goal_complete": false
+}

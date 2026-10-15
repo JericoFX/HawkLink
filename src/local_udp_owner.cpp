@@ -678,6 +678,7 @@ struct LocalUdpOwner::Impl {
         if (!start_mech_plan && !ready_plan) return true;
         const auto bound=ready_plan ? ready_plan->controller_exclusive_bound
                                     : start_mech_plan->controller_exclusive_bound;
+        const bool active_item_index=start_mech_plan && start_mech_plan->active_item_index.has_value();
         const auto request_validation=[&] {
             registry->spawn_validation_requested=true;
             if (!entry.validation_responded || entry.pending_mech) {
@@ -701,7 +702,7 @@ struct LocalUdpOwner::Impl {
                     record_ready(entry,decoded.ready);
                 } else if (validation_plan && field==validation_plan->validate_rpc_field_id) {
                     request_validation();
-                    if (!admission_plan && !ready_plan) break;
+                    if (!admission_plan && !ready_plan && !active_item_index) break;
                 } else if (admission_plan && field==admission_plan->stage_rpc_field_id) {
                     const auto decoded=wire::rpc::read_selection_stage_arguments(reader,skeleton.endian,
                         bunch.payload_bits-reader.position());
@@ -714,6 +715,12 @@ struct LocalUdpOwner::Impl {
                             !entry.pending_mech && entry.admitted_revision!=entry.mech_revision)
                             entry.admission_request_revision=entry.mech_revision;
                     } else entry.admission_request_revision.reset();
+                } else if (active_item_index && field==start_mech_plan->active_item_index->field_id) {
+                    // Same exact eligible IntProperty/flags80/ArrayDim1 wire
+                    // schema as SelectionStage; preserve its bounded cursor.
+                    // This compatibility path does not execute active-item state.
+                    static_cast<void>(wire::rpc::read_selection_stage_arguments(reader,skeleton.endian,
+                        bunch.payload_bits-reader.position()));
                 } else if (start_mech_plan && field==start_mech_plan->controller_rpc_field_id) {
                     auto decoded=wire::rpc::read_start_mech_arguments(reader,skeleton.endian,
                         bunch.payload_bits-reader.position());
@@ -726,7 +733,7 @@ struct LocalUdpOwner::Impl {
                     // A newly requested preset cannot borrow the old validation.
                     entry.validation_succeeded=false;
                     entry.admission_request_revision.reset();
-                    if (!admission_plan && !ready_plan) {
+                    if (!admission_plan && !ready_plan && !active_item_index) {
                         if (validation_plan && reader.position()<bunch.payload_bits) {
                             try {
                                 if (reader.read_bounded(validation_plan->controller_exclusive_bound)==
@@ -1478,6 +1485,25 @@ struct LocalUdpOwner::Impl {
                 if (ints.logical_bits>cap || flag.logical_bits>cap-ints.logical_bits)
                     fail(LocalUdpErrorCode::invalid_configuration);
             } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
+        }
+        if (start_mech && start_mech->active_item_index) {
+            const auto& plan=*start_mech->active_item_index;
+            const auto collision=[&](std::uint32_t id) { return plan.field_id==id; };
+            if (!plan.rpc_eligible || !plan.argument_eligible ||
+                plan.field_id>=start_mech->controller_exclusive_bound ||
+                collision(start_mech->controller_rpc_field_id) ||
+                collision(links->controller_pri_field_id) || collision(links->controller_pawn_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (spawn_validation && (collision(spawn_validation->validate_rpc_field_id) ||
+                collision(spawn_validation->validated_rpc_field_id) || collision(spawn_validation->failed_rpc_field_id)))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (spawn_admission && (collision(spawn_admission->stage_rpc_field_id) ||
+                collision(spawn_admission->client_restart_rpc_field_id)))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (selection_bootstrap && collision(selection_bootstrap->client_set_hud_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (ready_match && collision(ready_match->ready_rpc_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
         }
         authorizer=std::move(callback); login_validator=std::move(validator);
         publication_provider=std::move(publication); controller_plan=std::move(controller);

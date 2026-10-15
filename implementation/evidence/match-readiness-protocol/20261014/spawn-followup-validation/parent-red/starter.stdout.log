@@ -1,0 +1,24 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\starter_mech_setup_tests.cpp(336):
+TEST CASE:  starter materializer accepts saved internal absence as 255 or mixed minus one
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  six saved 255 values
+
+F:\HawkenServer\tests\starter_mech_setup_tests.cpp(336): ERROR: test case THREW exception: Invalid starter mech setup.
+
+===============================================================================
+F:\HawkenServer\tests\starter_mech_setup_tests.cpp(336):
+TEST CASE:  starter materializer accepts saved internal absence as 255 or mixed minus one
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  mixed minus one and 255 values
+
+F:\HawkenServer\tests\starter_mech_setup_tests.cpp(336): ERROR: test case THREW exception: Invalid starter mech setup.
+
+===============================================================================
+[doctest] test cases:   2 |   1 passed | 1 failed | 14 skipped
+[doctest] assertions: 257 | 257 passed | 0 failed |
+[doctest] Status: FAILURE!
