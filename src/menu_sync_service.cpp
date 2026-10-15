@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 namespace {
-enum class TargetKind { unknown, empty_object, settings, empty_array, unlocked };
+enum class TargetKind { unknown, empty_object, settings, empty_array, unlocked, user_stats, item_stats };
 struct Target {
     TargetKind kind = TargetKind::unknown;
     std::optional<std::string_view> guid;
@@ -17,8 +17,8 @@ struct UserPrefix {
 constexpr std::array<UserPrefix, 5> user_prefixes{{
     {"/userPublicReadOnlyData/", TargetKind::empty_object},
     {"/userGameSettings/", TargetKind::settings},
-    {"/userGameItemStats/", TargetKind::empty_array},
-    {"/userStats/", TargetKind::empty_object},
+    {"/userGameItemStats/", TargetKind::item_stats},
+    {"/userStats/", TargetKind::user_stats},
     {"/userAchievements/", TargetKind::unlocked}}};
 constexpr std::string_view region_query = "?countryCode=";
 
@@ -133,6 +133,20 @@ MenuSyncReply MenuSyncService::get(std::string_view raw_target, std::string_view
             return {200, 200, "", nlohmann::json::object()};
         case TargetKind::empty_array:
             return {200, 200, "", nlohmann::json::array()};
+        case TargetKind::user_stats:
+            return {200, 200, "", nlohmann::json(store_.account_online_snapshot(access.account->account).unranked_gameplay_stats)};
+        case TargetKind::item_stats: {
+            const auto snapshot = store_.account_online_snapshot(access.account->account);
+            auto rows = nlohmann::json::array();
+            for (const auto& [slot, stats] : snapshot.item_stats_by_slot) {
+                if (!snapshot.starter || slot >= snapshot.starter->items.size()) return failure(500);
+                nlohmann::json row(stats);
+                row["UserGuid"] = access.account->user_guid;
+                row["UserGameItemGuid"] = snapshot.starter->items.at(slot).instance_id;
+                rows.push_back(std::move(row));
+            }
+            return {200, 200, "", std::move(rows)};
+        }
         case TargetKind::unlocked:
             return {200, 404, "Resource not found.", nlohmann::json::array()};
         case TargetKind::unknown:

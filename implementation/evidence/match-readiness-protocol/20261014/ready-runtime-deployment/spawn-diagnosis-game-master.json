@@ -1,0 +1,181 @@
+{
+  "status": "STATIC_FOCUSED_DIAGNOSIS_NOT_RUNTIME_CAUSE_ACCEPTANCE",
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "coverage": {
+    "cpp": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "rea": "f1156f8a608297f839bde968d47132db3cefd69371b311d22b0c397944f18094",
+    "complete_reading_reused_hashes_unchanged": true,
+    "graft": "ephemeral skeleton --no-refresh Owner, StartMech decoder and Runtime; exact source spans read afterward"
+  },
+  "observed_client_log_sanitized": {
+    "51.712": "SET READY True",
+    "61.947": "ClientMatchStarted",
+    "65.867": "DoMechSpawn presetIndex0/type1/subtype15/instance shape GUID/holo0; selector value not retained",
+    "110.885": "connection lost dialog",
+    "110.895": "Close TcpNetDriver connection"
+  },
+  "confirmed_static": [
+    {
+      "edge": "DoMechSpawn -> UpdateReplicationInfoForMech -> KeepCockpitTexturesResident -> ServerSetStartMech -> SetActiveItemIndex -> ValidatePlayerMechSelections",
+      "meaning": "No OnMechSetup callback prerequisite before the validation RPC in this body; logging DoMechSpawn occurs before these calls and does not prove completion."
+    },
+    {
+      "edge": "SetActiveItemIndex -> LocallySetActiveItemIndex -> if Role<ROLE_Authority ServerChangeActiveItemIndex(int)",
+      "conditional_dense_id": 214,
+      "bound": 294,
+      "status": "conditional cache reconstruction, not captured wire"
+    },
+    {
+      "edge": "ValidatePlayerMechSelections -> IsLoggedIn && NetMode!=Standalone -> ServerValidatePlayerSpawnSelection249; otherwise direct local ClientSpawnSelectionValidated",
+      "meaning": "Online path does not wait for replicated MechSetup completion before requesting249."
+    },
+    {
+      "source": "src/local_udp_owner.cpp:677-742",
+      "behavior": "Only Ready280/Validate249/Stage281/Start253 schemas recognized; unknown field stops current bunch without scanning suffix. A coalesced253,214,249 stream cannot reach249 under this parser."
+    },
+    {
+      "source": "src/local_udp_owner.cpp:761-814",
+      "behavior": "Start provider runs outsideUse; missing value/throw swallowed to nullopt or actor/send failure retires exactEntry. accepted_mech/revision committed only after actual nonempty PRI send."
+    },
+    {
+      "source": "src/local_udp_owner.cpp:980-1122",
+      "behavior": "Known Start argument WireError caught by generic receive catch -> terminal -> retire afterUse. Unknown214 alone only break; not a direct closure reason."
+    },
+    {
+      "source": "src/start_mech_rpc_wire.cpp:9-81",
+      "behavior": "Three eligible args, presence for string/int/int, active-endian int32; UUID36+NUL narrow or wide only policy, defaults absent empty/0/0. Parser throws for invalid shape/count/truncation. No actual incoming bits observed."
+    }
+  ],
+  "unresolved": [
+    "Whether this native attempt delivered253 at all, and its PrimaryWeapon argument, are not recorded by current diagnostics.",
+    "Whether214 was coalesced between253 and249 is unobserved. It is a real supported client call path and parser coverage gap, not proven current closure cause.",
+    "closed1 can represent decoder/provider/materializer/transport/auth lifecycle failure; current flags do not distinguish these.",
+    "No positive current OnMechSetup or PRI property delivery observation was recovered; ACK is not native consumer proof."
+  ],
+  "minimal_next_diagnostic_proposal": {
+    "fixed_categories_only": [
+      "known_start_prefix",
+      "known_start_decoded",
+      "unknown_controller_prefix",
+      "start_provider_missing_or_exception",
+      "start_property_sent",
+      "receive_wire_failure",
+      "connection_closed"
+    ],
+    "safe_metadata": [
+      "bounded field numeric ID and reader logical position/bitcount; no payload/UUID/credentials",
+      "provider stage outcome only, no account or item values"
+    ],
+    "small_patch_candidate_after_assignment": "Add explicitly supplied ServerChangeActiveItemIndex schema (one eligible IntProperty argument) to the common known-prefix reader; consume exactly its boundary without fabricated active-item gameplay, then249 remains reachable. First confirm original parameter eligibility and obtain meaningful253->214->249 regression. Do not scan unknown suffix or alter transport."
+  },
+  "limits": {
+    "source_changes": false,
+    "builds_tests": false,
+    "ghidra": false,
+    "game_or_services_control": false,
+    "own_persistent_helpers": 0,
+    "final_ram_percent": 61.35
+  },
+  "pins": [
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "14a101e7d699db1f66995aba37ec51e274104677fb923c3c7070d19c81a16327"
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "2eda501da06ca1e084276435a10e2411dccf33e7b9592718342572afb53c2e98"
+    },
+    {
+      "path": "src/start_mech_rpc_wire.cpp",
+      "sha256": "90b58c9895d745688f3f9e8de9b8f6869160778c4770f5fdc72f3d1ce2009bef"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020946-HawkenGame.R_PlayerController.DoMechSpawn.uc",
+      "sha256": "c66cb1337c54d8f71135f6e2ff74868b1cabc4e3c48475cb69c06564ec44a447"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020191-HawkenGame.R_PlayerController.SetActiveItemIndex.uc",
+      "sha256": "23fa33bb7c89a6f6f5fe505e68320000bc5f1985a5915c2b9205aebb284223cf"
+    },
+    {
+      "path": "implementation/evidence/controller-effective-field-cache/conditional-all-mapped-cache.json",
+      "sha256": "b118fff2c7bb7806fe8616e2097ce81fcf549de8c532218763320138d3d65258"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/server-set-start-mech-20261014/contract-v3.json",
+      "sha256": "a59959fca4fd4158d07c588f7b8e5879845696c02c90800849bcdd9d10894208"
+    },
+    {
+      "path": "implementation/evidence/pri-mech-setup/server-set-start-mech-20261014/lifecycle/contract.json",
+      "sha256": "9e874eb98469183e45baa6955f524385e68875f86bfc4619bba0af53c40cbafc"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020193-HawkenGame.R_PlayerController.ServerChangeActiveItemIndex.uc",
+      "sha256": "aebb14550f428dd967a426bd12d04f7ab9572bbcc29f84e2424262e3554f1b9a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/020961-HawkenGame.R_PlayerController.ValidatePlayerMechSelections.uc",
+      "sha256": "a6519c66e01db97a456ff65e0ace1cc5e8c0e6864a7efa7c5fb5265dd884eff5"
+    }
+  ],
+  "server_change_active_item_index_contract": {
+    "status": "CONFIRMED_SERIAL_ORIGINAL_CURRENT_PACKAGE_WITH_CONDITIONAL_FIELD_CACHE",
+    "function_export": 16460,
+    "serialized_net_index": 16465,
+    "function_flags": "0x2200c2",
+    "function_flag_bytes": "c2002200",
+    "conditional_field_id": 214,
+    "conditional_bound": 294,
+    "function_children_export": 16459,
+    "parameter": {
+      "name": "NewItemIndex",
+      "class_import": -747,
+      "class": "Core.IntProperty",
+      "ArrayDim": 1,
+      "PropertyFlags": "0x80",
+      "next": 0,
+      "wire": "eligible parameter: one presence bit; false=>zero default, true=>raw32 integer in active archive byte order. No BoolNET presence skip, no alignment or marker."
+    },
+    "body": "reliable server(int NewItemIndex) -> LocallySetActiveItemIndex(NewItemIndex); return. In the scoped reconstruction consumption may be separated from unimplemented active-item gameplay; do not claim that gameplay was implemented.",
+    "original_bytes": [
+      {
+        "export": 16460,
+        "name": "ServerChangeActiveItemIndex",
+        "serial_virtual_offset": "0x889c4f",
+        "serial_size": 83,
+        "serial_hex": "5140000013590000000000004a40000000000000000000004b40000000000000030200006448000016000000120000001ba04d000000000000004b40000016040b53000000c2002200ffffa272000000000000",
+        "serial_sha256": "3cc54c6f167341d37fe92d91c5d132684effb20b8391efcf4e9d95d505e786f9"
+      },
+      {
+        "export": 16459,
+        "name": "NewItemIndex",
+        "serial_virtual_offset": "0x889c27",
+        "serial_size": 40,
+        "serial_hex": "50400000135900000000000000000000010000008000000000000000135900000000000000000000",
+        "serial_sha256": "9145036ae16aaf859ab4f416cf356fa142c49a821d6f2ab23a4acc343bb52fdc"
+      }
+    ],
+    "compressed_block_verification": [
+      {
+        "compressed_source_offset": "0x15cead",
+        "compressed_size": 39457,
+        "compressed_sha256": "c53da68d8a1d774a91ddcd6c20140ce8e6534bb830b7217cc31eb68eebdb05ca",
+        "plain_sha256": "14940e9aa90f03a9ee0ced8d21ff2a6954a7fa91f399852cc1fb05f1134c4c58",
+        "matched_virtual_start": "0x889c27",
+        "matched_virtual_end": "0x889ca2",
+        "bytes_match": true
+      }
+    ],
+    "native_wire_reuse": {
+      "contract": "implementation/evidence/pri-mech-setup/server-set-start-mech-20261014/contract-v3.json",
+      "int_item_serializer": "f8fb0 ->3a30; explicit archive byte order",
+      "presence": "actorRPC common walk nonBool property, same IntProperty/flags/ArrayDim as PrimaryWeapon/HoloTauntType already closed"
+    },
+    "minimal_regression": "Known253 complete arguments ->214 present int32 ->249 tag, and214 absent default0 ->249; exactcursor/no unknown scan; truncation terminal only after known214 recognized. No fabricated real payload."
+  },
+  "separate_parent_reported_cause": {
+    "status": "PARENT_REPORTED_OTHER_WRITER_INVESTIGATING",
+    "detail": "Six saved Internal1..6 values255 conflict with materializer expected-1, potentially causing provider materialization retirement. Not independently accepted or repaired by this task. Unknown214 alone never explains closure."
+  }
+}

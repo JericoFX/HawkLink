@@ -5,6 +5,7 @@
 #include "test_support.hpp"
 #include <cpp-httplib/httplib.h>
 #include <doctest/doctest.h>
+#include <sqlite3.h>
 #ifdef _WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -341,4 +342,42 @@ TEST_CASE("HTTP nonsettings length rejection and chunked early rejection never d
         check_raw_status(raw_rejection(listener.port(),request),row.second);
     }
     CHECK(listener.verifier.calls==0);CHECK_FALSE(listener.store.find_account("76561197960265729"));
+}
+namespace {
+void online_http_fixture_sql(const std::filesystem::path& path,const std::string& query) {
+    sqlite3* raw=nullptr;const auto opened=sqlite3_open_v2(path.string().c_str(),&raw,SQLITE_OPEN_READWRITE,nullptr);
+    const std::unique_ptr<sqlite3,decltype(&sqlite3_close)> db(raw,sqlite3_close); REQUIRE(opened==SQLITE_OK);
+    REQUIRE(sqlite3_exec(db.get(),query.c_str(),nullptr,nullptr,nullptr)==SQLITE_OK);
+}
+}
+
+TEST_CASE("Online stats HTTP reads server-owned instance IDs and numeric SQL values without writes") {
+    Listener listener;httplib::Client client("127.0.0.1",listener.port());const auto credentials=login(client);
+    const auto owned=body(client.Get("/userGameItems/"+credentials.guid,headers(credentials)),200,200);
+    REQUIRE(owned.size()==9); REQUIRE(listener.store.schema_version()==6);
+    const auto account=listener.store.find_account("76561197960265729");REQUIRE(account);
+    const auto path=listener.temporary.path()/"accounts.sqlite";
+    const auto local=std::to_string(account->ref.local_id);
+    online_http_fixture_sql(path,"INSERT INTO unranked_gameplay_stats VALUES("+local+",'fixture.count',-7.5); "
+        "INSERT INTO owned_item_stats VALUES("+local+",1,'fixture.item',42.0)");
+    const auto before=hawken::test::read_bytes(path);
+    CHECK(body(client.Get("/userStats/"+credentials.guid,headers(credentials)),200,200)==nlohmann::json{{"fixture.count",-7.5}});
+    const auto actual=body(client.Get("/userGameItemStats/"+credentials.guid,headers(credentials)),200,200);
+    const auto expected=nlohmann::json::array({{{"UserGuid",credentials.guid},
+        {"UserGameItemGuid",owned.at(1).at("UserGameItemGuid").get<std::string>()},{"fixture.item",42.0}}});
+    CHECK(actual==expected); CHECK(actual.at(0).at("UserGameItemGuid")!=owned.at(1).at("GameItemsGuid"));
+    CHECK(body(client.Get("/userGameItemStats/"+credentials.guid,headers(credentials)),200,200)==expected);
+    CHECK(body(client.Get("/userStats/"+credentials.guid),401,401).is_null());
+    CHECK(body(client.Get("/userStats/01234567-89ab-cdef-0123-456789abcdef",headers(credentials)),401,401).is_null());
+    listener.verifier.active=false;
+    CHECK(body(client.Get("/userStats/"+credentials.guid,headers(credentials)),401,401).is_null());
+    CHECK(hawken::test::read_bytes(path)==before);CHECK(listener.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+
+TEST_CASE("Online stats HTTP refuses corrupt statistic schemas rather than returning success empties") {
+    Listener listener;httplib::Client client("127.0.0.1",listener.port());const auto credentials=login(client);
+    REQUIRE(listener.store.schema_version()==6);
+    online_http_fixture_sql(listener.temporary.path()/"accounts.sqlite","DROP TABLE unranked_gameplay_stats");
+    CHECK(body(client.Get("/userStats/"+credentials.guid,headers(credentials)),500,500).is_null());
+    CHECK(body(client.Get("/userGameItemStats/"+credentials.guid,headers(credentials)),500,500).is_null());
 }

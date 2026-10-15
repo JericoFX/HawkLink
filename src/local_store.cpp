@@ -1,6 +1,7 @@
 #include <hawken/local_store.hpp>
 #include <sqlite3.h>
 #include <array>
+#include <cmath>
 #include <limits>
 #include <mutex>
 #include <span>
@@ -120,6 +121,13 @@ public:
         require(sqlite3_column_type(stmt_, column) == SQLITE_INTEGER);
         return sqlite3_column_int64(stmt_, column);
     }
+    double number(int column) const {
+        const int type = sqlite3_column_type(stmt_, column);
+        require(type == SQLITE_FLOAT || type == SQLITE_INTEGER);
+        const double value = sqlite3_column_double(stmt_, column);
+        require(std::isfinite(value));
+        return value;
+    }
     std::string text(int column, std::size_t maximum) const {
         require(sqlite3_column_type(stmt_, column) == SQLITE_TEXT);
         const int bytes = sqlite3_column_bytes(stmt_, column);
@@ -150,11 +158,11 @@ private:
     sqlite3* db_;
     bool active_ = true;
 };
-constexpr int current_schema_version = 5;
-constexpr std::array<const char*, 11> names{
+constexpr int current_schema_version = 6;
+constexpr std::array<const char*, 13> names{
     "server_metadata", "accounts", "aliases", "visits", "roles", "bans", "wallets", "starter_grants", "starter_items", "game_settings",
-    "owned_item_attributes"};
-constexpr std::array<const char*, 11> ddl{
+    "owned_item_attributes", "unranked_gameplay_stats", "owned_item_stats"};
+constexpr std::array<const char*, 13> ddl{
 R"(CREATE TABLE server_metadata (
     singleton INTEGER PRIMARY KEY NOT NULL CHECK(singleton = 1),
     server_id TEXT NOT NULL CHECK(
@@ -258,6 +266,26 @@ R"(CREATE TABLE owned_item_attributes (
         AND instr(CAST(value AS BLOB), x'00') = 0),
     PRIMARY KEY(account_id, slot, key),
     FOREIGN KEY(account_id, slot) REFERENCES starter_items(account_id, slot) ON DELETE RESTRICT
+) STRICT)",
+R"(CREATE TABLE unranked_gameplay_stats (
+    account_id INTEGER NOT NULL REFERENCES accounts(id) ON DELETE RESTRICT,
+    key TEXT NOT NULL CHECK(
+        length(CAST(key AS BLOB)) BETWEEN 1 AND 256
+        AND instr(CAST(key AS BLOB), x'00') = 0
+        AND key NOT IN ('Guid', 'Error')),
+    value REAL NOT NULL CHECK(value BETWEEN -1.7976931348623157e308 AND 1.7976931348623157e308),
+    PRIMARY KEY(account_id, key)
+) STRICT)",
+R"(CREATE TABLE owned_item_stats (
+    account_id INTEGER NOT NULL,
+    slot INTEGER NOT NULL CHECK(slot BETWEEN 0 AND 8),
+    key TEXT NOT NULL CHECK(
+        length(CAST(key AS BLOB)) BETWEEN 1 AND 256
+        AND instr(CAST(key AS BLOB), x'00') = 0
+        AND key NOT IN ('UserGuid', 'UserGameItemGuid')),
+    value REAL NOT NULL CHECK(value BETWEEN -1.7976931348623157e308 AND 1.7976931348623157e308),
+    PRIMARY KEY(account_id, slot, key),
+    FOREIGN KEY(account_id, slot) REFERENCES starter_items(account_id, slot) ON DELETE RESTRICT
 ) STRICT)"};
 struct Column { const char* name; const char* type; int not_null; int primary; };
 constexpr std::array metadata_columns{Column{"singleton", "INTEGER", 1, 1}, Column{"server_id", "TEXT", 1, 0}};
@@ -278,14 +306,20 @@ constexpr std::array settings_columns{Column{"account_id", "INTEGER", 1, 1},
     Column{"key", "TEXT", 1, 2}, Column{"value", "TEXT", 1, 0}};
 constexpr std::array item_attribute_columns{Column{"account_id", "INTEGER", 1, 1}, Column{"slot", "INTEGER", 1, 2},
     Column{"key", "TEXT", 1, 3}, Column{"value", "TEXT", 1, 0}};
-const std::array<std::span<const Column>, 11> columns{
+constexpr std::array gameplay_stat_columns{Column{"account_id", "INTEGER", 1, 1}, Column{"key", "TEXT", 1, 2},
+    Column{"value", "REAL", 1, 0}};
+constexpr std::array item_stat_columns{Column{"account_id", "INTEGER", 1, 1}, Column{"slot", "INTEGER", 1, 2},
+    Column{"key", "TEXT", 1, 3}, Column{"value", "REAL", 1, 0}};
+const std::array<std::span<const Column>, 13> columns{
     metadata_columns, account_columns, alias_columns, visit_columns, role_columns, ban_columns, wallet_columns,
-    starter_grant_columns, starter_item_columns, settings_columns, item_attribute_columns};
-constexpr std::array<const char*, 7> index_names{
+    starter_grant_columns, starter_item_columns, settings_columns, item_attribute_columns,
+    gameplay_stat_columns, item_stat_columns};
+constexpr std::array<const char*, 9> index_names{
     "sqlite_autoindex_accounts_1", "sqlite_autoindex_aliases_1", "sqlite_autoindex_visits_1",
     "sqlite_autoindex_starter_items_1", "sqlite_autoindex_starter_items_2", "sqlite_autoindex_game_settings_1",
-    "sqlite_autoindex_owned_item_attributes_1"};
-constexpr std::array<std::size_t, 7> index_tables{1, 2, 3, 8, 8, 9, 10};
+    "sqlite_autoindex_owned_item_attributes_1", "sqlite_autoindex_unranked_gameplay_stats_1",
+    "sqlite_autoindex_owned_item_stats_1"};
+constexpr std::array<std::size_t, 9> index_tables{1, 2, 3, 8, 8, 9, 10, 11, 12};
 
 void check_table(sqlite3* db, std::size_t table) {
     Statement attributes(db, "SELECT type,ncol,wr,strict FROM pragma_table_list WHERE schema='main' AND name=?");
@@ -308,7 +342,7 @@ void check_table(sqlite3* db, std::size_t table) {
     require(position == columns[table].size());
     Statement foreign(db, "SELECT id,seq,\"table\",\"from\",\"to\",on_update,on_delete,\"match\" FROM pragma_foreign_key_list(?, 'main') ORDER BY id,seq");
     foreign.bind(1, names[table]);
-    if (table == 10) {
+    if (table == 10 || table == 12) {
         constexpr std::array<const char*, 2> keys{"account_id", "slot"};
         for (std::size_t index = 0; index < keys.size(); ++index) {
             require(foreign.row());
@@ -330,9 +364,9 @@ void check_table(sqlite3* db, std::size_t table) {
         require(indexes.row());
         require(indexes.integer(0) == 0 && indexes.text(1, 64) == index_names[table - 1] && indexes.integer(2) == 1 &&
             indexes.text(3, 8) == (table == 1 ? "u" : "pk") && indexes.integer(4) == 0);
-    } else if (table == 9 || table == 10) {
+    } else if (table >= 9) {
         require(indexes.row());
-        require(indexes.integer(0) == 0 && indexes.text(1, 64) == index_names[table == 9 ? 5 : 6] && indexes.integer(2) == 1 &&
+        require(indexes.integer(0) == 0 && indexes.text(1, 64) == index_names[table - 4] && indexes.integer(2) == 1 &&
             indexes.text(3, 8) == "pk" && indexes.integer(4) == 0);
     } else if (table == 8) {
         require(indexes.row());
@@ -347,7 +381,7 @@ void check_table(sqlite3* db, std::size_t table) {
 void check_index(sqlite3* db, std::size_t index) {
     Statement statement(db, "SELECT seqno,cid,name,\"desc\",coll,\"key\" FROM pragma_index_xinfo(?, 'main') ORDER BY seqno");
     statement.bind(1, index_names[index]);
-    const std::size_t keys = index == 6 ? 3 : index == 1 || index == 4 || index == 5 ? 2 : 1;
+    const std::size_t keys = index == 6 || index == 8 ? 3 : index == 1 || index == 4 || index == 5 || index == 7 ? 2 : 1;
     for (std::size_t position = 0; position < keys; ++position) {
         const std::size_t column = index == 0 ? 1 : index == 3 ? 3 : position;
         require(statement.row());
@@ -378,9 +412,9 @@ void validate_schema(sqlite3* db, std::string_view server, int expected_version 
     if (version > current_schema_version || application != 0x4841574B) fail(StoreErrorCode::unsupported_schema);
     require(version == expected_version);
     const std::size_t table_count = expected_version == 1 ? 6 : expected_version == 2 ? 7 : expected_version == 3 ? 9 :
-        expected_version == 4 ? 10 : names.size();
+        expected_version == 4 ? 10 : expected_version == 5 ? 11 : names.size();
     const std::size_t index_count = expected_version < 3 ? 3 : expected_version == 3 ? 5 :
-        expected_version == 4 ? 6 : index_names.size();
+        expected_version == 4 ? 6 : expected_version == 5 ? 7 : index_names.size();
     std::array<bool, names.size()> tables{};
     std::array<bool, index_names.size()> indexes{};
     Statement objects(db, "SELECT type,name,tbl_name,sql FROM main.sqlite_schema");
@@ -515,6 +549,10 @@ ItemAttributes read_item_attributes(sqlite3* db, std::int64_t account_id, std::i
     }
     return result;
 }
+void validate_stat_key(std::string_view key, bool item) {
+    require(text_valid(key, 1, 256));
+    require(item ? key != "UserGuid" && key != "UserGameItemGuid" : key != "Guid" && key != "Error");
+}
 Visit read_visit(Statement& statement, std::string_view server) {
     Visit visit{statement.text(0, 64), {std::string(server), statement.integer(1)}, statement.text(2, 128), statement.integer(3)};
     require(safe_id(visit.visit_id) && visit.account.local_id > 0 && text_valid(visit.alias, 1, 128) && visit.occurred_at >= 0);
@@ -582,8 +620,8 @@ struct LocalStore::Impl {
             metadata.bind(1, server);
             metadata.done();
             execute(db.get(), "PRAGMA main.application_id=0x4841574B");
-            execute(db.get(), "PRAGMA main.user_version=5");
-        } else if (version == 1 || version == 2 || version == 3 || version == 4) {
+            execute(db.get(), "PRAGMA main.user_version=6");
+        } else if (version >= 1 && version <= 5) {
             // Validate old scope/schema before DDL or data changes. One write
             // transaction preserves existing identities, balances and grants.
             validate_schema(db.get(), server, static_cast<int>(version));
@@ -597,8 +635,10 @@ struct LocalStore::Impl {
                 execute(db.get(), ddl[8]);
             }
             if (version < 4) execute(db.get(), ddl[9]);
-            execute(db.get(), ddl[10]);
-            execute(db.get(), "PRAGMA main.user_version=5");
+            if (version < 5) execute(db.get(), ddl[10]);
+            execute(db.get(), ddl[11]);
+            execute(db.get(), ddl[12]);
+            execute(db.get(), "PRAGMA main.user_version=6");
         }
         validate_schema(db.get(), server);
         schema_cookie = scalar(db.get(), "PRAGMA main.schema_version");
@@ -673,6 +713,37 @@ bool LocalStore::merge_owned_item_attributes(const AccountRef& account, std::str
     }
     transaction.commit();
     return changed;
+}
+
+AccountOnlineSnapshot LocalStore::account_online_snapshot(const AccountRef& account) const {
+    auto& state = state_of(impl_);
+    const std::lock_guard lock(state.mutex);
+    Transaction transaction(state.db.get(), false);
+    state.check();
+    require_account(state.db.get(), state.server, account);
+    AccountOnlineSnapshot result;
+    if (auto items = read_starter_items(state.db.get(), account.local_id))
+        result.starter = StarterMechSnapshot{std::move(*items), read_item_attributes(state.db.get(), account.local_id, 0)};
+    Statement gameplay(state.db.get(), "SELECT key,value FROM main.unranked_gameplay_stats WHERE account_id=? ORDER BY key");
+    gameplay.bind(1, account.local_id);
+    while (gameplay.row()) {
+        auto key = gameplay.text(0, 256);
+        validate_stat_key(key, false);
+        require(result.unranked_gameplay_stats.emplace(std::move(key), gameplay.number(1)).second);
+    }
+    Statement items(state.db.get(), "SELECT slot,key,value FROM main.owned_item_stats WHERE account_id=? ORDER BY slot,key");
+    items.bind(1, account.local_id);
+    while (items.row()) {
+        const auto slot = items.integer(0);
+        require(result.starter.has_value() && slot >= 0 && slot < 9);
+        auto key = items.text(1, 256);
+        validate_stat_key(key, true);
+        require(result.item_stats_by_slot[static_cast<std::size_t>(slot)].emplace(std::move(key), items.number(2)).second);
+    }
+    // Same explicit no-awards/imports policy as account_achievement_ids; scope
+    // and schema were checked in this transaction, without opening a nested one.
+    transaction.commit();
+    return result;
 }
 
 std::vector<std::string> LocalStore::account_achievement_ids(const AccountRef& account) const {

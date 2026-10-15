@@ -99,6 +99,8 @@ struct UdpTrialRuntime::Impl {
     const std::optional<SpawnAdmissionDispatchPlan> spawn_admission;
     const std::optional<PriIdentityDispatchPlan> pri_identity;
     const std::optional<SelectionBootstrapPlan> selection_bootstrap;
+    const std::optional<ReadyMatchPlan> ready_match;
+    const std::optional<ReadyAccountSource> ready_match_source;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -112,7 +114,8 @@ struct UdpTrialRuntime::Impl {
           links(config.links), start_mech(config.start_mech), start_mech_source(config.start_mech_source),
           spawn_validation(config.spawn_validation), spawn_validation_source(config.spawn_validation_source),
           spawn_admission(config.spawn_admission), pri_identity(config.pri_identity),
-          selection_bootstrap(config.selection_bootstrap) {
+          selection_bootstrap(config.selection_bootstrap), ready_match(config.ready_match),
+          ready_match_source(config.ready_match_source) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -185,12 +188,27 @@ struct UdpTrialRuntime::Impl {
                     } catch (...) { return failed; }
                 };
             }
+            LocalUdpOwner::ReadyFactsProvider read_ready_account;
+            if (ready_match && ready_match_source) {
+                read_ready_account=[this](const session::SessionId& id)
+                    ->std::optional<ReadyAccountFacts> {
+                    try {
+                        const auto account=service->account_for_udp(id);
+                        if (!account) return std::nullopt;
+                        const auto facts=ready_match_source->read_account(*account);
+                        const auto current=service->account_for_udp(id);
+                        if (!current || *current!=*account) return std::nullopt;
+                        return facts;
+                    } catch (...) { return std::nullopt; }
+                };
+            }
             // Start last: all callback targets are complete before the worker.
             owner->start([this](const session::SessionId& id) { return service->authorize_udp(id); },
                 [this](const session::SessionId& id, const control::posthello::RawString& response) {
                     return service->validate_login_response(id, response);
                 }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize),
-                spawn_validation,std::move(validate_selection),spawn_admission,pri_identity,selection_bootstrap);
+                spawn_validation,std::move(validate_selection),spawn_admission,pri_identity,selection_bootstrap,
+                ready_match,std::move(read_ready_account));
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();
@@ -221,6 +239,11 @@ UdpTrialRuntime::UdpTrialRuntime(auth::AuthService& auth, const UdpTrialConfig& 
     if (config.spawn_admission && (!config.spawn_validation || !config.spawn_validation_source ||
         !config.publication || !config.controller || !config.pri || !config.pawn || !config.links ||
         !config.start_mech || !config.start_mech_source))
+        startup_failed();
+    if (config.ready_match_source && (!config.ready_match || !config.ready_match_source->read_account))
+        startup_failed();
+    if (config.ready_match && (!config.publication || !config.controller || !config.pri ||
+        !config.pawn || !config.links || !config.pri_identity || !config.selection_bootstrap))
         startup_failed();
     if (config.pri_identity) {
         const auto& identity = *config.pri_identity;

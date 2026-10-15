@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-15T03:31:02.5328685Z",
+  "status": "FINAL_OPERATIONAL_PIN_VERIFIED",
+  "file": "implementation/tools/local-steam-test.ps1",
+  "before_sha256": "9d70b8555c5e5513ad0e3a126ad0f7e9a71cd957073174fb8dd299c5c021a9f1",
+  "after_sha256": "578dd281653028f00d9ac46fd24b72188528ca9c02610ec045758f912045ebb7",
+  "parser_errors": 0,
+  "default_matches_actual_core": true,
+  "core_sha256": "c30d00e89672d83c62c15e9bba007f90faaa0074b625c80ee1406bbe828a89c7",
+  "native_logic_changed": false,
+  "reason": "Keep the existing default launch command valid for the newly linked verified Core. Running helper already launched with this same explicit hash. No process restart, dependencies or networking policy change."
+}

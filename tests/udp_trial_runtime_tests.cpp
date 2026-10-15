@@ -1705,3 +1705,172 @@ TEST_CASE("UDP trial selection bootstrap validates prerequisites channel ranges 
     CHECK(provision(runtime,login).status==200); // Rollback preserves the first valid installation.
     CHECK(f.store.wallet(account->ref)==wallet); runtime.stop();
 }
+
+
+namespace {
+udp::ReadyMatchPlan runtime_ready_plan() {
+    udp::ReadyMatchPlan plan{};
+    plan.ready_rpc_field_id=280; plan.controller_exclusive_bound=294;
+    plan.pri_ready_field_id=30; plan.pri_waiting_field_id=31; plan.pri_exclusive_bound=87;
+    plan.gri_waiting_to_ready_field_id=48; plan.gri_waiting_for_field_id=49;
+    plan.gri_countdown_field_id=51; plan.gri_match_begun_field_id=29; plan.gri_exclusive_bound=73;
+    plan.integer_order=control::Endian::little;
+    plan.rules={true,1,0.55F,0,0,0,30.0F};
+    plan.initial_state={0.0F,100000000000.0F,false,0,1,-1};
+    plan.role_is_player=true; plan.role_waiting_player=true;
+    plan.world_tracking_created=true; plan.world_pending_quit=false;
+    plan.eligibility={true,true,true,true,true,true,true,true,true,true,true,true,true};
+    return plan;
+}
+udp::UdpTrialConfig runtime_ready_config() {
+    auto selected=config(); selected.publication=public_publication();
+    selected.controller=runtime_controller_plan(); selected.pawn=runtime_pawn_plan();
+    selected.pri=runtime_pri_plan(); selected.links=runtime_bootstrap_links_plan();
+    selected.pri_identity=udp::PriIdentityDispatchPlan{
+        41,87,control::Endian::little,{true,true,true,true,true}};
+    selected.selection_bootstrap=runtime_selection_bootstrap_plan();
+    selected.ready_match=runtime_ready_plan();
+    return selected;
+}
+void runtime_ready_open(udp::UdpTrialRuntime& runtime,const auth::AuthReply& login,
+                        Peer& peer,session::Context& client) {
+    runtime_publish(runtime,login,peer,client);
+    peer.send(runtime.port(),packet(client,4,5,
+        public_hex("08040302017856341200000080ffffffff0200000009")));
+    const auto opened=runtime_bootstrap_packets(peer,client,2000ms,0,4);
+    REQUIRE(opened.openings.packet_ids.size()==4);
+    peer.send(runtime.port(),runtime_links_ack(client,5,opened.openings.packet_ids));
+    // Identity and GameClass precede actor links; HUD follows their real ACKs.
+    const auto identity=runtime_bootstrap_packets(peer,client,2000ms,2);
+    REQUIRE(identity.properties.packet_ids.size()==2);
+    peer.send(runtime.port(),runtime_links_ack(client,6,identity.properties.packet_ids));
+    const auto links=runtime_bootstrap_packets(peer,client,2000ms,2);
+    REQUIRE(links.properties.packet_ids.size()==2);
+    peer.send(runtime.port(),runtime_links_ack(client,7,links.properties.packet_ids));
+    const auto hud=runtime_bootstrap_packets(peer,client,2000ms,1);
+    REQUIRE(hud.properties.bunches.size()==1);
+    REQUIRE(hud.properties.bunches[0].channel==7);
+    peer.send(runtime.port(),runtime_links_ack(client,8,hud.properties.packet_ids));
+    REQUIRE(wait_until([&]{return runtime.diagnostics().hud_acked;}));
+}
+Bytes runtime_ready_request(session::Context& client,std::uint16_t packet_id) {
+    // Original independent Ready280/bound294 literal: one bool bit, no presence.
+    wire::Bunch bunch; bunch.reliable=true; bunch.channel_type=2; bunch.channel=7;
+    bunch.sequence=1; bunch.payload=public_hex("1803"); bunch.payload_bits=10;
+    wire::Packet packet_value; packet_value.packet_id=packet_id;
+    wire::PacketRecord record; record.bunch=std::move(bunch);
+    packet_value.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet_value,512));
+}
+void runtime_ready_drain(udp::UdpTrialRuntime& runtime,Peer& peer,session::Context& client,
+                         std::chrono::milliseconds budget=500ms) {
+    auto packet_id=std::uint16_t{20};
+    const auto deadline=std::chrono::steady_clock::now()+budget;
+    while (std::chrono::steady_clock::now()<deadline) {
+        const auto datagram=peer.receive(20ms); if (!datagram) continue;
+        const auto value=wire::decode_packet(client.decode(*datagram),512);
+        bool needs_ack=false;
+        for (const auto& record:value.records) if (!record.is_ack) needs_ack=true;
+        if (needs_ack) peer.send(runtime.port(),runtime_links_ack(client,packet_id++,{value.packet_id}));
+    }
+}
+}
+
+TEST_CASE("Ready runtime rejects missing dependencies and source without policy before bind") {
+    Fixture f; std::uint16_t port=0; { Peer reservation; port=reservation.port(); }
+    for (unsigned invalid=0;invalid<10;++invalid) {
+        CAPTURE(invalid); auto selected=runtime_ready_config(); selected.port=port;
+        if (invalid==0) selected.publication.reset();
+        if (invalid==1) selected.controller.reset();
+        if (invalid==2) selected.pri.reset();
+        if (invalid==3) selected.links.reset();
+        if (invalid==4) selected.selection_bootstrap.reset();
+        if (invalid==5) {
+            selected.ready_match.reset();
+            selected.ready_match_source=udp::ReadyAccountSource{[](const store::AccountRef&)
+                ->std::optional<udp::ReadyAccountFacts>{return std::nullopt;}};
+        }
+        if (invalid==6) selected.ready_match_source=udp::ReadyAccountSource{};
+        if (invalid==7) selected.ready_match->eligibility.ready_argument_bool_net_correct=false;
+        if (invalid==8) selected.pawn.reset();
+        if (invalid==9) selected.pri_identity.reset();
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        { Peer rebound(port); CHECK(rebound.port()==port); }
+    }
+}
+
+TEST_CASE("Ready runtime copies account reader and starts from an account scope without selected mech") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto wallet=f.store.wallet(account->ref);
+    std::atomic<unsigned> reads{0}; std::atomic<bool> wrong_scope{false};
+    std::unique_ptr<udp::UdpTrialRuntime> runtime;
+    {
+        auto selected=runtime_ready_config();
+        selected.ready_match_source=udp::ReadyAccountSource{[&](const store::AccountRef& scope)
+            ->std::optional<udp::ReadyAccountFacts>{
+                if (scope!=account->ref) wrong_scope=true;
+                ++reads; return udp::ReadyAccountFacts{true,true,true,true,false,false};
+            }};
+        runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+        selected.ready_match.reset(); selected.ready_match_source.reset();
+    }
+    const auto dto=provision(*runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    Peer peer; session::Context client(session::Role::client,id,key);
+    CHECK(reads.load()==0);
+    runtime_ready_open(*runtime,login,peer,client);
+    peer.send(runtime->port(),runtime_ready_request(client,9));
+    runtime_ready_drain(*runtime,peer,client);
+    CHECK(reads.load()>0); CHECK_FALSE(wrong_scope.load());
+    CHECK(runtime->diagnostics().ready_rpc_received); CHECK(runtime->diagnostics().pri_ready_acked);
+    CHECK(runtime->diagnostics().match_start_requested); CHECK(runtime->diagnostics().gri_match_begun_sent);
+    CHECK_FALSE(runtime->diagnostics().client_restart_sent);
+    CHECK(f.store.wallet(account->ref)==wallet); CHECK_FALSE(f.store.starter_items(account->ref));
+    runtime->stop();
+}
+
+TEST_CASE("Ready runtime unavailable account data and missing reader keep match pending") {
+    for (unsigned unavailable=0;unavailable<3;++unavailable) {
+        Fixture f; const auto login=f.login(); auto selected=runtime_ready_config();
+        if (unavailable!=0) selected.ready_match_source=udp::ReadyAccountSource{
+            [unavailable](const store::AccountRef&)->std::optional<udp::ReadyAccountFacts>{
+                if (unavailable==2) throw std::runtime_error("private fixture detail");
+                return std::nullopt;
+            }};
+        udp::UdpTrialRuntime runtime(f.auth,selected);
+        const auto dto=provision(runtime,login); REQUIRE(dto.status==200);
+        const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+        const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+        Peer peer; session::Context client(session::Role::client,id,key);
+        runtime_ready_open(runtime,login,peer,client);
+        peer.send(runtime.port(),runtime_ready_request(client,9));
+        runtime_ready_drain(runtime,peer,client);
+        CHECK(runtime.diagnostics().ready_rpc_received); CHECK(runtime.diagnostics().pri_ready_sent);
+        CHECK_FALSE(runtime.diagnostics().match_start_requested);
+        CHECK_FALSE(runtime.diagnostics().gri_match_begun_sent); CHECK_FALSE(runtime.diagnostics().client_restart_sent);
+        runtime.stop();
+    }
+}
+
+TEST_CASE("Ready runtime revalidates account authorization after its reader returns") {
+    Fixture f; const auto login=f.login(); auto selected=runtime_ready_config();
+    std::atomic<bool> revoke{false}; std::atomic<unsigned> revocations{0};
+    selected.ready_match_source=udp::ReadyAccountSource{[&](const store::AccountRef&)
+        ->std::optional<udp::ReadyAccountFacts>{
+            if (revoke.load()) { f.verifier.valid=false; ++revocations; }
+            return udp::ReadyAccountFacts{true,true,true,true,false,false};
+        }};
+    udp::UdpTrialRuntime runtime(f.auth,selected);
+    const auto dto=provision(runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    Peer peer; session::Context client(session::Role::client,id,key);
+    runtime_ready_open(runtime,login,peer,client);
+    revoke=true; peer.send(runtime.port(),runtime_ready_request(client,9));
+    runtime_ready_drain(runtime,peer,client);
+    CHECK(revocations.load()>0); CHECK_FALSE(runtime.diagnostics().match_start_requested);
+    CHECK_FALSE(runtime.diagnostics().gri_match_begun_sent); CHECK_FALSE(runtime.diagnostics().client_restart_sent);
+    runtime.stop();
+}

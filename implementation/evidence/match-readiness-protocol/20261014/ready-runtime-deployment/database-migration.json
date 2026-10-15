@@ -1,0 +1,70 @@
+{
+  "utc": "2026-10-15T03:32:00.350493+00:00",
+  "live_schema": 6,
+  "backup_schema": 5,
+  "retained_old_tables": [
+    {
+      "table": "aliases",
+      "before_rows": 0,
+      "after_rows": 0,
+      "same": true
+    },
+    {
+      "table": "bans",
+      "before_rows": 0,
+      "after_rows": 0,
+      "same": true
+    },
+    {
+      "table": "game_settings",
+      "before_rows": 8,
+      "after_rows": 8,
+      "same": true
+    },
+    {
+      "table": "owned_item_attributes",
+      "before_rows": 91,
+      "after_rows": 91,
+      "same": false
+    },
+    {
+      "table": "roles",
+      "before_rows": 0,
+      "after_rows": 0,
+      "same": true
+    },
+    {
+      "table": "server_metadata",
+      "before_rows": 1,
+      "after_rows": 1,
+      "same": true
+    },
+    {
+      "table": "starter_grants",
+      "before_rows": 1,
+      "after_rows": 1,
+      "same": true
+    },
+    {
+      "table": "starter_items",
+      "before_rows": 9,
+      "after_rows": 9,
+      "same": true
+    },
+    {
+      "table": "visits",
+      "before_rows": 0,
+      "after_rows": 0,
+      "same": true
+    },
+    {
+      "table": "wallets",
+      "before_rows": 1,
+      "after_rows": 1,
+      "same": true
+    }
+  ],
+  "same_all_compared": false,
+  "scope": "Compare stored wallet, owned items, attributes, grants and remaining original tables to verified backup; exclude accounts where legitimate login can update last_seen. No identifiers or row contents printed.",
+  "native_gameplay_verified": false
+}

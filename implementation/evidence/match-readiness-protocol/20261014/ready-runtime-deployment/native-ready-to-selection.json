@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-15T03:36:56.2381004Z",
+  "status": "CONFIRMADO_NATIVE_READY_TO_MECHSELECT_SPAWN_BLOCKED",
+  "core_sha256": "c30d00e89672d83c62c15e9bba007f90faaa0074b625c80ee1406bbe828a89c7",
+  "client_log_sha256": "875e78cae7b1dee1fcc60e98beef84e3e57642bf8412417e3b6f0d303ae94796",
+  "client_log_bytes": 114688,
+  "client_evidence": [
+    {
+      "line": 522,
+      "text": "[805: 043.263] ScriptLog: ######### SHOW MECH MENU mode = MENUMODE_TeamSelect (R_HUD_DM_0) oldMode MENUMODE_Closed"
+    },
+    {
+      "line": 691,
+      "text": "[1670: 051.712] ScriptLog: SET READY  True"
+    },
+    {
+      "line": 753,
+      "text": "[2919: 061.947] ScriptLog: R_EventTracking::SendEvent_ClientMatchStarted Stats Match ID:''"
+    },
+    {
+      "line": 756,
+      "text": "[2919: 061.947] ScriptLog: ######### SHOW MECH MENU mode = MENUMODE_MechSelect (R_HUD_DM_0) oldMode MENUMODE_TeamSelect"
+    },
+    {
+      "line": 819,
+      "text": "[3368: 065.866] ScriptLog: MechSelected PrimaryWeap:'0' iPreset:'0'"
+    },
+    {
+      "line": 831,
+      "text": "[3368: 065.867] ScriptLog: R_PlayerController_0::DoMechSpawn --- presetIndex:'0' preset.MechType:'1' preset.MechSubType:'15' preset.Mech_InstanceId:'<guid>' HoloTauntType:'0'"
+    }
+  ],
+  "server_diagnostic": "udp authenticated_datagrams=118 hello_validated=1 login_received=1 login_response_validated=1 world_published=1 join_requested=1 controller_sent=1 pri_sent=1 pawn_sent=1 controller_open_acked=1 pri_open_acked=1 pawn_open_acked=1 actor_links_sent=1 pri_identity_sent=1 pri_identity_acked=1 gri_sent=1 gri_open_acked=1 game_class_sent=1 game_class_acked=1 hud_sent=1 hud_acked=1 ready_rpc_received=1 pri_ready_sent=1 pri_ready_acked=1 match_start_requested=1 gri_match_begun_sent=1 gri_match_begun_acked=1 spawn_validation_requested=0 spawn_validation_sent=0 spawn_validation_failed=0 stage3_requested=0 client_restart_sent=0 closed=1 gameplay=0",
+  "human_confirmation": "La cuenta atrás arranca y deja elegir meca; después no inicia mapa.",
+  "interpretation": "Native Ready, replicated start and MechSelect transition verified. No selected-mech validation/admission or possession accepted. Unknown214 prefix may hide249 statically, but does not alone explain close; decoder/materializer/transport remain under focused diagnosis.",
+  "game_started_by_agent": false,
+  "input_capture_or_credentials": false
+}

@@ -731,8 +731,11 @@ struct LoginAuthorityFixture {
                                    udp::LocalUdpOwner::SpawnSelectionValidator selection_validator={},
                                    std::optional<udp::SpawnAdmissionDispatchPlan> spawn_admission=std::nullopt,
                                    std::optional<udp::PriIdentityDispatchPlan> pri_identity=std::nullopt,
-                                   std::optional<udp::SelectionBootstrapPlan> selection_bootstrap=std::nullopt)
-        : decision(std::move(action)),publication_decision(std::move(publisher)),
+                                   std::optional<udp::SelectionBootstrapPlan> selection_bootstrap=std::nullopt,
+                                   std::optional<udp::ReadyMatchPlan> ready_match=std::nullopt,
+                                   udp::LocalUdpOwner::ReadyFactsProvider ready_facts={},double clock_epoch=100.0)
+        : monotonic(static_cast<std::int64_t>(clock_epoch)),udp_now(clock_epoch),
+          decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
         service=std::make_unique<assignment::SessionAssignmentService>(auth,destination(owner.port()),
             assignment::AssignmentPolicy{30,1200,800},[this]{return monotonic.load();},[]{return 1704067200LL;},
@@ -761,12 +764,12 @@ struct LoginAuthorityFixture {
             },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links),
                 std::move(start_mech),std::move(mech_provider),
                 std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
-                std::move(pri_identity),std::move(selection_bootstrap));
+                std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts));
         else owner.start(std::move(authorize),{},std::move(publish),
                             std::move(controller),std::move(pawn),std::move(pri),std::move(links),
                 std::move(start_mech),std::move(mech_provider),
                 std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
-                std::move(pri_identity),std::move(selection_bootstrap));
+                std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -3099,4 +3102,473 @@ TEST_CASE("UDP selection bootstrap absent plan preserves three actor openings an
     CHECK_FALSE(diagnostic.gri_sent); CHECK_FALSE(diagnostic.gri_open_acked);
     CHECK_FALSE(diagnostic.game_class_sent); CHECK_FALSE(diagnostic.game_class_acked);
     CHECK_FALSE(diagnostic.hud_sent); CHECK_FALSE(diagnostic.hud_acked);
+}
+
+
+namespace {
+udp::ReadyMatchPlan ready_match_plan() {
+    // Conditional fixture schema supplied explicitly, no native acceptance:
+    // Ready280/294; PRIReady30/Waiting31/87; GRIcounter48/49/51 + begun29/73.
+    return {280,294,30,31,87,48,49,51,29,73,control::Endian::little,
+        {true,1,0.55F,0,0,10,30.0F},{0.0F,0.0F,false,0,0,-1},
+        true,true,true,false,{true,true,true,true,true,true,true,true,true,true,true,true,true}};
+}
+udp::PriIdentityDispatchPlan ready_identity_plan() {
+    auto plan=public_identity_plan();plan.exclusive_bound=87;return plan;
+}
+udp::ReadyAccountFacts loaded_ready_facts() { return {true,true,true,true,false,false}; }
+Bytes ready_request(session::Context& client,std::uint16_t pid,std::uint16_t sequence,
+                    std::string_view literal,std::size_t logical_bits,std::uint16_t channel=7) {
+    wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=channel;
+    bunch.sequence=sequence;bunch.payload=hex(literal);bunch.payload_bits=logical_bits;
+    wire::Packet packet;packet.packet_id=pid;
+    wire::PacketRecord record;record.bunch=std::move(bunch);packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,256));
+}
+struct ReadyBootstrap {
+    std::uint16_t next_packet=5;
+    bool initial_counts_seen=false;
+};
+void ready_ack(LoginAuthorityFixture& fixture,Peer& peer,session::Context& client,
+               ReadyBootstrap& state,const std::vector<std::uint16_t>& ids) {
+    peer.send(fixture.owner.port(),links_ack(client,state.next_packet++,ids));
+}
+ReadyBootstrap ready_bootstrap(LoginAuthorityFixture& fixture,const auth::AuthReply& login,
+                               Peer& peer,session::Context& client) {
+    ReadyBootstrap state;
+    const auto opens=bootstrap_openings(fixture,login,peer,client);
+    ready_ack(fixture,peer,client,state,bootstrap_opening_acks(opens));
+    std::vector<std::uint16_t> retried_opens;
+    const auto props=links_output(peer,client,2000ms,2,nullptr,&retried_opens);
+    REQUIRE(props.bunches.size()==2);
+    bool identity=false,game_class=false;
+    for (const auto& bunch:props.bunches) {
+        if (bunch.channel==9) {
+            identity=true;CHECK(bunch.sequence==103);CHECK(bunch.payload_bits==135);
+        } else if (bunch.channel==10) {
+            game_class=true;CHECK(bunch.sequence==113);CHECK(bunch.payload_bits==38);
+        }
+    }
+    CHECK(identity);CHECK(game_class);
+    auto ack=props.packet_ids;ack.insert(ack.end(),retried_opens.begin(),retried_opens.end());
+    ready_ack(fixture,peer,client,state,ack);
+    const auto linked=links_output(peer,client,2000ms,2,nullptr,&retried_opens);
+    REQUIRE(linked.bunches.size()==2);
+    ack=linked.packet_ids;ack.insert(ack.end(),retried_opens.begin(),retried_opens.end());
+    ready_ack(fixture,peer,client,state,ack);
+    const auto hud=links_output(peer,client,2000ms,1,nullptr,&retried_opens);
+    bootstrap_hud_literal(hud);
+    ack=hud.packet_ids;ack.insert(ack.end(),retried_opens.begin(),retried_opens.end());
+    ready_ack(fixture,peer,client,state,ack);
+    REQUIRE(wait_until([&]{return fixture.owner.diagnostics().hud_acked;}));
+    const auto initial_counts=links_output(peer,client,200ms,1);
+    if (!initial_counts.bunches.empty()) {
+        REQUIRE(initial_counts.bunches.size()==1);
+        const auto& bunch=initial_counts.bunches.front();
+        CHECK(bunch.channel==10);CHECK(bunch.sequence==114);CHECK(bunch.reliable);
+        CHECK(bunch.payload_bits==114);
+        CHECK(bunch.payload==hex("30000000400c00000030ffffffff03"));
+        ready_ack(fixture,peer,client,state,initial_counts.packet_ids);
+        state.initial_counts_seen=true;
+    }
+    return state;
+}
+void ready_echo(const ControllerOutput& output,bool value,std::uint32_t sequence=104) {
+    REQUIRE(output.bunches.size()==1);REQUIRE(output.packet_ids.size()==1);
+    const auto& bunch=output.bunches.front();
+    CHECK(bunch.channel==9);CHECK(bunch.sequence==sequence);CHECK(bunch.reliable);
+    CHECK(bunch.channel_type==2);CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);CHECK_FALSE(bunch.control);
+    // tag30/bound87 +bool, tag31/bound87 +boolWaiting=true: two7-bit records.
+    CHECK(bunch.payload_bits==14);CHECK(bunch.payload==hex(value ? "de2f" : "9e2f"));
+}
+void ready_counts(const ControllerOutput& output,std::string_view literal,std::uint32_t sequence) {
+    REQUIRE(output.bunches.size()==1);REQUIRE(output.packet_ids.size()==1);
+    const auto& bunch=output.bunches.front();
+    CHECK(bunch.channel==10);CHECK(bunch.sequence==sequence);CHECK(bunch.reliable);
+    CHECK(bunch.channel_type==2);CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);CHECK_FALSE(bunch.control);
+    CHECK(bunch.payload_bits==114);CHECK(bunch.payload==hex(literal));
+}
+void ready_begin(const ControllerOutput& output,std::uint32_t sequence) {
+    REQUIRE(output.bunches.size()==1);REQUIRE(output.packet_ids.size()==1);
+    const auto& bunch=output.bunches.front();
+    CHECK(bunch.channel==10);CHECK(bunch.sequence==sequence);CHECK(bunch.reliable);
+    CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);CHECK_FALSE(bunch.control);
+    CHECK(bunch.payload_bits==7);CHECK(bunch.payload==hex("5d"));
+}
+void ready_start(udp::LocalUdpOwner& owner,std::optional<udp::ReadyMatchPlan> plan,
+                 udp::LocalUdpOwner::ReadyFactsProvider source={},
+                 std::optional<udp::InitialControllerPlan> controller=public_controller_plan(),
+                 std::optional<udp::InitialPawnPlan> pawn=public_pawn_plan(),
+                 std::optional<udp::InitialPriPlan> pri=public_pri_plan(),
+                 std::optional<udp::InitialActorLinksPlan> links=bootstrap_links(),
+                 std::optional<udp::PriIdentityDispatchPlan> identity=ready_identity_plan(),
+                 std::optional<udp::SelectionBootstrapPlan> bootstrap=public_bootstrap_plan(),
+                 bool publication=true) {
+    udp::LocalUdpOwner::PublicationProvider publisher;
+    if (publication) publisher=[](const session::SessionId&,const control::posthello::Login&) {
+        return std::optional{bootstrap_world()};
+    };
+    owner.start([](const session::SessionId&){return true;},
+        [](const session::SessionId&,const control::posthello::RawString&){return true;},publisher,
+        controller,pawn,pri,links,{},{},{},{},{},identity,bootstrap,plan,source);
+}
+}
+
+TEST_CASE("UDP Ready echoes on PRI then starts one world only after real echo ACK and all four loaded facts") {
+    std::atomic<int> reads{0};LoginAuthorityFixture* current=nullptr;
+    auto source=[&](const session::SessionId& id)->std::optional<udp::ReadyAccountFacts> {
+        ++reads;CHECK(id==public_id);
+        CHECK((current && current->service->account_for_udp(id).has_value()));
+        return loaded_ready_facts(); // Explicit synthetic loaded data domains, not native async objects.
+    };
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+        ready_identity_plan(),public_bootstrap_plan(),ready_match_plan(),source);
+    current=&f;
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);REQUIRE(flow.initial_counts_seen);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,"1803",10));
+    const auto echo=links_output(peer,client,2000ms,1);ready_echo(echo,true);
+    CHECK(reads.load()==0);CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+    CHECK_FALSE(f.owner.diagnostics().pri_ready_acked);
+    ready_ack(f,peer,client,flow,echo.packet_ids);
+    const auto countdown=links_output(peer,client,2000ms,1);
+    ready_counts(countdown,"30000000400c000000302b00000000",115);
+    CHECK(reads.load()>0);CHECK(f.owner.diagnostics().pri_ready_acked);
+    ready_ack(f,peer,client,flow,countdown.packet_ids);
+    f.udp_now=110.0;f.monotonic=110;
+    const auto begun=links_output(peer,client,2000ms,1);ready_begin(begun,116);
+    CHECK(wait_until([&]{return f.owner.diagnostics().match_start_requested;}));
+    CHECK(f.owner.diagnostics().gri_match_begun_sent);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+    ready_ack(f,peer,client,flow,begun.packet_ids);
+    CHECK(wait_until([&]{return f.owner.diagnostics().gri_match_begun_acked;}));
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,2,"1803",10));
+    CHECK(links_output(peer,client).bunches.empty());
+    f.udp_now=111.0;f.monotonic=111;
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK(f.service->authorize_udp(public_id));
+}
+
+TEST_CASE("UDP Ready empty provider or any unavailable data domain never fabricates synchronization or match start") {
+    for (unsigned missing=0;missing<7;++missing) {
+        CAPTURE(missing);
+        auto facts=loaded_ready_facts();
+        if (missing==1) facts.owned_collection_loaded=false;
+        if (missing==2) facts.unranked_stats_available=false;
+        if (missing==3) facts.item_stats_loaded=false;
+        if (missing==4) facts.achievements_loaded=false;
+        if (missing==5) facts.purchasing=true;
+        if (missing==6) facts.saving=true;
+        udp::LocalUdpOwner::ReadyFactsProvider source;
+        if (missing!=0) source=[facts](const session::SessionId&) { return std::optional{facts}; };
+        LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+            ready_identity_plan(),public_bootstrap_plan(),ready_match_plan(),source);
+        const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+        auto flow=ready_bootstrap(f,login,peer,client);
+        peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,"1803",10));
+        const auto echo=links_output(peer,client,2000ms,1);ready_echo(echo,true);
+        ready_ack(f,peer,client,flow,echo.packet_ids);
+        f.udp_now=120.0;f.monotonic=120;
+        CHECK(links_output(peer,client).bunches.empty());
+        CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+        CHECK_FALSE(f.owner.diagnostics().gri_match_begun_sent);
+        CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+        CHECK(f.service->authorize_udp(public_id));
+    }
+}
+
+TEST_CASE("UDP Ready known prefix last value wins while unknown suffix and duplicate requests stay opaque or idempotent") {
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+        ready_identity_plan(),public_bootstrap_plan(),ready_match_plan());
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);
+    // unknown279 followed by Ready280,true: 279 |(0x318<<9). No suffix scan.
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,"173106",19));
+    CHECK(links_output(peer,client).bunches.empty());CHECK_FALSE(f.owner.diagnostics().ready_rpc_received);
+    // Readytrue then Readyfalse at cursor10: 0x318 |(0x118<<10), logical20.
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,2,"186304",20));
+    const auto echo=links_output(peer,client,2000ms,1);ready_echo(echo,false);
+    ready_ack(f,peer,client,flow,echo.packet_ids);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,2,"186304",20));
+    CHECK(links_output(peer,client).bunches.empty());
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,3,"1801",10));
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().match_start_requested);CHECK_FALSE(f.owner.diagnostics().closed);
+}
+
+TEST_CASE("UDP Ready uses a relative double world epoch and refreshes saving state during countdown") {
+    std::atomic<bool> saving{false};auto plan=ready_match_plan();
+    auto source=[&](const session::SessionId&) {
+        auto facts=loaded_ready_facts();facts.saving=saving.load();return std::optional{facts};
+    };
+    constexpr double epoch=1000000000000.0;
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+        ready_identity_plan(),public_bootstrap_plan(),plan,source,epoch);
+    plan.ready_rpc_field_id=1;plan.rules.countdown_seconds=77;plan.initial_state.countdown_remaining=77;
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);REQUIRE(flow.initial_counts_seen);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,"1803",10));
+    const auto echo=links_output(peer,client,2000ms,1);ready_echo(echo,true);
+    ready_ack(f,peer,client,flow,echo.packet_ids);
+    const auto ten=links_output(peer,client,2000ms,1);
+    ready_counts(ten,"30000000400c000000302b00000000",115);
+    ready_ack(f,peer,client,flow,ten.packet_ids);
+    f.udp_now=epoch+4.75;
+    const auto five=links_output(peer,client,2000ms,1);
+    ready_counts(five,"30000000400c000000301700000000",116);
+    ready_ack(f,peer,client,flow,five.packet_ids);
+    saving=true;f.udp_now=epoch+20.0;f.monotonic=static_cast<std::int64_t>(epoch)+20;
+    CHECK(links_output(peer,client).bunches.empty());CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+    saving=false;f.udp_now=epoch+21.0;f.monotonic=static_cast<std::int64_t>(epoch)+21;
+    const auto begun=links_output(peer,client,2000ms,1);ready_begin(begun,117);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+}
+
+TEST_CASE("UDP Ready provider executes outside Use and revoked authorization discards its returned facts") {
+    Gate gate;LoginAuthorityFixture* current=nullptr;
+    auto source=[&](const session::SessionId& id)->std::optional<udp::ReadyAccountFacts> {
+        CHECK((current && current->service->account_for_udp(id).has_value()));
+        gate.enter();return loaded_ready_facts();
+    };
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+        ready_identity_plan(),public_bootstrap_plan(),ready_match_plan(),source);
+    GateRelease release{gate}; // Releases before fixture destructor even after a fatal assertion.
+    current=&f;
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,"1803",10));
+    const auto echo=links_output(peer,client,2000ms,1);ready_echo(echo,true);
+    ready_ack(f,peer,client,flow,echo.packet_ids);
+    REQUIRE(gate.wait_entered());
+    f.verifier.active=false;
+    auto revoked=std::async(std::launch::async,[&]{return f.service->authorize_udp(public_id);});
+    const auto status=revoked.wait_for(500ms);
+    gate.release(); // Always unblock before any fatal assertion/destruction.
+    REQUIRE(status==std::future_status::ready);CHECK_FALSE(revoked.get());
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().match_start_requested);CHECK_FALSE(f.owner.diagnostics().gri_match_begun_sent);
+}
+
+TEST_CASE("UDP Ready rejects truncated known bool and never discovers a request on another actor") {
+    for (const bool truncated : std::array<bool,2>{false,true}) {
+        LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+            ready_identity_plan(),public_bootstrap_plan(),ready_match_plan());
+        const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+        auto flow=ready_bootstrap(f,login,peer,client);
+        peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,truncated ? "1801" : "1803",
+            truncated ? 9 : 10,truncated ? 7 : 8));
+        CHECK(links_output(peer,client).bunches.empty());
+        CHECK_FALSE(f.owner.diagnostics().ready_rpc_received);CHECK_FALSE(f.owner.diagnostics().pri_ready_sent);
+        if (truncated) CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        else CHECK_FALSE(f.owner.diagnostics().closed);
+    }
+}
+
+TEST_CASE("UDP Ready startup validates metadata premises cache ranges and shared world state before retryable worker start") {
+    using Eligibility=udp::ReadyMatchEligibility;
+    const std::array premise_fields{&Eligibility::primary_package_map,&Eligibility::controller_cache_correct,
+        &Eligibility::pri_cache_correct,&Eligibility::gri_cache_correct,&Eligibility::ready_rpc_eligible,
+        &Eligibility::ready_argument_bool_net_correct,&Eligibility::pri_ready_property_eligible,
+        &Eligibility::pri_waiting_property_eligible,&Eligibility::gri_waiting_to_ready_property_eligible,
+        &Eligibility::gri_waiting_for_property_eligible,&Eligibility::gri_countdown_property_eligible,
+        &Eligibility::gri_match_begun_property_eligible,&Eligibility::integer_archive_order_correct};
+    for (std::size_t i=0;i<premise_fields.size();++i) {
+        auto plan=ready_match_plan();plan.eligibility.*premise_fields[i]=false;
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        error([&]{ready_start(owner,plan);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        ready_start(owner,ready_match_plan());CHECK(owner.running());
+    }
+    for (unsigned bad=0;bad<16;++bad) {
+        CAPTURE(bad);auto plan=ready_match_plan();
+        if (bad==0) plan.ready_rpc_field_id=294;
+        if (bad==1) plan.controller_exclusive_bound=8;
+        if (bad==2) plan.ready_rpc_field_id=42;
+        if (bad==3) plan.ready_rpc_field_id=3;
+        if (bad==4) plan.pri_ready_field_id=plan.pri_waiting_field_id;
+        if (bad==5) plan.pri_ready_field_id=2;
+        if (bad==6) plan.pri_exclusive_bound=8;
+        if (bad==7) plan.gri_exclusive_bound=72;
+        if (bad==8) plan.gri_waiting_for_field_id=31;
+        if (bad==9) plan.gri_match_begun_field_id=plan.gri_countdown_field_id;
+        if (bad==10) plan.gri_countdown_field_id=73;
+        if (bad==11) plan.integer_order=static_cast<control::Endian>(7);
+        if (bad==12) plan.rules.min_percent_ready=1.1F;
+        if (bad==13) plan.rules.max_delay_seconds=-1;
+        if (bad==14) plan.initial_state.waiting_for=-1;
+        if (bad==15) plan.initial_state.pending_start_time=1.0F;
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        error([&]{ready_start(owner,plan);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+    }
+    for (unsigned missing=0;missing<7;++missing) {
+        auto controller=std::optional{public_controller_plan()};auto pawn=std::optional{public_pawn_plan()};
+        auto pri=std::optional{public_pri_plan()};auto links=std::optional{bootstrap_links()};
+        auto identity=std::optional{ready_identity_plan()};auto bootstrap=std::optional{public_bootstrap_plan()};
+        if (missing==0) controller.reset();if (missing==1) pawn.reset();if (missing==2) pri.reset();
+        if (missing==3) links.reset();if (missing==4) identity.reset();if (missing==5) bootstrap.reset();
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        error([&]{ready_start(owner,ready_match_plan(),{},controller,pawn,pri,links,identity,bootstrap,missing!=6);},
+            udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+    }
+    udp::LocalUdpOwner no_plan(0,authority_skeleton(),[]{return 100.0;},5ms);
+    error([&]{ready_start(no_plan,std::nullopt,[](const session::SessionId&){return std::optional{loaded_ready_facts()};});},
+        udp::LocalUdpErrorCode::invalid_configuration);
+}
+
+TEST_CASE("UDP Ready absent plan preserves opaque Ready and never adds model counters to prior bootstrap") {
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+        ready_identity_plan(),public_bootstrap_plan());
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);
+    CHECK_FALSE(flow.initial_counts_seen);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,"1803",10));
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().ready_rpc_received);CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+
+
+namespace {
+Bytes ready_start_request(session::Context& client,std::uint16_t pid,std::uint16_t sequence,bool followed_by_ready) {
+    wire::BitWriter bits;bits.write_bounded(4,294);
+    const auto u32=[&](std::uint32_t value) {
+        for (unsigned shift=0;shift<32;shift+=8)
+            bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(value>>shift)},8);
+    };
+    bits.write_bit(true);u32(37);
+    constexpr std::string_view instance="20000000-0000-0000-0000-000000000001";
+    for (const auto c:instance)
+        bits.write_bits(std::array<std::uint8_t,1>{static_cast<std::uint8_t>(c)},8);
+    bits.write_bits(std::array<std::uint8_t,1>{0},8);
+    bits.write_bit(true);u32(256);bits.write_bit(true);u32(0xffffffffU);
+    if (followed_by_ready) { bits.write_bounded(280,294);bits.write_bit(true); }
+    wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=7;bunch.sequence=sequence;
+    bunch.payload_bits=bits.bit_count();bunch.payload=bits.payload_bytes();
+    wire::Packet packet;packet.packet_id=pid;wire::PacketRecord record;record.bunch=std::move(bunch);
+    packet.records.push_back(std::move(record));return client.encode(wire::encode_packet(packet,256));
+}
+udp::StartMechDispatchPlan ready_start_plan() {
+    auto plan=public_start_mech_plan();plan.controller_exclusive_bound=294;plan.pri_exclusive_bound=87;
+    return plan;
+}
+}
+
+TEST_CASE("UDP Ready parses the exact known suffix after StartMech even without an admission plan") {
+    std::atomic<int> mech_reads{0};
+    auto provider=[&](const session::SessionId&,const wire::rpc::StartMechArguments& request,std::uint8_t previous) {
+        ++mech_reads;CHECK(request.mech_instance_id=="20000000-0000-0000-0000-000000000001");
+        CHECK(request.primary_weapon==256);CHECK(request.holo_taunt_type==-1);
+        return std::optional{public_mech_result(previous)};
+    };
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),ready_start_plan(),provider,{},{},{},
+        ready_identity_plan(),public_bootstrap_plan(),ready_match_plan());
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);
+    peer.send(f.owner.port(),ready_start_request(client,flow.next_packet++,1,true));
+    const auto selected=links_output(peer,client,2000ms,1);REQUIRE(selected.bunches.size()==1);
+    CHECK(selected.bunches.front().channel==9);CHECK(selected.bunches.front().sequence==104);
+    CHECK(selected.bunches.front().payload_bits==551); // field5 uses7bits plus544-member payload.
+    CHECK(mech_reads.load()==1);
+    ready_ack(f,peer,client,flow,selected.packet_ids);
+    const auto echo=links_output(peer,client,2000ms,1);ready_echo(echo,true,105);
+    CHECK(f.owner.diagnostics().ready_rpc_received);CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+}
+
+TEST_CASE("UDP Ready pending world stage three marks ready but defers validated ClientRestart until world action") {
+    auto validate=public_spawn_validation_plan();validate.validate_rpc_field_id=249;
+    validate.validated_rpc_field_id=250;validate.failed_rpc_field_id=251;validate.controller_exclusive_bound=294;
+    auto admission=public_spawn_admission_plan();admission.stage_rpc_field_id=281;
+    admission.client_restart_rpc_field_id=83;admission.controller_exclusive_bound=294;
+    auto mech=[](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+        return std::optional{public_mech_result(previous)};
+    };
+    auto validator=[](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+        return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+    };
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),ready_start_plan(),mech,validate,validator,admission,
+        ready_identity_plan(),public_bootstrap_plan(),ready_match_plan(),
+        [](const session::SessionId&){return std::optional{loaded_ready_facts()};});
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);
+    peer.send(f.owner.port(),ready_start_request(client,flow.next_packet++,1,false));
+    const auto selected=links_output(peer,client,2000ms,1);REQUIRE(selected.bunches.size()==1);
+    CHECK(selected.bunches.front().sequence==104);ready_ack(f,peer,client,flow,selected.packet_ids);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,2,"f9",8));
+    const auto validated=links_output(peer,client,2000ms,1);REQUIRE(validated.bunches.size()==1);
+    CHECK(validated.bunches.front().channel==7);CHECK(validated.bunches.front().sequence==45);
+    CHECK(validated.bunches.front().payload_bits==8);CHECK(validated.bunches.front().payload==hex("fa"));
+    ready_ack(f,peer,client,flow,validated.packet_ids);
+    // Original normal stage3 path; no extra recovery ServerRestart RPC25 or Ready280.
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,3,"190f00000000",42));
+    const auto waiting_echo=links_output(peer,client,2000ms,1);ready_echo(waiting_echo,true,105);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+    CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+    ready_ack(f,peer,client,flow,waiting_echo.packet_ids);
+    const auto countdown=links_output(peer,client,2000ms,1);
+    ready_counts(countdown,"30000000400c000000302b00000000",115);
+    ready_ack(f,peer,client,flow,countdown.packet_ids);
+    f.udp_now=110.0;f.monotonic=110;
+    bool begun_seen=false,restart_seen=false;
+    for (unsigned batch=0;batch<3 && !restart_seen;++batch) {
+        const auto output=links_output(peer,client,2000ms,1);REQUIRE(output.bunches.size()==1);
+        const auto& bunch=output.bunches.front();
+        if (bunch.channel==10) {
+            ready_begin(output,116);begun_seen=true;
+        } else {
+            CHECK(begun_seen);CHECK(bunch.channel==7);CHECK(bunch.sequence==46);
+            CHECK(bunch.reliable);CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);CHECK_FALSE(bunch.control);
+            CHECK(bunch.payload_bits==21);CHECK(bunch.payload==hex("532300")); // tag83+presence+Pawn8.
+            restart_seen=true;
+        }
+        ready_ack(f,peer,client,flow,output.packet_ids);
+    }
+    REQUIRE(begun_seen);REQUIRE(restart_seen);
+    CHECK(f.owner.diagnostics().match_start_requested);CHECK(f.owner.diagnostics().client_restart_sent);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,4,"190f00000000",42));
+    CHECK(links_output(peer,client).bunches.empty());
+}
+
+
+TEST_CASE("UDP Ready false after active countdown cancels only after its real PRI ACK and never starts at the old deadline") {
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},
+        ready_identity_plan(),public_bootstrap_plan(),ready_match_plan(),
+        [](const session::SessionId&){return std::optional{loaded_ready_facts()};});
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=ready_bootstrap(f,login,peer,client);REQUIRE(flow.initial_counts_seen);
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,1,"1803",10));
+    const auto yes=links_output(peer,client,2000ms,1);ready_echo(yes,true,104);
+    ready_ack(f,peer,client,flow,yes.packet_ids);
+    const auto active=links_output(peer,client,2000ms,1);
+    ready_counts(active,"30000000400c000000302b00000000",115);
+    ready_ack(f,peer,client,flow,active.packet_ids);
+    // Keep the fake world clock at100: no incidental intermediate counter frame
+    // can alter the independently specified cancellation sequence below.
+    peer.send(f.owner.port(),ready_request(client,flow.next_packet++,2,"1801",10));
+    const auto no=links_output(peer,client,2000ms,1);ready_echo(no,false,105);
+    CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+    CHECK(links_output(peer,client).bunches.empty()); // false echo not ACKed yet.
+    ready_ack(f,peer,client,flow,no.packet_ids);
+    const auto cancelled=links_output(peer,client,2000ms,1);
+    // 48|(1<<6),49|0,51|(uint32(-1)<<6): waitingReady1,waitingFor0,countdown-1.
+    ready_counts(cancelled,"70000000400c00000030ffffffff03",116);
+    ready_ack(f,peer,client,flow,cancelled.packet_ids);
+    f.udp_now=120.0;f.monotonic=120;
+    CHECK(links_output(peer,client).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+    CHECK_FALSE(f.owner.diagnostics().gri_match_begun_sent);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+    CHECK(f.service->authorize_udp(public_id));CHECK_FALSE(f.owner.diagnostics().closed);
 }

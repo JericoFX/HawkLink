@@ -5,6 +5,7 @@
 #include "hawken/mech_setup_wire.hpp"
 #include "hawken/start_mech_rpc_wire.hpp"
 #include "hawken/spawn_validation.hpp"
+#include "hawken/match_readiness.hpp"
 #include <chrono>
 #include <cstdint>
 #include <functional>
@@ -66,6 +67,12 @@ struct LocalUdpDiagnostics {
     bool game_class_acked = false;
     bool hud_sent = false;
     bool hud_acked = false;
+    bool ready_rpc_received = false;
+    bool pri_ready_sent = false;
+    bool pri_ready_acked = false;
+    bool match_start_requested = false;
+    bool gri_match_begun_sent = false;
+    bool gri_match_begun_acked = false;
 
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
@@ -204,6 +211,50 @@ struct SelectionBootstrapPlan {
 };
 
 // FIRST local diagnostic pipe, not a multiplayer GameServer or admission API.
+struct ReadyMatchEligibility {
+    bool primary_package_map;
+    bool controller_cache_correct;
+    bool pri_cache_correct;
+    bool gri_cache_correct;
+    bool ready_rpc_eligible;
+    bool ready_argument_bool_net_correct;
+    bool pri_ready_property_eligible;
+    bool pri_waiting_property_eligible;
+    bool gri_waiting_to_ready_property_eligible;
+    bool gri_waiting_for_property_eligible;
+    bool gri_countdown_property_eligible;
+    bool gri_match_begun_property_eligible;
+    bool integer_archive_order_correct;
+};
+struct ReadyMatchPlan {
+    std::uint32_t ready_rpc_field_id;
+    std::uint32_t controller_exclusive_bound;
+    std::uint32_t pri_ready_field_id;
+    std::uint32_t pri_waiting_field_id;
+    std::uint32_t pri_exclusive_bound;
+    std::uint32_t gri_waiting_to_ready_field_id;
+    std::uint32_t gri_waiting_for_field_id;
+    std::uint32_t gri_countdown_field_id;
+    std::uint32_t gri_match_begun_field_id;
+    std::uint32_t gri_exclusive_bound;
+    control::Endian integer_order;
+    game::PendingMatchRules rules;
+    game::PendingMatchState initial_state;
+    bool role_is_player;
+    bool role_waiting_player;
+    bool world_tracking_created;
+    bool world_pending_quit;
+    ReadyMatchEligibility eligibility;
+};
+struct ReadyAccountFacts {
+    bool owned_collection_loaded;
+    bool unranked_stats_available;
+    bool item_stats_loaded;
+    bool achievements_loaded;
+    bool purchasing;
+    bool saving;
+};
+
 // Exclusive IPv4 127.0.0.1 bind. Production callers supply a nonzero port;
 // port0 is reserved for isolated fixtures and port() publishes getsockname.
 // Skeleton ID/key must be zero: only handoff's authorized SessionProvision
@@ -228,6 +279,8 @@ public:
         const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t)>;
     using SpawnSelectionValidator = std::function<SpawnSelectionValidationResult(
         const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t)>;
+    using ReadyFactsProvider = std::function<std::optional<ReadyAccountFacts>(
+        const session::SessionId&)>;
     LocalUdpOwner(std::uint16_t port, const game::ConnectionConfig& skeleton,
                   Clock clock, std::chrono::milliseconds poll_interval);
     ~LocalUdpOwner();
@@ -351,6 +404,26 @@ public:
     // References are package GUID + LOCAL NetIndex, never global coordinates.
     // HUD is created locally by the RPC, not a fifth server actor. Sent/ACK
     // diagnostics do not establish native application, UI, match or possession.
+    // Optional ReadyMatchPlan is a finite ONE-entry local-world policy, separate
+    // from selected-mech revision and admission. Caller supplies all schema IDs,
+    // bounds/premises, explicit role/waiting facts and world tracking/quit policy;
+    // no NET isPlayer inference or original Meteor tracking/quit implementation.
+    // initial_state.pending_start_time must be zero relative to this world's
+    // creation epoch. Subtract the double owner clock base before float conversion.
+    // After actual opening/UID/links/GameClass/HUD ACKs, echo Ready+Waiting as a
+    // PRI bool tuple; model synchronization requires its actual reliable ACK.
+    // Four distinct loaded/available account domains and current purchase/save
+    // facts come from the optional provider outside every Use/registry lock,
+    // then fresh auth/time/exact Entry and ready revision are checked again.
+    // Empty provider/result never grants synchronization/start; Ready echo remains
+    // available. Provider without a plan is invalid. No travel API: joined finite
+    // roster has zero travelling only after these explicit lifecycle gates.
+    // One PendingMatch per world, not per Entry; its StartMatch action emits the
+    // reliable GRI begun signal before reevaluating pending validated Stage3.
+    // While pending, Stage3 marks this entry ready but cannot send ClientRestart.
+    // Own action alone is insufficient without current existing admission gates;
+    // no extra GRI begun ACK requirement, RPC25, StartHumans/physics implementation
+    // or native gameplay acceptance is implied. No-plan keeps prior behavior.
     void start(Authorizer authorize, LoginResponseValidator validate_response = {},
                PublicationProvider publication = {},
                std::optional<InitialControllerPlan> controller = std::nullopt,
@@ -363,7 +436,9 @@ public:
                SpawnSelectionValidator selection_validator = {},
                std::optional<SpawnAdmissionDispatchPlan> spawn_admission = std::nullopt,
                std::optional<PriIdentityDispatchPlan> pri_identity = std::nullopt,
-               std::optional<SelectionBootstrapPlan> selection_bootstrap = std::nullopt);
+               std::optional<SelectionBootstrapPlan> selection_bootstrap = std::nullopt,
+               std::optional<ReadyMatchPlan> ready_match = std::nullopt,
+               ReadyFactsProvider ready_facts = {});
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied

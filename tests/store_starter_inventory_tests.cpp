@@ -66,11 +66,11 @@ StarterItems fixture_items(char instance_prefix = '2') {
 }
 }
 
-TEST_CASE("Schema five creates empty starter tables without silently granting items") {
+TEST_CASE("Schema six creates empty starter tables without silently granting items") {
     hawken::test::TempDirectory temp;
     const auto path = temp.path() / "local.db";
     LocalStore store(path, "server-a");
-    REQUIRE(store.schema_version() == 5);
+    REQUIRE(store.schema_version() == 6);
     const auto account = store.get_or_create_account("1", 0);
     CHECK_FALSE(store.starter_items(account.ref).has_value());
     CHECK(store.wallet(account.ref) == WalletBalances{0, 0});
@@ -289,7 +289,7 @@ TEST_CASE("Frozen schema two migrates to five retaining accounts and nonzero ear
     const auto original = hawken::test::read_bytes(fixture);
     REQUIRE(std::filesystem::copy_file(fixture, path));
     LocalStore store(path, "server-a");
-    REQUIRE(store.schema_version() == 5);
+    REQUIRE(store.schema_version() == 6);
     REQUIRE(store.find_account("1").has_value());
     CHECK(store.find_account("1")->ref.local_id == 17);
     CHECK(store.wallet({"server-a", 17}) == WalletBalances{200, 0});
@@ -299,7 +299,7 @@ TEST_CASE("Frozen schema two migrates to five retaining accounts and nonzero ear
     CHECK_FALSE(store.starter_items({"server-a", 17}).has_value());
     CHECK_FALSE(store.starter_items({"server-a", 23}).has_value());
     const FixtureDb db(path);
-    CHECK(db.scalar("PRAGMA user_version") == 5);
+    CHECK(db.scalar("PRAGMA user_version") == 6);
     CHECK(db.scalar("SELECT count(*) FROM starter_grants") == 0);
     CHECK(db.scalar("SELECT count(*) FROM starter_items") == 0);
     CHECK(db.scalar("SELECT count(*) FROM pragma_foreign_key_check") == 0);
@@ -342,7 +342,7 @@ TEST_CASE("A schema two write lock prevents any partial starter migration") {
         lock.exec("ROLLBACK");
     }
     LocalStore retry(path, "server-a");
-    CHECK(retry.schema_version() == 5);
+    CHECK(retry.schema_version() == 6);
     CHECK(retry.wallet({"server-a", 23}) == WalletBalances{INT32_MAX, 50});
 }
 
@@ -523,7 +523,7 @@ TEST_CASE("Concurrent attribute merges preserve independent keys") {
 
 TEST_CASE("Stored attribute corruption fails closed without overwriting bad rows") {
     hawken::test::TempDirectory temp; const auto path=temp.path()/"a.db"; LocalStore store(path,"server-a");
-    REQUIRE(store.schema_version()==5);
+    REQUIRE(store.schema_version()==6);
     const auto a=store.get_or_create_account("1",0); const auto items=fixture_items();
     REQUIRE(store.grant_starter_items(a.ref,items));
     REQUIRE(store.merge_owned_item_attributes(a.ref,items[0].instance_id,{{"Preset.A","before"}}));
@@ -541,7 +541,7 @@ TEST_CASE("Stored attribute corruption fails closed without overwriting bad rows
 
 TEST_CASE("Owned attribute schema damage is rejected before reading or writing rows") {
     hawken::test::TempDirectory temp; const auto path=temp.path()/"a.db"; LocalStore store(path,"server-a");
-    REQUIRE(store.schema_version()==5);
+    REQUIRE(store.schema_version()==6);
     const auto a=store.get_or_create_account("1",0); const auto items=fixture_items();
     REQUIRE(store.grant_starter_items(a.ref,items));
     SUBCASE("Missing child table") { const FixtureDb db(path); db.exec("DROP TABLE owned_item_attributes"); }
@@ -601,10 +601,10 @@ void frozen_four(const std::filesystem::path& path) {
 }
 }
 
-TEST_CASE("Schema four migrates to five preserving accounts grants balances and opaque settings") {
+TEST_CASE("Schema four migrates to six preserving accounts grants balances and opaque settings") {
     hawken::test::TempDirectory temp; const auto path=temp.path()/"v4.db"; frozen_four(path);
     const auto items=fixture_items();
-    LocalStore store(path,"server-a"); REQUIRE(store.schema_version()==5);
+    LocalStore store(path,"server-a"); REQUIRE(store.schema_version()==6);
     const auto account=store.find_account("1"); REQUIRE(account);
     CHECK(account->ref==AccountRef{"server-a",17}); CHECK(account->created_at==10);
     CHECK(store.starter_items(account->ref)==std::optional<StarterItems>(items));
@@ -615,7 +615,7 @@ TEST_CASE("Schema four migrates to five preserving accounts grants balances and 
     CHECK(store.game_settings(account->ref)==GameSettings{{"UIFlags.FTUXCompletedFlag","4"}});
     CHECK(store.owned_item_attributes(account->ref,items[0].instance_id).empty());
     const FixtureDb db(path);
-    CHECK(db.scalar("PRAGMA user_version")==5);
+    CHECK(db.scalar("PRAGMA user_version")==6);
     CHECK(db.scalar("SELECT count(*) FROM owned_item_attributes")==0);
     CHECK(db.scalar("SELECT count(*) FROM starter_grants")==1);
     CHECK(db.scalar("SELECT count(*) FROM starter_items")==9);
@@ -648,7 +648,7 @@ TEST_CASE("Busy schema four migration leaves original tables unchanged and is re
         CHECK(db.scalar("SELECT count(*) FROM sqlite_schema WHERE name='owned_item_attributes'")==0);
         db.exec("ROLLBACK");
     }
-    LocalStore retry(path,"server-a"); CHECK(retry.schema_version()==5);
+    LocalStore retry(path,"server-a"); CHECK(retry.schema_version()==6);
     CHECK(retry.starter_items({"server-a",17})==std::optional<StarterItems>(fixture_items()));
 }
 
@@ -750,5 +750,96 @@ TEST_CASE("Owned starter mech snapshot does not mix concurrent type and preset t
                (type=="40000000-0000-0000-0000-000000000001" && version=="B")));
     }
     writer.join(); if(writer_error)std::rethrow_exception(writer_error);
+    CHECK(store.wallet(account.ref)==WalletBalances{});
+}
+TEST_CASE("Online starter account snapshot combines raw attributes numeric stats and owned slots across reopen") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"online.db";
+    const auto items=fixture_items(); Account account;
+    {
+        LocalStore store(path,"server-a"); account=store.get_or_create_account("1",0);
+        REQUIRE(store.grant_starter_items(account.ref,items));
+        REQUIRE(store.merge_owned_item_attributes(account.ref,items[0].instance_id,{{"Preset.Version","saved"},{"Preset.Empty",""}}));
+        REQUIRE(store.schema_version()==6); const FixtureDb db(path);
+        db.exec("INSERT INTO unranked_gameplay_stats VALUES(1,'fixture.counter',7.5); "
+            "INSERT INTO owned_item_stats VALUES(1,1,'fixture.item',-2.25)");
+        const auto before=hawken::test::read_bytes(path); const auto snapshot=store.account_online_snapshot(account.ref);
+        REQUIRE(snapshot.starter); CHECK(snapshot.starter->items==items);
+        CHECK(snapshot.starter->attributes==ItemAttributes{{"Preset.Version","saved"},{"Preset.Empty",""}});
+        CHECK(snapshot.unranked_gameplay_stats==NumericStats{{"fixture.counter",7.5}});
+        CHECK(snapshot.item_stats_by_slot==std::map<std::size_t,NumericStats>{{1,{{"fixture.item",-2.25}}}});
+        CHECK(snapshot.achievement_ids.empty()); CHECK(hawken::test::read_bytes(path)==before);
+    }
+    LocalStore reopened(path,"server-a"); const auto snapshot=reopened.account_online_snapshot(account.ref);
+    REQUIRE(snapshot.starter); CHECK(snapshot.starter->items==items); CHECK(snapshot.starter->attributes.at("Preset.Empty").empty());
+    CHECK(snapshot.unranked_gameplay_stats.at("fixture.counter")==7.5); CHECK(snapshot.item_stats_by_slot.at(1).at("fixture.item")==-2.25);
+    CHECK(reopened.wallet(account.ref)==WalletBalances{});
+}
+
+TEST_CASE("Online starter account snapshot isolates accounts and rejects malformed grant or stats slot") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"isolated.db";
+    LocalStore store(path,"server-a"); const auto one=store.get_or_create_account("1",0),two=store.get_or_create_account("2",0);
+    REQUIRE(store.grant_starter_items(one.ref,fixture_items())); REQUIRE(store.grant_starter_items(two.ref,fixture_items('3')));
+    REQUIRE(store.schema_version()==6); const FixtureDb db(path);
+    db.exec("INSERT INTO unranked_gameplay_stats VALUES(1,'same',11.0),(2,'same',22.0); "
+        "INSERT INTO owned_item_stats VALUES(1,0,'same',111.0),(2,0,'same',222.0)");
+    CHECK(store.account_online_snapshot(one.ref).unranked_gameplay_stats.at("same")==11.0);
+    CHECK(store.account_online_snapshot(two.ref).item_stats_by_slot.at(0).at("same")==222.0);
+    SUBCASE("Missing ninth owned row") {db.exec("DELETE FROM starter_items WHERE account_id=1 AND slot=8");}
+    SUBCASE("Out of range slot") {
+        // Deliberately bypass both constraints on this fixture connection only;
+        // the product reader must reject an actually persisted orphan slot.
+        db.exec("PRAGMA foreign_keys=OFF; PRAGMA ignore_check_constraints=ON; INSERT INTO owned_item_stats VALUES(1,9,'bad',1.0)");
+        REQUIRE(db.scalar("SELECT count(*) FROM owned_item_stats WHERE account_id=1 AND slot=9")==1);
+        REQUIRE(db.scalar("SELECT count(*) FROM starter_items WHERE account_id=1 AND slot=9")==0);
+    }
+    SUBCASE("Reserved instance metadata") {db.exec("PRAGMA ignore_check_constraints=ON; INSERT INTO owned_item_stats VALUES(1,0,'UserGameItemGuid',1.0)");}
+    expect_error(StoreErrorCode::invalid_schema,[&]{store.account_online_snapshot(one.ref);});
+    const auto untouched=store.account_online_snapshot(two.ref); REQUIRE(untouched.starter);
+    CHECK(untouched.starter->items==fixture_items('3')); CHECK(untouched.unranked_gameplay_stats.at("same")==22.0);
+}
+
+TEST_CASE("Online starter account snapshot migration preserves nine items attributes and wallets") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"migrated.db"; const auto items=fixture_items(); Account account;
+    {LocalStore store(path,"server-a");account=store.get_or_create_account("1",0);
+        REQUIRE(store.grant_starter_items(account.ref,items));
+        REQUIRE(store.merge_owned_item_attributes(account.ref,items[0].instance_id,{{"Preset.Saved","kept"}}));}
+    {const FixtureDb db(path);db.exec("DROP TABLE IF EXISTS owned_item_stats; DROP TABLE IF EXISTS unranked_gameplay_stats; "
+        "PRAGMA user_version=5; UPDATE wallets SET hawken_points=73,meteor_points=11 WHERE account_id=1");}
+    LocalStore store(path,"server-a"); REQUIRE(store.schema_version()==6);
+    const auto snapshot=store.account_online_snapshot(account.ref); REQUIRE(snapshot.starter);
+    CHECK(snapshot.starter->items==items); CHECK(snapshot.starter->attributes==ItemAttributes{{"Preset.Saved","kept"}});
+    CHECK(snapshot.unranked_gameplay_stats.empty()); CHECK(snapshot.item_stats_by_slot.empty());
+    CHECK(store.wallet(account.ref)==WalletBalances{73,11});
+    const FixtureDb db(path); CHECK(db.scalar("SELECT count(*) FROM starter_items")==9);
+    CHECK(db.scalar("SELECT count(*) FROM owned_item_attributes")==1);
+}
+
+TEST_CASE("Online starter account snapshot is atomic across inventory attributes and both numeric collections") {
+    hawken::test::TempDirectory temp; const auto path=temp.path()/"atomic-online.db";
+    LocalStore store(path,"server-a");const auto account=store.get_or_create_account("1",0); const auto items=fixture_items();
+    REQUIRE(store.grant_starter_items(account.ref,items));
+    REQUIRE(store.merge_owned_item_attributes(account.ref,items[0].instance_id,{{"Preset.Version","A"}}));
+    REQUIRE(store.schema_version()==6);
+    {const FixtureDb db(path);db.exec("PRAGMA journal_mode=WAL; INSERT INTO unranked_gameplay_stats VALUES(1,'version',1.0); "
+        "INSERT INTO owned_item_stats VALUES(1,0,'version',1.0)");}
+    std::atomic<bool> ready=false; std::exception_ptr writer_error;
+    std::jthread writer([&]{try{const FixtureDb db(path);db.exec("PRAGMA busy_timeout=5000");ready=true;
+        for(int i=0;i<40;++i){
+            db.exec("BEGIN IMMEDIATE; UPDATE starter_items SET type_id='40000000-0000-0000-0000-000000000001' WHERE slot=0; "
+                "UPDATE owned_item_attributes SET value='B' WHERE key='Preset.Version'; UPDATE unranked_gameplay_stats SET value=2.0; "
+                "UPDATE owned_item_stats SET value=2.0; COMMIT");
+            db.exec("BEGIN IMMEDIATE; UPDATE starter_items SET type_id='10000000-0000-0000-0000-000000000001' WHERE slot=0; "
+                "UPDATE owned_item_attributes SET value='A' WHERE key='Preset.Version'; UPDATE unranked_gameplay_stats SET value=1.0; "
+                "UPDATE owned_item_stats SET value=1.0; COMMIT");
+        }
+    }catch(...){writer_error=std::current_exception();ready=true;}});
+    while(!ready.load())std::this_thread::yield();
+    for(int i=0;i<80;++i){const auto snapshot=store.account_online_snapshot(account.ref); REQUIRE(snapshot.starter);
+        const auto& type=snapshot.starter->items[0].type_id; const auto& version=snapshot.starter->attributes.at("Preset.Version");
+        const double user=snapshot.unranked_gameplay_stats.at("version"),item=snapshot.item_stats_by_slot.at(0).at("version");
+        CHECK(((type=="10000000-0000-0000-0000-000000000001" && version=="A" && user==1.0 && item==1.0) ||
+               (type=="40000000-0000-0000-0000-000000000001" && version=="B" && user==2.0 && item==2.0)));
+    }
+    writer.join();if(writer_error)std::rethrow_exception(writer_error);
     CHECK(store.wallet(account.ref)==WalletBalances{});
 }

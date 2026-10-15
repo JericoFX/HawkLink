@@ -16,6 +16,8 @@
 #include "hawken/initial_pawn.hpp"
 #include "hawken/object_property_wire.hpp"
 #include "hawken/unique_id_wire.hpp"
+#include "hawken/bool_property_wire.hpp"
+#include "hawken/int_property_wire.hpp"
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -172,6 +174,13 @@ struct Entry {
     std::uint64_t mech_revision=0;
     bool validation_pending=false,validation_waits_for_mech=false,validation_responded=false;
     bool validation_succeeded=false;
+    bool ready_observed=false,ready_value=false;
+    std::uint64_t ready_revision=0;
+    std::optional<std::uint64_t> ready_sent_revision;
+    std::optional<std::uint64_t> ready_acked_revision;
+    std::optional<bool> ready_sent_value;
+    std::optional<std::array<std::int32_t,3>> ready_counters_sent;
+    bool ready_begun_sent=false;
     std::optional<std::uint64_t> admission_request_revision,admitted_revision;
 
     Entry(const session::SessionId& value,std::unique_ptr<game::GameConnection> conn,
@@ -196,6 +205,8 @@ struct Registry {
     std::atomic<bool> actor_links_sent{false},pri_identity_sent{false},pri_identity_acked{false};
     std::atomic<bool> gri_sent{false},gri_open_acked{false},game_class_sent{false},game_class_acked{false};
     std::atomic<bool> hud_sent{false},hud_acked{false};
+    std::atomic<bool> ready_rpc_received{false},pri_ready_sent{false},pri_ready_acked{false};
+    std::atomic<bool> match_start_requested{false},gri_match_begun_sent{false},gri_match_begun_acked{false};
 
     void retire(const std::shared_ptr<Entry>& target) noexcept {
         if (!target) return;
@@ -303,6 +314,11 @@ struct LocalUdpOwner::Impl {
     std::optional<SpawnAdmissionDispatchPlan> admission_plan;
     std::optional<PriIdentityDispatchPlan> pri_identity_plan;
     std::optional<SelectionBootstrapPlan> bootstrap_plan;
+    std::optional<ReadyMatchPlan> ready_plan;
+    ReadyFactsProvider ready_facts_provider;
+    std::optional<game::PendingMatch> pending_match;
+    double world_clock_base=0;
+    bool world_start_committed=false; // Worker-only own action, not a native match flag.
     bool provision_identity_enabled=false; // Immutable after start, also read by handoff.
     std::uint8_t initial_setup_id=0; // Immutable after start publishes running, also read by handoff.
     struct MechWork {
@@ -490,8 +506,178 @@ struct LocalUdpOwner::Impl {
             return true;
         } catch (...) { return false; } // The same pinned caller retires after Use.
     }
+    bool readiness_ready(const Entry& entry) const {
+        if (!ready_plan || !bootstrap_plan || !entry.links_sent || !entry.pri_identity_sent ||
+            !entry.game_class_sent || !entry.hud_sent || entry.connection->snapshot().closed ||
+            entry.connection->snapshot().publication!=game::PublicationState::join_requested) return false;
+        const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
+            pawn_plan->channel.channel,bootstrap_plan->gri.channel.channel};
+        for (const auto channel:channels) {
+            const auto state=entry.connection->channel_snapshot(channel);
+            if (!state || state->closed || !state->opening_packet_id || !state->outgoing_open_acked ||
+                state->outgoing_bunches!=0) return false;
+        }
+        return true;
+    }
+    bool send_ready_payload(Entry& entry,std::uint16_t channel,std::vector<std::uint8_t> payload,
+                            std::size_t bits,double now) {
+        wire::Bunch bunch;
+        bunch.reliable=true; bunch.channel_type=2; bunch.channel=channel;
+        bunch.payload=std::move(payload); bunch.payload_bits=bits;
+        const auto step=entry.connection->send_actor(bunch,now);
+        return !step.datagrams.empty() && !step.closed && !stopping.load() &&
+            send(entry,step) && !stopping.load();
+    }
+    bool send_ready_counters(Entry& entry,const std::array<std::int32_t,3>& values,bool begun,double now) {
+        const bool changed=!entry.ready_counters_sent || *entry.ready_counters_sent!=values;
+        if (!changed && !begun) return true;
+        const auto& plan=*ready_plan;
+        const auto cap=static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8;
+        // Compose the entire changed counter tuple and optional begin bit before
+        // reserving a packet/nonce. Never align the two property payloads.
+        wire::BitWriter payload;
+        if (changed) {
+            const std::array fields{wire::property::IntProperty{plan.gri_waiting_to_ready_field_id,values[0]},
+                wire::property::IntProperty{plan.gri_waiting_for_field_id,values[1]},
+                wire::property::IntProperty{plan.gri_countdown_field_id,values[2]}};
+            const auto ints=wire::property::encode_int_properties(fields,plan.gri_exclusive_bound,
+                plan.integer_order,cap);
+            payload.write_bits(ints.payload,ints.logical_bits);
+        }
+        if (begun) {
+            const std::array field{wire::property::BoolProperty{plan.gri_match_begun_field_id,true}};
+            const auto flag=wire::property::encode_bool_properties(field,plan.gri_exclusive_bound,cap);
+            if (payload.bit_count()>cap || flag.logical_bits>cap-payload.bit_count())
+                fail(LocalUdpErrorCode::invalid_configuration);
+            payload.write_bits(flag.payload,flag.logical_bits);
+        }
+        if (!send_ready_payload(entry,bootstrap_plan->gri.channel.channel,payload.payload_bytes(),
+            payload.bit_count(),now)) return false;
+        if (changed) entry.ready_counters_sent=values;
+        if (begun) {
+            entry.ready_begun_sent=true; registry->gri_match_begun_sent=true;
+        }
+        return true;
+    }
+    void apply_readiness(const session::SessionId& id,const std::shared_ptr<Entry>& target) {
+        if (!ready_plan || !target || stopping.load()) return;
+        if (!authorize(id)) return;
+        const auto before=time();
+        if (!before) { fail_closed(); return; }
+        bool terminal=false,load_facts=false;
+        std::uint64_t revision=0;
+        {
+            auto use=pin(id,target);
+            if (!use) return;
+            auto& entry=use->entry();
+            {
+                std::lock_guard lock(registry->mutex);
+                if (!running.load() || stopping.load() || !registry->accepting ||
+                    registry->entry!=target || !entry.active) return;
+            }
+            try {
+                terminal=entry.connection->snapshot().closed;
+                const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
+                    pawn_plan->channel.channel,bootstrap_plan->gri.channel.channel};
+                for (const auto channel:channels) {
+                    const auto state=entry.connection->channel_snapshot(channel);
+                    if (state && state->closed) terminal=true;
+                }
+                const auto pri=entry.connection->channel_snapshot(pri_plan->channel.channel);
+                const auto gri=entry.connection->channel_snapshot(bootstrap_plan->gri.channel.channel);
+                if (entry.ready_begun_sent && gri && !gri->closed && gri->outgoing_bunches==0)
+                    registry->gri_match_begun_acked=true;
+                if (entry.ready_sent_revision && *entry.ready_sent_revision==entry.ready_revision &&
+                    pri && !pri->closed && pri->outgoing_bunches==0) {
+                    entry.ready_acked_revision=entry.ready_revision;
+                    registry->pri_ready_acked=true;
+                }
+                if (!terminal && readiness_ready(entry)) {
+                    if (!entry.ready_counters_sent) {
+                        const auto state=pending_match->snapshot();
+                        terminal=!send_ready_counters(entry,{state.waiting_to_ready,state.waiting_for,
+                            state.countdown_remaining},false,*before);
+                    } else if (entry.ready_observed && (!entry.ready_sent_value ||
+                        *entry.ready_sent_value!=entry.ready_value)) {
+                        const auto& plan=*ready_plan;
+                        const std::array fields{wire::property::BoolProperty{plan.pri_ready_field_id,entry.ready_value},
+                            wire::property::BoolProperty{plan.pri_waiting_field_id,plan.role_waiting_player}};
+                        auto payload=wire::property::encode_bool_properties(fields,plan.pri_exclusive_bound,
+                            static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
+                        terminal=!send_ready_payload(entry,pri_plan->channel.channel,std::move(payload.payload),
+                            payload.logical_bits,*before);
+                        if (!terminal) {
+                            entry.ready_sent_value=entry.ready_value;
+                            entry.ready_sent_revision=entry.ready_revision;
+                            entry.ready_acked_revision.reset(); registry->pri_ready_sent=true;
+                        }
+                    } else if (!world_start_committed && ready_facts_provider && entry.ready_observed &&
+                        entry.ready_acked_revision==entry.ready_revision) {
+                        revision=entry.ready_revision; load_facts=true;
+                    }
+                }
+            } catch (...) { terminal=true; }
+        } // Provider/SQL/Auth must never run under an in-flight Use or registry lock.
+        if (terminal) { registry->retire(target); return; }
+        if (!load_facts) return;
+        std::optional<ReadyAccountFacts> facts;
+        try { facts=ready_facts_provider(id); }
+        catch (...) { registry->retire(target); return; }
+        if (!authorize(id)) return;
+        const auto after=time();
+        if (!after) { fail_closed(); return; }
+        {
+            auto use=pin(id,target);
+            if (!use) return;
+            auto& entry=use->entry();
+            {
+                std::lock_guard lock(registry->mutex);
+                if (!running.load() || stopping.load() || !registry->accepting ||
+                    registry->entry!=target || !entry.active) return;
+            }
+            if (world_start_committed || entry.ready_revision!=revision ||
+                entry.ready_acked_revision!=revision || !readiness_ready(entry)) return;
+            try {
+                // This is the configured one joined-entry local roster. No native
+                // NET isPlayer inference, fabricated travellers or mech revision.
+                const bool synced=facts && facts->owned_collection_loaded && facts->unranked_stats_available &&
+                    facts->item_stats_loaded && facts->achievements_loaded;
+                const auto& plan=*ready_plan;
+                const std::array roster{game::MatchPlayerState{plan.role_is_player,plan.role_waiting_player,
+                    entry.ready_value,synced,facts && facts->purchasing,facts && facts->saving}};
+                const double relative=*after-world_clock_base;
+                if (!std::isfinite(relative) || relative<0 || relative>std::numeric_limits<float>::max())
+                    fail(LocalUdpErrorCode::invalid_lifecycle);
+                const game::PendingMatchInputs inputs{static_cast<float>(relative),plan.role_is_player ? 1 : 0,
+                    0,roster,plan.world_tracking_created,plan.world_pending_quit,true,false};
+                const auto evaluated=pending_match->evaluate(inputs);
+                const auto state=pending_match->snapshot();
+                terminal=!send_ready_counters(entry,{state.waiting_to_ready,state.waiting_for,
+                    state.countdown_remaining},evaluated.start_requested,*after);
+                if (!terminal && evaluated.start_requested) {
+                    world_start_committed=true; registry->match_start_requested=true;
+                }
+            } catch (...) { terminal=true; }
+        }
+        if (terminal) registry->retire(target);
+    }
+    void record_ready(Entry& entry,bool value) {
+        registry->ready_rpc_received=true;
+        if (!entry.ready_observed || entry.ready_value!=value) {
+            if (entry.ready_revision==std::numeric_limits<std::uint64_t>::max())
+                fail(LocalUdpErrorCode::invalid_lifecycle);
+            entry.ready_observed=true; entry.ready_value=value; ++entry.ready_revision;
+            entry.ready_acked_revision.reset();
+            // Latest value can return to the tuple already on the wire before
+            // the intermediate value was sent. Its actual queue ACK still gates.
+            if (entry.ready_sent_value && *entry.ready_sent_value==value)
+                entry.ready_sent_revision=entry.ready_revision;
+        }
+    }
     bool collect_start_mech(Entry& entry,const std::vector<wire::Bunch>& bunches) {
-        if (!start_mech_plan) return true;
+        if (!start_mech_plan && !ready_plan) return true;
+        const auto bound=ready_plan ? ready_plan->controller_exclusive_bound
+                                    : start_mech_plan->controller_exclusive_bound;
         const auto request_validation=[&] {
             registry->spawn_validation_requested=true;
             if (!entry.validation_responded || entry.pending_mech) {
@@ -508,21 +694,27 @@ struct LocalUdpOwner::Impl {
             // or truncated tag ends parsing; never search an opaque suffix.
             while (reader.position()<bunch.payload_bits) {
                 std::uint32_t field;
-                try { field=reader.read_bounded(start_mech_plan->controller_exclusive_bound); }
+                try { field=reader.read_bounded(bound); }
                 catch (const wire::WireError&) { break; }
-                if (validation_plan && field==validation_plan->validate_rpc_field_id) {
+                if (ready_plan && field==ready_plan->ready_rpc_field_id) {
+                    const auto decoded=wire::rpc::read_ready_arguments(reader,1);
+                    record_ready(entry,decoded.ready);
+                } else if (validation_plan && field==validation_plan->validate_rpc_field_id) {
                     request_validation();
-                    if (!admission_plan) break;
+                    if (!admission_plan && !ready_plan) break;
                 } else if (admission_plan && field==admission_plan->stage_rpc_field_id) {
                     const auto decoded=wire::rpc::read_selection_stage_arguments(reader,skeleton.endian,
                         bunch.payload_bits-reader.position());
                     if (decoded.stage==3) {
                         registry->stage3_requested=true;
+                        // Native PlayerWaiting stage3 marks ready while the game
+                        // waits. The selected-data admission remains pending.
+                        if (ready_plan && !world_start_committed) record_ready(entry,true);
                         if (entry.validation_succeeded && entry.validation_responded && entry.accepted_mech &&
                             !entry.pending_mech && entry.admitted_revision!=entry.mech_revision)
                             entry.admission_request_revision=entry.mech_revision;
                     } else entry.admission_request_revision.reset();
-                } else if (field==start_mech_plan->controller_rpc_field_id) {
+                } else if (start_mech_plan && field==start_mech_plan->controller_rpc_field_id) {
                     auto decoded=wire::rpc::read_start_mech_arguments(reader,skeleton.endian,
                         bunch.payload_bits-reader.position());
                     if (entry.pending_mech) {
@@ -534,7 +726,7 @@ struct LocalUdpOwner::Impl {
                     // A newly requested preset cannot borrow the old validation.
                     entry.validation_succeeded=false;
                     entry.admission_request_revision.reset();
-                    if (!admission_plan) {
+                    if (!admission_plan && !ready_plan) {
                         if (validation_plan && reader.position()<bunch.payload_bits) {
                             try {
                                 if (reader.read_bounded(validation_plan->controller_exclusive_bound)==
@@ -711,6 +903,7 @@ struct LocalUdpOwner::Impl {
                 if (stopping.load() || !running.load() || !registry->accepting ||
                     registry->entry!=target || !entry.active) return;
             }
+            if (ready_plan && !world_start_committed) return;
             if (!entry.admission_request_revision || *entry.admission_request_revision!=entry.mech_revision ||
                 entry.admitted_revision==entry.mech_revision || !entry.validation_succeeded ||
                 !entry.validation_responded || !entry.accepted_mech || entry.pending_mech ||
@@ -922,6 +1115,7 @@ struct LocalUdpOwner::Impl {
         else {
             if (mech) apply_start_mech(id,*mech);
             apply_validation(id,target);
+            apply_readiness(id,target);
             apply_admission(id,target);
         }
         erase(id);
@@ -955,6 +1149,7 @@ struct LocalUdpOwner::Impl {
         else {
             if (mech) apply_start_mech(id,*mech);
             apply_validation(id,target);
+            apply_readiness(id,target);
             apply_admission(id,target);
         }
         erase(id);
@@ -1025,7 +1220,8 @@ struct LocalUdpOwner::Impl {
                SpawnSelectionValidator selection_validator,
                std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
                std::optional<PriIdentityDispatchPlan> pri_identity,
-               std::optional<SelectionBootstrapPlan> selection_bootstrap) {
+               std::optional<SelectionBootstrapPlan> selection_bootstrap,
+               std::optional<ReadyMatchPlan> ready_match,ReadyFactsProvider ready_facts) {
         if (!callback || started || stopping.load()) fail(LocalUdpErrorCode::invalid_lifecycle);
         if (publication && !validator) fail(LocalUdpErrorCode::invalid_configuration);
         if (controller) {
@@ -1221,6 +1417,68 @@ struct LocalUdpOwner::Impl {
                     wire::object::PackageExportReference{0}},plan.controller_exclusive_bound,true,cap));
             } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
         }
+        if (ready_facts && !ready_match) fail(LocalUdpErrorCode::invalid_configuration);
+        if (ready_match) {
+            const auto& plan=*ready_match;
+            const auto& e=plan.eligibility;
+            if (!publication || !validator || !controller || !pawn || !pri || !links ||
+                !pri_identity || !selection_bootstrap ||
+                !e.primary_package_map || !e.controller_cache_correct || !e.pri_cache_correct ||
+                !e.gri_cache_correct || !e.ready_rpc_eligible || !e.ready_argument_bool_net_correct ||
+                !e.pri_ready_property_eligible || !e.pri_waiting_property_eligible ||
+                !e.gri_waiting_to_ready_property_eligible || !e.gri_waiting_for_property_eligible ||
+                !e.gri_countdown_property_eligible || !e.gri_match_begun_property_eligible ||
+                !e.integer_archive_order_correct || plan.initial_state.pending_start_time!=0.0F ||
+                (plan.integer_order!=control::Endian::little && plan.integer_order!=control::Endian::big))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            const auto collision=[&](std::uint32_t id) { return plan.ready_rpc_field_id==id; };
+            if (plan.controller_exclusive_bound==0 || plan.pri_exclusive_bound==0 ||
+                plan.gri_exclusive_bound==0 || plan.ready_rpc_field_id>=plan.controller_exclusive_bound ||
+                plan.controller_exclusive_bound!=links->controller_exclusive_bound ||
+                plan.controller_exclusive_bound!=selection_bootstrap->controller_exclusive_bound ||
+                plan.pri_exclusive_bound!=pri_identity->exclusive_bound ||
+                plan.gri_exclusive_bound!=selection_bootstrap->gri_exclusive_bound ||
+                collision(links->controller_pri_field_id) || collision(links->controller_pawn_field_id) ||
+                collision(selection_bootstrap->client_set_hud_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (start_mech && (plan.controller_exclusive_bound!=start_mech->controller_exclusive_bound ||
+                plan.pri_exclusive_bound!=start_mech->pri_exclusive_bound || collision(start_mech->controller_rpc_field_id)))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            if (spawn_validation && (plan.controller_exclusive_bound!=spawn_validation->controller_exclusive_bound ||
+                collision(spawn_validation->validate_rpc_field_id) || collision(spawn_validation->validated_rpc_field_id) ||
+                collision(spawn_validation->failed_rpc_field_id))) fail(LocalUdpErrorCode::invalid_configuration);
+            if (spawn_admission && (plan.controller_exclusive_bound!=spawn_admission->controller_exclusive_bound ||
+                collision(spawn_admission->stage_rpc_field_id) || collision(spawn_admission->client_restart_rpc_field_id)))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            const std::array pri_fields{plan.pri_ready_field_id,plan.pri_waiting_field_id};
+            for (const auto id:pri_fields)
+                if (id>=plan.pri_exclusive_bound || id==pri_identity->field_id ||
+                    (start_mech && id==start_mech->pri_mech_setup_field_id))
+                    fail(LocalUdpErrorCode::invalid_configuration);
+            if (pri_fields[0]==pri_fields[1]) fail(LocalUdpErrorCode::invalid_configuration);
+            const std::array gri_fields{plan.gri_waiting_to_ready_field_id,plan.gri_waiting_for_field_id,
+                plan.gri_countdown_field_id,plan.gri_match_begun_field_id};
+            for (std::size_t i=0;i<gri_fields.size();++i) {
+                if (gri_fields[i]>=plan.gri_exclusive_bound || gri_fields[i]==selection_bootstrap->game_class_field_id)
+                    fail(LocalUdpErrorCode::invalid_configuration);
+                for (std::size_t j=0;j<i;++j)
+                    if (gri_fields[i]==gri_fields[j]) fail(LocalUdpErrorCode::invalid_configuration);
+            }
+            try {
+                static_cast<void>(game::PendingMatch(plan.rules,plan.initial_state));
+                const auto cap=static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8;
+                const std::array echo{wire::property::BoolProperty{plan.pri_ready_field_id,true},
+                    wire::property::BoolProperty{plan.pri_waiting_field_id,plan.role_waiting_player}};
+                static_cast<void>(wire::property::encode_bool_properties(echo,plan.pri_exclusive_bound,cap));
+                const std::array counters{wire::property::IntProperty{gri_fields[0],0},
+                    wire::property::IntProperty{gri_fields[1],0},wire::property::IntProperty{gri_fields[2],-1}};
+                const auto ints=wire::property::encode_int_properties(counters,plan.gri_exclusive_bound,plan.integer_order,cap);
+                const std::array begun{wire::property::BoolProperty{plan.gri_match_begun_field_id,true}};
+                const auto flag=wire::property::encode_bool_properties(begun,plan.gri_exclusive_bound,cap);
+                if (ints.logical_bits>cap || flag.logical_bits>cap-ints.logical_bits)
+                    fail(LocalUdpErrorCode::invalid_configuration);
+            } catch (...) { fail(LocalUdpErrorCode::invalid_configuration); }
+        }
         authorizer=std::move(callback); login_validator=std::move(validator);
         publication_provider=std::move(publication); controller_plan=std::move(controller);
         pawn_plan=std::move(pawn); pri_plan=std::move(pri); links_plan=std::move(links);
@@ -1231,6 +1489,13 @@ struct LocalUdpOwner::Impl {
         provision_identity_enabled=pri_identity.has_value();
         pri_identity_plan=std::move(pri_identity);
         bootstrap_plan=std::move(selection_bootstrap);
+        if (ready_match) {
+            const auto epoch=time();
+            if (!epoch) fail(LocalUdpErrorCode::invalid_configuration);
+            world_clock_base=*epoch;
+            pending_match.emplace(ready_match->rules,ready_match->initial_state);
+        }
+        ready_plan=std::move(ready_match); ready_facts_provider=std::move(ready_facts);
         started=true;
         {
             std::lock_guard lock(registry->mutex); registry->accepting=true;
@@ -1238,14 +1503,14 @@ struct LocalUdpOwner::Impl {
         running=true;
         try { worker=std::thread([this]{loop();}); }
         catch (...) {
-            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset();
+            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset(); ready_plan.reset(); ready_facts_provider={}; pending_match.reset();
             fail(LocalUdpErrorCode::invalid_lifecycle);
         }
     }
     void stop() noexcept {
         running=false; stopping=true; registry->close();
         if (worker.joinable()) worker.join();
-        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset();
+        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset(); ready_plan.reset(); ready_facts_provider={}; pending_match.reset();
         { std::lock_guard lock(clock_mutex); clock={}; }
         std::lock_guard lock(socket_mutex); socket.close();
     }
@@ -1334,7 +1599,10 @@ LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
         impl_->registry->actor_links_sent.load(),impl_->registry->pri_identity_sent.load(),
         impl_->registry->pri_identity_acked.load(),impl_->registry->gri_sent.load(),
         impl_->registry->gri_open_acked.load(),impl_->registry->game_class_sent.load(),
-        impl_->registry->game_class_acked.load(),impl_->registry->hud_sent.load(),impl_->registry->hud_acked.load()};
+        impl_->registry->game_class_acked.load(),impl_->registry->hud_sent.load(),impl_->registry->hud_acked.load(),
+        impl_->registry->ready_rpc_received.load(),impl_->registry->pri_ready_sent.load(),impl_->registry->pri_ready_acked.load(),
+        impl_->registry->match_start_requested.load(),impl_->registry->gri_match_begun_sent.load(),
+        impl_->registry->gri_match_begun_acked.load()};
 }
 bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {
     return impl_->bound(destination);
@@ -1349,12 +1617,13 @@ void LocalUdpOwner::start(Authorizer authorize, LoginResponseValidator validate_
                           SpawnSelectionValidator selection_validator,
                           std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
                           std::optional<PriIdentityDispatchPlan> pri_identity,
-                          std::optional<SelectionBootstrapPlan> selection_bootstrap) {
+                          std::optional<SelectionBootstrapPlan> selection_bootstrap,
+                          std::optional<ReadyMatchPlan> ready_match,ReadyFactsProvider ready_facts) {
     impl_->start(std::move(authorize),std::move(validate_response),std::move(publication),
         std::move(controller),std::move(pawn),std::move(pri),std::move(links),
         std::move(start_mech),std::move(mech_provider),
         std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
-        std::move(pri_identity),std::move(selection_bootstrap));
+        std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts));
 }
 void LocalUdpOwner::stop() noexcept { impl_->stop(); }
 std::unique_ptr<assignment::UdpSessionLease> LocalUdpOwner::handoff(

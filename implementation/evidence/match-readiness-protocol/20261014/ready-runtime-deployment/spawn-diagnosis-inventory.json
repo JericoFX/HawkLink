@@ -1,0 +1,439 @@
+{
+  "status": "READ_ONLY_DIAGNOSIS_CONFIRMED_DATA_INCOMPATIBILITY; no source change or native causal PASS",
+  "skills": "Complete CPP/Game/REA coverage reused, hashes rechecked unchanged; Graft --no-refresh on materializer/runtime/starter_inventory/Main before exact code reads",
+  "privacy": "GUID/account/SteamID/ticket/token/full log/full attrs never emitted or persisted; selected GUID compared privately in memory only",
+  "log_snapshot": {
+    "path": "C:\\Users\\Jerico\\Documents\\My Games\\Hawken\\HawkenGame\\Logs\\Launch.log",
+    "sha256": "875e78cae7b1dee1fcc60e98beef84e3e57642bf8412417e3b6f0d303ae94796",
+    "size": 114688,
+    "line_count": 1427,
+    "access": "CreateFileW GENERIC_READ with FILE_SHARE_READ|FILE_SHARE_WRITE; whole cp1252 snapshot read privately",
+    "spawn_line": 831
+  },
+  "private_identity_comparison": {
+    "selected_matches_owned_instance": true,
+    "selected_matches_slot0_root": true,
+    "selected_is_type_guid": false,
+    "complete_owned_slots": true,
+    "all18_ids_canonical_nonzero_lower": true,
+    "all18_ids_distinct": true,
+    "configured_catalogue_not_independently_reloaded_in_this_slice": true
+  },
+  "owned_effective_data": {
+    "composition": "Current starter_inventory_result equipment baseline + exact saved Preset overrides, same current InventoryService composition; no SQL repair/default insertion",
+    "raw_attribute_count": 91,
+    "required8role_checks": [
+      {
+        "key": "Preset.PrimaryWeapon_0",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      },
+      {
+        "key": "Preset.SecondaryWeapon",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      },
+      {
+        "key": "Preset.Style.UpperPart",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      },
+      {
+        "key": "Preset.Style.MidPart",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      },
+      {
+        "key": "Preset.Style.ArmPart",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      },
+      {
+        "key": "Preset.Style.LowerPart",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      },
+      {
+        "key": "Preset.Style.DroneType",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      },
+      {
+        "key": "Preset.Ability",
+        "no_conflicting_aliases": true,
+        "index_matches_required": true,
+        "reference_matches_owned_role": true
+      }
+    ],
+    "conflicting_materializer_known_alias_keys": [],
+    "internals": [
+      {
+        "ordinal": 1,
+        "parsed_integer": 255,
+        "byte_value": 255,
+        "current_guard_accepts": false,
+        "optional_reference_is_empty_or_native_absence": true,
+        "optional_reference_present": true
+      },
+      {
+        "ordinal": 2,
+        "parsed_integer": 255,
+        "byte_value": 255,
+        "current_guard_accepts": false,
+        "optional_reference_is_empty_or_native_absence": true,
+        "optional_reference_present": true
+      },
+      {
+        "ordinal": 3,
+        "parsed_integer": 255,
+        "byte_value": 255,
+        "current_guard_accepts": false,
+        "optional_reference_is_empty_or_native_absence": true,
+        "optional_reference_present": true
+      },
+      {
+        "ordinal": 4,
+        "parsed_integer": 255,
+        "byte_value": 255,
+        "current_guard_accepts": false,
+        "optional_reference_is_empty_or_native_absence": true,
+        "optional_reference_present": true
+      },
+      {
+        "ordinal": 5,
+        "parsed_integer": 255,
+        "byte_value": 255,
+        "current_guard_accepts": false,
+        "optional_reference_is_empty_or_native_absence": true,
+        "optional_reference_present": true
+      },
+      {
+        "ordinal": 6,
+        "parsed_integer": 255,
+        "byte_value": 255,
+        "current_guard_accepts": false,
+        "optional_reference_is_empty_or_native_absence": true,
+        "optional_reference_present": true
+      }
+    ]
+  },
+  "concrete_rejection": {
+    "source": "src/starter_mech_setup.cpp223..225",
+    "predicate": "integer_attribute(key,-1) must equal -1; otherwise fixed invalid_argument",
+    "current_native_saved_internals": [
+      255,
+      255,
+      255,
+      255,
+      255,
+      255
+    ],
+    "conclusion": "All six are255, so the current finite materializer rejects this actual effective snapshot even for an otherwise admissible primary0/loaded/no-prior-template selection. This is static source/data reasoning, not an executed C++ call.",
+    "not_inferred": "This review did not decode the actual incoming UDP RPC primary argument, prove it reached provider, or prove this is the only cause of closed1."
+  },
+  "retained_native_proof": {
+    "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "matrix": {
+      "path": "implementation\\evidence\\pri-mech-setup\\single-preset-loader-20261013\\worker\\source-matrix.json",
+      "sha256": "f0355c631bdc9ca6aaaa09ba8fbee9cbe845349837598e3da38318f68ce45e1d",
+      "size": 103535
+    },
+    "loader_body": {
+      "entry_rva": "0xdb9fb0",
+      "raw": "0xdb93b0",
+      "body_ranges": "[[140db9fb0, 140dbcf94]]",
+      "decompile_completed": true,
+      "full_pseudocode_lines_read": 1204,
+      "pseudocode_sha256": "1f7d5e86dba24a2fe0284ac140457761239628bf3c306f80892c4700843ed413",
+      "retained_instructions": 2963,
+      "preserved_proof": "original-span-validation contains2963 presetinstructionspans plus156 literalspans for db9fb0; validation.json PASS8937spans total35functions. Parent independently validates current phase.",
+      "callee_not_guessed": "dcd160 is UpdateStats, not this loader; binding prior accepted."
+    },
+    "internal6byte_stores": [
+      {
+        "path": "SMechSetupStruct.MechInternals.Internal1",
+        "status": "CONFIRMADO_SOURCE_CHAIN_CONDITIONAL_VALUE",
+        "bits": 8,
+        "native_conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+        "instance_read": {
+          "key": "Preset.MechInternals.Internal1",
+          "literal_rva": "0x1777768",
+          "literal_raw": "0x1776b68",
+          "default_argument": "-1",
+          "native_preset_offset": "0x3c",
+          "pseudocode_line": 335,
+          "store_anchors": [
+            {
+              "rva": "0xdba9db",
+              "raw": "0xdb9ddb",
+              "bytes": "88463c",
+              "instruction": "MOV byte ptr [RSI + 0x3c],AL"
+            }
+          ],
+          "conversion": "*(undefined1 *)(lVar12 + 0x3c) = uVar2;",
+          "missing_key_status": "Default argument is confirmed; virtual298 getter missing-key branch is not independently bound here. No fallback claim for present malformed/empty value."
+        }
+      },
+      {
+        "path": "SMechSetupStruct.MechInternals.Internal2",
+        "status": "CONFIRMADO_SOURCE_CHAIN_CONDITIONAL_VALUE",
+        "bits": 8,
+        "native_conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+        "instance_read": {
+          "key": "Preset.MechInternals.Internal2",
+          "literal_rva": "0x1777d88",
+          "literal_raw": "0x1777188",
+          "default_argument": "-1",
+          "native_preset_offset": "0x3d",
+          "pseudocode_line": 355,
+          "store_anchors": [
+            {
+              "rva": "0xdbaa74",
+              "raw": "0xdb9e74",
+              "bytes": "88463d",
+              "instruction": "MOV byte ptr [RSI + 0x3d],AL"
+            }
+          ],
+          "conversion": "*(undefined1 *)(lVar12 + 0x3d) = uVar2;",
+          "missing_key_status": "Default argument is confirmed; virtual298 getter missing-key branch is not independently bound here. No fallback claim for present malformed/empty value."
+        }
+      },
+      {
+        "path": "SMechSetupStruct.MechInternals.Internal3",
+        "status": "CONFIRMADO_SOURCE_CHAIN_CONDITIONAL_VALUE",
+        "bits": 8,
+        "native_conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+        "instance_read": {
+          "key": "Preset.MechInternals.Internal3",
+          "literal_rva": "0x1778328",
+          "literal_raw": "0x1777728",
+          "default_argument": "-1",
+          "native_preset_offset": "0x3e",
+          "pseudocode_line": 375,
+          "store_anchors": [
+            {
+              "rva": "0xdbab0d",
+              "raw": "0xdb9f0d",
+              "bytes": "88463e",
+              "instruction": "MOV byte ptr [RSI + 0x3e],AL"
+            }
+          ],
+          "conversion": "*(undefined1 *)(lVar12 + 0x3e) = uVar2;",
+          "missing_key_status": "Default argument is confirmed; virtual298 getter missing-key branch is not independently bound here. No fallback claim for present malformed/empty value."
+        }
+      },
+      {
+        "path": "SMechSetupStruct.MechInternals.Internal4",
+        "status": "CONFIRMADO_SOURCE_CHAIN_CONDITIONAL_VALUE",
+        "bits": 8,
+        "native_conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+        "instance_read": {
+          "key": "Preset.MechInternals.Internal4",
+          "literal_rva": "0x1778a10",
+          "literal_raw": "0x1777e10",
+          "default_argument": "-1",
+          "native_preset_offset": "0x3f",
+          "pseudocode_line": 395,
+          "store_anchors": [
+            {
+              "rva": "0xdbaba6",
+              "raw": "0xdb9fa6",
+              "bytes": "88463f",
+              "instruction": "MOV byte ptr [RSI + 0x3f],AL"
+            }
+          ],
+          "conversion": "*(undefined1 *)(lVar12 + 0x3f) = uVar2;",
+          "missing_key_status": "Default argument is confirmed; virtual298 getter missing-key branch is not independently bound here. No fallback claim for present malformed/empty value."
+        }
+      },
+      {
+        "path": "SMechSetupStruct.MechInternals.Internal5",
+        "status": "CONFIRMADO_SOURCE_CHAIN_CONDITIONAL_VALUE",
+        "bits": 8,
+        "native_conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+        "instance_read": {
+          "key": "Preset.MechInternals.Internal5",
+          "literal_rva": "0x1779058",
+          "literal_raw": "0x1778458",
+          "default_argument": "-1",
+          "native_preset_offset": "0x40",
+          "pseudocode_line": 415,
+          "store_anchors": [
+            {
+              "rva": "0xdbac3f",
+              "raw": "0xdba03f",
+              "bytes": "884640",
+              "instruction": "MOV byte ptr [RSI + 0x40],AL"
+            }
+          ],
+          "conversion": "*(undefined1 *)(lVar12 + 0x40) = uVar2;",
+          "missing_key_status": "Default argument is confirmed; virtual298 getter missing-key branch is not independently bound here. No fallback claim for present malformed/empty value."
+        }
+      },
+      {
+        "path": "SMechSetupStruct.MechInternals.Internal6",
+        "status": "CONFIRMADO_SOURCE_CHAIN_CONDITIONAL_VALUE",
+        "bits": 8,
+        "native_conversion": "_wtoi -> low byte; -1 becomes255 if getter returns default argument",
+        "instance_read": {
+          "key": "Preset.MechInternals.Internal6",
+          "literal_rva": "0x1779608",
+          "literal_raw": "0x1778a08",
+          "default_argument": "-1",
+          "native_preset_offset": "0x41",
+          "pseudocode_line": 435,
+          "store_anchors": [
+            {
+              "rva": "0xdbacd8",
+              "raw": "0xdba0d8",
+              "bytes": "884641",
+              "instruction": "MOV byte ptr [RSI + 0x41],AL"
+            }
+          ],
+          "conversion": "*(undefined1 *)(lVar12 + 0x41) = uVar2;",
+          "missing_key_status": "Default argument is confirmed; virtual298 getter missing-key branch is not independently bound here. No fallback claim for present malformed/empty value."
+        }
+      }
+    ],
+    "independent_original_anchor_byte_check": "MATCH6MOVstores/18bytes; no new Ghidra/disassembly",
+    "meaning": "Original _wtoi result stored through AL: -1 and255 both yield byteFF. Optional internal references currently all empty/native-absence; no internal item granted."
+  },
+  "backup_comparison": {
+    "backup": {
+      "path": "implementation\\local-runtime\\backups\\before-ready-20261015-032157.sqlite",
+      "sha256": "3f95ca512e702f5de046585f26e3c106dd13aff9d6d53b41dd09b57387411e2f",
+      "size": 86016
+    },
+    "backup_schema": 5,
+    "current_schema": 6,
+    "retained11table_comparison": [
+      {
+        "table": "server_metadata",
+        "rows_equal": true,
+        "current_rows": 1,
+        "backup_rows": 1
+      },
+      {
+        "table": "accounts",
+        "rows_equal": true,
+        "current_rows": 1,
+        "backup_rows": 1
+      },
+      {
+        "table": "aliases",
+        "rows_equal": true,
+        "current_rows": 0,
+        "backup_rows": 0
+      },
+      {
+        "table": "visits",
+        "rows_equal": true,
+        "current_rows": 0,
+        "backup_rows": 0
+      },
+      {
+        "table": "roles",
+        "rows_equal": true,
+        "current_rows": 0,
+        "backup_rows": 0
+      },
+      {
+        "table": "bans",
+        "rows_equal": true,
+        "current_rows": 0,
+        "backup_rows": 0
+      },
+      {
+        "table": "wallets",
+        "rows_equal": true,
+        "current_rows": 1,
+        "backup_rows": 1
+      },
+      {
+        "table": "starter_grants",
+        "rows_equal": true,
+        "current_rows": 1,
+        "backup_rows": 1
+      },
+      {
+        "table": "starter_items",
+        "rows_equal": true,
+        "current_rows": 9,
+        "backup_rows": 9
+      },
+      {
+        "table": "game_settings",
+        "rows_equal": true,
+        "current_rows": 8,
+        "backup_rows": 8
+      },
+      {
+        "table": "owned_item_attributes",
+        "rows_equal": false,
+        "current_rows": 91,
+        "backup_rows": 91
+      }
+    ],
+    "unchanged_retained_tables": 10,
+    "changed_retained_tables": [
+      "owned_item_attributes"
+    ],
+    "current_main_file_sha256_before": "1eb4fc10443e8553925ba14f6ab2f49daba642bd8b10d53b592ba323c34dde04",
+    "current_main_file_sha256_after": "1eb4fc10443e8553925ba14f6ab2f49daba642bd8b10d53b592ba323c34dde04",
+    "current_main_file_stable_during_review": true,
+    "not_claimed": "A later saved attr change is not migration corruption; new schema6 stat tables intentionally not compared to schema5."
+  },
+  "save_completion": {
+    "native_callbacks_sanitized": [
+      {
+        "line": 453,
+        "successful": true,
+        "relative_to_spawn": "before"
+      }
+    ],
+    "parent_observed": "Backend later inventory_put reason=success/PUT200",
+    "boundary": "HTTP200 alone is not a UDP provider completion. Callback timing recorded separately; no invented Save failure or serialization workaround."
+  },
+  "minimal_fix_proposal": {
+    "status": "PENDING_PARENT_RED_ASSIGNMENT; NO SOURCE WRITES",
+    "file": "src/starter_mech_setup.cpp",
+    "change": "Read signed integer once and accept exactly -1 OR255 as absent internal; reject other values including0..254. Keep output six255 bytes and all ownership/type/lifecycle validation unchanged.",
+    "limits": "Do not generalize all low-byte aliases, grant internal items, rewrite SQL255 to-1, bypass ownership, or infer native admission.",
+    "regression_plan": "Actual saved shape six255 must materialize identically to six-1; mixedabsence accepted; actual nonempty internal indices still rejected in each slot; input/SQL unchanged. Parent owns assignment/build/acceptance."
+  },
+  "scope": "Only this JSON output written. No source/tests/docs/config/Git/build/game/UI/service/process changes; no new heavy RE",
+  "source_pins": [
+    {
+      "path": "src\\starter_mech_setup.cpp",
+      "sha256": "f8152c30159d70e4b15847ca9aa2147d96e1ed22fd3f4b14f01241e6d7438694",
+      "size": 11483
+    },
+    {
+      "path": "include\\hawken\\starter_mech_setup.hpp",
+      "sha256": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0",
+      "size": 1995
+    },
+    {
+      "path": "src\\starter_inventory.cpp",
+      "sha256": "05a79a4dc44d455a91122e529edee874501e6fbbdf938c5b1ef05eb081d275ed",
+      "size": 4018
+    },
+    {
+      "path": "src\\inventory_service.cpp",
+      "sha256": "379286bfb4cd4ee06878bfdd1c5f48e408165c8886f67e40e5d4734de39d5e00",
+      "size": 26557
+    },
+    {
+      "path": "src\\udp_trial_runtime.cpp",
+      "sha256": "2eda501da06ca1e084276435a10e2411dccf33e7b9592718342572afb53c2e98",
+      "size": 18336
+    }
+  ]
+}

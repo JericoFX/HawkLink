@@ -354,6 +354,12 @@ public:
             << " game_class_acked=" << observation.game_class_acked
             << " hud_sent=" << observation.hud_sent
             << " hud_acked=" << observation.hud_acked
+            << " ready_rpc_received=" << observation.ready_rpc_received
+            << " pri_ready_sent=" << observation.pri_ready_sent
+            << " pri_ready_acked=" << observation.pri_ready_acked
+            << " match_start_requested=" << observation.match_start_requested
+            << " gri_match_begun_sent=" << observation.gri_match_begun_sent
+            << " gri_match_begun_acked=" << observation.gri_match_begun_acked
             << " spawn_validation_requested=" << observation.spawn_validation_requested
             << " spawn_validation_sent=" << observation.spawn_validation_sent
             << " spawn_validation_failed=" << observation.spawn_validation_failed
@@ -621,6 +627,31 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                     {0x5cd139c7U,0x4aa73e14U,0xbd1c8593U,0xf86056ddU},105,
                     {0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U},32596,
                     31,73,42,294,{true,true,true,true,true,true,true,true,true,true,true,true}};
+                hawken::udp::ReadyMatchPlan ready{};
+                ready.ready_rpc_field_id=280; ready.controller_exclusive_bound=294;
+                ready.pri_ready_field_id=30; ready.pri_waiting_field_id=31; ready.pri_exclusive_bound=87;
+                ready.gri_waiting_to_ready_field_id=48; ready.gri_waiting_for_field_id=49;
+                ready.gri_countdown_field_id=51; ready.gri_match_begun_field_id=29; ready.gri_exclusive_bound=73;
+                ready.integer_order=hawken::control::Endian::little;
+                // Explicit one-player local policy. Maximum-delay override is
+                // disabled (0), not a recovered concrete Hawken CDO value.
+                ready.rules={true,1,0.55F,5,0,10,30.0F};
+                ready.initial_state={0.0F,0.0F,false,0,1,-1};
+                ready.role_is_player=true; ready.role_waiting_player=true;
+                ready.world_tracking_created=true; ready.world_pending_quit=false;
+                ready.eligibility={true,true,true,true,true,true,true,true,true,true,true,true,true};
+                trial_config.ready_match=ready;
+                trial_config.ready_match_source=hawken::udp::ReadyAccountSource{
+                    [service=inventory.get()](const hawken::store::AccountRef& account)
+                        ->std::optional<hawken::udp::ReadyAccountFacts> {
+                        // A complete scoped SQL snapshot validates all four data
+                        // domains without requiring selection or granting items.
+                        const auto snapshot=service->owned_starter_account(account);
+                        // These local SQL operations finish synchronously; no
+                        // asynchronous purchase/save job is configured here.
+                        return hawken::udp::ReadyAccountFacts{
+                            snapshot.starter.has_value(),true,true,true,false,false};
+                    }};
                 // Our starter records are permanent; the current local domain
                 // has no achievement awards. The reader verifies account scope
                 // in SQL and must change before an award/import path is enabled.
@@ -631,6 +662,7 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                     << "udp_spawn_admission schema=conditional_primary_trial gameplay=0\n"
                     << "udp_pri_identity schema=conditional_primary_trial gameplay=0\n"
                     << "udp_selection_bootstrap schema=conditional_primary_trial gameplay=0\n"
+                    << "udp_ready_match schema=conditional_primary_trial gameplay=0\n"
                     << std::flush;
             }
             udp_trial = std::make_unique<hawken::udp::UdpTrialRuntime>(auth, trial_config);

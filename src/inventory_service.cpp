@@ -296,6 +296,16 @@ store::StarterMechSnapshot InventoryService::effective_owned_starter_mech(const 
         if (key.starts_with("Preset.")) snapshot.attributes.emplace(key, value.get<std::string>());
     return snapshot;
 }
+
+store::AccountOnlineSnapshot InventoryService::owned_starter_account(const store::AccountRef& account) {
+    std::lock_guard lock(mutex_);
+    auto snapshot = store_.account_online_snapshot(account);
+    if (!snapshot.starter) throw store::StoreError(store::StoreErrorCode::not_found);
+    const auto type_ids = types(ids_);
+    for (std::size_t i = 0; i < snapshot.starter->items.size(); ++i)
+        if (snapshot.starter->items.at(i).type_id != type_ids[i]) throw std::runtime_error("Invalid owned inventory.");
+    return snapshot;
+}
 bool InventoryService::supports_target(std::string_view raw_target) const {
     return parse_target(raw_target).kind != Kind::unknown;
 }

@@ -30,6 +30,12 @@ struct SpawnValidationSource {
     // false cannot activate this dispatcher. No historical expiry assertion.
     bool permanent_starter_instances = false;
 };
+struct ReadyAccountSource {
+    // Read one account-level snapshot before any selected-mech request. The
+    // source owns its complete SQL/type/load policy and outlives stop/join.
+    // Nullopt or failure is unavailable, never an authenticated empty success.
+    std::function<std::optional<ReadyAccountFacts>(const store::AccountRef&)> read_account;
+};
 struct UdpTrialConfig {
     // Port0 is fixture-only. Main requires an explicit port1..65535.
     std::uint16_t port;
@@ -82,8 +88,11 @@ struct UdpTrialConfig {
     // publication and existing Controller/PRI/Pawn/link plans; no schema/class
     // identity, match-start, UI state or native actor application is inferred.
     std::optional<SelectionBootstrapPlan> selection_bootstrap = std::nullopt;
-
-
+    // Explicit shared-world Ready/PRI/GRI policy and optional account reader.
+    // No reader preserves Ready echo but cannot start the pending match.
+    // Runtime revalidates assignment scope after the callback outside Use.
+    std::optional<ReadyMatchPlan> ready_match = std::nullopt;
+    std::optional<ReadyAccountSource> ready_match_source = std::nullopt;
 };
 // Pure preflight; no binding, randomness, SQL or Steam. Canonical lower-case
 // nonzero GUID36 and ASCII region[A-Za-z0-9_.-]1..64; port0 is API-valid.

@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-15T03:36:56.2802375Z",
+  "status": "ALL55_CODE_SUITES_ACCEPTED_NATIVE_SPAWN_STILL_BLOCKED",
+  "build_exit": 0,
+  "ctest_exit": 0,
+  "configured_suites": 55,
+  "actual_suite_summaries": 55,
+  "cases": 1512.0,
+  "assertions": 73500.0,
+  "input_count": 194,
+  "input_drift": 0,
+  "peak_ram": 65.69,
+  "junit_sha256": "32cda46004b8227d6b9201f7822034cb2d7947ebe0cc7f3a98d01f4ccd84add8",
+  "post_code_operational_change": "Only helper defaultpin now matches linkedCore; AST0errors and actualhash comparison verified separately",
+  "full_goal_complete": false
+}

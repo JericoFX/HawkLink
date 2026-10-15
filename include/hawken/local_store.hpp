@@ -57,6 +57,15 @@ struct StarterMechSnapshot {
     StarterItems items;
     ItemAttributes attributes;
 };
+// Local recorded metrics only, not imported historical statistics or a ledger.
+// Native numeric dictionaries materialize to doubles. Metadata is not a metric.
+using NumericStats = std::map<std::string, double, std::less<>>;
+struct AccountOnlineSnapshot {
+    std::optional<StarterMechSnapshot> starter;
+    NumericStats unranked_gameplay_stats;
+    std::map<std::size_t, NumericStats> item_stats_by_slot;
+    std::vector<std::string> achievement_ids;
+};
 struct Alias {
     std::string value;
     std::int64_t first_seen = 0;
@@ -108,6 +117,11 @@ public:
     // TODO: [shortcut] Replace with a persisted achievement reader BEFORE
     // enabling any awards or achievement imports.
     std::vector<std::string> account_achievement_ids(const AccountRef& account) const;
+    // One scoped read transaction: optional existing nine-role grant/raw attrs,
+    // recorded numeric dictionaries and current explicit no-awards policy.
+    // A successful empty dictionary means no local metrics recorded; failures
+    // never become loaded-empty. No selected mech, grant/repair or SQL writes.
+    AccountOnlineSnapshot account_online_snapshot(const AccountRef& account) const;
     // Opaque client-received settings only: no consent/progress interpretation,
     // credits, stats or inventory grant. Reads never insert defaults.
     // New bounded server policy: 256 pairs/update; UTF8 keys1..256 bytes without

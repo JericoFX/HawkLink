@@ -75,6 +75,11 @@ public:
     // RAW API/SQL remain unchanged; no grant, new default or gameplay authority.
     store::StarterMechSnapshot effective_owned_starter_mech(const store::AccountRef& account,
                                                           std::string_view instance_id);
+    // Account-level private snapshot, before any selected-mech RPC. Requires
+    // an existing full starter grant and all nine configured type IDs. Caller
+    // must obtain/revalidate its authenticated AccountRef outside Owner pins.
+    // Raw attrs/recorded stats only: no rendering, autogrant or Ready assertion.
+    store::AccountOnlineSnapshot owned_starter_account(const store::AccountRef& account);
     // Exact POST /userGameItemsBatch/<nonzero canonical lower-case UUID36>.
     // Read only the requested existing instances, in request order, with saved
     // Presets. Body UUIDs are ASCII case-insensitive; normalized duplicates fail.

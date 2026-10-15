@@ -473,3 +473,34 @@ TEST_CASE("Settings GET after restarting store and Auth returns the exact origin
     CHECK(menu.get("/userGameSettings/"+guid(login),header(login)).result==expected);
     CHECK(menu.get("/userPublicReadOnlyData/"+guid(login),header(login)).result==nlohmann::json::object());
 }
+namespace {
+void online_stats_fixture_sql(const std::filesystem::path& path,const std::string& query) {
+    sqlite3* raw=nullptr;
+    const auto opened=sqlite3_open_v2(path.string().c_str(),&raw,SQLITE_OPEN_READWRITE,nullptr);
+    const std::unique_ptr<sqlite3,SqlCloser> db(raw);
+    REQUIRE(opened==SQLITE_OK);
+    REQUIRE(sqlite3_exec(db.get(),query.c_str(),nullptr,nullptr,nullptr)==SQLITE_OK);
+}
+}
+
+TEST_CASE("Online stats menu returns actual SQL numeric dictionaries without seeding a grant") {
+    Fixture f;const auto login=f.login(); REQUIRE(login.status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account); REQUIRE(f.store.schema_version()==6);
+    const auto path=f.temporary.path()/"accounts.sqlite";
+    online_stats_fixture_sql(path,"INSERT INTO unranked_gameplay_stats VALUES("+std::to_string(account->ref.local_id)+",'fixture.count',2.5)");
+    const auto before=hawken::test::read_bytes(path);
+    const auto reply=f.menu.get("/userStats/"+guid(login),header(login));
+    CHECK(reply.http_status==200); CHECK(reply.api_status==200); CHECK(reply.result==nlohmann::json{{"fixture.count",2.5}});
+    CHECK_FALSE(f.store.starter_items(account->ref));
+    CHECK(f.menu.get("/userGameItemStats/"+guid(login),header(login)).result==nlohmann::json::array());
+    CHECK(hawken::test::read_bytes(path)==before); CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+
+TEST_CASE("Online stats menu read errors are not reported as loaded empty") {
+    Fixture f;const auto login=f.login();REQUIRE(login.status==200); REQUIRE(f.store.schema_version()==6);
+    const auto path=f.temporary.path()/"accounts.sqlite";
+    online_stats_fixture_sql(path,"ALTER TABLE owned_item_stats ADD COLUMN unexpected TEXT");
+    failure(f.menu.get("/userStats/"+guid(login),header(login)),500);
+    failure(f.menu.get("/userGameItemStats/"+guid(login),header(login)),500);
+    failure(f.menu.get("/userStats/"+guid(login),""),401);
+}

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="55"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="107"
+	timestamp="2026-10-15T00:23:06"
+	>
+	<testcase name="client_steam_identity_transport" classname="client_steam_identity_transport" time="2.9403" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   22 |   22 passed | 0 failed | 0 skipped
+[doctest] assertions: 1590 | 1590 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="live_player_reader" classname="live_player_reader" time="0.682496" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 12 | 12 passed | 0 failed | 0 skipped
+[doctest] assertions: 74 | 74 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="gri_template_reader" classname="gri_template_reader" time="1.51323" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 10 | 10 passed | 0 failed | 0 skipped
+[doctest] assertions: 92 | 92 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="controller_sample_comparison" classname="controller_sample_comparison" time="0.207024" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 12 | 12 passed | 0 failed | 0 skipped
+[doctest] assertions: 56 | 56 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="mech_setup_reader" classname="mech_setup_reader" time="0.224818" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  18 |  18 passed | 0 failed | 0 skipped
+[doctest] assertions: 138 | 138 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="connection_cache_reader" classname="connection_cache_reader" time="0.128228" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+[doctest] assertions: 201 | 201 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="server_listing_http" classname="server_listing_http" time="0.317619" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   8 |   8 passed | 0 failed | 0 skipped
+[doctest] assertions: 365 | 365 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="local_tcp_probe" classname="local_tcp_probe" time="0.259583" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  9 |  9 passed | 0 failed | 0 skipped
+[doctest] assertions: 49 | 49 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="local_udp_owner" classname="local_udp_owner" time="64.8848" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   127 |   127 passed | 0 failed | 0 skipped
+[doctest] assertions: 10170 | 10170 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="udp_trial_runtime" classname="udp_trial_runtime" time="11.4889" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   40 |   40 passed | 0 failed | 0 skipped
+[doctest] assertions: 3733 | 3733 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="server_assignment_http" classname="server_assignment_http" time="0.473125" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+[doctest] assertions: 474 | 474 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="game_connection" classname="game_connection" time="0.11336" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  116 |  116 passed | 0 failed | 0 skipped
+[doctest] assertions: 4213 | 4213 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="session_assignment" classname="session_assignment" time="1.18957" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   41 |   41 passed | 0 failed | 0 skipped
+[doctest] assertions: 1731 | 1731 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="sync_service" classname="sync_service" time="0.578582" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  16 |  16 passed | 0 failed | 0 skipped
+[doctest] assertions: 815 | 815 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="menu_sync_service" classname="menu_sync_service" time="0.682043" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:    25 |    25 passed | 0 failed | 0 skipped
+[doctest] assertions: 10427 | 10427 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="server_auth_http" classname="server_auth_http" time="0.754798" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+[doctest] assertions: 276 | 276 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="server_inventory_http" classname="server_inventory_http" time="1.66143" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   25 |   25 passed | 0 failed | 0 skipped
+[doctest] assertions: 1373 | 1373 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="server_menu_http" classname="server_menu_http" time="0.541456" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  13 |  13 passed | 0 failed | 0 skipped
+[doctest] assertions: 780 | 780 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="auth_service" classname="auth_service" time="0.673485" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+[doctest] assertions: 570 | 570 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="steam_auth_callback" classname="steam_auth_callback" time="0.093748" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  7 |  7 passed | 0 failed | 0 skipped
+[doctest] assertions: 42 | 42 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="session_wire" classname="session_wire" time="0.0859301" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+[doctest] assertions: 424 | 424 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="control_wire" classname="control_wire" time="0.068371" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  21 |  21 passed | 0 failed | 0 skipped
+[doctest] assertions: 227 | 227 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="control_handshake" classname="control_handshake" time="0.0711085" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+[doctest] assertions: 330 | 330 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="posthello_control" classname="posthello_control" time="0.0847009" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   54 |   54 passed | 0 failed | 0 skipped
+[doctest] assertions: 5014 | 5014 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="package_publication" classname="package_publication" time="0.0963067" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  38 |  38 passed | 0 failed | 0 skipped
+[doctest] assertions: 183 | 183 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="wreckage_trial" classname="wreckage_trial" time="0.056465" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+[doctest] assertions: 110 | 110 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="server_login_handshake" classname="server_login_handshake" time="0.0969412" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  35 |  35 passed | 0 failed | 0 skipped
+[doctest] assertions: 382 | 382 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="starter_inventory" classname="starter_inventory" time="0.267618" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  15 |  15 passed | 0 failed | 0 skipped
+[doctest] assertions: 393 | 393 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="starter_catalogue" classname="starter_catalogue" time="0.130016" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   29 |   29 passed | 0 failed | 0 skipped
+[doctest] assertions: 1859 | 1859 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="inventory_service" classname="inventory_service" time="2.31533" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   56 |   56 passed | 0 failed | 0 skipped
+[doctest] assertions: 5348 | 5348 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="packet_writer" classname="packet_writer" time="0.0841235" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  24 |  24 passed | 0 failed | 0 skipped
+[doctest] assertions: 118 | 118 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="actor_transform" classname="actor_transform" time="0.0822999" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  36 |  36 passed | 0 failed | 0 skipped
+[doctest] assertions: 397 | 397 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="package_map_ranges" classname="package_map_ranges" time="0.0793764" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  26 |  26 passed | 0 failed | 0 skipped
+[doctest] assertions: 111 | 111 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="object_reference" classname="object_reference" time="0.0896594" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+[doctest] assertions: 820 | 820 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="object_property_wire" classname="object_property_wire" time="0.0932709" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 14 | 14 passed | 0 failed | 0 skipped
+[doctest] assertions: 62 | 62 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="bool_property_wire" classname="bool_property_wire" time="0.0936013" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 11 | 11 passed | 0 failed | 0 skipped
+[doctest] assertions: 87 | 87 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="int_property_wire" classname="int_property_wire" time="0.0764157" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+[doctest] assertions: 119 | 119 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="mech_setup_wire" classname="mech_setup_wire" time="0.0928121" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 19 | 19 passed | 0 failed | 0 skipped
+[doctest] assertions: 65 | 65 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="starter_mech_setup" classname="starter_mech_setup" time="0.0945856" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+[doctest] assertions: 101 | 101 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="start_mech_rpc" classname="start_mech_rpc" time="0.106397" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   10 |   10 passed | 0 failed | 0 skipped
+[doctest] assertions: 2958 | 2958 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="spawn_validation" classname="spawn_validation" time="0.124064" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:    4 |    4 passed | 0 failed | 0 skipped
+[doctest] assertions: 4854 | 4854 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="spawn_validation_rpc" classname="spawn_validation_rpc" time="0.0921342" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   7 |   7 passed | 0 failed | 0 skipped
+[doctest] assertions: 963 | 963 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="controller_admission_rpc" classname="controller_admission_rpc" time="0.0878728" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  12 |  12 passed | 0 failed | 0 skipped
+[doctest] assertions: 605 | 605 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="match_readiness" classname="match_readiness" time="0.102263" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  19 |  19 passed | 0 failed | 0 skipped
+[doctest] assertions: 155 | 155 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unique_id_wire" classname="unique_id_wire" time="0.0939077" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   7 |   7 passed | 0 failed | 0 skipped
+[doctest] assertions: 364 | 364 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="pawn_rpc_wire" classname="pawn_rpc_wire" time="0.091459" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  20 |  20 passed | 0 failed | 0 skipped
+[doctest] assertions: 286 | 286 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="reliable_actor_transport" classname="reliable_actor_transport" time="0.102048" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  29 |  29 passed | 0 failed | 0 skipped
+[doctest] assertions: 568 | 568 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="initial_controller" classname="initial_controller" time="0.257298" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  8 |  8 passed | 0 failed | 0 skipped
+[doctest] assertions: 82 | 82 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="initial_pawn" classname="initial_pawn" time="0.0821195" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  8 |  8 passed | 0 failed | 0 skipped
+[doctest] assertions: 75 | 75 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="reliable_control_transport" classname="reliable_control_transport" time="0.0947651" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  47 |  47 passed | 0 failed | 0 skipped
+[doctest] assertions: 400 | 400 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="foundation" classname="foundation" time="1.29397" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   90 |   90 passed | 0 failed | 0 skipped
+[doctest] assertions: 4945 | 4945 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="master_directory" classname="master_directory" time="0.30229" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+[doctest] assertions: 475 | 475 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="server_bootstrap" classname="server_bootstrap" time="0.534428" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   8 |   8 passed | 0 failed | 0 skipped
+[doctest] assertions: 430 | 430 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="storage" classname="storage" time="9.80701" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  130 |  130 passed | 0 failed | 0 skipped
+[doctest] assertions: 2773 | 2773 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="client_routing" classname="client_routing" time="0.122216" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+[doctest] assertions: 248 | 248 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+</testsuite>

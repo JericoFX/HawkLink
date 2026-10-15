@@ -1529,3 +1529,33 @@ TEST_CASE("Effective owned starter mech rejects missing foreign equipment and ca
         }
     }
 }
+TEST_CASE("Online owned account inventory snapshot requires an existing nine-role grant without selected mech") {
+    Fixture f; const auto login=f.login();REQUIRE(login.status==200);
+    const auto account=f.store.find_account(fixture_id_text); REQUIRE(account);
+    CHECK_THROWS_AS(f.inventory.owned_starter_account(account->ref),hawken::store::StoreError);
+    CHECK_FALSE(f.store.starter_items(account->ref));
+    REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    REQUIRE(f.store.merge_owned_item_attributes(account->ref,instance_ids[0],{{"Preset.Empty",""}}));
+    const auto before=hawken::test::read_bytes(f.temporary.path()/"accounts.sqlite");
+    const auto snapshot=f.inventory.owned_starter_account(account->ref); REQUIRE(snapshot.starter);
+    CHECK(snapshot.starter->items==persisted_expected()); CHECK(snapshot.starter->attributes==hawken::store::ItemAttributes{{"Preset.Empty",""}});
+    CHECK(snapshot.unranked_gameplay_stats.empty()); CHECK(snapshot.item_stats_by_slot.empty()); CHECK(snapshot.achievement_ids.empty());
+    CHECK(hawken::test::read_bytes(f.temporary.path()/"accounts.sqlite")==before);
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
+
+TEST_CASE("Online owned account inventory snapshot rejects every configured type mismatch and foreign scope") {
+    Fixture f;const auto login=f.login();REQUIRE(f.inventory.get(owned_path(login),header(login)).status==200);
+    const auto account=f.store.find_account(fixture_id_text);REQUIRE(account);
+    CHECK_THROWS_AS(f.inventory.owned_starter_account({"foreign-server",account->ref.local_id}),hawken::store::StoreError);
+    const auto path=f.temporary.path()/"accounts.sqlite";
+    for(std::size_t slot=0;slot<9;++slot){
+        const auto update="UPDATE starter_items SET type_id='40000000-0000-0000-0000-000000000001' WHERE slot="+std::to_string(slot);
+        fixture_sql(path,update.c_str());
+        CHECK_THROWS_WITH(f.inventory.owned_starter_account(account->ref),"Invalid owned inventory.");
+        const auto restore="UPDATE starter_items SET type_id='"+std::string(type_ids[slot])+"' WHERE slot="+std::to_string(slot);
+        fixture_sql(path,restore.c_str());
+    }
+    CHECK(f.inventory.owned_starter_account(account->ref).starter->items==persisted_expected());
+    CHECK(f.store.wallet(account->ref)==hawken::store::WalletBalances{});
+}
