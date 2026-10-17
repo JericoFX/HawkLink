@@ -1,0 +1,35 @@
+{
+  "path": "C:\\Users\\Jerico\\Documents\\My Games\\Hawken\\HawkenGame\\Logs\\Launch.log",
+  "bytes": 16384,
+  "sha256": "7e02fe147cb19bd66d0dba9f235501e75bd49cb5951786d0f10cc8d73f2f7c3d",
+  "lines": 193,
+  "events": [
+    {
+      "event": "LOGIN FAILED",
+      "lines": []
+    },
+    {
+      "event": "OSCS_ServiceUnavailable",
+      "lines": []
+    },
+    {
+      "event": "BeginFullSync",
+      "lines": []
+    },
+    {
+      "event": "ClientMatchStarted",
+      "lines": []
+    },
+    {
+      "event": "ClientRestart",
+      "lines": []
+    },
+    {
+      "event": "Synci",
+      "lines": []
+    }
+  ],
+  "available_file_read_fully": true,
+  "raw_log_saved": false,
+  "truncation_or_buffering_possible": true
+}

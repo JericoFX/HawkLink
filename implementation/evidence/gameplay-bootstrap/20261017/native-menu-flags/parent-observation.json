@@ -1,0 +1,84 @@
+{
+  "status": "PARTIAL_NATIVE_DIAGNOSTIC",
+  "steam_appid": 271290,
+  "client_pid": 70384,
+  "steam_parent_pid": 8576,
+  "created_utc": "2026-10-17T15:28:30.06219Z",
+  "original_executable": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "tutorial_played": false,
+  "gameplay_reached": false,
+  "observations": [
+    {
+      "status": "CONFIRMADO",
+      "evidence": "login-error.png; server diagnostics POST steam-login503",
+      "interpretation": "This invocation stopped at login; no native gameplay acceptance"
+    },
+    {
+      "status": "PROBABLE",
+      "evidence": "Same Core58676 previously authenticated; source verify checks attempted_ before second BeginAuthSession",
+      "interpretation": "Temporary one-attempt-per-process policy explains unavailable login; no policy bypass attempted"
+    },
+    {
+      "status": "CONFIRMADO",
+      "evidence": "initial-menu-flags.json: read_limit",
+      "interpretation": "Owner traversal limits no longer stop first, but total read budget exhausted. No flags observed"
+    },
+    {
+      "status": "NO VERIFICADO",
+      "evidence": "inventory-templates-menu.json and inventory-templates-login-error.json: unstable_sample",
+      "interpretation": "No stable CDO bit/slot result accepted; no getter invocation or weapon activation"
+    }
+  ],
+  "source_pins": [
+    {
+      "path": "tools/pawn_content_probe.cpp",
+      "sha256": "3b51ed3ee4dfd35bc133a15dd8119a9ecbb2ff2956ce0279401710bb3b2b526f"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "62dd4f17d88b95a300e960ca4af4b41c93beefee0c312e30fa3a9b5465daa045"
+    },
+    {
+      "path": "include/hawken/steam_local_auth.hpp",
+      "sha256": "871094712d29f0d7efb35c6d0d08e9ac7ab5abfb0d1c51d1fd5af1529eba9e62"
+    },
+    {
+      "path": "src/steam_local_auth.cpp",
+      "sha256": "8c5e5dffa26725fbddfcf0608a874987c63e4a7e46264a803c7bee4841bc9ee3"
+    }
+  ],
+  "run_tool_sources": {
+    "inventory_sha256": "8e24902ce67b6bff7d03411326fe07219065ec05cfa1e16b8fd0cf4705cdd452",
+    "menu_sha256": "388faa722a6fe1c3dc9d5c4ebb633418bf4a5ace567d40c672e22d8e9773ded4"
+  },
+  "pending_changes": "Snapshot-local package cache and bool-only CDO equality diagnostics not built or run in this lease",
+  "evidence": [
+    {
+      "path": "login-error.png",
+      "sha256": "7c48bb1a8f90eeb4699a7802b94f4958d0ac6c30e7fc1645d1a612e852475f2d"
+    },
+    {
+      "path": "client-final-log.json",
+      "sha256": "643d8bb4fc296e670e931ce2ce1cb4921d92594303f71ce9fd65859dc216c1bf"
+    },
+    {
+      "path": "initial-menu-flags.json",
+      "sha256": "69ba0a7de9ed31b09d78f26baeccd5864592fbacb314794724a9ed7562ce6830"
+    },
+    {
+      "path": "inventory-templates-menu.json",
+      "sha256": "b681f120f69a8cc16966d9a2b4245249b7a6636f9b53929a361a8fd497d8bb8e"
+    },
+    {
+      "path": "inventory-templates-login-error.json",
+      "sha256": "b681f120f69a8cc16966d9a2b4245249b7a6636f9b53929a361a8fd497d8bb8e"
+    },
+    {
+      "path": "resource-handoff.json",
+      "sha256": "f458d52e7f5185ce2fe9774548d766db3a07a0b67f2cf98048512b541e3f550b"
+    }
+  ],
+  "raw_tool_outputs_published": false,
+  "raw_tool_output_policy": "Original CRLF tool stdout retained verbatim locally and SHA-bound above; interpreted fixed statuses are in this receipt."
+}

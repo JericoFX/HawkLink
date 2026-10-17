@@ -1,0 +1,13 @@
+{
+  "status": "LOGIN_BLOCKED_EXISTING_LOCAL_POLICY",
+  "evidence": [
+    "Original Steam launch70384 parent8576",
+    "Same Core58676 accepted previous native login and remains alive",
+    "Current diagnostics: steam-login POST503",
+    "include/hawken/steam_local_auth.hpp temporary one BeginAuthSession per process",
+    "src/steam_local_auth.cpp verify attempted_ returns unavailable before a second begin"
+  ],
+  "policy_bypassed": false,
+  "accounts_modified": false,
+  "followup": "After closing this client, restart the owned test backend with persistent DB preserved before another Steam login; do not reuse the callback143 identity pipe."
+}
