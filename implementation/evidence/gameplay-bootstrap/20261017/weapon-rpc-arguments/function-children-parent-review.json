@@ -1,0 +1,71 @@
+{
+  "utc": "2026-10-17T23:43:09.2653174Z",
+  "status": "STATIC_HEADER_MAPPING_REVIEWED; NATIVE_FIRE_UNVERIFIED",
+  "evidence": [
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/function-children-headers.json",
+      "sha256": "492e0f49848575097b1bbf2b5cd3887bb2850b3c9040af28576f6188df67137d"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/function-children-source-reference.json",
+      "sha256": "1f2228ef701abc1d922b3f7f3cccc6ae82674658cadf4cbd266935471f2cecb6"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/function-children-order-review.json",
+      "sha256": "04f9f5263c4acddd6c00da4ef8772ab9652631b40de2ba11002c943b8e181f04"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/function-children-buildtarget-supplement-v2.json",
+      "sha256": "98320fae9975b4c216c68f912819f9c5296ec311862b9c8fa5437b2a350dbf6e"
+    }
+  ],
+  "originalPackages": [
+    {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "sha": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c"
+    },
+    {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0"
+    }
+  ],
+  "facts": [
+    {
+      "status": "CONFIRMADO",
+      "scope": "Original file bytes",
+      "observed": "Three 48-byte UFunction headers independently read from two bounded zlib blocks whose decompressed SHA matched retained evidence. Word at+24 is31981/31987/43617."
+    },
+    {
+      "status": "CONFIRMADO",
+      "scope": "Retained name metadata and reference-parser source",
+      "observed": "FName14240/22803 isNone. UFunction nonclass exports include an8-byte empty default-property-list terminator before UField.Next; those bytes are not UObject.Name."
+    },
+    {
+      "status": "CONFIRMADO",
+      "scope": "Serialized parameter records",
+      "observed": "Byte43617 Next@12 points43616; Bool43616 Next@12 iszero. Both parameter records have flags0x80/ArrayDim1."
+    },
+    {
+      "status": "CONFIRMADO",
+      "scope": "Retained helper/source path",
+      "observed": "Manifest and helper select BuildName.Hawken. The reference loader assigns BuildTarget before Deserialize, so its860/2-4 auto-detect annotation does not reject the892/9 input on this path."
+    },
+    {
+      "status": "PROBABLE",
+      "scope": "Typed serialized header interpretation corroborated by retained decompilation",
+      "observed": "Under the non-console legacy UStruct layout, Next/Super/ScriptText/Children occupy12/16/20/24. This yields FireModeNum then bRecentFire for Extended, matching the retained signature and ScriptOffset48; no live parser platform capture or native traversal was observed."
+    },
+    {
+      "status": "NO VERIFICADO",
+      "scope": "Runtime",
+      "observed": "Effective per-connection cache/PackageMap eligibility, sender invocation, cursor and gameplay were not observed."
+    }
+  ],
+  "parentReview": "Parent read all referenced bounded source spans, full first review and supplement; independently extracted original headers, verified source hashes and original package hashes. Prior reports remain immutable and the supplement corrects their auto-detect/field-label caveats.",
+  "remaining": [
+    "GREEN for new decoder still pending resource relevo",
+    "Native owning Pawn role/fire/jump trial from Steam still pending",
+    "Do not remove schema premises or claim Core fire handling from this evidence"
+  ],
+  "coreUnchangedSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a"
+}

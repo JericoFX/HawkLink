@@ -1,0 +1,422 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-17T23:37:32.2736555Z",
+  "scope": "Static validation of serialized UFunction Children head and Next ordering for ServerStartFire, ServerStopFire, and ServerStopFireExtended; no new extraction, package decompression, runtime, or packet capture.",
+  "skill_coverage": {
+    "cpp_pro": {
+      "path": "C:/Users/Jerico/.codex/skills/cpp-pro/SKILL.md",
+      "sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+      "coverage": "Complete prior read reused; current hash verified."
+    },
+    "game_developer": {
+      "path": "C:/Users/Jerico/.codex/skills/game-developer/SKILL.md",
+      "sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+      "coverage": "Complete prior read reused; current hash verified."
+    }
+  },
+  "graft": {
+    "cwd": "F:\\HawkenServer",
+    "graph_check": "OK, graph in sync",
+    "query": "UELib UFunction UStruct Children Next",
+    "query_result": "Ranked source query did not identify UELib",
+    "skeleton_result": "No definitions indexed for retained UELib UStruct.cs",
+    "fallback_reason": "The UELib source tree is retained under research/tools and absent from the HawkLink graph. Direct reads were limited to the exact cited source spans.",
+    "estimated_tokens_saved": 498.268
+  },
+  "source_files": [
+    {
+      "path": "research\\2026-10-10\\tools\\uelib-source-271fd749\\Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070\\src\\Core\\Classes\\UFunction.cs",
+      "lines": "13,46-59,75-109",
+      "sha256": "31c0191b064c1ca63679abb63d1e2013e328ddf44601854d3910140a262492b7"
+    },
+    {
+      "path": "research\\2026-10-10\\tools\\uelib-source-271fd749\\Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070\\src\\Core\\Classes\\UField.cs",
+      "lines": "14-16,27-44,73-79",
+      "sha256": "dbd2f375812ea431c04affdd0286bd37256fd7eb68479677a94722be915a40b9"
+    },
+    {
+      "path": "research\\2026-10-10\\tools\\uelib-source-271fd749\\Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070\\src\\Core\\Classes\\UStruct.cs",
+      "lines": "17,33-35,76-128,130-190,382-400",
+      "sha256": "59b05b822d345ec894b59bd6f59faa04dec8b4a01b031ef5c5858583f2400dbb"
+    },
+    {
+      "path": "research\\2026-10-10\\tools\\uelib-source-271fd749\\Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070\\src\\Core\\Classes\\UFunctionDecompiler.cs",
+      "lines": "281-320",
+      "sha256": "f44b39ade5cc14e56574d97c0eb73883e4f39de6cf6abdd43a022615d63f89a9"
+    },
+    {
+      "path": "research\\2026-10-10\\tools\\uelib-source-271fd749\\Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070\\src\\UnrealPackage.cs",
+      "lines": "111-173,850,1045-1111,1113-1142,1342-1418,3963-3967",
+      "sha256": "1c5ed0ed5f2cb95f5324e09f81893f92643408da18e54428ffd07210f22373ca"
+    },
+    {
+      "path": "research\\2026-10-10\\tools\\uelib-source-271fd749\\Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070\\src\\Branch\\PackageObjectLegacyVersion.cs",
+      "lines": "343",
+      "sha256": "b2d2a17e092f34ad5019704840d52abfaf477eaa57a98b7f3e187f9ec489f6f4"
+    },
+    {
+      "path": "research\\2026-10-10\\tools\\uelib-source-271fd749\\Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070\\src\\Core\\Classes\\UObject.cs",
+      "lines": "439-548",
+      "sha256": "b54242d91a51088e89964d4769aa3fc4fa7dd5bcf9ccbaca93cb1116df81d0a4"
+    }
+  ],
+  "retained_header_evidence": {
+    "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/function-children-headers.json",
+    "sha256": "492e0f49848575097b1bbf2b5cd3887bb2850b3c9040af28576f6188df67137d",
+    "headers": [
+      {
+        "package": "Engine.upk",
+        "function": "ServerStartFire",
+        "serial_offset": "0x59a5f9",
+        "length_bytes": 48,
+        "header_sha256": "2a7111dbad726d8500aa67133cd777743bf60ef0691be3b2e33d54fd3569e23f",
+        "retained_sha256": "2a7111dbad726d8500aa67133cd777743bf60ef0691be3b2e33d54fd3569e23f",
+        "sha_matches": true,
+        "raw_hex": "b87c0000a037000000000000ec7c00000000000000000000ed7c000000000000cd030000786a00004b00000037000000",
+        "words_at_offsets": [
+          {
+            "offset": 0,
+            "value": 31928
+          },
+          {
+            "offset": 4,
+            "value": 14240
+          },
+          {
+            "offset": 8,
+            "value": 0
+          },
+          {
+            "offset": 12,
+            "value": 31980
+          },
+          {
+            "offset": 16,
+            "value": 0
+          },
+          {
+            "offset": 20,
+            "value": 0
+          },
+          {
+            "offset": 24,
+            "value": 31981
+          },
+          {
+            "offset": 28,
+            "value": 0
+          },
+          {
+            "offset": 32,
+            "value": 973
+          },
+          {
+            "offset": 36,
+            "value": 27256
+          },
+          {
+            "offset": 40,
+            "value": 75
+          },
+          {
+            "offset": 44,
+            "value": 55
+          }
+        ],
+        "observed": {
+          "net_index": 31928,
+          "name_index": 14240,
+          "name_number": 0,
+          "next": 31980,
+          "super": 0,
+          "script_text": 0,
+          "children": 31981
+        }
+      },
+      {
+        "package": "Engine.upk",
+        "function": "ServerStopFire",
+        "serial_offset": "0x59a829",
+        "length_bytes": 48,
+        "header_sha256": "d1186d0b03d441ba23280c26061c570f2074c34f4d1c0cb94c9d5e581cca2b3a",
+        "retained_sha256": "d1186d0b03d441ba23280c26061c570f2074c34f4d1c0cb94c9d5e581cca2b3a",
+        "sha_matches": true,
+        "raw_hex": "be7c0000a037000000000000f27c00000000000000000000f37c000000000000fc0300008f6f00001600000012000000",
+        "words_at_offsets": [
+          {
+            "offset": 0,
+            "value": 31934
+          },
+          {
+            "offset": 4,
+            "value": 14240
+          },
+          {
+            "offset": 8,
+            "value": 0
+          },
+          {
+            "offset": 12,
+            "value": 31986
+          },
+          {
+            "offset": 16,
+            "value": 0
+          },
+          {
+            "offset": 20,
+            "value": 0
+          },
+          {
+            "offset": 24,
+            "value": 31987
+          },
+          {
+            "offset": 28,
+            "value": 0
+          },
+          {
+            "offset": 32,
+            "value": 1020
+          },
+          {
+            "offset": 36,
+            "value": 28559
+          },
+          {
+            "offset": 40,
+            "value": 22
+          },
+          {
+            "offset": 44,
+            "value": 18
+          }
+        ],
+        "observed": {
+          "net_index": 31934,
+          "name_index": 14240,
+          "name_number": 0,
+          "next": 31986,
+          "super": 0,
+          "script_text": 0,
+          "children": 31987
+        }
+      },
+      {
+        "package": "HawkenGame.upk",
+        "function": "ServerStopFireExtended",
+        "serial_offset": "0xc79a05",
+        "length_bytes": 48,
+        "header_sha256": "a9c21fedb2f09ee2090ecc735b602aff27902badaba091167f078d7b1ac21eff",
+        "retained_sha256": "a9c21fedb2f09ee2090ecc735b602aff27902badaba091167f078d7b1ac21eff",
+        "sha_matches": true,
+        "raw_hex": "73aa000013590000000000005faa0000000000000000000061aa0000000000007a010000e9320000de000000be000000",
+        "words_at_offsets": [
+          {
+            "offset": 0,
+            "value": 43635
+          },
+          {
+            "offset": 4,
+            "value": 22803
+          },
+          {
+            "offset": 8,
+            "value": 0
+          },
+          {
+            "offset": 12,
+            "value": 43615
+          },
+          {
+            "offset": 16,
+            "value": 0
+          },
+          {
+            "offset": 20,
+            "value": 0
+          },
+          {
+            "offset": 24,
+            "value": 43617
+          },
+          {
+            "offset": 28,
+            "value": 0
+          },
+          {
+            "offset": 32,
+            "value": 378
+          },
+          {
+            "offset": 36,
+            "value": 13033
+          },
+          {
+            "offset": 40,
+            "value": 222
+          },
+          {
+            "offset": 44,
+            "value": 190
+          }
+        ],
+        "observed": {
+          "net_index": 43635,
+          "name_index": 22803,
+          "name_number": 0,
+          "next": 43615,
+          "super": 0,
+          "script_text": 0,
+          "children": 43617
+        }
+      }
+    ]
+  },
+  "retained_parameter_records": {
+    "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/parameter-serial-records.json",
+    "sha256": "066bc14307bd3ae411958cb25d6eedef41704fcd5e13ab86f4322ae552679788",
+    "records": [
+      {
+        "package": "Engine.upk",
+        "export_index": 31981,
+        "name": "FireModeNum",
+        "serial_offset": "0x59a5cd",
+        "serial_size": 44,
+        "record_sha256": "f68eaef08ae04f1302ca7792ab69db2f6cee20004e6d691b59065eb3d1c1978e",
+        "next_field_fpackageindex": "0x0",
+        "source_blocks": [
+          {
+            "compressed_source_offset": "0xfa4a4",
+            "compressed_sha256": "f634f255e9eb890c0043130861c10ebe814499450fbebd88fcce8a15c0b90c9b",
+            "plain_sha256": "73f6addb89f644a1f37461164986afeb9168d83c2c8d1429a0a06840210048c4"
+          }
+        ]
+      },
+      {
+        "package": "Engine.upk",
+        "export_index": 31987,
+        "name": "FireModeNum",
+        "serial_offset": "0x59a7fd",
+        "serial_size": 44,
+        "record_sha256": "20cc991282012277cb5ce720a875c758150eb7dafeddbd2f49be49c1eae31d16",
+        "next_field_fpackageindex": "0x0",
+        "source_blocks": [
+          {
+            "compressed_source_offset": "0xfa4a4",
+            "compressed_sha256": "f634f255e9eb890c0043130861c10ebe814499450fbebd88fcce8a15c0b90c9b",
+            "plain_sha256": "73f6addb89f644a1f37461164986afeb9168d83c2c8d1429a0a06840210048c4"
+          }
+        ]
+      },
+      {
+        "package": "HawkenGame.upk",
+        "export_index": 43616,
+        "name": "bRecentFire",
+        "serial_offset": "0xc799b1",
+        "serial_size": 40,
+        "record_sha256": "36bc36e5232a6bc01f4a4238e45cd2d502dbff2ff3b45b5685d563866ccb269a",
+        "next_field_fpackageindex": "0x0",
+        "source_blocks": [
+          {
+            "compressed_source_offset": "0x239385",
+            "compressed_sha256": "0bc6ae4db260e6b2a01f20e88e114ca70a6afd2f25f2eb7f7b69b652d2dbf6c1",
+            "plain_sha256": "6dd53f342ed95e36c8be30d1137501811a9d8e1793ddd60f6ba28e062f500de2"
+          }
+        ]
+      },
+      {
+        "package": "HawkenGame.upk",
+        "export_index": 43617,
+        "name": "FireModeNum",
+        "serial_offset": "0xc799d9",
+        "serial_size": 44,
+        "record_sha256": "93da3719e0ef7028350b938d1444f8664fe89e7575ba8cc8933a97403cfeecf5",
+        "next_field_fpackageindex": "0xaa60",
+        "source_blocks": [
+          {
+            "compressed_source_offset": "0x239385",
+            "compressed_sha256": "0bc6ae4db260e6b2a01f20e88e114ca70a6afd2f25f2eb7f7b69b652d2dbf6c1",
+            "plain_sha256": "6dd53f342ed95e36c8be30d1137501811a9d8e1793ddd60f6ba28e062f500de2"
+          }
+        ]
+      }
+    ],
+    "selected_block_count": 2,
+    "selection_method": "Reused retained records for four parameter exports, read from only the two identified zlib blocks; no new decompression in this review.",
+    "original_packages": 2
+  },
+  "package_identity": {
+    "metadata_path": "research/2026-10-10/evidence/game/HawkenGame.upk.json",
+    "metadata_sha256": "1eff14a8f5886933ea83a7c3a732c8ffc5ff1193a33ff1f31c0c5e768013a1e7",
+    "package_path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+    "package_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+    "version": 892,
+    "licensee_version": 9,
+    "engine_version": 154767,
+    "package_flags": "0x22a80009",
+    "file_directory": "CookedPCConsole",
+    "classification_note": "The source auto-detection annotation for GameBuild.Hawken is [Build(860,860,2,4)], while this retained summary is 892/9. Thus the default source classifier does not auto-select Hawken from these two version fields; an explicit BuildTarget or platform configuration can alter classification and was not captured here."
+  },
+  "source_layout": {
+    "legacy_threshold": 756,
+    "package_version": 892,
+    "version_relation": "892 >= 756",
+    "field_sequence": {
+      "UObjectNetIndex": "offset 0 (retained serialized header evidence)",
+      "UObjectName": "offsets 4 and 8 (retained serialized header evidence)",
+      "UFieldNext": "offset 12: UField reads NextField after base; Super is read here only before version 756",
+      "UStructSuper": "offset 16: UStruct reads Super when version >=756",
+      "UStructScriptText": "offset 20 when !IsConsoleCooked() and UE4Version <117",
+      "UStructChildren": "offset 24 after ScriptText condition on that non-console legacy path"
+    },
+    "call_order": "UFunction.Deserialize invokes base.Deserialize(); UField.Deserialize invokes UObject.Deserialize(), then reads NextField; UStruct.Deserialize reads Super/conditional ScriptText/Children; UFunction-specific fields are read after base returns.",
+    "branch_mutations": [
+      {
+        "branch": "ADVENT",
+        "lines": "UStruct.cs 136-170",
+        "effect": "Preloads child chain and appends serialized FProperty objects by linking tail.NextField; can mutate Children only if runtime Build is Advent."
+      },
+      {
+        "branch": "SWRepublicCommando",
+        "lines": "UStruct.cs 172-190",
+        "effect": "Reads additional UField references and appends them by tail.NextField; only when runtime Build is SWRepublicCommando."
+      },
+      {
+        "branch": "BORDERLANDS",
+        "lines": "UStruct.cs 98-111",
+        "effect": "Uses alternate ScriptText/Children read order for Borderlands; not a general post-parse reordering."
+      }
+    ],
+    "default_behavior": "No generic child-chain sorting or relinking found in the reviewed UStruct path. EnumerateFields follows NextField in sequence. UFunctionDecompiler.FormatParms filters and materializes that sequence, then iterates it without sorting.",
+    "applicability": "Hawken is not Advent or SWRepublicCommando under the normal build-name path, but retained summary 892/9 does not auto-match the UELib Hawken attribute. Runtime BuildTarget/platform settings are absent, so special-case non-applicability and ScriptText branch are conditional on the configured package classification, not an attested UELib session."
+  },
+  "static_order": {
+    "server_start_fire": "Retained UFunction Children head export 31981; parameter record is FireModeNum, its Next at +12 is null.",
+    "server_stop_fire": "Retained UFunction Children head export 31987; parameter record is FireModeNum, its Next at +12 is null.",
+    "server_stop_fire_extended": "Retained UFunction Children head export 43617; serialized property link is FireModeNum 43617 -> bRecentFire 43616 -> null.",
+    "order_interpretation": "Static serialized child/Next chain order is Byte FireModeNum then Bool bRecentFire for the extended function. UELib field enumeration and FormatParms preserve linked order. This does not assert a live sender/receiver invocation or an observed packet cursor.",
+    "framing": "Reused conditionally from retained serializer contracts only: eligible Bool emits one data bit without non-Bool presence; eligible Byte uses the retained byte serializer width. No concrete fire value or full packet bit vector."
+  },
+  "previous_errata": {
+    "preserved_v1": {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/rpc-static-conditional-framing.erratum.json",
+      "sha256": "71ea7c65c9b8564ef961f21252cc041a16175c7fc64a6013689269dda6365baf",
+      "issue": "Its game_developer_skill_sha256 contains a missing zero; preserved unchanged."
+    },
+    "corrected_v2": {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/rpc-static-conditional-framing.erratum-v2.json",
+      "sha256": "e87e5522d5ced4c42d95d01f059e29bef926116a09c8ab496a04c00f55cc9564",
+      "game_skill_sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+      "matches_current_skill": true
+    },
+    "correction": "This review records the verified current Game skill hash and leaves both earlier errata files unchanged."
+  },
+  "limitations": [
+    "The raw function headers are retained extracted bytes from earlier bounded block reads; this review did not re-read or decompress the original UPKs.",
+    "No UELib runtime session or BuildTarget/UnrealConfig.Platform capture is retained.",
+    "No live weapon RPC packet, invocation arguments, or dynamic end cursor is established.",
+    "Conditional serializer framing is not a gameplay or transport acceptance claim."
+  ],
+  "conclusion": "The retained 48-byte headers are internally hash-consistent and place Children at +24 for the three functions under the UFunction/UStruct layout branch that includes ScriptText. Extended parameter linkage is independently retained as 43617 -> 43616 -> null, and UELib enumeration does not sort this chain. Source identifies only Advent and SWRepublicCommando as generic post-read chain-appending paths; the source default branch does not reorder fields. Due the package-version/build-classifier mismatch and absent runtime configuration, parser branch selection remains conditional."
+}

@@ -1,0 +1,95 @@
+{
+  "utc": "2026-10-17T23:37:22.5357339Z",
+  "sourceReferenceCommit": "271fd74964b261adc992f30acb8f61f1b2516070",
+  "sourceInputs": [
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UFunction.cs",
+      "sha256": "31c0191b064c1ca63679abb63d1e2013e328ddf44601854d3910140a262492b7"
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UStruct.cs",
+      "sha256": "59b05b822d345ec894b59bd6f59faa04dec8b4a01b031ef5c5858583f2400dbb"
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UField.cs",
+      "sha256": "dbd2f375812ea431c04affdd0286bd37256fd7eb68479677a94722be915a40b9"
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UObject.cs",
+      "sha256": "b54242d91a51088e89964d4769aa3fc4fa7dd5bcf9ccbaca93cb1116df81d0a4"
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UFunctionDecompiler.cs",
+      "sha256": "f44b39ade5cc14e56574d97c0eb73883e4f39de6cf6abdd43a022615d63f89a9"
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UDefaultProperty.cs",
+      "sha256": "985fc23ba1a3f48ccb7c083ffe0a68f8a1824a9063905ffc25dd9478c7395c54"
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/UnrealPackage.cs",
+      "sha256": "1c5ed0ed5f2cb95f5324e09f81893f92643408da18e54428ffd07210f22373ca"
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Branch/PackageObjectLegacyVersion.cs",
+      "sha256": "b2d2a17e092f34ad5019704840d52abfaf477eaa57a98b7f3e187f9ec489f6f4"
+    }
+  ],
+  "parserBinary": {
+    "path": "research/2026-10-10/tools/ue-explorer-1.6.2/ue-explorer/Eliot.UELib.dll",
+    "sha256": "64ebfa8b290429b9d5b5e81f5018734c03ded27bb814c69b904cc269268f7bbc",
+    "matchesRetainedDecompilationManifest": true
+  },
+  "originalHeaderEvidence": {
+    "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/function-children-headers.json",
+    "sha256": "492e0f49848575097b1bbf2b5cd3887bb2850b3c9040af28576f6188df67137d"
+  },
+  "measuredLayout": [
+    {
+      "offset": 0,
+      "size": 4,
+      "field": "UObject.NetIndex"
+    },
+    {
+      "offset": 4,
+      "size": 8,
+      "field": "Empty UObject default-property list: FName None"
+    },
+    {
+      "offset": 12,
+      "size": 4,
+      "field": "UField.Next"
+    },
+    {
+      "offset": 16,
+      "size": 4,
+      "field": "UStruct.Super"
+    },
+    {
+      "offset": 20,
+      "size": 4,
+      "field": "UStruct.ScriptText"
+    },
+    {
+      "offset": 24,
+      "size": 4,
+      "field": "UStruct.Children"
+    }
+  ],
+  "sourceSpans": [
+    "UFunction.cs14/46-59 inheritance/base deserialization",
+    "UObject.cs536-575: nonclass objects deserialize default properties",
+    "UDefaultProperty.cs390-399: UE3 None tag terminates list",
+    "UField.cs35-43: version>=756 Next after base",
+    "UStruct.cs76-128: Super then ScriptText when not ConsoleCooked then Children",
+    "UnrealPackage.cs1362-1381/3963-3967: CookedPCConsole is PC; normalized directory leaves platform Undetermined; neither is ConsoleCooked",
+    "PackageObjectLegacyVersion.cs343: Super moves at756; original version892",
+    "UStruct.cs382-400 and UFunctionDecompiler.cs281-332: Children/Next order, filtered Parm and no ReturnParm, no sorting"
+  ],
+  "interpretation": "Reference-parser explanation corroborated by original 48-byte headers and retained decompiled ScriptOffset48/parameter signatures. Actual native runtime traversal is not observed here.",
+  "notClaimed": [
+    "No managed assembly execution/reflection, package initialization, Ghidra or client launch",
+    "No proof that source files reproduce parser DLL byte-for-byte",
+    "No runtime PackageMap eligibility, effective actor cache, invocation or gameplay acceptance"
+  ]
+}

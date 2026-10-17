@@ -1,0 +1,173 @@
+[
+  {
+    "package": "Engine.upk",
+    "name": "ServerStartFire",
+    "serialOffset": "0x59a5f9",
+    "headerHex": "b87c0000a037000000000000ec7c00000000000000000000ed7c000000000000cd030000786a00004b00000037000000",
+    "words": [
+      {
+        "offset": 0,
+        "i32": 31928
+      },
+      {
+        "offset": 4,
+        "i32": 14240
+      },
+      {
+        "offset": 8,
+        "i32": 0
+      },
+      {
+        "offset": 12,
+        "i32": 31980
+      },
+      {
+        "offset": 16,
+        "i32": 0
+      },
+      {
+        "offset": 20,
+        "i32": 0
+      },
+      {
+        "offset": 24,
+        "i32": 31981
+      },
+      {
+        "offset": 28,
+        "i32": 0
+      },
+      {
+        "offset": 32,
+        "i32": 973
+      },
+      {
+        "offset": 36,
+        "i32": 27256
+      },
+      {
+        "offset": 40,
+        "i32": 75
+      },
+      {
+        "offset": 44,
+        "i32": 55
+      }
+    ],
+    "sha256": "2a7111dbad726d8500aa67133cd777743bf60ef0691be3b2e33d54fd3569e23f"
+  },
+  {
+    "package": "Engine.upk",
+    "name": "ServerStopFire",
+    "serialOffset": "0x59a829",
+    "headerHex": "be7c0000a037000000000000f27c00000000000000000000f37c000000000000fc0300008f6f00001600000012000000",
+    "words": [
+      {
+        "offset": 0,
+        "i32": 31934
+      },
+      {
+        "offset": 4,
+        "i32": 14240
+      },
+      {
+        "offset": 8,
+        "i32": 0
+      },
+      {
+        "offset": 12,
+        "i32": 31986
+      },
+      {
+        "offset": 16,
+        "i32": 0
+      },
+      {
+        "offset": 20,
+        "i32": 0
+      },
+      {
+        "offset": 24,
+        "i32": 31987
+      },
+      {
+        "offset": 28,
+        "i32": 0
+      },
+      {
+        "offset": 32,
+        "i32": 1020
+      },
+      {
+        "offset": 36,
+        "i32": 28559
+      },
+      {
+        "offset": 40,
+        "i32": 22
+      },
+      {
+        "offset": 44,
+        "i32": 18
+      }
+    ],
+    "sha256": "d1186d0b03d441ba23280c26061c570f2074c34f4d1c0cb94c9d5e581cca2b3a"
+  },
+  {
+    "package": "HawkenGame.upk",
+    "name": "ServerStopFireExtended",
+    "serialOffset": "0xc79a05",
+    "headerHex": "73aa000013590000000000005faa0000000000000000000061aa0000000000007a010000e9320000de000000be000000",
+    "words": [
+      {
+        "offset": 0,
+        "i32": 43635
+      },
+      {
+        "offset": 4,
+        "i32": 22803
+      },
+      {
+        "offset": 8,
+        "i32": 0
+      },
+      {
+        "offset": 12,
+        "i32": 43615
+      },
+      {
+        "offset": 16,
+        "i32": 0
+      },
+      {
+        "offset": 20,
+        "i32": 0
+      },
+      {
+        "offset": 24,
+        "i32": 43617
+      },
+      {
+        "offset": 28,
+        "i32": 0
+      },
+      {
+        "offset": 32,
+        "i32": 378
+      },
+      {
+        "offset": 36,
+        "i32": 13033
+      },
+      {
+        "offset": 40,
+        "i32": 222
+      },
+      {
+        "offset": 44,
+        "i32": 190
+      }
+    ],
+    "sha256": "a9c21fedb2f09ee2090ecc735b602aff27902badaba091167f078d7b1ac21eff"
+  }
+]

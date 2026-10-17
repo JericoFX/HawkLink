@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-17T23:42:17.5875022Z",
+  "task": "Supplemental validation of the retained HawkenGame package parser selection path and correction to the prior layout label.",
+  "scope": "Read-only verification of retained manifest/helper/source and correction of layout interpretation; no package parsing/decompression, DLL execution, Ghidra, build, or runtime.",
+  "skill_coverage": {
+    "cpp_pro": {
+      "path": "C:/Users/Jerico/.codex/skills/cpp-pro/SKILL.md",
+      "sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+      "coverage": "Complete prior read reused; unchanged hash verified."
+    },
+    "game_developer": {
+      "path": "C:/Users/Jerico/.codex/skills/game-developer/SKILL.md",
+      "sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+      "coverage": "Complete prior read reused; unchanged hash verified."
+    }
+  },
+  "graft": {
+    "cwd": "F:\\HawkenServer",
+    "status": "fresh/in-sync prior check reused",
+    "coverage": "UELib source is outside the repository graph; bounded direct reads of cited retained files were used. No graph refresh or new provider."
+  },
+  "evidence_pins": {
+    "prior_review": {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/function-children-order-review.json",
+      "sha256": "04f9f5263c4acddd6c00da4ef8772ab9652631b40de2ba11002c943b8e181f04",
+      "role": "Preserved parent-reviewed review; its prior auto-detect caveat is resolved by this supplement."
+    },
+    "prior_source_reference": {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/function-children-source-reference.json",
+      "sha256": "1f2228ef701abc1d922b3f7f3cccc6ae82674658cadf4cbd266935471f2cecb6"
+    },
+    "retained_function_headers": {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/function-children-headers.json",
+      "sha256": "492e0f49848575097b1bbf2b5cd3887bb2850b3c9040af28576f6188df67137d"
+    },
+    "package_manifest": {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/manifest.json",
+      "sha256": "3db61ae49086526d8f5b881d5da7d89feb7aa4502a9217d91da0b5647b45fb00",
+      "input": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\upk\\normalized\\HawkenGame.upk",
+      "input_sha256": "593dcb9303ff06285bac0cde76dc7830fcd9e164b275126537473b89b1a0b23d",
+      "tool": "Eliot.UELib, Version=1.13.0.0, Culture=neutral, PublicKeyToken=d0d22cacd90fdb4a",
+      "tool_sha256": "64ebfa8b290429b9d5b5e81f5018734c03ded27bb814c69b904cc269268f7bbc",
+      "build_target": "Hawken",
+      "scope": "Static read-only parsing/decompilation, no target execution",
+      "suppress_signature": true,
+      "failed": 0
+    },
+    "export_helper": {
+      "path": "research/2026-10-10/analysis/upk/ExportUnrealScripts.cs",
+      "sha256": "150f74249347b8a6ca111b3c642c5fc2ceb78a6f71d86d4f3b382b3359e3e67e",
+      "call_line": "65",
+      "explicit_call": "UnrealLoader.LoadPackage(input, UnrealPackage.GameBuild.BuildName.Hawken, FileAccess.Read)"
+    },
+    "owned_export_helper": {
+      "path": "research/2026-10-10/analysis/upk/ExportOwnedUnrealScripts.cs",
+      "sha256": "7c31cb64eda3854e88a6ce9c8ee437e96093a4367774e8207d35663dcae36df1",
+      "call_line": "67",
+      "explicit_call": "UnrealLoader.LoadPackage(input, UnrealPackage.GameBuild.BuildName.Hawken, FileAccess.Read)"
+    },
+    "parser_binary": {
+      "path": "research/2026-10-10/tools/ue-explorer-1.6.2/ue-explorer/Eliot.UELib.dll",
+      "sha256": "64ebfa8b290429b9d5b5e81f5018734c03ded27bb814c69b904cc269268f7bbc",
+      "matches_manifest_tool_sha256": true,
+      "limitation": "Hash identity only; no proof that retained source rebuilds this DLL byte-for-byte, and no DLL was executed."
+    }
+  },
+  "source_checks": [
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/UnrealLoader.cs",
+      "sha256": "ee700e0961771b79f3203c6d0e1262da84bdaf2035d0ae1914f0d1e3caa43ae3",
+      "lines": "22-30",
+      "finding": "The explicit-build overload constructs UnrealPackage, assigns package.BuildTarget = buildTarget, then calls package.Deserialize(stream)."
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/UnrealPackage.cs",
+      "sha256": "1c5ed0ed5f2cb95f5324e09f81893f92643408da18e54428ffd07210f22373ca",
+      "lines": "850-853,976-1003,1045-1070,1113-1142,1185-1201,1342-1418",
+      "finding": "Hawken has Build(860,860,2,4) and no adjacent OverridePackageVersionAttribute. GameBuild(BuildName) chooses the named enum field last BuildAttribute and copies generation/flags; it does not verify the package summary. FindBuildInfo only scans and applies BuildAttribute.Verify when BuildTarget is Unset; for a specified non-Unknown target it returns the enum field by name. The BuildTarget setter assigns a non-null GameBuild. SetupBuild build autodetection runs only when package.Build is null, so it does not select a different build from the 892/9 summary."
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UStruct.cs",
+      "sha256": "59b05b822d345ec894b59bd6f59faa04dec8b4a01b031ef5c5858583f2400dbb",
+      "lines": "76-128",
+      "finding": "ScriptText is conditional on !Package.IsConsoleCooked() and UE4Version <117; this platform-sensitive serialization branch is separate from BuildName selection."
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UField.cs",
+      "sha256": "dbd2f375812ea431c04affdd0286bd37256fd7eb68479677a94722be915a40b9",
+      "lines": "27-44",
+      "finding": "UField.Next is read after UObject base deserialization."
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UFunction.cs",
+      "sha256": "31c0191b064c1ca63679abb63d1e2013e328ddf44601854d3910140a262492b7",
+      "lines": "46-59",
+      "finding": "UFunction calls base deserialization before reading its function-specific tail."
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UObject.cs",
+      "sha256": "b54242d91a51088e89964d4769aa3fc4fa7dd5bcf9ccbaca93cb1116df81d0a4",
+      "lines": "536-575",
+      "finding": "Non-class exports deserialize their default-property list after the base fields; class exports (ClassIndex==0) return before this list."
+    },
+    {
+      "path": "research/2026-10-10/tools/uelib-source-271fd749/Unreal-Library-271fd74964b261adc992f30acb8f61f1b2516070/src/Core/Classes/UDefaultProperty.cs",
+      "sha256": "985fc23ba1a3f48ccb7c083ffe0a68f8a1824a9063905ffc25dd9478c7395c54",
+      "lines": "390-399",
+      "finding": "A default-property tag begins with a NameReference; None terminates the property list."
+    }
+  ],
+  "correction": {
+    "resolved": {
+      "claim": "For the retained HawkenGame export procedure, UELib is explicitly given BuildName.Hawken before package deserialization; it does not auto-detect a build from the package 892/9 version fields.",
+      "basis": [
+        "HawkenGame manifest build_target is Hawken.",
+        "Both retained export helpers call LoadPackage with BuildName.Hawken.",
+        "UnrealLoader assigns BuildTarget before Deserialize.",
+        "The setter instantiates GameBuild(Hawken); FindBuildInfo takes the explicit-name path and skips BuildAttribute.Verify.",
+        "SetupBuild build auto-detect clause is guarded by Build==null, which is false after the setter."
+      ],
+      "confidence": "Confirmed for the retained helper/source path, not a claim about all parser invocations."
+    },
+    "prior_layout_label_erratum": {
+      "field": "Bytes at offsets +4 and +8",
+      "old_label": "UObject.Name",
+      "corrected_label": "Empty UObject default-property list terminator: FName None (name index 14240 for Engine headers; 22803 for HawkenGame header, number 0).",
+      "basis": [
+        "The retained headers carry those exact FName values.",
+        "UObject.DeserializeProperties reads property tags for non-class exports.",
+        "UDefaultProperty reads a NameReference and returns at None.",
+        "UClass exports skip default properties, but UFunction exports have nonzero ClassIndex and include the terminator."
+      ],
+      "layout_effect": "The 8 bytes are not UObject.Name. Their interpretation as the None-terminated default-property list accounts for the two-word span before UField.Next; retain the existing byte offsets but correct the field label."
+    }
+  },
+  "remaining_limits": [
+    "This resolves explicit BuildName selection and the 892/9 auto-detection caveat for the retained export path; it does not attest that a live UELib session ran or that the DLL is reproducible from source.",
+    "Platform classification remains separate: IsConsoleCooked depends on package Cooked flag and CookerPlatform==Console. The retained normalized package path and parser source indicate the SetupBuild folder fallback does not match standard CookedPC/CookedPCConsole/CookedPCServer names; no session/config capture was produced, so this supplement does not claim the actual platform state at parse time.",
+    "The prior ScriptText/Children conditional-layout conclusion remains conditional on IsConsoleCooked and the package UE4 version. No native runtime, fire invocation, packet bytes/cursor, or gameplay acceptance is established."
+  ],
+  "conclusion": "The selected parser build is no longer uncertain for the retained HawkenGame manifest/export workflow: BuildName.Hawken is explicitly set before deserialize, bypassing version-based auto-detection. The earlier field-layout label at offsets +4/+8 is corrected to the None terminator of a default-property list, not UObject.Name. Platform-sensitive serialization and native/runtime behavior remain outside this evidence.",
+  "name_index_resolution": {
+    "evidence_kind": "Retained original package NameTable metadata; bounded line excerpts only.",
+    "engine": {
+      "path": "research/2026-10-10/evidence/game/Engine.upk.json",
+      "sha256": "bcdadd85fc42b5a6532e787e788d718ca939c330125a991520ecb2419fd717db",
+      "index": 14240,
+      "line_index": 85831,
+      "line_virtual_offset": 85832,
+      "virtual_offset": "0x6bb08",
+      "name_line": 85833,
+      "name": "None",
+      "interpretation": "The Engine header FName index/number pair at +4/+8 resolves to None/0, the default-property terminator."
+    },
+    "hawken_game": {
+      "path": "research/2026-10-10/evidence/game/HawkenGame.upk.json",
+      "sha256": "1eff14a8f5886933ea83a7c3a732c8ffc5ff1193a33ff1f31c0c5e768013a1e7",
+      "index": 22803,
+      "line_index": 149831,
+      "line_virtual_offset": 149832,
+      "virtual_offset": "0xafe57",
+      "name_line": 149833,
+      "name": "None",
+      "interpretation": "The HawkenGame header FName index/number pair at +4/+8 resolves to None/0, the default-property terminator."
+    },
+    "source_link": {
+      "uobject": "UObject.cs 536-575: non-class exports enter DeserializeProperties; ClassIndex==0 returns before it.",
+      "default_property": "UDefaultProperty.cs 390-399: reads NameReference and terminates when None.",
+      "layout": "This directly supports the corrected label in the prior supplement: +4/+8 are not UObject.Name; they encode the empty default-property list terminator for these UFunction exports."
+    },
+    "bounded_check": "Verified only the specified NameTable rows; no package reload, decompression, broad parse, or runtime."
+  }
+}
