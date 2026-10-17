@@ -727,6 +727,10 @@ Sample main_menu_sync_sample(Reader& reader,std::uint64_t module) {
     Names names(reader,module,out);
     const auto kind=reader.read<std::uint64_t>(module,0x1bda990);
     if (!kind) fail("menu_identity");
+    struct ValidatedPackage { std::uint64_t address; Name identity; };
+    // Snapshot-local only: every child name and Outer chain is still read.
+    // Package identity/Package-class validation is repeated in the next sample.
+    std::vector<ValidatedPackage> validated_packages;
     const auto identify=[&](std::uint64_t object) {
         // Metadata identities only; never inspect live movie or account names.
         const auto name=names.get(object);
@@ -738,11 +742,16 @@ Sample main_menu_sync_sample(Reader& reader,std::uint64_t module) {
             seen.push_back(outer);
             const auto parent=reader.read<std::uint64_t>(outer,0x40);
             if (!parent) {
+                const auto cached=std::find_if(validated_packages.begin(),validated_packages.end(),
+                    [&](const auto& package_entry) { return package_entry.address==outer; });
+                if (cached!=validated_packages.end())
+                    return hawken::probe::LiveIdentity{name.text,cached->identity.text,name.raw[1]};
                 const auto package=names.get(outer);
                 const auto package_type=reader.read<std::uint64_t>(outer,0x50);
                 if (!package_type || reader.read<std::uint64_t>(package_type,0x50)!=kind || package.raw[1]!=0)
                     fail("menu_identity");
                 class_identity(reader,names,out,package_type,"Package","Core","menu_identity");
+                validated_packages.push_back({outer,package});
                 return hawken::probe::LiveIdentity{name.text,package.text,name.raw[1]};
             }
             outer=parent;

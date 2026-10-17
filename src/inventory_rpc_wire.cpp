@@ -20,4 +20,18 @@ InventoryRpcPayload encode_client_given_to(std::uint32_t field_id,std::uint32_t 
     writer.write_bit(do_not_activate);
     return {writer.payload_bytes(),writer.bit_count()};
 }
+ServerSetCurrentWeaponArguments read_server_set_current_weapon_arguments(
+    BitReader& reader,std::size_t max_argument_bits) {
+    if (max_argument_bits == 0) throw WireError("invalid_limit");
+    const auto start=reader.position();
+    auto cursor=reader;
+    object::Reference value=object::ActorChannelReference{0};
+    if (cursor.read_bit()) {
+        if (max_argument_bits == 1) throw WireError("field_too_large");
+        value=object::read_reference(cursor,max_argument_bits-1).value;
+    }
+    const auto consumed=cursor.position()-start;
+    reader=cursor;
+    return {value,consumed};
+}
 }

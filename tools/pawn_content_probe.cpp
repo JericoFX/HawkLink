@@ -25,7 +25,14 @@ constexpr std::uint64_t pawn_vtable_rva=0x17de0c0,null_controller_getter_rva=0x3
 constexpr std::uint64_t exclusion_mask=0x40000000000;
 constexpr std::int32_t name_count_cap=1048576;
 constexpr std::size_t chain_cap=256,read_budget=128*1024*1024;
-constexpr std::array<std::string_view,3> targets={"HawkenGameContent","R_PawnContent","Default__R_PawnContent"};
+constexpr std::array<std::string_view,12> targets={"HawkenGameContent","R_PawnContent","Default__R_PawnContent",
+    "HawkenGame","R_Weap_Machine","Default__R_Weap_Machine",
+    "R_Weap_MissileLauncher","Default__R_Weap_MissileLauncher",
+    "R_InventoryManager","Default__R_InventoryManager",
+    "R_Weap_DualWield","Default__R_Weap_DualWield"};
+constexpr bool required_target(std::size_t index,bool inventory) noexcept {
+    return inventory ? index>=3 : index<3;
+}
 constexpr std::size_t target_units=[] {
     std::size_t maximum=0;
     for (const auto target:targets) maximum=std::max(maximum,target.size());
@@ -134,7 +141,7 @@ struct NameHit {
 struct Names {
     std::uint64_t table=0;
     std::int32_t count=0;
-    std::array<NameHit,3> hits{};
+    std::array<NameHit,targets.size()> hits{};
     std::uint32_t null_entries=0;
     bool operator==(const Names&) const = default;
 };
@@ -150,7 +157,10 @@ bool exact_name(Reader& reader,std::uint64_t entry,bool wide,std::string_view ta
     return true;
 }
 struct TargetNameMatcher {
-    std::array<bool,3> possible={true,true,true};
+    std::array<bool,targets.size()> possible{};
+    constexpr explicit TargetNameMatcher(bool inventory=false) noexcept {
+        for (std::size_t i=0;i<possible.size();++i) possible[i]=required_target(i,inventory);
+    }
     std::size_t position=0;
     int target=-1;
     constexpr bool consume(std::uint16_t unit) noexcept {
@@ -171,8 +181,8 @@ struct TargetNameMatcher {
     }
 };
 template<std::size_t N>
-constexpr int match_literal(const char16_t (&literal)[N]) noexcept {
-    TargetNameMatcher matcher;
+constexpr int match_literal(const char16_t (&literal)[N],bool inventory=false) noexcept {
+    TargetNameMatcher matcher(inventory);
     for (const auto unit:literal) {
         if (!matcher.consume(static_cast<std::uint16_t>(unit))) return -1;
         if (matcher.target>=0) return matcher.target;
@@ -181,7 +191,8 @@ constexpr int match_literal(const char16_t (&literal)[N]) noexcept {
 }
 // Independent literals exercise the exact same matcher as remote narrow/wide reads.
 // These are local string regressions, not a simulated client/process observation.
-static_assert(target_units==23);
+static_assert(targets[2].size()+1==23);
+static_assert(target_units==32);
 static_assert(match_literal(u"HawkenGameContent")==0);
 static_assert(match_literal(u"R_PawnContent")==1);
 static_assert(match_literal(u"Default__R_PawnContent")==2);
@@ -191,8 +202,33 @@ static_assert(match_literal(u"Default__R_PawnConten")==-1);
 static_assert(match_literal(u"HawkenGameContentX")==-1);
 static_assert(match_literal(u"R_PawnContentX")==-1);
 static_assert(match_literal(u"Default__R_PawnContentX")==-1);
-int target_name(Reader& reader,std::uint64_t entry,bool wide) {
-    TargetNameMatcher matcher;
+static_assert(match_literal(u"HawkenGame",true)==3);
+static_assert(match_literal(u"R_Weap_Machine",true)==4);
+static_assert(match_literal(u"Default__R_Weap_Machine",true)==5);
+static_assert(match_literal(u"R_Weap_MissileLauncher",true)==6);
+static_assert(match_literal(u"Default__R_Weap_MissileLauncher",true)==7);
+static_assert(match_literal(u"R_InventoryManager",true)==8);
+static_assert(match_literal(u"Default__R_InventoryManager",true)==9);
+static_assert(match_literal(u"HawkenGame")==-1);
+static_assert(match_literal(u"HawkenGameContent",true)==-1);
+static_assert(match_literal(u"R_Weap_Machin",true)==-1);
+static_assert(match_literal(u"R_Weap_MachineX",true)==-1);
+static_assert(match_literal(u"Default__R_Weap_MissileLaunche",true)==-1);
+static_assert(match_literal(u"Default__R_Weap_MissileLauncherX",true)==-1);
+static_assert(match_literal(u"Default__R_InventoryManage",true)==-1);
+static_assert(match_literal(u"Default__R_InventoryManagerX",true)==-1);
+static_assert(match_literal(u"R_Weap_MissileLaunche",true)==-1);
+static_assert(match_literal(u"R_Weap_MissileLauncherX",true)==-1);
+static_assert(match_literal(u"R_InventoryManage",true)==-1);
+static_assert(match_literal(u"R_InventoryManagerX",true)==-1);
+static_assert(match_literal(u"R_Weap_DualWield",true)==10);
+static_assert(match_literal(u"Default__R_Weap_DualWield",true)==11);
+static_assert(match_literal(u"R_Weap_DualWiel",true)==-1);
+static_assert(match_literal(u"R_Weap_DualWieldX",true)==-1);
+static_assert(match_literal(u"Default__R_Weap_DualWiel",true)==-1);
+static_assert(match_literal(u"Default__R_Weap_DualWieldX",true)==-1);
+int target_name(Reader& reader,std::uint64_t entry,bool wide,bool inventory) {
+    TargetNameMatcher matcher(inventory);
     // Selective comparison only; the derived bound includes NUL. Never retain
     // or decode nonmatching names, and stop as soon as all candidates differ.
     for (std::size_t position=0;position<target_units;++position) {
@@ -201,7 +237,7 @@ int target_name(Reader& reader,std::uint64_t entry,bool wide) {
     }
     return -1;
 }
-Names find_names(Reader& reader,std::uint64_t module) {
+Names find_names(Reader& reader,std::uint64_t module,bool inventory) {
     Names result;
     result.table=reader.read<std::uint64_t>(module,name_table_rva);
     result.count=reader.read<std::int32_t>(module,name_count_rva);
@@ -218,14 +254,15 @@ Names find_names(Reader& reader,std::uint64_t module) {
             // for two-sample equality; directly referenced entries stay strict.
             if (!entry) { ++result.null_entries; continue; }
             const bool wide=(reader.read<std::uint8_t>(entry,8)&1)!=0;
-            const int target=target_name(reader,entry,wide);
+            const int target=target_name(reader,entry,wide,inventory);
             if (target<0) continue;
             auto& hit=result.hits[static_cast<std::size_t>(target)];
             if (hit.found) fail(Error::names_ambiguous);
             hit={static_cast<std::uint32_t>(first+i),entry,wide,true};
         }
     }
-    for (const auto& hit:result.hits) if (!hit.found) fail(Error::target_names_absent);
+    for (std::size_t i=0;i<result.hits.size();++i)
+        if (required_target(i,inventory) && !result.hits[i].found) fail(Error::target_names_absent);
     return result;
 }
 void check_names(Reader& reader,std::uint64_t module,const Names& names) {
@@ -233,6 +270,7 @@ void check_names(Reader& reader,std::uint64_t module,const Names& names) {
         reader.read<std::int32_t>(module,name_count_rva)!=names.count) fail(Error::unstable);
     for (std::size_t i=0;i<names.hits.size();++i) {
         const auto& hit=names.hits[i];
+        if (!hit.found) continue;
         if (reader.read<std::uint64_t>(names.table,static_cast<std::uint64_t>(hit.index)*8)!=hit.entry ||
             ((reader.read<std::uint8_t>(hit.entry,8)&1)!=0)!=hit.wide ||
             !exact_name(reader,hit.entry,hit.wide,targets[i])) fail(Error::unstable);
@@ -284,8 +322,22 @@ std::uint64_t allowed_flags(Reader& reader,std::uint64_t object) {
     if (flags&exclusion_mask) fail(Error::identity);
     return flags;
 }
+struct InventoryTemplate {
+    Object klass;
+    Chain class_chain;
+    std::uint64_t cdo=0,cdo_flags=0,vtable=0,slot=0;
+    FName cdo_name{};
+    bool bit0=false;
+    bool operator==(const InventoryTemplate&) const = default;
+};
+void require_image_range(std::uint64_t module,std::uint64_t image_size,
+    std::uint64_t location,std::uint64_t width) {
+    (void)add(module,image_size); // Reject overflowing or unrepresentable image end.
+    if (location<module || width>image_size || location-module>image_size-width) fail(Error::vtable);
+}
 struct Sample {
     Names names;
+    std::array<InventoryTemplate,4> inventory_templates{};
     Chain root_chain,class_chain;
     Object package,pawn_class;
     std::uint64_t class_kind=0,package_class_flags=0,package_name_entry=0,cdo=0,cdo_flags=0,vtable=0;
@@ -295,12 +347,12 @@ struct Sample {
     std::uint32_t ec=0;
     bool operator==(const Sample&) const = default;
 };
-Sample sample(Reader& reader,std::uint64_t module) {
+Sample sample(Reader& reader,std::uint64_t module,bool inventory,std::uint64_t image_size) {
     Sample out;
     out.class_kind=reader.read<std::uint64_t>(module,class_kind_rva);
     if (!out.class_kind) fail(Error::object_unavailable);
-    out.names=find_names(reader,module);
-    out.package=lookup(reader,module,out.names.hits[0].index,0,0,out.root_chain);
+    out.names=find_names(reader,module,inventory);
+    out.package=lookup(reader,module,out.names.hits[inventory ? 3 : 0].index,0,0,out.root_chain);
     const auto package_class=out.package.klass;
     out.package_class_flags=allowed_flags(reader,package_class);
     if (reader.read<std::int32_t>(package_class,0x38)==-1 ||
@@ -313,6 +365,31 @@ Sample sample(Reader& reader,std::uint64_t module) {
     if (!out.package_name_entry) fail(Error::package_name_entry_null);
     out.package_name_wide=(reader.read<std::uint8_t>(out.package_name_entry,8)&1)!=0;
     if (!exact_name(reader,out.package_name_entry,out.package_name_wide,"Package")) fail(Error::identity);
+    if (inventory) {
+        for (std::size_t i=0;i<out.inventory_templates.size();++i) {
+            auto& item=out.inventory_templates[i];
+            const auto class_target=4+i*2,cdo_target=class_target+1;
+            item.klass=lookup(reader,module,out.names.hits[class_target].index,out.package.pointer,
+                out.class_kind,item.class_chain);
+            item.cdo=reader.read<std::uint64_t>(item.klass.pointer,0x1d4);
+            if (!item.cdo) fail(Error::object_unavailable);
+            item.cdo_flags=allowed_flags(reader,item.cdo);
+            item.cdo_name=reader.read<FName>(item.cdo,0x48);
+            if (reader.read<std::int32_t>(item.cdo,0x38)==-1 ||
+                (item.cdo_flags&0x600)!=0x200 ||
+                item.cdo_name!=FName{out.names.hits[cdo_target].index,0} ||
+                reader.read<std::uint64_t>(item.cdo,0x50)!=item.klass.pointer ||
+                reader.read<std::uint64_t>(item.cdo,0x40)!=out.package.pointer) fail(Error::identity);
+            item.vtable=reader.read<std::uint64_t>(item.cdo);
+            require_image_range(module,image_size,item.vtable,0x640);
+            item.slot=reader.read<std::uint64_t>(item.vtable,0x638);
+            require_image_range(module,image_size,item.slot,1);
+            item.bit0=(reader.read<std::uint8_t>(item.cdo,0xec)&1)!=0;
+        }
+        check_names(reader,module,out.names);
+        if (reader.read<std::uint64_t>(module,class_kind_rva)!=out.class_kind) fail(Error::unstable);
+        return out;
+    }
     out.pawn_class=lookup(reader,module,out.names.hits[1].index,out.package.pointer,out.class_kind,out.class_chain);
     out.cdo=reader.read<std::uint64_t>(out.pawn_class.pointer,0x1d4);
     if (!out.cdo) fail(Error::object_unavailable); // Never invoke a getter to materialize a CDO.
@@ -336,7 +413,7 @@ int inconclusive(const char* error) {
     std::cout<<Json({{"status","inconclusive"},{"error",error},{"identity_verified",false}}).dump()<<'\n';
     return 1;
 }
-int observe(DWORD pid) {
+int observe(DWORD pid,bool inventory) {
     const Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if (!process) return inconclusive("process_unavailable");
     if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -348,9 +425,48 @@ int observe(DWORD pid) {
         module.modBaseSize<name_count_rva+sizeof(std::int32_t)) return inconclusive("module_unavailable");
     const auto base=static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(module.modBaseAddr));
     Reader reader(process.get());
-    const auto first=sample(reader,base),second=sample(reader,base);
-    if (first!=second) return inconclusive("unstable_sample");
+    const auto first=sample(reader,base,inventory,module.modBaseSize),
+        second=sample(reader,base,inventory,module.modBaseSize);
+    if (first!=second) {
+        if (!inventory) return inconclusive("unstable_sample");
+        Json differences=Json::object();
+        for (std::size_t i=0;i<second.inventory_templates.size();++i) {
+            const auto& a=first.inventory_templates[i];
+            const auto& b=second.inventory_templates[i];
+            differences[targets[4+i*2].data()]={
+                {"class_chain_equal",a.class_chain==b.class_chain},
+                {"class_metadata_equal",a.klass==b.klass},{"cdo_pointer_equal",a.cdo==b.cdo},
+                {"cdo_name_equal",a.cdo_name==b.cdo_name},{"cdo_flags_equal",a.cdo_flags==b.cdo_flags},
+                {"vtable_equal",a.vtable==b.vtable},{"slot_equal",a.slot==b.slot},{"bit0_equal",a.bit0==b.bit0}};
+        }
+        std::cout<<Json({{"status","inconclusive"},{"error","unstable_sample"},{"identity_verified",false},
+            {"diagnostics",{{"name_table_equal",first.names.table==second.names.table},
+                {"name_count_equal",first.names.count==second.names.count},
+                {"name_hits_equal",first.names.hits==second.names.hits},
+                {"name_null_entries_equal",first.names.null_entries==second.names.null_entries},
+                {"root_chain_equal",first.root_chain==second.root_chain},
+                {"package_equal",first.package==second.package &&
+                    first.package_class_flags==second.package_class_flags &&
+                    first.package_name_entry==second.package_name_entry &&
+                    first.package_class_name==second.package_class_name &&
+                    first.package_name_wide==second.package_name_wide},
+                {"class_kind_equal",first.class_kind==second.class_kind},{"templates",differences}}}}).dump()<<'\n';
+        return 1;
+    }
     if (!process_verified(process.get())) return inconclusive("original_identity_mismatch");
+    if (inventory) {
+        Json templates=Json::array();
+        for (std::size_t i=0;i<second.inventory_templates.size();++i) {
+            const auto& item=second.inventory_templates[i];
+            templates.push_back({{"class",targets[4+i*2]},{"bit0",item.bit0},
+                {"vtable_rva",item.vtable-base},{"slot_638_rva",item.slot-base}});
+        }
+        // Observed slot addresses have no inferred GetPC semantics; never invoke them.
+        std::cout<<Json({{"status","observed"},{"error",nullptr},{"identity_verified",true},
+            {"original_path_verified",true},{"original_hash_verified",true},{"module_verified",true},
+            {"samples_equal",true},{"templates",templates}}).dump()<<'\n';
+        return 0;
+    }
     // Two matching samples are not atomic, loaded-memory attestation, or proof of
     // contained PackageMap remapping. No process pointers or unrelated names leave this tool.
     std::cout<<Json({{"status","observed"},{"error",nullptr},{"identity_verified",true},
@@ -365,16 +481,17 @@ int observe(DWORD pid) {
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-pawn-content-probe PID\n"
-            "Read-only bounded original R_PawnContent CDO observation; no process creation.\n";
+        std::cout<<"Usage: hawken-pawn-content-probe PID [--inventory-templates]\n"
+            "Read-only bounded original Pawn or fixed inventory CDO metadata; no process creation.\n";
         return 0;
     }
     DWORD pid=0;
-    if (argc!=2 || !parse_pid(argv[1],pid)) {
+    const bool inventory=argc==3 && std::string_view(argv[2])=="--inventory-templates";
+    if ((argc!=2 && !inventory) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid); }
+    try { return observe(pid,inventory); }
     catch (const ProbeError& error) { return inconclusive(error_code(error.value())); }
     catch (...) { return inconclusive("observation_unavailable"); }
 }

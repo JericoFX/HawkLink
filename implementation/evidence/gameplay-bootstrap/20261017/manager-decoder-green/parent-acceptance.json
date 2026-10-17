@@ -1,0 +1,145 @@
+{
+  "status": "ACCEPTED_PURE_DECODER_AND_BUILD_CLI_ONLY",
+  "utc": "2026-10-17T16:19:30.3394687Z",
+  "parent_review": "Actual API/implementation/test diffs reviewed; original encoder preserved. Atomic copied cursor, exact budget, primary reference variant, opaque tail, null and physical truncation covered.",
+  "red": {
+    "build_exit": 0,
+    "ctest_exit": 8,
+    "cases": 18,
+    "passed": 10,
+    "failed": 8,
+    "skipped": 0,
+    "expected_cause": "New decoder throws not_implemented",
+    "inputs": 199,
+    "drift": 0
+  },
+  "green": {
+    "build_exit": 0,
+    "ctest_exit": 0,
+    "cases": 18,
+    "assertions": 553,
+    "failed": 0,
+    "skipped": 0,
+    "inputs": 199,
+    "drift": 0,
+    "probe_cli_pass": 3,
+    "peak_ram_percent": 47.29
+  },
+  "closure": {
+    "utc": "2026-10-17T16:18:21.5528888Z",
+    "cli": [
+      {
+        "name": "help",
+        "expected": 0,
+        "exit": 0,
+        "pass": true
+      },
+      {
+        "name": "zero_pid",
+        "expected": 2,
+        "exit": 2,
+        "pass": true
+      },
+      {
+        "name": "invalid_mode",
+        "expected": 2,
+        "exit": 2,
+        "pass": true
+      }
+    ],
+    "red_wrapper_absent": true,
+    "green_wrapper_absent": true,
+    "native_count": 0,
+    "ram_percent": 46.28,
+    "free_gib": 17.14
+  },
+  "source_and_binary_pins": [
+    {
+      "path": "include/hawken/inventory_rpc_wire.hpp",
+      "sha256": "f2530022cfe73c19c7856da491b7349fbd618cf56dda4af84aa87f4be1f4f715"
+    },
+    {
+      "path": "src/inventory_rpc_wire.cpp",
+      "sha256": "4a1d68d152500728c5d25819812435dbdb48c2b9d6ad0dfbabeec2444415197e"
+    },
+    {
+      "path": "tests/inventory_rpc_wire_tests.cpp",
+      "sha256": "113cf3827bf7813d296ceb7b0b5006cae248019cddef658e8d67e13f93e4d233"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "62dd4f17d88b95a300e960ca4af4b41c93beefee0c312e30fa3a9b5465daa045"
+    },
+    {
+      "path": "tools/pawn_content_probe.cpp",
+      "sha256": "e1c2112c3081006fa01dac472173add43a2d00cf87ad75e29c734c02daf98820"
+    },
+    {
+      "path": "build/windows-msvc/hawken-inventory-rpc-tests.exe",
+      "sha256": "1d2f6edf5ceec4f76715e09db55892605099b91bb9f3a4ea6ae678b38500f79e"
+    },
+    {
+      "path": "build/windows-msvc/hawken-pawn-content-probe.exe",
+      "sha256": "c86d414c483663990d9acd81ead9cedacdb432bb9ad8049ac531c04a895aa232"
+    },
+    {
+      "path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+      "sha256": "79199f1c4809f619343b2414afe9bda32219582b0b92db5b6c2dd2d9a5ebad8b"
+    }
+  ],
+  "local_original_evidence": [
+    {
+      "path": "manager-decoder-red/input-freeze.json",
+      "sha256": "e0a9a4555f603573fc1ad621ee38803c627871b7129c7f65776290b105ac2b97"
+    },
+    {
+      "path": "manager-decoder-red/build.stdout.log",
+      "sha256": "99f6cfd3ad26b107c665f565c164cd1433ed202edbc6b8573fdc8e78dd815735"
+    },
+    {
+      "path": "manager-decoder-red/ctest.stdout.log",
+      "sha256": "55bb29fb6d84bd749f7c77f61ced93bad97dcf7425a5a8a2aad12bba51715130"
+    },
+    {
+      "path": "manager-decoder-red/run-summary.json",
+      "sha256": "c78ef990d6238dc329eeb8c52a54e1a8a09b1ebbaa58b82e5a1675bbc0a5e6ca"
+    },
+    {
+      "path": "manager-decoder-green/input-freeze.json",
+      "sha256": "a981113b81711454ce00c7297486bfbfabadde57fe7b5f27efcd664fdc2fa669"
+    },
+    {
+      "path": "manager-decoder-green/build.stdout.log",
+      "sha256": "b75b5d62bc604185c279fb07687c1ddb0bfe72e5dc1b7738a89b0fd762061aa7"
+    },
+    {
+      "path": "manager-decoder-green/ctest.stdout.log",
+      "sha256": "7c6627556260e855eb95ae494d64edf5d22063cbd784ba084a324ec0aca6a7c5"
+    },
+    {
+      "path": "manager-decoder-green/run-summary.json",
+      "sha256": "4a3664e686b7f95a821fe83bc9aa683d7f186f360020709bb93f6b7666330fc8"
+    },
+    {
+      "path": "manager-decoder-green/closure.json",
+      "sha256": "eef531bdd7bba98236bd043995b418085e256c89af630bf0365be37071c51710"
+    }
+  ],
+  "integration": "No production caller; Graft exhaustive indexed search shows declaration, definition and tests only. Core/Nexus untouched.",
+  "runtime_verified": false,
+  "remaining": [
+    "Four class CDO opening prefix and native activation callback still require fresh original-client observation.",
+    "Main menu snapshot package cache compiled and previously CLI checked; current read-limit improvement not observed live yet.",
+    "This pure decoder does not fix firing, jumping or post-match full sync by itself."
+  ],
+  "retained_reviewer_evidence": [
+    {
+      "path": "manager-decoder-red/luna-review.json",
+      "sha256": "8c87c3c6d1de0189f7a9704f7ce5c3f5789657cb7823d1a2116de1c7862b52a5"
+    },
+    {
+      "path": "manager-decoder-green/luna-review.json",
+      "sha256": "1a38623a82ddcbd422e1bf725b19bde5448d902bd4e46cb8dcc1c70229e30c7e"
+    }
+  ]
+}

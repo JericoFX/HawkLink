@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-17T16:18:21.5528888Z",
+  "cli": [
+    {
+      "name": "help",
+      "expected": 0,
+      "exit": 0,
+      "pass": true
+    },
+    {
+      "name": "zero_pid",
+      "expected": 2,
+      "exit": 2,
+      "pass": true
+    },
+    {
+      "name": "invalid_mode",
+      "expected": 2,
+      "exit": 2,
+      "pass": true
+    }
+  ],
+  "red_wrapper_absent": true,
+  "green_wrapper_absent": true,
+  "native_count": 0,
+  "ram_percent": 46.28,
+  "free_gib": 17.14
+}
