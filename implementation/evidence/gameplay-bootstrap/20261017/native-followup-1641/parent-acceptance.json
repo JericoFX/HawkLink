@@ -1,0 +1,110 @@
+{
+  "schema": "hawken-native-followup-parent-acceptance-v1",
+  "status": "OBSERVED_CDO_PREFIX_AND_MENU_FLAGS_ONLY",
+  "reviewer": "/root",
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "pins": [
+    {
+      "path": "inventory-initial.json",
+      "sha256": "9e3fbc66246ee55e2709738f57ddc23eebc5180ad889723670a800b7979a7c86",
+      "bytes": 533
+    },
+    {
+      "path": "menu-login.json",
+      "sha256": "e18028010c6feada55dc677fb352108aa51f35ad5e38061fa360fc75338ea566",
+      "bytes": 792
+    },
+    {
+      "path": "native-vtable-contracts.json",
+      "sha256": "b1cc96fac8679ef1cd82cb8573dfc168c800e7b9634a52af6dd2c675bf6ffe7a",
+      "bytes": 12999
+    },
+    {
+      "path": "native-observation-review.json",
+      "sha256": "9cc25b1fb548ad14ef5c41ba3d0eab6daefca2bf015547b0179422633d4c9d94",
+      "bytes": 9605
+    },
+    {
+      "path": "client-close-log.json",
+      "sha256": "ee1ad6fde72bcf693962e469081d8d274db0ae5a9e469470f24add77e735f7ee",
+      "bytes": 578
+    },
+    {
+      "path": "resource-handoff.json",
+      "sha256": "6e8352bd5eeca84b4db39bfe766d6745888f052dec4560ec28432c66b35ab66d",
+      "bytes": 1150
+    },
+    {
+      "path": "client-log-comparison.json",
+      "sha256": "1e131d448063b6017f15e841442af25399ea222cd1af7c451aa416867ea9ab09",
+      "bytes": 1167
+    },
+    {
+      "path": "backend-auth-counts.json",
+      "sha256": "8dc26fd82a8b95803d4c15a8d2ac7001704e03ef62e0105e1c7543624906667c",
+      "bytes": 909
+    },
+    {
+      "path": "main-menu.jpg",
+      "sha256": "3bb821fcacea8e156efae0e76da0195dfbe3a5acd40979eb571a3e304f12106f",
+      "bytes": 164765
+    }
+  ],
+  "four_cdos": {
+    "equal_samples": 2,
+    "ec_bit0": false,
+    "get_pc_slot638_rva": "0x379e20",
+    "original_raw_offset": "0x379220",
+    "complete_original_leaf": "33c0c3",
+    "conclusion": "For these observed CDO facts, omit Controller byte and rotation in the retained opening-prefix contract.",
+    "live_instructions_attested": false
+  },
+  "menu": {
+    "flags_true": 15,
+    "samples_equal": true,
+    "atomic_snapshot": false,
+    "ui_completion_verified": false,
+    "play_transition_observed": false
+  },
+  "client_log": {
+    "available_bytes": 24576,
+    "available_lines": 290,
+    "sha256": "ccc9d3a08235f76938cb3e58557bc39951bb906d0029cd753cc8befbd6d96ac1",
+    "fully_flushed_session_proven": false,
+    "credentials_saved": false,
+    "globals_conquest_warnings_also_in_prior_working_match": true
+  },
+  "image": {
+    "path": "main-menu.jpg",
+    "format": "JPEG",
+    "width": 1282,
+    "height": 752,
+    "rename": "Originally named .png; corrected extension only, identical bytes/SHA.",
+    "visually_reviewed_by_parent": true
+  },
+  "closure": {
+    "client_pid": 68120,
+    "client_absent_confirmed_utc": "2026-10-17T16:44:01.536Z",
+    "ui_kernel_reset": true,
+    "preserved_service_pids": [
+      19440,
+      47948,
+      52744
+    ],
+    "auth_attempt_consumed": true
+  },
+  "not_accepted": [
+    "Inventory actor activation",
+    "Firing",
+    "Jumping",
+    "Damage",
+    "End-of-match synchronization"
+  ],
+  "independent_review": "native-observation-review.json",
+  "limits": [
+    "Slot +0x240 semantics remain unknown.",
+    "Live CDO pointer/flags and original file body do not attest loaded instructions.",
+    "Menu flags do not prove UI callbacks or completion.",
+    "No tutorial or new match was played in this followup."
+  ]
+}
