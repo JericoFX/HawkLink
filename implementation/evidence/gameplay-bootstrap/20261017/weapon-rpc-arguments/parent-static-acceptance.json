@@ -1,0 +1,49 @@
+{
+  "recordedUtc": "2026-10-17T22:38:57.4756951Z",
+  "status": "STATIC_PARAMETER_FORMAT_ACCEPTED_CONDITIONALLY; LIVE_FIRE_AND_GAMEPLAY_NOT_ACCEPTED",
+  "scope": "FireModeNum Byte Enum0 and bRecentFire Bool parameter record interpretation; no production Core change",
+  "parentReviews": [
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-rpc-arguments\\parent-byte-review.json",
+      "sha256": "d569085965fc5cf2d919c4bf3e84972a185f8267b16a569569da889b508e8e19"
+    },
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-rpc-arguments\\parent-byte-serializer-review.json",
+      "sha256": "999c6b0020a1703d0f10e6a7788c4b0c6c335f76a06cfde24ad444350dafa3ea"
+    }
+  ],
+  "correctedLunaEvidence": {
+    "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-rpc-arguments\\research-luna\\rpc-static-conditional-framing.erratum-v2.json",
+    "sha256": "e87e5522d5ced4c42d95d01f059e29bef926116a09c8ab496a04c00f55cc9564",
+    "gameSkillMatchesCurrent": true
+  },
+  "originalPackages": [
+    {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c"
+    },
+    {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0"
+    }
+  ],
+  "checks": [
+    "Four record slices independently matched original bytes from two unique zlib blocks",
+    "Byte serializer vtable and Enum-null eight-bit branch independently matched original EXE",
+    "Seven retained sender/receiver/comparator/Bool evidence hashes checked without drift",
+    "First DWORD is serialized NetIndex, not a property link; Next is at12",
+    "Historical erroneous reports and first erratum remain preserved locally; erratum-v2 supersedes interpretation"
+  ],
+  "premises": [
+    "Exact concrete actor cache and field bound",
+    "Primary PackageMap and eligibility of each parameter",
+    "Combined Extended Byte then Bool order remains caller premise; function Children head is not proved by this extraction"
+  ],
+  "remaining": [
+    "No real fire invocation decoded by this work",
+    "No fire handler, projectile, damage, movement physics or client UI acceptance",
+    "New header and eight decoder tests are prepared only; no test execution or codec implementation yet"
+  ],
+  "unchangedCoreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+  "resourceCoordination": "Engine owns heavy build/runtime slot; Hawken client and services remain off"
+}

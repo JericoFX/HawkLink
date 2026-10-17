@@ -1,0 +1,35 @@
+{
+  "recordedUtc": "2026-10-17T22:34:28.1845431Z",
+  "originalFile": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "method": "Parent bounded independent original file byte checks using retained serializer evidence; no new Ghidra job",
+  "anchors": [
+    {
+      "rawOffset": "0x12d4b08",
+      "bytes": "308f0f4001000000",
+      "observed": "ByteProperty serializer vtable slot2c8 -> RVA f8f30",
+      "match": true
+    },
+    {
+      "rawOffset": "0xf8336",
+      "bytes": "488b81a8000000",
+      "observed": "f8f36 load enum pointer at Property+a8",
+      "match": true
+    },
+    {
+      "rawOffset": "0xf8340",
+      "bytes": "4885c0744a",
+      "observed": "f8f40 test Enum; branch null to f8f8f",
+      "match": true
+    },
+    {
+      "rawOffset": "0xf838f",
+      "bytes": "41b808000000",
+      "observed": "f8f8f sets raw payload width8",
+      "match": true
+    }
+  ],
+  "interpretation": "Null Enum pointer selects8 raw bits in ByteProperty network serializer, conditional on actual sender binding and parameter eligibility",
+  "state": "CONFIRMADO static; no live RPC observation",
+  "correction": "First read used rawf833f for test instruction; retained disassembly locates it at rawf8340. Retry checks that corrected offset; no original drift was inferred."
+}

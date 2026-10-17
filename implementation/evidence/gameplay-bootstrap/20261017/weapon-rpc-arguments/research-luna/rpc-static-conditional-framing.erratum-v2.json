@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "task": "Explicit erratum for the retained static fire-RPC parameter-record interpretation",
+  "status": "corrects_prior_metadata_interpretation",
+  "preserved_erroneous_report": {
+    "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/rpc-static-conditional-framing.erroneous-preserved.json",
+    "sha256": "feb8943b974c5ac77d8cf5457f3f9cd8e6ebfacf9678324f21477c7f65bfdc2f",
+    "original_path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/rpc-static-conditional-framing.json",
+    "original_sha256": "feb8943b974c5ac77d8cf5457f3f9cd8e6ebfacf9678324f21477c7f65bfdc2f"
+  },
+  "source_evidence": {
+    "parameter_records_path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/parameter-serial-records.json",
+    "parameter_records_sha256": "066bc14307bd3ae411958cb25d6eedef41704fcd5e13ab86f4322ae552679788",
+    "record_count": 4,
+    "unique_compressed_block_count": 2,
+    "unique_compressed_block_offsets": [
+      "0x239385",
+      "0xfa4a4"
+    ]
+  },
+  "corrections": [
+    {
+      "field": "first DWORD at record offset +0",
+      "incorrect_interpretation": "FPackageIndex/UField.Next",
+      "correct_interpretation": "serialized local NetIndex",
+      "note": "Do not resolve this DWORD as a property-chain link or as a runtime RPC field tag."
+    },
+    {
+      "field": "DWORD at record offset +12",
+      "correct_interpretation": "UField.Next FPackageIndex",
+      "values": "Engine exports 31981 and 31987: 0; HawkenGame export 43616: 0; HawkenGame export 43617: 43616 (bRecentFire)."
+    },
+    {
+      "field": "serialized block count",
+      "incorrect": "four unique blocks",
+      "correct": "four record slices are drawn from two unique compressed blocks: Engine 0xfa4a4 and HawkenGame 0x239385."
+    }
+  ],
+  "verified_records": [
+    {
+      "package": "Engine.upk",
+      "rpc": "Engine.Weapon.ServerStartFire",
+      "parameter": "FireModeNum",
+      "export_index": 31981,
+      "serial_offset": "0x59a5cd",
+      "serial_size": 44,
+      "record_sha256": "f68eaef08ae04f1302ca7792ab69db2f6cee20004e6d691b59065eb3d1c1978e",
+      "net_index_u32_at_offset_0": 31927,
+      "u_field_next_fpackageindex_at_offset_12": 0,
+      "array_dim_u32_at_offset_16": 1,
+      "property_flags_u64_at_offset_20": "0x80",
+      "enum_reference_fpackageindex_at_offset_40": 0,
+      "compressed_blocks": [
+        "0xfa4a4"
+      ]
+    },
+    {
+      "package": "Engine.upk",
+      "rpc": "Engine.Weapon.ServerStopFire",
+      "parameter": "FireModeNum",
+      "export_index": 31987,
+      "serial_offset": "0x59a7fd",
+      "serial_size": 44,
+      "record_sha256": "20cc991282012277cb5ce720a875c758150eb7dafeddbd2f49be49c1eae31d16",
+      "net_index_u32_at_offset_0": 31933,
+      "u_field_next_fpackageindex_at_offset_12": 0,
+      "array_dim_u32_at_offset_16": 1,
+      "property_flags_u64_at_offset_20": "0x80",
+      "enum_reference_fpackageindex_at_offset_40": 0,
+      "compressed_blocks": [
+        "0xfa4a4"
+      ]
+    },
+    {
+      "package": "HawkenGame.upk",
+      "rpc": "HawkenGame.R_Weap_DualWield.ServerStopFireExtended",
+      "parameter": "bRecentFire",
+      "export_index": 43616,
+      "serial_offset": "0xc799b1",
+      "serial_size": 40,
+      "record_sha256": "36bc36e5232a6bc01f4a4238e45cd2d502dbff2ff3b45b5685d563866ccb269a",
+      "net_index_u32_at_offset_0": 43633,
+      "u_field_next_fpackageindex_at_offset_12": 0,
+      "array_dim_u32_at_offset_16": 1,
+      "property_flags_u64_at_offset_20": "0x80",
+      "enum_reference_fpackageindex_at_offset_40": null,
+      "compressed_blocks": [
+        "0x239385"
+      ]
+    },
+    {
+      "package": "HawkenGame.upk",
+      "rpc": "HawkenGame.R_Weap_DualWield.ServerStopFireExtended",
+      "parameter": "FireModeNum",
+      "export_index": 43617,
+      "serial_offset": "0xc799d9",
+      "serial_size": 44,
+      "record_sha256": "93da3719e0ef7028350b938d1444f8664fe89e7575ba8cc8933a97403cfeecf5",
+      "net_index_u32_at_offset_0": 43634,
+      "u_field_next_fpackageindex_at_offset_12": 43616,
+      "array_dim_u32_at_offset_16": 1,
+      "property_flags_u64_at_offset_20": "0x80",
+      "enum_reference_fpackageindex_at_offset_40": 0,
+      "compressed_blocks": [
+        "0x239385"
+      ]
+    }
+  ],
+  "retained_serializer_evidence": [
+    {
+      "path": "implementation/evidence/mech-struct-wire/native-members/contract.json",
+      "sha256": "3ec06be6abc2b6cf07c6c9899c5089b18b237ff34748a303e0c78770c79a973f",
+      "anchor": "Byte serializer RVA 0xf8f30: Enum pointer at property+0xa8; null enum chooses 8 logical bits and forwards that width to Archive virtual+0x10."
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/native-members/byte-serializer-machine.txt",
+      "sha256": "e2c3329325d27e274f82d44956726f0265c9f025a0dc420abfa6488c6b10e18f",
+      "anchor": "Retained aligned machine-code proof for RVA 0xf8f30."
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/native/bool-serializer-machine.txt",
+      "sha256": "c5fecb733d30f4f7f4ad3cf8670e9b0c035feaf63f8188ccec2daae5d6af572f",
+      "anchor": "Retained Bool serializer RVA 0xf8ec0; eligible Bool path writes one data bit without non-Bool presence."
+    },
+    {
+      "path": "implementation/evidence/movement-wire-native-20261012/native/focused-functions.jsonl",
+      "sha256": "3eceb708600a540d9b3e1ffea32c56e8685b36bd8382447150c0a0fbc5fbfec8",
+      "anchor": "Retained FUN_1400f3300 comparator: when comparison pointer is null, it compares the first byte to zero."
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-sender/contract.json",
+      "sha256": "8c329ca1ede2c3ea1f4b07dcf6b6f3283b44c581032b33abcbc3c7e6e7c5bc51",
+      "anchor": "Eligible non-Bool parameters use the property comparison path; presence is one when comparison against the null/default argument returns false."
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-wire/contract.json",
+      "sha256": "38c87d879c96e144a22684a9dc1f0ecba419953f03be7b14bf85e1544bd04f45",
+      "anchor": "PackageMap +0x298 gate, flags predicate, Bool class mask, non-Bool presence and ArrayDim serializer traversal."
+    },
+    {
+      "path": "implementation/evidence/match-readiness-protocol/20261014/owner-research/contract.json",
+      "sha256": "33483fdc2c6cf5a3261f23545deb9b70995c49790d6ceb3aed008e8e5d15d265",
+      "anchor": "Bool RPC parameter is one data bit with no separate presence bit, conditional on eligibility."
+    }
+  ],
+  "static_conditional_framing": {
+    "b_recent_fire": "BoolProperty, ArrayDim 1: when eligible, Bool class handling bypasses non-Bool presence and serializes one data bit.",
+    "fire_mode_num": "ByteProperty, ArrayDim 1, serialized Enum reference 0: when eligible, non-Bool presence is conditional; if present its retained native serializer writes exactly 8 logical payload bits. The retained null-default comparator compares the first byte with zero, so in that generic comparison path presence is set when the value differs from zero. No invocation value is asserted.",
+    "extended_rpc": "For ServerStopFireExtended, report each parameter schedule separately; the property Next link is not proof of parameter serialization order, so no combined ordering or concrete packet bit vector is claimed.",
+    "eligibility": "The retained receiver/sender parameter predicate accepts property flags 0x80; PackageMap virtual +0x298 is checked before any parameter bits. A false result consumes/emits no presence or value."
+  },
+  "limits": [
+    "This is static conditional framing only; no real invocation capture, effective per-connection field-cache selection, PackageMap result, channel/sequence context, raw payload, or end cursor is established.",
+    "The local serialized NetIndex at offset zero and the class conditional dense function ID are not interchangeable with the effective runtime RPC field ID.",
+    "No gameplay/transport invocation claim."
+  ],
+  "skills": {
+    "cpp_pro_skill_sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer_skill_sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "coverage_reused": "Complete CPP and Game skill readings reused; current hashes match."
+  },
+  "graft": {
+    "cwd": "F:\\HawkenServer",
+    "cli": "C:\\Users\\Jerico\\.bun\\bin\\graft.exe",
+    "check": "OK; graph in sync",
+    "limitation": "The retained generated-evidence files are not indexed as source definitions; direct reads were bounded to existing JSON and machine-code evidence."
+  },
+  "result": "Record-layout error corrected without changing prior evidence; conditional serializer rules remain static and do not establish a live fire RPC packet.",
+  "erratum_revision": 2,
+  "supersedes_preserved_erratum": {
+    "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/rpc-static-conditional-framing.erratum-v1-preserved.json",
+    "sha256": "71ea7c65c9b8564ef961f21252cc041a16175c7fc64a6013689269dda6365baf"
+  },
+  "extended_rpc_order_followup": {
+    "function_export": {
+      "name": "HawkenGame.R_Weap_DualWield.ServerStopFireExtended",
+      "export_index": 43618,
+      "export_table_class": "Function",
+      "outer_export": 43697,
+      "serialized_net_index": 43635,
+      "serial_offset": "0xc79a05",
+      "serial_size": 255,
+      "super_export_index": 0,
+      "uc_signature": "reliable server function ServerStopFireExtended(byte FireModeNum, bool bRecentFire)",
+      "uc_path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047349-HawkenGame.R_Weap_DualWield.ServerStopFireExtended.uc",
+      "uc_sha256": "c50648407d3f2cdc43397f33c14cd4686cea5bb7fbfd8ddf1829aec778d1e5a4"
+    },
+    "same_block": {
+      "package_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "compressed_source_offset": "0x239385",
+      "compressed_size": 37413,
+      "compressed_sha256": "0bc6ae4db260e6b2a01f20e88e114ca70a6afd2f25f2eb7f7b69b652d2dbf6c1",
+      "virtual_offset": "0xc662d8",
+      "uncompressed_size": 131072,
+      "plain_sha256": "6dd53f342ed95e36c8be30d1137501811a9d8e1793ddd60f6ba28e062f500de2",
+      "function_header_virtual_offset": "0xc79a05",
+      "offset_within_block": "0x1372d",
+      "header_bytes": "73aa000013590000000000005faa000000000000",
+      "header_i32_le": [
+        43635,
+        22803,
+        0,
+        43615,
+        0
+      ]
+    },
+    "property_chain": {
+      "byte_export": 43617,
+      "byte_name": "FireModeNum",
+      "byte_outer": 43618,
+      "byte_u_field_next_at_plus12": 43616,
+      "bool_export": 43616,
+      "bool_name": "bRecentFire",
+      "bool_outer": 43618,
+      "bool_u_field_next_at_plus12": 0
+    },
+    "parser_scope": {
+      "path": "implementation/evidence/controller-effective-field-cache/headless-followup-20261013/walk_pawn.py",
+      "sha256": "95f877899116dabab03618c4ea2492006c8411165360691be614e2c51fa9eb1f",
+      "applicability": "The retained parser decodes a 20-byte serialized class header as NetIndex, Next, Super, ScriptText, Children and walks class Children. It does not parse a UFunction header or establish the UFunction Children field offset."
+    },
+    "conclusion": "The 20-byte UFunction prefix was read from the already-identified, hash-verified compressed block, but the retained parser layout does not validate a UFunction Children-head interpretation. The head being export 43617 is therefore NOT proven. The parameter records prove only the link 43617 (Byte FireModeNum) -> 43616 (Bool bRecentFire) -> null. Treat Byte-before-Bool wire traversal as an explicit caller premise derived from the retained UC signature, not as independently proven UFunction child order.",
+    "limits": [
+      "No packet capture or runtime parameter traversal is established.",
+      "No new extraction job or general package decompression was run; one existing 37,413-byte compressed block was read/decompressed to 131,072 bytes and hash-checked, then only the 20-byte function prefix and previously retained parameter slices were examined.",
+      "The function header raw words are preserved without assigning unverified field names."
+    ],
+    "references": [
+      {
+        "path": "research/2026-10-10/evidence/game/HawkenGame.upk.json",
+        "sha256": "1eff14a8f5886933ea83a7c3a732c8ffc5ff1193a33ff1f31c0c5e768013a1e7"
+      },
+      {
+        "path": "implementation/evidence/complete-artifact-map-20261013/upk/package-class-function-map.jsonl",
+        "sha256": "10567f3f74f68272a46cb96ad1162193e5e3597ed1a656c4ff1089aec6ae375b"
+      },
+      {
+        "path": "implementation/evidence/gameplay-bootstrap/20261017/owner-caps-green/original-contract-extract.json",
+        "sha256": "7dce3e7d1279430b69a1d999d998afa5307084eec3ec7d60c32e45e7bde26fe4"
+      },
+      {
+        "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/parameter-serial-records.json",
+        "sha256": "066bc14307bd3ae411958cb25d6eedef41704fcd5e13ab86f4322ae552679788"
+      },
+      {
+        "path": "research/2026-10-10/analysis/game/package_scan.py",
+        "sha256": "48aa8e880d57ca8bca66a4a85077344fde4f58c6d58a4816550487a3c14888a1"
+      },
+      {
+        "path": "research/2026-10-10/analysis/game/package_details.py",
+        "sha256": "b84d3c1176ac4903b0f6d07bf2510e073cb1d101b0120388e85eb2a1a454a8ad"
+      }
+    ]
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "method": "Targeted read of only zlib blocks intersecting the four retained parameter export serial ranges, using existing package_scan metadata block offsets; each selected decompressed block size/hash was checked. No full UPK decompression or full-package allocation was performed.",
+  "original_package_before_after": {
+    "Engine.upk": {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\Engine.upk",
+      "expected_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "before_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "after_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+      "unchanged": true,
+      "metadata_json_sha256": "bcdadd85fc42b5a6532e787e788d718ca939c330125a991520ecb2419fd717db"
+    },
+    "HawkenGame.upk": {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\HawkenGame\\CookedPCConsole\\HawkenGame.upk",
+      "expected_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "before_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "after_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "unchanged": true,
+      "metadata_json_sha256": "1eff14a8f5886933ea83a7c3a732c8ffc5ff1193a33ff1f31c0c5e768013a1e7"
+    }
+  },
+  "parameter_records": [
+    {
+      "package": "Engine.upk",
+      "export_index": 31981,
+      "export_path": "FireModeNum",
+      "outer_export_index": 31982,
+      "class_import_index": -17,
+      "class_name": "ByteProperty",
+      "serial_offset": "0x59a5cd",
+      "serial_size": 44,
+      "record_sha256": "f68eaef08ae04f1302ca7792ab69db2f6cee20004e6d691b59065eb3d1c1978e",
+      "record_hex": "b77c0000a03700000000000000000000010000008000000000000000a0370000000000000000000000000000",
+      "u32_words_le": [
+        "0x7cb7",
+        "0x37a0",
+        "0x0",
+        "0x0",
+        "0x1",
+        "0x80",
+        "0x0",
+        "0x37a0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "u64_at20_le": "0x80",
+      "u32_at16_le": "0x1",
+      "last_u32_le": "0x0",
+      "source_blocks": [
+        {
+          "compressed_source_offset": "0xfa4a4",
+          "compressed_size": 31039,
+          "compressed_sha256": "f634f255e9eb890c0043130861c10ebe814499450fbebd88fcce8a15c0b90c9b",
+          "block_virtual_offset": "0x58b20f",
+          "block_uncompressed_size": 131072,
+          "block_plain_sha256": "73f6addb89f644a1f37461164986afeb9168d83c2c8d1429a0a06840210048c4",
+          "record_slice_start": "0x59a5cd",
+          "record_slice_end": "0x59a5f9"
+        }
+      ]
+    },
+    {
+      "package": "Engine.upk",
+      "export_index": 31987,
+      "export_path": "FireModeNum",
+      "outer_export_index": 31988,
+      "class_import_index": -17,
+      "class_name": "ByteProperty",
+      "serial_offset": "0x59a7fd",
+      "serial_size": 44,
+      "record_sha256": "20cc991282012277cb5ce720a875c758150eb7dafeddbd2f49be49c1eae31d16",
+      "record_hex": "bd7c0000a03700000000000000000000010000008000000000000000a0370000000000000000000000000000",
+      "u32_words_le": [
+        "0x7cbd",
+        "0x37a0",
+        "0x0",
+        "0x0",
+        "0x1",
+        "0x80",
+        "0x0",
+        "0x37a0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "u64_at20_le": "0x80",
+      "u32_at16_le": "0x1",
+      "last_u32_le": "0x0",
+      "source_blocks": [
+        {
+          "compressed_source_offset": "0xfa4a4",
+          "compressed_size": 31039,
+          "compressed_sha256": "f634f255e9eb890c0043130861c10ebe814499450fbebd88fcce8a15c0b90c9b",
+          "block_virtual_offset": "0x58b20f",
+          "block_uncompressed_size": 131072,
+          "block_plain_sha256": "73f6addb89f644a1f37461164986afeb9168d83c2c8d1429a0a06840210048c4",
+          "record_slice_start": "0x59a7fd",
+          "record_slice_end": "0x59a829"
+        }
+      ]
+    },
+    {
+      "package": "HawkenGame.upk",
+      "export_index": 43616,
+      "export_path": "bRecentFire",
+      "outer_export_index": 43618,
+      "class_import_index": -734,
+      "class_name": "BoolProperty",
+      "serial_offset": "0xc799b1",
+      "serial_size": 40,
+      "record_sha256": "36bc36e5232a6bc01f4a4238e45cd2d502dbff2ff3b45b5685d563866ccb269a",
+      "record_hex": "71aa0000135900000000000000000000010000008000000000000000135900000000000000000000",
+      "u32_words_le": [
+        "0xaa71",
+        "0x5913",
+        "0x0",
+        "0x0",
+        "0x1",
+        "0x80",
+        "0x0",
+        "0x5913",
+        "0x0",
+        "0x0"
+      ],
+      "u64_at20_le": "0x80",
+      "u32_at16_le": "0x1",
+      "last_u32_le": "0x0",
+      "source_blocks": [
+        {
+          "compressed_source_offset": "0x239385",
+          "compressed_size": 37413,
+          "compressed_sha256": "0bc6ae4db260e6b2a01f20e88e114ca70a6afd2f25f2eb7f7b69b652d2dbf6c1",
+          "block_virtual_offset": "0xc662d8",
+          "block_uncompressed_size": 131072,
+          "block_plain_sha256": "6dd53f342ed95e36c8be30d1137501811a9d8e1793ddd60f6ba28e062f500de2",
+          "record_slice_start": "0xc799b1",
+          "record_slice_end": "0xc799d9"
+        }
+      ]
+    },
+    {
+      "package": "HawkenGame.upk",
+      "export_index": 43617,
+      "export_path": "FireModeNum",
+      "outer_export_index": 43618,
+      "class_import_index": -735,
+      "class_name": "ByteProperty",
+      "serial_offset": "0xc799d9",
+      "serial_size": 44,
+      "record_sha256": "93da3719e0ef7028350b938d1444f8664fe89e7575ba8cc8933a97403cfeecf5",
+      "record_hex": "72aa0000135900000000000060aa000001000000800000000000000013590000000000000000000000000000",
+      "u32_words_le": [
+        "0xaa72",
+        "0x5913",
+        "0x0",
+        "0xaa60",
+        "0x1",
+        "0x80",
+        "0x0",
+        "0x5913",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "u64_at20_le": "0x80",
+      "u32_at16_le": "0x1",
+      "last_u32_le": "0x0",
+      "source_blocks": [
+        {
+          "compressed_source_offset": "0x239385",
+          "compressed_size": 37413,
+          "compressed_sha256": "0bc6ae4db260e6b2a01f20e88e114ca70a6afd2f25f2eb7f7b69b652d2dbf6c1",
+          "block_virtual_offset": "0xc662d8",
+          "block_uncompressed_size": 131072,
+          "block_plain_sha256": "6dd53f342ed95e36c8be30d1137501811a9d8e1793ddd60f6ba28e062f500de2",
+          "record_slice_start": "0xc799d9",
+          "record_slice_end": "0xc79a05"
+        }
+      ]
+    }
+  ]
+}

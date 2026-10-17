@@ -1,0 +1,57 @@
+{
+  "recordedUtc": "2026-10-17T22:31:52.9970832Z",
+  "method": "Parent independent .NET ZLibStream extraction of two unique compressed blocks; bounded original package reads; no package writes",
+  "inputSHA256": "066bc14307bd3ae411958cb25d6eedef41704fcd5e13ab86f4322ae552679788",
+  "uniqueCompressedBlocks": 2,
+  "records": [
+    {
+      "package": "Engine.upk",
+      "export": 31981,
+      "serialOffset": "0x59a5cd",
+      "recordSHA256": "f68eaef08ae04f1302ca7792ab69db2f6cee20004e6d691b59065eb3d1c1978e",
+      "netIndexAt0": 31927,
+      "nextExportAt12": 0,
+      "arrayDimAt16": 1,
+      "flagsAt20": 128,
+      "enumAt40": 0,
+      "matched": true
+    },
+    {
+      "package": "Engine.upk",
+      "export": 31987,
+      "serialOffset": "0x59a7fd",
+      "recordSHA256": "20cc991282012277cb5ce720a875c758150eb7dafeddbd2f49be49c1eae31d16",
+      "netIndexAt0": 31933,
+      "nextExportAt12": 0,
+      "arrayDimAt16": 1,
+      "flagsAt20": 128,
+      "enumAt40": 0,
+      "matched": true
+    },
+    {
+      "package": "HawkenGame.upk",
+      "export": 43616,
+      "serialOffset": "0xc799b1",
+      "recordSHA256": "36bc36e5232a6bc01f4a4238e45cd2d502dbff2ff3b45b5685d563866ccb269a",
+      "netIndexAt0": 43633,
+      "nextExportAt12": 0,
+      "arrayDimAt16": 1,
+      "flagsAt20": 128,
+      "enumAt40": null,
+      "matched": true
+    },
+    {
+      "package": "HawkenGame.upk",
+      "export": 43617,
+      "serialOffset": "0xc799d9",
+      "recordSHA256": "93da3719e0ef7028350b938d1444f8664fe89e7575ba8cc8933a97403cfeecf5",
+      "netIndexAt0": 43634,
+      "nextExportAt12": 43616,
+      "arrayDimAt16": 1,
+      "flagsAt20": 128,
+      "enumAt40": 0,
+      "matched": true
+    }
+  ],
+  "scope": "Static serialized metadata only; no live RPC or handler acceptance"
+}
