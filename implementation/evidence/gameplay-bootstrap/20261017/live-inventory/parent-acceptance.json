@@ -1,0 +1,61 @@
+{
+  "schema": "hawken.live-inventory-reader.parent-acceptance.v1",
+  "utc": "2026-10-17T18:50:58.8023677Z",
+  "scope": "Read-only optional typed inventory relationships and Manager Role; original game unmodified",
+  "inputs": [
+    {
+      "path": "tools/live_player_reader.hpp",
+      "sha256": "38a29b4f0d4d7c75b332db15cffcd6d1c35cb8576e00e853546569f652442125"
+    },
+    {
+      "path": "tests/live_player_reader_tests.cpp",
+      "sha256": "59494372e50a8339aa017e3477c2ce1f867a6d11d426fb58fa3cabc860ada61d"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "81fb33d63df3be5bfaa5b24d77d332ee6a61ac795f28afd87504289979ce784b"
+    }
+  ],
+  "red": {
+    "build_exit": 0,
+    "test_exit": 1,
+    "cases": 9,
+    "passed": 1,
+    "failed": 8,
+    "assertions": 31,
+    "assertions_failed": 29,
+    "input_count": 199,
+    "input_drift": 0
+  },
+  "green": {
+    "build_exit": 0,
+    "reader_exit": 0,
+    "probe_help_exit": 0,
+    "cases": 21,
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0,
+    "assertions": 135,
+    "input_count": 199,
+    "input_drift": 0,
+    "ram_peak_percent": 65.55,
+    "wrapper_pid": 51308,
+    "wrapper_terminal_verified": true
+  },
+  "native": {
+    "observed": true,
+    "result": "inconclusive",
+    "error": "live_limit",
+    "evidence": "local-match-live-player.json",
+    "inventory_relationships_verified": false,
+    "gameplay_fixed": false
+  },
+  "review": {
+    "actual_three_file_diff_reviewed": true,
+    "diff_check_exit": 0,
+    "graft_check_exit": 0,
+    "production_server_changed": false,
+    "full57_reused_for_unchanged_production_inputs": true
+  },
+  "next": "Identify exact live bound and compare real network session with working tutorial; preserve capture and client logs"
+}

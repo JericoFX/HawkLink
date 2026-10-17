@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-17T18:53:05.8380609Z",
+  "files": [
+    {
+      "path": "C:\\Program Files\\Wireshark\\dumpcap.exe",
+      "sha256": "9bbea3e27f509b6e02aa69a37bd1d70e0541a6dae44eb6c49078869f16ad23ef",
+      "version": "4.6.9",
+      "signature": "Valid"
+    },
+    {
+      "path": "C:\\Program Files\\Wireshark\\tshark.exe",
+      "sha256": "662e10fd28a8c58575fe567845d0248080a2856c3d18d6f2ff7a4b4c8511f69b",
+      "version": "4.6.9",
+      "signature": "Valid"
+    },
+    {
+      "path": "C:\\Windows\\System32\\Npcap\\wpcap.dll",
+      "sha256": "aa2c63a5a0b732e2aaec6660f5d97727d857fcfd315084940859e5fe71a65c24",
+      "version": "1.10.7",
+      "signature": "Valid"
+    }
+  ],
+  "npcap_service": "Running",
+  "loopback_interface": "\\Device\\NPF_Loopback",
+  "dumpcap_interfaces_exit": 0,
+  "tshark_version_exit": 0,
+  "selftest_capture_exit": 0,
+  "selftest_read_exit": 0,
+  "selftest_is_gameplay": false,
+  "actual_capture_pid": 40152,
+  "rearmed_core_pid": 51080,
+  "rearmed_master_pid": 68572,
+  "actual_snapshot_analysis": "snapshot-1850-analysis.json",
+  "plaintext_rpc_verified": false
+}

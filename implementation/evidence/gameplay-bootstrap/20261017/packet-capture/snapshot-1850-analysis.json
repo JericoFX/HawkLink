@@ -1,0 +1,31 @@
+{
+  "purpose": "Actual capture wrapper metadata only; not plaintext RPC or MAC validation",
+  "capture_sha256": "cb6de916db99e9b082fb0326e09db992ceb371a0650018655480a6b5e469203c",
+  "tshark_exit": 0,
+  "directions": {
+    "client_to_server": {
+      "packets": 751,
+      "min_payload_bytes": 58,
+      "max_payload_bytes": 264,
+      "wrapper_too_short": 0,
+      "direction_bit_mismatches": 0,
+      "counter_nonincreasing": 0,
+      "first_time": "1792262955.020149400",
+      "last_time": "1792262986.986566400"
+    },
+    "server_to_client": {
+      "packets": 1549,
+      "min_payload_bytes": 52,
+      "max_payload_bytes": 128,
+      "wrapper_too_short": 0,
+      "direction_bit_mismatches": 0,
+      "counter_nonincreasing": 0,
+      "first_time": "1792262955.020588000",
+      "last_time": "1792262986.970222200"
+    }
+  },
+  "session_identifier_exported": false,
+  "key_exported": false,
+  "plaintext_decrypted": false,
+  "steam_http_captured": false
+}

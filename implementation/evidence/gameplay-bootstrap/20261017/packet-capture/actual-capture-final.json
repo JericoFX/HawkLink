@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-17T18:54:49.8924819Z",
+  "stop_reason": "Original client absent after owner reported failed fire/jump and post-match sync",
+  "capture_pid": 40152,
+  "capture_process_absent": true,
+  "capture_sha256": "133a4dd7a53e45eaddef7533ed8d247a1801c8b0f7a3b2525d069ed658c4d2e0",
+  "capture_bytes": 4040388,
+  "tshark_read_exit": 0,
+  "shutdown_method": "Exact owned process stopped; completed PCAPNG parsed entirely by tshark",
+  "actual_gameplay_fixed": false,
+  "frames": 30798,
+  "client_to_server_frames": 10250,
+  "server_to_client_frames": 20548,
+  "duration_seconds": 248.2673,
+  "conversation_report": "actual-capture-udp-conversations.txt",
+  "conversation_report_sha256": "f8c5ba8d9836fbfa044191ce744400cf7711ba8a5c88263a5545248076bab33f"
+}

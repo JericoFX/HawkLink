@@ -1,0 +1,29 @@
+{
+  "source_filename": "Launch-backup-2026.10.17-15.53.35.log",
+  "utc": "2026-10-17T18:54:58.1523402Z",
+  "log_sha256": "d24817df27d153376e61aa843e6392dc1b4488b6e52f837911c7cb5a8a40ef37",
+  "available_bytes": 180224,
+  "available_lines": 2470,
+  "owner_result": "No fire or jump; exit stuck syncing",
+  "excerpts": [
+    "[205: 033.950] ScriptLog: BeginFullSync",
+    "[211: 033.996] ScriptLog: SyncingAccount - ReadOnlineLegacyStats",
+    "[213: 034.016] ScriptLog: SyncingAccount - ReadOnlineLegacyStats Done",
+    "[215: 034.032] ScriptLog: SyncingAccount_ReadAllUserGameItemStats",
+    "[215: 034.034] ScriptLog: SyncingAccount - ReadAllUserGameItemStats",
+    "[215: 034.048] ScriptLog: SyncingAccount - ReadAllUserGameItemStats Done",
+    "\tFunction HawkenGame.R_GFx_MainMenu:OnFullSyncComplete:0133",
+    "[217: 034.065] ScriptLog: (R_GFx_MainMenu_0) R_GFx_MainMenu::R_GFx_MainMenu:OnFullSyncComplete MeteorOSS.LastServerStatus:'OSCS_NotConnected'",
+    "[1211: 044.974] ScriptLog: SyncingAccount_ReadAllUserGameItemStats",
+    "[1211: 044.975] ScriptLog: SyncingAccount - ReadAllUserGameItemStats",
+    "[1212: 045.146] ScriptLog: SyncingAccount - ReadAllUserGameItemStats Done",
+    "[2867: 059.318] DevSpawn: (R_PawnContent_0) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'0' SecondaryIdx:'101'",
+    "[2893: 059.528] DevSpawn: (R_PlayerController_0) R_PlayerController::PlayerWaiting:ClientRestart NewPawn:'R_PawnContent_0' MechSelectStage:'SS_DONE'",
+    "[2893: 059.534] ScriptLog: (R_PlayerController_0) R_PlayerController::PlayerWalking:BeginState PREVIOUS STATE:  PlayerWaiting",
+    "[31017: 290.395] ScriptLog: R_PlayerController_0.QuitToMainMenu()",
+    "[31018: 292.401] ScriptLog: BeginFullSync",
+    "[31023: 292.518] ScriptLog: SyncingAccount - ReadOnlineLegacyStats",
+    "[31023: 292.530] ScriptLog: SyncingAccount - ReadOnlineLegacyStats Done",
+    "[31025: 292.539] ScriptLog: SyncingAccount_ReadAllUserGameItemStats"
+  ]
+}
