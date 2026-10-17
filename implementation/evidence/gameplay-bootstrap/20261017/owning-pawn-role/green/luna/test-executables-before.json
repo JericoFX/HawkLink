@@ -1,0 +1,238 @@
+[
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-actor-transform-tests.exe",
+    "sha256": "d3b7d337d0141bc69f55fbb6519a6033d5872b0afadaa6516e9c33d70f4fd96b"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-auth-service-tests.exe",
+    "sha256": "feb1bff572359a814a9c534d7711fab1ca13bd7aaa2d1618a1daa9cef797711a"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-bool-property-tests.exe",
+    "sha256": "f44d178d53689070d73f5c621baba2230db827986533d0269c3603b119ca2804"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-client-routing-tests.exe",
+    "sha256": "360a28faa504d8e1e4548cf8467f2690b85e9583177ca8f4bc084a39881563ce"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-client-steam-identity-transport-tests.exe",
+    "sha256": "9dca896559258067d52bbed4b47659cce697a33c1eeb1c5987c6d6d421924a20"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-connection-cache-reader-tests.exe",
+    "sha256": "2c540271d5fbf4a9c979c8991e7904261710c88b18e65354f29f817448476fbf"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-control-handshake-tests.exe",
+    "sha256": "820619b85189b182816fe8881ed6c9c0628bdc8879980bfa17def66cdb15f314"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-control-tests.exe",
+    "sha256": "01488f3d6b85d007909952da727d962e6821d7724beb22db7a55f2761f6b3d50"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-controller-admission-rpc-tests.exe",
+    "sha256": "97de2431b4a970beac8b11dcc1b5d31570707eaab0ae29db5ce7558a3ffff6fb"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-controller-sample-comparison-tests.exe",
+    "sha256": "e92ecb69553d0866db23a07974cc347f3ec56fda1c414dbe2763d2ff07acbdfc"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-foundation-tests.exe",
+    "sha256": "7ad762d02675ef7e422b3892033f4ab0e2df1a8567fc525b1daacbb4d0f66ea4"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-game-connection-tests.exe",
+    "sha256": "8a8fd670511975d7717ca50f4e50d6960c264f7cfd0dce1134e6bb744436f483"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-gri-template-reader-tests.exe",
+    "sha256": "b0f250afaba8f53d63fc8338aa68ae4dfdc1e4f40afa2cfa4552e2a7967159ef"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-initial-controller-tests.exe",
+    "sha256": "a5a701b442de1012aea53fde4b9b9a87e32ede21485d97995afd62c88a456638"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-initial-pawn-tests.exe",
+    "sha256": "bfa4513bec3adc1666b47516c256ee37539fc941a5b0294de6c62c4200fecaef"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-int-property-tests.exe",
+    "sha256": "31bfdb3dfc4d61fde4de0a8740138e384e726d82c51e42ae084cbf74fd584321"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-inventory-rpc-tests.exe",
+    "sha256": "1d2f6edf5ceec4f76715e09db55892605099b91bb9f3a4ea6ae678b38500f79e"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-inventory-service-tests.exe",
+    "sha256": "bbd14b8d7c75c6e55e2d8cc8cf0702d29fe097766fb30b1d234223cc187d58f8"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-live-player-reader-tests.exe",
+    "sha256": "c4c3335738f601b97b95e74edb83401b53031752374b620802b3add6dec2b2f1"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-local-tcp-probe-tests.exe",
+    "sha256": "95ffd0337efe4dcbbe34cae110b5a9f5921e7e624cde41798c76dd96897460e9"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-local-udp-tests.exe",
+    "sha256": "a64bac8c5b00485097fa083a7dc571d5aa6a313977d21e33af0f81aac8b6e29e"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-main-menu-sync-reader-tests.exe",
+    "sha256": "fbab30a7b386a9ee06ad2465b0bc8f9c607ddbdfddba41e42c8000b17b0399ca"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-master-tests.exe",
+    "sha256": "18d0baae4993f479ee4c75470a76e20c054e881654e1809cef11ea52a9de74ff"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-match-readiness-tests.exe",
+    "sha256": "1aff26f928dac00ab939dc552d02781b88d056e0719c905435b675d3828dcdb7"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-mech-setup-reader-tests.exe",
+    "sha256": "3c6481739785a83e8290c06f3b147cf28609ed6db97b603955c5b9ed5f549e62"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-mech-setup-wire-tests.exe",
+    "sha256": "8836b748894ad62a13d11dba620ca75789e06ef4c73c7be590a91fd512e7ea15"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-menu-sync-tests.exe",
+    "sha256": "ca7720412e33dd77c9dbebf743075e8730f0d086a4223ad1e09eda40cb333a23"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-movement-rpc-tests.exe",
+    "sha256": "b08bc39ba6529616c54be0353c45e29dd1e67ff8a19b59374dcd1bea6a36d409"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-object-property-tests.exe",
+    "sha256": "213e2650187e985acb244122073ee834a1af2e0fcf0be657df10008f2099a7e2"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-object-reference-tests.exe",
+    "sha256": "1eacee381b5b06a51fcc511394984f58cd83292b2ed70fdbbb82b814d1c4ae52"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-package-map-ranges-tests.exe",
+    "sha256": "5b13bcd55c1c9ba6c45e83430ad42f49d241e6edc6f36a35c5a11d4e91611be0"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-package-publication-tests.exe",
+    "sha256": "d41759f1206e4157f1d23d80eb9de1d6f71964ab627996c049965b89ffc26653"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-packet-tests.exe",
+    "sha256": "108c0f730e6db28064962796d9a23897562ba6210bdb465380ac700f4f804ece"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-pawn-combat-tests.exe",
+    "sha256": "4ddfc3681238cc58cbc4b5668fb248503c2c2f4e157d51d614d38e02d3586ed4"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-pawn-rpc-tests.exe",
+    "sha256": "edffe7d3315738ea35bb691b7806a1748bdf971e050e54043f47c36893f290ea"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-posthello-control-tests.exe",
+    "sha256": "ab4d8a55cd756e5a90250b952061d6051c04e9b1c08be0bb4366962749acd921"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-reliable-actor-tests.exe",
+    "sha256": "b45e5b4176e96c3596080723d83ef33bd53746838a7bbbce6e0b31e9e982a932"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-reliable-control-tests.exe",
+    "sha256": "83a8a1d83211f945001b7039446bc4a7bd656e9afc84fbcaa747a2ffda8f694b"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-server-assignment-tests.exe",
+    "sha256": "e1ad610cca34e0c9cef51fa7125efe6c9cb085282428c2551b9eaa69ee1ff765"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-server-auth-tests.exe",
+    "sha256": "1ef0fccad5b8afda9f7adbc3bbe794b4cec96c14f7e516188b5375f2cd6be18c"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-server-inventory-tests.exe",
+    "sha256": "21d2bcaf37b67ac67066893f06f7635d645687b22689c9ddc168be832f09ca44"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-server-listing-tests.exe",
+    "sha256": "a900bc9b360a96197ab3250a93174bfb337ad7cd2ca7ace6e9423527dfe5cc0e"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-server-login-handshake-tests.exe",
+    "sha256": "beeb52b1dfa0703e2f3ac4ac5a511a329343827e87875644e3e007d7f68571ab"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-server-menu-tests.exe",
+    "sha256": "ef55afc71ef0c82a75dd7e5284c3adc37a7f7efdfe8eec35991d5051ea5407d3"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-server-tests.exe",
+    "sha256": "f1c8086d273fd95043e82cb1907d448b3cfd2eec8482ebeaecbbeb94d092fad7"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-session-assignment-tests.exe",
+    "sha256": "90a642a03faf5995eb7c3320fb70042edf39e1ad0590eb8519bd42cc5bc15ec2"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-session-tests.exe",
+    "sha256": "7aa58e3b4f1755439eedf67ba4eb4175e5816a5038c9b84214f551f16eba9976"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-spawn-validation-rpc-tests.exe",
+    "sha256": "a8c2f87e872570569ba9265d95ff97dd8ced00623280c574d6d338ad68884758"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-spawn-validation-tests.exe",
+    "sha256": "273b76e868521dacbf1a671b6e3d4943b895f105c6beedec979b7bec83942b1c"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-start-mech-rpc-tests.exe",
+    "sha256": "a8bfd75fad5269540489079b4dfa1256d5d2d6ea0bf4552245c8111fb0f4430a"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-starter-catalogue-tests.exe",
+    "sha256": "c066202ecaf2d6668a61fd1727c7d96e8fb2fb0aa74bf16d3665ac9ebbd61a6f"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-starter-inventory-tests.exe",
+    "sha256": "21ebed36bddfb09881edef4bd032ed9c9b91e7d2e20fedb7b83a4d29af82bfb2"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-starter-mech-setup-tests.exe",
+    "sha256": "40c1eb40585b00b7316846ac7f83c9fc0061e2a27db569f456a7e8e1c1f577c5"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-steam-auth-tests.exe",
+    "sha256": "bdfd77b99c193b9ffb95d6687cb9d86ddcad29337510d5c3d8d71efa7223a9d0"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-storage-tests.exe",
+    "sha256": "497a9cee167aa99d3e0f2fcc7fc25008370abc9ac7c08c2cd3f05445f17cf219"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-sync-service-tests.exe",
+    "sha256": "3ea02189bd589f97d2281dd21bb17b6e9c0f59e65f9b368ab32df2d1af1bb564"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-udp-trial-runtime-tests.exe",
+    "sha256": "094a7478b532053d4fab8916a639c282059490602b8171652262a34809fefc85"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-unique-id-wire-tests.exe",
+    "sha256": "8968bb09c16f6f3529a36657f32430443334c2453f7e4ffbf318285598c95082"
+  },
+  {
+    "path": "F:/HawkenServer/build/windows-msvc/hawken-wreckage-trial-tests.exe",
+    "sha256": "53f1e6b0fef28e5179aeced485b5abc32645422382c5c381abe4622f7eedf3c2"
+  }
+]

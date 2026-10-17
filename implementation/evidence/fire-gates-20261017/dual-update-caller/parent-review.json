@@ -1,0 +1,32 @@
+{
+  "Utc": "2026-10-17T21:43:11.2437205Z",
+  "State": "CONFIRMADO_STATIC_DIRECT_CALL_AND_VTABLE_CELL;NOT_TICK_NAME_OR_RUNTIME_EXECUTION",
+  "OriginalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "EntryRva": "0xdc1d20",
+  "BodyBytes": 3022,
+  "BodySha256": "d52419337b7d1a6a42fa4a23227712372065b3afda8cb238976b3354e90ab4ee",
+  "RetainedSeed": "implementation/evidence/fire-gates-20261017/reader-role-no-fire/dc1d20-seed.json",
+  "SeedSha256": "39b0813c3f4376b50930cb67960a0e0a48e2db9e6b54dad299138f4b65d188d2",
+  "Observed": [
+    "Original Pawn vtable base17de0c0 cell+408 at17de4c8 contains140dc1d20",
+    "Atdc1d91 load [this+de0], null-testdc1d9b, skipdc1d9e; otherwise direct call UpdateCanFire dc5700 atdc1da0",
+    "Own entry-to-call path contains no direct Role compare; the two earlier external callees remain unexpanded",
+    "The value in this+de0 is not independently named by this extraction; existing metadata association must remain separate"
+  ],
+  "Limits": [
+    "No exact Tick/TickSpecial name or engine caller gate established",
+    "No proof function executes in current native client",
+    "No further binary/callee expansion; no Java, product source/config changes or target calls",
+    "Owning Role2 trial remains controlled hypothesis; gameplay acceptance requires native observation"
+  ],
+  "OriginalFile": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "VtableAnchor": {
+    "BaseRva": "0x17de0c0",
+    "Slot": "0x408",
+    "CellRva": "0x17de4c8",
+    "RawOffset": "0x17dd8c8",
+    "OriginalBytes": "201ddc4001000000",
+    "TargetRva": "0xdc1d20",
+    "Meaning": "Concrete native virtual slot only; no exact Tick name or engine dispatch gate inferred"
+  }
+}

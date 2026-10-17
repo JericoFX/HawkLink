@@ -133,6 +133,9 @@ int run(const std::filesystem::path& game_root) {
             links.controller_exclusive_bound!=294 || links.pawn_controller_field_id!=49 ||
             links.pawn_pri_field_id!=30 || links.pawn_exclusive_bound!=150)
             throw std::runtime_error("trial configuration mismatch");
+        if (!links.owning_pawn_role || links.owning_pawn_role->field_id!=11 ||
+            !links.owning_pawn_role->enum_property_correct)
+            throw std::runtime_error("trial owning Pawn role policy mismatch");
         const std::array inventory_actors{&inventory.manager,&inventory.dual_weapon,
             &inventory.primary_weapon,&inventory.secondary_weapon};
         constexpr std::array<std::int32_t,4> inventory_cdos{33398,43715,44117,44157};
@@ -172,6 +175,7 @@ int run(const std::filesystem::path& game_root) {
         std::cout<<"{\"plan_verified\":true,\"root_packages\":7,"
             "\"contained_packages\":1,\"contained_archive_bytes\":73,"
             "\"welcome_archive_bytes\":48,\"actor_links_policy_verified\":true,"
+            "\"owning_pawn_role_policy_verified\":true,"
             "\"inventory_policy_verified\":true,"
             "\"combat_policy_verified\":true,"
             "\"client_runtime_verified\":false}\n";

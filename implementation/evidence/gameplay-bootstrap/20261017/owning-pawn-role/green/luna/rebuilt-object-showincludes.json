@@ -1,0 +1,85 @@
+[
+  {
+    "step": "[1/17] Building CXX object CMakeFiles\\hawken_local_udp.dir\\src\\local_udp_owner.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 0,
+    "wreckage_header_includes": 0,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp"
+    ]
+  },
+  {
+    "step": "[3/17] Building CXX object CMakeFiles\\hawken_udp_trial_runtime.dir\\src\\udp_trial_runtime.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 1,
+    "wreckage_header_includes": 0,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/udp_trial_runtime.hpp",
+      "Nota: inclusi�n del archivo:  F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp"
+    ]
+  },
+  {
+    "step": "[4/17] Building CXX object CMakeFiles\\hawken_wreckage_trial.dir\\src\\wreckage_trial.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 1,
+    "wreckage_header_includes": 1,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/wreckage_trial.hpp",
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/udp_trial_runtime.hpp",
+      "Nota: inclusi�n del archivo:  F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp"
+    ]
+  },
+  {
+    "step": "[7/17] Building CXX object CMakeFiles\\hawken-wreckage-trial-probe.dir\\tools\\wreckage_trial_probe.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 1,
+    "wreckage_header_includes": 1,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/wreckage_trial.hpp",
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/udp_trial_runtime.hpp",
+      "Nota: inclusi�n del archivo:  F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp"
+    ]
+  },
+  {
+    "step": "[8/17] Building CXX object CMakeFiles\\hawken-server.dir\\src\\server_main.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 1,
+    "wreckage_header_includes": 1,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/udp_trial_runtime.hpp",
+      "Nota: inclusi�n del archivo:  F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp",
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/wreckage_trial.hpp"
+    ]
+  },
+  {
+    "step": "[9/17] Building CXX object CMakeFiles\\hawken-server-listing-tests.dir\\tests\\server_listing_http_tests.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 1,
+    "wreckage_header_includes": 0,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/udp_trial_runtime.hpp",
+      "Nota: inclusi�n del archivo:  F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp"
+    ]
+  },
+  {
+    "step": "[10/17] Building CXX object CMakeFiles\\hawken-udp-trial-runtime-tests.dir\\tests\\udp_trial_runtime_tests.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 1,
+    "wreckage_header_includes": 0,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/udp_trial_runtime.hpp",
+      "Nota: inclusi�n del archivo:  F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp"
+    ]
+  },
+  {
+    "step": "[11/17] Building CXX object CMakeFiles\\hawken-wreckage-trial-tests.dir\\tests\\wreckage_trial_tests.cpp.obj",
+    "owner_header_includes": 1,
+    "runtime_header_includes": 1,
+    "wreckage_header_includes": 1,
+    "include_line_samples": [
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/wreckage_trial.hpp",
+      "Nota: inclusi�n del archivo: F:\\HawkenServer\\include\\hawken/udp_trial_runtime.hpp",
+      "Nota: inclusi�n del archivo:  F:\\HawkenServer\\include\\hawken/local_udp_owner.hpp"
+    ]
+  }
+]

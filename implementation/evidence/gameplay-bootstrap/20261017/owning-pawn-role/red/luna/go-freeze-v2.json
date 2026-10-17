@@ -1,0 +1,54 @@
+{
+  "schema": "owning-pawn-role-red-go-freeze-v2",
+  "captured_utc": "2026-10-17T21:42:09.0319996Z",
+  "execution_authorized": false,
+  "target": "hawken-local-udp-tests",
+  "test_filter": "UDP owning Pawn role*",
+  "expected_selected_cases": 2,
+  "expected_filtered_cases": 152,
+  "inputs": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "expected_sha256": "8820d1f0a2def7aabdc9b4d70a4b58af875c7de18c4a228fadcebb7f6c4c87c2",
+      "actual_sha256": "8820d1f0a2def7aabdc9b4d70a4b58af875c7de18c4a228fadcebb7f6c4c87c2"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "expected_sha256": "fd546693091f27277d64c009daf097e68563b784d49509f8643d92cf002e77db",
+      "actual_sha256": "fd546693091f27277d64c009daf097e68563b784d49509f8643d92cf002e77db"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "expected_sha256": "9d77be10a8a272af1076c223cc62237bb9540cf90589b164ccfb356697d88c13",
+      "actual_sha256": "9d77be10a8a272af1076c223cc62237bb9540cf90589b164ccfb356697d88c13"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "expected_sha256": "0de0301d0a51f0cb2d32bb554f764c13b8697967cb36265549450be4e9d08fd4",
+      "actual_sha256": "0de0301d0a51f0cb2d32bb554f764c13b8697967cb36265549450be4e9d08fd4"
+    }
+  ],
+  "wrapper_path": "implementation/evidence/gameplay-bootstrap/20261017/owning-pawn-role/red/luna/run-red.cmd",
+  "wrapper_sha256": "e0020391141bb8ecbcfcf7b2ae73e6c75606e4fbdb0a801626e4fede74a3d94f",
+  "archived_generated_objects": [
+    {
+      "original": "F:\\HawkenServer\\build\\windows-msvc\\CMakeFiles\\hawken_local_udp.dir\\src\\local_udp_owner.cpp.obj",
+      "archive": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\owning-pawn-role\\red\\luna\\archived-owner-objects\\local_udp_owner.cpp.obj",
+      "sha256_before": "a456351adffb968fd362cd322c99950c06c77f53c1a527cd18d6b2b16a7b43b9",
+      "sha256_after": "a456351adffb968fd362cd322c99950c06c77f53c1a527cd18d6b2b16a7b43b9",
+      "deps_file": "local_udp_owner.cpp.obj.deps-before.txt",
+      "removed_from_build": true
+    },
+    {
+      "original": "F:\\HawkenServer\\build\\windows-msvc\\CMakeFiles\\hawken-local-udp-tests.dir\\tests\\local_udp_owner_tests.cpp.obj",
+      "archive": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\owning-pawn-role\\red\\luna\\archived-owner-objects\\local_udp_owner_tests.cpp.obj",
+      "sha256_before": "7ae4430164e36656bb116ba3916447ffcf90c174f67b4365f789e0c9927b678e",
+      "sha256_after": "7ae4430164e36656bb116ba3916447ffcf90c174f67b4365f789e0c9927b678e",
+      "deps_file": "local_udp_owner_tests.cpp.obj.deps-before.txt",
+      "removed_from_build": true
+    }
+  ],
+  "supersedes_preparation_only_test_pin": "9d9d701782e21a33e1785f17ea8782cd4646d1cc6954fb285a94318b794cbe69",
+  "prior_preparation_record": "preparation-final.json",
+  "notes": "Final test source contains six invalid variants within the same two cases. This is evidence preparation only; no compile or test was run."
+}

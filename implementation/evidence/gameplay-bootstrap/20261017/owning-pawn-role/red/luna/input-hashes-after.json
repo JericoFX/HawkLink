@@ -1,0 +1,22 @@
+[
+  {
+    "path": "include/hawken/local_udp_owner.hpp",
+    "expected": "8820d1f0a2def7aabdc9b4d70a4b58af875c7de18c4a228fadcebb7f6c4c87c2",
+    "actual": "8820d1f0a2def7aabdc9b4d70a4b58af875c7de18c4a228fadcebb7f6c4c87c2"
+  },
+  {
+    "path": "tests/local_udp_owner_tests.cpp",
+    "expected": "fd546693091f27277d64c009daf097e68563b784d49509f8643d92cf002e77db",
+    "actual": "fd546693091f27277d64c009daf097e68563b784d49509f8643d92cf002e77db"
+  },
+  {
+    "path": "src/local_udp_owner.cpp",
+    "expected": "9d77be10a8a272af1076c223cc62237bb9540cf90589b164ccfb356697d88c13",
+    "actual": "9d77be10a8a272af1076c223cc62237bb9540cf90589b164ccfb356697d88c13"
+  },
+  {
+    "path": "CMakeLists.txt",
+    "expected": "0de0301d0a51f0cb2d32bb554f764c13b8697967cb36265549450be4e9d08fd4",
+    "actual": "0de0301d0a51f0cb2d32bb554f764c13b8697967cb36265549450be4e9d08fd4"
+  }
+]

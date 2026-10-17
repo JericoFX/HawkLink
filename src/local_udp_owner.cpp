@@ -155,8 +155,18 @@ std::array<wire::property::PropertyPayload,2> link_payloads(
     const std::array pawn_fields{
         wire::property::ObjectProperty{plan.pawn_controller_field_id,wire::object::ActorChannelReference{controller}},
         wire::property::ObjectProperty{plan.pawn_pri_field_id,wire::object::ActorChannelReference{pri}}};
-    return {wire::property::encode_object_properties(controller_fields,plan.controller_exclusive_bound,max_bits),
+    auto payloads=std::array{
+        wire::property::encode_object_properties(controller_fields,plan.controller_exclusive_bound,max_bits),
         wire::property::encode_object_properties(pawn_fields,plan.pawn_exclusive_bound,max_bits)};
+    if (plan.owning_pawn_role) {
+        wire::BitWriter payload;
+        payload.write_bits(payloads[1].payload,payloads[1].logical_bits);
+        payload.write_bounded(plan.owning_pawn_role->field_id,plan.pawn_exclusive_bound);
+        payload.write_bits(std::array{std::uint8_t{2}},2);
+        if (payload.bit_count()>max_bits) throw wire::WireError("field_too_large");
+        payloads[1]={payload.payload_bytes(),payload.bit_count()};
+    }
+    return payloads;
 }
 std::array<wire::property::PropertyPayload,6> inventory_payloads(
     const InventoryBootstrapPlan& plan,std::uint16_t pawn,std::size_t max_bits) {
@@ -1605,6 +1615,12 @@ struct LocalUdpOwner::Impl {
                 plan.controller_pri_field_id==plan.controller_pawn_field_id ||
                 plan.pawn_controller_field_id==plan.pawn_pri_field_id)
                 fail(LocalUdpErrorCode::invalid_configuration);
+            if (plan.owning_pawn_role &&
+                (!plan.owning_pawn_role->enum_property_correct ||
+                 plan.owning_pawn_role->field_id>=plan.pawn_exclusive_bound ||
+                 plan.owning_pawn_role->field_id==plan.pawn_controller_field_id ||
+                 plan.owning_pawn_role->field_id==plan.pawn_pri_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
             try {
                 (void)link_payloads(plan,controller->channel.channel,pri->channel.channel,
                     pawn->channel.channel,static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
@@ -1845,6 +1861,10 @@ struct LocalUdpOwner::Impl {
             };
             fields(std::array{plan.pawn_inv_manager_field_id,plan.pawn_dual_weapon_field_id,
                 links->pawn_controller_field_id,links->pawn_pri_field_id},plan.pawn_exclusive_bound);
+            if (links->owning_pawn_role &&
+                (links->owning_pawn_role->field_id==plan.pawn_inv_manager_field_id ||
+                 links->owning_pawn_role->field_id==plan.pawn_dual_weapon_field_id))
+                fail(LocalUdpErrorCode::invalid_configuration);
             fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.manager_chain_field_id,
                 plan.manager_server_set_current_weapon_field_id},plan.manager_exclusive_bound);
             fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.inventory_manager_field_id,

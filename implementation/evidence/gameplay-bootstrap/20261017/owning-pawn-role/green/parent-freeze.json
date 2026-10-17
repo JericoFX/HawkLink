@@ -1,0 +1,240 @@
+{
+  "schema": "owning-pawn-role-parent-green-freeze-v1",
+  "utc": "2026-10-17T21:49:46.3003452Z",
+  "inputs": [
+    {
+      "path": "build/windows-msvc/CMakeCache.txt",
+      "sha256": "075a224cf9950d83513edfb8c912923bdf0ed3d615af7dfb25b08f6456e7d563"
+    },
+    {
+      "path": "build/windows-msvc/CMakeFiles/4.3.4/CMakeCXXCompiler.cmake",
+      "sha256": "5e5b2a0b7776da3956c91aee5d684b85adae4b084f056af9778f66e84e31d886"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "0de0301d0a51f0cb2d32bb554f764c13b8697967cb36265549450be4e9d08fd4"
+    },
+    {
+      "path": "CMakePresets.json",
+      "sha256": "8b3777a2864598843fdaf1a6cfdabd3850731ec0b17f49b15c99ed7c20edbbf3"
+    },
+    {
+      "path": "include/hawken/actor_transform_wire.hpp",
+      "sha256": "b7e4b2c2dfb39c1030487f4da0bae0ab4e82f810f5a496a11ddce46071042f69"
+    },
+    {
+      "path": "include/hawken/auth_service.hpp",
+      "sha256": "15f33f1e40b4d0df2654b7455daf5958ff28e87df54dbc97f8271157bf11e615"
+    },
+    {
+      "path": "include/hawken/cli.hpp",
+      "sha256": "eeb6f84d02a5b1c8db0fef5f8c79e1e6f92dd69c2835786d873ca1eb63ee8794"
+    },
+    {
+      "path": "include/hawken/control_handshake.hpp",
+      "sha256": "8c2fe169a5d3057fdcbd0ffd60e7caeaeb546b32e8bb76991e933fc5f7bfecf2"
+    },
+    {
+      "path": "include/hawken/control_wire.hpp",
+      "sha256": "b1d2b2baea96e3a9e4bbbd68029dc1f3a36398aa92469f8263b0284300637fe7"
+    },
+    {
+      "path": "include/hawken/game_connection.hpp",
+      "sha256": "1a6387083e6c79d26253ed0d6744b9a4da90ad4296918a0f8bcfae71868deb26"
+    },
+    {
+      "path": "include/hawken/game_wire.hpp",
+      "sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2"
+    },
+    {
+      "path": "include/hawken/initial_controller.hpp",
+      "sha256": "2c3ccd2c91493c5677ed197582f796a85b738c545ce898b492e29fa87aed81e5"
+    },
+    {
+      "path": "include/hawken/local_store.hpp",
+      "sha256": "346ae6b6203868ef4bebe90fa1952fde7f3d746c9978347a4ee5853f88d789d3"
+    },
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "8820d1f0a2def7aabdc9b4d70a4b58af875c7de18c4a228fadcebb7f6c4c87c2"
+    },
+    {
+      "path": "include/hawken/match_readiness.hpp",
+      "sha256": "6d8ac8484d5d76a7f7e2c86b4afeacd9230a84329de870328d8a0ab3cdbbbd14"
+    },
+    {
+      "path": "include/hawken/mech_setup_wire.hpp",
+      "sha256": "df50dc4543cd7812f7d3dae10de6bcc3ee6cec432372f00c581390c418e6a302"
+    },
+    {
+      "path": "include/hawken/object_reference_wire.hpp",
+      "sha256": "65a2f46dde2530b13eac559c39a606b9e6cc0ffeeb8ecfab4c2182539c6c7ac2"
+    },
+    {
+      "path": "include/hawken/package_map_ranges.hpp",
+      "sha256": "8e091fef25ae35e1deda9637b44757b777aa53d512fb93fa4ac4bc64cae19850"
+    },
+    {
+      "path": "include/hawken/package_publication.hpp",
+      "sha256": "08e23ad591cbd977c1c0bf3727c4b5e0a2578bd54e66f68439d4ef67f5c323b6"
+    },
+    {
+      "path": "include/hawken/packet_writer.hpp",
+      "sha256": "187673edcc240c6b9bf56d0d1162072f5ae5ec48ecc53b698c3d56444cea716d"
+    },
+    {
+      "path": "include/hawken/pawn_combat_state.hpp",
+      "sha256": "a0c04eb572cede6190dc860ef70a0d138d3a88cc3afb854571df17e45ded8fa7"
+    },
+    {
+      "path": "include/hawken/posthello_control.hpp",
+      "sha256": "25d7918045c5624f1d506e61cb6bb38078003ccf5e8e722d58f3cbb7c61d4360"
+    },
+    {
+      "path": "include/hawken/reliable_control_transport.hpp",
+      "sha256": "520565d7651d2f53246e450610d6e4b4675c776de2299d6bdde7e0f6bf990e29"
+    },
+    {
+      "path": "include/hawken/server_login_handshake.hpp",
+      "sha256": "38c70e76adc59f0e6c05f283a8b5a784cc35474c81646a15db516c04a56bc851"
+    },
+    {
+      "path": "include/hawken/session_assignment.hpp",
+      "sha256": "7fffeab6eeb0f3604106c137aed7afd96801bc4edab6a8e773b57334661e7ca9"
+    },
+    {
+      "path": "include/hawken/session_wire.hpp",
+      "sha256": "c2483a1cf1dc1bbde48cd5910224c3693b3d54d8da102ce6370769a5aa706a88"
+    },
+    {
+      "path": "include/hawken/sha256.hpp",
+      "sha256": "fd34c81b048beee4799c1d566df1aa233efde21e89c71f0bb242b37d364d40ae"
+    },
+    {
+      "path": "include/hawken/spawn_validation.hpp",
+      "sha256": "fd4f4c98d53d231cf19f0d50b0de4472801b1aedce3bf773d516661e51966493"
+    },
+    {
+      "path": "include/hawken/start_mech_rpc_wire.hpp",
+      "sha256": "262aed10c2686c6292113dc4c2f4a394cb357aa14fe10122bd69b5537c28f6d2"
+    },
+    {
+      "path": "include/hawken/starter_catalogue.hpp",
+      "sha256": "385423924f1daa3116293a60a3841aa1dd0a0f869fb6b8155566ec92ab0bbe59"
+    },
+    {
+      "path": "include/hawken/starter_mech_setup.hpp",
+      "sha256": "71869439238b8c1a1ed97fee9d2d9117ba1aff6d000aaa6d5f7134f5b41055a0"
+    },
+    {
+      "path": "include/hawken/steam_auth.hpp",
+      "sha256": "15d08f5cdb551fee1cd2a240dacf06bee3371f42bea1e7adedd3ec93ff76faf4"
+    },
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "d2306969884ebcb62dc6ed5a8abd95333054fa11f773ba47cd3471c30f93b48f"
+    },
+    {
+      "path": "include/hawken/wreckage_trial.hpp",
+      "sha256": "22e4d7edb76b18b34152b32eb7e9ce3589c41c3b80cfc6596acf41aa8426b9f2"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "50130b4ba7615e10b936c05680f6b57dc08fe634212b1fd17ba8bd2a0bfb9234"
+    },
+    {
+      "path": "src/main.cpp",
+      "sha256": "6f1bd8018050792ef32951c8eecd9366a94b58de0d6e8ef9f6ef613212c746a0"
+    },
+    {
+      "path": "src/pawn_combat_state.cpp",
+      "sha256": "5f603b2f2338046188efc7325027ad112fd892cdae6fab5865c7312dcec6f412"
+    },
+    {
+      "path": "src/server_main.cpp",
+      "sha256": "3930a8ca7fcc2a314f35bb568e21ee67ffd3c10b0347ef4762840fca62794a8a"
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "b8448041bead2634c971a04f21dcb8711a56b7ae39312aa8eb38295ba54b8dfe"
+    },
+    {
+      "path": "src/wreckage_trial.cpp",
+      "sha256": "69454aa3398db53f6d5142eb2e26c10561a07342fe2d1c0096bf43d05c3e4a8e"
+    },
+    {
+      "path": "tests/live_player_reader_tests.cpp",
+      "sha256": "0180dabe81a965449d066106f2864bd89987fe2d06a2715d437a996a726db283"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "fd546693091f27277d64c009daf097e68563b784d49509f8643d92cf002e77db"
+    },
+    {
+      "path": "tests/main_menu_sync_reader_tests.cpp",
+      "sha256": "c1648198710f0c6b6a76e3b8897bed52b997f4dbb39542fa229f2e282b3eb58c"
+    },
+    {
+      "path": "tests/pawn_combat_state_tests.cpp",
+      "sha256": "1a5655d5ce784210b7536ea59002c39f4461be757258614731110bddc587a8e2"
+    },
+    {
+      "path": "tests/server_listing_http_tests.cpp",
+      "sha256": "b62405904e55db7ec3a6f68bc1bb4df9fe7a5a4528e764aa0290addda1c49eba"
+    },
+    {
+      "path": "tests/test_main.cpp",
+      "sha256": "010cc5d71fa312cc2aef083c5a8ecbcfa076db95fd50a3761df2d3e5b29b12a5"
+    },
+    {
+      "path": "tests/test_support.hpp",
+      "sha256": "01bddc4ec75ee4c1a7cae0fff277c28054c13344737c17fc2ac2289c57e7099d"
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "98deeb0619cc67f9b20a5abc3749f370748275e806de9e3fa88b2c97b8088031"
+    },
+    {
+      "path": "tests/wreckage_trial_tests.cpp",
+      "sha256": "fe4fac80608abd41931d9c8cbf74ce2b801b3ec20e39ee08521c322bd16d19dd"
+    },
+    {
+      "path": "third_party/doctest/doctest.h",
+      "sha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced"
+    },
+    {
+      "path": "third_party/nlohmann/json.hpp",
+      "sha256": "aaf127c04cb31c406e5b04a63f1ae89369fccde6d8fa7cdda1ed4f32dfc5de63"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "f8636567f5d834301ecbb4cd1b0a7dffe617d765ad70a05d7b300cbec2793d3c"
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "sha256": "b7ef195443e6a57efc56248d573f84d31d1427134e03fddd800f43bbc30d2414"
+    },
+    {
+      "path": "tools/wreckage_trial_probe.cpp",
+      "sha256": "9acbf0b4a6ea2c8b48269cd507966cc8da5545bece482968c61483ca3b3a6485"
+    }
+  ],
+  "input_count": 54,
+  "execution_authorized": false,
+  "scope": "Owner role optional wire+preflight; Wreckage explicit owning-role policy and original-asset probe. Full current native gameplay still unverified.",
+  "targets": [
+    "hawken-local-udp-tests",
+    "hawken-udp-trial-runtime-tests",
+    "hawken-wreckage-trial-tests",
+    "hawken-server-listing-tests",
+    "hawken-wreckage-trial-probe",
+    "hawken-server"
+  ],
+  "test_policy": "Focused two role cases; full59CTest serial; real original-asset probe; server/probe help. Reuse unchanged reader binary source pins; no native success inferred.",
+  "excluded_preserved_changes": [
+    "CMakePresets.json (pinned as existing input, not owned edit)",
+    "CON",
+    "src/.gitignore",
+    "src/.ignore"
+  ]
+}

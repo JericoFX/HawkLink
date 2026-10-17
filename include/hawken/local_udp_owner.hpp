@@ -151,6 +151,14 @@ using InitialPriPlan = InitialPawnPlan;
 // Explicit effective scalar ObjectProperty IDs on the PRIMARY PackageMap.
 // Caller establishes eligibility, ArrayDim1 and expected object classes; this
 // plan does not discover fields, select native defaults or prove possession.
+// Optional local owning-Pawn assignment through an eligible native Role
+// ByteProperty/ENetRole (five names, two serialized bits). The only emitted
+// value is AutonomousProxy2, never Authority3. Caller establishes this exact
+// field/cache premise; actual native role and gameplay still need observation.
+struct OwningPawnRolePlan {
+    std::uint32_t field_id;
+    bool enum_property_correct;
+};
 struct InitialActorLinksPlan {
     std::uint32_t controller_pri_field_id;
     std::uint32_t controller_pawn_field_id;
@@ -158,6 +166,7 @@ struct InitialActorLinksPlan {
     std::uint32_t pawn_controller_field_id;
     std::uint32_t pawn_pri_field_id;
     std::uint32_t pawn_exclusive_bound;
+    std::optional<OwningPawnRolePlan> owning_pawn_role = std::nullopt;
 };
 
 

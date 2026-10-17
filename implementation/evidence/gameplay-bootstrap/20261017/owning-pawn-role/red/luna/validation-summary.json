@@ -1,0 +1,35 @@
+{
+  "schema": "owning-pawn-role-red-result-v1",
+  "freeze_sha256": "d9094bc29e4831e3be75cfa4028de803811f3e4ca4aac432ea927be2e3467f40",
+  "wrapper_sha256": "e0020391141bb8ecbcfcf7b2ae73e6c75606e4fbdb0a801626e4fede74a3d94f",
+  "inputs_after": "input-hashes-after.json",
+  "input_count": 4,
+  "source_drift_count": 0,
+  "build_exit": 0,
+  "test_exit": 1,
+  "selected_filter": "UDP owning Pawn role*",
+  "cases": 2,
+  "cases_passed": 0,
+  "cases_failed": 2,
+  "cases_filtered": 152,
+  "assertions": 234,
+  "assertions_passed": 220,
+  "assertions_failed": 14,
+  "test_executable_sha256": "a64bac8c5b00485097fa083a7dc571d5aa6a313977d21e33af0f81aac8b6e29e",
+  "owner_object_sha256": "3ff21b1ce47869dacad83ac42f34e4b31b0b7acb7bbeef919679a077fa374105",
+  "test_object_sha256": "92b9304b2bc02716d2762e0e9159095e71f315879df9d329b192de6f364890f7",
+  "owner_object_deps": [
+    "CMakeFiles/hawken_local_udp.dir/src/local_udp_owner.cpp.obj: #deps 33, deps mtime 8139767139488312 (VALID)",
+    "    ../../include/hawken/local_udp_owner.hpp"
+  ],
+  "test_object_deps": [
+    "CMakeFiles/hawken-local-udp-tests.dir/tests/local_udp_owner_tests.cpp.obj: #deps 26, deps mtime 8139767234408173 (VALID)",
+    "    ../../include/hawken/local_udp_owner.hpp"
+  ],
+  "launcher_pid": 70704,
+  "launcher_creation_utc": "2026-10-17T21:45:08.7624469Z",
+  "launcher_exit": 1,
+  "launcher_absent": true,
+  "ram_final_used_percent": 71.64,
+  "classification": "Semantic RED: build succeeded; both selected cases failed on missing Pawn role/validation behavior."
+}

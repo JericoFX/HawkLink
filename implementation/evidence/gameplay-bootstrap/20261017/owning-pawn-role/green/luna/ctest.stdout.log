@@ -1,0 +1,779 @@
+UpdateCTestConfiguration  from :F:/HawkenServer/DartConfiguration.tcl
+Test project F:/HawkenServer/build/windows-msvc
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+      Start  1: client_steam_identity_transport
+
+1: Test command: F:\HawkenServer\build\windows-msvc\hawken-client-steam-identity-transport-tests.exe
+1: Working Directory: F:/HawkenServer/build/windows-msvc
+1: Test timeout computed to be: 10000000
+1: [doctest] doctest version is "2.4.12"
+1: [doctest] run with "--help" for options
+1: ===============================================================================
+1: [doctest] test cases:   22 |   22 passed | 0 failed | 0 skipped
+1: [doctest] assertions: 1590 | 1590 passed | 0 failed |
+1: [doctest] Status: SUCCESS!
+ 1/59 Test  #1: client_steam_identity_transport ...   Passed    2.40 sec
+test 2
+      Start  2: main_menu_sync_reader
+
+2: Test command: F:\HawkenServer\build\windows-msvc\hawken-main-menu-sync-reader-tests.exe
+2: Working Directory: F:/HawkenServer/build/windows-msvc
+2: Test timeout computed to be: 10000000
+2: [doctest] doctest version is "2.4.12"
+2: [doctest] run with "--help" for options
+2: ===============================================================================
+2: [doctest] test cases:  11 |  11 passed | 0 failed | 0 skipped
+2: [doctest] assertions: 366 | 366 passed | 0 failed |
+2: [doctest] Status: SUCCESS!
+ 2/59 Test  #2: main_menu_sync_reader .............   Passed    0.05 sec
+test 3
+      Start  3: live_player_reader
+
+3: Test command: F:\HawkenServer\build\windows-msvc\hawken-live-player-reader-tests.exe
+3: Working Directory: F:/HawkenServer/build/windows-msvc
+3: Test timeout computed to be: 10000000
+3: [doctest] doctest version is "2.4.12"
+3: [doctest] run with "--help" for options
+3: ===============================================================================
+3: [doctest] test cases:   42 |   42 passed | 0 failed | 0 skipped
+3: [doctest] assertions: 4902 | 4902 passed | 0 failed |
+3: [doctest] Status: SUCCESS!
+ 3/59 Test  #3: live_player_reader ................   Passed    0.25 sec
+test 4
+      Start  4: gri_template_reader
+
+4: Test command: F:\HawkenServer\build\windows-msvc\hawken-gri-template-reader-tests.exe
+4: Working Directory: F:/HawkenServer/build/windows-msvc
+4: Test timeout computed to be: 10000000
+4: [doctest] doctest version is "2.4.12"
+4: [doctest] run with "--help" for options
+4: ===============================================================================
+4: [doctest] test cases: 10 | 10 passed | 0 failed | 0 skipped
+4: [doctest] assertions: 92 | 92 passed | 0 failed |
+4: [doctest] Status: SUCCESS!
+ 4/59 Test  #4: gri_template_reader ...............   Passed    0.10 sec
+test 5
+      Start  5: controller_sample_comparison
+
+5: Test command: F:\HawkenServer\build\windows-msvc\hawken-controller-sample-comparison-tests.exe
+5: Working Directory: F:/HawkenServer/build/windows-msvc
+5: Test timeout computed to be: 10000000
+5: [doctest] doctest version is "2.4.12"
+5: [doctest] run with "--help" for options
+5: ===============================================================================
+5: [doctest] test cases: 12 | 12 passed | 0 failed | 0 skipped
+5: [doctest] assertions: 56 | 56 passed | 0 failed |
+5: [doctest] Status: SUCCESS!
+ 5/59 Test  #5: controller_sample_comparison ......   Passed    0.20 sec
+test 6
+      Start  6: mech_setup_reader
+
+6: Test command: F:\HawkenServer\build\windows-msvc\hawken-mech-setup-reader-tests.exe
+6: Working Directory: F:/HawkenServer/build/windows-msvc
+6: Test timeout computed to be: 10000000
+6: [doctest] doctest version is "2.4.12"
+6: [doctest] run with "--help" for options
+6: ===============================================================================
+6: [doctest] test cases:  18 |  18 passed | 0 failed | 0 skipped
+6: [doctest] assertions: 138 | 138 passed | 0 failed |
+6: [doctest] Status: SUCCESS!
+ 6/59 Test  #6: mech_setup_reader .................   Passed    0.21 sec
+test 7
+      Start  7: connection_cache_reader
+
+7: Test command: F:\HawkenServer\build\windows-msvc\hawken-connection-cache-reader-tests.exe
+7: Working Directory: F:/HawkenServer/build/windows-msvc
+7: Test timeout computed to be: 10000000
+7: [doctest] doctest version is "2.4.12"
+7: [doctest] run with "--help" for options
+7: ===============================================================================
+7: [doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+7: [doctest] assertions: 201 | 201 passed | 0 failed |
+7: [doctest] Status: SUCCESS!
+ 7/59 Test  #7: connection_cache_reader ...........   Passed    0.12 sec
+test 8
+      Start  8: server_listing_http
+
+8: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-listing-tests.exe
+8: Working Directory: F:/HawkenServer/build/windows-msvc
+8: Test timeout computed to be: 10000000
+8: [doctest] doctest version is "2.4.12"
+8: [doctest] run with "--help" for options
+8: ===============================================================================
+8: [doctest] test cases:   8 |   8 passed | 0 failed | 0 skipped
+8: [doctest] assertions: 365 | 365 passed | 0 failed |
+8: [doctest] Status: SUCCESS!
+ 8/59 Test  #8: server_listing_http ...............   Passed    0.82 sec
+test 9
+      Start  9: local_tcp_probe
+
+9: Test command: F:\HawkenServer\build\windows-msvc\hawken-local-tcp-probe-tests.exe
+9: Working Directory: F:/HawkenServer/build/windows-msvc
+9: Test timeout computed to be: 60
+9: [doctest] doctest version is "2.4.12"
+9: [doctest] run with "--help" for options
+9: ===============================================================================
+9: [doctest] test cases:  9 |  9 passed | 0 failed | 0 skipped
+9: [doctest] assertions: 49 | 49 passed | 0 failed |
+9: [doctest] Status: SUCCESS!
+ 9/59 Test  #9: local_tcp_probe ...................   Passed    0.22 sec
+test 10
+      Start 10: local_udp_owner
+
+10: Test command: F:\HawkenServer\build\windows-msvc\hawken-local-udp-tests.exe
+10: Working Directory: F:/HawkenServer/build/windows-msvc
+10: Test timeout computed to be: 120
+10: [doctest] doctest version is "2.4.12"
+10: [doctest] run with "--help" for options
+10: ===============================================================================
+10: [doctest] test cases:   154 |   154 passed | 0 failed | 0 skipped
+10: [doctest] assertions: 14710 | 14710 passed | 0 failed |
+10: [doctest] Status: SUCCESS!
+10/59 Test #10: local_udp_owner ...................   Passed   79.66 sec
+test 11
+      Start 11: udp_trial_runtime
+
+11: Test command: F:\HawkenServer\build\windows-msvc\hawken-udp-trial-runtime-tests.exe
+11: Working Directory: F:/HawkenServer/build/windows-msvc
+11: Test timeout computed to be: 120
+11: [doctest] doctest version is "2.4.12"
+11: [doctest] run with "--help" for options
+11: ===============================================================================
+11: [doctest] test cases:   42 |   42 passed | 0 failed | 0 skipped
+11: [doctest] assertions: 3954 | 3954 passed | 0 failed |
+11: [doctest] Status: SUCCESS!
+11/59 Test #11: udp_trial_runtime .................   Passed   12.29 sec
+test 12
+      Start 12: server_assignment_http
+
+12: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-assignment-tests.exe
+12: Working Directory: F:/HawkenServer/build/windows-msvc
+12: Test timeout computed to be: 10000000
+12: [doctest] doctest version is "2.4.12"
+12: [doctest] run with "--help" for options
+12: ===============================================================================
+12: [doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+12: [doctest] assertions: 474 | 474 passed | 0 failed |
+12: [doctest] Status: SUCCESS!
+12/59 Test #12: server_assignment_http ............   Passed    1.06 sec
+test 13
+      Start 13: game_connection
+
+13: Test command: F:\HawkenServer\build\windows-msvc\hawken-game-connection-tests.exe
+13: Working Directory: F:/HawkenServer/build/windows-msvc
+13: Test timeout computed to be: 10000000
+13: [doctest] doctest version is "2.4.12"
+13: [doctest] run with "--help" for options
+13: ===============================================================================
+13: [doctest] test cases:  116 |  116 passed | 0 failed | 0 skipped
+13: [doctest] assertions: 4213 | 4213 passed | 0 failed |
+13: [doctest] Status: SUCCESS!
+13/59 Test #13: game_connection ...................   Passed    0.10 sec
+test 14
+      Start 14: session_assignment
+
+14: Test command: F:\HawkenServer\build\windows-msvc\hawken-session-assignment-tests.exe
+14: Working Directory: F:/HawkenServer/build/windows-msvc
+14: Test timeout computed to be: 10000000
+14: [doctest] doctest version is "2.4.12"
+14: [doctest] run with "--help" for options
+14: ===============================================================================
+14: [doctest] test cases:   41 |   41 passed | 0 failed | 0 skipped
+14: [doctest] assertions: 1731 | 1731 passed | 0 failed |
+14: [doctest] Status: SUCCESS!
+14/59 Test #14: session_assignment ................   Passed    1.25 sec
+test 15
+      Start 15: sync_service
+
+15: Test command: F:\HawkenServer\build\windows-msvc\hawken-sync-service-tests.exe
+15: Working Directory: F:/HawkenServer/build/windows-msvc
+15: Test timeout computed to be: 10000000
+15: [doctest] doctest version is "2.4.12"
+15: [doctest] run with "--help" for options
+15: ===============================================================================
+15: [doctest] test cases:  16 |  16 passed | 0 failed | 0 skipped
+15: [doctest] assertions: 815 | 815 passed | 0 failed |
+15: [doctest] Status: SUCCESS!
+15/59 Test #15: sync_service ......................   Passed    0.59 sec
+test 16
+      Start 16: menu_sync_service
+
+16: Test command: F:\HawkenServer\build\windows-msvc\hawken-menu-sync-tests.exe
+16: Working Directory: F:/HawkenServer/build/windows-msvc
+16: Test timeout computed to be: 10000000
+16: [doctest] doctest version is "2.4.12"
+16: [doctest] run with "--help" for options
+16: ===============================================================================
+16: [doctest] test cases:    25 |    25 passed | 0 failed | 0 skipped
+16: [doctest] assertions: 10427 | 10427 passed | 0 failed |
+16: [doctest] Status: SUCCESS!
+16/59 Test #16: menu_sync_service .................   Passed    0.77 sec
+test 17
+      Start 17: server_auth_http
+
+17: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-auth-tests.exe
+17: Working Directory: F:/HawkenServer/build/windows-msvc
+17: Test timeout computed to be: 10000000
+17: [doctest] doctest version is "2.4.12"
+17: [doctest] run with "--help" for options
+17: ===============================================================================
+17: [doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+17: [doctest] assertions: 276 | 276 passed | 0 failed |
+17: [doctest] Status: SUCCESS!
+17/59 Test #17: server_auth_http ..................   Passed    1.63 sec
+test 18
+      Start 18: server_inventory_http
+
+18: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-inventory-tests.exe
+18: Working Directory: F:/HawkenServer/build/windows-msvc
+18: Test timeout computed to be: 10000000
+18: [doctest] doctest version is "2.4.12"
+18: [doctest] run with "--help" for options
+18: ===============================================================================
+18: [doctest] test cases:   25 |   25 passed | 0 failed | 0 skipped
+18: [doctest] assertions: 1373 | 1373 passed | 0 failed |
+18: [doctest] Status: SUCCESS!
+18/59 Test #18: server_inventory_http .............   Passed    3.47 sec
+test 19
+      Start 19: server_menu_http
+
+19: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-menu-tests.exe
+19: Working Directory: F:/HawkenServer/build/windows-msvc
+19: Test timeout computed to be: 10000000
+19: [doctest] doctest version is "2.4.12"
+19: [doctest] run with "--help" for options
+19: ===============================================================================
+19: [doctest] test cases:  13 |  13 passed | 0 failed | 0 skipped
+19: [doctest] assertions: 780 | 780 passed | 0 failed |
+19: [doctest] Status: SUCCESS!
+19/59 Test #19: server_menu_http ..................   Passed    1.77 sec
+test 20
+      Start 20: auth_service
+
+20: Test command: F:\HawkenServer\build\windows-msvc\hawken-auth-service-tests.exe
+20: Working Directory: F:/HawkenServer/build/windows-msvc
+20: Test timeout computed to be: 10000000
+20: [doctest] doctest version is "2.4.12"
+20: [doctest] run with "--help" for options
+20: ===============================================================================
+20: [doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+20: [doctest] assertions: 570 | 570 passed | 0 failed |
+20: [doctest] Status: SUCCESS!
+20/59 Test #20: auth_service ......................   Passed    0.62 sec
+test 21
+      Start 21: steam_auth_callback
+
+21: Test command: F:\HawkenServer\build\windows-msvc\hawken-steam-auth-tests.exe
+21: Working Directory: F:/HawkenServer/build/windows-msvc
+21: Test timeout computed to be: 10000000
+21: [doctest] doctest version is "2.4.12"
+21: [doctest] run with "--help" for options
+21: ===============================================================================
+21: [doctest] test cases:  7 |  7 passed | 0 failed | 0 skipped
+21: [doctest] assertions: 42 | 42 passed | 0 failed |
+21: [doctest] Status: SUCCESS!
+21/59 Test #21: steam_auth_callback ...............   Passed    0.75 sec
+test 22
+      Start 22: session_wire
+
+22: Test command: F:\HawkenServer\build\windows-msvc\hawken-session-tests.exe
+22: Working Directory: F:/HawkenServer/build/windows-msvc
+22: Test timeout computed to be: 10000000
+22: [doctest] doctest version is "2.4.12"
+22: [doctest] run with "--help" for options
+22: ===============================================================================
+22: [doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+22: [doctest] assertions: 424 | 424 passed | 0 failed |
+22: [doctest] Status: SUCCESS!
+22/59 Test #22: session_wire ......................   Passed    0.06 sec
+test 23
+      Start 23: control_wire
+
+23: Test command: F:\HawkenServer\build\windows-msvc\hawken-control-tests.exe
+23: Working Directory: F:/HawkenServer/build/windows-msvc
+23: Test timeout computed to be: 10000000
+23: [doctest] doctest version is "2.4.12"
+23: [doctest] run with "--help" for options
+23: ===============================================================================
+23: [doctest] test cases:  21 |  21 passed | 0 failed | 0 skipped
+23: [doctest] assertions: 227 | 227 passed | 0 failed |
+23: [doctest] Status: SUCCESS!
+23/59 Test #23: control_wire ......................   Passed    0.07 sec
+test 24
+      Start 24: control_handshake
+
+24: Test command: F:\HawkenServer\build\windows-msvc\hawken-control-handshake-tests.exe
+24: Working Directory: F:/HawkenServer/build/windows-msvc
+24: Test timeout computed to be: 10000000
+24: [doctest] doctest version is "2.4.12"
+24: [doctest] run with "--help" for options
+24: ===============================================================================
+24: [doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+24: [doctest] assertions: 330 | 330 passed | 0 failed |
+24: [doctest] Status: SUCCESS!
+24/59 Test #24: control_handshake .................   Passed    0.07 sec
+test 25
+      Start 25: posthello_control
+
+25: Test command: F:\HawkenServer\build\windows-msvc\hawken-posthello-control-tests.exe
+25: Working Directory: F:/HawkenServer/build/windows-msvc
+25: Test timeout computed to be: 10000000
+25: [doctest] doctest version is "2.4.12"
+25: [doctest] run with "--help" for options
+25: ===============================================================================
+25: [doctest] test cases:   54 |   54 passed | 0 failed | 0 skipped
+25: [doctest] assertions: 5014 | 5014 passed | 0 failed |
+25: [doctest] Status: SUCCESS!
+25/59 Test #25: posthello_control .................   Passed    0.08 sec
+test 26
+      Start 26: package_publication
+
+26: Test command: F:\HawkenServer\build\windows-msvc\hawken-package-publication-tests.exe
+26: Working Directory: F:/HawkenServer/build/windows-msvc
+26: Test timeout computed to be: 10000000
+26: [doctest] doctest version is "2.4.12"
+26: [doctest] run with "--help" for options
+26: ===============================================================================
+26: [doctest] test cases:  38 |  38 passed | 0 failed | 0 skipped
+26: [doctest] assertions: 183 | 183 passed | 0 failed |
+26: [doctest] Status: SUCCESS!
+26/59 Test #26: package_publication ...............   Passed    0.07 sec
+test 27
+      Start 27: wreckage_trial
+
+27: Test command: F:\HawkenServer\build\windows-msvc\hawken-wreckage-trial-tests.exe
+27: Working Directory: F:/HawkenServer/build/windows-msvc
+27: Test timeout computed to be: 10000000
+27: [doctest] doctest version is "2.4.12"
+27: [doctest] run with "--help" for options
+27: ===============================================================================
+27: [doctest] test cases:  11 |  11 passed | 0 failed | 0 skipped
+27: [doctest] assertions: 228 | 228 passed | 0 failed |
+27: [doctest] Status: SUCCESS!
+27/59 Test #27: wreckage_trial ....................   Passed    0.12 sec
+test 28
+      Start 28: server_login_handshake
+
+28: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-login-handshake-tests.exe
+28: Working Directory: F:/HawkenServer/build/windows-msvc
+28: Test timeout computed to be: 10000000
+28: [doctest] doctest version is "2.4.12"
+28: [doctest] run with "--help" for options
+28: ===============================================================================
+28: [doctest] test cases:  35 |  35 passed | 0 failed | 0 skipped
+28: [doctest] assertions: 382 | 382 passed | 0 failed |
+28: [doctest] Status: SUCCESS!
+28/59 Test #28: server_login_handshake ............   Passed    0.07 sec
+test 29
+      Start 29: starter_inventory
+
+29: Test command: F:\HawkenServer\build\windows-msvc\hawken-starter-inventory-tests.exe
+29: Working Directory: F:/HawkenServer/build/windows-msvc
+29: Test timeout computed to be: 10000000
+29: [doctest] doctest version is "2.4.12"
+29: [doctest] run with "--help" for options
+29: ===============================================================================
+29: [doctest] test cases:  15 |  15 passed | 0 failed | 0 skipped
+29: [doctest] assertions: 393 | 393 passed | 0 failed |
+29: [doctest] Status: SUCCESS!
+29/59 Test #29: starter_inventory .................   Passed    0.23 sec
+test 30
+      Start 30: starter_catalogue
+
+30: Test command: F:\HawkenServer\build\windows-msvc\hawken-starter-catalogue-tests.exe
+30: Working Directory: F:/HawkenServer/build/windows-msvc
+30: Test timeout computed to be: 10000000
+30: [doctest] doctest version is "2.4.12"
+30: [doctest] run with "--help" for options
+30: ===============================================================================
+30: [doctest] test cases:   29 |   29 passed | 0 failed | 0 skipped
+30: [doctest] assertions: 1859 | 1859 passed | 0 failed |
+30: [doctest] Status: SUCCESS!
+30/59 Test #30: starter_catalogue .................   Passed    0.12 sec
+test 31
+      Start 31: inventory_service
+
+31: Test command: F:\HawkenServer\build\windows-msvc\hawken-inventory-service-tests.exe
+31: Working Directory: F:/HawkenServer/build/windows-msvc
+31: Test timeout computed to be: 10000000
+31: [doctest] doctest version is "2.4.12"
+31: [doctest] run with "--help" for options
+31: ===============================================================================
+31: [doctest] test cases:   56 |   56 passed | 0 failed | 0 skipped
+31: [doctest] assertions: 5348 | 5348 passed | 0 failed |
+31: [doctest] Status: SUCCESS!
+31/59 Test #31: inventory_service .................   Passed    2.30 sec
+test 32
+      Start 32: packet_writer
+
+32: Test command: F:\HawkenServer\build\windows-msvc\hawken-packet-tests.exe
+32: Working Directory: F:/HawkenServer/build/windows-msvc
+32: Test timeout computed to be: 10000000
+32: [doctest] doctest version is "2.4.12"
+32: [doctest] run with "--help" for options
+32: ===============================================================================
+32: [doctest] test cases:  24 |  24 passed | 0 failed | 0 skipped
+32: [doctest] assertions: 118 | 118 passed | 0 failed |
+32: [doctest] Status: SUCCESS!
+32/59 Test #32: packet_writer .....................   Passed    0.07 sec
+test 33
+      Start 33: actor_transform
+
+33: Test command: F:\HawkenServer\build\windows-msvc\hawken-actor-transform-tests.exe
+33: Working Directory: F:/HawkenServer/build/windows-msvc
+33: Test timeout computed to be: 10000000
+33: [doctest] doctest version is "2.4.12"
+33: [doctest] run with "--help" for options
+33: ===============================================================================
+33: [doctest] test cases:  36 |  36 passed | 0 failed | 0 skipped
+33: [doctest] assertions: 397 | 397 passed | 0 failed |
+33: [doctest] Status: SUCCESS!
+33/59 Test #33: actor_transform ...................   Passed    0.07 sec
+test 34
+      Start 34: pawn_combat
+
+34: Test command: F:\HawkenServer\build\windows-msvc\hawken-pawn-combat-tests.exe
+34: Working Directory: F:/HawkenServer/build/windows-msvc
+34: Test timeout computed to be: 10000000
+34: [doctest] doctest version is "2.4.12"
+34: [doctest] run with "--help" for options
+34: ===============================================================================
+34: [doctest] test cases:  15 |  15 passed | 0 failed | 0 skipped
+34: [doctest] assertions: 252 | 252 passed | 0 failed |
+34: [doctest] Status: SUCCESS!
+34/59 Test #34: pawn_combat .......................   Passed    0.07 sec
+test 35
+      Start 35: movement_rpc
+
+35: Test command: F:\HawkenServer\build\windows-msvc\hawken-movement-rpc-tests.exe
+35: Working Directory: F:/HawkenServer/build/windows-msvc
+35: Test timeout computed to be: 10000000
+35: [doctest] doctest version is "2.4.12"
+35: [doctest] run with "--help" for options
+35: ===============================================================================
+35: [doctest] test cases:   6 |   6 passed | 0 failed | 0 skipped
+35: [doctest] assertions: 834 | 834 passed | 0 failed |
+35: [doctest] Status: SUCCESS!
+35/59 Test #35: movement_rpc ......................   Passed    0.07 sec
+test 36
+      Start 36: package_map_ranges
+
+36: Test command: F:\HawkenServer\build\windows-msvc\hawken-package-map-ranges-tests.exe
+36: Working Directory: F:/HawkenServer/build/windows-msvc
+36: Test timeout computed to be: 10000000
+36: [doctest] doctest version is "2.4.12"
+36: [doctest] run with "--help" for options
+36: ===============================================================================
+36: [doctest] test cases:  26 |  26 passed | 0 failed | 0 skipped
+36: [doctest] assertions: 111 | 111 passed | 0 failed |
+36: [doctest] Status: SUCCESS!
+36/59 Test #36: package_map_ranges ................   Passed    0.06 sec
+test 37
+      Start 37: object_reference
+
+37: Test command: F:\HawkenServer\build\windows-msvc\hawken-object-reference-tests.exe
+37: Working Directory: F:/HawkenServer/build/windows-msvc
+37: Test timeout computed to be: 10000000
+37: [doctest] doctest version is "2.4.12"
+37: [doctest] run with "--help" for options
+37: ===============================================================================
+37: [doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+37: [doctest] assertions: 820 | 820 passed | 0 failed |
+37: [doctest] Status: SUCCESS!
+37/59 Test #37: object_reference ..................   Passed    0.07 sec
+test 38
+      Start 38: object_property_wire
+
+38: Test command: F:\HawkenServer\build\windows-msvc\hawken-object-property-tests.exe
+38: Working Directory: F:/HawkenServer/build/windows-msvc
+38: Test timeout computed to be: 10000000
+38: [doctest] doctest version is "2.4.12"
+38: [doctest] run with "--help" for options
+38: ===============================================================================
+38: [doctest] test cases:  24 |  24 passed | 0 failed | 0 skipped
+38: [doctest] assertions: 130 | 130 passed | 0 failed |
+38: [doctest] Status: SUCCESS!
+38/59 Test #38: object_property_wire ..............   Passed    0.06 sec
+test 39
+      Start 39: bool_property_wire
+
+39: Test command: F:\HawkenServer\build\windows-msvc\hawken-bool-property-tests.exe
+39: Working Directory: F:/HawkenServer/build/windows-msvc
+39: Test timeout computed to be: 10000000
+39: [doctest] doctest version is "2.4.12"
+39: [doctest] run with "--help" for options
+39: ===============================================================================
+39: [doctest] test cases: 11 | 11 passed | 0 failed | 0 skipped
+39: [doctest] assertions: 87 | 87 passed | 0 failed |
+39: [doctest] Status: SUCCESS!
+39/59 Test #39: bool_property_wire ................   Passed    0.23 sec
+test 40
+      Start 40: int_property_wire
+
+40: Test command: F:\HawkenServer\build\windows-msvc\hawken-int-property-tests.exe
+40: Working Directory: F:/HawkenServer/build/windows-msvc
+40: Test timeout computed to be: 10000000
+40: [doctest] doctest version is "2.4.12"
+40: [doctest] run with "--help" for options
+40: ===============================================================================
+40: [doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+40: [doctest] assertions: 119 | 119 passed | 0 failed |
+40: [doctest] Status: SUCCESS!
+40/59 Test #40: int_property_wire .................   Passed    0.06 sec
+test 41
+      Start 41: mech_setup_wire
+
+41: Test command: F:\HawkenServer\build\windows-msvc\hawken-mech-setup-wire-tests.exe
+41: Working Directory: F:/HawkenServer/build/windows-msvc
+41: Test timeout computed to be: 10000000
+41: [doctest] doctest version is "2.4.12"
+41: [doctest] run with "--help" for options
+41: ===============================================================================
+41: [doctest] test cases: 19 | 19 passed | 0 failed | 0 skipped
+41: [doctest] assertions: 65 | 65 passed | 0 failed |
+41: [doctest] Status: SUCCESS!
+41/59 Test #41: mech_setup_wire ...................   Passed    0.06 sec
+test 42
+      Start 42: starter_mech_setup
+
+42: Test command: F:\HawkenServer\build\windows-msvc\hawken-starter-mech-setup-tests.exe
+42: Working Directory: F:/HawkenServer/build/windows-msvc
+42: Test timeout computed to be: 10000000
+42: [doctest] doctest version is "2.4.12"
+42: [doctest] run with "--help" for options
+42: ===============================================================================
+42: [doctest] test cases:  16 |  16 passed | 0 failed | 0 skipped
+42: [doctest] assertions: 362 | 362 passed | 0 failed |
+42: [doctest] Status: SUCCESS!
+42/59 Test #42: starter_mech_setup ................   Passed    0.08 sec
+test 43
+      Start 43: start_mech_rpc
+
+43: Test command: F:\HawkenServer\build\windows-msvc\hawken-start-mech-rpc-tests.exe
+43: Working Directory: F:/HawkenServer/build/windows-msvc
+43: Test timeout computed to be: 10000000
+43: [doctest] doctest version is "2.4.12"
+43: [doctest] run with "--help" for options
+43: ===============================================================================
+43: [doctest] test cases:   10 |   10 passed | 0 failed | 0 skipped
+43: [doctest] assertions: 2958 | 2958 passed | 0 failed |
+43: [doctest] Status: SUCCESS!
+43/59 Test #43: start_mech_rpc ....................   Passed    0.07 sec
+test 44
+      Start 44: spawn_validation
+
+44: Test command: F:\HawkenServer\build\windows-msvc\hawken-spawn-validation-tests.exe
+44: Working Directory: F:/HawkenServer/build/windows-msvc
+44: Test timeout computed to be: 10000000
+44: [doctest] doctest version is "2.4.12"
+44: [doctest] run with "--help" for options
+44: ===============================================================================
+44: [doctest] test cases:    4 |    4 passed | 0 failed | 0 skipped
+44: [doctest] assertions: 4854 | 4854 passed | 0 failed |
+44: [doctest] Status: SUCCESS!
+44/59 Test #44: spawn_validation ..................   Passed    0.08 sec
+test 45
+      Start 45: spawn_validation_rpc
+
+45: Test command: F:\HawkenServer\build\windows-msvc\hawken-spawn-validation-rpc-tests.exe
+45: Working Directory: F:/HawkenServer/build/windows-msvc
+45: Test timeout computed to be: 10000000
+45: [doctest] doctest version is "2.4.12"
+45: [doctest] run with "--help" for options
+45: ===============================================================================
+45: [doctest] test cases:   7 |   7 passed | 0 failed | 0 skipped
+45: [doctest] assertions: 963 | 963 passed | 0 failed |
+45: [doctest] Status: SUCCESS!
+45/59 Test #45: spawn_validation_rpc ..............   Passed    0.06 sec
+test 46
+      Start 46: controller_admission_rpc
+
+46: Test command: F:\HawkenServer\build\windows-msvc\hawken-controller-admission-rpc-tests.exe
+46: Working Directory: F:/HawkenServer/build/windows-msvc
+46: Test timeout computed to be: 10000000
+46: [doctest] doctest version is "2.4.12"
+46: [doctest] run with "--help" for options
+46: ===============================================================================
+46: [doctest] test cases:  12 |  12 passed | 0 failed | 0 skipped
+46: [doctest] assertions: 605 | 605 passed | 0 failed |
+46: [doctest] Status: SUCCESS!
+46/59 Test #46: controller_admission_rpc ..........   Passed    0.06 sec
+test 47
+      Start 47: match_readiness
+
+47: Test command: F:\HawkenServer\build\windows-msvc\hawken-match-readiness-tests.exe
+47: Working Directory: F:/HawkenServer/build/windows-msvc
+47: Test timeout computed to be: 10000000
+47: [doctest] doctest version is "2.4.12"
+47: [doctest] run with "--help" for options
+47: ===============================================================================
+47: [doctest] test cases:  19 |  19 passed | 0 failed | 0 skipped
+47: [doctest] assertions: 155 | 155 passed | 0 failed |
+47: [doctest] Status: SUCCESS!
+47/59 Test #47: match_readiness ...................   Passed    0.07 sec
+test 48
+      Start 48: unique_id_wire
+
+48: Test command: F:\HawkenServer\build\windows-msvc\hawken-unique-id-wire-tests.exe
+48: Working Directory: F:/HawkenServer/build/windows-msvc
+48: Test timeout computed to be: 10000000
+48: [doctest] doctest version is "2.4.12"
+48: [doctest] run with "--help" for options
+48: ===============================================================================
+48: [doctest] test cases:   7 |   7 passed | 0 failed | 0 skipped
+48: [doctest] assertions: 364 | 364 passed | 0 failed |
+48: [doctest] Status: SUCCESS!
+48/59 Test #48: unique_id_wire ....................   Passed    0.06 sec
+test 49
+      Start 49: inventory_rpc_wire
+
+49: Test command: F:\HawkenServer\build\windows-msvc\hawken-inventory-rpc-tests.exe
+49: Working Directory: F:/HawkenServer/build/windows-msvc
+49: Test timeout computed to be: 10000000
+49: [doctest] doctest version is "2.4.12"
+49: [doctest] run with "--help" for options
+49: ===============================================================================
+49: [doctest] test cases:  18 |  18 passed | 0 failed | 0 skipped
+49: [doctest] assertions: 553 | 553 passed | 0 failed |
+49: [doctest] Status: SUCCESS!
+49/59 Test #49: inventory_rpc_wire ................   Passed    0.06 sec
+test 50
+      Start 50: pawn_rpc_wire
+
+50: Test command: F:\HawkenServer\build\windows-msvc\hawken-pawn-rpc-tests.exe
+50: Working Directory: F:/HawkenServer/build/windows-msvc
+50: Test timeout computed to be: 10000000
+50: [doctest] doctest version is "2.4.12"
+50: [doctest] run with "--help" for options
+50: ===============================================================================
+50: [doctest] test cases:  20 |  20 passed | 0 failed | 0 skipped
+50: [doctest] assertions: 286 | 286 passed | 0 failed |
+50: [doctest] Status: SUCCESS!
+50/59 Test #50: pawn_rpc_wire .....................   Passed    0.06 sec
+test 51
+      Start 51: reliable_actor_transport
+
+51: Test command: F:\HawkenServer\build\windows-msvc\hawken-reliable-actor-tests.exe
+51: Working Directory: F:/HawkenServer/build/windows-msvc
+51: Test timeout computed to be: 10000000
+51: [doctest] doctest version is "2.4.12"
+51: [doctest] run with "--help" for options
+51: ===============================================================================
+51: [doctest] test cases:  29 |  29 passed | 0 failed | 0 skipped
+51: [doctest] assertions: 568 | 568 passed | 0 failed |
+51: [doctest] Status: SUCCESS!
+51/59 Test #51: reliable_actor_transport ..........   Passed    0.06 sec
+test 52
+      Start 52: initial_controller
+
+52: Test command: F:\HawkenServer\build\windows-msvc\hawken-initial-controller-tests.exe
+52: Working Directory: F:/HawkenServer/build/windows-msvc
+52: Test timeout computed to be: 10000000
+52: [doctest] doctest version is "2.4.12"
+52: [doctest] run with "--help" for options
+52: ===============================================================================
+52: [doctest] test cases:  8 |  8 passed | 0 failed | 0 skipped
+52: [doctest] assertions: 82 | 82 passed | 0 failed |
+52: [doctest] Status: SUCCESS!
+52/59 Test #52: initial_controller ................   Passed    0.06 sec
+test 53
+      Start 53: initial_pawn
+
+53: Test command: F:\HawkenServer\build\windows-msvc\hawken-initial-pawn-tests.exe
+53: Working Directory: F:/HawkenServer/build/windows-msvc
+53: Test timeout computed to be: 10000000
+53: [doctest] doctest version is "2.4.12"
+53: [doctest] run with "--help" for options
+53: ===============================================================================
+53: [doctest] test cases:  8 |  8 passed | 0 failed | 0 skipped
+53: [doctest] assertions: 75 | 75 passed | 0 failed |
+53: [doctest] Status: SUCCESS!
+53/59 Test #53: initial_pawn ......................   Passed    0.06 sec
+test 54
+      Start 54: reliable_control_transport
+
+54: Test command: F:\HawkenServer\build\windows-msvc\hawken-reliable-control-tests.exe
+54: Working Directory: F:/HawkenServer/build/windows-msvc
+54: Test timeout computed to be: 10000000
+54: [doctest] doctest version is "2.4.12"
+54: [doctest] run with "--help" for options
+54: ===============================================================================
+54: [doctest] test cases:  47 |  47 passed | 0 failed | 0 skipped
+54: [doctest] assertions: 400 | 400 passed | 0 failed |
+54: [doctest] Status: SUCCESS!
+54/59 Test #54: reliable_control_transport ........   Passed    0.07 sec
+test 55
+      Start 55: foundation
+
+55: Test command: F:\HawkenServer\build\windows-msvc\hawken-foundation-tests.exe
+55: Working Directory: F:/HawkenServer/build/windows-msvc
+55: Test timeout computed to be: 10000000
+55: [doctest] doctest version is "2.4.12"
+55: [doctest] run with "--help" for options
+55: ===============================================================================
+55: [doctest] test cases:   90 |   90 passed | 0 failed | 0 skipped
+55: [doctest] assertions: 4945 | 4945 passed | 0 failed |
+55: [doctest] Status: SUCCESS!
+55/59 Test #55: foundation ........................   Passed    1.22 sec
+test 56
+      Start 56: master_directory
+
+56: Test command: F:\HawkenServer\build\windows-msvc\hawken-master-tests.exe
+56: Working Directory: F:/HawkenServer/build/windows-msvc
+56: Test timeout computed to be: 10000000
+56: [doctest] doctest version is "2.4.12"
+56: [doctest] run with "--help" for options
+56: ===============================================================================
+56: [doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+56: [doctest] assertions: 475 | 475 passed | 0 failed |
+56: [doctest] Status: SUCCESS!
+56/59 Test #56: master_directory ..................   Passed    0.28 sec
+test 57
+      Start 57: server_bootstrap
+
+57: Test command: F:\HawkenServer\build\windows-msvc\hawken-server-tests.exe
+57: Working Directory: F:/HawkenServer/build/windows-msvc
+57: Test timeout computed to be: 10000000
+57: [doctest] doctest version is "2.4.12"
+57: [doctest] run with "--help" for options
+57: ===============================================================================
+57: [doctest] test cases:   8 |   8 passed | 0 failed | 0 skipped
+57: [doctest] assertions: 430 | 430 passed | 0 failed |
+57: [doctest] Status: SUCCESS!
+57/59 Test #57: server_bootstrap ..................   Passed    0.55 sec
+test 58
+      Start 58: storage
+
+58: Test command: F:\HawkenServer\build\windows-msvc\hawken-storage-tests.exe
+58: Working Directory: F:/HawkenServer/build/windows-msvc
+58: Test timeout computed to be: 10000000
+58: [doctest] doctest version is "2.4.12"
+58: [doctest] run with "--help" for options
+58: ===============================================================================
+58: [doctest] test cases:  130 |  130 passed | 0 failed | 0 skipped
+58: [doctest] assertions: 2773 | 2773 passed | 0 failed |
+58: [doctest] Status: SUCCESS!
+58/59 Test #58: storage ...........................   Passed   10.06 sec
+test 59
+      Start 59: client_routing
+
+59: Test command: F:\HawkenServer\build\windows-msvc\hawken-client-routing-tests.exe
+59: Working Directory: F:/HawkenServer/build/windows-msvc
+59: Test timeout computed to be: 10000000
+59: [doctest] doctest version is "2.4.12"
+59: [doctest] run with "--help" for options
+59: ===============================================================================
+59: [doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+59: [doctest] assertions: 248 | 248 passed | 0 failed |
+59: [doctest] Status: SUCCESS!
+59/59 Test #59: client_routing ....................   Passed    0.12 sec
+
+100% tests passed, 0 tests failed out of 59
+
+Total Test time (real) = 125.72 sec

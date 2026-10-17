@@ -87,9 +87,15 @@
     "durationLimitSeconds": 300,
     "packets": 726,
     "dropped": 0,
-    "coverage": "Bounded capture; may end before final deployment observation. Do not claim all deployment traffic captured.",
+    "coverage": "Capture ends21:29:36.8205206Z, before after-deploy sample file21:29:55.1072432Z. It does not cover final deployed observation and cannot prove absence of firing RPC during that observation.",
     "gitExcluded": true,
-    "file": "core-role-observation.pcapng"
+    "file": "core-role-observation.pcapng",
+    "sha256": "9c24bde9aaea4276a560be8458fd97ca5738dd662a78b2dc38334546ad445578",
+    "fullTsharkReadExit": 0,
+    "fullReadFrames": 726,
+    "firstPacketEpoch": 1792272529.4509165,
+    "lastPacketEpoch": 1792272576.8205206,
+    "observedPacketSpanSeconds": 47.36960411071777
   },
   "screenshot": "core-role-deployed.png",
   "clientLog": {

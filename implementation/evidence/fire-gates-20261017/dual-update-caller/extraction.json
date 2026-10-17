@@ -1,0 +1,11 @@
+{
+  "Scope": "Retained direct caller dc1d20 own pdata3022B only; no external callee expansion",
+  "OriginalSHA256": "4A861ECB4AC7ADD9554F8DAF8F98AD2C12B9CB6C1865A83E8BE808BEB46EA8A2",
+  "EntryRva": "0xdc1d20",
+  "RawOffset": "0xdc1120",
+  "ExtentBytes": 3022,
+  "PdataEndExclusive": "0xdc28ee",
+  "BodySha256": "D52419337B7D1A6A42FA4A23227712372065B3AFDA8CB238976B3354E90AB4EE",
+  "DisassemblyExit": 0,
+  "Limits": "No Tick name/slot binding established; no runtime causal acceptance; no Java; no source/config writes"
+}

@@ -1,0 +1,64 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4547):
+TEST CASE:  UDP owning Pawn role adds only AutonomousProxy after real opening ACKs and preserves absent plan bytes
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4576): ERROR: CHECK( pawn.payload_bits==50 ) is NOT correct!
+  values: CHECK( 40 == 50 )
+  logged: mode := 2
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4576): ERROR: CHECK( pawn.payload==hex("010f6030010b02") ) is NOT correct!
+  values: CHECK( {?} == {?} )
+  logged: mode := 2
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4586):
+TEST CASE:  UDP owning Pawn role preflight rejects ineligible out of bound and link collisions before coherent retry
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: invalid := 0
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4614): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: invalid := 0
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: invalid := 1
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4614): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: invalid := 1
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: invalid := 2
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4614): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: invalid := 2
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: invalid := 3
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4614): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: invalid := 3
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: invalid := 4
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4614): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: invalid := 4
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(229): ERROR: Local UDP owner accepted invalid input.
+  logged: invalid := 5
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4614): ERROR: CHECK_FALSE( owner.running() ) is NOT correct!
+  values: CHECK_FALSE( true )
+  logged: invalid := 5
+
+===============================================================================
+[doctest] test cases:   2 |   0 passed |  2 failed | 152 skipped
+[doctest] assertions: 234 | 220 passed | 14 failed |
+[doctest] Status: FAILURE!

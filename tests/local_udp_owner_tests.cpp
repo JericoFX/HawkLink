@@ -4543,3 +4543,76 @@ TEST_CASE("UDP combat permission cannot be released after authorization is revok
     const auto rejected=combat_output(peer,client,1,100ms);
     for(const auto& bunch:rejected.bunches) CHECK_FALSE(combat_is_permission(bunch,true));
 }
+
+TEST_CASE("UDP owning Pawn role adds only AutonomousProxy after real opening ACKs and preserves absent plan bytes") {
+    for(unsigned mode=0;mode<3;++mode) {
+        CAPTURE(mode);auto plan=public_links_plan();
+        if(mode!=0) plan.pawn_exclusive_bound=150;
+        if(mode==2) plan.owning_pawn_role=udp::OwningPawnRolePlan{11,true};
+        LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),plan);
+        const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+        const auto openings=links_openings(f,login,peer,client);
+        CHECK(links_output(peer,client,100ms).bunches.empty());
+        // ACK only through the first observed opening; no gap past unACKed PRI/Pawn.
+        auto acknowledgments=links_opening_acks(openings);
+        acknowledgments.resize(acknowledgments.size()-2);
+        peer.send(f.owner.port(),links_ack(client,5,acknowledgments));
+        CHECK(links_output(peer,client,100ms).bunches.empty());
+        peer.send(f.owner.port(),links_ack(client,6,{openings.packet_ids[1],openings.packet_ids[2]}));
+        const auto output=links_output(peer,client,2000ms,2);REQUIRE(output.bunches.size()==2);
+        const auto& controller=output.bunches[0];const auto& pawn=output.bunches[1];
+        CHECK(controller.channel==7);CHECK(controller.sequence==43);
+        CHECK(controller.payload_bits==30);CHECK(controller.payload==hex("9b804600"));
+        CHECK(pawn.channel==8);CHECK(pawn.sequence==73);
+        if(mode==0) {
+            CHECK(pawn.payload_bits==30);CHECK(pawn.payload==hex("79004f00"));
+        } else if(mode==1) {
+            // Two8-bit native field tags plus two12-bit actor-channel references.
+            CHECK(pawn.payload_bits==40);CHECK(pawn.payload==hex("010f603001"));
+        } else {
+            // Append tag11/b150 (8bits), then ENetRole AutonomousProxy2 (2bits).
+            // No RPC presence, alignment or Authority3 value is inserted.
+            CHECK(pawn.payload_bits==50);CHECK(pawn.payload==hex("010f6030010b02"));
+        }
+        for(const auto& bunch:output.bunches) {
+            CHECK(bunch.reliable);CHECK(bunch.channel_type==2);
+            CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);CHECK_FALSE(bunch.control);
+        }
+        peer.send(f.owner.port(),links_ack(client,7,output.packet_ids));
+        CHECK(links_output(peer,client,100ms).bunches.empty());
+    }
+}
+TEST_CASE("UDP owning Pawn role preflight rejects ineligible out of bound and link collisions before coherent retry") {
+    for(unsigned invalid=0;invalid<6;++invalid) {
+        CAPTURE(invalid);auto coherent=public_links_plan();coherent.pawn_exclusive_bound=150;
+        const auto inventory=inventory_plan();const bool with_inventory=invalid>=4;
+        coherent.owning_pawn_role=udp::OwningPawnRolePlan{11,true};auto plan=coherent;
+        switch(invalid) {
+        case 0:plan.owning_pawn_role->enum_property_correct=false;break;
+        case 1:plan.owning_pawn_role->field_id=150;break;
+        case 2:plan.owning_pawn_role->field_id=plan.pawn_controller_field_id;break;
+        case 3:plan.owning_pawn_role->field_id=plan.pawn_pri_field_id;break;
+        case 4:plan.owning_pawn_role->field_id=inventory.pawn_inv_manager_field_id;break;
+        case 5:plan.owning_pawn_role->field_id=inventory.pawn_dual_weapon_field_id;break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        const auto start=[&](const udp::InitialActorLinksPlan& selected) {
+            owner.start([](const session::SessionId&){return true;},
+                [](const session::SessionId&,const control::posthello::RawString&){return true;},
+                [with_inventory](const session::SessionId&,const control::posthello::Login&) {
+                    auto world=public_world();
+                    // Same complete synthetic Root0..6 publication as inventory_publisher.
+                    if(with_inventory) world.packages[0].generation_net_counts={0,7};
+                    return std::optional{world};
+                },public_controller_plan(),public_pawn_plan(),public_pri_plan(),selected,
+                with_inventory?std::optional{public_start_mech_plan()}:std::nullopt,
+                with_inventory?inventory_provider():udp::LocalUdpOwner::StartMechProvider{},
+                {},{},{},{},{},{},{},with_inventory?std::optional{inventory}:std::nullopt);
+        };
+        error([&]{start(plan);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if(owner.running()) {owner.stop();continue;} // Preserve independent RED variants if plan is ignored.
+        CHECK_NOTHROW(start(coherent));CHECK(owner.running());owner.stop();
+    }
+}

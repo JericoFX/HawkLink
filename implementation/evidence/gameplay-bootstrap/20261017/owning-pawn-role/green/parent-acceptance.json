@@ -1,0 +1,69 @@
+{
+  "schema": "owning-pawn-role-parent-acceptance-v1",
+  "utc": "2026-10-17T22:01:16.2451190Z",
+  "state": "ACCEPTED_LOCAL_ROLE_WIRE_AND_PREFLIGHT;NATIVE_ROLE_AND_GAMEPLAY_PENDING",
+  "original": {
+    "file": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "coreSha256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+  "sourceFreeze": {
+    "file": "parent-freeze.json",
+    "sha256": "dd49bff995bb4f9e6341f2259c347946b3a85dd48c732e112ca719f403423066",
+    "inputs": 54,
+    "parentIndependentDrift": 0
+  },
+  "review": [
+    "Parent read actual five source/test file diffs and independent literal test bytes",
+    "Optional local owning-Pawn plan adds only AutonomousProxy2 via field11/ENetRole2bits; no Authority3 or other actor role changes",
+    "Both original object-property payloads are precomposed before emission; optional value appends to Pawn payload and preserves logical-bit alignment/budget",
+    "Startup rejects unverified enum premise, out-of-bound tag and Pawn Controller/PRI/InventoryManager/DualWeapon field collisions",
+    "Default absent plan preserves old literal bytes; exact opening ACK and coherent retry tests preserved",
+    "Wreckage activation is explicit local trial policy after original eight-package integrity gate; original sender Driver+d8/e0 identity is still unproved",
+    "No original binary/UPK modification, native memory write, Steam emulator or source changes during validation"
+  ],
+  "red": {
+    "summary": "../red/luna/validation-summary.json",
+    "buildExit": 0,
+    "cases": 2,
+    "failedCases": 2,
+    "failedAssertions": 14,
+    "filteredCases": 152
+  },
+  "green": {
+    "summary": "luna/green-postflight.json",
+    "summarySha256": "c2bcddfeeb37ce6b03d224c23c5b0db37bf040b67bc8f1164ff348b096f9fa02",
+    "buildExit": 0,
+    "focusedCases": 2,
+    "focusedAssertions": 258,
+    "focusedFilteredCases": 152,
+    "ctestExit": 0,
+    "suites": 59,
+    "cases": 1635,
+    "assertions": 85541,
+    "failures": 0,
+    "skips": 0,
+    "assetProbeExit": 0,
+    "assetProbeClientRuntimeVerified": false,
+    "coreHelpExit": 0
+  },
+  "freshness": {
+    "rebuiltAbiObjects": 6,
+    "changedTestBinaries": [
+      "Owner",
+      "Runtime",
+      "Wreckage",
+      "server-listing"
+    ],
+    "unchangedOtherTestBinaries": 55,
+    "coreLinkObserved": true,
+    "limitation": "Some fresh Ninja records remain deps0 VALID despite compiler showIncludes. Explicit compilation/actions and stable source pins prove current gate only; force affected exact objects after future header changes."
+  },
+  "nativeBaseline": "../../core-role-observation/parent-native-result.json",
+  "limits": [
+    "Native baseline remains Pawn.Role1, Controller.Role2, server-can-fire true, shutdown true",
+    "No runtime Role2 assignment or actual fire/jump success asserted by this acceptance",
+    "RPC metadata bins observe only first tag, not arguments/suffixes or authoritative fire handlers",
+    "Full compatible game, authoritative movement/weapon/damage simulation and bot non-missile damage remain open"
+  ]
+}

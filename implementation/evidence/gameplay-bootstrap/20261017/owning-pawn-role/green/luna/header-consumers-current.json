@@ -1,0 +1,97 @@
+[
+  {
+    "header_pattern": "local_udp_owner\\.hpp",
+    "consumers": [
+      {
+        "object": "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj: #deps 37, deps mtime 8139740467172704 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken_local_udp.dir/src/local_udp_owner.cpp.obj",
+        "deps_line": "CMakeFiles/hawken_local_udp.dir/src/local_udp_owner.cpp.obj: #deps 33, deps mtime 8139767139488312 (VALID)"
+      },
+      {
+        "object": "CMakeFiles/hawken-local-udp-tests.dir/tests/local_udp_owner_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-local-udp-tests.dir/tests/local_udp_owner_tests.cpp.obj: #deps 26, deps mtime 8139767234408173 (VALID)"
+      },
+      {
+        "object": "CMakeFiles/hawken-server-listing-tests.dir/tests/server_listing_http_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-server-listing-tests.dir/tests/server_listing_http_tests.cpp.obj: #deps 31, deps mtime 8139738045156530 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken_udp_trial_runtime.dir/src/udp_trial_runtime.cpp.obj",
+        "deps_line": "CMakeFiles/hawken_udp_trial_runtime.dir/src/udp_trial_runtime.cpp.obj: #deps 26, deps mtime 8139736072836481 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken-udp-trial-runtime-tests.dir/tests/udp_trial_runtime_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-udp-trial-runtime-tests.dir/tests/udp_trial_runtime_tests.cpp.obj: #deps 29, deps mtime 8139736195745458 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken_wreckage_trial.dir/src/wreckage_trial.cpp.obj",
+        "deps_line": "CMakeFiles/hawken_wreckage_trial.dir/src/wreckage_trial.cpp.obj: #deps 28, deps mtime 8139736099932273 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken-wreckage-trial-probe.dir/tools/wreckage_trial_probe.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-wreckage-trial-probe.dir/tools/wreckage_trial_probe.cpp.obj: #deps 28, deps mtime 8139736129769497 (VALID)"
+      },
+      {
+        "object": "CMakeFiles/hawken-wreckage-trial-tests.dir/tests/wreckage_trial_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-wreckage-trial-tests.dir/tests/wreckage_trial_tests.cpp.obj: #deps 29, deps mtime 8139736227200101 (STALE)"
+      }
+    ]
+  },
+  {
+    "header_pattern": "udp_trial_runtime\\.hpp",
+    "consumers": [
+      {
+        "object": "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj: #deps 37, deps mtime 8139740467172704 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken-server-listing-tests.dir/tests/server_listing_http_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-server-listing-tests.dir/tests/server_listing_http_tests.cpp.obj: #deps 31, deps mtime 8139738045156530 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken_udp_trial_runtime.dir/src/udp_trial_runtime.cpp.obj",
+        "deps_line": "CMakeFiles/hawken_udp_trial_runtime.dir/src/udp_trial_runtime.cpp.obj: #deps 26, deps mtime 8139736072836481 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken-udp-trial-runtime-tests.dir/tests/udp_trial_runtime_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-udp-trial-runtime-tests.dir/tests/udp_trial_runtime_tests.cpp.obj: #deps 29, deps mtime 8139736195745458 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken_wreckage_trial.dir/src/wreckage_trial.cpp.obj",
+        "deps_line": "CMakeFiles/hawken_wreckage_trial.dir/src/wreckage_trial.cpp.obj: #deps 28, deps mtime 8139736099932273 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken-wreckage-trial-probe.dir/tools/wreckage_trial_probe.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-wreckage-trial-probe.dir/tools/wreckage_trial_probe.cpp.obj: #deps 28, deps mtime 8139736129769497 (VALID)"
+      },
+      {
+        "object": "CMakeFiles/hawken-wreckage-trial-tests.dir/tests/wreckage_trial_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-wreckage-trial-tests.dir/tests/wreckage_trial_tests.cpp.obj: #deps 29, deps mtime 8139736227200101 (STALE)"
+      }
+    ]
+  },
+  {
+    "header_pattern": "wreckage_trial\\.hpp",
+    "consumers": [
+      {
+        "object": "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-server.dir/src/server_main.cpp.obj: #deps 37, deps mtime 8139740467172704 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken_wreckage_trial.dir/src/wreckage_trial.cpp.obj",
+        "deps_line": "CMakeFiles/hawken_wreckage_trial.dir/src/wreckage_trial.cpp.obj: #deps 28, deps mtime 8139736099932273 (STALE)"
+      },
+      {
+        "object": "CMakeFiles/hawken-wreckage-trial-probe.dir/tools/wreckage_trial_probe.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-wreckage-trial-probe.dir/tools/wreckage_trial_probe.cpp.obj: #deps 28, deps mtime 8139736129769497 (VALID)"
+      },
+      {
+        "object": "CMakeFiles/hawken-wreckage-trial-tests.dir/tests/wreckage_trial_tests.cpp.obj",
+        "deps_line": "CMakeFiles/hawken-wreckage-trial-tests.dir/tests/wreckage_trial_tests.cpp.obj: #deps 29, deps mtime 8139736227200101 (STALE)"
+      }
+    ]
+  }
+]

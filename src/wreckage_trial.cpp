@@ -82,6 +82,10 @@ void configure_wreckage_trial(udp::UdpTrialConfig& config,
     // actor-link-plan-20261013/contract.json and selector-loader-20261013/
     // contract.json. These links do not prove native possession or gameplay.
     prepared.links=udp::InitialActorLinksPlan{21,22,294,49,30,150};
+    // Local owning-Pawn trial through the verified Role/ENetRole property.
+    // AutonomousProxy2 is a receiver assignment, not a claim about the
+    // original sender's Role/RemoteRole tag substitution or native gameplay.
+    prepared.links->owning_pawn_role=udp::OwningPawnRolePlan{11,true};
     // Explicit pinned local profile: these four CDOs use the observed no-PC,
     // no-initial-rotation prefix. Shared field IDs remain conditional on the
     // qualified original PRIMARY/normal Link0 caches, not native attestation.

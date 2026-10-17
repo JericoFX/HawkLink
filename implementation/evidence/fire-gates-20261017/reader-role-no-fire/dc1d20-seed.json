@@ -1,0 +1,14 @@
+{
+  "status": "CONFIRMED_PDATA_ENTRY_NOT_SEMANTIC_BODY_OR_TICK_BINDING",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "entry_rva": "0xdc1d20",
+  "pdata_end_exclusive": "0xdc28ee",
+  "pdata_extent_bytes": 3022,
+  "entry_raw": "0xdc1120",
+  "unwind_rva": "0x1aa243c",
+  "pdata_record_raw": "0x1c5a2b4",
+  "pdata_record_bytes": "201ddc00ee28dc003c24aa01",
+  "retained_direct_caller_evidence": "implementation/evidence/fire-gates-20261017/functions.jsonl entry140dc5700 callers includes140dc1d20",
+  "limitation": "No body extraction or disassembly performed; runtime-function extent may not include out-of-range branches or other chunks. No exact Tick name/class/slot binding established."
+}
