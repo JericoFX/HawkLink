@@ -38,11 +38,13 @@ struct LiveInventorySnapshot {
     bool dual_instigator_is_pawn = false;
     bool dual_invmanager_matches = false;
     std::optional<std::uint8_t> manager_role;
+    std::optional<std::uint8_t> pawn_role, controller_role;
     std::optional<std::uint8_t> pawn_physics;
     std::optional<std::uint8_t> dual_role;
     std::optional<LiveBoolSnapshot> dual_server_can_fire, dual_shutdown, dual_client_shutdown;
     std::optional<LiveBoolSnapshot> pawn_jump_capable;
     std::optional<LiveBoolSnapshot> pawn_can_move;
+    std::optional<LiveBoolSnapshot> pawn_no_weapon_firing;
     std::optional<float> pawn_jump_z, pawn_thruster_energy, pawn_thruster_jump_energy;
     std::optional<std::uint8_t> pawn_move_state;
     bool operator==(const LiveInventorySnapshot&) const = default;
@@ -328,6 +330,13 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         const auto inv_physics_property = property(inv_pawn_actor_type, "Physics", {}, "Engine", "Engine", true);
         inv_out.pawn_physics = read.template operator()<std::uint8_t>(pawn_value,
             static_cast<std::uint64_t>(inv_physics_property.offset));
+        const auto inv_pawn_role_property = property(inv_pawn_actor_type, "Role", {}, "Engine", "Engine", true);
+        const auto inv_controller_role_property = property(named(controller_chain, "Actor", "Engine"),
+            "Role", {}, "Engine", "Engine", true);
+        inv_out.pawn_role = read.template operator()<std::uint8_t>(pawn_value,
+            static_cast<std::uint64_t>(inv_pawn_role_property.offset));
+        inv_out.controller_role = read.template operator()<std::uint8_t>(controller,
+            static_cast<std::uint64_t>(inv_controller_role_property.offset));
         const auto inv_jump_property = property(inv_pawn_type, "bJumpCapable", {}, "Engine", "Engine", false, true);
         const auto inv_jump_bits = read.template operator()<std::uint32_t>(pawn_value,
             static_cast<std::uint64_t>(inv_jump_property.offset));
@@ -338,6 +347,11 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
             static_cast<std::uint64_t>(inv_can_move_property.offset));
         inv_out.pawn_can_move = LiveBoolSnapshot{(inv_can_move_bits & inv_can_move_property.mask) != 0,
             inv_can_move_property.offset, inv_can_move_property.mask};
+        const auto inv_no_fire_property = property(inv_pawn_type, "bNoWeaponFiring", {}, "Engine", "Engine", false, true);
+        const auto inv_no_fire_bits = read.template operator()<std::uint32_t>(pawn_value,
+            static_cast<std::uint64_t>(inv_no_fire_property.offset));
+        inv_out.pawn_no_weapon_firing = LiveBoolSnapshot{(inv_no_fire_bits & inv_no_fire_property.mask) != 0,
+            inv_no_fire_property.offset, inv_no_fire_property.mask};
         const auto inv_float = [&](std::uint64_t owner, std::string_view field, std::string_view package) {
             const auto metadata = property(owner, field, {}, package, "Engine", false, false, true);
             const auto bits = read.template operator()<std::uint32_t>(pawn_value,

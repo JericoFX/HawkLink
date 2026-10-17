@@ -735,6 +735,10 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
             {"dual_invmanager_matches",inventory_snapshot.dual_invmanager_matches}};
         if (inventory_snapshot.manager_role)
             out.metadata["inventory"]["manager_role"]=*inventory_snapshot.manager_role;
+        if (inventory_snapshot.pawn_role)
+            out.metadata["inventory"]["pawn_role"]=*inventory_snapshot.pawn_role;
+        if (inventory_snapshot.controller_role)
+            out.metadata["inventory"]["controller_role"]=*inventory_snapshot.controller_role;
         if (inventory_snapshot.pawn_physics)
             out.metadata["inventory"]["pawn_physics"]=*inventory_snapshot.pawn_physics;
         if (inventory_snapshot.dual_role)
@@ -748,6 +752,7 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
         inventory_bool("dual_client_shutdown",inventory_snapshot.dual_client_shutdown);
         inventory_bool("pawn_jump_capable",inventory_snapshot.pawn_jump_capable);
         inventory_bool("pawn_can_move",inventory_snapshot.pawn_can_move);
+        inventory_bool("pawn_no_weapon_firing",inventory_snapshot.pawn_no_weapon_firing);
         if (inventory_snapshot.pawn_jump_z)
             out.metadata["inventory"]["pawn_jump_z"]=*inventory_snapshot.pawn_jump_z;
         if (inventory_snapshot.pawn_thruster_energy)

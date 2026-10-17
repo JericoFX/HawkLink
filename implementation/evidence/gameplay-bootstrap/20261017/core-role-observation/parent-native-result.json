@@ -1,0 +1,121 @@
+{
+  "utc": "2026-10-17T21:34:53.0406828Z",
+  "state": "CONFIRMADO_OBSERVATION;OWNING_PAWN_ROLE_HYPOTHESIS_NOT_FIXED",
+  "originalExeSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "coreSha256": "c3b7aded5623eb351696a00161207072d244fe57f6c1ce5be5032da5ca1a5475",
+  "probeSha256": "091e09065e51a5e20a58b1937641c22e0a0fb662fd7bd3577589ab81aeef4bc9",
+  "session": "local-steam-routing-20261017-212417",
+  "native": {
+    "samplesEqual": true,
+    "record": "after-deploy.json",
+    "recordSha256": "62d1a9c3caea43f7595874d62119ae2c74cf665d46b95cec708aaa27b0c01c94",
+    "inventory": {
+      "controller_role": 2,
+      "dual_client_shutdown": {
+        "bit_mask": 16,
+        "metadata_offset": 984,
+        "value": false
+      },
+      "dual_instigator_is_pawn": true,
+      "dual_invmanager_matches": true,
+      "dual_role": 1,
+      "dual_server_can_fire": {
+        "bit_mask": 8,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "dual_shutdown": {
+        "bit_mask": 4,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "manager_chain_is_dual": true,
+      "manager_instigator_is_pawn": true,
+      "manager_role": 1,
+      "pawn_can_move": {
+        "bit_mask": 256,
+        "metadata_offset": 3104,
+        "value": true
+      },
+      "pawn_dual_weapon_present": true,
+      "pawn_invmanager_present": true,
+      "pawn_jump_capable": {
+        "bit_mask": 512,
+        "metadata_offset": 656,
+        "value": true
+      },
+      "pawn_jump_z": 1250.0,
+      "pawn_move_state": 2,
+      "pawn_no_weapon_firing": {
+        "bit_mask": 4096,
+        "metadata_offset": 660,
+        "value": false
+      },
+      "pawn_physics": 1,
+      "pawn_role": 1,
+      "pawn_thruster_energy": 9.600000381469727,
+      "pawn_thruster_jump_energy": 0.0,
+      "pawn_weapon_is_dual": true,
+      "pawn_weapon_present": true
+    }
+  },
+  "interpretation": [
+    "Pawn remains Role1=SimulatedProxy while local Controller is Role2=AutonomousProxy, both before and after deployment",
+    "bNoWeaponFiring is false, reflected Pawn offset294/mask1000; this native CanFireWeapon veto is ruled out for these samples",
+    "NET server-can-fire true remains received; local shutdown true is unchanged",
+    "No actual fire/jump acceptance from role observation; next bounded test will assign native autonomous role to this authenticated owning Pawn via server property replication"
+  ],
+  "readerValidation": {
+    "redFailedAssertions": 11,
+    "red": "../../../fire-gates-20261017/reader-role-no-fire/red/luna/validation-summary.json",
+    "mainMenuCases": 11,
+    "mainMenuAssertions": 366,
+    "sourcePins": {
+      "tests": "0180dabe81a965449d066106f2864bd89987fe2d06a2715d437a996a726db283",
+      "header": "b7ef195443e6a57efc56248d573f84d31d1427134e03fddd800f43bbc30d2414",
+      "probe": "f8636567f5d834301ecbb4cd1b0a7dffe617d765ad70a05d7b300cbec2793d3c"
+    },
+    "greenAssertions": 4902,
+    "redFiltered": 39,
+    "greenExit": 0,
+    "greenCases": 42,
+    "redCases": 3,
+    "review": "Parent read actual three-file diff and raw GREEN results; reflection metadata/offset/mask and raw Role bytes remain passive; no additional owner or higher budget",
+    "helpExit": 0
+  },
+  "capture": {
+    "durationLimitSeconds": 300,
+    "packets": 726,
+    "dropped": 0,
+    "coverage": "Bounded capture; may end before final deployment observation. Do not claim all deployment traffic captured.",
+    "gitExcluded": true,
+    "file": "core-role-observation.pcapng"
+  },
+  "screenshot": "core-role-deployed.png",
+  "clientLog": {
+    "file": "client-final.private.log",
+    "sha256": "9a2ec9dfefeb52b23d54167d67f2da4aa0314bf7ce7e6d69a77869d987dbbf11",
+    "gitExcluded": true
+  },
+  "cleanup": {
+    "client57188Absent": true,
+    "capture46812Terminal": true,
+    "serverGracefulStop": true,
+    "cleanupComplete": true,
+    "guard49952Exit": 0,
+    "core44172Stopped": true,
+    "originalsUnchanged": true,
+    "serverExitCode": 0,
+    "master41876Stopped": true
+  },
+  "resource": {
+    "usedPercent": 67.81,
+    "returnedBuildSlotToEngine": true,
+    "freeGiB": 10.27
+  },
+  "limits": [
+    "No Driver+d8/e0 identity proof yet, so original sender tag orientation is not claimed",
+    "No original binary modification, Steam emulator or native memory write",
+    "Current trial tested observation only; no repeated gameplay acceptance claimed"
+  ]
+}

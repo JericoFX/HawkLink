@@ -388,6 +388,7 @@ constexpr std::uint64_t float_property_class = 0x15c00, jump_capable_property = 
 constexpr std::uint64_t jump_z_property = 0x56400, thruster_energy_property = 0x56800;
 constexpr std::uint64_t thruster_jump_property = 0x56c00, move_state_property = 0x57000;
 constexpr std::uint64_t pawn_can_move_property = 0x57800;
+constexpr std::uint64_t pawn_no_fire_property = 0x57c00;
 struct InventoryFixture : Fixture {
     InventoryFixture() {
         klass(inventory_class,"Inventory","Engine",actor_class);
@@ -486,6 +487,14 @@ struct InventoryFixture : Fixture {
         memory.put(pawn_can_move_property+0xa8,std::uint32_t{0x4000});
         memory.put(move_state_property+0x60,pawn_can_move_property);
         memory.put(pawn_object+0x3d4,std::uint32_t{0x4200});
+        property(pawn_no_fire_property,pawn_class,"bNoWeaponFiring",0x3e8,0);
+        memory.put(pawn_no_fire_property+0x50,bool_property_class);
+        memory.put(pawn_no_fire_property+0x6c,std::int32_t{4});
+        memory.put(pawn_no_fire_property+0xa8,std::uint32_t{0x20000000});
+        memory.put(jump_z_property+0x60,pawn_no_fire_property);
+        memory.put(pawn_object+0x3e8,std::uint32_t{0x20000001});
+        memory.put(pawn_object+0x360,std::uint8_t{1});
+        memory.put(controller_object+0x360,std::uint8_t{3});
     }
     LivePlayerSnapshot inventory_sample() {
         auto identify=[&](std::uint64_t where) {
@@ -933,4 +942,65 @@ TEST_CASE("Live inventory bcanMove revalidates changed metadata in each original
     CHECK(f.memory.read_counts[native_pawn_class+0x80]==1);
     CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);
     CHECK(f.memory.budget>0);
+}
+
+TEST_CASE("Live inventory observes Pawn Controller roles and reflected no weapon firing without forcing policy") {
+    InventoryFixture f;const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    CHECK(first.inventory->pawn_role==std::optional<std::uint8_t>{1});
+    CHECK(first.inventory->controller_role==std::optional<std::uint8_t>{3});
+    REQUIRE(first.inventory->pawn_no_weapon_firing.has_value());
+    CHECK(first.inventory->pawn_no_weapon_firing->value);
+    CHECK(first.inventory->pawn_no_weapon_firing->metadata_offset==0x3e8);
+    CHECK(first.inventory->pawn_no_weapon_firing->bit_mask==0x20000000);
+    f.memory.put(pawn_object+0x3e8,std::uint32_t{1});
+    f.memory.put(pawn_object+0x360,std::uint8_t{255});
+    f.memory.put(controller_object+0x360,std::uint8_t{0});
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());
+    CHECK(second.inventory->pawn_role==std::optional<std::uint8_t>{255});
+    CHECK(second.inventory->controller_role==std::optional<std::uint8_t>{0});
+    REQUIRE(second.inventory->pawn_no_weapon_firing.has_value());
+    CHECK_FALSE(second.inventory->pawn_no_weapon_firing->value);
+    CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);
+}
+TEST_CASE("Live inventory role and no weapon firing descriptors remain exact scalar metadata") {
+    InventoryFixture f;
+    SUBCASE("Role wrong owner") {f.memory.put(role_property+0x40,pawn_class);}
+    SUBCASE("Role wrong type") {f.memory.put(role_property+0x50,bool_property_class);}
+    SUBCASE("missing no firing field") {f.memory.put(jump_z_property+0x60,std::uint64_t{0});}
+    SUBCASE("no firing wrong owner") {f.memory.put(pawn_no_fire_property+0x40,native_pawn_class);}
+    SUBCASE("no firing wrong package") {f.identities[pawn_no_fire_property].package="HawkenGame";}
+    SUBCASE("no firing wrong type") {f.memory.put(pawn_no_fire_property+0x50,byte_property_class);}
+    SUBCASE("no firing is array") {f.memory.put(pawn_no_fire_property+0x68,std::int32_t{2});}
+    SUBCASE("no firing mask invalid") {f.memory.put(pawn_no_fire_property+0xa8,std::uint32_t{3});}
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory roles and no weapon firing reread reflected metadata between original size samples") {
+    InventoryFixture f;
+    for(std::size_t i=0;i<live_original_owners.size();++i)
+        pad_live_owner(f,live_original_owners[i],live_original_counts[i],0x80000+i*0x40000);
+    f.memory.read_counts.clear();
+    const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    CHECK(first.inventory->pawn_role==std::optional<std::uint8_t>{1});
+    REQUIRE(first.inventory->pawn_no_weapon_firing.has_value());
+    CHECK(f.memory.read_counts[role_property+0x8c]==1);
+    CHECK(f.memory.read_counts[pawn_class+0x80]==1);
+    f.memory.put(role_property+0x8c,std::int32_t{0x3f0});
+    f.memory.put(pawn_object+0x3f0,std::uint8_t{3});
+    f.memory.put(controller_object+0x3f0,std::uint8_t{1});
+    f.memory.put(manager_object+0x3f0,std::uint8_t{3});
+    f.memory.put(dual_object+0x3f0,std::uint8_t{2});
+    f.memory.put(pawn_no_fire_property+0x8c,std::int32_t{0x3f4});
+    f.memory.put(pawn_no_fire_property+0xa8,std::uint32_t{0x2});
+    f.memory.put(pawn_object+0x3f4,std::uint32_t{0x4});
+    f.memory.read_counts.clear();
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());
+    CHECK(second.inventory->pawn_role==std::optional<std::uint8_t>{3});
+    CHECK(second.inventory->controller_role==std::optional<std::uint8_t>{1});
+    REQUIRE(second.inventory->pawn_no_weapon_firing.has_value());
+    CHECK_FALSE(second.inventory->pawn_no_weapon_firing->value);
+    CHECK(second.inventory->pawn_no_weapon_firing->metadata_offset==0x3f4);
+    CHECK(second.inventory->pawn_no_weapon_firing->bit_mask==0x2);
+    CHECK(f.memory.read_counts[role_property+0x8c]==1);
+    CHECK(f.memory.read_counts[pawn_class+0x80]==1);
+    CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);CHECK(f.memory.budget>0);
 }
