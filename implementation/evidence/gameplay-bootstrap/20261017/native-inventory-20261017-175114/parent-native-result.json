@@ -1,0 +1,91 @@
+{
+  "status": "NATIVE_JOIN_OBSERVED_GAMEPLAY_FAILED",
+  "candidate_sha256": "a711ba34b2780ba267f558225eb2bde1e397f57efa5c721da282b2cedc5ec216",
+  "commit": "9a5b3db5d8b505e0ece6c07f5c6b76ab76d8a333",
+  "session": "local-steam-routing-20261017-175136",
+  "deployment": {
+    "prior_preflight_helper_pid": 66528,
+    "prior_preflight_result": "Rejected before service creation: candidate hash argument omitted",
+    "corrected_hash_argument_passed": true,
+    "helper_pid": 43700,
+    "helper_created_utc": "2026-10-17T17:53:29.313631Z",
+    "core_pid": 35716,
+    "core_created_utc": "2026-10-17T17:53:32.780954Z",
+    "master_pid": 51416,
+    "master_created_utc": "2026-10-17T17:53:31.847431Z",
+    "sql": "implementation/local-runtime/accounts.sqlite",
+    "sql_reset": false
+  },
+  "client": {
+    "pid": 59912,
+    "steam_parent_pid": 8576,
+    "created_utc": "2026-10-17T17:53:46.545235Z",
+    "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "appid": 271290,
+    "windowed": true,
+    "tutorial_repeated": false,
+    "lobby_observed": true,
+    "map_observed": true,
+    "selection_input_author": "Uncertain: user input detected; only subsequent states observed",
+    "fire_improvement_confirmed": false,
+    "jump_improvement_confirmed": false,
+    "human_report": "sigue exactamente igual",
+    "physical_escape_stopped_computer_use": true,
+    "further_computer_use": false,
+    "pid_absent_at_postflight": true
+  },
+  "log": {
+    "path": "C:/Users/Jerico/Documents/My Games/Hawken/HawkenGame/Logs/Launch.log",
+    "sha256": "b063a7707ac8fb6fa3aaedb6fe9e764f92dc83db4c9234fa5c81ab30894ba0bb",
+    "bytes": 94208,
+    "lines": 1152,
+    "complete_flush_proven": false,
+    "set_weapons_line": 822,
+    "client_restart_line": 824,
+    "player_walking_line": 827,
+    "ability_warning_function": "R_HUD_Protips.TickCriteria_UC:00E6/013D",
+    "ability_warning_cause_of_fire_or_jump_proven": false,
+    "quit_to_main_menu_line": 959,
+    "quit_explicit": true,
+    "error_returning_to_entry_proves_crash": false,
+    "postexit_begin_full_sync_line": 1098,
+    "postexit_legacy_stats_started_line": 1150,
+    "postexit_legacy_stats_completion_observed": false,
+    "postexit_itemstats_and_userstats_callbacks_observed": false
+  },
+  "http": {
+    "listing_get_status": 200,
+    "authenticated_requests_not_replayed": true,
+    "aggregate_user_item_stats_get200": 3,
+    "aggregate_user_stats_get200": 3,
+    "aggregate_counts_prove_postexit_completion": false
+  },
+  "diagnostic": {
+    "snapshot_sha256": "a7d7b74de9f428776dbd8771a87dda73ae07d276a58e80e06c3376992cc4b6e0",
+    "bytes": 2278473,
+    "lines": 13833,
+    "last_authenticated_datagrams": 847,
+    "client_restart_sent": true,
+    "closed": true,
+    "gameplay": false,
+    "inventory_phase_telemetry_available": false
+  },
+  "postflight": {
+    "core_and_master_running": true,
+    "guard_running": true,
+    "ram_used_percent": 53.84,
+    "free_gib": 14.73
+  },
+  "images": [
+    {
+      "path": "lobby.jpg",
+      "sha256": "910b959641ff1e4ce19d09d4342ecec36f868e40d510b70771ed16ea80708f17",
+      "original_observed_bytes": true
+    },
+    {
+      "path": "in-match.jpg",
+      "sha256": "32cf372fc6730267830dff1614c2ce5950dddfb061475a646768e75312b3f279",
+      "original_observed_bytes": true
+    }
+  ]
+}
