@@ -101,6 +101,7 @@ struct UdpTrialRuntime::Impl {
     const std::optional<SelectionBootstrapPlan> selection_bootstrap;
     const std::optional<ReadyMatchPlan> ready_match;
     const std::optional<ReadyAccountSource> ready_match_source;
+    const std::optional<InventoryBootstrapPlan> inventory_bootstrap;
     std::unique_ptr<LocalUdpOwner> owner;
     std::unique_ptr<assignment::SessionAssignmentService> service;
 
@@ -115,7 +116,7 @@ struct UdpTrialRuntime::Impl {
           spawn_validation(config.spawn_validation), spawn_validation_source(config.spawn_validation_source),
           spawn_admission(config.spawn_admission), pri_identity(config.pri_identity),
           selection_bootstrap(config.selection_bootstrap), ready_match(config.ready_match),
-          ready_match_source(config.ready_match_source) {
+          ready_match_source(config.ready_match_source), inventory_bootstrap(config.inventory_bootstrap) {
         try {
             owner = std::make_unique<LocalUdpOwner>(config.port, connection_config(),
                 [this] { return monotonic(); }, std::chrono::milliseconds(20));
@@ -208,7 +209,7 @@ struct UdpTrialRuntime::Impl {
                     return service->validate_login_response(id, response);
                 }, std::move(publish), controller, pawn, pri, links,start_mech,std::move(materialize),
                 spawn_validation,std::move(validate_selection),spawn_admission,pri_identity,selection_bootstrap,
-                ready_match,std::move(read_ready_account));
+                ready_match,std::move(read_ready_account),inventory_bootstrap);
         } catch (...) {
             // If start partially succeeded, join before unwinding service/this.
             stop();
@@ -228,6 +229,12 @@ UdpTrialRuntime::UdpTrialRuntime(auth::AuthService& auth, const UdpTrialConfig& 
         startup_failed();
     if (config.start_mech && (!config.publication || !config.controller || !config.pri ||
         !config.pawn || !config.links || !config.start_mech_source->read_effective))
+        startup_failed();
+    // Inventory fields, references and encoding budgets use the single Owner
+    // validation. Reject missing callback/actor prerequisites before binding.
+    if (config.inventory_bootstrap && (!config.publication || !config.controller || !config.pawn ||
+        !config.pri || !config.links || !config.start_mech || !config.start_mech_source ||
+        !config.start_mech_source->read_effective))
         startup_failed();
     if (static_cast<bool>(config.spawn_validation)!=static_cast<bool>(config.spawn_validation_source))
         startup_failed();

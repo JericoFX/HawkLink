@@ -155,3 +155,57 @@ TEST_CASE("Wreckage configuration invalid nonempty root cannot enable actor link
     CHECK_FALSE(config.pri);
     CHECK_FALSE(config.links);
 }
+
+namespace {
+hawken::udp::InventoryBootstrapPlan marker_inventory_plan() {
+    const hawken::udp::InitialPawnPlan actor{
+        {11,21,31,true},{1,2,3,4},5,{6,7,8},hawken::wire::actor::Rotation{0,256,512}};
+    // Deliberately not a startup-valid full actor policy. Empty root and a
+    // failed SHA gate must preserve it instead of validating or enabling it.
+    return {actor,actor,actor,actor,25,80,150,15,14,21,21,23,24,31,23,35,29,32,34,
+        {true,false,true,false,true,false,true,false}};
+}
+void check_marker_inventory_preserved(const hawken::udp::UdpTrialConfig& config) {
+    REQUIRE(config.inventory_bootstrap);
+    const auto& plan=*config.inventory_bootstrap;
+    for (const auto* actor:{&plan.manager,&plan.dual_weapon,&plan.primary_weapon,&plan.secondary_weapon}) {
+        CHECK(actor->channel.channel==11); CHECK(actor->channel.outgoing_sequence==21);
+        CHECK(actor->channel.incoming_sequence==31); CHECK(actor->channel.open_confirmed);
+        CHECK((actor->archetype_package_guid==std::array<std::uint32_t,4>{1,2,3,4}));
+        CHECK(actor->archetype_local_net_index==5);
+        CHECK((actor->position==hawken::wire::actor::QuantizedPosition{6,7,8}));
+        CHECK((actor->rotation==std::optional{hawken::wire::actor::Rotation{0,256,512}}));
+    }
+    CHECK(plan.pawn_inv_manager_field_id==25); CHECK(plan.pawn_dual_weapon_field_id==80);
+    CHECK(plan.pawn_exclusive_bound==150); CHECK(plan.manager_chain_field_id==21);
+    CHECK(plan.manager_server_set_current_weapon_field_id==23); CHECK(plan.manager_exclusive_bound==24);
+    CHECK(plan.dual_hand_weap_field_id==31); CHECK(plan.dual_client_given_to_field_id==23);
+    CHECK(plan.dual_exclusive_bound==35); CHECK(plan.hand_dual_weapon_field_id==29);
+    CHECK(plan.primary_exclusive_bound==32); CHECK(plan.secondary_exclusive_bound==34);
+    CHECK(plan.eligibility.primary_package_map); CHECK_FALSE(plan.eligibility.actor_prefixes_correct);
+    CHECK(plan.eligibility.archetypes_correct); CHECK_FALSE(plan.eligibility.actor_caches_correct);
+    CHECK(plan.eligibility.scalar_links_correct); CHECK_FALSE(plan.eligibility.hand_weap_array_correct);
+    CHECK(plan.eligibility.client_given_to_correct); CHECK_FALSE(plan.eligibility.server_set_current_weapon_correct);
+}
+}
+TEST_CASE("Wreckage inventory policy absent root remains absent or preserves an explicit caller policy") {
+    hawken::udp::UdpTrialConfig config{7777,"11111111-1111-4111-8111-111111111111","private-region"};
+    hawken::game::configure_wreckage_trial(config,{});
+    CHECK_FALSE(config.inventory_bootstrap);
+    config.inventory_bootstrap=marker_inventory_plan();
+    hawken::game::configure_wreckage_trial(config,{});
+    check_marker_inventory_preserved(config);
+    CHECK_FALSE(config.publication); CHECK_FALSE(config.controller); CHECK_FALSE(config.pawn);
+    CHECK(config.port==7777); CHECK(config.region=="private-region");
+}
+TEST_CASE("Wreckage inventory policy failed original asset gate cannot replace an existing caller policy") {
+    hawken::udp::UdpTrialConfig config{7777,"11111111-1111-4111-8111-111111111111","private-region"};
+    config.inventory_bootstrap=marker_inventory_plan();
+    hawken::test::TempDirectory directory;
+    for (const auto name:package_names) directory.write(cooked/name,"public synthetic altered package");
+    CHECK_THROWS_WITH_AS(hawken::game::configure_wreckage_trial(config,directory.path()),
+        "invalid Wreckage trial assets",std::runtime_error);
+    check_marker_inventory_preserved(config);
+    CHECK_FALSE(config.publication); CHECK_FALSE(config.controller); CHECK_FALSE(config.pawn);
+    CHECK(config.port==7777); CHECK(config.region=="private-region");
+}

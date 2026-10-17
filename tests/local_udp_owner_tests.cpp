@@ -733,7 +733,8 @@ struct LoginAuthorityFixture {
                                    std::optional<udp::PriIdentityDispatchPlan> pri_identity=std::nullopt,
                                    std::optional<udp::SelectionBootstrapPlan> selection_bootstrap=std::nullopt,
                                    std::optional<udp::ReadyMatchPlan> ready_match=std::nullopt,
-                                   udp::LocalUdpOwner::ReadyFactsProvider ready_facts={},double clock_epoch=100.0)
+                                   udp::LocalUdpOwner::ReadyFactsProvider ready_facts={},double clock_epoch=100.0,
+                                   std::optional<udp::InventoryBootstrapPlan> inventory_bootstrap=std::nullopt)
         : monotonic(static_cast<std::int64_t>(clock_epoch)),udp_now(clock_epoch),
           decision(std::move(action)),publication_decision(std::move(publisher)),
           owner(0,config.value_or(authority_skeleton()),[this]{return udp_now.load();},5ms) {
@@ -764,12 +765,14 @@ struct LoginAuthorityFixture {
             },std::move(publish),std::move(controller),std::move(pawn),std::move(pri),std::move(links),
                 std::move(start_mech),std::move(mech_provider),
                 std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
-                std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts));
+                std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts),
+                std::move(inventory_bootstrap));
         else owner.start(std::move(authorize),{},std::move(publish),
                             std::move(controller),std::move(pawn),std::move(pri),std::move(links),
                 std::move(start_mech),std::move(mech_provider),
                 std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
-                std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts));
+                std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts),
+                std::move(inventory_bootstrap));
     }
     ~LoginAuthorityFixture() { owner.stop(); service.reset(); }
     auth::AuthReply login() { return auth.login(R"({"SteamAuthTicket":"AABB0100"})"); }
@@ -3767,5 +3770,336 @@ TEST_CASE("UDP ActiveItemIndex preflight rejects ineligible out of range and eve
         },udp::LocalUdpErrorCode::invalid_configuration);
         CHECK_FALSE(owner.running());
         CHECK_NOTHROW(owner.start([](const session::SessionId&){return true;}));owner.stop();
+    }
+}
+
+
+namespace {
+// SYNTHETIC caller metadata: distinct local3..6 in Root/netcount7, not native
+// class IDs or CDO observation. Field widths follow independently retained schemas.
+udp::InventoryBootstrapPlan inventory_plan() {
+    const auto actor=[](std::uint16_t channel,std::uint32_t seed,std::int32_t local) {
+        return udp::InitialPawnPlan{{channel,seed,0,false},
+            {0x01020304U,0x12345678U,0x80000000U,0xffffffffU},local,{0,0,0},std::nullopt};
+    };
+    return {actor(10,111,3),actor(11,121,4),actor(12,131,5),actor(13,141,6),
+        25,80,150,15,14,21,21,23,24,31,23,35,29,32,34,
+        {true,true,true,true,true,true,true,true}};
+}
+udp::InitialActorLinksPlan inventory_base_links() {
+    auto plan=public_links_plan();plan.pawn_exclusive_bound=150;return plan;
+}
+LoginAuthorityFixture::PublicationDecision inventory_publisher() {
+    return [](LoginAuthorityFixture&,const session::SessionId&,const control::posthello::Login&) {
+        auto world=public_world();world.packages[0].generation_net_counts={0,7};return std::optional{world};
+    };
+}
+wire::mech::SMechSetupStruct inventory_materialized(std::uint8_t previous) {
+    auto value=public_mech_result(previous);value.mech_type=1;value.mech_sub_type=15;
+    value.mech_weapons.primary_idx=0;value.mech_weapons.secondary_idx=101;return value;
+}
+udp::LocalUdpOwner::StartMechProvider inventory_provider() {
+    return [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t previous) {
+        return std::optional{inventory_materialized(previous)};
+    };
+}
+struct InventoryFixture : LoginAuthorityFixture {
+    explicit InventoryFixture(std::optional<udp::InventoryBootstrapPlan> plan=inventory_plan(),
+        udp::LocalUdpOwner::StartMechProvider provider=inventory_provider(),
+        game::ConnectionConfig config=authority_skeleton())
+        : LoginAuthorityFixture({},true,inventory_publisher(),public_controller_plan(),config,
+            public_pawn_plan(),public_pri_plan(),inventory_base_links(),public_start_mech_plan(),
+            std::move(provider),{},{},{},{},{},{},{},100.0,std::move(plan)) {}
+};
+struct InventoryFlow { std::uint16_t next_packet=0; std::uint16_t next_controller_sequence=1; };
+ControllerOutput inventory_output(Peer& peer,session::Context& client,std::size_t expected,
+    std::chrono::milliseconds budget=2000ms) {
+    ControllerOutput out;const auto end=std::chrono::steady_clock::now()+budget;
+    while (std::chrono::steady_clock::now()<end) {
+        const auto datagram=peer.receive(20ms);if (!datagram) continue;
+        const auto packet=wire::decode_packet(client.decode(*datagram),256);
+        for (const auto& record:packet.records) if (!record.is_ack) {
+            out.bunches.push_back(record.bunch);out.packet_ids.push_back(packet.packet_id);
+        }
+        if (out.bunches.size()>=expected) break;
+    }
+    return out;
+}
+void inventory_ack(InventoryFixture& fixture,Peer& peer,session::Context& client,InventoryFlow& flow,
+    const std::vector<std::uint16_t>& observed_ids) {
+    REQUIRE_FALSE(observed_ids.empty());
+    peer.send(fixture.owner.port(),links_ack(client,flow.next_packet++,observed_ids));
+}
+void inventory_login_join(InventoryFixture& f,Peer& peer,session::Context& client,InventoryFlow& flow) {
+    const auto login=f.login();authority_select(f,login);
+    const std::array archives{hex("1a07000000"),hex("1cc3363f8d"),hex("00080000001400000098badcfe")};
+    const std::array responses{hex("1b00000000"),hex("1d"),hex("030b00000009000000313233344142434400")};
+    for (std::size_t i=0;i<archives.size();++i) {
+        peer.send(f.owner.port(),authority_request(client,flow.next_packet++,static_cast<std::uint16_t>(i+1),archives[i],i==0));
+        const auto out=inventory_output(peer,client,1);REQUIRE(out.bunches.size()==1);
+        CHECK(out.bunches[0].payload==responses[i]);inventory_ack(f,peer,client,flow,out.packet_ids);
+    }
+    peer.send(f.owner.port(),authority_request(client,flow.next_packet++,4,
+        authority_login(login.result.at("UserId").get<std::string>())));
+    const auto published=inventory_output(peer,client,2);REQUIRE(published.bunches.size()==2);
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().world_published;}));
+    inventory_ack(f,peer,client,flow,published.packet_ids);
+    peer.send(f.owner.port(),authority_request(client,flow.next_packet++,5,
+        hex("08040302017856341200000080ffffffff0200000009")));
+    const auto openings=inventory_output(peer,client,3);REQUIRE(openings.bunches.size()==3);
+    CHECK(openings.bunches[0].channel==7);CHECK(openings.bunches[1].channel==9);CHECK(openings.bunches[2].channel==8);
+    inventory_ack(f,peer,client,flow,openings.packet_ids);
+    const auto links=inventory_output(peer,client,2);REQUIRE(links.bunches.size()==2);
+    CHECK(links.bunches[0].channel==7);CHECK(links.bunches[1].channel==8);
+    inventory_ack(f,peer,client,flow,links.packet_ids);
+}
+ControllerOutput inventory_selected(InventoryFixture& f,Peer& peer,session::Context& client,InventoryFlow& flow) {
+    peer.send(f.owner.port(),start_mech_packet(client,flow.next_packet++,flow.next_controller_sequence++,7,4,false,false,0,255));
+    const auto output=inventory_output(peer,client,5);REQUIRE(output.bunches.size()==5);
+    ControllerOutput openings;
+    for (std::size_t i=0;i<output.bunches.size();++i) {
+        const auto& bunch=output.bunches[i];
+        if (bunch.open) { openings.bunches.push_back(bunch);openings.packet_ids.push_back(output.packet_ids[i]); }
+        else { CHECK(bunch.channel==9);CHECK(bunch.payload_bits==547);
+            inventory_ack(f,peer,client,flow,{output.packet_ids[i]}); }
+    }
+    REQUIRE(openings.bunches.size()==4);
+    const std::array channels{10,11,12,13};const std::array sequences{112U,122U,132U,142U};
+    const std::array literals{hex("060000004005"),hex("080000004005"),hex("0a0000004005"),hex("0c0000004005")};
+    for (std::size_t i=0;i<4;++i) {
+        const auto& bunch=openings.bunches[i];CHECK(bunch.channel==channels[i]);CHECK(bunch.sequence==sequences[i]);
+        CHECK(bunch.payload==literals[i]);CHECK(bunch.payload_bits==43);
+        CHECK(bunch.control);CHECK(bunch.open);CHECK(bunch.reliable);CHECK_FALSE(bunch.close);CHECK(bunch.channel_type==2);
+    }
+    return openings;
+}
+void inventory_given_literal(const ControllerOutput& out) {
+    REQUIRE(out.bunches.size()==1);const auto& bunch=out.bunches[0];
+    CHECK(bunch.channel==11);CHECK(bunch.sequence==125);CHECK(bunch.payload_bits==19);
+    // tag23/b35(5bits), presence1, actorPawn8 =>reference17, Boolfalse.
+    CHECK(bunch.payload==hex("770400"));CHECK(bunch.reliable);CHECK(bunch.channel_type==2);
+    CHECK_FALSE(bunch.control);CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);
+}
+Bytes inventory_manager_request(session::Context& client,InventoryFlow& flow,std::uint16_t sequence,
+    std::string_view literal,std::size_t bits,std::uint16_t channel=10) {
+    wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=channel;
+    bunch.sequence=sequence;bunch.payload=hex(literal);bunch.payload_bits=bits;
+    wire::Packet packet;packet.packet_id=flow.next_packet++;wire::PacketRecord record;record.bunch=std::move(bunch);
+    packet.records.push_back(std::move(record));return client.encode(wire::encode_packet(packet,256));
+}
+void inventory_start_test_owner(udp::LocalUdpOwner& owner,const udp::InventoryBootstrapPlan& plan,unsigned missing=0) {
+    auto publish=[](const session::SessionId&,const control::posthello::Login&) {return std::optional{public_world()};};
+    owner.start([](const session::SessionId&){return true;},
+        [](const session::SessionId&,const control::posthello::RawString&){return true;},
+        missing==1?udp::LocalUdpOwner::PublicationProvider{}:udp::LocalUdpOwner::PublicationProvider{publish},
+        missing==2?std::nullopt:std::optional{public_controller_plan()},
+        missing==3?std::nullopt:std::optional{public_pawn_plan()},
+        missing==4?std::nullopt:std::optional{public_pri_plan()},
+        missing==5?std::nullopt:std::optional{inventory_base_links()},
+        (missing==6 || missing==8)?std::nullopt:std::optional{public_start_mech_plan()},
+        (missing==7 || missing==8)?udp::LocalUdpOwner::StartMechProvider{}:inventory_provider(),
+        {},{},{},{},{},{},{},plan);
+}
+}
+
+namespace {
+void inventory_reference_literals(const ControllerOutput& out) {
+    REQUIRE(out.bunches.size()==6);REQUIRE(out.packet_ids.size()==6);
+    // FIVE destinations, SIX reliable batches: Dual scalar and array separate.
+    // Manager14/15 bound24 take4 ID bits; Chain21 takes5. Other scalar
+    // Inventory tags take5; Pawn25/80 bound150 take7. Actor references12.
+    const std::array channels{10,11,12,13,8,11};
+    const std::array sequences{113U,123U,133U,143U,74U,124U};
+    const std::array bits{49U,51U,68U,68U,38U,50U};
+    const std::array literals{hex("1f011e01f50200"),hex("2f025c04d40a00"),hex("2f025c04d40ae81700"),
+        hex("2f025c04d40ae81700"),hex("990a805e00"),hex("1f20037ec00600")};
+    for (std::size_t i=0;i<6;++i) {
+        const auto& bunch=out.bunches[i];CHECK(bunch.channel==channels[i]);CHECK(bunch.sequence==sequences[i]);
+        CHECK(bunch.payload_bits==bits[i]);CHECK(bunch.payload==literals[i]);
+        CHECK(bunch.reliable);CHECK(bunch.channel_type==2);CHECK_FALSE(bunch.control);
+        CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);
+    }
+}
+ControllerOutput inventory_references(InventoryFixture& f,Peer& peer,session::Context& client,InventoryFlow& flow) {
+    const auto openings=inventory_selected(f,peer,client,flow);
+    inventory_ack(f,peer,client,flow,openings.packet_ids);
+    auto refs=inventory_output(peer,client,6);inventory_reference_literals(refs);return refs;
+}
+void inventory_activate(InventoryFixture& f,Peer& peer,session::Context& client,InventoryFlow& flow) {
+    inventory_login_join(f,peer,client,flow);
+    const auto refs=inventory_references(f,peer,client,flow);
+    inventory_ack(f,peer,client,flow,refs.packet_ids);
+    const auto given=inventory_output(peer,client,1);inventory_given_literal(given);
+    inventory_ack(f,peer,client,flow,given.packet_ids);
+}
+}
+TEST_CASE("UDP inventory waits for all four real opening and six reference ACKs before one GivenTo") {
+    auto plan=inventory_plan();InventoryFixture f(plan);plan.dual_weapon.channel.channel=19; // caller copy immutable
+    Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_login_join(f,peer,client,flow);
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty()); // No StartMech, no fabricated loadout.
+    const auto openings=inventory_selected(f,peer,client,flow);
+    inventory_ack(f,peer,client,flow,{openings.packet_ids[0],openings.packet_ids[1],openings.packet_ids[2]});
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    inventory_ack(f,peer,client,flow,{openings.packet_ids[0]}); // real duplicate, not an invented future ACK
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    inventory_ack(f,peer,client,flow,{openings.packet_ids[3]});
+    const auto refs=inventory_output(peer,client,6);inventory_reference_literals(refs);
+    inventory_ack(f,peer,client,flow,{refs.packet_ids.begin(),refs.packet_ids.end()-1});
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty()); // Dual ARRAY record still pending.
+    inventory_ack(f,peer,client,flow,{refs.packet_ids.back()});
+    const auto given=inventory_output(peer,client,1);inventory_given_literal(given);
+    inventory_ack(f,peer,client,flow,given.packet_ids);
+    inventory_ack(f,peer,client,flow,refs.packet_ids);
+    f.udp_now=101.0;CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    peer.send(f.owner.port(),start_mech_packet(client,flow.next_packet++,flow.next_controller_sequence++,7,4,false,false,0,254));
+    const auto revised=inventory_output(peer,client,1);REQUIRE(revised.bunches.size()==1);
+    CHECK(revised.bunches[0].channel==9);CHECK_FALSE(revised.bunches[0].open);
+    inventory_ack(f,peer,client,flow,revised.packet_ids);
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty()); // Same supported profile, no reopen/GivenTo replay.
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP inventory Manager consumes only known arguments without invented reply or suffix scanning") {
+    InventoryFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_activate(f,peer,client,flow);
+    // tag23/b24 +presence1 +referenceDual11 =>0x5f7,18bits.
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,1,"f70500",18));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.owner.diagnostics().closed);
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,1,"f70500",18)); // reliable duplicate
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.owner.diagnostics().closed);
+    struct Unsupported { const char* literal;std::size_t bits; };
+    const Unsupported unsupported[]{{"17",6},{"770000",18},{"770600",18},{"b704000000",38}};
+    std::uint16_t sequence=2;
+    for (const auto& item:unsupported) {
+        CAPTURE(item.literal);
+        peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence++,item.literal,item.bits));
+        CHECK(inventory_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.owner.diagnostics().closed);
+    }
+    // Unknown0/b24 then known23 with missing args: unknown suffix MUST stay opaque.
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence++,"e002",10));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.owner.diagnostics().closed);
+    // Known valid18-bit prefix, then known23 truncated at the argument boundary.
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence,"f7055c",23));
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+}
+TEST_CASE("UDP inventory truncated known Manager argument retires the exact lease") {
+    InventoryFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_activate(f,peer,client,flow);
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,1,"17",5)); // tag only, missing presence
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK_FALSE(f.service->authorize_udp(public_id));CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+}
+TEST_CASE("UDP inventory rejects unsupported returned materialized profiles before publishing the PRI setup") {
+    for (unsigned changed=0;changed<4;++changed) {
+        CAPTURE(changed);
+        InventoryFixture f(inventory_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,
+            std::uint8_t previous) {
+            auto value=inventory_materialized(previous);
+            if (changed==0) value.mech_type=2;
+            if (changed==1) value.mech_sub_type=16;
+            if (changed==2) value.mech_weapons.primary_idx=1;
+            if (changed==3) value.mech_weapons.secondary_idx=100;
+            return std::optional{value};
+        });
+        Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+        inventory_login_join(f,peer,client,flow);
+        peer.send(f.owner.port(),start_mech_packet(client,flow.next_packet++,1,7,4,false,false,0,255));
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+        CHECK_FALSE(f.service->authorize_udp(public_id));
+    }
+}
+TEST_CASE("UDP inventory stop or revocation after references cannot release GivenTo") {
+    for (const bool stopping:{false,true}) {
+        CAPTURE(stopping);InventoryFixture f;Peer peer;
+        session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+        inventory_login_join(f,peer,client,flow);const auto refs=inventory_references(f,peer,client,flow);
+        if (stopping) f.owner.stop();
+        else {
+            f.verifier.active=false;
+            inventory_ack(f,peer,client,flow,refs.packet_ids);
+        }
+        CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+        CHECK_FALSE(f.service->authorize_udp(public_id));
+    }
+}
+TEST_CASE("UDP inventory stale provider lease retirement happens outside pins and never opens actors") {
+    InventoryFixture* target=nullptr;
+    InventoryFixture f(inventory_plan(),[&](const session::SessionId&,const wire::rpc::StartMechArguments&,
+        std::uint8_t previous) {
+        target->service.reset(); // Synchronously retires the lease; cannot deadlock on a held Use.
+        return std::optional{inventory_materialized(previous)};
+    });
+    target=&f;Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_login_join(f,peer,client,flow);
+    peer.send(f.owner.port(),start_mech_packet(client,flow.next_packet++,1,7,4,false,false,0,255));
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.service);
+}
+TEST_CASE("UDP inventory precomposes all four package prefixes before the first actor open") {
+    auto plan=inventory_plan();plan.secondary_weapon.archetype_local_net_index=7; // Root owns0..6 only.
+    InventoryFixture f(plan);Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_login_join(f,peer,client,flow);
+    peer.send(f.owner.port(),start_mech_packet(client,flow.next_packet++,1,7,4,false,false,0,255));
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    const auto out=inventory_output(peer,client,5,100ms); // Drain any partial opens as well as the selected PRI.
+    for (const auto& bunch:out.bunches) {CHECK_FALSE(bunch.open);CHECK(bunch.channel==9);}
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+}
+TEST_CASE("UDP inventory absent plan preserves the old selected PRI property only") {
+    InventoryFixture f(std::nullopt);Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_login_join(f,peer,client,flow);
+    peer.send(f.owner.port(),start_mech_packet(client,flow.next_packet++,1,7,4,false,false,0,255));
+    const auto selected=inventory_output(peer,client,1);REQUIRE(selected.bunches.size()==1);
+    CHECK(selected.bunches[0].channel==9);CHECK(selected.bunches[0].payload_bits==547);
+    inventory_ack(f,peer,client,flow,selected.packet_ids);
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP inventory plan preflight rejects explicit premises collisions fields bounds and missing profile source") {
+    for (unsigned bad=0;bad<30;++bad) {
+        CAPTURE(bad);auto plan=inventory_plan();
+        switch (bad) {
+        case 0:plan.eligibility.primary_package_map=false;break;
+        case 1:plan.eligibility.actor_prefixes_correct=false;break;
+        case 2:plan.eligibility.archetypes_correct=false;break;
+        case 3:plan.eligibility.actor_caches_correct=false;break;
+        case 4:plan.eligibility.scalar_links_correct=false;break;
+        case 5:plan.eligibility.hand_weap_array_correct=false;break;
+        case 6:plan.eligibility.client_given_to_correct=false;break;
+        case 7:plan.eligibility.server_set_current_weapon_correct=false;break;
+        case 8:plan.manager.channel.channel=0;break;
+        case 9:plan.dual_weapon.channel.channel=2048;break;
+        case 10:plan.primary_weapon.channel.channel=7;break;
+        case 11:plan.secondary_weapon.channel.channel=8;break;
+        case 12:plan.manager.channel.channel=9;break;
+        case 13:plan.secondary_weapon.channel.channel=plan.primary_weapon.channel.channel;break;
+        case 14:plan.manager.archetype_local_net_index=-1;break;
+        case 15:plan.dual_weapon.archetype_local_net_index=-1;break;
+        case 16:plan.primary_weapon.archetype_local_net_index=-1;break;
+        case 17:plan.secondary_weapon.archetype_local_net_index=-1;break;
+        case 18:plan.pawn_exclusive_bound=149;break; // Same Pawn class cannot have conflicting bounds.
+        case 19:plan.manager_exclusive_bound=0;break;
+        case 20:plan.dual_exclusive_bound=0;break;
+        case 21:plan.primary_exclusive_bound=0;break;
+        case 22:plan.secondary_exclusive_bound=0;break;
+        case 23:plan.pawn_inv_manager_field_id=150;break;
+        case 24:plan.pawn_dual_weapon_field_id=25;break;
+        case 25:plan.manager_server_set_current_weapon_field_id=21;break;
+        case 26:plan.dual_client_given_to_field_id=31;break;
+        case 27:plan.hand_dual_weapon_field_id=32;break;
+        case 28:plan.owner_field_id=plan.instigator_field_id;break;
+        case 29:plan.manager.position={std::numeric_limits<std::int32_t>::max(),0,0};break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        CHECK_THROWS_AS(inventory_start_test_owner(owner,plan),udp::LocalUdpError);
+        if (owner.running()) {owner.stop();continue;} // Current RED ignores the new plan; preserve every independent case.
+        CHECK_NOTHROW(inventory_start_test_owner(owner,inventory_plan()));CHECK(owner.running());owner.stop();
+    }
+    for (unsigned missing=1;missing<=8;++missing) {
+        CAPTURE(missing);udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        CHECK_THROWS_AS(inventory_start_test_owner(owner,inventory_plan(),missing),udp::LocalUdpError);
+        owner.stop();
     }
 }

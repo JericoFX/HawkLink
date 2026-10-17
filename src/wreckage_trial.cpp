@@ -82,6 +82,20 @@ void configure_wreckage_trial(udp::UdpTrialConfig& config,
     // actor-link-plan-20261013/contract.json and selector-loader-20261013/
     // contract.json. These links do not prove native possession or gameplay.
     prepared.links=udp::InitialActorLinksPlan{21,22,294,49,30,150};
+    // Explicit pinned local profile: these four CDOs use the observed no-PC,
+    // no-initial-rotation prefix. Shared field IDs remain conditional on the
+    // qualified original PRIMARY/normal Link0 caches, not native attestation.
+    // Position is local trial policy copied from Pawn; no attachment inferred.
+    const auto inventory_actor=[&](std::uint16_t actor_channel,std::int32_t cdo_index) {
+        return udp::InitialPawnPlan{{actor_channel,0,0,false},
+            {0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U},
+            cdo_index,prepared.pawn->position,std::nullopt};
+    };
+    prepared.inventory_bootstrap=udp::InventoryBootstrapPlan{
+        inventory_actor(5,33398),inventory_actor(6,43715),
+        inventory_actor(7,44117),inventory_actor(8,44157),
+        25,80,150,15,14,21,21,23,24,31,23,35,29,32,34,
+        {true,true,true,true,true,true,true,true}};
     static_assert(std::is_nothrow_move_assignable_v<udp::UdpTrialConfig>);
     config=std::move(prepared);
 }

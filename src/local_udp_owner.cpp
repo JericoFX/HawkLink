@@ -10,6 +10,7 @@
 #include <unistd.h>
 #endif
 #include "hawken/local_udp_owner.hpp"
+#include "hawken/inventory_rpc_wire.hpp"
 #include "hawken/spawn_validation_rpc_wire.hpp"
 #include "hawken/controller_admission_rpc_wire.hpp"
 #include "hawken/pawn_rpc_wire.hpp"
@@ -156,6 +157,30 @@ std::array<wire::property::PropertyPayload,2> link_payloads(
     return {wire::property::encode_object_properties(controller_fields,plan.controller_exclusive_bound,max_bits),
         wire::property::encode_object_properties(pawn_fields,plan.pawn_exclusive_bound,max_bits)};
 }
+std::array<wire::property::PropertyPayload,6> inventory_payloads(
+    const InventoryBootstrapPlan& plan,std::uint16_t pawn,std::size_t max_bits) {
+    using Property=wire::property::ObjectProperty;
+    using Reference=wire::object::ActorChannelReference;
+    const auto manager=plan.manager.channel.channel,dual=plan.dual_weapon.channel.channel;
+    const std::array manager_fields{Property{plan.owner_field_id,Reference{pawn}},
+        Property{plan.instigator_field_id,Reference{pawn}},Property{plan.manager_chain_field_id,Reference{dual}}};
+    const std::array dual_fields{Property{plan.owner_field_id,Reference{pawn}},
+        Property{plan.instigator_field_id,Reference{pawn}},Property{plan.inventory_manager_field_id,Reference{manager}}};
+    const std::array hand_fields{Property{plan.owner_field_id,Reference{pawn}},
+        Property{plan.instigator_field_id,Reference{pawn}},Property{plan.inventory_manager_field_id,Reference{manager}},
+        Property{plan.hand_dual_weapon_field_id,Reference{dual}}};
+    const std::array pawn_fields{Property{plan.pawn_inv_manager_field_id,Reference{manager}},
+        Property{plan.pawn_dual_weapon_field_id,Reference{dual}}};
+    const std::array hand_array{
+        wire::property::ArrayObjectProperty{plan.dual_hand_weap_field_id,4,0,Reference{plan.primary_weapon.channel.channel}},
+        wire::property::ArrayObjectProperty{plan.dual_hand_weap_field_id,4,1,Reference{plan.secondary_weapon.channel.channel}}};
+    return {wire::property::encode_object_properties(manager_fields,plan.manager_exclusive_bound,max_bits),
+        wire::property::encode_object_properties(dual_fields,plan.dual_exclusive_bound,max_bits),
+        wire::property::encode_object_properties(hand_fields,plan.primary_exclusive_bound,max_bits),
+        wire::property::encode_object_properties(hand_fields,plan.secondary_exclusive_bound,max_bits),
+        wire::property::encode_object_properties(pawn_fields,plan.pawn_exclusive_bound,max_bits),
+        wire::property::encode_object_array_properties(hand_array,plan.dual_exclusive_bound,max_bits)};
+}
 struct Entry {
     session::SessionId id;
     std::unique_ptr<game::GameConnection> connection;
@@ -165,6 +190,8 @@ struct Entry {
     std::size_t users=0;
     std::optional<sockaddr_in> peer;
     bool links_sent=false; // Worker-only per-session emission state, not a diagnostic gate.
+    bool inventory_profile_current=false,inventory_opened=false,inventory_links_sent=false,inventory_given=false;
+    std::optional<std::uint16_t> current_inventory_weapon; // Own current Dual, not a replicated Pawn.Weapon tag.
     std::optional<wire::identity::UniqueId> pri_identity;
     bool pri_identity_sent=false;
     bool gri_sent=false,game_class_sent=false,hud_sent=false;
@@ -221,6 +248,7 @@ struct Registry {
             target->connection.reset();
             target->pending_mech.reset();
             target->accepted_mech.reset();
+            target->inventory_profile_current=false;target->current_inventory_weapon.reset();
             if (target->pri_identity) target->pri_identity->words.fill(0);
             target->pri_identity.reset();
             target->validation_pending=false;
@@ -316,6 +344,7 @@ struct LocalUdpOwner::Impl {
     std::optional<SelectionBootstrapPlan> bootstrap_plan;
     std::optional<ReadyMatchPlan> ready_plan;
     ReadyFactsProvider ready_facts_provider;
+    std::optional<InventoryBootstrapPlan> inventory_plan;
     std::optional<game::PendingMatch> pending_match;
     double world_clock_base=0;
     bool world_start_committed=false; // Worker-only own action, not a native match flag.
@@ -505,6 +534,121 @@ struct LocalUdpOwner::Impl {
             entry.hud_sent=true; registry->hud_sent=true;
             return true;
         } catch (...) { return false; } // The same pinned caller retires after Use.
+    }
+    bool send_inventory(Entry& entry,double now) {
+        if (!inventory_plan) return true;
+        if (stopping.load() || entry.connection->snapshot().closed) return false;
+        const auto& plan=*inventory_plan;
+        const std::array actors{&plan.manager,&plan.dual_weapon,&plan.primary_weapon,&plan.secondary_weapon};
+        if (entry.inventory_opened) for (const auto* actor:actors) {
+            const auto state=entry.connection->channel_snapshot(actor->channel.channel);
+            if (!state || state->closed) return false;
+        }
+        if (!entry.inventory_profile_current || !entry.accepted_mech || entry.pending_mech || !entry.links_sent)
+            return true;
+        const std::array base_channels{controller_plan->channel.channel,pri_plan->channel.channel,pawn_plan->channel.channel};
+        for (const auto channel:base_channels) {
+            const auto state=entry.connection->channel_snapshot(channel);
+            if (state && state->closed) return false;
+            if (!state || !state->opening_packet_id || !state->outgoing_open_acked) return true;
+        }
+        const auto cap=static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8;
+        if (!entry.inventory_opened) {
+            // Resolve and encode ALL four prefixes before any registration/send.
+            std::array<wire::Bunch,4> openings;
+            for (std::size_t i=0;i<actors.size();++i) {
+                const auto& actor=*actors[i];
+                const auto reference=entry.connection->resolve_package_reference(actor.archetype_package_guid,actor.archetype_local_net_index);
+                auto payload=wire::actor::encode_initial_pawn({reference,actor.position,actor.rotation},cap);
+                auto& bunch=openings[i];bunch.control=true;bunch.open=true;bunch.reliable=true;
+                bunch.channel_type=2;bunch.channel=actor.channel.channel;
+                bunch.payload_bits=payload.payload_bits;bunch.payload=std::move(payload.payload);
+            }
+            for (const auto* actor:actors) entry.connection->register_actor_channel(actor->channel);
+            for (const auto& bunch:openings) {
+                if (stopping.load()) return false;
+                const auto step=entry.connection->send_actor(bunch,now);
+                if (step.datagrams.empty() || step.closed || !send(entry,step) || stopping.load()) return false;
+            }
+            entry.inventory_opened=true;
+            return true;
+        }
+        for (const auto* actor:actors) {
+            const auto state=entry.connection->channel_snapshot(actor->channel.channel);
+            if (state && state->closed) return false;
+            if (!state || !state->opening_packet_id || !state->outgoing_open_acked) return true;
+        }
+        if (!entry.inventory_links_sent) {
+            // Five destination channels, six batches; Dual array is separate.
+            auto payloads=inventory_payloads(plan,pawn_plan->channel.channel,cap);
+            const std::array destinations{plan.manager.channel.channel,plan.dual_weapon.channel.channel,
+                plan.primary_weapon.channel.channel,plan.secondary_weapon.channel.channel,
+                pawn_plan->channel.channel,plan.dual_weapon.channel.channel};
+            for (std::size_t i=0;i<payloads.size();++i) {
+                if (stopping.load()) return false;
+                wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=destinations[i];
+                bunch.payload_bits=payloads[i].logical_bits;bunch.payload=std::move(payloads[i].payload);
+                const auto step=entry.connection->send_actor(bunch,now);
+                if (step.datagrams.empty() || step.closed || !send(entry,step) || stopping.load()) return false;
+            }
+            entry.inventory_links_sent=true;
+            return true;
+        }
+        const std::array queues{plan.manager.channel.channel,plan.dual_weapon.channel.channel,
+            plan.primary_weapon.channel.channel,plan.secondary_weapon.channel.channel,pawn_plan->channel.channel};
+        for (const auto channel:queues) {
+            const auto state=entry.connection->channel_snapshot(channel);
+            if (!state || state->closed) return false;
+            if (!state->opening_packet_id || !state->outgoing_open_acked || state->outgoing_bunches!=0) return true;
+        }
+        if (!entry.inventory_given) {
+            auto payload=wire::rpc::encode_client_given_to(plan.dual_client_given_to_field_id,
+                plan.dual_exclusive_bound,pawn_plan->channel.channel,false,cap);
+            wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=plan.dual_weapon.channel.channel;
+            bunch.payload_bits=payload.logical_bits;bunch.payload=std::move(payload.payload);
+            const auto step=entry.connection->send_actor(bunch,now);
+            if (step.datagrams.empty() || step.closed || !send(entry,step) || stopping.load()) return false;
+            entry.inventory_given=true;
+        }
+        return true;
+    }
+    void apply_inventory(const session::SessionId& id,const std::shared_ptr<Entry>& target) {
+        if (!inventory_plan || !target || stopping.load() || !authorize(id)) return;
+        const auto now=time();if (!now) {fail_closed();return;}
+        bool terminal=false;
+        {
+            auto use=pin(id,target);if (!use) return;
+            {
+                std::lock_guard lock(registry->mutex);
+                if (stopping.load() || !running.load() || !registry->accepting || registry->entry!=target || !use->entry().active)
+                    return;
+            }
+            try {terminal=!send_inventory(use->entry(),*now);} catch (...) {terminal=true;}
+        }
+        if (terminal) registry->retire(target); // Never retire while holding Use.
+    }
+    bool collect_inventory_manager(Entry& entry,const std::vector<wire::Bunch>& bunches) {
+        if (!inventory_plan) return true;
+        const auto& plan=*inventory_plan;
+        for (const auto& bunch:bunches) {
+            if (bunch.channel!=plan.manager.channel.channel || bunch.payload_bits==0) continue;
+            const auto state=entry.connection->channel_snapshot(bunch.channel);
+            if (!state || state->closed) return false;
+            wire::BitReader reader(bunch.payload,bunch.payload_bits);
+            while (reader.position()<bunch.payload_bits) {
+                std::uint32_t field;
+                try {field=reader.read_bounded(plan.manager_exclusive_bound);} catch (const wire::WireError&) {break;}
+                if (field!=plan.manager_server_set_current_weapon_field_id) break; // Opaque unknown suffix.
+                const auto decoded=wire::rpc::read_server_set_current_weapon_arguments(reader,bunch.payload_bits-reader.position());
+                const auto* desired=std::get_if<wire::object::ActorChannelReference>(&decoded.desired_weapon);
+                if (desired && desired->channel==plan.dual_weapon.channel.channel && entry.inventory_given &&
+                    entry.inventory_profile_current && entry.accepted_mech && !entry.pending_mech)
+                    entry.current_inventory_weapon=desired->channel;
+                // Native client already applied its local switch; no invented reply.
+                // Null/package/other actor selections are unsupported no-ops here.
+            }
+        }
+        return true;
     }
     bool readiness_ready(const Entry& entry) const {
         if (!ready_plan || !bootstrap_plan || !entry.links_sent || !entry.pri_identity_sent ||
@@ -730,6 +874,7 @@ struct LocalUdpOwner::Impl {
                             prior.primary_weapon!=decoded.value.primary_weapon ||
                             prior.holo_taunt_type!=decoded.value.holo_taunt_type) return false;
                     } else entry.pending_mech=std::move(decoded.value);
+                    if (inventory_plan) entry.inventory_profile_current=false;
                     // A newly requested preset cannot borrow the old validation.
                     entry.validation_succeeded=false;
                     entry.admission_request_revision.reset();
@@ -786,6 +931,8 @@ struct LocalUdpOwner::Impl {
             }
             try {
                 terminal=!value || entry.connection->snapshot().closed || !entry.links_sent;
+                if (inventory_plan && value && (value->mech_type!=1 || value->mech_sub_type!=15 ||
+                    value->mech_weapons.primary_idx!=0 || value->mech_weapons.secondary_idx!=101)) terminal=true;
                 const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
                     pawn_plan->channel.channel};
                 for (const auto channel:channels) {
@@ -806,6 +953,7 @@ struct LocalUdpOwner::Impl {
                     else {
                         entry.setup_id=value->setup_id;
                         entry.accepted_mech=work.request;
+                        if (inventory_plan) entry.inventory_profile_current=true;
                         ++entry.mech_revision;
                         entry.validation_responded=false;
                         entry.validation_succeeded=false;
@@ -1112,6 +1260,7 @@ struct LocalUdpOwner::Impl {
                 if (!terminal && !send_links(entry,now)) terminal=true;
                 if (!terminal && !send_bootstrap(entry,now)) terminal=true;
                 if (!terminal && !collect_start_mech(entry,step.actor_bunches)) terminal=true;
+                if (!terminal && !collect_inventory_manager(entry,step.actor_bunches)) terminal=true;
                 if (!terminal && !take_start_mech(*use,mech)) terminal=true;
             } catch (const game::ConnectionError&) {
                 terminal=entry.connection->snapshot().closed;
@@ -1121,6 +1270,7 @@ struct LocalUdpOwner::Impl {
         else if (candidate) validate_response(id,target,*candidate);
         else {
             if (mech) apply_start_mech(id,*mech);
+            apply_inventory(id,target);
             apply_validation(id,target);
             apply_readiness(id,target);
             apply_admission(id,target);
@@ -1155,6 +1305,7 @@ struct LocalUdpOwner::Impl {
         if (terminal) registry->retire_id(id);
         else {
             if (mech) apply_start_mech(id,*mech);
+            apply_inventory(id,target);
             apply_validation(id,target);
             apply_readiness(id,target);
             apply_admission(id,target);
@@ -1228,7 +1379,8 @@ struct LocalUdpOwner::Impl {
                std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
                std::optional<PriIdentityDispatchPlan> pri_identity,
                std::optional<SelectionBootstrapPlan> selection_bootstrap,
-               std::optional<ReadyMatchPlan> ready_match,ReadyFactsProvider ready_facts) {
+               std::optional<ReadyMatchPlan> ready_match,ReadyFactsProvider ready_facts,
+               std::optional<InventoryBootstrapPlan> inventory_bootstrap) {
         if (!callback || started || stopping.load()) fail(LocalUdpErrorCode::invalid_lifecycle);
         if (publication && !validator) fail(LocalUdpErrorCode::invalid_configuration);
         if (controller) {
@@ -1505,6 +1657,50 @@ struct LocalUdpOwner::Impl {
             if (ready_match && collision(ready_match->ready_rpc_field_id))
                 fail(LocalUdpErrorCode::invalid_configuration);
         }
+        if (inventory_bootstrap) {
+            const auto& plan=*inventory_bootstrap;const auto& eligible=plan.eligibility;
+            if (!validator || !publication || !controller || !pri || !pawn || !links || !start_mech || !provider ||
+                plan.pawn_exclusive_bound!=links->pawn_exclusive_bound ||
+                !eligible.primary_package_map || !eligible.actor_prefixes_correct || !eligible.archetypes_correct ||
+                !eligible.actor_caches_correct || !eligible.scalar_links_correct || !eligible.hand_weap_array_correct ||
+                !eligible.client_given_to_correct || !eligible.server_set_current_weapon_correct)
+                fail(LocalUdpErrorCode::invalid_configuration);
+            const auto fields=[](const auto& ids,std::uint32_t bound) {
+                if (bound==0) fail(LocalUdpErrorCode::invalid_configuration);
+                for (std::size_t i=0;i<ids.size();++i) {
+                    if (ids[i]>=bound) fail(LocalUdpErrorCode::invalid_configuration);
+                    for (std::size_t j=0;j<i;++j) if (ids[i]==ids[j]) fail(LocalUdpErrorCode::invalid_configuration);
+                }
+            };
+            fields(std::array{plan.pawn_inv_manager_field_id,plan.pawn_dual_weapon_field_id,
+                links->pawn_controller_field_id,links->pawn_pri_field_id},plan.pawn_exclusive_bound);
+            fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.manager_chain_field_id,
+                plan.manager_server_set_current_weapon_field_id},plan.manager_exclusive_bound);
+            fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.inventory_manager_field_id,
+                plan.dual_hand_weap_field_id,plan.dual_client_given_to_field_id},plan.dual_exclusive_bound);
+            for (const auto bound:{plan.primary_exclusive_bound,plan.secondary_exclusive_bound})
+                fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.inventory_manager_field_id,
+                    plan.hand_dual_weapon_field_id},bound);
+            const std::array actors{&plan.manager,&plan.dual_weapon,&plan.primary_weapon,&plan.secondary_weapon};
+            try {
+                const auto cap=static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8;
+                for (std::size_t i=0;i<actors.size();++i) {
+                    const auto& actor=*actors[i];const auto channel=actor.channel.channel;
+                    if (channel==0 || channel>2047 || channel==controller->channel.channel ||
+                        channel==pawn->channel.channel || channel==pri->channel.channel ||
+                        (selection_bootstrap && channel==selection_bootstrap->gri.channel.channel) ||
+                        actor.archetype_local_net_index<0 || actor.rotation)
+                        fail(LocalUdpErrorCode::invalid_configuration);
+                    for (std::size_t j=0;j<i;++j) if (channel==actors[j]->channel.channel)
+                        fail(LocalUdpErrorCode::invalid_configuration);
+                    static_cast<void>(wire::actor::encode_initial_pawn(
+                        {wire::object::PackageExportReference{0},actor.position,actor.rotation},cap));
+                }
+                static_cast<void>(inventory_payloads(plan,pawn->channel.channel,cap));
+                static_cast<void>(wire::rpc::encode_client_given_to(plan.dual_client_given_to_field_id,
+                    plan.dual_exclusive_bound,pawn->channel.channel,false,cap));
+            } catch (...) {fail(LocalUdpErrorCode::invalid_configuration);}
+        }
         authorizer=std::move(callback); login_validator=std::move(validator);
         publication_provider=std::move(publication); controller_plan=std::move(controller);
         pawn_plan=std::move(pawn); pri_plan=std::move(pri); links_plan=std::move(links);
@@ -1522,6 +1718,7 @@ struct LocalUdpOwner::Impl {
             pending_match.emplace(ready_match->rules,ready_match->initial_state);
         }
         ready_plan=std::move(ready_match); ready_facts_provider=std::move(ready_facts);
+        inventory_plan=std::move(inventory_bootstrap);
         started=true;
         {
             std::lock_guard lock(registry->mutex); registry->accepting=true;
@@ -1529,14 +1726,14 @@ struct LocalUdpOwner::Impl {
         running=true;
         try { worker=std::thread([this]{loop();}); }
         catch (...) {
-            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset(); ready_plan.reset(); ready_facts_provider={}; pending_match.reset();
+            fail_closed(); authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset(); ready_plan.reset(); ready_facts_provider={}; pending_match.reset(); inventory_plan.reset();
             fail(LocalUdpErrorCode::invalid_lifecycle);
         }
     }
     void stop() noexcept {
         running=false; stopping=true; registry->close();
         if (worker.joinable()) worker.join();
-        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset(); ready_plan.reset(); ready_facts_provider={}; pending_match.reset();
+        authorizer={}; login_validator={}; publication_provider={}; controller_plan.reset(); pawn_plan.reset(); pri_plan.reset(); links_plan.reset(); start_mech_plan.reset(); mech_provider={}; validation_plan.reset(); spawn_validator={}; admission_plan.reset(); pri_identity_plan.reset(); bootstrap_plan.reset(); ready_plan.reset(); ready_facts_provider={}; pending_match.reset(); inventory_plan.reset();
         { std::lock_guard lock(clock_mutex); clock={}; }
         std::lock_guard lock(socket_mutex); socket.close();
     }
@@ -1644,12 +1841,14 @@ void LocalUdpOwner::start(Authorizer authorize, LoginResponseValidator validate_
                           std::optional<SpawnAdmissionDispatchPlan> spawn_admission,
                           std::optional<PriIdentityDispatchPlan> pri_identity,
                           std::optional<SelectionBootstrapPlan> selection_bootstrap,
-                          std::optional<ReadyMatchPlan> ready_match,ReadyFactsProvider ready_facts) {
+                          std::optional<ReadyMatchPlan> ready_match,ReadyFactsProvider ready_facts,
+               std::optional<InventoryBootstrapPlan> inventory_bootstrap) {
     impl_->start(std::move(authorize),std::move(validate_response),std::move(publication),
         std::move(controller),std::move(pawn),std::move(pri),std::move(links),
         std::move(start_mech),std::move(mech_provider),
         std::move(spawn_validation),std::move(selection_validator),std::move(spawn_admission),
-        std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts));
+        std::move(pri_identity),std::move(selection_bootstrap),std::move(ready_match),std::move(ready_facts),
+        std::move(inventory_bootstrap));
 }
 void LocalUdpOwner::stop() noexcept { impl_->stop(); }
 std::unique_ptr<assignment::UdpSessionLease> LocalUdpOwner::handoff(

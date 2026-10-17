@@ -93,6 +93,10 @@ struct UdpTrialConfig {
     // Runtime revalidates assignment scope after the callback outside Use.
     std::optional<ReadyMatchPlan> ready_match = std::nullopt;
     std::optional<ReadyAccountSource> ready_match_source = std::nullopt;
+    // Optional copied finite owned Starter1/15/0/101 inventory actor policy.
+    // Publication, actor/link/StartMech prerequisites and exact schema are caller
+    // premises; activation never grants items or forces bServerCanFire.
+    std::optional<InventoryBootstrapPlan> inventory_bootstrap = std::nullopt;
 };
 // Pure preflight; no binding, randomness, SQL or Steam. Canonical lower-case
 // nonzero GUID36 and ASCII region[A-Za-z0-9_.-]1..64; port0 is API-valid.

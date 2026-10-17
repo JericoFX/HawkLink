@@ -1874,3 +1874,125 @@ TEST_CASE("Ready runtime revalidates account authorization after its reader retu
     CHECK_FALSE(runtime.diagnostics().gri_match_begun_sent); CHECK_FALSE(runtime.diagnostics().client_restart_sent);
     runtime.stop();
 }
+
+namespace {
+udp::InventoryBootstrapPlan runtime_inventory_bootstrap_plan() {
+    const std::array<std::uint32_t,4> package_guid={0x01020304U,0x12345678U,0x80000000U,0xffffffffU};
+    // Synthetic metadata only: each distinct actor uses FRoot local0. The
+    // literal common prefix below is independent of the production encoder.
+    const auto actor=[&](std::uint16_t channel,std::uint16_t sequence) {
+        return udp::InitialPawnPlan{{channel,sequence,0,false},package_guid,0,{0,0,0},std::nullopt};
+    };
+    return {actor(11,121),actor(12,141),actor(13,161),actor(14,181),
+        25,80,150,15,14,21,21,23,24,31,23,35,29,32,34,
+        {true,true,true,true,true,true,true,true}};
+}
+udp::UdpTrialConfig runtime_inventory_config() {
+    auto selected=runtime_start_config();
+    // A single full Pawn cache is shared by the existing player links and the
+    // inventory links. These are explicit synthetic caller schema premises.
+    selected.links->pawn_exclusive_bound=150;
+    selected.inventory_bootstrap=runtime_inventory_bootstrap_plan();
+    return selected;
+}
+}
+
+TEST_CASE("UDP trial inventory bootstrap copies policy and opens four actors only after owned materialization") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto owned=runtime_seed_owned_starter(f,account->ref);
+    const auto wallet=f.store.wallet(account->ref); std::atomic<unsigned> reads{0};
+    std::unique_ptr<udp::UdpTrialRuntime> runtime;
+    {
+        auto selected=runtime_inventory_config();
+        selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+            [&](const store::AccountRef& scope,std::string_view instance) {
+                CHECK(scope==account->ref); CHECK(instance==owned.items[0].instance_id);
+                ++reads; return f.store.owned_starter_mech(scope,instance);
+            }};
+        runtime=std::make_unique<udp::UdpTrialRuntime>(f.auth,selected);
+        selected.inventory_bootstrap->manager.channel.channel=7;
+        selected.inventory_bootstrap->primary_weapon.archetype_local_net_index=-1;
+        selected.inventory_bootstrap->eligibility.archetypes_correct=false;
+        selected.inventory_bootstrap.reset(); selected.start_mech_source.reset();
+    }
+    const auto dto=provision(*runtime,login); REQUIRE(dto.status==200);
+    const auto id=decode_base64url<8>(dto.result.at("SessionId").get<std::string>());
+    const auto key=decode_base64url<32>(dto.result.at("SessionKey").get<std::string>());
+    Peer peer; session::Context client(session::Role::client,id,key);
+    const auto opened=runtime_links_open(*runtime,login,peer,client);
+    CHECK(reads==0);
+    peer.send(runtime->port(),runtime_links_ack(client,5,opened.packet_ids));
+    const auto linked=runtime_links_packets(peer,client,2000ms,2,true);
+    REQUIRE(linked.bunches.size()==2); CHECK(reads==0);
+    peer.send(runtime->port(),runtime_links_ack(client,6,linked.packet_ids));
+    CHECK(runtime_bootstrap_packets(peer,client,100ms,0,1).openings.bunches.empty());
+    peer.send(runtime->port(),runtime_start_mech_packet(client,7,256,0));
+    const auto selected=runtime_bootstrap_packets(peer,client,2000ms,1,4);
+    REQUIRE(selected.openings.bunches.size()==4);
+    constexpr std::array<std::uint16_t,4> channels={11,12,13,14};
+    constexpr std::array<std::uint16_t,4> sequences={122,142,162,182};
+    for (std::size_t i=0;i<4;++i) {
+        const auto& bunch=selected.openings.bunches[i];
+        CHECK(bunch.channel==channels[i]); CHECK(bunch.sequence==sequences[i]);
+        CHECK(bunch.reliable); CHECK(bunch.open); CHECK_FALSE(bunch.close);
+        CHECK(bunch.channel_type==2); CHECK(bunch.payload_bits==43);
+        CHECK(bunch.payload==public_hex("000000004005"));
+    }
+    REQUIRE(selected.properties.bunches.size()==1);
+    CHECK(selected.properties.bunches[0].channel==9);
+    CHECK(selected.properties.bunches[0].payload_bits==547);
+    CHECK(reads==1); CHECK(runtime->assignment().authorize_udp(id));
+    CHECK_FALSE(runtime->diagnostics().closed);
+    CHECK(f.store.wallet(account->ref)==wallet);
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).items==owned.items);
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
+    runtime->stop(); CHECK_FALSE(runtime->running()); CHECK_FALSE(runtime->assignment().authorize_udp(id));
+}
+
+TEST_CASE("UDP trial inventory bootstrap rejects incomplete and conflicting policy and releases the port for coherent retry") {
+    Fixture f; const auto login=f.login(); const auto account=f.store.find_account("76561197960265729");
+    REQUIRE(account); const auto owned=runtime_seed_owned_starter(f,account->ref);
+    const auto wallet=f.store.wallet(account->ref); std::atomic<unsigned> reads{0};
+    std::uint16_t port=0; { Peer reservation; port=reservation.port(); }
+    const auto make_config=[&] {
+        auto selected=runtime_inventory_config(); selected.port=port;
+        selected.start_mech_source=udp::StartMechSource{runtime_starter_types(),
+            [&](const store::AccountRef& scope,std::string_view instance) {
+                ++reads; return f.store.owned_starter_mech(scope,instance);
+            }};
+        return selected;
+    };
+    for (unsigned bad=0;bad<20;++bad) {
+        CAPTURE(bad); auto selected=make_config(); auto& plan=*selected.inventory_bootstrap;
+        switch (bad) {
+        case 0: selected.start_mech.reset(); selected.start_mech_source.reset(); break;
+        case 1: plan.eligibility.primary_package_map=false; break;
+        case 2: plan.eligibility.actor_prefixes_correct=false; break;
+        case 3: plan.eligibility.archetypes_correct=false; break;
+        case 4: plan.eligibility.actor_caches_correct=false; break;
+        case 5: plan.eligibility.scalar_links_correct=false; break;
+        case 6: plan.eligibility.hand_weap_array_correct=false; break;
+        case 7: plan.eligibility.client_given_to_correct=false; break;
+        case 8: plan.eligibility.server_set_current_weapon_correct=false; break;
+        case 9: plan.manager.channel.channel=7; break;
+        case 10: plan.dual_weapon.channel.channel=8; break;
+        case 11: plan.primary_weapon.channel.channel=9; break;
+        case 12: plan.secondary_weapon.channel.channel=11; break;
+        case 13: plan.manager.channel.channel=0; break;
+        case 14: plan.secondary_weapon.channel.channel=2048; break;
+        case 15: plan.primary_weapon.archetype_local_net_index=-1; break;
+        case 16: plan.pawn_exclusive_bound=149; break;
+        case 17: plan.manager_chain_field_id=24; break;
+        case 18: plan.dual_hand_weap_field_id=35; break;
+        case 19: plan.hand_dual_weapon_field_id=32; break;
+        }
+        CHECK_THROWS_WITH_AS(udp::UdpTrialRuntime(f.auth,selected),
+            "UDP trial runtime could not start.",std::runtime_error);
+        { Peer rebound(port); CHECK(rebound.port()==port); }
+        CHECK(reads==0); CHECK(f.store.wallet(account->ref)==wallet);
+    }
+    auto selected=make_config(); udp::UdpTrialRuntime runtime(f.auth,selected);
+    CHECK(runtime.running()); CHECK(runtime.port()==port); CHECK(reads==0);
+    runtime.stop();
+    CHECK(f.store.owned_starter_mech(account->ref,owned.items[0].instance_id).attributes==owned.attributes);
+}

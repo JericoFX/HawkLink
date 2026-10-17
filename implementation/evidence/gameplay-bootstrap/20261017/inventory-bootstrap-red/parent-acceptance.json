@@ -1,0 +1,97 @@
+{
+  "schema": "hawken-inventory-bootstrap-red-parent-acceptance-v1",
+  "status": "BEHAVIORAL_RED_ACCEPTED_GREEN_AUTHORIZED",
+  "reviewer": "/root",
+  "input_count": 199,
+  "input_drift": 0,
+  "build_exit": 0,
+  "owner": {
+    "cases": 9,
+    "passed_cases": 2,
+    "failed_cases": 7,
+    "skipped_cases": 132,
+    "assertions": 702,
+    "passed_assertions": 653,
+    "failed_assertions": 49
+  },
+  "runtime": {
+    "cases": 2,
+    "passed_cases": 0,
+    "failed_cases": 2,
+    "skipped_cases": 40,
+    "assertions": 178,
+    "passed_assertions": 157,
+    "failed_assertions": 21
+  },
+  "wreckage": {
+    "cases": 2,
+    "passed_cases": 2,
+    "failed_cases": 0,
+    "skipped_cases": 9,
+    "assertions": 118,
+    "passed_assertions": 118,
+    "failed_assertions": 0
+  },
+  "probe_exit": 1,
+  "probe_result": "{\"plan_verified\":false}",
+  "wrapper_exit_semantics": "0 means wrapper executed all requested steps; Owner/Runtime/probe intentionally returned1.",
+  "filtered_run": true,
+  "skip_semantics": "Doctest skips denote nonselected tests, not a full-suite result.",
+  "max_sampled_ram_percent": 50.8,
+  "wrapper": {
+    "pid": 33324,
+    "creation_wmi": "2026-10-17T14:16:36.372279-03:00",
+    "creation_utc": "2026-10-17T17:16:36.3722798Z",
+    "exe": "C:\\WINDOWS\\system32\\cmd.exe",
+    "priority": "BelowNormal"
+  },
+  "terminal_and_owned_process_absence_confirmed": true,
+  "unchanged_services": [
+    19440,
+    47948,
+    52744
+  ],
+  "pins": [
+    {
+      "path": "final-result.json",
+      "sha256": "53e4986ec53fcc0acbbd9765ad5c390de4547abb2ce8e4da870e6ae304b27452"
+    },
+    {
+      "path": "input-freeze.json",
+      "sha256": "96fed3c35c5c42ecfe377364eddb5d3bc886769372b6951ef19e72d0d6e7773b"
+    },
+    {
+      "path": "input-hashes-before.json",
+      "sha256": "a8066da644c17f003bd32aba2326bb07ecff5783ffcfa6848b3f14564a70c0fd"
+    },
+    {
+      "path": "input-hashes-after.json",
+      "sha256": "a8066da644c17f003bd32aba2326bb07ecff5783ffcfa6848b3f14564a70c0fd"
+    },
+    {
+      "path": "build.stdout.log",
+      "sha256": "2c112eff158992ca33d4a63f256cd18b53598fcd43f743a93d3d46aacf03f7d5"
+    },
+    {
+      "path": "owner.stdout.log",
+      "sha256": "e8fcb7f1b9c74b791aa8ba74e2d9e02dec1893f1b96dfc94ff75212508927792"
+    },
+    {
+      "path": "runtime.stdout.log",
+      "sha256": "2960ae283dc0f7edc00a283854c48ab02cb092896919f0cfc50370bd4f50f105"
+    },
+    {
+      "path": "wreckage.stdout.log",
+      "sha256": "58f0d982e0c0a2e3e0051d0519f649689b08a50ecb240b38189dcd4312a8d685"
+    },
+    {
+      "path": "probe.stdout.log",
+      "sha256": "bf8115b5b8cf9dd0f219cf38228425b7778880bcbe6bff2de5c4969a642cf734"
+    },
+    {
+      "path": "postflight-summary.json",
+      "sha256": "3c76307c6af065ce49d0346a4ede27533269d0f550e49458de24c9f8e971cc72"
+    }
+  ],
+  "acceptance_limit": "Tests demonstrate missing Owner and Runtime behavior and absent original-asset inventory policy; they do not prove native gameplay or repair."
+}

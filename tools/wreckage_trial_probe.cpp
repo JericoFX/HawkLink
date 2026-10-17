@@ -101,12 +101,14 @@ int run(const std::filesystem::path& game_root) {
         // its actor relationships. No sockets, account data or client execution.
         hawken::game::configure_wreckage_trial(config,game_root);
         if (!config.publication || !verify_plan(*config.publication) ||
-            !config.controller || !config.pawn || !config.pri || !config.links)
+            !config.controller || !config.pawn || !config.pri || !config.links ||
+            !config.inventory_bootstrap)
             throw std::runtime_error("trial configuration missing");
         const auto& controller=*config.controller;
         const auto& pawn=*config.pawn;
         const auto& pri=*config.pri;
         const auto& links=*config.links;
+        const auto& inventory=*config.inventory_bootstrap;
         const std::array<std::uint32_t,4> hg{
             0xbf5a6721U,0x4933092bU,0xe8522f80U,0x238fc144U};
         const std::array<std::uint32_t,4> hgc{
@@ -131,9 +133,36 @@ int run(const std::filesystem::path& game_root) {
             links.controller_exclusive_bound!=294 || links.pawn_controller_field_id!=49 ||
             links.pawn_pri_field_id!=30 || links.pawn_exclusive_bound!=150)
             throw std::runtime_error("trial configuration mismatch");
+        const std::array inventory_actors{&inventory.manager,&inventory.dual_weapon,
+            &inventory.primary_weapon,&inventory.secondary_weapon};
+        constexpr std::array<std::int32_t,4> inventory_cdos{33398,43715,44117,44157};
+        for (std::size_t index=0;index<inventory_actors.size();++index) {
+            const auto& actor=*inventory_actors[index];
+            if (!fresh_channel(actor,static_cast<std::uint16_t>(5+index)) ||
+                actor.archetype_package_guid!=hg ||
+                actor.archetype_local_net_index!=inventory_cdos[index] ||
+                actor.position!=pawn.position || actor.rotation)
+                throw std::runtime_error("trial inventory archetype mismatch");
+        }
+        const auto& eligible=inventory.eligibility;
+        if (inventory.pawn_inv_manager_field_id!=25 || inventory.pawn_dual_weapon_field_id!=80 ||
+            inventory.pawn_exclusive_bound!=150 || inventory.owner_field_id!=15 ||
+            inventory.instigator_field_id!=14 || inventory.inventory_manager_field_id!=21 ||
+            inventory.manager_chain_field_id!=21 ||
+            inventory.manager_server_set_current_weapon_field_id!=23 ||
+            inventory.manager_exclusive_bound!=24 || inventory.dual_hand_weap_field_id!=31 ||
+            inventory.dual_client_given_to_field_id!=23 || inventory.dual_exclusive_bound!=35 ||
+            inventory.hand_dual_weapon_field_id!=29 || inventory.primary_exclusive_bound!=32 ||
+            inventory.secondary_exclusive_bound!=34 || !eligible.primary_package_map ||
+            !eligible.actor_prefixes_correct || !eligible.archetypes_correct ||
+            !eligible.actor_caches_correct || !eligible.scalar_links_correct ||
+            !eligible.hand_weap_array_correct || !eligible.client_given_to_correct ||
+            !eligible.server_set_current_weapon_correct)
+            throw std::runtime_error("trial inventory schema mismatch");
         std::cout<<"{\"plan_verified\":true,\"root_packages\":7,"
             "\"contained_packages\":1,\"contained_archive_bytes\":73,"
             "\"welcome_archive_bytes\":48,\"actor_links_policy_verified\":true,"
+            "\"inventory_policy_verified\":true,"
             "\"client_runtime_verified\":false}\n";
         return 0;
     } catch (...) {

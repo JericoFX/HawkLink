@@ -1,0 +1,101 @@
+{
+  "schema": "hawken-inventory-bootstrap-parent-acceptance-v1",
+  "reviewer": "/root",
+  "status": "IMPLEMENTED_WINDOWS_VERIFIED_NATIVE_PENDING",
+  "owned_sources": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "a34f433fab77bb17337c422751e10240db5fc218f735dbe08a959e6ac9aaf3df"
+    },
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "ce10fbd96190ca5ba6d55becba256500ce4e17c7719fc2db84a247a17b86e89f"
+    },
+    {
+      "path": "include/hawken/udp_trial_runtime.hpp",
+      "sha256": "d2306969884ebcb62dc6ed5a8abd95333054fa11f773ba47cd3471c30f93b48f"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "2b8e9b46b026504af2551bd9806460818e8783d930633b52cda65f285b78515b"
+    },
+    {
+      "path": "src/udp_trial_runtime.cpp",
+      "sha256": "b8448041bead2634c971a04f21dcb8711a56b7ae39312aa8eb38295ba54b8dfe"
+    },
+    {
+      "path": "src/wreckage_trial.cpp",
+      "sha256": "f14b90208f20485c54a3b2d77773bf37ba55c80cbf55176d88f1cc5169768ccd"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "936c6e1135697d675fed7f2c2211d9b135c51d48837d3e30a06a487644f78afe"
+    },
+    {
+      "path": "tests/udp_trial_runtime_tests.cpp",
+      "sha256": "98deeb0619cc67f9b20a5abc3749f370748275e806de9e3fa88b2c97b8088031"
+    },
+    {
+      "path": "tests/wreckage_trial_tests.cpp",
+      "sha256": "fe4fac80608abd41931d9c8cbf74ce2b801b3ec20e39ee08521c322bd16d19dd"
+    },
+    {
+      "path": "tools/wreckage_trial_probe.cpp",
+      "sha256": "2c4b1ee8bfa642f299b30581c1517c5899ab98d2d581b52ff93ac09fe53dd6ba"
+    }
+  ],
+  "source_count": 199,
+  "source_drift": 0,
+  "red": {
+    "receipt": "../inventory-bootstrap-red/parent-acceptance.json",
+    "sha256": "195c93dca940ea55154e3ed37f83f913e952714018a63ef308d3f6d4a2208fb4",
+    "build_exit": 0,
+    "owner_failed_cases": 7,
+    "runtime_failed_cases": 2,
+    "probe_exit": 1
+  },
+  "green": {
+    "focal_suites": 3,
+    "focal_cases": 194,
+    "focal_assertions": 16353,
+    "full_suites": 57,
+    "full_cases": 1571,
+    "full_assertions": 77087,
+    "failed": 0,
+    "skipped": 0,
+    "build_exit": 0,
+    "ctest_exit": 0,
+    "original_asset_probe_exit": 0,
+    "link_exit": 0,
+    "help_exit": 0
+  },
+  "frozen_input_manifest_sha256": "429fe47b1afd7ef92b0887515eb5ed0a6723f701c1a840b246ea415d22ee9874",
+  "full_result_sha256": "1a2977e92d816066bb42584930b900477062bf8adfe0ec20f377f47005dad60c",
+  "main_object_sha256": "6f4ebd4edf0e8e5741093101bab10d31ba24c796ada39d6694bf4007c720671c",
+  "libraries": {
+    "count": 56,
+    "hawken": 44,
+    "windows_sdk": 12,
+    "pre_post_drift": 0,
+    "before_manifest_sha256": "8c4c1ad09f29adc342a4fdf930b20f5eccc68f20e7bbcc3c2074b45d94105ebe",
+    "after_manifest_sha256": "3d7d0b74073903813f0aacd7ff37681912d1dbe6316b76f8cbf78698f1b3bc08"
+  },
+  "candidate": {
+    "path": "staged/hawken-server.exe",
+    "sha256": "a711ba34b2780ba267f558225eb2bde1e397f57efa5c721da282b2cedc5ec216",
+    "deployed": false,
+    "client_runtime_verified": false
+  },
+  "limits": [
+    "Native actor cache IDs remain qualified original-cache premises.",
+    "Original-CDO prefix facts do not attest loaded instructions.",
+    "GivenTo and current-selection tests do not prove native firing, jumping, damage or postmatch synchronization.",
+    "Runtime rejects missing prerequisites before Impl; field validation in Owner.start occurs after its socket construction.",
+    "One test-title erratum changed no assertions or golden vectors.",
+    "A staged-launcher path preflight failed before creating any link process; preserved and corrected only in evidence wrapper.",
+    "Linux and the whole persistent goal remain pending."
+  ],
+  "canonical_core_sha256": "b078e13373c98a524908186986314c9fecd3e1fc13bc5b3e086c5967aa8df9b8",
+  "canonical_master_sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+  "bridge_sha256": "433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a"
+}

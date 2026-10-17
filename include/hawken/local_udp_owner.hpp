@@ -265,6 +265,34 @@ struct ReadyAccountFacts {
     bool saving;
 };
 
+// All named groups are caller-proved conjunctions, not observations made by
+// this Owner: four exact CDO/prefixes, each effective cache and expected class,
+// scalar ObjectProperty eligibility, HandWeap ArrayDim4/raw byte index, and the
+// exact eligible GivenTo(Object,BoolNET)/Manager(Object) RPC schemas.
+struct InventoryBootstrapEligibility {
+    bool primary_package_map,actor_prefixes_correct,archetypes_correct,actor_caches_correct;
+    bool scalar_links_correct,hand_weap_array_correct,client_given_to_correct;
+    bool server_set_current_weapon_correct;
+};
+struct InventoryBootstrapPlan {
+    InitialPawnPlan manager,dual_weapon,primary_weapon,secondary_weapon;
+    std::uint32_t pawn_inv_manager_field_id,pawn_dual_weapon_field_id,pawn_exclusive_bound;
+    std::uint32_t owner_field_id,instigator_field_id,inventory_manager_field_id;
+    std::uint32_t manager_chain_field_id,manager_server_set_current_weapon_field_id,manager_exclusive_bound;
+    std::uint32_t dual_hand_weap_field_id,dual_client_given_to_field_id,dual_exclusive_bound;
+    std::uint32_t hand_dual_weapon_field_id,primary_exclusive_bound,secondary_exclusive_bound;
+    InventoryBootstrapEligibility eligibility;
+};
+// Optional finite Starter profile1/15/0/101 only, checked on REAL materialized
+// data before publishing its PRI property. Four actors live for the Entry and
+// are reused only for later accepted revisions of that same supported profile.
+// Activation requires real opening ACKs then reliable reference-queue drain.
+// Only HandWeap[0/1] are populated; no fabricated Pawn.Weapon/PendingWeapon NET
+// tags or bServerCanFire value. Manager current-weapon input accepts only the
+// configured current Dual actor after GivenTo; null/package/other references
+// are unsupported no-ops. Unknown field suffix remains opaque. No reply RPC,
+// native callback execution, projectile/damage/physics acceptance is implied.
+
 // Exclusive IPv4 127.0.0.1 bind. Production callers supply a nonzero port;
 // port0 is reserved for isolated fixtures and port() publishes getsockname.
 // Skeleton ID/key must be zero: only handoff's authorized SessionProvision
@@ -448,7 +476,8 @@ public:
                std::optional<PriIdentityDispatchPlan> pri_identity = std::nullopt,
                std::optional<SelectionBootstrapPlan> selection_bootstrap = std::nullopt,
                std::optional<ReadyMatchPlan> ready_match = std::nullopt,
-               ReadyFactsProvider ready_facts = {});
+               ReadyFactsProvider ready_facts = {},
+               std::optional<InventoryBootstrapPlan> inventory_bootstrap = std::nullopt);
     void stop() noexcept;
 
     // Null on wrong destination, not running, expired/nonfinite clock, occupied
