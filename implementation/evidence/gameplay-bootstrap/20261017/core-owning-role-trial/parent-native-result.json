@@ -1,0 +1,91 @@
+{
+  "schema": "owning-pawn-role-native-attempt-v1",
+  "utc": "2026-10-17T22:15:16.0177352Z",
+  "state": "CONFIRMED_PRELOGIN_STEAM_ERROR;ROLE2_AND_GAMEPLAY_NOT_TESTED",
+  "session": "local-steam-routing-20261017-220849",
+  "original": {
+    "file": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "core": {
+    "file": "build/windows-msvc/hawken-server.exe",
+    "sha256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "httpServiceStatus": 200
+  },
+  "clientLog": {
+    "file": "C:\\Users\\Jerico\\Documents\\My Games\\Hawken\\HawkenGame\\Logs\\Launch.log",
+    "sha256": "9883345a004070f5460dc3da4602c8aebbccf0b67a0d4ec2c62107b1a4051615",
+    "bytes": 16384,
+    "lines": 192,
+    "selectedStatusFile": "client-steam-status.txt",
+    "selectedStatusSha256": "8e86108072d10488c5fb47af44d7bff80e9768a06a4ed9c8add32c62beab8001",
+    "clientRestartLines": 0,
+    "credentialsCopied": false
+  },
+  "observed": [
+    "Client dialog51C58D8A and client log report OSCS_NoSteamConnection before login",
+    "Bridge module was observed by normal guard; no steam-login HTTP request and no authentication verified",
+    "Original game was launched through ComputerUse explicit original EXE after shell Steam URI command was rejected; Steam process existed",
+    "Steam Library is now selected to use its normal Play button in a future authorized resource window"
+  ],
+  "interpretation": "Only the prelogin error is confirmed. A missing Steam launch context is a candidate, not a proved root cause. The owning Role2 correction was never exercised.",
+  "capture": {
+    "file": "core-owning-role.pcapng",
+    "sha256": "924da250991c1ab8a27ae584af10f4ddf1e5e23a3ac265468b6037fc92f2d8eb",
+    "packets": 0,
+    "dropped": 0,
+    "durationLimitSeconds": 180,
+    "exit": 0,
+    "gitExcluded": true,
+    "scope": "UDP7777 loopback only; no HTTP/Steam credentials"
+  },
+  "screenshot": {
+    "file": "steam-network-blocker.png",
+    "sha256": "0cde909d1be7d080ca3875f42ff7ec0c754d9a24bbbe8858a9441afef27e0329",
+    "originalPixels": "1282x752"
+  },
+  "policy": {
+    "shellSteamStartRejected": true,
+    "reason": "blocked by policy",
+    "alternative": "Purpose-built ComputerUse, original installed Steam/Hawken only; no emulator or authentication bypass"
+  },
+  "cleanup": {
+    "guardExec88561Exit": 0,
+    "captureExec16663Exit": 0,
+    "originalClient69416IntentionallyStopped": true,
+    "nativePidsAbsentAt221318Z": [
+      69416,
+      55212,
+      71380,
+      70416,
+      34740,
+      44160
+    ],
+    "serverGracefulStop": true,
+    "serverExit": 0,
+    "cleanupComplete": true,
+    "originalsUnchanged": true,
+    "helperResultSha256": "c1dd0255dab2d80b51713e459157506a18b4faca32cfbdbad31bf2a8fad77e90",
+    "deadlineUtc": "2026-10-17T22:13:30Z",
+    "closedUtc": "2026-10-17T22:13:18Z",
+    "postUsedPercent": 63.97,
+    "postFreeGiB": 11.5
+  },
+  "limits": [
+    "No Role2 sample, deployment, fire, jump, tutorial or movement test reached",
+    "No conclusion about validity of Role2 wire from a prelogin failure",
+    "All gameplay acceptance remains pending; no new services or client left running"
+  ],
+  "resourceSamples": {
+    "admissionUtc": "2026-10-17T22:08:49.2719969Z",
+    "admissionUsedPercent": 67.21346552453721,
+    "admissionFreeGiB": 10.462989807128906,
+    "midpointUtc": "2026-10-17T22:10:51.2324127Z",
+    "midpointUsedPercent": 71.88,
+    "midpointFreeGiB": 8.97,
+    "postUtc": "2026-10-17T22:13:18.0273192Z",
+    "postUsedPercent": 63.97,
+    "postFreeGiB": 11.5,
+    "continuousPeakMeasured": false
+  }
+}

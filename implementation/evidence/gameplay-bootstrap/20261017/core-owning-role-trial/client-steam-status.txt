@@ -1,0 +1,2 @@
+[0: 050.976] ScriptLog: LOGIN FAILED ErrorCode = OSCS_NoSteamConnection
+[0: 050.978] ScriptLog: (R_EntryGame_0) R_GameInfoBase::PendingMatch:OnAutoLoginFailed LocalUserNum:'0' ErrorCode:'OSCS_NoSteamConnection'
