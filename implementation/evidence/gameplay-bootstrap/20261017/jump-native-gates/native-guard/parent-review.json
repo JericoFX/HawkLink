@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-17T20:53:47.1766721Z",
+  "state": "CONFIRMED_STATIC_GUARD;LIVE_BINDING_PENDING",
+  "originalExeSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "contractSha256": "96a1084fafdd664e810fccf330c65620537f2971f8bb8d9d6c2b5f9ccb32bd0a",
+  "parentByteChecks": [
+    {
+      "rva": "d82eb0",
+      "bytes": 196,
+      "match": true
+    },
+    {
+      "rva": "dddac0",
+      "bytes": 117,
+      "match": true
+    },
+    {
+      "rva": "d99ac0",
+      "bytes": 35,
+      "match": true
+    }
+  ],
+  "review": [
+    "Read full gate and b20 instruction bodies; exact PE .text raw offset verified against retained body buffers",
+    "MoveState2 rules out retained a90 and b20 vetoes, but does not establish separate IsHeavyModeState in DoJump",
+    "Raw c20 bit100 has not been sampled; bcanMove remains a name candidate until reflected Offset/BitMask read",
+    "bcanMove descriptor flags0 is not an eligible NET field; do not invent property replication"
+  ],
+  "limitation": "No native movement repair or gameplay acceptance from static evidence"
+}

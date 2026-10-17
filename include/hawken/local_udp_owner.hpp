@@ -6,6 +6,7 @@
 #include "hawken/start_mech_rpc_wire.hpp"
 #include "hawken/spawn_validation.hpp"
 #include "hawken/match_readiness.hpp"
+#include "hawken/pawn_combat_state.hpp"
 #include <array>
 #include <chrono>
 #include <cstddef>
@@ -324,6 +325,15 @@ struct InventoryBootstrapEligibility {
     bool scalar_links_correct,hand_weap_array_correct,client_given_to_correct;
     bool server_set_current_weapon_correct;
 };
+// Explicit server-owned initial state for the supported local trial spawn.
+// The seed has no live revision/alive/active claim; admission creates those
+// facts for the exact selected revision. Native property30/Bool1 eligibility
+// remains an explicit caller premise, separate from inventory delivery ACKs.
+struct PawnCombatBootstrapPlan {
+    std::uint32_t server_can_fire_field_id;
+    bool server_can_fire_property_correct;
+    game::PawnCombatState initial_state;
+};
 struct InventoryBootstrapPlan {
     InitialPawnPlan manager,dual_weapon,primary_weapon,secondary_weapon;
     std::uint32_t pawn_inv_manager_field_id,pawn_dual_weapon_field_id,pawn_exclusive_bound;
@@ -332,6 +342,7 @@ struct InventoryBootstrapPlan {
     std::uint32_t dual_hand_weap_field_id,dual_client_given_to_field_id,dual_exclusive_bound;
     std::uint32_t hand_dual_weapon_field_id,primary_exclusive_bound,secondary_exclusive_bound;
     InventoryBootstrapEligibility eligibility;
+    std::optional<PawnCombatBootstrapPlan> combat = std::nullopt;
 };
 // Optional finite Starter profile1/15/0/101 only, checked on REAL materialized
 // data before publishing its PRI property. Four actors live for the Entry and

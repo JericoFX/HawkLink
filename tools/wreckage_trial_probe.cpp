@@ -159,10 +159,21 @@ int run(const std::filesystem::path& game_root) {
             !eligible.hand_weap_array_correct || !eligible.client_given_to_correct ||
             !eligible.server_set_current_weapon_correct)
             throw std::runtime_error("trial inventory schema mismatch");
+        if (!inventory.combat) throw std::runtime_error("trial combat policy missing");
+        const auto& combat=*inventory.combat;
+        const auto& seed=combat.initial_state;
+        if (combat.server_can_fire_field_id!=30 || !combat.server_can_fire_property_correct ||
+            seed.spawn_revision!=0 || seed.alive || seed.spawn_active || seed.move_state!=0 ||
+            seed.boost_fire_active || seed.forward_boost_fire_cooldown!=0.0F || seed.spectator ||
+            seed.overheated || seed.weapons_down || seed.emp_time_remaining!=0.0F ||
+            seed.heavy_mode_time!=0.0F || seed.heavy_mode_start_time!=1.5F ||
+            seed.heavy_mode_transform_time_multiplier!=1.0F || seed.weapon_disabled)
+            throw std::runtime_error("trial combat policy mismatch");
         std::cout<<"{\"plan_verified\":true,\"root_packages\":7,"
             "\"contained_packages\":1,\"contained_archive_bytes\":73,"
             "\"welcome_archive_bytes\":48,\"actor_links_policy_verified\":true,"
             "\"inventory_policy_verified\":true,"
+            "\"combat_policy_verified\":true,"
             "\"client_runtime_verified\":false}\n";
         return 0;
     } catch (...) {

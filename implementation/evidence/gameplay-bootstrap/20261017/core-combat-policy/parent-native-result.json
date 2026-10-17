@@ -1,0 +1,124 @@
+{
+  "utc": "2026-10-17T21:13:54.8682079Z",
+  "state": "CONFIRMADO_NET_PERMISSION_RECEIVED;GAMEPLAY_NOT_ACCEPTED",
+  "originalExe": {
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "file": "HawkenGame-Win64-Shipping.exe"
+  },
+  "coreSha256": "c3b7aded5623eb351696a00161207072d244fe57f6c1ce5be5032da5ca1a5475",
+  "probeSha256": "776f870585521f06a73af750ea37a76c69570aa9a7df2168fb89178ba92b28f8",
+  "session": "local-steam-routing-20261017-210346",
+  "clientPid": 41860,
+  "steamAppId": 271290,
+  "tutorialRepeated": false,
+  "readonlyNative": {
+    "recordSha256": "159ade04592e2089728e92e29d27e10dd12c51bcd315f6c4025010630373cc06",
+    "samplesEqual": true,
+    "record": "after-space.json",
+    "inventory": {
+      "dual_client_shutdown": {
+        "bit_mask": 16,
+        "metadata_offset": 984,
+        "value": false
+      },
+      "dual_instigator_is_pawn": true,
+      "dual_invmanager_matches": true,
+      "dual_role": 1,
+      "dual_server_can_fire": {
+        "bit_mask": 8,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "dual_shutdown": {
+        "bit_mask": 4,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "manager_chain_is_dual": true,
+      "manager_instigator_is_pawn": true,
+      "manager_role": 1,
+      "pawn_can_move": {
+        "bit_mask": 256,
+        "metadata_offset": 3104,
+        "value": true
+      },
+      "pawn_dual_weapon_present": true,
+      "pawn_invmanager_present": true,
+      "pawn_jump_capable": {
+        "bit_mask": 512,
+        "metadata_offset": 656,
+        "value": true
+      },
+      "pawn_jump_z": 1250.0,
+      "pawn_move_state": 2,
+      "pawn_physics": 1,
+      "pawn_thruster_energy": 9.600000381469727,
+      "pawn_thruster_jump_energy": 0.0,
+      "pawn_weapon_is_dual": true,
+      "pawn_weapon_present": true
+    },
+    "state": "CONFIRMADO"
+  },
+  "observed": [
+    "Original client reached lobby, Ready countdown, mech selection, ClientRestart and PlayerWalking",
+    "Server Bool field30/bound35 reached native bServerCanFire at instance offset3d8 mask8=true",
+    "bShutdown remains true at3d8/mask4; bClientShutdown=false mask10; secondary and brief primary clicks produced no observed shot",
+    "Reflected bcanMove binds instance c20/mask100 and is true; c40 movement guard raw-bit veto ruled out for these samples",
+    "Space produced no observed jump; Physics1/MoveState2/JumpZ1250/energy9.6/cost0 stayed equal",
+    "No new native-memory write, original binary patch, emulator or auth bypass"
+  ],
+  "unverified": [
+    "Brief primary click does not test sustained Vulcan windup",
+    "Execution of UpdateCanFire, Pawn CanFireWeapon result, local timestamp veto and Active.RestartWeapons still not observed",
+    "Jump callback/DoJump execution and native script dispatch remain unproven",
+    "Authoritative firing/projectile/damage simulation and non-missile bot damage remain open"
+  ],
+  "movement": {
+    "decoded": 2898,
+    "dual": 1,
+    "old": 30,
+    "single": 2867,
+    "uniqueJumps": "Not measured; retries counted",
+    "jumpFlagOccurrences": 31,
+    "malformed": 0
+  },
+  "clientLog": {
+    "sha256": "876a2b39d3f494c56924b0978ff1c9ad334c84e4502a24a5c97faf85fa72e7f6",
+    "setWeaponsTime": 159.295,
+    "gitExcluded": true,
+    "file": "client-final.private.log",
+    "playerWalkingTime": 159.51,
+    "clientRestartTime": 159.504
+  },
+  "capture": {
+    "durationSeconds": 111.022,
+    "packets": 9320,
+    "sha256": "e7017861c5c3da40313177b7e67ded0cc1602189e837cb2ce2f8bf99a2bfd633",
+    "tsharkExit": 0,
+    "file": "core-combat-observation.pcapng",
+    "clientPort": 60513,
+    "dropped": 0,
+    "serverPackets": 6230,
+    "gitExcluded": true,
+    "received": 9320,
+    "bytes": 1189892,
+    "clientPackets": 3090
+  },
+  "screenshots": [
+    "core-deployed.png",
+    "core-after-secondary.png",
+    "core-after-space.png",
+    "core-after-primary.png"
+  ],
+  "cleanup": {
+    "clientStoppedIntentionally": true,
+    "originalsUnchanged": true,
+    "coreGracefulStop": true,
+    "clientAbsent": true,
+    "guardTerminal": true,
+    "masterStopped": true,
+    "captureTerminal": true,
+    "serverExit": 0,
+    "borrowedIsolationRulePreserved": true
+  }
+}

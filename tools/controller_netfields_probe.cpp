@@ -747,6 +747,7 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
         inventory_bool("dual_shutdown",inventory_snapshot.dual_shutdown);
         inventory_bool("dual_client_shutdown",inventory_snapshot.dual_client_shutdown);
         inventory_bool("pawn_jump_capable",inventory_snapshot.pawn_jump_capable);
+        inventory_bool("pawn_can_move",inventory_snapshot.pawn_can_move);
         if (inventory_snapshot.pawn_jump_z)
             out.metadata["inventory"]["pawn_jump_z"]=*inventory_snapshot.pawn_jump_z;
         if (inventory_snapshot.pawn_thruster_energy)

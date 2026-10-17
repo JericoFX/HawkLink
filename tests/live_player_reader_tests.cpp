@@ -387,6 +387,7 @@ constexpr std::uint64_t client_shutdown_property = 0x54c00;
 constexpr std::uint64_t float_property_class = 0x15c00, jump_capable_property = 0x56000;
 constexpr std::uint64_t jump_z_property = 0x56400, thruster_energy_property = 0x56800;
 constexpr std::uint64_t thruster_jump_property = 0x56c00, move_state_property = 0x57000;
+constexpr std::uint64_t pawn_can_move_property = 0x57800;
 struct InventoryFixture : Fixture {
     InventoryFixture() {
         klass(inventory_class,"Inventory","Engine",actor_class);
@@ -478,6 +479,13 @@ struct InventoryFixture : Fixture {
         memory.put(pawn_object+0x3c8,2.25F);
         memory.put(pawn_object+0x3cc,0.75F);
         memory.put(pawn_object+0x3d0,std::uint8_t{2});
+        property(pawn_can_move_property,native_pawn_class,"bcanMove",0x3d4,0);
+        identities[pawn_can_move_property].package="HawkenGame";
+        memory.put(pawn_can_move_property+0x50,bool_property_class);
+        memory.put(pawn_can_move_property+0x6c,std::int32_t{4});
+        memory.put(pawn_can_move_property+0xa8,std::uint32_t{0x4000});
+        memory.put(move_state_property+0x60,pawn_can_move_property);
+        memory.put(pawn_object+0x3d4,std::uint32_t{0x4200});
     }
     LivePlayerSnapshot inventory_sample() {
         auto identify=[&](std::uint64_t where) {
@@ -879,4 +887,50 @@ TEST_CASE("Live inventory jump observations remain absent without Pawn or invent
         const auto result=f.sample();CHECK(result.pawn_present);
         CHECK_FALSE(result.inventory.has_value());
     }
+}
+
+TEST_CASE("Live inventory observes reflected bcanMove without assuming native offset or mask") {
+    InventoryFixture f;const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    REQUIRE(first.inventory->pawn_can_move.has_value());
+    CHECK(first.inventory->pawn_can_move->value);
+    CHECK(first.inventory->pawn_can_move->metadata_offset==0x3d4);
+    CHECK(first.inventory->pawn_can_move->bit_mask==0x4000);
+    f.memory.put(pawn_object+0x3d4,std::uint32_t{0x200});
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());
+    REQUIRE(second.inventory->pawn_can_move.has_value());
+    CHECK_FALSE(second.inventory->pawn_can_move->value);
+    CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);
+}
+TEST_CASE("Live inventory bcanMove rejects malformed exact owner Bool metadata") {
+    InventoryFixture f;
+    SUBCASE("missing field") {f.memory.put(move_state_property+0x60,std::uint64_t{0});}
+    SUBCASE("wrong owner") {f.memory.put(pawn_can_move_property+0x40,pawn_class);}
+    SUBCASE("wrong package") {f.identities[pawn_can_move_property].package="Engine";}
+    SUBCASE("wrong type") {f.memory.put(pawn_can_move_property+0x50,byte_property_class);}
+    SUBCASE("array bool") {f.memory.put(pawn_can_move_property+0x68,std::int32_t{2});}
+    SUBCASE("wrong scalar size") {f.memory.put(pawn_can_move_property+0x6c,std::int32_t{1});}
+    SUBCASE("zero mask") {f.memory.put(pawn_can_move_property+0xa8,std::uint32_t{0});}
+    SUBCASE("multiple mask bits") {f.memory.put(pawn_can_move_property+0xa8,std::uint32_t{3});}
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory bcanMove revalidates changed metadata in each original size sample") {
+    InventoryFixture f;
+    for(std::size_t i=0;i<live_original_owners.size();++i)
+        pad_live_owner(f,live_original_owners[i],live_original_counts[i],0x80000+i*0x40000);
+    f.memory.read_counts.clear();
+    const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    REQUIRE(first.inventory->pawn_can_move.has_value());CHECK(first.inventory->pawn_can_move->value);
+    CHECK(f.memory.read_counts[native_pawn_class+0x80]==1);
+    f.memory.put(pawn_can_move_property+0x8c,std::int32_t{0x3e4});
+    f.memory.put(pawn_can_move_property+0xa8,std::uint32_t{0x1});
+    f.memory.put(pawn_object+0x3e4,std::uint32_t{0x2});
+    f.memory.read_counts.clear();
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());
+    REQUIRE(second.inventory->pawn_can_move.has_value());
+    CHECK_FALSE(second.inventory->pawn_can_move->value);
+    CHECK(second.inventory->pawn_can_move->metadata_offset==0x3e4);
+    CHECK(second.inventory->pawn_can_move->bit_mask==0x1);
+    CHECK(f.memory.read_counts[native_pawn_class+0x80]==1);
+    CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);
+    CHECK(f.memory.budget>0);
 }

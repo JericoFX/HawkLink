@@ -193,6 +193,8 @@ struct Entry {
     bool links_sent=false; // Worker-only per-session emission state, not a diagnostic gate.
     bool inventory_profile_current=false,inventory_opened=false,inventory_links_sent=false,inventory_given=false;
     std::optional<std::uint16_t> current_inventory_weapon; // Own current Dual, not a replicated Pawn.Weapon tag.
+    std::optional<game::PawnCombatState> combat_state;
+    std::optional<bool> combat_permission_sent;
     std::optional<wire::identity::UniqueId> pri_identity;
     bool pri_identity_sent=false;
     bool gri_sent=false,game_class_sent=false,hud_sent=false;
@@ -630,6 +632,27 @@ struct LocalUdpOwner::Impl {
             return true;
         } catch (...) { return false; } // The same pinned caller retires after Use.
     }
+    bool send_combat_permission(Entry& entry,double now) {
+        if (!inventory_plan->combat || !entry.inventory_given) return true;
+        const auto& plan=*inventory_plan;
+        const bool admitted=entry.inventory_profile_current && entry.accepted_mech && !entry.pending_mech &&
+            entry.validation_succeeded && entry.validation_responded &&
+            entry.admitted_revision==entry.mech_revision && (!ready_plan || world_start_committed);
+        const bool permitted=admitted && entry.combat_state &&
+            game::evaluate_pawn_combat(*entry.combat_state,entry.mech_revision,false).server_can_fire;
+        // No permission claim before admission. A previously granted permission
+        // is revoked even while a new profile/selection is being materialized.
+        if ((!entry.combat_permission_sent && !permitted) || entry.combat_permission_sent==permitted) return true;
+        const std::array fields{wire::property::BoolProperty{plan.combat->server_can_fire_field_id,permitted}};
+        auto payload=wire::property::encode_bool_properties(fields,plan.dual_exclusive_bound,
+            static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8);
+        wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=plan.dual_weapon.channel.channel;
+        bunch.payload_bits=payload.logical_bits;bunch.payload=std::move(payload.payload);
+        const auto step=entry.connection->send_actor(bunch,now);
+        if (step.datagrams.empty() || step.closed || stopping.load() || !send(entry,step) || stopping.load()) return false;
+        entry.combat_permission_sent=permitted;
+        return true;
+    }
     bool send_inventory(Entry& entry,double now) {
         if (!inventory_plan) return true;
         if (stopping.load() || entry.connection->snapshot().closed) return false;
@@ -639,6 +662,7 @@ struct LocalUdpOwner::Impl {
             const auto state=entry.connection->channel_snapshot(actor->channel.channel);
             if (!state || state->closed) return false;
         }
+        if (!send_combat_permission(entry,now)) return false;
         if (!entry.inventory_profile_current || !entry.accepted_mech || entry.pending_mech || !entry.links_sent)
             return true;
         const std::array base_channels{controller_plan->channel.channel,pri_plan->channel.channel,pawn_plan->channel.channel};
@@ -710,7 +734,7 @@ struct LocalUdpOwner::Impl {
             entry.inventory_given=true;
             registry->inventory_given_to_sent=true;
         }
-        return true;
+        return send_combat_permission(entry,now);
     }
     void apply_inventory(const session::SessionId& id,const std::shared_ptr<Entry>& target) {
         if (!inventory_plan || !target || stopping.load() || !authorize(id)) return;
@@ -1217,6 +1241,12 @@ struct LocalUdpOwner::Impl {
                 else {
                     entry.admitted_revision=entry.mech_revision;
                     entry.admission_request_revision.reset();
+                    if (inventory_plan && inventory_plan->combat) {
+                        auto state=inventory_plan->combat->initial_state;
+                        state.spawn_revision=entry.mech_revision;
+                        state.alive=true;state.spawn_active=true;
+                        entry.combat_state=state;
+                    }
                     registry->client_restart_sent=true;
                 }
             } catch (...) { terminal=true; }
@@ -1819,6 +1849,18 @@ struct LocalUdpOwner::Impl {
                 plan.manager_server_set_current_weapon_field_id},plan.manager_exclusive_bound);
             fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.inventory_manager_field_id,
                 plan.dual_hand_weap_field_id,plan.dual_client_given_to_field_id},plan.dual_exclusive_bound);
+            if (plan.combat) {
+                const auto& combat=*plan.combat;const auto& seed=combat.initial_state;
+                if (!spawn_admission || !combat.server_can_fire_property_correct ||
+                    seed.spawn_revision!=0 || seed.alive || seed.spawn_active || seed.move_state>=23 ||
+                    !std::isfinite(seed.forward_boost_fire_cooldown) || !std::isfinite(seed.emp_time_remaining) ||
+                    !std::isfinite(seed.heavy_mode_time) || !std::isfinite(seed.heavy_mode_start_time) ||
+                    !std::isfinite(seed.heavy_mode_transform_time_multiplier))
+                    fail(LocalUdpErrorCode::invalid_configuration);
+                fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.inventory_manager_field_id,
+                    plan.dual_hand_weap_field_id,plan.dual_client_given_to_field_id,combat.server_can_fire_field_id},
+                    plan.dual_exclusive_bound);
+            }
             for (const auto bound:{plan.primary_exclusive_bound,plan.secondary_exclusive_bound})
                 fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.inventory_manager_field_id,
                     plan.hand_dual_weapon_field_id},bound);
@@ -1840,6 +1882,10 @@ struct LocalUdpOwner::Impl {
                 static_cast<void>(inventory_payloads(plan,pawn->channel.channel,cap));
                 static_cast<void>(wire::rpc::encode_client_given_to(plan.dual_client_given_to_field_id,
                     plan.dual_exclusive_bound,pawn->channel.channel,false,cap));
+                if (plan.combat) {
+                    const std::array field{wire::property::BoolProperty{plan.combat->server_can_fire_field_id,true}};
+                    static_cast<void>(wire::property::encode_bool_properties(field,plan.dual_exclusive_bound,cap));
+                }
             } catch (...) {fail(LocalUdpErrorCode::invalid_configuration);}
         }
         authorizer=std::move(callback); login_validator=std::move(validator);

@@ -42,6 +42,7 @@ struct LiveInventorySnapshot {
     std::optional<std::uint8_t> dual_role;
     std::optional<LiveBoolSnapshot> dual_server_can_fire, dual_shutdown, dual_client_shutdown;
     std::optional<LiveBoolSnapshot> pawn_jump_capable;
+    std::optional<LiveBoolSnapshot> pawn_can_move;
     std::optional<float> pawn_jump_z, pawn_thruster_energy, pawn_thruster_jump_energy;
     std::optional<std::uint8_t> pawn_move_state;
     bool operator==(const LiveInventorySnapshot&) const = default;
@@ -332,6 +333,11 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
             static_cast<std::uint64_t>(inv_jump_property.offset));
         inv_out.pawn_jump_capable = LiveBoolSnapshot{(inv_jump_bits & inv_jump_property.mask) != 0,
             inv_jump_property.offset, inv_jump_property.mask};
+        const auto inv_can_move_property = property(inv_native_type, "bcanMove", {}, "HawkenGame", "Engine", false, true);
+        const auto inv_can_move_bits = read.template operator()<std::uint32_t>(pawn_value,
+            static_cast<std::uint64_t>(inv_can_move_property.offset));
+        inv_out.pawn_can_move = LiveBoolSnapshot{(inv_can_move_bits & inv_can_move_property.mask) != 0,
+            inv_can_move_property.offset, inv_can_move_property.mask};
         const auto inv_float = [&](std::uint64_t owner, std::string_view field, std::string_view package) {
             const auto metadata = property(owner, field, {}, package, "Engine", false, false, true);
             const auto bits = read.template operator()<std::uint32_t>(pawn_value,

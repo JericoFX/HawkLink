@@ -4341,3 +4341,205 @@ TEST_CASE("UDP movement diagnostics decode authenticated jump flags without acce
     CHECK(f.owner.diagnostics().movement.jump_requests==1);
     CHECK_FALSE(f.owner.diagnostics().closed);
 }
+
+namespace {
+// Explicit server policy seed, never observed client facts or an active revision.
+udp::InventoryBootstrapPlan combat_inventory_plan(bool overheated=false) {
+    auto plan=inventory_plan();
+    ++plan.manager.channel.channel;++plan.dual_weapon.channel.channel;
+    ++plan.primary_weapon.channel.channel;++plan.secondary_weapon.channel.channel;
+    plan.combat=udp::PawnCombatBootstrapPlan{30,true,
+        {0,false,false,0,false,0.0F,false,overheated,false,0.0F,0.0F,1.5F,1.0F,false}};
+    return plan;
+}
+udp::InitialActorLinksPlan combat_links() {
+    auto links=inventory_base_links();links.controller_exclusive_bound=294;return links;
+}
+udp::SpawnValidationDispatchPlan combat_validation() {
+    return {249,250,251,294,{true,true,true,true,true,true}};
+}
+udp::SpawnAdmissionDispatchPlan combat_admission() {
+    return {281,83,294,{true,true,true,true,true,true}};
+}
+auto combat_validator() {
+    return [](const session::SessionId&,const wire::rpc::StartMechArguments&,std::uint8_t) {
+        return udp::SpawnSelectionValidationResult{{3,3,3,3,3},7};
+    };
+}
+struct CombatFixture : LoginAuthorityFixture {
+    explicit CombatFixture(udp::InventoryBootstrapPlan plan=combat_inventory_plan())
+        : LoginAuthorityFixture({},true,bootstrap_publisher(),public_controller_plan(),{},
+            public_pawn_plan(),public_pri_plan(),combat_links(),ready_start_plan(),inventory_provider(),
+            combat_validation(),combat_validator(),combat_admission(),ready_identity_plan(),
+            public_bootstrap_plan(),ready_match_plan(),
+            [](const session::SessionId&){return std::optional{loaded_ready_facts()};},100.0,std::move(plan)) {}
+};
+struct CombatFlow { ReadyBootstrap ready;std::uint16_t next_sequence=1; };
+void combat_request(CombatFixture& f,Peer& peer,session::Context& client,CombatFlow& flow,
+                    std::string_view literal,std::size_t bits) {
+    peer.send(f.owner.port(),ready_request(client,flow.ready.next_packet++,flow.next_sequence++,literal,bits));
+}
+void combat_ack(CombatFixture& f,Peer& peer,session::Context& client,CombatFlow& flow,
+                const ControllerOutput& output) {
+    ready_ack(f,peer,client,flow.ready,output.packet_ids);
+}
+ControllerOutput combat_output(Peer& peer,session::Context& client,std::size_t expected,
+    std::chrono::milliseconds budget=2000ms) {
+    ControllerOutput out;const auto deadline=std::chrono::steady_clock::now()+budget;
+    while(std::chrono::steady_clock::now()<deadline && out.bunches.size()<expected) {
+        const auto remaining=std::chrono::duration_cast<std::chrono::milliseconds>(
+            deadline-std::chrono::steady_clock::now());
+        const auto received=inventory_output(peer,client,1,remaining);
+        // Ready bootstrap can leave actual Control retries in the socket.
+        // Retain their observed PacketIDs for ACK, but never count them as actors.
+        out.packet_ids.insert(out.packet_ids.end(),received.packet_ids.begin(),received.packet_ids.end());
+        for(const auto& bunch:received.bunches) if(bunch.channel!=0) out.bunches.push_back(bunch);
+    }
+    return out;
+}
+CombatFlow combat_inventory_delivered(CombatFixture& f,Peer& peer,session::Context& client) {
+    CombatFlow flow{ready_bootstrap(f,f.login(),peer,client)};
+    REQUIRE(flow.ready.initial_counts_seen);
+    peer.send(f.owner.port(),ready_start_request(client,flow.ready.next_packet++,flow.next_sequence++,false));
+    const auto selected=combat_output(peer,client,5);REQUIRE(selected.bunches.size()==5);
+    std::array<bool,4> opened{};bool setup=false;
+    for(const auto& bunch:selected.bunches) {
+        CHECK(bunch.reliable);
+        if(bunch.open) {
+            REQUIRE(bunch.channel>=11);REQUIRE(bunch.channel<=14);
+            opened[bunch.channel-11]=true;
+        } else {CHECK(bunch.channel==9);CHECK(bunch.payload_bits==551);setup=true;}
+    }
+    CHECK(setup);for(const bool present:opened) CHECK(present);
+    combat_ack(f,peer,client,flow,selected);
+    const auto references=combat_output(peer,client,6);REQUIRE(references.bunches.size()==6);
+    for(const auto& bunch:references.bunches) {
+        CHECK(bunch.reliable);CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);
+        CHECK((bunch.channel==8 || (bunch.channel>=11 && bunch.channel<=14)));
+    }
+    combat_ack(f,peer,client,flow,references);
+    const auto given=combat_output(peer,client,1);REQUIRE(given.bunches.size()==1);
+    const auto& bunch=given.bunches.front();
+    CHECK(bunch.channel==12);CHECK(bunch.sequence==125);CHECK(bunch.reliable);
+    CHECK(bunch.payload_bits==19);CHECK(bunch.payload==hex("770400"));
+    combat_ack(f,peer,client,flow,given);
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().inventory_given_to_sent;}));
+    return flow;
+}
+bool combat_is_permission(const wire::Bunch& bunch,bool value) {
+    // Independent tag30/b35 (5 bits), followed by the BoolProperty value bit.
+    return bunch.channel==12 && bunch.payload_bits==6 && bunch.payload==hex(value?"3e":"1e");
+}
+void combat_validation_and_stage(CombatFixture& f,Peer& peer,session::Context& client,CombatFlow& flow) {
+    combat_request(f,peer,client,flow,"f9",8);
+    const auto validated=combat_output(peer,client,1);REQUIRE(validated.bunches.size()==1);
+    CHECK(validated.bunches[0].channel==7);CHECK(validated.bunches[0].payload_bits==8);
+    CHECK(validated.bunches[0].payload==hex("fa"));combat_ack(f,peer,client,flow,validated);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+    combat_request(f,peer,client,flow,"190f00000000",42);
+    const auto waiting=combat_output(peer,client,1);ready_echo(waiting,true,105);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);
+    combat_ack(f,peer,client,flow,waiting);
+    const auto countdown=combat_output(peer,client,1);
+    ready_counts(countdown,"30000000400c000000302b00000000",115);
+    combat_ack(f,peer,client,flow,countdown);
+}
+void combat_match_admission(CombatFixture& f,Peer& peer,session::Context& client,CombatFlow& flow,
+                            bool want_permission) {
+    f.udp_now=110.0;f.monotonic=110;
+    const auto admitted=combat_output(peer,client,3);
+    bool begun=false,restarted=false,permission=false;
+    for(const auto& bunch:admitted.bunches) {
+        CHECK(bunch.reliable);CHECK_FALSE(bunch.open);CHECK_FALSE(bunch.close);
+        if(bunch.channel==10) {
+            CHECK(bunch.payload_bits==7);CHECK(bunch.payload==hex("5d"));begun=true;
+        } else if(bunch.channel==7) {
+            CHECK(begun);CHECK(bunch.payload_bits==21);CHECK(bunch.payload==hex("532300"));restarted=true;
+        } else {
+            CHECK((combat_is_permission(bunch,true) || combat_is_permission(bunch,false)));
+            if(combat_is_permission(bunch,true)) {CHECK(restarted);permission=true;}
+        }
+    }
+    CHECK(begun);CHECK(restarted);CHECK(permission==want_permission);
+    REQUIRE_FALSE(admitted.packet_ids.empty());combat_ack(f,peer,client,flow,admitted);
+    CHECK(wait_until([&]{return f.owner.diagnostics().client_restart_sent;}));
+}
+void combat_start_test_owner(udp::LocalUdpOwner& owner,const udp::InventoryBootstrapPlan& plan,bool admission=true) {
+    owner.start([](const session::SessionId&){return true;},
+        [](const session::SessionId&,const control::posthello::RawString&){return true;},
+        [](const session::SessionId&,const control::posthello::Login&){return std::optional{bootstrap_world()};},
+        public_controller_plan(),public_pawn_plan(),public_pri_plan(),combat_links(),ready_start_plan(),
+        inventory_provider(),combat_validation(),combat_validator(),
+        admission?std::optional{combat_admission()}:std::nullopt,ready_identity_plan(),public_bootstrap_plan(),
+        ready_match_plan(),[](const session::SessionId&){return std::optional{loaded_ready_facts()};},plan);
+}
+}
+TEST_CASE("UDP combat permission requires validated admission and real Ready match start after inventory ACKs") {
+    CombatFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    const auto before=combat_output(peer,client,1,100ms);
+    for(const auto& bunch:before.bunches) CHECK_FALSE(combat_is_permission(bunch,true));
+    if(!before.packet_ids.empty()) combat_ack(f,peer,client,flow,before);
+    CHECK_FALSE(f.owner.diagnostics().client_restart_sent);CHECK_FALSE(f.owner.diagnostics().match_start_requested);
+    combat_validation_and_stage(f,peer,client,flow);
+    const auto pending=combat_output(peer,client,1,100ms);
+    for(const auto& bunch:pending.bunches) CHECK_FALSE(combat_is_permission(bunch,true));
+    if(!pending.packet_ids.empty()) combat_ack(f,peer,client,flow,pending);
+    combat_match_admission(f,peer,client,flow,true);
+    CHECK(combat_output(peer,client,1,100ms).bunches.empty()); // ACKs do not replay permission/GivenTo.
+}
+TEST_CASE("UDP combat permission is revoked for a new selected revision until its own validation and admission") {
+    CombatFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+    peer.send(f.owner.port(),ready_start_request(client,flow.ready.next_packet++,flow.next_sequence++,false));
+    const auto revision=combat_output(peer,client,2);
+    bool selected=false,revoked=false;
+    for(const auto& bunch:revision.bunches) {
+        CHECK_FALSE(bunch.open);CHECK_FALSE(combat_is_permission(bunch,true));
+        if(bunch.channel==9) {CHECK(bunch.payload_bits==551);selected=true;}
+        else {CHECK(combat_is_permission(bunch,false));revoked=true;}
+    }
+    CHECK(selected);CHECK(revoked);REQUIRE_FALSE(revision.packet_ids.empty());
+    combat_ack(f,peer,client,flow,revision);
+    combat_request(f,peer,client,flow,"190f00000000",42); // Old validation must not authorize the new revision.
+    const auto pending=combat_output(peer,client,1,100ms);
+    for(const auto& bunch:pending.bunches) CHECK_FALSE(combat_is_permission(bunch,true));
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP combat permission respects the server overheat veto after otherwise valid admission") {
+    CombatFixture f(combat_inventory_plan(true));Peer peer;
+    session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,false);
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+TEST_CASE("UDP combat permission preflight rejects missing admission malformed schema and active seed before coherent retry") {
+    for(unsigned invalid=0;invalid<9;++invalid) {
+        CAPTURE(invalid);auto plan=combat_inventory_plan();
+        switch(invalid) {
+        case 1:plan.combat->server_can_fire_property_correct=false;break;
+        case 2:plan.combat->server_can_fire_field_id=35;break;
+        case 3:plan.combat->server_can_fire_field_id=31;break;
+        case 4:plan.combat->server_can_fire_field_id=23;break;
+        case 5:plan.combat->initial_state.spawn_revision=1;break;
+        case 6:plan.combat->initial_state.alive=true;break;
+        case 7:plan.combat->initial_state.spawn_active=true;break;
+        case 8:plan.combat->server_can_fire_field_id=21;break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        error([&]{combat_start_test_owner(owner,plan,invalid!=0);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if(owner.running()) {owner.stop();continue;} // Current ignored plan is semantic RED; cleanup without masking other variants.
+        CHECK_NOTHROW(combat_start_test_owner(owner,combat_inventory_plan()));CHECK(owner.running());owner.stop();
+    }
+}
+TEST_CASE("UDP combat permission cannot be released after authorization is revoked before admission") {
+    CombatFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);f.verifier.active=false;
+    combat_request(f,peer,client,flow,"f9",8);
+    CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+    const auto rejected=combat_output(peer,client,1,100ms);
+    for(const auto& bunch:rejected.bunches) CHECK_FALSE(combat_is_permission(bunch,true));
+}

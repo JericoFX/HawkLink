@@ -96,6 +96,11 @@ void configure_wreckage_trial(udp::UdpTrialConfig& config,
         inventory_actor(7,44117),inventory_actor(8,44157),
         25,80,150,15,14,21,21,23,24,31,23,35,29,32,34,
         {true,true,true,true,true,true,true,true}};
+    // Supported trial policy: a newly admitted Recruit starts walking, with
+    // zero heat and no active effects. Admission binds revision/alive/active;
+    // inventory ACKs do not authorize combat. This is not full Pawn simulation.
+    prepared.inventory_bootstrap->combat=udp::PawnCombatBootstrapPlan{
+        30,true,{0,false,false,0,false,0,false,false,false,0,0,1.5F,1,false}};
     static_assert(std::is_nothrow_move_assignable_v<udp::UdpTrialConfig>);
     config=std::move(prepared);
 }

@@ -1,0 +1,108 @@
+{
+  "utc": "2026-10-17T21:14:22.6466777Z",
+  "state": "ACCEPTED_INITIAL_PERMISSION_PRODUCER_AND_READONLY_OBSERVATION;FULL_GAMEPLAY_OPEN",
+  "red": "../owner-red-corrected/luna/red-summary.json",
+  "green": "luna/green-summary.json",
+  "native": "../../core-combat-policy/parent-native-result.json",
+  "review": [
+    "Parent reviewed actual Owner API/implementation, fixture, Wreckage policy/probe, reader/probe/test diffs",
+    "Permission source is an explicit server-owned inactive seed bound only after exact revision validation, Ready start and ClientRestart send",
+    "Transport ACKs only order existing inventory channels; no permission before admission and no repeated grant on ACK",
+    "New selected revision revokes previous permission, previous validation cannot authorize it, overheat and auth revocation veto preserved",
+    "Finite/scalar/schema/field-collision/inactive-seed preflight checks run before service start",
+    "Explicit local Recruit walking/empty-effects/zero-heat policy is not historical-default inference or full simulation",
+    "Parent independently checked46 Core input pins after GREEN: drift0",
+    "No source changes after current accepted pins; unrelated CMakePresets and untracked files excluded"
+  ],
+  "tests": {
+    "listingRefresh": {
+      "assertions": 365,
+      "cases": 8,
+      "exit": 0
+    },
+    "focused": {
+      "filtered": 147,
+      "failed": 0,
+      "assertions": 1096,
+      "cases": 5
+    },
+    "assetProbe": {
+      "clientRuntimeVerified": false,
+      "combatPolicyVerified": true,
+      "exit": 0
+    },
+    "owner": {
+      "failed": 0,
+      "assertions": 14452,
+      "cases": 152,
+      "skipped": 0
+    },
+    "fullCTest": {
+      "note": "Initial run includes older listing/reader inputs; affected listing and both reader consumers were rebuilt and refreshed in separate recorded runs, no second complete run claimed",
+      "assertions": 85197,
+      "cases": 1627,
+      "registeredSuites": 59,
+      "exit": 0
+    },
+    "helps": {
+      "core": 0,
+      "probe": 0
+    },
+    "liveReaderRefresh": {
+      "assertions": 4855,
+      "cases": 39,
+      "exit": 0
+    },
+    "mainMenuReaderRefresh": {
+      "assertions": 366,
+      "cases": 11,
+      "exit": 0
+    }
+  },
+  "dependencyLimit": "Archived RED reader object reused once because Copy-Item preserved an older header timestamp; exact affected object was then rebuilt and39-case suite passed. Other deps0 consumers were rebuilt explicitly. Keep current evidence, do not reuse affected objects after future header changes without checking freshness.",
+  "core": {
+    "file": "hawken-server.exe",
+    "mainSource": "src/server_main.cpp",
+    "helpExit": 0,
+    "sha256": "c3b7aded5623eb351696a00161207072d244fe57f6c1ce5be5032da5ca1a5475"
+  },
+  "sources": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "0de0301d0a51f0cb2d32bb554f764c13b8697967cb36265549450be4e9d08fd4"
+    },
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "96bcb3b53027fe90df0041c04be236f1b233df4398ba35c4378bf0eba06b0f31"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "9d77be10a8a272af1076c223cc62237bb9540cf90589b164ccfb356697d88c13"
+    },
+    {
+      "path": "src/wreckage_trial.cpp",
+      "sha256": "8e119165550ff5b6fc1491aaad26f2052dd651ac038d22858daf17278fbaa3fb"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "79720bcf13f245748b1e8a1e17ab69b9add8c62423be870c7518c3bf34fd8286"
+    },
+    {
+      "path": "tools/wreckage_trial_probe.cpp",
+      "sha256": "8a5749526dd9f58426cf29a9f5f5da74319ed38bd32a974b06e73a36be11affb"
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "sha256": "3bc1fe632400c40682016ab03c18c5f2f225e373a070555bda2ba13ceaa4c600"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "1275d742bf76fa1d56c5b74d5a9e9ef1cb37b05d46913c20c481931b16414161"
+    },
+    {
+      "path": "tests/live_player_reader_tests.cpp",
+      "sha256": "999e40c563596c2bb2003502d99445b3a0f28a10fb75f4820563b3e789647c4b"
+    }
+  ],
+  "limitation": "NET permission receipt is verified natively, but bShutdown remains true. Do not call fire/jump/gameplay fixed; follow native result."
+}
