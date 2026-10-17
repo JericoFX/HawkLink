@@ -1,0 +1,106 @@
+{
+  "status": "IMPLEMENTED_WINDOWS_VALIDATED_NOT_DEPLOYED",
+  "scope": "Sticky inventory send/ACK/accepted-handler diagnostics; no protocol or gameplay changes",
+  "sources": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "68dde174a61d7b08a997a59b5be35cdaf69220937bee1e224475ae113c44ab95"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "ae69ff004ffaf921d84889dd974a8e70de9090895e7f25067e00ce995623cfa6"
+    },
+    {
+      "path": "src/server_main.cpp",
+      "sha256": "134f560e7c3b9a790c6eaa7da739910080cbb1d5af5c29189fd8f7f6efcca624"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "c18ebc3a65d88f413bc752fd73286d7f60937758b0c5fea40b3de9f518245767"
+    }
+  ],
+  "fields": [
+    "inventory_profile_accepted",
+    "inventory_openings_sent",
+    "inventory_openings_acked",
+    "inventory_links_sent",
+    "inventory_links_acked",
+    "inventory_given_to_sent",
+    "inventory_current_weapon_received"
+  ],
+  "semantics": {
+    "profile": "Reauthorized materialized owned profile accepted after successful PRI setup send",
+    "openings_sent": "All four initial actor datagrams sent successfully",
+    "openings_acked": "All four actual outgoing actor openings acknowledged",
+    "links_sent": "All six reference batches sent",
+    "links_acked": "All five destination queues drained after sending the six batches",
+    "given_to": "ClientGivenTo datagram sent successfully, not client application",
+    "current_weapon": "Supported owned Dual reference accepted by the existing Manager handler",
+    "sticky": "Historical events; not atomic client-state attestation or current authorization"
+  },
+  "red": {
+    "build_exit": 0,
+    "test_exit": 1,
+    "selected_cases": 10,
+    "passed": 8,
+    "failed": 2,
+    "assertions": 1763,
+    "failed_assertions": 5,
+    "filtered_cases": 132,
+    "failure": "New positive event observations remain false without wiring",
+    "inputs": 199,
+    "input_drift": 0,
+    "max_ram_percent": 60.77,
+    "log": "red/owner.stdout.log",
+    "freeze_sha256": "349cf2a13b9e1b834359c747f195f462e3f7eb107b27a6b5a264fe05f57d1054"
+  },
+  "green": {
+    "build_exit": 0,
+    "ctest_exit": 0,
+    "probe_exit": 0,
+    "wrapper_exit": 0,
+    "suites": 57,
+    "cases": 1572,
+    "assertions": 77360,
+    "failures": 0,
+    "skips": 0,
+    "inputs": 199,
+    "input_drift": 0,
+    "max_ram_percent": 61.01,
+    "ctest_seconds": 115.75,
+    "main_object": "build/windows-msvc/CMakeFiles/hawken-server.dir/src/server_main.cpp.obj",
+    "main_object_sha256": "0ef4b64e61028490e3b2ecf4a6ac8c45f304ac11e8d1b99a2644d98a699130a1",
+    "main_object_actually_rebuilt": true,
+    "runtime_and_wreckage_consumers_rebuilt": true,
+    "freeze_sha256": "2bb989ef132a54c9681c4a1524b0b46078ba406878a0b2cde94fd8ebd5772305",
+    "junit_sha256": "41eac1244f8e2fce3f3c56db7031c0a303dba1d1b3e4517b781a74d948dba160",
+    "run_summary_sha256": "7ab7f757bd0cea8b687f64eca6e43fff66059fc4ba85e957a119aaeb50d8dc36",
+    "client_runtime_verified": false
+  },
+  "operations": {
+    "client_launched": false,
+    "computer_use": false,
+    "source_deployed": false,
+    "new_server_executable_linked": false,
+    "core_running_sha256": "a711ba34b2780ba267f558225eb2bde1e397f57efa5c721da282b2cedc5ec216",
+    "nexus_running_sha256": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "services_preserved": true,
+    "original_binaries_modified": false,
+    "validation_pids_absent": [
+      12916,
+      11216,
+      34556,
+      57120
+    ],
+    "postflight_ram_percent": 57.6,
+    "postflight_free_gib": 13.53,
+    "graft_build_exit": 0,
+    "graft_check_exit": 0
+  },
+  "remaining": [
+    "Link an isolated diagnostic candidate before a future deployment",
+    "Observe the seven phases in a real match before attributing the firing failure",
+    "Typed live Pawn physics/jump gates and weapon activation state remain unobserved",
+    "Firing, jumping, post-exit sync, complete GameServer, Nexus registration, central economy, Creator and Linux acceptance remain open"
+  ]
+}

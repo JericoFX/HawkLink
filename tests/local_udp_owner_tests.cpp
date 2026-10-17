@@ -3938,19 +3938,36 @@ TEST_CASE("UDP inventory waits for all four real opening and six reference ACKs 
     Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
     inventory_login_join(f,peer,client,flow);
     CHECK(inventory_output(peer,client,1,100ms).bunches.empty()); // No StartMech, no fabricated loadout.
+    const auto before=f.owner.diagnostics();
+    CHECK_FALSE(before.inventory_profile_accepted);CHECK_FALSE(before.inventory_openings_sent);
+    CHECK_FALSE(before.inventory_openings_acked);CHECK_FALSE(before.inventory_links_sent);
+    CHECK_FALSE(before.inventory_links_acked);CHECK_FALSE(before.inventory_given_to_sent);
+    CHECK_FALSE(before.inventory_current_weapon_received);
     const auto openings=inventory_selected(f,peer,client,flow);
     inventory_ack(f,peer,client,flow,{openings.packet_ids[0],openings.packet_ids[1],openings.packet_ids[2]});
+    CHECK(wait_until([&]{const auto d=f.owner.diagnostics();return d.inventory_profile_accepted && d.inventory_openings_sent;}));
+    CHECK_FALSE(f.owner.diagnostics().inventory_openings_acked);
+    CHECK_FALSE(f.owner.diagnostics().inventory_links_sent);
+    CHECK_FALSE(f.owner.diagnostics().inventory_links_acked);
+    CHECK_FALSE(f.owner.diagnostics().inventory_given_to_sent);
     CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
     inventory_ack(f,peer,client,flow,{openings.packet_ids[0]}); // real duplicate, not an invented future ACK
     CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
     inventory_ack(f,peer,client,flow,{openings.packet_ids[3]});
     const auto refs=inventory_output(peer,client,6);inventory_reference_literals(refs);
+    CHECK(wait_until([&]{const auto d=f.owner.diagnostics();return d.inventory_openings_acked && d.inventory_links_sent;}));
+    CHECK_FALSE(f.owner.diagnostics().inventory_links_acked);
+    CHECK_FALSE(f.owner.diagnostics().inventory_given_to_sent);
     inventory_ack(f,peer,client,flow,{refs.packet_ids.begin(),refs.packet_ids.end()-1});
     CHECK(inventory_output(peer,client,1,100ms).bunches.empty()); // Dual ARRAY record still pending.
+    CHECK_FALSE(f.owner.diagnostics().inventory_links_acked);
+    CHECK_FALSE(f.owner.diagnostics().inventory_given_to_sent);
     inventory_ack(f,peer,client,flow,{refs.packet_ids.back()});
     const auto given=inventory_output(peer,client,1);inventory_given_literal(given);
     inventory_ack(f,peer,client,flow,given.packet_ids);
     inventory_ack(f,peer,client,flow,refs.packet_ids);
+    CHECK(wait_until([&]{const auto d=f.owner.diagnostics();return d.inventory_links_acked && d.inventory_given_to_sent;}));
+    CHECK_FALSE(f.owner.diagnostics().inventory_current_weapon_received);
     f.udp_now=101.0;CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
     peer.send(f.owner.port(),start_mech_packet(client,flow.next_packet++,flow.next_controller_sequence++,7,4,false,false,0,254));
     const auto revised=inventory_output(peer,client,1);REQUIRE(revised.bunches.size()==1);
@@ -4008,6 +4025,11 @@ TEST_CASE("UDP inventory rejects unsupported returned materialized profiles befo
         CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
         CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
         CHECK_FALSE(f.service->authorize_udp(public_id));
+        const auto rejected=f.owner.diagnostics();
+        CHECK_FALSE(rejected.inventory_profile_accepted);CHECK_FALSE(rejected.inventory_openings_sent);
+        CHECK_FALSE(rejected.inventory_openings_acked);CHECK_FALSE(rejected.inventory_links_sent);
+        CHECK_FALSE(rejected.inventory_links_acked);CHECK_FALSE(rejected.inventory_given_to_sent);
+        CHECK_FALSE(rejected.inventory_current_weapon_received);
     }
 }
 TEST_CASE("UDP inventory stop or revocation after references cannot release GivenTo") {
@@ -4023,6 +4045,9 @@ TEST_CASE("UDP inventory stop or revocation after references cannot release Give
         CHECK(wait_until([&]{return f.owner.diagnostics().closed;}));
         CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
         CHECK_FALSE(f.service->authorize_udp(public_id));
+        CHECK_FALSE(f.owner.diagnostics().inventory_links_acked);
+        CHECK_FALSE(f.owner.diagnostics().inventory_given_to_sent);
+        CHECK_FALSE(f.owner.diagnostics().inventory_current_weapon_received);
     }
 }
 TEST_CASE("UDP inventory stale provider lease retirement happens outside pins and never opens actors") {
@@ -4102,4 +4127,28 @@ TEST_CASE("UDP inventory plan preflight rejects explicit premises collisions fie
         CHECK_THROWS_AS(inventory_start_test_owner(owner,inventory_plan(),missing),udp::LocalUdpError);
         owner.stop();
     }
+}
+
+TEST_CASE("UDP inventory diagnostics distinguish unsupported Manager selections from the accepted current weapon") {
+    InventoryFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_activate(f,peer,client,flow);
+    CHECK_FALSE(f.owner.diagnostics().inventory_current_weapon_received);
+    // Null absent, explicit null, other actor, package reference, then opaque unknown prefix.
+    struct Unsupported { const char* literal;std::size_t bits; };
+    const Unsupported unsupported[]{{"17",6},{"770000",18},{"770600",18},{"b704000000",38},{"e002",10}};
+    std::uint16_t sequence=1;
+    for (const auto& item:unsupported) {
+        CAPTURE(item.literal);
+        peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence++,item.literal,item.bits));
+        CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+        CHECK_FALSE(f.owner.diagnostics().closed);
+        CHECK_FALSE(f.owner.diagnostics().inventory_current_weapon_received);
+    }
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence,"f70500",18));
+    CHECK(wait_until([&]{return f.owner.diagnostics().inventory_current_weapon_received;}));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence,"f70500",18)); // Reliable duplicate.
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    CHECK(f.owner.diagnostics().inventory_current_weapon_received);
+    CHECK_FALSE(f.owner.diagnostics().closed);
 }

@@ -73,6 +73,14 @@ struct LocalUdpDiagnostics {
     bool match_start_requested = false;
     bool gri_match_begun_sent = false;
     bool gri_match_begun_acked = false;
+    // Sticky inventory wire/authority observations only; not client application or gameplay.
+    bool inventory_profile_accepted = false;
+    bool inventory_openings_sent = false;
+    bool inventory_openings_acked = false;
+    bool inventory_links_sent = false;
+    bool inventory_links_acked = false;
+    bool inventory_given_to_sent = false;
+    bool inventory_current_weapon_received = false;
 
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };

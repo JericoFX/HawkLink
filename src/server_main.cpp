@@ -365,6 +365,13 @@ public:
             << " spawn_validation_failed=" << observation.spawn_validation_failed
             << " stage3_requested=" << observation.stage3_requested
             << " client_restart_sent=" << observation.client_restart_sent
+            << " inventory_profile_accepted=" << observation.inventory_profile_accepted
+            << " inventory_openings_sent=" << observation.inventory_openings_sent
+            << " inventory_openings_acked=" << observation.inventory_openings_acked
+            << " inventory_links_sent=" << observation.inventory_links_sent
+            << " inventory_links_acked=" << observation.inventory_links_acked
+            << " inventory_given_to_sent=" << observation.inventory_given_to_sent
+            << " inventory_current_weapon_received=" << observation.inventory_current_weapon_received
             << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
     }
 private:

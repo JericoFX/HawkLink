@@ -234,6 +234,9 @@ struct Registry {
     std::atomic<bool> hud_sent{false},hud_acked{false};
     std::atomic<bool> ready_rpc_received{false},pri_ready_sent{false},pri_ready_acked{false};
     std::atomic<bool> match_start_requested{false},gri_match_begun_sent{false},gri_match_begun_acked{false};
+    std::atomic<bool> inventory_profile_accepted{false},inventory_openings_sent{false},inventory_openings_acked{false};
+    std::atomic<bool> inventory_links_sent{false},inventory_links_acked{false},inventory_given_to_sent{false};
+    std::atomic<bool> inventory_current_weapon_received{false};
 
     void retire(const std::shared_ptr<Entry>& target) noexcept {
         if (!target) return;
@@ -571,6 +574,7 @@ struct LocalUdpOwner::Impl {
                 if (step.datagrams.empty() || step.closed || !send(entry,step) || stopping.load()) return false;
             }
             entry.inventory_opened=true;
+            registry->inventory_openings_sent=true;
             return true;
         }
         for (const auto* actor:actors) {
@@ -578,6 +582,7 @@ struct LocalUdpOwner::Impl {
             if (state && state->closed) return false;
             if (!state || !state->opening_packet_id || !state->outgoing_open_acked) return true;
         }
+        registry->inventory_openings_acked=true;
         if (!entry.inventory_links_sent) {
             // Five destination channels, six batches; Dual array is separate.
             auto payloads=inventory_payloads(plan,pawn_plan->channel.channel,cap);
@@ -592,6 +597,7 @@ struct LocalUdpOwner::Impl {
                 if (step.datagrams.empty() || step.closed || !send(entry,step) || stopping.load()) return false;
             }
             entry.inventory_links_sent=true;
+            registry->inventory_links_sent=true;
             return true;
         }
         const std::array queues{plan.manager.channel.channel,plan.dual_weapon.channel.channel,
@@ -601,6 +607,7 @@ struct LocalUdpOwner::Impl {
             if (!state || state->closed) return false;
             if (!state->opening_packet_id || !state->outgoing_open_acked || state->outgoing_bunches!=0) return true;
         }
+        registry->inventory_links_acked=true;
         if (!entry.inventory_given) {
             auto payload=wire::rpc::encode_client_given_to(plan.dual_client_given_to_field_id,
                 plan.dual_exclusive_bound,pawn_plan->channel.channel,false,cap);
@@ -609,6 +616,7 @@ struct LocalUdpOwner::Impl {
             const auto step=entry.connection->send_actor(bunch,now);
             if (step.datagrams.empty() || step.closed || !send(entry,step) || stopping.load()) return false;
             entry.inventory_given=true;
+            registry->inventory_given_to_sent=true;
         }
         return true;
     }
@@ -642,8 +650,10 @@ struct LocalUdpOwner::Impl {
                 const auto decoded=wire::rpc::read_server_set_current_weapon_arguments(reader,bunch.payload_bits-reader.position());
                 const auto* desired=std::get_if<wire::object::ActorChannelReference>(&decoded.desired_weapon);
                 if (desired && desired->channel==plan.dual_weapon.channel.channel && entry.inventory_given &&
-                    entry.inventory_profile_current && entry.accepted_mech && !entry.pending_mech)
+                    entry.inventory_profile_current && entry.accepted_mech && !entry.pending_mech) {
                     entry.current_inventory_weapon=desired->channel;
+                    registry->inventory_current_weapon_received=true;
+                }
                 // Native client already applied its local switch; no invented reply.
                 // Null/package/other actor selections are unsupported no-ops here.
             }
@@ -953,7 +963,10 @@ struct LocalUdpOwner::Impl {
                     else {
                         entry.setup_id=value->setup_id;
                         entry.accepted_mech=work.request;
-                        if (inventory_plan) entry.inventory_profile_current=true;
+                        if (inventory_plan) {
+                            entry.inventory_profile_current=true;
+                            registry->inventory_profile_accepted=true;
+                        }
                         ++entry.mech_revision;
                         entry.validation_responded=false;
                         entry.validation_succeeded=false;
@@ -1825,7 +1838,10 @@ LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
         impl_->registry->game_class_acked.load(),impl_->registry->hud_sent.load(),impl_->registry->hud_acked.load(),
         impl_->registry->ready_rpc_received.load(),impl_->registry->pri_ready_sent.load(),impl_->registry->pri_ready_acked.load(),
         impl_->registry->match_start_requested.load(),impl_->registry->gri_match_begun_sent.load(),
-        impl_->registry->gri_match_begun_acked.load()};
+        impl_->registry->gri_match_begun_acked.load(),impl_->registry->inventory_profile_accepted.load(),
+        impl_->registry->inventory_openings_sent.load(),impl_->registry->inventory_openings_acked.load(),
+        impl_->registry->inventory_links_sent.load(),impl_->registry->inventory_links_acked.load(),
+        impl_->registry->inventory_given_to_sent.load(),impl_->registry->inventory_current_weapon_received.load()};
 }
 bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {
     return impl_->bound(destination);
