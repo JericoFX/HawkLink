@@ -384,6 +384,9 @@ constexpr std::uint64_t role_property = 0x52c00;
 constexpr std::uint64_t physics_property = 0x54000, bool_property_class = 0x15800;
 constexpr std::uint64_t can_fire_property = 0x54400, shutdown_property = 0x54800;
 constexpr std::uint64_t client_shutdown_property = 0x54c00;
+constexpr std::uint64_t float_property_class = 0x15c00, jump_capable_property = 0x56000;
+constexpr std::uint64_t jump_z_property = 0x56400, thruster_energy_property = 0x56800;
+constexpr std::uint64_t thruster_jump_property = 0x56c00, move_state_property = 0x57000;
 struct InventoryFixture : Fixture {
     InventoryFixture() {
         klass(inventory_class,"Inventory","Engine",actor_class);
@@ -445,6 +448,36 @@ struct InventoryFixture : Fixture {
         memory.put(pawn_object+0x370,std::uint8_t{1});
         memory.put(dual_object+0x360,std::uint8_t{2});
         memory.put(dual_object+0x380,std::uint32_t{0x202});
+        klass(float_property_class,"FloatProperty","Core",object_class);
+        // Original f24b0:f252e passes cast0x100; ctor692e8..692ef stores it at+128.
+        memory.put(float_property_class+0x128,std::uint32_t{0x100});
+        property(jump_capable_property,pawn_class,"bJumpCapable",0x3c0,0);
+        memory.put(jump_capable_property+0x50,bool_property_class);
+        memory.put(jump_capable_property+0x6c,std::int32_t{4});
+        memory.put(jump_capable_property+0xa8,std::uint32_t{0x800});
+        property(jump_z_property,pawn_class,"JumpZ",0x3c4,0);
+        property(thruster_energy_property,native_pawn_class,"ThrusterEnergy",0x3c8,0);
+        property(thruster_jump_property,native_pawn_class,"ThrusterJumpEnergy",0x3cc,0);
+        identities[thruster_energy_property].package="HawkenGame";
+        identities[thruster_jump_property].package="HawkenGame";
+        for(const auto descriptor:{jump_z_property,thruster_energy_property,thruster_jump_property}) {
+            memory.put(descriptor+0x50,float_property_class);
+            memory.put(descriptor+0x6c,std::int32_t{4});
+        }
+        property(move_state_property,native_pawn_class,"MoveState",0x3d0,0);
+        identities[move_state_property].package="HawkenGame";
+        memory.put(move_state_property+0x50,byte_property_class);
+        memory.put(move_state_property+0x6c,std::int32_t{1});
+        memory.put(weapon_property+0x60,jump_capable_property);
+        memory.put(jump_capable_property+0x60,jump_z_property);
+        memory.put(dual_property+0x60,thruster_energy_property);
+        memory.put(thruster_energy_property+0x60,thruster_jump_property);
+        memory.put(thruster_jump_property+0x60,move_state_property);
+        memory.put(pawn_object+0x3c0,std::uint32_t{0x810});
+        memory.put(pawn_object+0x3c4,725.5F);
+        memory.put(pawn_object+0x3c8,2.25F);
+        memory.put(pawn_object+0x3cc,0.75F);
+        memory.put(pawn_object+0x3d0,std::uint8_t{2});
     }
     LivePlayerSnapshot inventory_sample() {
         auto identify=[&](std::uint64_t where) {
@@ -743,5 +776,107 @@ TEST_CASE("Live inventory preserves exact DualWield59 owner cap and default mode
     SUBCASE("default does not inspect fire metadata") {
         f.memory.bytes.erase(physics_property+0x50);f.memory.bytes.erase(dual_class+0x80);
         CHECK_FALSE(f.sample().inventory.has_value());
+    }
+}
+
+TEST_CASE("Live inventory observes five reflected Pawn jump gates without interpreting heavy mode") {
+    InventoryFixture f;
+    const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+    const auto& jump=*result.inventory;
+    REQUIRE(jump.pawn_jump_capable.has_value());
+    CHECK(jump.pawn_jump_capable->value);
+    CHECK(jump.pawn_jump_capable->metadata_offset==0x3c0);
+    CHECK(jump.pawn_jump_capable->bit_mask==0x800);
+    CHECK(jump.pawn_jump_z==std::optional<float>{725.5F});
+    CHECK(jump.pawn_thruster_energy==std::optional<float>{2.25F});
+    CHECK(jump.pawn_thruster_jump_energy==std::optional<float>{0.75F});
+    CHECK(jump.pawn_move_state==std::optional<std::uint8_t>{2});
+    f.memory.put(pawn_object+0x3c0,std::uint32_t{0x10});
+    f.memory.put(pawn_object+0x3d0,std::uint8_t{255});
+    const auto changed=f.inventory_sample();REQUIRE(changed.inventory.has_value());
+    REQUIRE(changed.inventory->pawn_jump_capable.has_value());
+    CHECK_FALSE(changed.inventory->pawn_jump_capable->value);
+    // Observed bytes remain raw; no inferred enum range or native heavy predicate.
+    CHECK(changed.inventory->pawn_move_state==std::optional<std::uint8_t>{255});
+}
+TEST_CASE("Live inventory jump gate descriptors require exact owners and scalar Core types") {
+    InventoryFixture f;
+    SUBCASE("missing Pawn field") {f.memory.put(weapon_property+0x60,jump_z_property);}
+    SUBCASE("wrong native owner") {f.memory.put(thruster_energy_property+0x40,pawn_class);}
+    SUBCASE("wrong native package") {f.identities[thruster_jump_property].package="Engine";}
+    SUBCASE("wrong float type") {f.memory.put(jump_z_property+0x50,property_class);}
+    SUBCASE("wrong float Core package") {f.identities[float_property_class].package="Engine";}
+    SUBCASE("wrong float class metadata") {f.memory.put(float_property_class+0x50,object_class);}
+    SUBCASE("missing float cast bit") {f.memory.put(float_property_class+0x128,std::uint32_t{0x8000});}
+    SUBCASE("array float") {f.memory.put(thruster_energy_property+0x68,std::int32_t{2});}
+    SUBCASE("wrong float size") {f.memory.put(thruster_jump_property+0x6c,std::int32_t{8});}
+    SUBCASE("negative float offset") {f.memory.put(jump_z_property+0x8c,std::int32_t{-1});}
+    SUBCASE("float offset above reader bound") {f.memory.put(jump_z_property+0x8c,std::int32_t{65537});}
+    SUBCASE("wrong jump bool type") {f.memory.put(jump_capable_property+0x50,byte_property_class);}
+    SUBCASE("jump bool multibit mask") {f.memory.put(jump_capable_property+0xa8,std::uint32_t{3});}
+    SUBCASE("wrong MoveState type") {f.memory.put(move_state_property+0x50,bool_property_class);}
+    SUBCASE("wrong MoveState size") {f.memory.put(move_state_property+0x6c,std::int32_t{4});}
+    SUBCASE("duplicate jump target") {
+        constexpr std::uint64_t jump_duplicate=0x57400;
+        f.property(jump_duplicate,pawn_class,"JumpZ",0x3c4,0);
+        f.memory.put(jump_z_property+0x60,jump_duplicate);
+    }
+    SUBCASE("native owner cycle after MoveState") {f.memory.put(move_state_property+0x60,dual_property);}
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory rejects nonfinite jump samples as an explicit observer policy") {
+    // This observer cannot emit nonfinite JSON numbers. It does not declare a
+    // universal native physics invariant or clamp/change the original values.
+    for(const auto offset:{0x3c4U,0x3c8U,0x3ccU}) {
+        for(const float bad:{std::numeric_limits<float>::quiet_NaN(),
+                            std::numeric_limits<float>::infinity(),
+                            -std::numeric_limits<float>::infinity()}) {
+            CAPTURE(offset);InventoryFixture f;f.memory.put(pawn_object+offset,bad);
+            CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+        }
+    }
+}
+TEST_CASE("Live inventory jump samples preserve original owner limits and per sample metadata trace") {
+    InventoryFixture f;
+    for(std::size_t i=0;i<live_original_owners.size();++i)
+        pad_live_owner(f,live_original_owners[i],live_original_counts[i],0x80000+i*0x40000);
+    f.memory.put(pawn_object+0x3c4,-0.0F);
+    f.memory.read_counts.clear();
+    const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    REQUIRE(first.inventory->pawn_jump_z.has_value());
+    CHECK(*first.inventory->pawn_jump_z==0.0F);
+    CHECK(f.memory.read_counts[pawn_class+0x80]==1);
+    CHECK(f.memory.read_counts[native_pawn_class+0x80]==1);
+    CHECK(f.memory.read_counts[float_property_class+0x128]>0);
+    f.memory.put(pawn_object+0x3c4,0.0F);
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());
+    CHECK(second.inventory->pawn_jump_z==std::optional<float>{0.0F});
+    // Equal floating values with different raw bits must still differ in the
+    // private equality trace used for two samples, without serializing bytes.
+    CHECK_FALSE(first.trace==second.trace);
+    f.memory.put(thruster_energy_property+0x8c,std::int32_t{0x3e0});
+    f.memory.put(pawn_object+0x3e0,-12.5F);
+    f.memory.put(jump_capable_property+0xa8,std::uint32_t{0x10});
+    f.memory.put(pawn_object+0x3c0,std::uint32_t{0});
+    const auto third=f.inventory_sample();REQUIRE(third.inventory.has_value());
+    CHECK(third.inventory->pawn_thruster_energy==std::optional<float>{-12.5F});
+    REQUIRE(third.inventory->pawn_jump_capable.has_value());
+    CHECK_FALSE(third.inventory->pawn_jump_capable->value);
+    CHECK(third.inventory->pawn_jump_capable->bit_mask==0x10);
+    CHECK_FALSE(second==third);CHECK_FALSE(second.trace==third.trace);
+    CHECK(f.memory.budget>0);
+}
+TEST_CASE("Live inventory jump observations remain absent without Pawn or inventory inspection") {
+    InventoryFixture f;
+    SUBCASE("no Pawn does not read jump descriptors") {
+        f.memory.put(controller_object+0x280,std::uint64_t{0});
+        f.memory.bytes.erase(jump_z_property+0x50);
+        const auto result=f.inventory_sample();CHECK_FALSE(result.pawn_present);
+        CHECK_FALSE(result.inventory.has_value());
+    }
+    SUBCASE("default mode does not read jump descriptors") {
+        f.memory.bytes.erase(jump_z_property+0x50);
+        const auto result=f.sample();CHECK(result.pawn_present);
+        CHECK_FALSE(result.inventory.has_value());
     }
 }

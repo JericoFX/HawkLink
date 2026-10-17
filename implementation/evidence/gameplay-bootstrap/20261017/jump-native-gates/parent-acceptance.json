@@ -1,0 +1,86 @@
+{
+  "utc": "2026-10-17T20:36:47.3626151Z",
+  "state": "VERIFIED_READ_ONLY_NATIVE_JUMP_GATES;GAMEPLAY_FAILURE_REPRODUCED",
+  "scope": "Five reflected jump gates in existing Pawn423 and R_PawnNative496 owners",
+  "red": "red/luna/red-summary.json",
+  "redObserved": {
+    "passed": 32,
+    "assertions": 4788,
+    "failedAssertions": 27,
+    "buildExit": 0,
+    "skipped": 0,
+    "failed": 4,
+    "cases": 36
+  },
+  "green": "green/luna/green-summary.json",
+  "greenObserved": {
+    "cases": 36,
+    "probeHelpExit": 0,
+    "inputs": 15,
+    "buildExit": 0,
+    "assertions": 4816,
+    "failed": 0,
+    "passed": 36,
+    "skipped": 0,
+    "drift": 0
+  },
+  "probeSha256": "90c600b4415eedc58725570f7546c1529ec8d591f8c083d23517ad3ce79a08e2",
+  "originalExeSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "floatBinding": "float-cast-parent-byte-check.json",
+  "review": [
+    "Actual five-field reader/probe/test diffs reviewed",
+    "Exact Core FloatProperty/cast0x100/scalar4 metadata verified, raw uint32 trace preserves signed zero",
+    "Finite-only JSON observer policy; no clamping or native memory writes",
+    "Two independent equal samples and original1MiB budget retained"
+  ],
+  "dependencyLimitation": "Both objects recompiled with shown live_player_reader.hpp includes, but Ninja postbuild deps0. Do not reuse those objects after header edits without forcing affected object recompilation; no toolchain configuration was changed.",
+  "sources": [
+    {
+      "sha256": "46af7951744cdb097e47c9e36280409da0f1b90718683bcaa99b0a752418b681",
+      "path": "tools/live_player_reader.hpp"
+    },
+    {
+      "sha256": "b2a2c9798151020912331cc4036c3dea1999007b16e1336417ba46c5501cf904",
+      "path": "tools/controller_netfields_probe.cpp"
+    },
+    {
+      "sha256": "9d20872437616ad564243c17fcdc8a230b24b94a4ff682ff2a153429de92a6e8",
+      "path": "tests/live_player_reader_tests.cpp"
+    }
+  ],
+  "native": {
+    "phase": "Original Steam client30528, Coref27f7a0e; no tutorial",
+    "before": "core-after-deploy.json",
+    "after": "core-after-space.json",
+    "jumpCapable": true,
+    "jumpCapableOffset": 656,
+    "jumpCapableMask": 512,
+    "jumpZ": 1250.0,
+    "physics": 1,
+    "moveState": 2,
+    "thrusterEnergy": 9.600000381469727,
+    "thrusterJumpEnergy": 0.0,
+    "samplesEqual": true,
+    "unchangedAfterSpace": true,
+    "jumpRequestFlagsObserved": 45,
+    "uniqueJumps": "Not measured; repeats counted",
+    "heavyNativePredicate": "Not observed; do not infer from these five fields",
+    "logSha256": "d5e303aa3939a9a1900fed988051dbc7ea585b2043a070ffead7b01a4227f2d1",
+    "screenshot": "core-after-space.png",
+    "termination": "Exact task client stopped after read; services cleaned normally; originals unchanged"
+  },
+  "capture": {
+    "path": "core-jump-observation.pcapng",
+    "sha256": "107c7a23deb90d5c67a2e12c0d2caa076995b7abd53ece45d1e7b32a32b03108",
+    "bytes": 1287796,
+    "frames": 10087,
+    "received": 10087,
+    "dropped": 0,
+    "tsharkExit": 0,
+    "clientPort": 52262,
+    "clientFrames": 3346,
+    "serverFrames": 6741,
+    "durationSeconds": 119.3616,
+    "capturePidAbsent": true
+  }
+}

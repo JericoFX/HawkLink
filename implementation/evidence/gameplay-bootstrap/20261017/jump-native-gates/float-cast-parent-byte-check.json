@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-17T20:25:15.9244434Z",
+  "original": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "checks": [
+    {
+      "expected": "c744242000010000",
+      "offset": "0xf192e",
+      "match": true,
+      "rva": "0xf252e",
+      "actual": "c744242000010000"
+    },
+    {
+      "expected": "e8446df7ff",
+      "offset": "0xf1947",
+      "match": true,
+      "rva": "0xf2547",
+      "actual": "e8446df7ff"
+    },
+    {
+      "expected": "8b842480000000",
+      "offset": "0x686e8",
+      "match": true,
+      "rva": "0x692e8",
+      "actual": "8b842480000000"
+    },
+    {
+      "expected": "898728010000",
+      "offset": "0x686ef",
+      "match": true,
+      "rva": "0x692ef",
+      "actual": "898728010000"
+    }
+  ],
+  "interpretation": "f24b0 FloatProperty factory passes fifth argument0x100, UClass constructor69290 stores argument atClass+128. FloatProperty ClassCastFlags bit0x100; not parameter9object flags0x4000.",
+  "limit": "Four bounded instruction spans plus original hash; no process memory writes, runtime invocation or new Ghidra pass."
+}

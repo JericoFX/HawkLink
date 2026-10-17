@@ -1,5 +1,7 @@
 #pragma once
 #include <algorithm>
+#include <bit>
+#include <cmath>
 #include <cstdint>
 #include <limits>
 #include <optional>
@@ -39,6 +41,9 @@ struct LiveInventorySnapshot {
     std::optional<std::uint8_t> pawn_physics;
     std::optional<std::uint8_t> dual_role;
     std::optional<LiveBoolSnapshot> dual_server_can_fire, dual_shutdown, dual_client_shutdown;
+    std::optional<LiveBoolSnapshot> pawn_jump_capable;
+    std::optional<float> pawn_jump_z, pawn_thruster_energy, pawn_thruster_jump_energy;
+    std::optional<std::uint8_t> pawn_move_state;
     bool operator==(const LiveInventorySnapshot&) const = default;
 };
 
@@ -214,18 +219,18 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
     struct MetadataProperty {
         std::uint64_t owner;
         std::string field, expected_name, field_package, expected_package;
-        bool byte_kind, bool_kind;
+        bool byte_kind, bool_kind, float_kind;
         Property value;
     };
     std::vector<MetadataProperty> metadata_properties;
     const auto property = [&](std::uint64_t owner, std::string_view field, std::string_view expected_name,
                               std::string_view field_package = "Engine",
                               std::string_view expected_package = "Engine", bool byte_kind = false,
-                              bool bool_kind = false) {
+                              bool bool_kind = false, bool float_kind = false) {
         for (const auto& cached : metadata_properties) if (cached.owner == owner && cached.field == field) {
             if (cached.expected_name != expected_name || cached.field_package != field_package ||
                 cached.expected_package != expected_package || cached.byte_kind != byte_kind ||
-                cached.bool_kind != bool_kind)
+                cached.bool_kind != bool_kind || cached.float_kind != float_kind)
                 fail("live_property_mismatch");
             return cached.value;
         }
@@ -242,11 +247,11 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
                 if (!type || read.template operator()<std::uint64_t>(type, 0x50) != kind)
                     fail("live_property_mismatch");
                 const auto type_id = identify(type);
-                if (type_id.name != (bool_kind ? "BoolProperty" : byte_kind ? "ByteProperty" : "ObjectProperty") ||
+                if (type_id.name != (bool_kind ? "BoolProperty" : byte_kind ? "ByteProperty" : float_kind ? "FloatProperty" : "ObjectProperty") ||
                     type_id.package != "Core" || type_id.instance != 0 ||
-                    (read.template operator()<std::uint32_t>(type, 0x128) & (bool_kind ? 0x20000U : byte_kind ? 0x8000U : 0x10000U)) == 0 ||
+                    (read.template operator()<std::uint32_t>(type, 0x128) & (bool_kind ? 0x20000U : byte_kind ? 0x8000U : float_kind ? 0x100U : 0x10000U)) == 0 ||
                     read.template operator()<std::int32_t>(child, 0x68) != 1 ||
-                    read.template operator()<std::int32_t>(child, 0x6c) != (bool_kind ? 4 : byte_kind ? 1 : 8))
+                    read.template operator()<std::int32_t>(child, 0x6c) != (bool_kind || float_kind ? 4 : byte_kind ? 1 : 8))
                     fail("live_property_mismatch");
                 result.offset = read.template operator()<std::int32_t>(child, 0x8c);
                 if (result.offset < 0) fail("live_property_mismatch");
@@ -255,7 +260,7 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
                     result.mask = read.template operator()<std::uint32_t>(child, 0xa8);
                     if (!result.mask || (result.mask & (result.mask - 1)) != 0)
                         fail("live_property_mismatch");
-                } else if (!byte_kind) {
+                } else if (!byte_kind && !float_kind) {
                     result.expected = read.template operator()<std::uint64_t>(child, 0xa8);
                     if (!result.expected) fail("live_property_mismatch");
                     const auto expected_chain = chain(result.expected);
@@ -267,7 +272,7 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         }
         if (!found) fail("live_property_missing");
         metadata_properties.push_back({owner, std::string(field), std::string(expected_name),
-            std::string(field_package), std::string(expected_package), byte_kind, bool_kind, result});
+            std::string(field_package), std::string(expected_package), byte_kind, bool_kind, float_kind, result});
         return result;
     };
     const auto actor = property(player_type, "Actor", "PlayerController");
@@ -322,6 +327,27 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         const auto inv_physics_property = property(inv_pawn_actor_type, "Physics", {}, "Engine", "Engine", true);
         inv_out.pawn_physics = read.template operator()<std::uint8_t>(pawn_value,
             static_cast<std::uint64_t>(inv_physics_property.offset));
+        const auto inv_jump_property = property(inv_pawn_type, "bJumpCapable", {}, "Engine", "Engine", false, true);
+        const auto inv_jump_bits = read.template operator()<std::uint32_t>(pawn_value,
+            static_cast<std::uint64_t>(inv_jump_property.offset));
+        inv_out.pawn_jump_capable = LiveBoolSnapshot{(inv_jump_bits & inv_jump_property.mask) != 0,
+            inv_jump_property.offset, inv_jump_property.mask};
+        const auto inv_float = [&](std::uint64_t owner, std::string_view field, std::string_view package) {
+            const auto metadata = property(owner, field, {}, package, "Engine", false, false, true);
+            const auto bits = read.template operator()<std::uint32_t>(pawn_value,
+                static_cast<std::uint64_t>(metadata.offset));
+            const auto sampled_float = std::bit_cast<float>(bits);
+            // Observer JSON policy only: retain every finite value, including
+            // negative values and signed zero; the private trace keeps raw bits.
+            if (!std::isfinite(sampled_float)) fail("live_invalid");
+            return sampled_float;
+        };
+        inv_out.pawn_jump_z = inv_float(inv_pawn_type, "JumpZ", "Engine");
+        inv_out.pawn_thruster_energy = inv_float(inv_native_type, "ThrusterEnergy", "HawkenGame");
+        inv_out.pawn_thruster_jump_energy = inv_float(inv_native_type, "ThrusterJumpEnergy", "HawkenGame");
+        const auto inv_move_property = property(inv_native_type, "MoveState", {}, "HawkenGame", "Engine", true);
+        inv_out.pawn_move_state = read.template operator()<std::uint8_t>(pawn_value,
+            static_cast<std::uint64_t>(inv_move_property.offset));
         inv_out.pawn_invmanager_present = inv_manager != 0;
         inv_out.pawn_dual_weapon_present = inv_dual != 0;
         inv_out.pawn_weapon_present = inv_weapon != 0;

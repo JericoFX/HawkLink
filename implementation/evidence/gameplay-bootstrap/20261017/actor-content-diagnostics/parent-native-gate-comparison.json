@@ -62,5 +62,21 @@
     "Received jump flags do not prove DoJump, accepted movement or a distinct keypress count",
     "No claim of native Fire RPC or working shots",
     "No credentials, keys, raw payload or raw private logs included in Git"
-  ]
+  ],
+  "capture": {
+    "file": "core-fire-gates-2015.pcapng",
+    "sha256": "e6dbc43d069a17988247fe264b6f8fb421fe71a696e4137f0a23900fe404dd58",
+    "bytes": 2921408,
+    "frames": 22837,
+    "received": 22837,
+    "dropped": 0,
+    "clientUdpPort": 64996,
+    "serverUdpPort": 7777,
+    "loopbackOnly": true,
+    "conversationSeconds": 213.7793,
+    "dumpcapExit": 0,
+    "tsharkFullReadExit": 0,
+    "captureKeysExported": false,
+    "rawPcapInGit": false
+  }
 }

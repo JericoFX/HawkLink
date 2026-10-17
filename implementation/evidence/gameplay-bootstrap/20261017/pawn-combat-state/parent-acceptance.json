@@ -1,0 +1,58 @@
+{
+  "utc": "2026-10-17T20:36:47.4366918Z",
+  "state": "VERIFIED_PURE_PREDICATE;OWNER_INTEGRATION_PENDING",
+  "red": "red/luna/red-summary-final.json",
+  "redObserved": {
+    "passed": 5,
+    "assertions": 252,
+    "failedAssertions": 92,
+    "buildExit": 0,
+    "skipped": 0,
+    "failed": 10,
+    "cases": 15
+  },
+  "green": "green/luna/green-summary.json",
+  "greenObserved": {
+    "passed": 15,
+    "cases": 15,
+    "inputs": 9,
+    "assertions": 252,
+    "skipped": 0,
+    "buildExit": 0,
+    "failed": 0,
+    "drift": 0
+  },
+  "nativeContracts": [
+    "../../../fire-gates-20261017/pawn-predicate/contract.json",
+    "../../../fire-gates-20261017/pawn-predicate/a90-supplement.json"
+  ],
+  "review": [
+    "All header,15 tests and33 implementation lines reviewed against retained raw predicates",
+    "Checked movement-state shift, original veto mask, boost bypass and single-precision Heavy threshold",
+    "Replicated permission equals Pawn predicate; client shutdown affects local activation only",
+    "Revision/life/finite-input rules are explicit reconstruction policies, not inferred original defaults"
+  ],
+  "limits": [
+    "No caller-owned active spawn is inferred from transport ACKs",
+    "No movement, damage, heat or effects simulation introduced",
+    "No Owner integration or native gameplay acceptance yet"
+  ],
+  "sources": [
+    {
+      "sha256": "a0c04eb572cede6190dc860ef70a0d138d3a88cc3afb854571df17e45ded8fa7",
+      "path": "include/hawken/pawn_combat_state.hpp"
+    },
+    {
+      "sha256": "5f603b2f2338046188efc7325027ad112fd892cdae6fab5865c7312dcec6f412",
+      "path": "src/pawn_combat_state.cpp"
+    },
+    {
+      "sha256": "1a5655d5ce784210b7536ea59002c39f4461be757258614731110bddc587a8e2",
+      "path": "tests/pawn_combat_state_tests.cpp"
+    },
+    {
+      "sha256": "e16e3a990bd6476eab31123d8d5600fd5d281dfc2ae82fa917a7d3855b697a19",
+      "path": "CMakeLists.txt"
+    }
+  ]
+}
