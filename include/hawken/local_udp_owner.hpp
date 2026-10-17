@@ -47,6 +47,18 @@ struct ActorBunchDiagnostics {
     std::uint64_t field_out_of_range_bunches = 0;
     bool operator==(const ActorBunchDiagnostics&) const = default;
 };
+// Conditional original Controller294 movement schema; observes ONE first RPC.
+// Scalar samples need not belong to the same instant. No simulation/ACK or
+// native jump/fire acceptance follows from decoding a request.
+struct MovementBunchDiagnostics {
+    std::uint64_t decoded_requests = 0;
+    std::uint64_t malformed_requests = 0;
+    std::uint64_t jump_requests = 0;
+    // DualServerMove, OldServerMove, ServerMove, respectively.
+    std::array<std::uint64_t,3> kinds{};
+    std::optional<std::uint8_t> last_move_flags;
+    bool operator==(const MovementBunchDiagnostics&) const = default;
+};
 // Thread-safe scalar observations only; no ID/key/account/peer or raw payload.
 // Successful authenticated receive is NOT game admission. Fields are monotonic
 // aggregate observations, not a transaction spanning all counters/flags.
@@ -110,6 +122,7 @@ struct LocalUdpDiagnostics {
     // Authenticated transport-delivered actor bunches only, saturating counts.
     // Last-header scalars are observations, not an atomic multi-field snapshot.
     std::array<ActorBunchDiagnostics,static_cast<std::size_t>(ActorDiagnosticSlot::count)> actor_bunches{};
+    MovementBunchDiagnostics movement;
 
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };

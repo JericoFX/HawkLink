@@ -17,6 +17,7 @@ using hawken::probe::read_live_player;
 struct Memory {
     std::map<std::uint64_t, unsigned char> bytes;
     std::size_t budget = 1024 * 1024;
+    std::map<std::uint64_t,std::size_t> read_counts;
     template<class T> void put(std::uint64_t where, T value) {
         static_assert(std::is_trivially_copyable_v<T>);
         const auto* data = reinterpret_cast<const unsigned char*>(&value);
@@ -29,6 +30,7 @@ struct Memory {
             throw std::runtime_error("reader_overflow");
         if (sizeof(T) > budget) throw std::runtime_error("read_limit");
         budget -= sizeof(T);
+        ++read_counts[where+offset];
         std::array<unsigned char, sizeof(T)> data{};
         for (std::size_t i = 0; i < sizeof(T); ++i) {
             const auto found = bytes.find(where + offset + i);
@@ -364,5 +366,382 @@ TEST_CASE("Live player preserves Reader failures and detects changed sampled poi
         CHECK(first.pawn_offset == second.pawn_offset);
         CHECK_FALSE(first.trace == second.trace);
         CHECK_FALSE(first == second);
+    }
+}
+
+namespace {
+// Synthetic reflected metadata and instance storage. These offsets are fixture
+// coordinates, never guessed offsets in the original client.
+constexpr std::uint64_t inventory_class = 0x13800, manager_class = 0x13c00;
+constexpr std::uint64_t hg_manager_class = 0x14000, weapon_class = 0x14400;
+constexpr std::uint64_t dual_class = 0x14800, native_pawn_class = 0x14c00;
+constexpr std::uint64_t content_pawn_class = 0x15000, byte_property_class = 0x15400;
+constexpr std::uint64_t manager_object = 0x34000, dual_object = 0x38000, hand_object = 0x3c000;
+constexpr std::uint64_t invmanager_property = 0x51400, weapon_property = 0x51800;
+constexpr std::uint64_t dual_property = 0x51c00, instigator_property = 0x52000;
+constexpr std::uint64_t chain_property = 0x52400, item_manager_property = 0x52800;
+constexpr std::uint64_t role_property = 0x52c00;
+constexpr std::uint64_t physics_property = 0x54000, bool_property_class = 0x15800;
+constexpr std::uint64_t can_fire_property = 0x54400, shutdown_property = 0x54800;
+constexpr std::uint64_t client_shutdown_property = 0x54c00;
+struct InventoryFixture : Fixture {
+    InventoryFixture() {
+        klass(inventory_class,"Inventory","Engine",actor_class);
+        klass(manager_class,"InventoryManager","Engine",actor_class);
+        klass(hg_manager_class,"R_InventoryManager","HawkenGame",manager_class);
+        klass(weapon_class,"Weapon","Engine",inventory_class);
+        klass(dual_class,"R_Weap_DualWield","HawkenGame",weapon_class);
+        klass(native_pawn_class,"R_PawnNative","HawkenGame",pawn_class);
+        klass(content_pawn_class,"SyntheticPawnContent","HawkenGameContent",native_pawn_class);
+        klass(byte_property_class,"ByteProperty","Core",object_class);
+        memory.put(byte_property_class+0x128,std::uint32_t{0x8000});
+        klass(bool_property_class,"BoolProperty","Core",object_class);
+        memory.put(bool_property_class+0x128,std::uint32_t{0x20000});
+        object(pawn_object,content_pawn_class,0);
+        object(manager_object,hg_manager_class,0);
+        object(dual_object,dual_class,0);
+        object(hand_object,weapon_class,0);
+        property(invmanager_property,pawn_class,"InvManager",0x300,manager_class);
+        property(weapon_property,pawn_class,"Weapon",0x310,weapon_class);
+        property(dual_property,native_pawn_class,"DualWeapon",0x320,dual_class);
+        identities[dual_property].package="HawkenGame";
+        property(instigator_property,actor_class,"Instigator",0x330,pawn_class);
+        property(chain_property,manager_class,"InventoryChain",0x350,inventory_class);
+        property(item_manager_property,inventory_class,"InvManager",0x340,manager_class);
+        property(role_property,actor_class,"Role",0x360,0);
+        memory.put(role_property+0x50,byte_property_class);
+        memory.put(role_property+0x6c,std::int32_t{1});
+        property(physics_property,actor_class,"Physics",0x370,0);
+        memory.put(physics_property+0x50,byte_property_class);
+        memory.put(physics_property+0x6c,std::int32_t{1});
+        const std::array<std::uint64_t,3> gate_properties{can_fire_property,shutdown_property,client_shutdown_property};
+        const std::array<const char*,3> gate_names{"bServerCanFire","bShutdown","bClientShutdown"};
+        const std::array<std::uint32_t,3> gate_masks{0x2,0x40,0x200};
+        for(std::size_t i=0;i<gate_properties.size();++i) {
+            property(gate_properties[i],dual_class,gate_names[i],0x380,0);
+            identities[gate_properties[i]].package="HawkenGame";
+            memory.put(gate_properties[i]+0x50,bool_property_class);
+            memory.put(gate_properties[i]+0x6c,std::int32_t{4});
+            memory.put(gate_properties[i]+0xa8,gate_masks[i]);
+            if(i) memory.put(gate_properties[i-1]+0x60,gate_properties[i]);
+        }
+        memory.put(dual_class+0x80,can_fire_property);
+        memory.put(pawn_class+0x80,invmanager_property);
+        memory.put(invmanager_property+0x60,weapon_property);
+        memory.put(native_pawn_class+0x80,dual_property);
+        memory.put(actor_class+0x80,instigator_property);
+        memory.put(instigator_property+0x60,role_property);
+        memory.put(role_property+0x60,physics_property);
+        memory.put(manager_class+0x80,chain_property);
+        memory.put(inventory_class+0x80,item_manager_property);
+        memory.put(pawn_object+0x300,manager_object);
+        memory.put(pawn_object+0x310,dual_object);
+        memory.put(pawn_object+0x320,dual_object);
+        memory.put(manager_object+0x330,pawn_object);
+        memory.put(manager_object+0x350,dual_object);
+        memory.put(manager_object+0x360,std::uint8_t{3});
+        memory.put(dual_object+0x330,pawn_object);
+        memory.put(dual_object+0x340,manager_object);
+        memory.put(pawn_object+0x370,std::uint8_t{1});
+        memory.put(dual_object+0x360,std::uint8_t{2});
+        memory.put(dual_object+0x380,std::uint32_t{0x202});
+    }
+    LivePlayerSnapshot inventory_sample() {
+        auto identify=[&](std::uint64_t where) {
+            const auto found=identities.find(where);
+            if(found==identities.end()) throw std::runtime_error("identity_unavailable");
+            return found->second;
+        };
+        return read_live_player(memory,module_base,identify,true);
+    }
+};
+}
+
+TEST_CASE("Live inventory observes typed equipment relationships and Manager Role") {
+    InventoryFixture f;const auto result=f.inventory_sample();
+    REQUIRE(result.inventory.has_value());const auto& value=*result.inventory;
+    CHECK(value.pawn_invmanager_present);CHECK(value.pawn_dual_weapon_present);
+    CHECK(value.pawn_weapon_present);CHECK(value.pawn_weapon_is_dual);
+    CHECK(value.manager_instigator_is_pawn);CHECK(value.manager_chain_is_dual);
+    CHECK(value.dual_instigator_is_pawn);CHECK(value.dual_invmanager_matches);
+    REQUIRE(value.manager_role.has_value());CHECK(*value.manager_role==3);
+}
+TEST_CASE("Live inventory optional mode preserves old reads and skips absent Pawn") {
+    InventoryFixture f;
+    SUBCASE("disabled mode never follows unreadable inventory") {
+        f.memory.bytes.erase(pawn_object+0x300);
+        CHECK_FALSE(f.sample().inventory.has_value());
+    }
+    SUBCASE("no Pawn leaves inventory absent") {
+        f.memory.put(controller_object+0x280,std::uint64_t{0});
+        f.memory.bytes.erase(pawn_class+0x80);
+        CHECK_FALSE(f.inventory_sample().inventory.has_value());
+    }
+}
+TEST_CASE("Live inventory null links are valid and do not manufacture equality") {
+    InventoryFixture f;
+    f.memory.put(pawn_object+0x300,std::uint64_t{0});
+    f.memory.put(pawn_object+0x310,std::uint64_t{0});
+    f.memory.put(pawn_object+0x320,std::uint64_t{0});
+    f.memory.bytes.erase(manager_object+0x50);f.memory.bytes.erase(dual_object+0x50);
+    const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());const auto& value=*result.inventory;
+    CHECK_FALSE(value.pawn_invmanager_present);CHECK_FALSE(value.pawn_dual_weapon_present);
+    CHECK_FALSE(value.pawn_weapon_present);CHECK_FALSE(value.pawn_weapon_is_dual);
+    CHECK_FALSE(value.manager_instigator_is_pawn);CHECK_FALSE(value.manager_chain_is_dual);
+    CHECK_FALSE(value.dual_instigator_is_pawn);CHECK_FALSE(value.dual_invmanager_matches);
+    CHECK_FALSE(value.manager_role.has_value());
+}
+TEST_CASE("Live inventory distinguishes valid nonmatching typed references") {
+    InventoryFixture f;
+    constexpr std::uint64_t other_pawn=0x60000,other_manager=0x64000;
+    f.object(other_pawn,pawn_class,0);f.object(other_manager,hg_manager_class,0);
+    f.memory.put(pawn_object+0x310,hand_object);
+    f.memory.put(manager_object+0x330,other_pawn);
+    f.memory.put(manager_object+0x350,hand_object);
+    f.memory.put(dual_object+0x330,other_pawn);
+    f.memory.put(dual_object+0x340,other_manager);
+    const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());const auto& value=*result.inventory;
+    CHECK(value.pawn_weapon_present);CHECK_FALSE(value.pawn_weapon_is_dual);
+    CHECK_FALSE(value.manager_instigator_is_pawn);CHECK_FALSE(value.manager_chain_is_dual);
+    CHECK_FALSE(value.dual_instigator_is_pawn);CHECK_FALSE(value.dual_invmanager_matches);
+}
+TEST_CASE("Live inventory rejects missing duplicate or malformed reflected object descriptors") {
+    InventoryFixture f;
+    SUBCASE("missing DualWeapon") {f.memory.put(native_pawn_class+0x80,std::uint64_t{0});}
+    SUBCASE("wrong package") {f.identities[dual_property].package="Engine";}
+    SUBCASE("wrong owner") {f.memory.put(invmanager_property+0x40,actor_class);}
+    SUBCASE("wrong property type") {f.memory.put(weapon_property+0x50,byte_property_class);}
+    SUBCASE("array instead of scalar") {f.memory.put(chain_property+0x68,std::int32_t{4});}
+    SUBCASE("wrong element size") {f.memory.put(item_manager_property+0x6c,std::int32_t{4});}
+    SUBCASE("wrong declared expected class") {f.memory.put(dual_property+0xa8,weapon_class);}
+    SUBCASE("negative offset") {f.memory.put(weapon_property+0x8c,std::int32_t{-1});}
+    SUBCASE("duplicate metadata") {
+        constexpr std::uint64_t extra=0x53000;
+        f.property(extra,pawn_class,"Weapon",0x310,weapon_class);
+        f.memory.put(weapon_property+0x60,extra);
+    }
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory requires ByteProperty Role metadata rather than a guessed live offset") {
+    InventoryFixture f;
+    SUBCASE("missing Role") {f.memory.put(instigator_property+0x60,physics_property);}
+    SUBCASE("Role object instead of byte") {f.memory.put(role_property+0x50,property_class);}
+    SUBCASE("Role class missing UProperty base flag") {f.memory.put(byte_property_class+0x128,std::uint32_t{0});}
+    SUBCASE("Role class has only ObjectProperty flag") {f.memory.put(byte_property_class+0x128,std::uint32_t{0x10000});}
+    SUBCASE("Role element size") {f.memory.put(role_property+0x6c,std::int32_t{4});}
+    SUBCASE("Role array dim") {f.memory.put(role_property+0x68,std::int32_t{2});}
+    SUBCASE("Role offset over bound") {f.memory.put(role_property+0x8c,std::int32_t{65537});}
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory validates all followed instances before dereferencing relationships") {
+    InventoryFixture f;
+    SUBCASE("Manager wrong type") {f.memory.put(manager_object+0x50,weapon_class);}
+    SUBCASE("Dual wrong type") {f.memory.put(dual_object+0x50,weapon_class);}
+    SUBCASE("Weapon not Inventory") {f.memory.put(pawn_object+0x310,pri_object);}
+    SUBCASE("Manager CDO") {f.memory.put(hg_manager_class+0x1d4,manager_object);}
+    SUBCASE("Dual template flag") {f.memory.put(dual_object+0x10,std::uint64_t{0x400});}
+    SUBCASE("Chain invalid type") {f.memory.put(manager_object+0x350,pri_object);}
+    SUBCASE("Instigator invalid type") {f.memory.put(dual_object+0x330,manager_object);}
+    SUBCASE("Dual manager invalid type") {f.memory.put(dual_object+0x340,hand_object);}
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory keeps cycle offset and shared reader budget guards") {
+    InventoryFixture f;
+    SUBCASE("inventory descriptor cycle") {f.memory.put(weapon_property+0x60,invmanager_property);}
+    SUBCASE("inventory offset over bound") {f.memory.put(dual_property+0x8c,std::int32_t{65537});}
+    SUBCASE("budget has only enough bytes for old mode") {
+        static_cast<void>(f.sample());const auto used=1024*1024-f.memory.budget;
+        f.memory.budget=used;
+    }
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory reads reflected offsets and traces Role or reference changes") {
+    InventoryFixture f;
+    f.memory.put(invmanager_property+0x8c,std::int32_t{0x3a0});
+    f.memory.put(pawn_object+0x3a0,manager_object);f.memory.bytes.erase(pawn_object+0x300);
+    const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    CHECK(first.inventory->pawn_invmanager_present);
+    f.memory.put(manager_object+0x360,std::uint8_t{2});
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());
+    CHECK(second.inventory->manager_role==std::optional<std::uint8_t>{2});
+    CHECK_FALSE(first.trace==second.trace);CHECK_FALSE(first==second);
+}
+
+namespace {
+// Shipped owner counts are retained in pawn-schema-input.json, serialized-child-fields.json,
+// and gameplay-diagnosis.json. Padding is synthetic and retains each exact fixture target.
+void pad_live_owner(InventoryFixture& f,std::uint64_t owner,std::size_t count,std::uint64_t storage) {
+    auto cursor=f.memory.read<std::uint64_t>(owner,0x80);
+    std::uint64_t previous=0;std::size_t present=0;
+    while(cursor) {previous=cursor;++present;cursor=f.memory.read<std::uint64_t>(cursor,0x60);}
+    REQUIRE(present<=count);
+    for(std::size_t i=present;i<count;++i) {
+        const auto node=storage+static_cast<std::uint64_t>(i)*0x100;
+        f.property(node,owner,"SyntheticPadding",0,object_class);
+        f.identities[node].package=f.identities.at(owner).package;
+        if(previous) f.memory.put(previous+0x60,node);
+        else f.memory.put(owner+0x80,node);
+        previous=node;
+    }
+}
+constexpr std::array<std::uint64_t,8> live_original_owners{
+    player_class,pc_class,controller_class,pawn_class,native_pawn_class,actor_class,manager_class,inventory_class};
+constexpr std::array<std::size_t,8> live_original_counts{10,575,196,423,496,449,36,27};
+}
+TEST_CASE("Live inventory accepts original full owner sizes and repeated traversal aggregate") {
+    InventoryFixture f;
+    for(std::size_t i=0;i<live_original_owners.size();++i)
+        pad_live_owner(f,live_original_owners[i],live_original_counts[i],0x80000+i*0x40000);
+    // Original repeated-route upper bound3729 remains; local metadata reuse stays within it.
+    const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+    CHECK(result.inventory->pawn_weapon_is_dual);CHECK(result.inventory->manager_chain_is_dual);
+    CHECK(result.inventory->manager_role==std::optional<std::uint8_t>{3});
+}
+TEST_CASE("Live inventory rejects one more than each original owner child cap") {
+    for(std::size_t i=0;i<live_original_owners.size();++i) {
+        CAPTURE(i);InventoryFixture f;
+        pad_live_owner(f,live_original_owners[i],live_original_counts[i]+1,0x80000);
+        CHECK_THROWS_WITH_AS(f.inventory_sample(),"live_limit",std::runtime_error);
+    }
+}
+TEST_CASE("Live player default mode accepts original PlayerController575 without inventory reads") {
+    InventoryFixture f;
+    pad_live_owner(f,player_class,10,0x80000);
+    pad_live_owner(f,pc_class,575,0xc0000);
+    pad_live_owner(f,controller_class,196,0x100000);
+    f.memory.bytes.erase(pawn_object+0x300);
+    // Default route: Player10+PlayerController575+Controller196 twice=977 visits.
+    const auto result=f.sample();CHECK(result.pawn_present);CHECK_FALSE(result.inventory.has_value());
+}
+
+TEST_CASE("Live inventory resolves owner fields once in each independent original-size sample") {
+    InventoryFixture f;
+    for(std::size_t i=0;i<live_original_owners.size();++i)
+        pad_live_owner(f,live_original_owners[i],live_original_counts[i],0x80000+i*0x40000);
+    std::map<std::uint64_t,std::size_t> identity_counts;
+    auto identify_once_test=[&](std::uint64_t where) {
+        ++identity_counts[where];return f.identities.at(where);
+    };
+    f.memory.read_counts.clear();
+    const auto first=read_live_player(f.memory,module_base,identify_once_test,true);
+    REQUIRE(first.inventory.has_value());CHECK(first.inventory->dual_invmanager_matches);
+    for(const auto owner:live_original_owners) CHECK(f.memory.read_counts[owner+0x80]==1);
+    CHECK(f.memory.read_counts[instigator_property+0x8c]==1);
+    CHECK(f.memory.read_counts[role_property+0x8c]==1);
+    for(const auto& item:identity_counts) CHECK(item.second==1);
+    // A second call must reload metadata, rather than reuse a prior sample.
+    f.memory.put(item_manager_property+0x8c,std::int32_t{0x3b0});
+    f.memory.put(dual_object+0x3b0,std::uint64_t{0});
+    f.memory.read_counts.clear();identity_counts.clear();
+    const auto second=read_live_player(f.memory,module_base,identify_once_test,true);
+    REQUIRE(second.inventory.has_value());CHECK_FALSE(second.inventory->dual_invmanager_matches);
+    CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);
+    for(const auto owner:live_original_owners) CHECK(f.memory.read_counts[owner+0x80]==1);
+    CHECK(f.memory.read_counts[instigator_property+0x8c]==1);
+    for(const auto& item:identity_counts) CHECK(item.second==1);
+    f.identities[byte_property_class].package="Engine";
+    CHECK_THROWS_WITH_AS(read_live_player(f.memory,module_base,identify_once_test,true),
+        "live_property_mismatch",std::runtime_error);
+}
+TEST_CASE("Live inventory cached owner traversal still rejects late duplicate fields and cycles") {
+    InventoryFixture f;pad_live_owner(f,actor_class,449,0x80000);
+    auto tail=f.memory.read<std::uint64_t>(actor_class,0x80);
+    while(f.memory.read<std::uint64_t>(tail,0x60)) tail=f.memory.read<std::uint64_t>(tail,0x60);
+    SUBCASE("duplicate target at last allowed child") {
+        f.property(tail,actor_class,"Instigator",0x330,pawn_class);
+        CHECK_THROWS_WITH_AS(f.inventory_sample(),"live_property_mismatch",std::runtime_error);
+    }
+    SUBCASE("cycle after the target and all padding") {
+        f.memory.put(tail+0x60,instigator_property);
+        CHECK_THROWS_WITH_AS(f.inventory_sample(),"live_cycle",std::runtime_error);
+    }
+}
+
+TEST_CASE("Live inventory observes reflected Pawn Physics Dual Role and fire gates with metadata") {
+    InventoryFixture f;const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+    const auto& v=*result.inventory;
+    CHECK(v.pawn_physics==std::optional<std::uint8_t>{1});
+    CHECK(v.dual_role==std::optional<std::uint8_t>{2});
+    REQUIRE(v.dual_server_can_fire.has_value());REQUIRE(v.dual_shutdown.has_value());
+    REQUIRE(v.dual_client_shutdown.has_value());
+    CHECK(v.dual_server_can_fire->value);CHECK_FALSE(v.dual_shutdown->value);
+    CHECK(v.dual_client_shutdown->value);
+    CHECK(v.dual_server_can_fire->metadata_offset==0x380);
+    CHECK(v.dual_server_can_fire->bit_mask==0x2);
+    CHECK(v.dual_shutdown->bit_mask==0x40);CHECK(v.dual_client_shutdown->bit_mask==0x200);
+}
+TEST_CASE("Live inventory fire gate metadata is typed scalar and single bit") {
+    InventoryFixture f;
+    SUBCASE("missing descriptor") {f.memory.put(dual_class+0x80,shutdown_property);}
+    SUBCASE("wrong descriptor owner") {f.memory.put(can_fire_property+0x40,weapon_class);}
+    SUBCASE("wrong descriptor package") {f.identities[can_fire_property].package="Engine";}
+    SUBCASE("wrong type") {f.memory.put(can_fire_property+0x50,byte_property_class);}
+    SUBCASE("Physics wrong type") {f.memory.put(physics_property+0x50,bool_property_class);}
+    SUBCASE("Physics wrong scalar size") {f.memory.put(physics_property+0x6c,std::int32_t{4});}
+    SUBCASE("duplicate bool metadata") {
+        constexpr std::uint64_t extra_gate=0x55000;
+        f.property(extra_gate,dual_class,"bServerCanFire",0x380,0);
+        f.identities[extra_gate].package="HawkenGame";
+        f.memory.put(client_shutdown_property+0x60,extra_gate);
+    }
+    SUBCASE("bool owner cycle") {f.memory.put(client_shutdown_property+0x60,can_fire_property);}
+    SUBCASE("wrong Core type package") {f.identities[bool_property_class].package="Engine";}
+    SUBCASE("wrong type kind") {f.memory.put(bool_property_class+0x50,object_class);}
+    SUBCASE("missing bool cast mask") {f.memory.put(bool_property_class+0x128,std::uint32_t{0x8000});}
+    SUBCASE("array bool") {f.memory.put(can_fire_property+0x68,std::int32_t{2});}
+    SUBCASE("wrong bool size") {f.memory.put(can_fire_property+0x6c,std::int32_t{1});}
+    SUBCASE("zero mask") {f.memory.put(can_fire_property+0xa8,std::uint32_t{0});}
+    SUBCASE("multibit mask") {f.memory.put(can_fire_property+0xa8,std::uint32_t{3});}
+    SUBCASE("negative offset") {f.memory.put(can_fire_property+0x8c,std::int32_t{-1});}
+    SUBCASE("offset above bound") {f.memory.put(can_fire_property+0x8c,std::int32_t{65537});}
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory fire gate samples reread changed metadata and values independently") {
+    InventoryFixture f;const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    f.memory.put(can_fire_property+0x8c,std::int32_t{0x390});
+    f.memory.put(can_fire_property+0xa8,std::uint32_t{0x80000000});
+    f.memory.put(dual_object+0x390,std::uint32_t{0});
+    f.memory.put(pawn_object+0x370,std::uint8_t{2});
+    f.memory.put(dual_object+0x360,std::uint8_t{3});
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());
+    REQUIRE(second.inventory->dual_server_can_fire.has_value());
+    CHECK_FALSE(second.inventory->dual_server_can_fire->value);
+    CHECK(second.inventory->dual_server_can_fire->metadata_offset==0x390);
+    CHECK(second.inventory->dual_server_can_fire->bit_mask==0x80000000);
+    CHECK(second.inventory->pawn_physics==std::optional<std::uint8_t>{2});
+    CHECK(second.inventory->dual_role==std::optional<std::uint8_t>{3});
+    CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);
+    f.memory.put(can_fire_property+0xa8,std::uint32_t{0});
+    CHECK_THROWS_WITH_AS(f.inventory_sample(),"live_property_mismatch",std::runtime_error);
+}
+TEST_CASE("Live inventory absent Dual leaves fire gates absent without reading descriptors") {
+    InventoryFixture f;
+    f.memory.put(pawn_object+0x310,std::uint64_t{0});
+    f.memory.put(pawn_object+0x320,std::uint64_t{0});
+    f.memory.put(manager_object+0x350,std::uint64_t{0});
+    f.memory.bytes.erase(dual_class+0x80);
+    const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+    CHECK(result.inventory->pawn_physics==std::optional<std::uint8_t>{1});
+    CHECK_FALSE(result.inventory->dual_role.has_value());
+    CHECK_FALSE(result.inventory->dual_server_can_fire.has_value());
+    CHECK_FALSE(result.inventory->dual_shutdown.has_value());
+    CHECK_FALSE(result.inventory->dual_client_shutdown.has_value());
+}
+TEST_CASE("Live inventory preserves exact DualWield59 owner cap and default mode isolation") {
+    InventoryFixture f;
+    SUBCASE("original59 fits existing shared budget") {
+        for(std::size_t i=0;i<live_original_owners.size();++i)
+            pad_live_owner(f,live_original_owners[i],live_original_counts[i],0x80000+i*0x40000);
+        pad_live_owner(f,dual_class,59,0x300000);
+        const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+        CHECK(result.inventory->dual_server_can_fire.has_value());CHECK(f.memory.budget>0);
+    }
+    SUBCASE("60 rejected") {
+        pad_live_owner(f,dual_class,60,0x300000);
+        CHECK_THROWS_WITH_AS(f.inventory_sample(),"live_limit",std::runtime_error);
+    }
+    SUBCASE("default does not inspect fire metadata") {
+        f.memory.bytes.erase(physics_property+0x50);f.memory.bytes.erase(dual_class+0x80);
+        CHECK_FALSE(f.sample().inventory.has_value());
     }
 }

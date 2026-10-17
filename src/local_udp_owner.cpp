@@ -19,6 +19,7 @@
 #include "hawken/unique_id_wire.hpp"
 #include "hawken/bool_property_wire.hpp"
 #include "hawken/int_property_wire.hpp"
+#include "hawken/movement_rpc.hpp"
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -271,6 +272,42 @@ struct AtomicActorBunchDiagnostics {
         return result;
     }
 };
+struct AtomicMovementDiagnostics {
+    std::atomic<std::uint64_t> decoded{0},malformed{0},jump{0};
+    std::array<std::atomic<std::uint64_t>,3> kinds{};
+    std::atomic<std::uint16_t> flags{256};
+    void observe(const wire::Bunch& bunch,control::Endian endian) noexcept {
+        if (bunch.open || !bunch.payload_bits) return;
+        try {
+            wire::BitReader reader(bunch.payload,bunch.payload_bits);
+            auto tag_reader=reader;
+            const auto tag=tag_reader.read_bounded(294);
+            if (tag!=59 && tag!=60 && tag!=61) return;
+            try {
+                // Static original-schema interpretation only. This diagnostic
+                // does not attest the live ClassNetCache/parameter map and
+                // never changes dispatch, admission, state or a reply.
+                constexpr wire::movement::Eligibility conditional{true,true,true,true};
+                const auto value=wire::movement::read_rpc(reader,endian,conditional,bunch.payload_bits);
+                AtomicActorBunchDiagnostics::increment(kinds[static_cast<std::size_t>(value.kind)]);
+                if (value.current.jump) AtomicActorBunchDiagnostics::increment(jump);
+                if (value.pending && value.pending->jump) AtomicActorBunchDiagnostics::increment(jump);
+                flags.store(value.current.move_flags,std::memory_order_relaxed);
+                AtomicActorBunchDiagnostics::increment(decoded);
+            } catch (...) { AtomicActorBunchDiagnostics::increment(malformed); }
+        } catch (...) { /* First-tag truncation is counted by actor metadata. */ }
+    }
+    MovementBunchDiagnostics snapshot() const noexcept {
+        MovementBunchDiagnostics result;
+        result.decoded_requests=decoded.load(std::memory_order_relaxed);
+        result.malformed_requests=malformed.load(std::memory_order_relaxed);
+        result.jump_requests=jump.load(std::memory_order_relaxed);
+        for (std::size_t i=0;i<kinds.size();++i) result.kinds[i]=kinds[i].load(std::memory_order_relaxed);
+        const auto last=flags.load(std::memory_order_relaxed);
+        if (last<256) result.last_move_flags=static_cast<std::uint8_t>(last);
+        return result;
+    }
+};
 struct Registry {
     std::mutex mutex;
     std::condition_variable finished;
@@ -291,6 +328,7 @@ struct Registry {
     std::atomic<bool> inventory_links_sent{false},inventory_links_acked{false},inventory_given_to_sent{false};
     std::atomic<bool> inventory_current_weapon_received{false};
     std::array<AtomicActorBunchDiagnostics,static_cast<std::size_t>(ActorDiagnosticSlot::count)> actor_bunches{};
+    AtomicMovementDiagnostics movement;
 
     void retire(const std::shared_ptr<Entry>& target) noexcept {
         if (!target) return;
@@ -706,7 +744,11 @@ struct LocalUdpOwner::Impl {
         const auto observe=[&](ActorDiagnosticSlot role,std::uint16_t channel,std::optional<std::uint32_t> bound) {
             auto& metadata=registry->actor_bunches[static_cast<std::size_t>(role)];
             for (const auto& bunch:bunches)
-                if (bunch.channel==channel) metadata.observe(bunch,bound);
+                if (bunch.channel==channel) {
+                    metadata.observe(bunch,bound);
+                    if (role==ActorDiagnosticSlot::controller && bound && *bound==294)
+                        registry->movement.observe(bunch,skeleton.endian);
+                }
         };
         if (controller_plan) observe(ActorDiagnosticSlot::controller,controller_plan->channel.channel,controller_bound);
         if (pawn_plan) observe(ActorDiagnosticSlot::pawn,pawn_plan->channel.channel,pawn_bound);
@@ -1930,6 +1972,7 @@ LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
         impl_->registry->inventory_given_to_sent.load(),impl_->registry->inventory_current_weapon_received.load()};
     for (std::size_t i=0;i<result.actor_bunches.size();++i)
         result.actor_bunches[i]=impl_->registry->actor_bunches[i].snapshot();
+    result.movement=impl_->registry->movement.snapshot();
     return result;
 }
 bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {

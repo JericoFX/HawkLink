@@ -402,12 +402,25 @@ public:
             }
             previous_actor_bunches_[i]=actor;
         }
+        if (observation.movement!=previous_movement_) {
+            const auto& move=observation.movement;
+            auto line=std::osyncstream(*stream_);
+            line << "udp_movement schema=original294_conditional first_rpc_only=1"
+                << " decoded=" << move.decoded_requests << " malformed=" << move.malformed_requests
+                << " dual=" << move.kinds[0] << " old=" << move.kinds[1] << " single=" << move.kinds[2]
+                << " jump_flags=" << move.jump_requests << " last_flags=";
+            if (move.last_move_flags) line << static_cast<unsigned>(*move.last_move_flags);
+            else line << "unavailable";
+            line << " gameplay=0\n" << std::flush;
+            previous_movement_=move;
+        }
     }
 private:
     std::ofstream file_;
     std::ostream* stream_ = nullptr;
     std::array<hawken::udp::ActorBunchDiagnostics,
         static_cast<std::size_t>(hawken::udp::ActorDiagnosticSlot::count)> previous_actor_bunches_{};
+    hawken::udp::MovementBunchDiagnostics previous_movement_{};
 };
 
 bool mute_native_output() {

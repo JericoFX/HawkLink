@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-17T19:59:49.5208498Z",
+  "phase": "BotsTDM offline active reference; new gate reader",
+  "clientPid": 56328,
+  "probeSha256": "014a9d0a0a17310305468babe53345978223c61dd0919772a43a5fd439a2c181",
+  "exitCode": 0,
+  "sample": {
+    "identity_verified": true,
+    "metadata": {
+      "controller_player_matches": true,
+      "controller_present": true,
+      "first_entry_only": true,
+      "inventory": {
+        "dual_client_shutdown": {
+          "bit_mask": 16,
+          "metadata_offset": 984,
+          "value": false
+        },
+        "dual_instigator_is_pawn": true,
+        "dual_invmanager_matches": true,
+        "dual_role": 3,
+        "dual_server_can_fire": {
+          "bit_mask": 8,
+          "metadata_offset": 984,
+          "value": true
+        },
+        "dual_shutdown": {
+          "bit_mask": 4,
+          "metadata_offset": 984,
+          "value": false
+        },
+        "manager_chain_is_dual": true,
+        "manager_instigator_is_pawn": true,
+        "manager_role": 3,
+        "pawn_dual_weapon_present": true,
+        "pawn_invmanager_present": true,
+        "pawn_physics": 1,
+        "pawn_weapon_is_dual": true,
+        "pawn_weapon_present": true
+      },
+      "local_player_present": true,
+      "pawn_offset": 592,
+      "pawn_present": true,
+      "pri_offset": 600,
+      "pri_present": true,
+      "world_membership_verified": false
+    },
+    "samples_equal": true,
+    "status": "observed"
+  },
+  "validation": "Compiled; complete CTest58 still running, not yet accepted"
+}

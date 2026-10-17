@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-17T20:15:22.1776972Z",
+  "phase": "Core Restos after mech deployment",
+  "clientPid": 34984,
+  "serverSha256": "f27f7a0e94c7fdd64d9924a171c521d39c7db0a15c015a3565395c19dad639aa",
+  "probeSha256": "014a9d0a0a17310305468babe53345978223c61dd0919772a43a5fd439a2c181",
+  "exitCode": 0,
+  "sample": {
+    "identity_verified": true,
+    "metadata": {
+      "controller_player_matches": true,
+      "controller_present": true,
+      "first_entry_only": true,
+      "inventory": {
+        "dual_client_shutdown": {
+          "bit_mask": 16,
+          "metadata_offset": 984,
+          "value": false
+        },
+        "dual_instigator_is_pawn": true,
+        "dual_invmanager_matches": true,
+        "dual_role": 1,
+        "dual_server_can_fire": {
+          "bit_mask": 8,
+          "metadata_offset": 984,
+          "value": false
+        },
+        "dual_shutdown": {
+          "bit_mask": 4,
+          "metadata_offset": 984,
+          "value": true
+        },
+        "manager_chain_is_dual": true,
+        "manager_instigator_is_pawn": true,
+        "manager_role": 1,
+        "pawn_dual_weapon_present": true,
+        "pawn_invmanager_present": true,
+        "pawn_physics": 1,
+        "pawn_weapon_is_dual": true,
+        "pawn_weapon_present": true
+      },
+      "local_player_present": true,
+      "pawn_offset": 592,
+      "pawn_present": true,
+      "pri_offset": 600,
+      "pri_present": true,
+      "world_membership_verified": false
+    },
+    "samples_equal": true,
+    "status": "observed"
+  }
+}

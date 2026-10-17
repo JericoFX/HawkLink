@@ -4309,3 +4309,35 @@ TEST_CASE("UDP actor content metadata leaves a first field uninterpreted when no
     CHECK(observed.field_out_of_range_bunches==0);
     CHECK_FALSE(f.owner.diagnostics().closed);
 }
+
+TEST_CASE("UDP movement diagnostics decode authenticated jump flags without accepting gameplay") {
+    // The inventory fixture uses a synthetic small Controller cache. This
+    // observer explicitly interprets the original294 schema, so use that plan.
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},{},public_bootstrap_plan());
+    const auto login=f.login();Peer peer;
+    session::Context client(session::Role::client,public_id,public_key);
+    bootstrap_openings(f,login,peer,client);
+    // Independent literal: bounded294 tag60, present float1.0LE, three absent
+    // acceleration bytes, present flags0x20. Exactly53bits, no RPC terminator.
+    wire::Bunch bunch;bunch.channel=7;bunch.reliable=false;
+    bunch.payload=hex("3c0100007f1004");bunch.payload_bits=53;
+    wire::Packet packet;packet.packet_id=5;wire::PacketRecord record;record.bunch=bunch;
+    packet.records.push_back(record);peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+    CHECK(controller_output(peer,client,100ms).bunches.empty());
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().movement.decoded_requests==1;}));
+    const auto observed=f.owner.diagnostics().movement;
+    CHECK(observed.jump_requests==1);CHECK(observed.malformed_requests==0);
+    CHECK(observed.kinds==std::array<std::uint64_t,3>{0,1,0});
+    CHECK(observed.last_move_flags==std::optional<std::uint8_t>{0x20});
+    CHECK_FALSE(f.owner.diagnostics().closed);
+
+    // Truncated flags must not publish a decoded request or retire the session.
+    bunch.payload_bits=52;record.bunch=bunch;packet.records={record};packet.packet_id=6;
+    peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+    CHECK(controller_output(peer,client,100ms).bunches.empty());
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().movement.malformed_requests==1;}));
+    CHECK(f.owner.diagnostics().movement.decoded_requests==1);
+    CHECK(f.owner.diagnostics().movement.jump_requests==1);
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}

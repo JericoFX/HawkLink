@@ -1,0 +1,66 @@
+{
+  "utc": "2026-10-17T20:19:21.9138045Z",
+  "state": "CONFIRMED_NATIVE_DIFFERENCE;GAMEPLAY_FAILURE_REPRODUCED",
+  "serverSha256": "f27f7a0e94c7fdd64d9924a171c521d39c7db0a15c015a3565395c19dad639aa",
+  "probeSha256": "014a9d0a0a17310305468babe53345978223c61dd0919772a43a5fd439a2c181",
+  "originalExeSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "standaloneReference": "standalone-native-fire-gates.json",
+  "coreReference": "core-native-fire-gates.json",
+  "coreAfterInputs": "core-after-inputs-native.json",
+  "comparison": {
+    "equipmentEightLinks": "all true in both",
+    "pawnPhysics": "1 in both",
+    "standaloneDualRole": 3,
+    "coreDualRole": 1,
+    "standaloneManagerRole": 3,
+    "coreManagerRole": 1,
+    "standaloneServerCanFire": true,
+    "coreServerCanFire": false,
+    "standaloneShutdown": false,
+    "coreShutdown": true,
+    "clientShutdown": "false in both"
+  },
+  "movement": {
+    "schema": "original294_conditional",
+    "firstRpcOnly": true,
+    "decoded": 7445,
+    "malformed": 0,
+    "dual": 1,
+    "old": 53,
+    "single": 7391,
+    "jumpFlags": 54,
+    "uniqueJumps": "NOT MEASURED; repeated/resubmitted flags are counted",
+    "physicsAccepted": false
+  },
+  "screenshots": [
+    "core-deployed-gates.png",
+    "core-after-jump-request.png",
+    "core-secondary-input-gates.png",
+    "core-primary-input-gates.png"
+  ],
+  "log": {
+    "path": "core-active-launch.private.log",
+    "sha256": "3e95a2850312a070d793bedd2057a133bc352edc5b3250e6ff6782e45510fe0c",
+    "bytes": 98304,
+    "facts": [
+      "SetWeapons0/101",
+      "ClientRestart SS_DONE",
+      "PlayerWalking BeginState"
+    ]
+  },
+  "termination": {
+    "clientPid": 34984,
+    "normalCloseIgnored": true,
+    "parentStoppedExactClient": true,
+    "services": "normal helper cleanup, exit0, originals unchanged",
+    "helper": "local-steam-routing-20261017-201223",
+    "servicesStopped": true
+  },
+  "limitations": [
+    "bServerCanFire false is a demonstrated blocking gate; full authority predicate/lifecycle still requires implementation",
+    "Walking physics disproves PHYS_None explanation for this observed Pawn",
+    "Received jump flags do not prove DoJump, accepted movement or a distinct keypress count",
+    "No claim of native Fire RPC or working shots",
+    "No credentials, keys, raw payload or raw private logs included in Git"
+  ]
+}

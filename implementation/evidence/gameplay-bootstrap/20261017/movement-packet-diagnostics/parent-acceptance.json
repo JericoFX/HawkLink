@@ -1,0 +1,95 @@
+{
+  "utc": "2026-10-17T20:09:49.9894176Z",
+  "state": "VERIFIED_DIAGNOSTICS_ONLY; NATIVE_CORE_COMPARISON_PENDING",
+  "scope": "Read-only native equipment/fire gates and conditional first movement RPC diagnostics; no gameplay acceptance",
+  "originalClientSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "validation": {
+    "fullRun": "owner-green/luna/ctest-derived-summary.json",
+    "fullRunSuites": 58,
+    "fullRunPassed": 57,
+    "fullRunFailed": 1,
+    "failure": "New Owner test mistakenly selected synthetic Controller8 fixture; observer explicitly requires294",
+    "correction": "Existing Bootstrap294 fixture with identical wire literal and behavior assertions",
+    "focused": "owner-green-fixture/luna/run-summary.json",
+    "focusedCases": 147,
+    "focusedAssertions": 13353,
+    "focusedFailures": 0,
+    "focusedSkips": 0,
+    "frozenInputs": 202,
+    "drift": 0,
+    "reuse": "57 unchanged suites from full run plus corrected full Owner147; no claim of a fresh58/58 run",
+    "readerCases": 31,
+    "readerAssertions": 4746,
+    "movementCases": 6,
+    "movementAssertions": 834
+  },
+  "nativeReference": "../actor-content-diagnostics/standalone-native-fire-gates.json",
+  "nativeFacts": {
+    "mode": "BotsTDM NM_Standalone",
+    "pawnPhysics": 1,
+    "dualRole": 3,
+    "managerRole": 3,
+    "bServerCanFire": true,
+    "bShutdown": false,
+    "bClientShutdown": false,
+    "allEightEquipmentRelationships": true
+  },
+  "limits": [
+    "First RPC under conditional original Controller294 schema only; opaque suffix retained",
+    "Jump bit0x20 is a request, not accepted physics or unique keypress",
+    "No damage, movement simulation, correction or fire acceptance introduced",
+    "Read-only probe verifies original hash and two equal snapshots; no runtime memory writes",
+    "Core runtime comparison still pending"
+  ],
+  "parentReview": [
+    "Actual movement codec and integration diffs reviewed",
+    "Reader changes sample-local caches, exact typed metadata, original child counts and unchanged1MiB budget",
+    "Malformed diagnostic decode changes counters only; no session/reply alteration"
+  ],
+  "sources": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "71b2a7750168a6c56c907dd315893b51b30df662fd0c8543dc8648011f6c67a7"
+    },
+    {
+      "path": "include/hawken/movement_rpc.hpp",
+      "sha256": "b2edd4cb7bb40b90cf1f8278d23b5e16efd74f0c686167badb9d1d50674ac484"
+    },
+    {
+      "path": "src/movement_rpc.cpp",
+      "sha256": "7675102a4b7a0f0f3169a09d3b5e203ca164a75fb1f427955fe0db8b2c642339"
+    },
+    {
+      "path": "tests/movement_rpc_tests.cpp",
+      "sha256": "fe5acc959ee14cc8a269694722fb9b664d98e354e54fe4130aa020fa771a65e0"
+    },
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "95aa4da4ca96a512b3c5b613ee2bdfc4f14b433cbdc24a14160a4ae8bc98b261"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "0e219e3f85000e10d0e4905c1aab2a4a49a3c486243e8713169cbb1d9d093ce3"
+    },
+    {
+      "path": "src/server_main.cpp",
+      "sha256": "3930a8ca7fcc2a314f35bb568e21ee67ffd3c10b0347ef4762840fca62794a8a"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "544dbb72305d9344e721534714a23c1e3d5a4d4ffe4851c55a20d228a1a72d16"
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "sha256": "e00d38d6293c03b48751ab5b51cc11b29a0054de951ff4e17f6cc5b9d371b725"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "d69bd196c9e87c17dc9d98af99353e90fadb65ae3de180a7b196cb64fff2641b"
+    },
+    {
+      "path": "tests/live_player_reader_tests.cpp",
+      "sha256": "cb6930df397341154d541d3a451e86eb604994f84eee1cacf0a36af69315b555"
+    }
+  ]
+}

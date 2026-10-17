@@ -684,6 +684,8 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
     Names names(reader,module,out);
     const auto kind=reader.read<std::uint64_t>(module,0x1bda990);
     if (!kind) fail("live_identity");
+    struct LiveValidatedPackage { std::uint64_t address; Name identity; };
+    std::vector<LiveValidatedPackage> live_validated_packages;
     const auto identify=[&](std::uint64_t object) {
         // Called only for class/property metadata, never live actor names.
         const auto name=names.get(object);
@@ -695,18 +697,23 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
             seen.push_back(outer);
             const auto parent=reader.read<std::uint64_t>(outer,0x40);
             if (!parent) {
+                const auto cached=std::find_if(live_validated_packages.begin(),live_validated_packages.end(),
+                    [&](const auto& item) { return item.address==outer; });
+                if (cached!=live_validated_packages.end())
+                    return hawken::probe::LiveIdentity{name.text,cached->identity.text,name.raw[1]};
                 const auto package=names.get(outer);
                 const auto package_type=reader.read<std::uint64_t>(outer,0x50);
                 if (!package_type || reader.read<std::uint64_t>(package_type,0x50)!=kind || package.raw[1]!=0)
                     fail("live_identity");
                 class_identity(reader,names,out,package_type,"Package","Core","live_identity");
+                live_validated_packages.push_back({outer,package});
                 return hawken::probe::LiveIdentity{name.text,package.text,name.raw[1]};
             }
             outer=parent;
         }
         fail("live_identity");
     };
-    const auto value=hawken::probe::read_live_player(reader,module,identify);
+    const auto value=hawken::probe::read_live_player(reader,module,identify,true);
     out.pointers.insert(out.pointers.end(),value.trace.begin(),value.trace.end());
     // Replace Names metadata: neither raw FNames nor metadata names escape this mode.
     out.metadata={{"local_player_present",value.local_player_present},
@@ -715,6 +722,31 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
         {"first_entry_only",true},{"world_membership_verified",false}};
     if (value.pawn_offset) out.metadata["pawn_offset"]=*value.pawn_offset;
     if (value.pri_offset) out.metadata["pri_offset"]=*value.pri_offset;
+    if (value.inventory) {
+        const auto& inventory_snapshot=*value.inventory;
+        out.metadata["inventory"]={
+            {"pawn_invmanager_present",inventory_snapshot.pawn_invmanager_present},
+            {"pawn_dual_weapon_present",inventory_snapshot.pawn_dual_weapon_present},
+            {"pawn_weapon_present",inventory_snapshot.pawn_weapon_present},
+            {"pawn_weapon_is_dual",inventory_snapshot.pawn_weapon_is_dual},
+            {"manager_instigator_is_pawn",inventory_snapshot.manager_instigator_is_pawn},
+            {"manager_chain_is_dual",inventory_snapshot.manager_chain_is_dual},
+            {"dual_instigator_is_pawn",inventory_snapshot.dual_instigator_is_pawn},
+            {"dual_invmanager_matches",inventory_snapshot.dual_invmanager_matches}};
+        if (inventory_snapshot.manager_role)
+            out.metadata["inventory"]["manager_role"]=*inventory_snapshot.manager_role;
+        if (inventory_snapshot.pawn_physics)
+            out.metadata["inventory"]["pawn_physics"]=*inventory_snapshot.pawn_physics;
+        if (inventory_snapshot.dual_role)
+            out.metadata["inventory"]["dual_role"]=*inventory_snapshot.dual_role;
+        const auto inventory_bool=[&](const char* label, const std::optional<hawken::probe::LiveBoolSnapshot>& field) {
+            if (field) out.metadata["inventory"][label]={{"value",field->value},
+                {"metadata_offset",field->metadata_offset},{"bit_mask",field->bit_mask}};
+        };
+        inventory_bool("dual_server_can_fire",inventory_snapshot.dual_server_can_fire);
+        inventory_bool("dual_shutdown",inventory_snapshot.dual_shutdown);
+        inventory_bool("dual_client_shutdown",inventory_snapshot.dual_client_shutdown);
+    }
     return out;
 }
 Sample main_menu_sync_sample(Reader& reader,std::uint64_t module) {
@@ -873,12 +905,20 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
     Reader reader(process.get());
     PlayerLocator locator;
     Sample first,second;
+    unsigned live_sample_phase=1;
     try {
         first=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
+        live_sample_phase=2;
         second=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
     } catch (const std::runtime_error& error) {
+        if (live_player && std::string_view(error.what())=="read_limit") {
+            std::cout<<Json({{"status","inconclusive"},{"error","read_limit"},{"identity_verified",false},
+                {"diagnostics",{{"sample_phase",live_sample_phase},{"read_bytes",reader.used()},
+                    {"read_budget_bytes",read_budget}}}}).dump()<<'\n';
+            return 1;
+        }
         if ((!player_links && !gri_template) || std::string_view(error.what())!="read_limit") throw;
         std::cout<<Json({{"status","inconclusive"},{"error","read_limit"},{"identity_verified",false},
             {"field_ids_accepted",false},{"diagnostics",{{"locator_name_count",locator.name_count},
