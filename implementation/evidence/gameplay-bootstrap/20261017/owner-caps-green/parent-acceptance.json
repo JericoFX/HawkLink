@@ -1,0 +1,76 @@
+{
+  "status": "ACCEPTED_COMPONENT_TESTS",
+  "build_exit": 0,
+  "ctest_exit": 0,
+  "suites": 57,
+  "doctest_summaries": 57,
+  "test_cases": 1550,
+  "assertions": 74768,
+  "failed_cases": 0,
+  "skipped_cases": 0,
+  "input_count": 199,
+  "input_mismatches": 0,
+  "peak_ram_percent": 48.65,
+  "runtime_acceptance": false,
+  "limits": "Menu reader original owner bounds and ClientGivenTo serializer only. No actor activation deployed; firing, jumping and sync exit remain open.",
+  "evidence": [
+    {
+      "path": "build.stdout.log",
+      "sha256": "2d5811e2b88299426bd6785f7c03b89b34aa67a30df4e6dbdaae48bb4c9598e4"
+    },
+    {
+      "path": "build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ctest.stdout.log",
+      "sha256": "9caed7fcc3546d095430836d97913eb8f95f62deef7c8caf872bdbab9071d782"
+    },
+    {
+      "path": "ctest.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ctest-results.xml",
+      "sha256": "02a1fe217fc7db16dda4c9bf06cb8ca8d4553e362cf83775e13f33f4bfdd9ee8"
+    },
+    {
+      "path": "input-freeze.json",
+      "sha256": "66453abb3521f64f1b78dddf377d6498479478c11a1b843b312d0a16c63a29df"
+    },
+    {
+      "path": "input-hashes-after.json",
+      "sha256": "90f0f38367f11e587c664a0282f6136a1fb315ce6c3fae2942e280734e4853dc"
+    }
+  ],
+  "json_canonicalization": [
+    {
+      "original": "implementation/evidence/gameplay-bootstrap/20261017/as-generated-metadata/owner-caps-green__input-freeze.json",
+      "original_sha256": "7c79e460a8464946bb661e6a6d9d70c2007c6f60bae1f796815c899a92c25755",
+      "canonical": "implementation/evidence/gameplay-bootstrap/20261017/owner-caps-green/input-freeze.json",
+      "canonical_sha256": "66453abb3521f64f1b78dddf377d6498479478c11a1b843b312d0a16c63a29df",
+      "semantic_equal": true
+    },
+    {
+      "original": "implementation/evidence/gameplay-bootstrap/20261017/as-generated-metadata/wire-reader-green-review-luna.json",
+      "original_sha256": "6ca85f1e80a7b4ea08847feb42a2a26af394f078ca287e7a3215f84c55eba2f5",
+      "canonical": "implementation/evidence/gameplay-bootstrap/20261017/wire-reader-green-review-luna.json",
+      "canonical_sha256": "446c04b06ae349a25f1b2e3c7e6221785c578392dc16b92cf24d88a3322e22c2",
+      "semantic_equal": true
+    },
+    {
+      "original": "implementation/evidence/gameplay-bootstrap/20261017/as-generated-metadata/owner-caps-green__original-contract-extract.json",
+      "original_sha256": "25a1f44d9176c3dcbc47be6b7d193578962cf5efcb40495cff6ab7ef908c3967",
+      "canonical": "implementation/evidence/gameplay-bootstrap/20261017/owner-caps-green/original-contract-extract.json",
+      "canonical_sha256": "7dce3e7d1279430b69a1d999d998afa5307084eec3ec7d60c32e45e7bde26fe4",
+      "semantic_equal": true
+    },
+    {
+      "original": "implementation/evidence/gameplay-bootstrap/20261017/as-generated-metadata/owner-caps-red__parent-red-review.json",
+      "original_sha256": "5fcb8af969490dfc3ec870225aa4b1bd9ff7f08afacc3fad331099c69761742c",
+      "canonical": "implementation/evidence/gameplay-bootstrap/20261017/owner-caps-red/parent-red-review.json",
+      "canonical_sha256": "3a9bf1cf8a10780238bcf8e2d4913c32f416a955202124469319e4c268b9cdfc",
+      "semantic_equal": true
+    }
+  ]
+}

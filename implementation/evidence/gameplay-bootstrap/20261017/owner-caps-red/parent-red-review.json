@@ -1,0 +1,14 @@
+{
+  "status": "EXPECTED_SEMANTIC_RED",
+  "build_exit": 0,
+  "ctest_exit": 8,
+  "menu_cases": 11,
+  "menu_passed": 8,
+  "menu_failed": 3,
+  "inventory_rpc_cases": 10,
+  "inventory_rpc_failed": 10,
+  "input_count": 199,
+  "input_mismatches": 0,
+  "peak_ram_percent": 47.26,
+  "meaning": "Existing menu tests remain green; new owner-count/cap/cycle cases and unimplemented ClientGivenTo cases fail. No runtime/gameplay acceptance."
+}

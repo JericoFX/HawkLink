@@ -6,6 +6,7 @@
 #include "mech_setup_reader.hpp"
 #include "controller_sample_comparison.hpp"
 #include "live_player_reader.hpp"
+#include "main_menu_sync_reader.hpp"
 #include "gri_template_reader.hpp"
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -716,6 +717,63 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
     if (value.pri_offset) out.metadata["pri_offset"]=*value.pri_offset;
     return out;
 }
+Sample main_menu_sync_sample(Reader& reader,std::uint64_t module) {
+    Sample out;
+    struct TraceScope {
+        Reader& reader;
+        std::vector<std::uint64_t>* previous;
+        ~TraceScope() { reader.trace_to(previous); }
+    } trace_scope{reader,reader.trace_to(&out.pointers)};
+    Names names(reader,module,out);
+    const auto kind=reader.read<std::uint64_t>(module,0x1bda990);
+    if (!kind) fail("menu_identity");
+    const auto identify=[&](std::uint64_t object) {
+        // Metadata identities only; never inspect live movie or account names.
+        const auto name=names.get(object);
+        std::vector<std::uint64_t> seen;
+        auto outer=reader.read<std::uint64_t>(object,0x40);
+        while (outer) {
+            if (std::find(seen.begin(),seen.end(),outer)!=seen.end()) fail("menu_cycle");
+            if (seen.size()==4) fail("menu_limit");
+            seen.push_back(outer);
+            const auto parent=reader.read<std::uint64_t>(outer,0x40);
+            if (!parent) {
+                const auto package=names.get(outer);
+                const auto package_type=reader.read<std::uint64_t>(outer,0x50);
+                if (!package_type || reader.read<std::uint64_t>(package_type,0x50)!=kind || package.raw[1]!=0)
+                    fail("menu_identity");
+                class_identity(reader,names,out,package_type,"Package","Core","menu_identity");
+                return hawken::probe::LiveIdentity{name.text,package.text,name.raw[1]};
+            }
+            outer=parent;
+        }
+        fail("menu_identity");
+    };
+    const auto value=hawken::probe::read_main_menu_sync(reader,module,identify);
+    out.pointers.insert(out.pointers.end(),value.trace.begin(),value.trace.end());
+    using State=hawken::probe::MainMenuSyncState;
+    const char* state="no_local_player";
+    switch (value.state) {
+    case State::no_local_player: break;
+    case State::no_controller: state="no_controller"; break;
+    case State::no_menu: state="no_menu"; break;
+    case State::closed_menu: state="closed_menu"; break;
+    case State::owner_mismatch: state="owner_mismatch"; break;
+    case State::observed: state="observed"; break;
+    }
+    // Only fixed names and booleans escape. A closed movie is not active UI;
+    // all flags true does not establish callback delivery or UI completion.
+    out.metadata={{"menu_state",state},{"first_entry_only",true},{"ui_completion_verified",false}};
+    if (value.state==State::observed || value.state==State::closed_menu) {
+        out.metadata["movie_open"]=value.movie_open;
+        out.metadata["all_synced"]=value.all_synced;
+        auto flags=Json::object();
+        for (std::size_t i=0;i<value.flags.size();++i)
+            flags[std::string(hawken::probe::main_menu_sync_flag_names[i])]=value.flags[i];
+        out.metadata["flags"]=std::move(flags);
+    }
+    return out;
+}
 Sample gri_template_sample(Reader& reader,std::uint64_t module,PlayerLocator& locator) {
     Sample out;
     struct TraceScope {
@@ -792,7 +850,7 @@ Sample gri_template_sample(Reader& reader,std::uint64_t module,PlayerLocator& lo
         {"unique_id_type","Engine.OnlineSubsystem.UniqueNetId"},{"unique_id_offset",result.unique_id_offset}};
     return out;
 }
-int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player,bool gri_template) {
+int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player,bool gri_template,bool menu_sync) {
     const Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if (!process) fail("process_unavailable");
     if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -807,9 +865,9 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
     PlayerLocator locator;
     Sample first,second;
     try {
-        first=gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+        first=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
-        second=gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+        second=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
     } catch (const std::runtime_error& error) {
         if ((!player_links && !gri_template) || std::string_view(error.what())!="read_limit") throw;
@@ -822,6 +880,16 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
     }
     const auto comparison=hawken::probe::compare_controller_samples(
         first.metadata,first.pointers,second.metadata,second.pointers,mech_setup);
+    if (menu_sync) {
+        if (!comparison.full_samples_equal) fail("unstable_sample");
+        if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
+            fail("original_identity_mismatch");
+        const bool observed=second.metadata["menu_state"]=="observed";
+        std::cout<<Json({{"status",observed ? "observed" : "inconclusive"},
+            {"identity_verified",true},{"samples_equal",true},{"atomic_snapshot",false},
+            {"metadata",second.metadata}}).dump()<<'\n';
+        return observed ? 0 : 1;
+    }
     if (live_player) {
         if (!comparison.full_samples_equal) fail("unstable_sample");
         if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -874,8 +942,8 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--gri-template]\n"
-            "Read-only bounded original-controller NetFields metadata; no process creation.\n";
+        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--gri-template|--menu-sync]\n"
+            "Read-only bounded original NetFields metadata or menu sync flags; no process creation.\n";
         return 0;
     }
     DWORD pid=0;
@@ -884,20 +952,21 @@ int main(int argc,char** argv) {
     const bool player_links=argc==3 && std::string_view(argv[2])=="--player-links";
     const bool live_player=argc==3 && std::string_view(argv[2])=="--live-player";
     const bool gri_template=argc==3 && std::string_view(argv[2])=="--gri-template";
-    if ((argc!=2 && !connection_cache && !mech_setup && !player_links && !live_player && !gri_template) || !parse_pid(argv[1],pid)) {
+    const bool menu_sync=argc==3 && std::string_view(argv[2])=="--menu-sync";
+    if ((argc!=2 && !connection_cache && !mech_setup && !player_links && !live_player && !gri_template && !menu_sync) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid,connection_cache,mech_setup,player_links,live_player,gri_template); }
+    try { return observe(pid,connection_cache,mech_setup,player_links,live_player,gri_template,menu_sync); }
     catch (const NameInstanceError& error) {
         Json report={{"status","inconclusive"},{"error","nonoriginal_name_instance"},{"identity_verified",false}};
-        if (!live_player && !gri_template) report["rejected_fname_raw"]=error.raw();
+        if (!live_player && !gri_template && !menu_sync) report["rejected_fname_raw"]=error.raw();
         std::cout<<report.dump()<<'\n';
         return 1;
     }
     catch (const std::runtime_error& error) {
         // Only locally fixed codes are allowed to escape: file hashing may throw its own errors.
-        constexpr std::array<std::string_view,69> codes={"invalid_address","read_limit","read_unavailable",
+        constexpr std::array<std::string_view,78> codes={"invalid_address","read_limit","read_unavailable",
             "names_unavailable","invalid_name_index","invalid_name","nonoriginal_name_instance",
             "cdo_unavailable_or_mismatch","class_chain_mismatch","class_cycle","field_array_limit",
             "field_identity_mismatch","field_cycle","field_type_mismatch","process_unavailable","unstable_sample",
@@ -914,7 +983,9 @@ int main(int argc,char** argv) {
             "player_name_invalid","player_name_limit","player_name_cycle",
             "live_invalid","live_engine_absent","live_array_invalid","live_limit","live_identity",
             "live_cycle","live_property_missing","live_property_mismatch","live_backlink_mismatch",
-            "gri_identity","gri_property_mismatch","gri_property_missing","gri_cycle","gri_limit","gri_invalid"};
+            "gri_identity","gri_property_mismatch","gri_property_missing","gri_cycle","gri_limit","gri_invalid",
+            "menu_invalid","menu_engine_absent","menu_array_invalid","menu_limit","menu_identity",
+            "menu_cycle","menu_property_missing","menu_property_mismatch","menu_backlink_mismatch"};
         std::string_view code="observation_unavailable";
         for (const auto allowed:codes) if (allowed==error.what()) code=allowed;
         if (std::string_view(error.what())=="original_identity_mismatch" ||

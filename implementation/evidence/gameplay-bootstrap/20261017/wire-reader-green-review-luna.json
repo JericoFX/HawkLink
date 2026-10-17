@@ -1,0 +1,44 @@
+{
+  "review": "read_only_focused_green_review",
+  "date": "2026-10-17",
+  "source_pins": [
+    {"path":"tools/main_menu_sync_reader.hpp","sha256":"85eef1273650b5854510459b298307f6d80c805a36e066f98c939ee4f3bd6131"},
+    {"path":"tests/main_menu_sync_reader_tests.cpp","sha256":"c1648198710f0c6b6a76e3b8897bed52b997f4dbb39542fa229f2e282b3eb58c"},
+    {"path":"src/inventory_rpc_wire.cpp","sha256":"f4b87027187a2397709bf5409f0f98d7f2900ee0f13ca1f18c03629a2b17bdbd"},
+    {"path":"include/hawken/inventory_rpc_wire.hpp","sha256":"dbf00af8db6c48ae6be86f2e8e09085f60066c486a3023027ca3c7bf757611c7"},
+    {"path":"tests/inventory_rpc_wire_tests.cpp","sha256":"2c7911dfbe16ed7be0123a1c7dd0f619824976dcc93068e77252c6ab0f985864"},
+    {"path":"src/object_reference_wire.cpp","sha256":"4e6853ec8179cfecce0d0f50f653005adefafe475248d1eb67a8996e81613a07"}
+  ],
+  "main_menu_sync": {
+    "result": "No concrete guard, traversal, cycle, cap, null-root, or Bool-presence defect found in reviewed source/tests.",
+    "checks": [
+      "Class chain detects duplicates before enforcing max depth 16; root and class identities are checked before relevant reads.",
+      "LocalPlayer count/capacity are nonnegative, capacity>=count, both <=4; null backing array with positive count fails closed; empty count returns no-local-player.",
+      "Owner Children lists use allowlisted per-owner bounds 10/575/148/147/712/1403 and aggregate 2995; duplicate/cycle detection and bounds are checked while walking, cache avoids repeated owner walks.",
+      "Property selection rejects duplicate names and verifies exact owner, property type identity, ArrayDim, element size, offsets <=65536, expected ObjectProperty class and BoolProperty one-hot masks.",
+      "Tests cover retained six owner counts and total, each exact cap+1, long-chain cycle, and property/flag fixture checks. Source review only; tests were not run."
+    ],
+    "limits": [
+      "Original count proof was retained metadata; this pass did not re-decompress or re-hash UPKs.",
+      "These are shipped-original bounds, not generic UE3 allocation limits or live runtime evidence."
+    ],
+    "cast_flag_evidence_pin_discrepancy": {
+      "review_recorded_file_sha256": "58b6a0d4d983f68f9e6a831d300284cbeb4b5dd1b1b3795dc52a9069c409d3bb",
+      "actual_file_sha256": "53b4b9ea9bd954fdf08295659beeb90f1884fb4531cd163b27f2822b4b433318",
+      "content_fields_match_record": ["status CONFIRMED","original SHA-256 4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2","RVA 0xf8a18","raw offset 0xf7e18","bytes f7802801000000000200","interpretation TEST DWORD[class+0x128],0x20000","writeAccess false"],
+      "conclusion": "Recorded evidence-file digest is stale relative to current JSON bytes. Current JSON content fields agree with the review record. This pass did not reread/hash the original executable or independently revalidate instruction bytes. This is a pin discrepancy, not evidence the CastFlags claim is false."
+    }
+  },
+  "inventory_rpc_wire": {
+    "result": "No concrete bit-layout, bounded-width, null-channel, bool-presence, budget, or value-range defect found in reviewed source/tests.",
+    "checks": [
+      "Bounded field ID uses caller-provided exclusive bound; zero bound/budget and field_id>=bound fail.",
+      "Argument budget is 2 bits for null channel (presence + BoolNET data) and 14 bits for channel (presence + 12-bit ActorChannelReference + BoolNET data); short-circuit ordering prevents subtraction underflow.",
+      "Null owner omits the reference only; BoolNET data bit remains present. Non-null channels are limited to 2047.",
+      "Literal tests cover true/false exact bytes, null and non-null paths, max and invalid channels, cursor/suffix preservation, bound 1, non-power-of-two widths, insufficient budgets, and uint32 upper bound."
+    ],
+    "limit": "Encoder does not prove caller eligibility, authorization, actor-cache identity, Pawn class, RPC activation, or runtime delivery; these remain caller/integration responsibilities."
+  },
+  "graft": "Graft --no-refresh queries were used before bounded source reads.",
+  "validation": "No build, test, runtime, source/configuration, Git, or Ghidra operation performed."
+}
