@@ -1,0 +1,59 @@
+{
+  "status": "DIAGNOSTICS_DEPLOYED_NATIVE_GAMEPLAY_PENDING",
+  "source_commit": "8dd0f97a6d5a2985c07051475d6bf9b8b7d86371",
+  "candidate_sha256": "c15fdab700880e1b0c53d4be2186bb029a71f8f1d951d416f26e187be62a5022",
+  "link": {
+    "execution_count": 1,
+    "link_exit": 0,
+    "help_exit": 0,
+    "source_line_sha256": "00e8c338dc3a53fdbc04d5fe17b29aeee62ffdb8ca400ee1d919423a9a8f0c1f",
+    "output_substitutions": 4,
+    "inverse_verified": true,
+    "source_inputs": 199,
+    "source_drift": 0,
+    "link_inputs_before": 57,
+    "link_inputs_after": 57,
+    "link_drift_before": 0,
+    "link_drift_after": 0,
+    "max_ram_percent": 58.09,
+    "prior_full57_reused": true,
+    "full_suite_rerun": false,
+    "parent_command_audit_sha256": "99a20136a85a293c4115a9e8dfd828b8342abfab6719a0db49dd5956bd81e017"
+  },
+  "deployment": {
+    "normal_old_stop": true,
+    "old_helper_pid": 43700,
+    "old_core_pid": 35716,
+    "old_nexus_pid": 51416,
+    "old_cleanup_complete": true,
+    "originals_unchanged_at_old_cleanup": true,
+    "session": "local-steam-routing-20261017-182356",
+    "guard_pid": 45472,
+    "guard_creation_utc": "2026-10-17T18:23:56.187555Z",
+    "core_pid": 25884,
+    "core_creation_utc": "2026-10-17T18:23:59.522113Z",
+    "nexus_pid": 26544,
+    "nexus_creation_utc": "2026-10-17T18:23:58.593509Z",
+    "helper_exec_session": 61854,
+    "canonical_hash_matches": true,
+    "http_get_listings": 200,
+    "listeners_loopback": [
+      "80/TCP",
+      "15520/TCP",
+      "7777/UDP",
+      "18080/TCP"
+    ],
+    "database_path_reused": "implementation/local-runtime/accounts.sqlite",
+    "database_reset": false,
+    "steam_original_auth_retained": true,
+    "client_launched": false,
+    "gui_used": false,
+    "postflight_ram_percent": 59.18,
+    "postflight_free_gib": 13.03
+  },
+  "remaining": [
+    "Observe real inventory delivery/equip state in the client",
+    "Fix firing, jumping and post-exit sync before SQL/Creator/panel expansion",
+    "Native game acceptance and full persistent goal remain open"
+  ]
+}
