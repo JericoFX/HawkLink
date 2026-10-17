@@ -373,10 +373,41 @@ public:
             << " inventory_given_to_sent=" << observation.inventory_given_to_sent
             << " inventory_current_weapon_received=" << observation.inventory_current_weapon_received
             << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
+        constexpr std::array roles{"controller","pawn","pri","gri","manager",
+            "dual_weapon","primary_weapon","secondary_weapon"};
+        static_assert(roles.size()==static_cast<std::size_t>(hawken::udp::ActorDiagnosticSlot::count));
+        for (std::size_t i=0;i<roles.size();++i) {
+            const auto& actor=observation.actor_bunches[i];
+            if (actor==previous_actor_bunches_[i]) continue;
+            auto line=std::osyncstream(*stream_);
+            line << "udp_actor role=" << roles[i]
+                << " delivered=" << actor.delivered_bunches
+                << " zero_payload=" << actor.zero_payload_bunches
+                << " header_truncated=" << actor.header_truncated_bunches
+                << " field_uninterpreted=" << actor.field_uninterpreted_bunches
+                << " field_out_of_range=" << actor.field_out_of_range_bunches
+                << " payload_bits=" << actor.last_payload_bits
+                << " reliable=" << actor.last_reliable
+                << " open=" << actor.last_open << " close=" << actor.last_close
+                << " first_field_id=";
+            if (actor.first_field_id) line << *actor.first_field_id;
+            else line << "unavailable";
+            line << '\n' << std::flush;
+            line.emit();
+            for (std::size_t field=0;field<actor.first_field_counts.size();++field) {
+                const auto count=actor.first_field_counts[field];
+                if (count!=previous_actor_bunches_[i].first_field_counts[field])
+                    std::osyncstream(*stream_) << "udp_actor_field role=" << roles[i]
+                        << " first_field_id=" << field << " count=" << count << '\n' << std::flush;
+            }
+            previous_actor_bunches_[i]=actor;
+        }
     }
 private:
     std::ofstream file_;
     std::ostream* stream_ = nullptr;
+    std::array<hawken::udp::ActorBunchDiagnostics,
+        static_cast<std::size_t>(hawken::udp::ActorDiagnosticSlot::count)> previous_actor_bunches_{};
 };
 
 bool mute_native_output() {

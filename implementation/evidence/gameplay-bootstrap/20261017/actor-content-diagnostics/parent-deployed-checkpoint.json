@@ -1,0 +1,111 @@
+{
+  "schema": "hawken.actor-content-parent-checkpoint.v1",
+  "utc": "2026-10-17T19:38:28.7165798Z",
+  "scope": "Authenticated delivered actor-bunch first-field metadata only; conditional field cache",
+  "source": [
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "e28996efabfb38a00b2bf87f74a8e29580dacecbf551285c360020e16d27f5b7"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "d8edb6c4bbcfe4b28cb5c6b42ce0e010f3845c29b3e98286ab2ed84acd323025"
+    },
+    {
+      "path": "src/server_main.cpp",
+      "sha256": "7c88724686a148924ab019d120901687313e5bfaddf4f61d28444e590947addc"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "127fef06c648930f6de2dea703235d149cd41927c3f7d21bf524ea7146130704"
+    }
+  ],
+  "deployedCoreSha256": "e6491e7ca5c563ef6645310484d396fbfedf290e05b14bf3ea73dc2a087b74e8",
+  "validation": {
+    "red": "build0, four new behavioral tests fail with missing observations",
+    "greenFull": "56 of57 suites pass;1588cases1587pass1fail;78269assertions1fail; existing asynchronous publication fixture race",
+    "focalAfterFixtureWait": "build0;5selectedcases5pass;896assertions;141filteredskips; existing wait_until used for async publication",
+    "reuse": "56 unaffected suites and145 other Owner cases, unchanged inputs; no fresh claim57/57",
+    "sourcePins": "matched parent review and deployed e649 input",
+    "isolatedLink": "exit0, help0, frozen link57inputs; Main6042530342c244dfeb4d062d0f503d950ed8db1df6f44b5c15ef830f5bfc4544"
+  },
+  "priorSession": "local-steam-routing-20261017-191932",
+  "firstFieldHistogram": [
+    {
+      "role": "controller",
+      "field": 35,
+      "count": 1
+    },
+    {
+      "role": "controller",
+      "field": 41,
+      "count": 2
+    },
+    {
+      "role": "controller",
+      "field": 59,
+      "count": 120
+    },
+    {
+      "role": "controller",
+      "field": 60,
+      "count": 3990
+    },
+    {
+      "role": "controller",
+      "field": 61,
+      "count": 4025
+    },
+    {
+      "role": "controller",
+      "field": 102,
+      "count": 4
+    },
+    {
+      "role": "controller",
+      "field": 159,
+      "count": 1
+    },
+    {
+      "role": "controller",
+      "field": 253,
+      "count": 1
+    },
+    {
+      "role": "controller",
+      "field": 280,
+      "count": 1
+    },
+    {
+      "role": "controller",
+      "field": 281,
+      "count": 2
+    },
+    {
+      "role": "pri",
+      "field": 22,
+      "count": 1
+    },
+    {
+      "role": "pri",
+      "field": 78,
+      "count": 2
+    }
+  ],
+  "mappingStatus": "PROBABLE/conditional: 59DualServerMove,60OldServerMove,61ServerMove; suffix and arguments not parsed by this deployment",
+  "nativeGameplay": {
+    "localCoreFire": "FAILED per user",
+    "localCoreJump": "FAILED per user",
+    "botsTdmStandaloneFire": "WORKS per user",
+    "botsTdmStandaloneJump": "WORKS per user",
+    "botsPrimaryDamage": "FAILED per user; missiles damage",
+    "liveReader": "read_limit, no accepted native inventory snapshot yet"
+  },
+  "privacy": "No keys, tickets, account IDs, packet plaintext or raw client logs in receipt",
+  "limits": [
+    "Transport delivery does not establish native dispatch or weapon activation.",
+    "Histogram samples only first field per bunch.",
+    "No claim that movement decoder or gameplay is implemented.",
+    "Offline capture not decrypted."
+  ]
+}

@@ -218,6 +218,59 @@ struct Entry {
         erase(id);
     }
 };
+struct AtomicActorBunchDiagnostics {
+    std::atomic<std::uint64_t> delivered{0},zero_payload{0},header_truncated{0},field_uninterpreted{0};
+    std::atomic<std::size_t> payload_bits{0};
+    std::atomic<bool> reliable{false},open{false},close{false};
+    static constexpr auto no_field=std::numeric_limits<std::uint64_t>::max();
+    std::atomic<std::uint64_t> first_field{no_field};
+    std::array<std::atomic<std::uint64_t>,actor_field_histogram_capacity> first_fields{};
+    std::atomic<std::uint64_t> field_out_of_range{0};
+
+    static void increment(std::atomic<std::uint64_t>& counter) noexcept {
+        // The single UDP worker writes; diagnostics readers only load.
+        const auto value=counter.load(std::memory_order_relaxed);
+        if (value!=std::numeric_limits<std::uint64_t>::max())
+            counter.store(value+1,std::memory_order_relaxed);
+    }
+    void observe(const wire::Bunch& bunch,std::optional<std::uint32_t> bound) noexcept {
+        payload_bits.store(bunch.payload_bits,std::memory_order_relaxed);
+        reliable.store(bunch.reliable,std::memory_order_relaxed);
+        open.store(bunch.open,std::memory_order_relaxed);
+        close.store(bunch.close,std::memory_order_relaxed);
+        first_field.store(no_field,std::memory_order_relaxed);
+        if (bunch.payload_bits==0) increment(zero_payload);
+        else if (!bound || bunch.open) increment(field_uninterpreted); // Opening has an actor prefix, not a field tag.
+        else {
+            try {
+                wire::BitReader reader(bunch.payload,bunch.payload_bits);
+                const auto field=reader.read_bounded(*bound);
+                first_field.store(field,std::memory_order_relaxed);
+                if (field<first_fields.size()) increment(first_fields[field]);
+                else increment(field_out_of_range);
+            } catch (const wire::WireError&) { increment(header_truncated); }
+            catch (...) { increment(field_uninterpreted); } // Diagnostics must never change dispatch on failure.
+        }
+        increment(delivered);
+    }
+    ActorBunchDiagnostics snapshot() const noexcept {
+        ActorBunchDiagnostics result;
+        result.delivered_bunches=delivered.load(std::memory_order_relaxed);
+        result.zero_payload_bunches=zero_payload.load(std::memory_order_relaxed);
+        result.header_truncated_bunches=header_truncated.load(std::memory_order_relaxed);
+        result.field_uninterpreted_bunches=field_uninterpreted.load(std::memory_order_relaxed);
+        result.last_payload_bits=payload_bits.load(std::memory_order_relaxed);
+        result.last_reliable=reliable.load(std::memory_order_relaxed);
+        result.last_open=open.load(std::memory_order_relaxed);
+        result.last_close=close.load(std::memory_order_relaxed);
+        const auto field=first_field.load(std::memory_order_relaxed);
+        if (field!=no_field) result.first_field_id=static_cast<std::uint32_t>(field);
+        for (std::size_t i=0;i<result.first_field_counts.size();++i)
+            result.first_field_counts[i]=first_fields[i].load(std::memory_order_relaxed);
+        result.field_out_of_range_bunches=field_out_of_range.load(std::memory_order_relaxed);
+        return result;
+    }
+};
 struct Registry {
     std::mutex mutex;
     std::condition_variable finished;
@@ -237,6 +290,7 @@ struct Registry {
     std::atomic<bool> inventory_profile_accepted{false},inventory_openings_sent{false},inventory_openings_acked{false};
     std::atomic<bool> inventory_links_sent{false},inventory_links_acked{false},inventory_given_to_sent{false};
     std::atomic<bool> inventory_current_weapon_received{false};
+    std::array<AtomicActorBunchDiagnostics,static_cast<std::size_t>(ActorDiagnosticSlot::count)> actor_bunches{};
 
     void retire(const std::shared_ptr<Entry>& target) noexcept {
         if (!target) return;
@@ -634,6 +688,37 @@ struct LocalUdpOwner::Impl {
             try {terminal=!send_inventory(use->entry(),*now);} catch (...) {terminal=true;}
         }
         if (terminal) registry->retire(target); // Never retire while holding Use.
+    }
+    void observe_actor_bunches(const std::vector<wire::Bunch>& bunches) noexcept {
+        std::optional<std::uint32_t> controller_bound,pri_bound,pawn_bound;
+        if (links_plan) {
+            controller_bound=links_plan->controller_exclusive_bound;
+            pawn_bound=links_plan->pawn_exclusive_bound;
+        } else if (inventory_plan) pawn_bound=inventory_plan->pawn_exclusive_bound;
+        if (!controller_bound && start_mech_plan) controller_bound=start_mech_plan->controller_exclusive_bound;
+        if (!controller_bound && validation_plan) controller_bound=validation_plan->controller_exclusive_bound;
+        if (!controller_bound && admission_plan) controller_bound=admission_plan->controller_exclusive_bound;
+        if (!controller_bound && bootstrap_plan) controller_bound=bootstrap_plan->controller_exclusive_bound;
+        if (!controller_bound && ready_plan) controller_bound=ready_plan->controller_exclusive_bound;
+        if (pri_identity_plan) pri_bound=pri_identity_plan->exclusive_bound;
+        else if (start_mech_plan) pri_bound=start_mech_plan->pri_exclusive_bound;
+        else if (ready_plan) pri_bound=ready_plan->pri_exclusive_bound;
+        const auto observe=[&](ActorDiagnosticSlot role,std::uint16_t channel,std::optional<std::uint32_t> bound) {
+            auto& metadata=registry->actor_bunches[static_cast<std::size_t>(role)];
+            for (const auto& bunch:bunches)
+                if (bunch.channel==channel) metadata.observe(bunch,bound);
+        };
+        if (controller_plan) observe(ActorDiagnosticSlot::controller,controller_plan->channel.channel,controller_bound);
+        if (pawn_plan) observe(ActorDiagnosticSlot::pawn,pawn_plan->channel.channel,pawn_bound);
+        if (pri_plan) observe(ActorDiagnosticSlot::pri,pri_plan->channel.channel,pri_bound);
+        if (bootstrap_plan) observe(ActorDiagnosticSlot::gri,bootstrap_plan->gri.channel.channel,bootstrap_plan->gri_exclusive_bound);
+        if (inventory_plan) {
+            const auto& plan=*inventory_plan;
+            observe(ActorDiagnosticSlot::manager,plan.manager.channel.channel,plan.manager_exclusive_bound);
+            observe(ActorDiagnosticSlot::dual_weapon,plan.dual_weapon.channel.channel,plan.dual_exclusive_bound);
+            observe(ActorDiagnosticSlot::primary_weapon,plan.primary_weapon.channel.channel,plan.primary_exclusive_bound);
+            observe(ActorDiagnosticSlot::secondary_weapon,plan.secondary_weapon.channel.channel,plan.secondary_exclusive_bound);
+        }
     }
     bool collect_inventory_manager(Entry& entry,const std::vector<wire::Bunch>& bunches) {
         if (!inventory_plan) return true;
@@ -1164,6 +1249,7 @@ struct LocalUdpOwner::Impl {
                               entry.peer->sin_port!=peer.sin_port)) { erase(id); return; }
             try {
                 auto step=entry.connection->receive(bytes,now);
+                observe_actor_bunches(step.actor_bunches);
                 const auto count=registry->authenticated.load();
                 if (count!=std::numeric_limits<std::uint64_t>::max()) registry->authenticated=count+1;
                 if (step.hello) registry->hello=true;
@@ -1824,7 +1910,7 @@ LocalUdpOwner::~LocalUdpOwner() = default;
 std::uint16_t LocalUdpOwner::port() const noexcept { return impl_->socket.port; }
 bool LocalUdpOwner::running() const noexcept { return impl_->running.load(); }
 LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
-    return {impl_->registry->authenticated.load(),impl_->registry->hello.load(),impl_->registry->closed.load(),
+    LocalUdpDiagnostics result{impl_->registry->authenticated.load(),impl_->registry->hello.load(),impl_->registry->closed.load(),
         impl_->registry->login_received.load(),impl_->registry->login_validated.load(),
         impl_->registry->world_published.load(),impl_->registry->join_requested.load(),
         impl_->registry->controller_sent.load(),impl_->registry->pawn_sent.load(),impl_->registry->pri_sent.load(),
@@ -1842,6 +1928,9 @@ LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
         impl_->registry->inventory_openings_sent.load(),impl_->registry->inventory_openings_acked.load(),
         impl_->registry->inventory_links_sent.load(),impl_->registry->inventory_links_acked.load(),
         impl_->registry->inventory_given_to_sent.load(),impl_->registry->inventory_current_weapon_received.load()};
+    for (std::size_t i=0;i<result.actor_bunches.size();++i)
+        result.actor_bunches[i]=impl_->registry->actor_bunches[i].snapshot();
+    return result;
 }
 bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {
     return impl_->bound(destination);

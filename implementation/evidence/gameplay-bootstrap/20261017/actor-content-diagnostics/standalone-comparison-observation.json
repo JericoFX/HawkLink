@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-17T19:36:05.0502604Z",
+  "clientPid": 17832,
+  "logFile": "Launch.log",
+  "logBytes": 2560000,
+  "logSha256": "6409b81fdcddab70f42ccafbc0d706f706beae53b1d9f016d017321e5163e4ee",
+  "userConfirmedFireWorks": true,
+  "userConfirmedJumpWorks": true,
+  "userConfirmedOnlyMissileDamage": true,
+  "phase": "BotsTDM standalone",
+  "logEvidence": [
+    "[30589: 286.054] ScriptLog: R_PRI_BotsTDM_4 PlayerName:'<bot>' SetCurrentMech Mech_InstanceId:'' WorldInfo.NetMode:'NM_Standalone'",
+    "[30589: 286.054] DevSpawn: (R_PawnContent_17) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'1' SecondaryIdx:'101'",
+    "[31571: 294.106] ScriptLog: R_PRI_BotsTDM_8 PlayerName:'<bot>' SetCurrentMech Mech_InstanceId:'' WorldInfo.NetMode:'NM_Standalone'",
+    "[31571: 294.108] DevSpawn: (R_PawnContent_18) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'1' SecondaryIdx:'101'",
+    "[31571: 294.108] DevSpawn: (R_PawnContent_18) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'1' SecondaryIdx:'101'",
+    "[31571: 294.110] ScriptLog: R_PRI_BotsTDM_8 PlayerName:'<bot>' SetCurrentMech Mech_InstanceId:'' WorldInfo.NetMode:'NM_Standalone'",
+    "[31571: 294.111] DevSpawn: (R_PawnContent_18) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'1' SecondaryIdx:'101'",
+    "[34276: 316.305] ScriptLog: R_PRI_BotsTDM_6 PlayerName:'<bot>' SetCurrentMech Mech_InstanceId:'' WorldInfo.NetMode:'NM_Standalone'",
+    "[34276: 316.306] DevSpawn: (R_PawnContent_19) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'6' SecondaryIdx:'101'",
+    "[34276: 316.307] DevSpawn: (R_PawnContent_19) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'6' SecondaryIdx:'101'",
+    "[34276: 316.313] ScriptLog: R_PRI_BotsTDM_6 PlayerName:'<bot>' SetCurrentMech Mech_InstanceId:'' WorldInfo.NetMode:'NM_Standalone'",
+    "[34276: 316.314] DevSpawn: (R_PawnContent_19) R_Pawn::R_PawnContent:SetWeapons PrimaryIdx:'6' SecondaryIdx:'101'"
+  ],
+  "packetScope": "IPv4 loopback UDP only; excludes external Steam and HTTP auth",
+  "claims": "No full RPC fire decode; no proven damage cause"
+}

@@ -2237,7 +2237,7 @@ TEST_CASE("UDP spawn validation does not invent an accepted preset for a request
     peer.send(f.owner.port(),spawn_validation_packet(client,6,1));
     // GeneralFailure0: the required server-owned MechSetup-equivalent selection is absent.
     validation_literal(links_output(peer,client,2000ms,1),0x07,4); CHECK(checked==0);
-    CHECK(f.owner.diagnostics().spawn_validation_requested); CHECK(f.owner.diagnostics().spawn_validation_failed);
+    CHECK(f.owner.diagnostics().spawn_validation_requested); CHECK(wait_until([&]{return f.owner.diagnostics().spawn_validation_failed;}));
     CHECK_FALSE(f.owner.diagnostics().spawn_validation_sent);
 }
 TEST_CASE("UDP spawn validation pending failed and invalid reasons never produce a success callback") {
@@ -4150,5 +4150,162 @@ TEST_CASE("UDP inventory diagnostics distinguish unsupported Manager selections 
     peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence,"f70500",18)); // Reliable duplicate.
     CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
     CHECK(f.owner.diagnostics().inventory_current_weapon_received);
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+
+TEST_CASE("UDP actor content metadata counts delivered Manager headers without changing RPC or reliability") {
+    InventoryFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_activate(f,peer,client,flow);
+    constexpr auto manager=static_cast<std::size_t>(udp::ActorDiagnosticSlot::manager);
+    CHECK(f.owner.diagnostics().actor_bunches[manager].delivered_bunches==0);
+    auto bad_mac=inventory_manager_request(client,flow,1,"f70500",18);bad_mac.back()^=1;
+    peer.send(f.owner.port(),bad_mac);
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    CHECK(f.owner.diagnostics().actor_bunches[manager].delivered_bunches==0);
+    CHECK_FALSE(f.owner.diagnostics().inventory_current_weapon_received);
+
+    // Unknown tag0/b24, then an opaque suffix containing tag23 with no arguments.
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,1,"e002",10));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    const auto unknown=f.owner.diagnostics();
+    CHECK(unknown.actor_bunches[manager].delivered_bunches==1);
+    CHECK(unknown.actor_bunches[manager].first_field_id==std::optional<std::uint32_t>{0});
+    CHECK(unknown.actor_bunches[manager].last_payload_bits==10);
+    CHECK(unknown.actor_bunches[manager].first_field_counts[0]==1);
+    CHECK(unknown.actor_bunches[manager].first_field_counts[23]==0);
+    CHECK(unknown.actor_bunches[manager].last_reliable);
+    CHECK_FALSE(unknown.actor_bunches[manager].last_open);CHECK_FALSE(unknown.actor_bunches[manager].last_close);
+    CHECK_FALSE(unknown.inventory_current_weapon_received);CHECK_FALSE(unknown.closed);
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,1,"e002",10)); // Fresh nonce, reliable duplicate.
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    CHECK(f.owner.diagnostics().actor_bunches[manager]==unknown.actor_bunches[manager]);
+
+    // Independently retained literal: tag23/b24 +presence1 +actorDual11,18bits.
+    const auto accepted=inventory_manager_request(client,flow,2,"f70500",18);
+    peer.send(f.owner.port(),accepted);
+    CHECK(wait_until([&]{return f.owner.diagnostics().inventory_current_weapon_received;}));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    const auto delivered=f.owner.diagnostics();
+    CHECK(delivered.actor_bunches[manager].delivered_bunches==2);
+    CHECK(delivered.actor_bunches[manager].first_field_id==std::optional<std::uint32_t>{23});
+    CHECK(delivered.actor_bunches[manager].last_payload_bits==18);
+    CHECK(delivered.actor_bunches[manager].zero_payload_bunches==0);
+    CHECK(delivered.actor_bunches[manager].header_truncated_bunches==0);
+    CHECK(delivered.actor_bunches[manager].field_uninterpreted_bunches==0);
+    CHECK(delivered.actor_bunches[manager].first_field_counts[0]==1);
+    CHECK(delivered.actor_bunches[manager].first_field_counts[23]==1);
+    peer.send(f.owner.port(),accepted); // Exact wrapper replay.
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,2,"f70500",18));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    CHECK(f.owner.diagnostics().actor_bunches[manager]==delivered.actor_bunches[manager]);
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,3,"e002",10));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    const auto overwritten=f.owner.diagnostics().actor_bunches[manager];
+    CHECK(overwritten.first_field_id==std::optional<std::uint32_t>{0});
+    CHECK(overwritten.first_field_counts[0]==2);CHECK(overwritten.first_field_counts[23]==1);
+    CHECK(overwritten.field_out_of_range_bunches==0);
+    CHECK(f.owner.diagnostics().inventory_current_weapon_received);
+    CHECK_FALSE(f.owner.diagnostics().closed);
+}
+
+TEST_CASE("UDP actor content metadata uses fixed role bounds and distinguishes empty truncated and unreliable delivery") {
+    InventoryFixture f;Peer peer;session::Context client(session::Role::client,public_id,public_key);InventoryFlow flow;
+    inventory_activate(f,peer,client,flow);
+    struct Role {udp::ActorDiagnosticSlot slot;std::uint16_t channel;};
+    const Role roles[]{{udp::ActorDiagnosticSlot::controller,7},{udp::ActorDiagnosticSlot::pawn,8},
+        {udp::ActorDiagnosticSlot::pri,9},{udp::ActorDiagnosticSlot::manager,10},
+        {udp::ActorDiagnosticSlot::dual_weapon,11},{udp::ActorDiagnosticSlot::primary_weapon,12},
+        {udp::ActorDiagnosticSlot::secondary_weapon,13}};
+    for (const auto& role:roles) {
+        CAPTURE(role.channel);const auto before=f.owner.diagnostics();
+        // Numeric tag0 followed by opaque zero bits. No RPC name is inferred.
+        const auto sequence=role.channel==7?flow.next_controller_sequence++:std::uint16_t{1};
+        peer.send(f.owner.port(),inventory_manager_request(client,flow,sequence,"00",8,role.channel));
+        CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+        const auto after=f.owner.diagnostics();const auto slot=static_cast<std::size_t>(role.slot);
+        CHECK(after.actor_bunches[slot].delivered_bunches==before.actor_bunches[slot].delivered_bunches+1);
+        CHECK(after.actor_bunches[slot].first_field_id==std::optional<std::uint32_t>{0});
+        CHECK(after.actor_bunches[slot].first_field_counts[0]==before.actor_bunches[slot].first_field_counts[0]+1);
+        CHECK(after.actor_bunches[slot].last_payload_bits==8);CHECK(after.actor_bunches[slot].last_reliable);
+        for (std::size_t i=0;i<after.actor_bunches.size();++i)
+            if (i!=slot) CHECK(after.actor_bunches[i]==before.actor_bunches[i]);
+        CHECK_FALSE(after.closed);CHECK_FALSE(after.inventory_current_weapon_received);
+    }
+    constexpr auto manager=static_cast<std::size_t>(udp::ActorDiagnosticSlot::manager);
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,2,"",0));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    const auto empty=f.owner.diagnostics().actor_bunches[manager];
+    CHECK(empty.delivered_bunches==2);CHECK(empty.zero_payload_bunches==1);
+    CHECK(empty.last_payload_bits==0);CHECK_FALSE(empty.first_field_id.has_value());
+    peer.send(f.owner.port(),inventory_manager_request(client,flow,3,"01",1));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    const auto truncated=f.owner.diagnostics().actor_bunches[manager];
+    CHECK(truncated.delivered_bunches==3);CHECK(truncated.header_truncated_bunches==1);
+    CHECK(truncated.last_payload_bits==1);CHECK_FALSE(truncated.first_field_id.has_value());
+    // Ready existing Manager channel, plain unreliable has omitted sequence/type.
+    wire::Bunch bunch;bunch.channel=10;bunch.payload=hex("00");bunch.payload_bits=8;
+    wire::Packet packet;packet.packet_id=flow.next_packet++;wire::PacketRecord record;record.bunch=bunch;
+    packet.records.push_back(record);peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+    CHECK(inventory_output(peer,client,1,100ms).bunches.empty());
+    const auto unreliable=f.owner.diagnostics().actor_bunches[manager];
+    CHECK(unreliable.delivered_bunches==4);CHECK_FALSE(unreliable.last_reliable);
+    CHECK(unreliable.first_field_id==std::optional<std::uint32_t>{0});
+    CHECK(unreliable.zero_payload_bunches==1);CHECK(unreliable.header_truncated_bunches==1);
+    CHECK(unreliable.first_field_counts[0]==2);CHECK(unreliable.field_out_of_range_bunches==0);
+    CHECK_FALSE(f.owner.diagnostics().closed);CHECK_FALSE(f.owner.diagnostics().inventory_current_weapon_received);
+
+    // Synthetic future cache296 accepts numeric tag295, beyond diagnostic bins.
+    // Stop before ACKing inventory openings: no changed reference golden needed.
+    auto future_plan=inventory_plan();future_plan.manager_exclusive_bound=296;
+    InventoryFixture future(future_plan);Peer future_peer;
+    session::Context future_client(session::Role::client,public_id,public_key);InventoryFlow future_flow;
+    inventory_login_join(future,future_peer,future_client,future_flow);
+    inventory_selected(future,future_peer,future_client,future_flow);
+    // SerializeInt(295,296): independently derived9bits 0x127 =>27,01.
+    future_peer.send(future.owner.port(),inventory_manager_request(future_client,future_flow,1,"2701",9));
+    CHECK(inventory_output(future_peer,future_client,1,100ms).bunches.empty());
+    const auto overflow=future.owner.diagnostics().actor_bunches[manager];
+    CHECK(overflow.delivered_bunches==1);CHECK(overflow.first_field_id==std::optional<std::uint32_t>{295});
+    CHECK(overflow.field_out_of_range_bunches==1);
+    CHECK(std::all_of(overflow.first_field_counts.begin(),overflow.first_field_counts.end(),
+        [](std::uint64_t bin_count){return bin_count==0;}));
+    CHECK_FALSE(future.owner.diagnostics().closed);CHECK_FALSE(future.owner.diagnostics().inventory_current_weapon_received);
+}
+
+TEST_CASE("UDP actor content metadata observes the configured GRI role without interpreting actor arguments") {
+    LoginAuthorityFixture f({},true,bootstrap_publisher(),public_controller_plan(),{},
+        public_pawn_plan(),public_pri_plan(),bootstrap_links(),{},{},{},{},{},{},public_bootstrap_plan());
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    bootstrap_openings(f,login,peer,client);
+    constexpr auto gri=static_cast<std::size_t>(udp::ActorDiagnosticSlot::gri);
+    CHECK(f.owner.diagnostics().actor_bunches[gri].delivered_bunches==0);
+    wire::Bunch bunch;bunch.channel=10;bunch.channel_type=2;bunch.reliable=true;bunch.sequence=1;
+    bunch.payload=hex("00");bunch.payload_bits=8;
+    wire::Packet packet;packet.packet_id=5;wire::PacketRecord record;record.bunch=bunch;packet.records.push_back(record);
+    peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+    CHECK(controller_output(peer,client,100ms).bunches.empty());
+    const auto observed=f.owner.diagnostics().actor_bunches[gri];
+    CHECK(observed.delivered_bunches==1);CHECK(observed.first_field_id==std::optional<std::uint32_t>{0});
+    CHECK(observed.last_payload_bits==8);CHECK(observed.last_reliable);
+    CHECK(observed.first_field_counts[0]==1);CHECK(observed.field_out_of_range_bunches==0);
+    CHECK_FALSE(observed.last_open);CHECK_FALSE(observed.last_close);CHECK_FALSE(f.owner.diagnostics().closed);
+}
+
+TEST_CASE("UDP actor content metadata leaves a first field uninterpreted when no class bound is configured") {
+    LoginAuthorityFixture f({},true,controller_publisher(),public_controller_plan());
+    const auto login=f.login();Peer peer;session::Context client(session::Role::client,public_id,public_key);
+    controller_publication(f,login,peer,client);peer.send(f.owner.port(),controller_join(client));
+    REQUIRE(controller_output(peer,client,2000ms,1).bunches.size()==1);
+    wire::Bunch bunch;bunch.channel=7;bunch.channel_type=2;bunch.reliable=true;bunch.sequence=1;
+    bunch.payload=hex("17");bunch.payload_bits=8;
+    wire::Packet packet;packet.packet_id=5;wire::PacketRecord record;record.bunch=bunch;packet.records.push_back(record);
+    peer.send(f.owner.port(),client.encode(wire::encode_packet(packet,256)));
+    CHECK(controller_output(peer,client,100ms).bunches.empty());
+    const auto observed=f.owner.diagnostics().actor_bunches[static_cast<std::size_t>(udp::ActorDiagnosticSlot::controller)];
+    CHECK(observed.delivered_bunches==1);CHECK(observed.field_uninterpreted_bunches==1);
+    CHECK(observed.header_truncated_bunches==0);CHECK_FALSE(observed.first_field_id.has_value());
+    CHECK(std::all_of(observed.first_field_counts.begin(),observed.first_field_counts.end(),
+        [](std::uint64_t bin_count){return bin_count==0;}));
+    CHECK(observed.field_out_of_range_bunches==0);
     CHECK_FALSE(f.owner.diagnostics().closed);
 }

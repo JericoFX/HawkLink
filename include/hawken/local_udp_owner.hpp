@@ -6,7 +6,9 @@
 #include "hawken/start_mech_rpc_wire.hpp"
 #include "hawken/spawn_validation.hpp"
 #include "hawken/match_readiness.hpp"
+#include <array>
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -21,6 +23,29 @@ public:
     LocalUdpErrorCode code() const noexcept;
 private:
     LocalUdpErrorCode code_;
+};
+// Fixed diagnostic roles, not live channel/object/session identifiers.
+enum class ActorDiagnosticSlot : std::size_t {
+    controller, pawn, pri, gri, manager, dual_weapon, primary_weapon, secondary_weapon, count
+};
+// Diagnostic policy covering current configured class bounds (maximum294),
+// not a universal protocol/cache limit. Larger future tags use the overflow count.
+inline constexpr std::size_t actor_field_histogram_capacity=294;
+struct ActorBunchDiagnostics {
+    std::uint64_t delivered_bunches = 0;
+    std::uint64_t zero_payload_bunches = 0;
+    std::uint64_t header_truncated_bunches = 0;
+    std::uint64_t field_uninterpreted_bunches = 0;
+    std::size_t last_payload_bits = 0;
+    bool last_reliable = false;
+    bool last_open = false;
+    bool last_close = false;
+    // Only a bounded numeric first tag under the configured class cache. No
+    // RPC name/arguments or unknown suffix interpretation is implied.
+    std::optional<std::uint32_t> first_field_id;
+    std::array<std::uint64_t,actor_field_histogram_capacity> first_field_counts{};
+    std::uint64_t field_out_of_range_bunches = 0;
+    bool operator==(const ActorBunchDiagnostics&) const = default;
 };
 // Thread-safe scalar observations only; no ID/key/account/peer or raw payload.
 // Successful authenticated receive is NOT game admission. Fields are monotonic
@@ -81,6 +106,10 @@ struct LocalUdpDiagnostics {
     bool inventory_links_acked = false;
     bool inventory_given_to_sent = false;
     bool inventory_current_weapon_received = false;
+
+    // Authenticated transport-delivered actor bunches only, saturating counts.
+    // Last-header scalars are observations, not an atomic multi-field snapshot.
+    std::array<ActorBunchDiagnostics,static_cast<std::size_t>(ActorDiagnosticSlot::count)> actor_bunches{};
 
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
