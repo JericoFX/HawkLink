@@ -1,0 +1,17 @@
+[
+  {
+    "url": "http://127.0.0.1/status/services/",
+    "status": 200,
+    "elapsedMs": 113
+  },
+  {
+    "url": "http://127.0.0.1/status/game_client/",
+    "status": 200,
+    "elapsedMs": 6
+  },
+  {
+    "url": "http://127.0.0.1:18080/gameServerListings",
+    "status": 200,
+    "elapsedMs": 10
+  }
+]

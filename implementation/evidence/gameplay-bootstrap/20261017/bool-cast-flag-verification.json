@@ -1,0 +1,11 @@
+{
+  "status": "CONFIRMED",
+  "file": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "rva": "0xf8a18",
+  "raw": "0xf7e18",
+  "bytes": "f7802801000000000200",
+  "interpretation": "BoolLink TEST DWORD[class+0x128],0x20000",
+  "source": "property-link-ghidra-20261013/instructions.json",
+  "writeAccess": false
+}

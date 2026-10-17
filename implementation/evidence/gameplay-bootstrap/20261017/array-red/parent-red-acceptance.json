@@ -1,0 +1,18 @@
+{
+  "status": "SEMANTIC_RED_CONFIRMED",
+  "utc": "2026-10-17T14:29:14.6993852Z",
+  "owner": "/root",
+  "buildExit": 0,
+  "arrayCaseExecutions": 10,
+  "arrayFailureNodes": 12,
+  "arrayErrorNodes": 9,
+  "menuDeclaredCases": 8,
+  "menuCaseExecutions": 31,
+  "menuFailureNodes": 26,
+  "menuErrorNodes": 5,
+  "frozenInputs": 196,
+  "inputDrift": 0,
+  "maxRamPercent": 43.62,
+  "compileFailedAttempt": "attempt1",
+  "greenImplementationAuthorized": true
+}

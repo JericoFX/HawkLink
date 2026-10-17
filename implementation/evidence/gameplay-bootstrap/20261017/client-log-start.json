@@ -1,0 +1,54 @@
+{
+  "file": "C:\\Users\\Jerico\\Documents\\My Games\\Hawken\\HawkenGame\\Logs\\Launch.log",
+  "sha256": "1a4714d103459393076001913b88a045da542b6aaa33e658c1721c2d5080b777",
+  "bytes": 24576,
+  "lines": 291,
+  "fullyRead": true,
+  "rawPersisted": false,
+  "events": [
+    {
+      "line": 217,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 239,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 244,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 249,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 254,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 254,
+      "event": "ReadOnlineLegacyStats"
+    },
+    {
+      "line": 262,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 262,
+      "event": "ReadOnlineLegacyStats"
+    },
+    {
+      "line": 265,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 268,
+      "event": "SyncingAccount"
+    },
+    {
+      "line": 269,
+      "event": "SyncingAccount"
+    }
+  ]
+}

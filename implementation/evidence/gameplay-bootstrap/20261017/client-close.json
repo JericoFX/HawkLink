@@ -1,0 +1,8 @@
+{
+  "pid": 48588,
+  "exe": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "parent": 8576,
+  "created": "2026-10-17T14:38:19.1616500Z",
+  "reason": "Local test hung at post-match stats sync; AltF4 and window-close did not exit",
+  "forced": true
+}

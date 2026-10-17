@@ -20,4 +20,27 @@ PropertyPayload encode_object_properties(std::span<const ObjectProperty> values,
     }
     return {writer.payload_bytes(),writer.bit_count()};
 }
+
+PropertyPayload encode_object_array_properties(std::span<const ArrayObjectProperty> values,
+    std::uint32_t exclusive_bound,std::size_t max_payload_bits) {
+    if (exclusive_bound == 0 || max_payload_bits == 0)
+        throw WireError("invalid_limit");
+
+    BitWriter writer;
+    for (const auto& value : values) {
+        if (value.array_dim < 2 || value.element_index >= value.array_dim || value.element_index > 255)
+            throw WireError("invalid_value");
+        // At most 32 field bits, one raw index byte and 32 reference bits.
+        // Measure the exact variable-width record before aggregate append.
+        BitWriter record;
+        record.write_bounded(value.field_id,exclusive_bound);
+        const auto index=static_cast<std::uint8_t>(value.element_index);
+        record.write_bits(std::span<const std::uint8_t>{&index,1},8);
+        object::write_reference(record,value.value,32);
+        if (record.bit_count() > max_payload_bits-writer.bit_count())
+            throw WireError("field_too_large");
+        writer.write_bits(record.payload_bytes(),record.bit_count());
+    }
+    return {writer.payload_bytes(),writer.bit_count()};
+}
 }

@@ -1,0 +1,14 @@
+{
+  "status": "NATIVE_GREEN",
+  "buildExit": 0,
+  "ctestExit": 0,
+  "suites": 56,
+  "inputCount": 196,
+  "inputDrift": 0,
+  "peakRamPercent": 46.48,
+  "probeHelpExit": 0,
+  "probeInvalidExit": 2,
+  "gameplayAcceptance": false,
+  "buildTestProcesses": 0,
+  "ramPercent": 45.43
+}

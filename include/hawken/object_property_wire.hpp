@@ -32,4 +32,26 @@ struct PropertyPayload {
 // invalid_length; not_implemented exists only in the RED scaffold.
 PropertyPayload encode_object_properties(std::span<const ObjectProperty> values,
     std::uint32_t exclusive_bound, std::size_t max_payload_bits);
+
+struct ArrayObjectProperty {
+    std::uint32_t field_id;
+    std::uint32_t array_dim;
+    std::uint32_t element_index;
+    object::Reference value;
+};
+
+// Normal PRIMARY ObjectProperty array records: bounded fieldID, one RAW8-bit
+// element index, then object::Reference. ArrayDim>1 is caller-proven schema;
+// index is not SerializeInt(ArrayDim). Native9efa60/9f0a1b..9f0a6a uses
+// OutBunch virtual+8 count1 ->7e380 count*8. No RPC presence, alignment or
+// terminator. Caller supplies eligible fields, expected class, EFFECTIVE IDs,
+// cache bound and resolving references; no lookup, decoder or actor creation.
+// Own policy: array_dim>=2; element_index<array_dim and <=255, never truncated.
+// Larger arrays are not forbidden when the selected index fits that wire byte.
+// Positive bound/global budget evenempty; exact aggregate budget, zero unused
+// high bits, owned output and no truncated/partial returned list. Order and
+// duplicate field records are preserved without adding game-level semantics.
+// Fixed WireError codes: invalid_limit, invalid_value, field_too_large, invalid_length.
+PropertyPayload encode_object_array_properties(std::span<const ArrayObjectProperty> values,
+    std::uint32_t exclusive_bound,std::size_t max_payload_bits);
 }

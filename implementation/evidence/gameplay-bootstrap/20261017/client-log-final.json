@@ -1,0 +1,221 @@
+{
+  "file": "C:\\Users\\Jerico\\Documents\\My Games\\Hawken\\HawkenGame\\Logs\\Launch.log",
+  "sha256": "26434754677aecf5397b72999d546167c3dd7ec9b304ce0197890c464644069c",
+  "bytes": 139264,
+  "lines": 1844,
+  "fullyRead": true,
+  "rawPersisted": false,
+  "clientExited": true,
+  "events": [
+    {
+      "line": 217,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 239,
+      "event": "SyncingAccount",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 244,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 249,
+      "event": "SyncingAccount",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 254,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 254,
+      "event": "ReadOnlineLegacyStats",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 262,
+      "event": "SyncingAccount",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 262,
+      "event": "ReadOnlineLegacyStats",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 265,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 265,
+      "event": "ReadAllUserGameItemStats",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 268,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 268,
+      "event": "ReadAllUserGameItemStats",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 269,
+      "event": "SyncingAccount",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 269,
+      "event": "ReadAllUserGameItemStats",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 304,
+      "event": "OnFullSyncComplete",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 309,
+      "event": "OnFullSyncComplete",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 510,
+      "event": "InitStormUserId",
+      "done": false,
+      "failed": true
+    },
+    {
+      "line": 632,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 632,
+      "event": "ReadAllUserGameItemStats",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 634,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 634,
+      "event": "ReadAllUserGameItemStats",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 639,
+      "event": "SyncingAccount",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 639,
+      "event": "ReadAllUserGameItemStats",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 792,
+      "event": "ClientMatchStarted",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1242,
+      "event": "DoMechSpawn",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1252,
+      "event": "ClientSpawnSelectionValidated",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1253,
+      "event": "ClientRestart",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 1253,
+      "event": "SS_DONE",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 1256,
+      "event": "PlayerWalking",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1257,
+      "event": "PlayerWalking",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1258,
+      "event": "PlayerWalking",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1796,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1818,
+      "event": "SyncingAccount",
+      "done": true,
+      "failed": false
+    },
+    {
+      "line": 1834,
+      "event": "SyncingAccount",
+      "done": false,
+      "failed": false
+    },
+    {
+      "line": 1839,
+      "event": "SyncingAccount",
+      "done": true,
+      "failed": false
+    }
+  ]
+}

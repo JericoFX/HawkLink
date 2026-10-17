@@ -1,0 +1,123 @@
+{
+  "schema": "hawklink.parent-local-attempt.v1",
+  "utc": "2026-10-17T14:50:15.0038122Z",
+  "operator": "/root",
+  "steamAppId": 271290,
+  "originalExecutableSHA256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "serverSHA256": "b078e13373c98a524908186986314c9fecd3e1fc13bc5b3e086c5967aa8df9b8",
+  "windowedClientResolution": [
+    1280,
+    720
+  ],
+  "tutorialRepeated": false,
+  "observed": [
+    "server-listed",
+    "lobby-controls",
+    "ready-countdown-9s",
+    "mech-selection",
+    "ClientSpawnSelectionValidated",
+    "ClientRestart-SS_DONE",
+    "PlayerWalking",
+    "map-with-HUD",
+    "post-match-stats-sync-block"
+  ],
+  "primaryFireInput": "one left mouse click; no projectile observed",
+  "jumpInput": "one space tap; no jump observed; does not establish held-input behavior",
+  "movementInput": "one W tap; image changes insufficient for numeric movement acceptance",
+  "menuReaderResult": "inconclusive: menu_limit",
+  "livePlayerReaderResult": "inconclusive: live_limit",
+  "readerFlagsObtained": false,
+  "fullGameplayAccepted": false,
+  "clientClosed": true,
+  "normalCloseSucceeded": false,
+  "clientForcedStopReceipt": "client-close.json",
+  "clientLog": {
+    "fullyRead": true,
+    "bytes": 139264,
+    "tailTruncated": true,
+    "lines": 1844,
+    "sha256": "26434754677aecf5397b72999d546167c3dd7ec9b304ce0197890c464644069c",
+    "rawPersisted": false
+  },
+  "images": [
+    {
+      "file": "after-primary-input.png",
+      "bytes": 131715,
+      "sha256": "29b6f68e9ea30eeaeb5daed4529409d2eb57fedf1fb7e4d5283115af09ceaa70",
+      "utc": "2026-10-17T14:42:36.6921015Z"
+    },
+    {
+      "file": "after-space-input.png",
+      "bytes": 134406,
+      "sha256": "4df6911322a07ed2eb8056b2e8c74665e22ba6133b667d9a81c6598174cb455c",
+      "utc": "2026-10-17T14:42:53.7020751Z"
+    },
+    {
+      "file": "in-match-before-input.png",
+      "bytes": 134284,
+      "sha256": "8519e0d210073f672ed97846a171af4af84c16e043e5115c33491a0606ace751",
+      "utc": "2026-10-17T14:42:21.1950172Z"
+    },
+    {
+      "file": "lobby-controls.png",
+      "bytes": 168953,
+      "sha256": "46e1e466d5ef8e3bca23053032a5c5b6780f5d842f94c671f8da80e26f25b464",
+      "utc": "2026-10-17T14:40:55.7299683Z"
+    },
+    {
+      "file": "main-menu.png",
+      "bytes": 142438,
+      "sha256": "e8a3a0b69c3a673911cac09d47bf07547190a261b710824863c20c3a12c4cdf8",
+      "utc": "2026-10-17T14:39:45.3840396Z"
+    },
+    {
+      "file": "mech-selection.png",
+      "bytes": 174058,
+      "sha256": "7b53fdd8a9f805f5910246452284627749dd601d37bc0340cd0ff7daf5da8b53",
+      "utc": "2026-10-17T14:42:12.7640975Z"
+    },
+    {
+      "file": "post-match-sync-retained.png",
+      "bytes": 48590,
+      "sha256": "961b0446e49f5a54ccded92980efe90ea87850ec10fcf21c06e34a7817d6b0a9",
+      "utc": "2026-10-17T14:44:07.7060882Z"
+    },
+    {
+      "file": "post-match-sync.png",
+      "bytes": 48753,
+      "sha256": "cbd2a895042ed596f34880c105f6083c24ad3990233c62a243885d293b3be915",
+      "utc": "2026-10-17T14:43:25.3376031Z"
+    },
+    {
+      "file": "server-list.png",
+      "bytes": 159533,
+      "sha256": "a1bb43dbfbf07a3b74ff20ea1969feb8412dc682ad25b8430408795072105fc3",
+      "utc": "2026-10-17T14:40:38.8651095Z"
+    }
+  ],
+  "remainingOwnedProcesses": [
+    {
+      "ProcessId": 49868,
+      "ParentProcessId": 53408,
+      "Name": "pwsh.exe",
+      "CreationDate": "2026-10-17T11:29:29.443916-03:00",
+      "ExecutablePath": "C:\\Users\\Jerico\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe"
+    },
+    {
+      "ProcessId": 35532,
+      "ParentProcessId": 49868,
+      "Name": "hawken-master.exe",
+      "CreationDate": "2026-10-17T11:29:33.288435-03:00",
+      "ExecutablePath": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe"
+    },
+    {
+      "ProcessId": 58676,
+      "ParentProcessId": 49868,
+      "Name": "hawken-server.exe",
+      "CreationDate": "2026-10-17T11:29:34.088826-03:00",
+      "ExecutablePath": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe"
+    }
+  ],
+  "ramUsedPercent": 48.57,
+  "freeGiB": 16.41
+}
