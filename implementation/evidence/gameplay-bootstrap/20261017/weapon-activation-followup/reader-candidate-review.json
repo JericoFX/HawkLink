@@ -1,0 +1,70 @@
+{
+  "schema": "hawken.live-player-reader-candidate-review.v1",
+  "scope": "Read-only review of the frozen reader candidate and probe against the retained GetStateName static proof, tests, and existing main-menu reader interface. No build or runtime process access was performed.",
+  "graph": {
+    "checkout": "F:/HawkenServer",
+    "tool": "C:/Users/Jerico/.bun/bin/graft.exe",
+    "query_mode": "--no-refresh",
+    "relevant_source_symbols_found": [
+      "read_live_player",
+      "LiveScriptStateSnapshot",
+      "LivePlayerSnapshot",
+      "MainMenuSyncSnapshot",
+      "read_main_menu_sync"
+    ],
+    "note": "The candidate files are retained evidence outside the indexed source tree, so their exact contents were read directly after the Graft query."
+  },
+  "skill_coverage": {
+    "cpp_pro_sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer_sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "coverage": "Complete prior reads reused; hashes unchanged."
+  },
+  "inputs": [
+    {
+      "path": "reader-candidate/tools/live_player_reader.hpp",
+      "sha256": "3f2b70a8fe414852d080744f2953b8cb35114cdb5f5f4a04ef7d4271b7144fa4"
+    },
+    {
+      "path": "reader-candidate/tools/controller_netfields_probe.cpp",
+      "sha256": "aa8057c690e3dc9900df1480d1f87c1714d3fdccc2fd13e5643922ad9f753f28"
+    },
+    {
+      "path": "tests/live_player_reader_tests.cpp",
+      "sha256": "3763eb35eb461bfd0dc91266bcb72dadec417991ec5e54587fe228451c1fdaab"
+    },
+    {
+      "path": "tools/main_menu_sync_reader.hpp",
+      "sha256": "85eef1273650b5854510459b298307f6d80c805a36e066f98c939ee4f3bd6131"
+    },
+    {
+      "path": "weapon-activation-followup/get-state-name-review.json",
+      "sha256": "747f2ef200a4dd44ba93849ed8c2e545b72ae29db4d66f0cf829dc5429fca943"
+    }
+  ],
+  "confirmed": [
+    "The candidate matches the assigned HPP/probe pins; the supplied test translation unit matches its stated pin.",
+    "GetStateName evidence maps the receiver's frame pointer at +0x20 and state-node pointer at frame+0x44. The candidate reads those locations, distinguishes no-frame/no-node, checks the node sentinel at +0x38 before looking up its FName, and only identifies a named node after validating its metadata type/owner path.",
+    "Class-chain traversal is cycle-detected and capped at 16; object/property traversal uses checked reads, owner and type identities, ArrayDim/element-size checks, duplicate rejection, bounded offsets, and the shared reader budget. Metadata caches are sample-local; the next sample rebuilds identity/owner validation, while the probe compares two samples before reporting.",
+    "Function metadata lookup checks the owning class, Function type, exact name/package and uniqueness before reading flags at +0xd0, native token at +0xd4, and target at +0xf0. Target RVA arithmetic is guarded by target>=module and the fixed image executable range [0x1000,0x128df79); the code does not read or invoke the target.",
+    "The probe opens the requested process with query-limited-information plus VM-read access, verifies the on-disk original executable hash and loaded module path, and performs two observations. Its live-player output does not serialize raw pointers or FName indices; only fixed schema facts, bounded role/physics/energy values, booleans, and identified state metadata are emitted.",
+    "Source-level compatibility with main_menu_sync_reader.hpp is preserved: that reader includes live_player_reader.hpp and consumes LiveIdentity; the candidate retains the same LiveIdentity fields and adds separate snapshot types. No duplicate type or conflicting declaration was found in the inspected interface."
+  ],
+  "review_attention": [
+    {
+      "finding": "The candidate deliberately accepts a node whose Class pointer equals the global Class object: it treats the node itself as owner and accepts it if that class object occurs in the actor's class ancestry. The retained tests explicitly accept Weapon as a named script-state result in this branch. This proves ancestry membership, but does not prove the FFrame node is a State object; GetStateName's native body reads the name layout without enforcing a State type. If the field is meant to report an active UE State, this branch can label a class object (for example Weapon) as a state. Treat it as an untyped node-name observation or require authoritative evidence that Class nodes are valid frame nodes before describing it as an active state.",
+      "evidence": "Candidate script_state branch at reader-candidate/tools/live_player_reader.hpp around lines 297-327; test subcase 'class node must be in this actor ancestry' in tests/live_player_reader_tests.cpp around lines 1065-1100; retained GetStateName body review above.",
+      "certainty": "Concrete semantic ambiguity in the candidate's accepted input/test; whether to reject it depends on the intended meaning of the output field."
+    },
+    {
+      "finding": "target_in_original_text is established by the pointer falling within the image's declared executable RVA interval. It does not compare target bytes in process memory to original-file bytes or prove the function is reached by dispatch.",
+      "evidence": "function_dispatch reads +0xf0 and performs range arithmetic only; no target-byte read or invocation occurs.",
+      "certainty": "Confirmed limitation, not a code defect if the field is understood strictly as an RVA-range classification."
+    }
+  ],
+  "limits": [
+    "This is source/test inspection only; no compilation, probe execution, or live process read was performed.",
+    "The GetStateName registration remains candidate-only and its static bytes do not establish current Pawn/InventoryManager/DualWeapon state values.",
+    "No acceptance decision is made."
+  ],
+  "persistent_helpers_created": 0
+}

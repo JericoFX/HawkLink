@@ -1,0 +1,70 @@
+{
+  "schema": "hawken.get-state-name-static-review.v1",
+  "review_scope": "Independent read-only review of retained original-EXE evidence; no invocation, runtime read, build, or source changes.",
+  "original_exe": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "reviewed_evidence": [
+    { "path": "get-state-name-registration.json", "sha256": "96e296d39f1c667c37f0504394992b526dd6ecf7fc3d977a8aa02767cec8ad6c", "role": "Retained PE/RVA/pdata/registration candidate record." },
+    { "path": "get-state-name-machine.txt", "sha256": "d3eeba9e461a0f8f1be0d286ef10286103901d3411446cc89451d467fbb85826", "role": "Retained disassembly for the bounded function body." },
+    { "path": "get-state-name-registration.py", "sha256": "d82dc59a2510f736447cb6928617e3759a50a5eae4ac0fb925c6ac6644e8a40e", "role": "Retained PE mapping/registration helper; inspected, not executed in this review." },
+    { "path": "research/2026-10-10/evidence/upk/packages/Core/001184-Core.Object.GetStateName.uc", "sha256": "c44a8aab3ca33146e9f2f2902faab21fb0b0584b293ed1cbad7d8de4bfc94256", "role": "UC signature: native(284) final function name GetStateName()." }
+  ],
+  "function": {
+    "name": "UObjectexecGetStateName",
+    "rva": "0x5fde0",
+    "raw_offset": "0x5f1e0",
+    "body_range_rva": "[0x5fde0,0x5fe78)",
+    "body_size_bytes": 152,
+    "body_sha256": "d007dfe0d4f81b92aa7e6e03f044b9209ca6ce06fbf8408c384c87ef489754bf",
+    "pdata_range_matches": true,
+    "instruction_count": 43,
+    "registration_status": "STATIC_REGISTRATION_CANDIDATES_ONLY"
+  },
+  "byte_crosscheck": {
+    "original_hash_matches": true,
+    "body_bytes_read": 152,
+    "body_hash_matches": true,
+    "retained_machine_hex_matches_body": true,
+    "fallback_literal": {
+      "rva": "0x12a5a38",
+      "raw_offset": "0x12a4e38",
+      "read_size": 48,
+      "sha256": "11682fe548959ce2adaf3a84d4c609f35dd4cb9dd06b085a4544474880e5a511",
+      "utf16le_value": "<uninitialized>",
+      "nul_terminated": true,
+      "adjacent_bytes_after_terminator": "(R=%i,G=",
+      "adjacent_bytes_are_not_part_of_fallback": true
+    }
+  },
+  "static_semantics": {
+    "abi_registers": {
+      "rcx": "receiver UObject* (saved in RDI)",
+      "rdx": "FFrame*",
+      "r8": "output storage (saved in RBX)"
+    },
+    "frame_handling": "Advances FFrame cursor at [RDX+0x24]; the preamble separately checks frame data byte 0x41 and may call a helper using [RDX+0x1c]. This is frame parsing, not an access to receiver offset 0x28.",
+    "receiver_access": "Reads pointer at [receiver+0x20]. If null, output is zero.",
+    "state_node_access": "If receiver+0x20 is non-null, reads a pointer at [that_pointer+0x44]. If null, output is zero.",
+    "name_selection": "For a non-null state node, if DWORD [node+0x38] == 0xffffffff, constructs fallback FName from the NUL-terminated UTF-16 string <uninitialized>; otherwise reads the QWORD at [node+0x48]. The resulting QWORD is written through output storage.",
+    "offset_distinction": "The receiver field offset is +0x20, not +0x28. The subsequent +0x44/+0x38/+0x48 offsets are relative to the state-node pointer, not the receiver."
+  },
+  "confirmed": [
+    "The retained function body bytes match the retained disassembly and original EXE hash at the specified RVA/raw mapping.",
+    "The candidate registration entry points at the same RVA and pdata range.",
+    "The native UC declaration identifies GetStateName as returning a name; the body has explicit null and uninitialized-name paths."
+  ],
+  "limits": [
+    "Registration evidence is marked candidate-only; this does not prove the callback is actually dispatched in a live process.",
+    "No function was invoked and no current Pawn, DualWeapon, or InventoryManager object was read; their live pointer/value state remains unknown.",
+    "This proves only static body behavior for the retained executable, not current runtime state or gameplay acceptance."
+  ],
+  "skill_coverage": {
+    "cpp_pro_sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer_sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "coverage": "Complete prior reads reused; both skill hashes were unchanged."
+  },
+  "helpers_created": 0,
+  "decision": "Evidence-only static review; no acceptance decision."
+}

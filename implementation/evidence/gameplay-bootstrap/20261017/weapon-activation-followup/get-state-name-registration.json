@@ -1,0 +1,48 @@
+{
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "image_base": "0x140000000",
+  "anchors": [
+    {
+      "label": "execGetStateName",
+      "rva": "0x5fde0",
+      "raw": "0x5f1e0",
+      "size": 152,
+      "sha256": "d007dfe0d4f81b92aa7e6e03f044b9209ca6ce06fbf8408c384c87ef489754bf",
+      "hex": "48895c2410574883ec2048ff4224488b4224498bd8803841488bf97514488b4a1c48ffc04533c048894224ff1597adb701488b47204885c07441488b40444885c07438837838ff7413488b40484889442430488d442430488b00eb2141b901000000488d15ef5b2401488d4c2430458bc1e81a610600488b00eb0233c04889442430488d442430488b00488903488b5c24384883c4205fc3"
+    },
+    {
+      "label": "fallback_literal",
+      "rva": "0x12a5a38",
+      "raw": "0x12a4e38",
+      "size": 48,
+      "sha256": "11682fe548959ce2adaf3a84d4c609f35dd4cb9dd06b085a4544474880e5a511",
+      "hex": "3c0075006e0069006e0069007400690061006c0069007a00650064003e000000280052003d00250069002c0047003d00"
+    }
+  ],
+  "executable_sections": [
+    {
+      "begin_rva": "0x1000",
+      "end_rva": "0x128df79"
+    }
+  ],
+  "candidates": [
+    {
+      "name": "UObjectexecGetStateName",
+      "encoding": "ascii",
+      "name_raw": "0x12b3420",
+      "table_raw": "0x1add5a0",
+      "table_rva": "0x1ade1a0",
+      "table_bytes": "20402b4101000000e0fd054001000000",
+      "candidate_exec_rva": "0x5fde0",
+      "pdata": [
+        {
+          "begin_rva": "0x5fde0",
+          "end_rva": "0x5fe78",
+          "unwind_rva": "0x193d718"
+        }
+      ]
+    }
+  ],
+  "status": "STATIC_REGISTRATION_CANDIDATES_ONLY"
+}

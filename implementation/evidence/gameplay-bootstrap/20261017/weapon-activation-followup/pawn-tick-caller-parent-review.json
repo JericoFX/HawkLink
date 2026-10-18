@@ -1,0 +1,37 @@
+{
+  "utc": "2026-10-18T01:00:01.2724471Z",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "status": "CONFIRMED_BOUNDED_NATIVE_EDGES;SCHEDULING_UNKNOWN",
+  "anchors": [
+    {
+      "rva": "0xdc1d00",
+      "raw": "0xdc1100",
+      "size": 27,
+      "sha256": "ba02c9e4102a13b1ba21b1a7240096182da5e2d4920e351b7ef6d1e8143a672f",
+      "hex": "40534883ec20488bd9e812000000488bcb4883c4205be9e52e0100"
+    },
+    {
+      "rva": "0xdd4c00",
+      "raw": "0xdd4000",
+      "size": 96,
+      "sha256": "5d304c18c06bf5c8b8d2bfcf862ecd60de9e2354b9db27c0c81add9790f812a9",
+      "hex": "40534883ec604883b9e815000000488bd90f84f4000000488b89500400004885c90f84e40000008b83a8000000894424408b83ac000000894424448b83b000000089442448488b836c0200004885c074088b80a8000000eb0a0fb6839e020000"
+    }
+  ],
+  "observations": [
+    "At dc1d09 direct CALL dc1d20; at dc1d16 JMP dd4c00 is a tail edge, not a second CALL.",
+    "dd4c00 prefix gates object+15e8 and object+450 before reading further instance fields. This bounded prefix does not identify a method name or scheduling."
+  ],
+  "interpretation": "Adds an exact caller edge to the retained UpdateCanFire route. Does not establish Tick, invocation timing, execution or a gameplay fix.",
+  "limits": [
+    "The dd4c00 span is a96-byte prefix, not a complete function.",
+    "No live object reads, target calls, binary writes, new Ghidra process or code edits.",
+    "DualWeapon offset+de0 identity still probable; no reflected runtime offset pin obtained."
+  ],
+  "helper": {
+    "kind": "short-lived objdump original spans",
+    "exit": 0,
+    "persistent": 0
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "hawken.reader-validation-runner-r3-serialization-proof.v1",
+  "createdUtc": "2026-10-18T01:04:51.1699230Z",
+  "runner": {
+    "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-validation-runner\\launch-reader-validation-r3.ps1",
+    "sha256": "c8dccf3f9999a18dc9ef8671da2e9fe0b9873dd6f2c55796ed14b7d3ae8b4019",
+    "r2Path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-validation-runner\\launch-reader-validation-r2.ps1",
+    "r2Sha256": "237b47f609084e2a647bf2d15616fd57b9e91e41e4120d76c94fb2b62d1da8cb",
+    "changedLineCount": 2,
+    "changes": [
+      {
+        "line": 150,
+        "r2": "    $json=$value|ConvertTo-Json -Depth 16",
+        "r3": "    $json=ConvertTo-Json -InputObject $value -Depth 16"
+      },
+      {
+        "line": 216,
+        "r2": "    Write-Json (Join-Path $outFull 'resource-samples.json') @($samples)",
+        "r3": "    Write-Json (Join-Path $outFull 'resource-samples.json') $samples.ToArray()"
+      }
+    ],
+    "parseErrorCount": 0,
+    "parseErrors": [],
+    "executed": false
+  },
+  "serialization": {
+    "helperNow": "ConvertTo-Json -InputObject $value -Depth 16",
+    "collectionConversion": "List[object].ToArray()",
+    "validCases": [
+      {
+        "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-validation-runner\\r3-serialization-check-v2\\zero-list-toarray.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "jsonKind": "Array",
+        "elementCount": 0,
+        "bytes": "[]\n"
+      },
+      {
+        "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-validation-runner\\r3-serialization-check-v2\\one-list-toarray.json",
+        "sha256": "489306d0ccd643382fe761c4aa6643d77b02ffa0de440495f84bc82c3156c05a",
+        "jsonKind": "Array",
+        "elementCount": 1,
+        "bytes": "[\r\n  {\r\n    \"utc\": \"2026-10-18T00:00:00.0000000Z\",\r\n    \"usedPercent\": 42.0,\r\n    \"ownedTreeWorkingSetBytes\": 1234\r\n  }\r\n]\n"
+      }
+    ],
+    "priorFailingZeroCase": {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-validation-runner\\r3-serialization-check\\zero-list-toarray.json",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "observedBytes": 1,
+      "observedContent": "newline only; invalid JSON"
+    }
+  },
+  "constraints": [
+    "No launcher invocation",
+    "No build or tests",
+    "No process/CIM polling",
+    "No product source/config changes"
+  ]
+}

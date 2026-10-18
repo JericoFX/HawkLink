@@ -1,0 +1,296 @@
+{
+  "created_utc": "2026-10-18T00:38:38.814409+00:00",
+  "status": "CONFIRMED_RETAINED_STATIC_TRANSITION_AND_TYPED_NATIVE_FLAGS;CAUSE_NOT_CLOSED",
+  "scope": "Read-only retained UC/native bodies and current Owner; no extraction, target calls, build, source changes or forced flags.",
+  "skills_reused": {
+    "cpp-pro": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game-developer": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec"
+  },
+  "artifact_access": "Graft --no-refresh consulted for current Owner; generated UC/retained native evidence are unindexed artifacts read directly in bounded class/function scope.",
+  "original_pins": {
+    "exe": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "HawkenGame.upk": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+    "Engine.upk": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+    "verification": "Reused frozen original-byte provenance; originals were not rehashed/read again in this task."
+  },
+  "observed": [
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/core-owning-role-retry/live-before.json",
+      "identity_verified": true,
+      "samples_equal": true,
+      "world_membership_verified": false,
+      "pawn_role": 2,
+      "dual_role": 1,
+      "manager_role": 1,
+      "pawn_weapon_is_dual": true,
+      "dual_server_can_fire": {
+        "bit_mask": 8,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "dual_shutdown": {
+        "bit_mask": 4,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "dual_client_shutdown": {
+        "bit_mask": 16,
+        "metadata_offset": 984,
+        "value": false
+      }
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/core-owning-role-retry/live-after.json",
+      "identity_verified": true,
+      "samples_equal": true,
+      "world_membership_verified": false,
+      "pawn_role": 2,
+      "dual_role": 1,
+      "manager_role": 1,
+      "pawn_weapon_is_dual": true,
+      "dual_server_can_fire": {
+        "bit_mask": 8,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "dual_shutdown": {
+        "bit_mask": 4,
+        "metadata_offset": 984,
+        "value": true
+      },
+      "dual_client_shutdown": {
+        "bit_mask": 16,
+        "metadata_offset": 984,
+        "value": false
+      }
+    }
+  ],
+  "confirmed_transition": [
+    {
+      "step": "local enable decision",
+      "native": "UpdateCanFire RVA dc5700/raw dc4b00,148B; LocalCanFire RVA d9a180/raw d99580,251B",
+      "rule": "Resolve Pawn from Instigator+114 via d31880; evaluate Pawn virtual aa8; call LocalCanFire(this,predicate). Compare result against previous !bShutdown. Only on change dispatch ChangeCanFire(result) via FName1d40a90/ProcessEvent+240.",
+      "native_proof": "fire-gates-20261017/contract.json; functions.jsonl; original-byte-verification.json"
+    },
+    {
+      "step": "client LocalCanFire",
+      "rule": "For Role<3 require actual Pawn predicate true, pass native timestamp veto and reflected bServerCanFire bit8 at3d8. Received bit8 true is necessary, not sufficient. Native time fields3dc and resolved pointer+4ec are not observed by these snapshots."
+    },
+    {
+      "step": "script dispatch",
+      "uc": "047358 ChangeCanFire, simulated event",
+      "rule": "true calls RestartWeapons; false calls ShutdownWeapons. No direct bShutdown assignment here."
+    },
+    {
+      "step": "state-dependent local clear",
+      "uc": "047407 Dual.Active.RestartWeapons, simulated",
+      "rule": "Call global.RestartWeapons then if bShutdown set bShutdown=false; for four hands ShouldRefireHand may call BeginFire. Global RestartWeapons only sends ServerRestartWeapons if Role<Authority; global body does not clear bShutdown."
+    },
+    {
+      "step": "server-side restart RPC",
+      "uc": "047363 ServerRestartWeapons, reliable server",
+      "rule": "bClientShutdown=false; UpdateCanFire(). This is a client-to-server RPC, not an outbound client activation message."
+    },
+    {
+      "step": "actual hand firing gate",
+      "uc": "047399 Active.BeginFire, simulated",
+      "rule": "When not deleted and Instigator nonnull, global.BeginFire; hand.DoBeginFire only if !bShutdown and resolved hand nonnull. Therefore current observed shutdown=true blocks this exact hand branch."
+    }
+  ],
+  "given_to_activation_path": {
+    "confirmed": "Engine.Weapon.ClientGivenTo is reliable client simulated, calls super and ClientWeaponSet(true,bDoNotActivate). If Instigator/InvManager absent it retries PendingClientWeaponSet. Manager may SetCurrentWeapon -> InternalSetCurrentWeapon -> ChangedWeapon, assign Pawn.Weapon and Activate.",
+    "important_state_detail": "Dual declares auto simulated state Active (full UC line648). Active.IsFiring returns true; Engine.Weapon.Activate only enters WeaponEquipping if !IsFiring(). Neither Dual.Active.BeginState nor the inspected GivenTo/ChangedWeapon/Activate/equipping UC explicitly clears bShutdown. This does not prove current state is Active.",
+    "roles": "RestartWeapons/ChangeCanFire/Active functions are simulated; observed Dual.Role1 alone is not a demonstrated rejection. No property Role change proposed.",
+    "proof_limit": "Pawn.Weapon==Dual and all references consistent prove those references, not current script state, native hand-slot initialization, or UpdateCanFire execution."
+  },
+  "core_scope": {
+    "owner_lines": "send_combat_permission645-665; send_inventory737-747; collect_inventory_manager799-823",
+    "implemented": "Core sends ClientGivenTo(false) after real openings/reference ACKs and sends field30 from own PawnCombatState predicate. Manager supported ServerSetCurrentWeapon updates own current_inventory_weapon without invented reply.",
+    "not_represented": "Core does not execute the client's native UpdateCanFire/ChangeCanFire/Active.RestartWeapons. Its initial spawn combat policy is not evidence that every effective client PawnCanFireWeapon input/timestamp is equal.",
+    "no_missing_rpc_proved": "No retained outbound client RestartWeapons RPC is established. Sending ServerRestartWeapons in the server-to-client direction or forcing bShutdown=false would not follow this proof."
+  },
+  "minimum_distinguishing_check": {
+    "question": "When field30 is true and shutdown true, does native dc5700 execute with Pawn predicate/result true while the Dual dispatches Active.RestartWeapons?",
+    "cases": [
+      "If Pawn predicate or LocalCanFire result is false, close that exact veto (not the server bit) first.",
+      "If result true but no state override executes, inspect exact current Dual script state/dispatch path.",
+      "If execution is absent, the native virtual408 caller scheduling/receiver+de0 is the open edge."
+    ],
+    "retained_caller": "Pawn vtable17de0c0+408 -> dc1d20; atdc1d91 load this+de0, null-test then direct UpdateCanFire call atdc1da0. No exact Tick name/engine scheduling proof; two earlier external callees unexpanded.",
+    "not_authorized_here": "No new probe/patch/extraction was implemented or run."
+  },
+  "source_anchors": [
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047276-HawkenGame.R_Weap_DualWield.uc",
+      "lines": [
+        {
+          "line": 13,
+          "text": "var bool bShutdown;"
+        },
+        {
+          "line": 14,
+          "text": "var transient bool bServerCanFire;"
+        },
+        {
+          "line": 23,
+          "text": "HandWeap, bServerCanFire;"
+        },
+        {
+          "line": 648,
+          "text": "auto simulated state Active"
+        }
+      ]
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047358-HawkenGame.R_Weap_DualWield.ChangeCanFire.uc",
+      "lines": [
+        {
+          "line": 1,
+          "text": "simulated event ChangeCanFire(bool bCanFireWeapon)"
+        },
+        {
+          "line": 6,
+          "text": "RestartWeapons();"
+        },
+        {
+          "line": 10,
+          "text": "ShutdownWeapons();"
+        }
+      ]
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047407-HawkenGame.R_Weap_DualWield.Active.RestartWeapons.uc",
+      "lines": [
+        {
+          "line": 5,
+          "text": "global.RestartWeapons();"
+        },
+        {
+          "line": 7,
+          "text": "if(bShutdown)"
+        },
+        {
+          "line": 9,
+          "text": "bShutdown = false;"
+        }
+      ]
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047399-HawkenGame.R_Weap_DualWield.Active.BeginFire.uc",
+      "lines": [
+        {
+          "line": 7,
+          "text": "if(__NFUN_130__(__NFUN_129__(bDeleteMe), __NFUN_119__(Instigator, none)))"
+        },
+        {
+          "line": 11,
+          "text": "if(__NFUN_130__(__NFUN_129__(bShutdown), __NFUN_119__(Weapon, none)))"
+        },
+        {
+          "line": 13,
+          "text": "Weapon.DoBeginFire();"
+        }
+      ]
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/032147-Engine.Weapon.Activate.uc",
+      "lines": [
+        {
+          "line": 4,
+          "text": "if(__NFUN_129__(IsFiring()))"
+        },
+        {
+          "line": 6,
+          "text": "__NFUN_113__('WeaponEquipping');"
+        }
+      ]
+    }
+  ],
+  "pins": [
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "50130b4ba7615e10b936c05680f6b57dc08fe634212b1fd17ba8bd2a0bfb9234"
+    },
+    {
+      "path": "implementation/evidence/fire-gates-20261017/functions.jsonl",
+      "sha256": "ccbc398386ed457d30b94826cbca77e2ddf6c4aaed1cddeb0336198b02a417b8"
+    },
+    {
+      "path": "implementation/evidence/fire-gates-20261017/contract.json",
+      "sha256": "1fa6c59072e48759ba12131cd2877dbbd972777c4a79e11d684696bd8518e0a8"
+    },
+    {
+      "path": "implementation/evidence/fire-gates-20261017/dual-update-caller/parent-review.json",
+      "sha256": "6d1308e54d692071731b5e0e291c00a3168e9e8c3764be6ec36991e060e1bcdf"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/probe-followup/client-hands-activation-retained.json",
+      "sha256": "04da8c97b96a4aa34ab2e3e967677fbf8afc59bd953a858fe47eea7e2bd8ebf5"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/core-owning-role-retry/live-before.json",
+      "sha256": "278292f339bdb4c5d2a55765d678b0e3c43d709d1a954bfdf7eb5d0c9b3a6eec"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/core-owning-role-retry/live-after.json",
+      "sha256": "278292f339bdb4c5d2a55765d678b0e3c43d709d1a954bfdf7eb5d0c9b3a6eec"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047276-HawkenGame.R_Weap_DualWield.uc",
+      "sha256": "c0ae29b3053e64594b2ee460222dd6964149dcfed89f8ce0c00541a7699fb1ec"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047358-HawkenGame.R_Weap_DualWield.ChangeCanFire.uc",
+      "sha256": "b55a83ecdb51a5607d3bf93bae2bf42d6539c3a55bc24318560072ae25c2d9fd"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047407-HawkenGame.R_Weap_DualWield.Active.RestartWeapons.uc",
+      "sha256": "108a5e3cf805395429d3587c13c5a60622aa3700d52bec457a06bbbb170e65de"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047399-HawkenGame.R_Weap_DualWield.Active.BeginFire.uc",
+      "sha256": "cc5db25b7ffcf87ed9673b6150af6cfa0698160af30864e55bb10fb87babdf88"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047409-HawkenGame.R_Weap_DualWield.Active.BeginState.uc",
+      "sha256": "49b5dcb3e6277e6d05b305e896db6ee04e16782a984edf8714be1af5bb0d53a2"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047363-HawkenGame.R_Weap_DualWield.ServerRestartWeapons.uc",
+      "sha256": "082192f9561eb0d7bd840cdac8da1bc376c376c09492c3012f368952585534fc"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/032163-Engine.Weapon.ClientGivenTo.uc",
+      "sha256": "d203526a7ddc2ad3b55c1ca234c4b5854d568f50757b742785192d64b05a4bff"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/032166-Engine.Weapon.ClientWeaponSet.uc",
+      "sha256": "46170172103612d11a5a46d9da3e7898cfcc2eeac13cdb7ed5fd5d5d7ed2c12d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/017660-Engine.InventoryManager.ClientWeaponSet.uc",
+      "sha256": "5b269c9766e0e5256a9a83705f1be52e6ee352fb7549608a58823efb1a81f8cc"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/017650-Engine.InventoryManager.InternalSetCurrentWeapon.uc",
+      "sha256": "8fc68ce7e36b23c8a1b22c2f68fc1108182a89111123238223173cc44aeacb3f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/017658-Engine.InventoryManager.ChangedWeapon.uc",
+      "sha256": "a8ec9a19e9eb92179cbc265de39a9cb005a273b13c8a42fa9e07610c762cf6d3"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/032147-Engine.Weapon.Activate.uc",
+      "sha256": "c5d0a93d22ea3723200b313910779bc857af31e8ae7abb7a7cd45e5f922fdbaa"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/032297-Engine.Weapon.WeaponEquipping.WeaponEquipped.uc",
+      "sha256": "247f7014a72296f5e2a9e60a3ec3d55db2c6c49e0b8de50a9ba5fb2bf899429b"
+    }
+  ],
+  "preservation": {
+    "product_sources_changed": false,
+    "tests_or_builds_run": false,
+    "persistent_helpers_created": 0
+  }
+}

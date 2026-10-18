@@ -1,0 +1,175 @@
+{
+  "schema": "retained-jump-gates-after-role2/v1",
+  "status": "STATIC_CHAIN_CONFIRMED;INPUT_FRAME_EXECUTION_AND_JUMP_CAUSE_NOT_VERIFIED",
+  "scope": "Retained UC/native contracts and current source only; no new extraction, builds, runtime or source changes.",
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "native_observation": {
+    "latest_context": "Parent reports trial after6093421: owning Pawn.Role2, flags0x20 delivered, no jump established. This report does not independently bind6093421 to an executable hash.",
+    "retained_comparable_receipt": "implementation/evidence/gameplay-bootstrap/20261017/core-owning-role-retry/parent-native-result.json",
+    "receipt_core_sha256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "observed_values": {
+      "pawn_role": 2,
+      "controller_role": 2,
+      "bcanMove": true,
+      "bJumpCapable": true,
+      "Physics": 1,
+      "MoveState": 2,
+      "JumpZ": 1250,
+      "ThrusterEnergy": 9.600000381469727,
+      "ThrusterJumpEnergy": 0
+    },
+    "sampling_limit": "Before/after typed two-sample snapshots are not atomic with Space, native callback execution or movement state changes."
+  },
+  "retained_input_order": [
+    {
+      "function": "R_PlayerController.PlayerWalking.PlayerMove",
+      "source": "research/2026-10-10/evidence/upk/packages/HawkenGame/021190-HawkenGame.R_PlayerController.PlayerWalking.PlayerMove.uc",
+      "facts": "Calls Pawn.CannotJumpNow before ReplicateMove/ProcessMove; can save/clear bPressedJump in that branch. No guessed NFUN operator meanings are introduced."
+    },
+    {
+      "function": "Engine.Pawn.CannotJumpNow",
+      "source": "research/2026-10-10/evidence/upk/packages/Engine/019891-Engine.Pawn.CannotJumpNow.uc",
+      "facts": "Retained own body returns false. This body supplies no additional mutable gate; no new native override is inferred."
+    },
+    {
+      "function": "Engine.PlayerController.ReplicateMove",
+      "source": "research/2026-10-10/evidence/upk/packages/Engine/004577-Engine.PlayerController.ReplicateMove.uc",
+      "anchors": [
+        "NewMove.SetMoveFor before ProcessMove, lines42..44"
+      ],
+      "facts": "SavedMove is populated before local ProcessMove. A transmitted saved jump flag therefore does not attest subsequent native movement/callback execution."
+    },
+    {
+      "function": "Engine.SavedMove.SetMoveFor",
+      "source": "research/2026-10-10/evidence/upk/packages/Engine/027559-Engine.SavedMove.SetMoveFor.uc",
+      "facts": "Copies P.bPressedJump into saved move."
+    },
+    {
+      "function": "R_PlayerController.PlayerWalking.ProcessMove",
+      "source": "research/2026-10-10/evidence/upk/packages/HawkenGame/021184-HawkenGame.R_PlayerController.PlayerWalking.ProcessMove.uc",
+      "anchors": [
+        "line11"
+      ],
+      "facts": "Calls RPawn.HandleAllMovement(newAccel,DeltaTime,DoubleClickMove,bPressedJump,bHeal,bTaunt,bUpdating)."
+    },
+    {
+      "function": "R_PawnNative.HandleAllMovement",
+      "rva": "0xd83510",
+      "exec_rva": "0xd1e1c0",
+      "export": 8569,
+      "flags": "0x20500",
+      "facts": "Invokes c38,c50,c30 before c40. At d83641 the c40 result must be nonzero before d83660 calls dddac0. Earlier stages can change state; a static snapshot is not the c40-time value."
+    },
+    {
+      "function": "CheckJumpOrHealOrTaunt thunk",
+      "rva": "0xdddac0",
+      "facts": "Normalizes the four bool arguments, resolves exact FName global1d40a58, and dispatches receiver virtual240. Retained event calls DoJump(bUpdating) only under its bPressedJump branch."
+    },
+    {
+      "function": "R_Pawn.DoJump",
+      "source": "research/2026-10-10/evidence/upk/packages/HawkenGame/031178-HawkenGame.R_Pawn.DoJump.uc",
+      "anchors": [
+        "lines31..35"
+      ],
+      "facts": "Successful body calls UseThrust, SetMoveState(3), writes Velocity.Z=JumpZ. bUpdating gates the tail sound call, not these preceding state writes."
+    }
+  ],
+  "known_value_gates_narrowed": [
+    {
+      "gate": "c40 concrete d82eb0",
+      "state": "STATIC_PREDICATE_WITH_COMPATIBLE_SNAPSHOT",
+      "requirements": "MoveState not9/14/19/22, raw+c20&0x100 nonzero, virtuala90==0 and virtualb20==0. Reflected bcanMove now observed at offsetc20/mask100; MoveState2 makes retained a90 and b20 leaves return0."
+    },
+    {
+      "gate": "DoJump known value predicates",
+      "state": "STATIC_PREDICATE_WITH_COMPATIBLE_SNAPSHOT",
+      "requirements": "Observed JumpCapabletrue/Physics1/energy9.6/cost0/MoveState2 do not identify a known value veto in retained original contracts. IsHeavyModeState default23 resolves currentMoveState; d964c0 returns true only11..13, hence false for observed2."
+    }
+  ],
+  "first_unobserved_execution_boundary": {
+    "finding": "No new named gameplay scalar is justified by the reviewed retained bodies. First unproved fact after saved input is execution of ProcessMove/HandleAllMovement with bPressedJump still true, then successful c40 and entry into CheckJumpOrHealOrTaunt/DoJump.",
+    "exact_retained_dispatch_guards_not_sampled": [
+      "Actor virtual240 target32d7d0 requires world/helper77fc30 path or objectDWORD+10 bit9, and globalDWORD1bbe44c==0 before forwarding7bb50.",
+      "Base7bb50 requires functionflags+d0&0x402 nonzero, receiver virtual70()==0 and functionshort+d4==0. Script call at7be31 is indirect UFunction+f0; its concrete entry/remaining guard is not closed in this retained contract."
+    ],
+    "not_proved": "None of these guards is demonstrated failing. Role2 excludes only the prior observed Role1 condition; own retained ProcessEvent bodies do not establish a Role/FUNC_Simulated veto. No additional local-controller/Ready prerequisite is positively identified on this exact retained branch."
+  },
+  "next_discriminator": {
+    "minimal_read_only_proposal": "If parent authorizes a follow-up, resolve the already identified CheckJumpOrHealOrTaunt UFunction+f0 binding/guard from retained metadata or a single bounded static body, rather than add guessed scalar gates or force Pawn state. Existing reflected state can show a lasting MoveState3/Physics transition but cannot prove entry into native/script callbacks.",
+    "runtime_proposal_limit": "No new hook, invocation, memory write, extra probe or compilation is performed/authorized by this report. A later observation of saved flags alone remains insufficient."
+  },
+  "server_distinction": "Current AtomicMovementDiagnostics only decodes/counts incoming flags. Its absent authoritative movement simulation remains an independent server implementation gap; it does not prove why local prediction failed in the observed input frame.",
+  "provenance": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\core-owning-role-retry\\parent-native-result.json",
+      "sha256": "e9deb487d27f3e666efe33f4863d3299aa21663359b2d309f5e057428328f72c"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\hawken-movement-native-entry-20261012\\contract.json",
+      "sha256": "f0e7e1501f19a503fc801e6326e8a6e8d63a465ec9601089f98e1850f2692d72"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\jump-native-gates\\native-guard\\contract.json",
+      "sha256": "96a1084fafdd664e810fccf330c65620537f2971f8bb8d9d6c2b5f9ccb32bd0a"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\jump-native-gates\\heavy-native-guard\\contract.json",
+      "sha256": "a9d78b434d41852e416f596be7b430743faf1ddc402dfdea297da250e14342b5"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\jump-native-gates\\heavy-native-guard\\process-event\\contract.json",
+      "sha256": "b503d7e26c97bd69feb025182441f12e1616581a7131feb0d67444f75b4924eb"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021190-HawkenGame.R_PlayerController.PlayerWalking.PlayerMove.uc",
+      "sha256": "a8d22eb6c3a9c6013b36c8cd39bc62055703a0433652d1818f2194d34a35b752"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\004577-Engine.PlayerController.ReplicateMove.uc",
+      "sha256": "a324cb70258e60941d7824597dfecd1e9fe2d67fd12727951d8631b7dd58d730"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\027559-Engine.SavedMove.SetMoveFor.uc",
+      "sha256": "3f76d73699779ebde6e350fdc755646e9b6fec94fc348e2f923458a4bf7daa2b"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\021184-HawkenGame.R_PlayerController.PlayerWalking.ProcessMove.uc",
+      "sha256": "00d044fc6d2ad8ab8ba4cdefa36a3b4d9782570077b48707ba09ec9d0445e4d9"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\012319-HawkenGame.R_PawnNative.CheckJumpOrHealOrTaunt.uc",
+      "sha256": "2f2380c71e125b5de475119820563816e22cc09d8a805fe4a1994dd68af7e4ed"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\031178-HawkenGame.R_Pawn.DoJump.uc",
+      "sha256": "bdf8c88d5906c1aaa2fbbe5f3ca7b20a07edcc1a09a86118c956ffbc28b0b68d"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\019891-Engine.Pawn.CannotJumpNow.uc",
+      "sha256": "963e33c06720bb7971843f7253da5be636c00b09bf6e8110bab947362ea6263e"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\HawkenGame\\020369-HawkenGame.R_PlayerController.MoveAutonomous.uc",
+      "sha256": "5d092787ae6876340e4f75a25086b0cd7a01257a62f37f26a862588a9dfe7bf2"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\local_udp_owner.cpp",
+      "sha256": "50130b4ba7615e10b936c05680f6b57dc08fe634212b1fd17ba8bd2a0bfb9234"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\movement_rpc.cpp",
+      "sha256": "7675102a4b7a0f0f3169a09d3b5e203ca164a75fb1f427955fe0db8b2c642339"
+    },
+    {
+      "path": "F:\\HawkenServer\\tools\\live_player_reader.hpp",
+      "sha256": "b7ef195443e6a57efc56248d573f84d31d1427134e03fddd800f43bbc30d2414"
+    }
+  ],
+  "limits": [
+    "No NFUN semantics inferred from ordinal/name",
+    "No claims from literal Role2 alone",
+    "No jump/physics values forced",
+    "No credentials, account IDs or live object addresses recorded",
+    "No new REA/Ghidra/helper process; persistent helpers0"
+  ]
+}

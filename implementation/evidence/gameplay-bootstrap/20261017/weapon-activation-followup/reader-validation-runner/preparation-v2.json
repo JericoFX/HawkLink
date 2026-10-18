@@ -1,0 +1,37 @@
+{
+  "schema": "hawken.reader-validation-runner-preparation.v2",
+  "preparedUtc": "2026-10-18T01:02:55.0150259Z",
+  "runner": {
+    "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-validation-runner\\launch-reader-validation-r2.ps1",
+    "sha256": "dd95b487b3af8d42d376c27cb8b641fb0b91be68d5fd03f09dd592c937a5b54b",
+    "parseErrorCount": 0,
+    "parseErrors": [],
+    "executionPerformed": false
+  },
+  "preservedPrior": {
+    "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-validation-runner\\launch-reader-validation.ps1",
+    "sha256": "cb70063768828c58398071f9b2ea836ad1903d9ca53f79a5b90cfbf3508cb8fa",
+    "priorPreparation": "preparation.json remains unchanged"
+  },
+  "inputRefs": {
+    "freezePath": "implementation/evidence/gameplay-bootstrap/20261017/weapon-activation-followup/reader-red/input-freeze.json",
+    "freezeSha256": "1e954c7430a9e3dfc5c81eaae6a5505e2509367b7aaabad11b42acc459ea2720",
+    "wrapperPath": "implementation/evidence/gameplay-bootstrap/20261017/weapon-activation-followup/reader-red/run-red.cmd",
+    "wrapperSha256": "a334d73651d35ae0d8da682cb3d0a25e4a01c0638a3a86e91ee4f236e7423e83"
+  },
+  "reviewedCorrections": {
+    "catchStopsOwnedTreeBeforeWaiting": true,
+    "catchWaitsOriginalProcessHandleBounded": true,
+    "catchRecordsTerminalityAndFinalRam": true,
+    "rootAnchoredByOriginalHandleCreationAndPath": true,
+    "rootVerifiedBeforeTreeCensus": true,
+    "childPathAndCreationRechecked": true,
+    "stopUsesProcessHandleAndWaits": true,
+    "processObjectsDisposedFinally": true,
+    "priorityObservationRecordsAppliedFlag": true,
+    "doctestCaseRegexParsesSkipped": true,
+    "doctestAssertionRegexParsesThreeFields": true,
+    "typedTryParse": true
+  },
+  "status": "prepared-only-awaiting-parent-review-and-Engine-lease"
+}

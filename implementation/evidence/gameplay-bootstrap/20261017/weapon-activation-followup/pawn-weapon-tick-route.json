@@ -1,0 +1,239 @@
+{
+  "created_utc": "2026-10-18T00:57:39.252968+00:00",
+  "status": "POSITIVE_SLOT_BODY_AND_UC_ASSIGNMENT_SEPARATE;RAW_OFFSET_NAME_AND_SCHEDULING_UNRESOLVED",
+  "scope": "Retained evidence/UC/index read only; no original extraction, build, runtime, source edit or pointer forcing.",
+  "skills_reused": {
+    "cpp-pro": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game-developer": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec"
+  },
+  "graft": "graft grep pawn_dual_weapon_field_id --no-refresh, authoritative F:/HawkenServer,231indexedfiles; artifact/UC/index direct reads because generated/unindexed.",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "confirmed_bytes_retained": {
+    "slot": "PawnContent vtable17de0c0+408,cell17de4c8/raw17dd8c8=201ddc4001000000 -> VA140dc1d20",
+    "body": {
+      "entry": "dc1d20",
+      "raw": "dc1120",
+      "bytes": 3022,
+      "sha256": "d52419337b7d1a6a42fa4a23227712372065b3afda8cb238976b3354e90ab4ee"
+    },
+    "own_body_flow": [
+      "dc1d53 RSI=RCX receiver; dc1d56 callcaf620; dc1d5e call5f93e0.",
+      "Both branches of return-value conditional eventually reach dc1d91 (unless earlier indirect calls do not return).",
+      "dc1d91 MOV RCX,[RSI+de0], bytes488b8ee00d0000; dc1d9b TEST RCX,RCX; dc1d9e JE dc1ded.",
+      "Nonnull receiver: direct CALLdc5700 atdc1da0 bytes e85b390000.",
+      "dc1da5 rereads [RSI+de0], then [receiver+3bc]. No store to [this+de0] occurs anywhere in retained caller.objdump.txt."
+    ],
+    "limit": "No direct Role gate in this entry-to-call span; external caf620/5f93e0 and optional virtuals2a0 are unexpanded. Names/caller scheduling not derived from address proximity."
+  },
+  "positive_retained_metadata_caller": {
+    "status": "RETAINED_GHIDRA_METADATA_EDGE_NOT_ORIGINAL_INSTRUCTION_VERIFICATION_HERE",
+    "records": [
+      {
+        "line": 45089,
+        "entry": "140dc1d00",
+        "function": "FUN_140dc1d00",
+        "body_ranges": "[[140dc1d00, 140dc1d1a]]",
+        "callees": [
+          {
+            "entry": "140dd4c00",
+            "is_external": false,
+            "name": "FUN_140dd4c00"
+          },
+          {
+            "entry": "140dc1d20",
+            "is_external": false,
+            "name": "FUN_140dc1d20"
+          }
+        ]
+      },
+      {
+        "line": 45090,
+        "entry": "140dc1d20",
+        "function": "FUN_140dc1d20",
+        "body_ranges": "[[140dc1d20, 140dc28ed]]",
+        "callees": [
+          {
+            "entry": "1400c5f70",
+            "is_external": false,
+            "name": "FUN_1400c5f70"
+          },
+          {
+            "entry": "140dc5700",
+            "is_external": false,
+            "name": "FUN_140dc5700"
+          },
+          {
+            "entry": "140caf620",
+            "is_external": false,
+            "name": "FUN_140caf620"
+          },
+          {
+            "entry": "140781570",
+            "is_external": false,
+            "name": "FUN_140781570"
+          },
+          {
+            "entry": "140d31960",
+            "is_external": false,
+            "name": "FUN_140d31960"
+          },
+          {
+            "entry": "1405f93e0",
+            "is_external": false,
+            "name": "FUN_1405f93e0"
+          },
+          {
+            "entry": "1405f9540",
+            "is_external": false,
+            "name": "FUN_1405f9540"
+          },
+          {
+            "entry": "14104d9f0",
+            "is_external": false,
+            "name": "MSVCR110.DLL::cosf"
+          },
+          {
+            "entry": "1403443e0",
+            "is_external": false,
+            "name": "FUN_1403443e0"
+          },
+          {
+            "entry": "1403a8990",
+            "is_external": false,
+            "name": "FUN_1403a8990"
+          },
+          {
+            "entry": "1400cb660",
+            "is_external": false,
+            "name": "FUN_1400cb660"
+          }
+        ]
+      }
+    ],
+    "small_exact_next_seed_if_parent_authorizes": {
+      "entry": "dc1d00",
+      "extent": "[dc1d00,dc1d1b)",
+      "bytes": 27,
+      "question": "Own metadata reports callsdd4c00 anddc1d20; determine exact receiver/call conditions. No body available in frozen own-decompile index."
+    },
+    "not_claimed": "Tick/TickSpecial name, recurring scheduling, execution in remote owning Pawn, or semantics ofdd4c00."
+  },
+  "positive_named_property_separate": {
+    "name": "HawkenGame.R_PawnNative.DualWeapon",
+    "declaration": "011893 UC line342: var R_Weap_DualWield DualWeapon;",
+    "physical_export": 8897,
+    "serial_virtual_offset": "0x7c479a",
+    "flags": "0x20",
+    "expected_class": "HawkenGame.R_Weap_DualWield",
+    "array_dim": 1,
+    "conditional_field_id": 80,
+    "conditional_bound": 150,
+    "repnotify": false,
+    "assignment": {
+      "uc": "030717-HawkenGame.R_Pawn.AddDefaultInventory.uc",
+      "line": 11,
+      "text": "DualWeapon = R_Weap_DualWield(CreateInventory(Class'HawkenGame.R_Weap_DualWield', false));",
+      "branch": "Else of HawkenAi_ControllerBase(Controller)!=None. AI-controller path delegates to its AddDefaultInventory instead."
+    },
+    "not_proved": "These package descriptors/declarations establish named property/type/assignment but do not contain an independent reflected in-memory Offset8c==de0 anchor. UC declaration order is not a native offset proof.",
+    "candidate": "de0 receiver has an UpdateCanFire call and accesses receiver+3bc, concordant with Dual; name remains PROBABLE until positive reflected/native binding."
+  },
+  "bounded_negative_searches": [
+    {
+      "scope": "fire-gates-20261017 + gameplay-bootstrap/20261017/probe-followup + weapon-activation-followup",
+      "query": "literal0xde0/+de0 and exact offset3552/metadata_offset3552; DualWeapon withoffset",
+      "result": "Found caller disassembly and prior explicit open-edge reports; no independent named offset."
+    },
+    {
+      "scope": "Frozen parent/native-functions.json exact original hash; only its indexed JSONL own-body sources",
+      "own_records": 611,
+      "source_file_count": 287,
+      "query": "pseudocode exact +0xde0 (case insensitive) or +3552",
+      "result": "No matching own pseudocode in this frozen index; new standalone caller.objdump is separate and does contain reads. This is not whole-EXE absence."
+    },
+    {
+      "scope": "Same frozen own index",
+      "query": "exact entriesdc1d20,caf620,5f93e0",
+      "result": "No retained own body records. dc1d20 separately supplied by later parent objdump."
+    },
+    {
+      "scope": "Retained WorldTick52edd0 and EngineTick49e7c0 exact pseudocode",
+      "query": "direct FUN_140dc1d20 or exact virtual +0x408",
+      "result": "No direct occurrence. Other callees may schedule it; not expanded and no scheduling absence claim."
+    },
+    {
+      "scope": "R_PawnNative/R_Pawn and Dual UC generated class/method files only",
+      "query": "assignment DualWeapon= versus hand.WeapVar.DualWeapon=self",
+      "result": "Positive Pawn.AddDefaultInventory assignment is distinct from hand backreference in Dual.InternalSetWeapon."
+    }
+  ],
+  "minimum_remaining_discriminators": [
+    "Exact reflected R_PawnNative.DualWeapon UProperty.Offset8c value would join the named link to rawde0; existing read_live_player validates/uses offset internally but snapshot does not expose it. No new reader field implemented here.",
+    "Exactdc1d00 own27B is a small justified caller edge, not a complete scheduling proof by itself.",
+    "No evidence supports forcing a pointer, assuming tick identity, or clearing shutdown."
+  ],
+  "pins": [
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-activation-followup/game-master.json",
+      "sha256": "8c6e07045a433b58c2852a7c6195f02fd7afc45d744c1ebeed77a5d5989f8ece"
+    },
+    {
+      "path": "implementation/evidence/fire-gates-20261017/dual-update-caller/parent-review.json",
+      "sha256": "6d1308e54d692071731b5e0e291c00a3168e9e8c3764be6ec36991e060e1bcdf"
+    },
+    {
+      "path": "implementation/evidence/fire-gates-20261017/dual-update-caller/extraction.json",
+      "sha256": "1ad077ffddec35ecf05188c0c9a523444715e77b982a7723ab9c5eccda2499a7"
+    },
+    {
+      "path": "implementation/evidence/fire-gates-20261017/dual-update-caller/caller.objdump.txt",
+      "sha256": "e01b822b603da8d5fd2cd1d78a5d34aff7814788e365f8e330df8494c11d5cfe"
+    },
+    {
+      "path": "implementation/evidence/fire-gates-20261017/dual-update-caller/pawn-vtable-cells.json",
+      "sha256": "9a06a0cf92032f3731fffb11d5422877df8ce1fd2564307a00e20adf099d2142"
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/ghidra/main-functions.jsonl",
+      "sha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1"
+    },
+    {
+      "path": "implementation/evidence/complete-artifact-map-20261013/parent/native-functions.json",
+      "sha256": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/probe-followup/pawn-dualweapon-link-contract.json",
+      "sha256": "3d0ac9431897a6cc08d0064116b42f148b30a2d66a4f5d91e56c99fffb986b0d"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/011893-HawkenGame.R_PawnNative.uc",
+      "sha256": "7f9ce248660e0bdf8b7350765ef21fa4f9f203685530b115ab27bafeceb86e58"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/030717-HawkenGame.R_Pawn.AddDefaultInventory.uc",
+      "sha256": "c8b77fa9ad1e57baad7d7a3efd857b163a45f17e68c4d06358c819d035dee7d3"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-world-load-tick/functions.jsonl",
+      "sha256": "edb95fb4f4a64495087065e8f2e4e31e8fa1efdcd79790a8a481e3a7b4a77642"
+    },
+    {
+      "path": "implementation/evidence/native-server-reuse-research/ghidra-engine-base-loader/functions.jsonl",
+      "sha256": "62da0da87cd402e681b82900e70f10bf0a088571bcf42d5433b22bc42f5855a0"
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "sha256": "7e87547d2c106e7f7a129f9074837049ed041a733514cffcc752e40a0b6344b5"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "sha256": "f8636567f5d834301ecbb4cd1b0a7dffe617d765ad70a05d7b300cbec2793d3c"
+    }
+  ],
+  "preservation": {
+    "product_source_edits": false,
+    "builds_or_tests": false,
+    "native_or_ui": false,
+    "new_helpers": 0
+  }
+}

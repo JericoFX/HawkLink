@@ -1,0 +1,118 @@
+{
+  "schema": "weapon-callback-function-binding-review/v1",
+  "created_utc": "2026-10-18T00:42:05.4907776Z",
+  "scope": "Read-only review of retained ProcessEvent body and existing UPK/Ghidra evidence; no new extraction, build, runtime, or source changes.",
+  "skill_coverage": {
+    "cpp_pro_sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer_sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "coverage": "Full readings reused; hashes match current skill files."
+  },
+  "graft": {
+    "cwd": "F:\\HawkenServer",
+    "cli": "C:\\Users\\Jerico\\.bun\\bin\\graft.exe",
+    "query_mode": "ask --source --no-refresh",
+    "query_relevant_hit": false,
+    "query_note": "Lexical query returned unrelated cpp-httplib dispatch_event hits and only weapon_fire_rpc file cards; fallback was bounded to retained evidence because target native bodies are generated evidence and current graph context reports missing=true, graph stale=false.",
+    "check": {
+      "exit": 0,
+      "context_ok": false,
+      "context_missing": true,
+      "graph_ok": true,
+      "graph_stale": [],
+      "nodes": 8237,
+      "pending": 8237
+    }
+  },
+  "binary": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "bytes": 31918592
+  },
+  "process_event": {
+    "evidence_path": "implementation/evidence/gameplay-bootstrap/20261017/jump-native-gates/heavy-native-guard/process-event/contract.json",
+    "evidence_sha256": "b503d7e26c97bd69feb025182441f12e1616581a7131feb0d67444f75b4924eb",
+    "body_rva_start": "0x7bb50",
+    "body_rva_end_exclusive": "0x7bf2e",
+    "body_bytes": 990,
+    "instruction_count": 227,
+    "body_sha256": "d4b38fc7bcce6e4ccf7b6868f7afb7622042e4eda9ad99e64c3d233463397ef3",
+    "indirect_call": {
+      "rva": "0x7be31",
+      "raw_offset": "0x7b231",
+      "bytes": "ff97f0000000",
+      "decoded": "call qword ptr [RDI+0xf0]",
+      "meaning_confirmed": "ProcessEvent dereferences a per-UFunction slot at +0xf0 and invokes it with frame/return-storage context."
+    },
+    "actor_wrapper": {
+      "rva": "0x32d7d0",
+      "raw_offset": "0x32cbd0",
+      "bytes": 110,
+      "hash": "cd902d166326a7cafacb7a416970b06357176247150e0f0277a1f4f8ec672195",
+      "calls_process_event_at": "0x32d824",
+      "guard_summary": "world/helper path or object DWORD+0x10 bit9, then global DWORD 0x1bbe44c==0 before forwarding",
+      "guard_is_not_binding_proof": true
+    }
+  },
+  "target_functions": [
+    {
+      "name": "HawkenGame.R_PawnNative.CheckJumpOrHealOrTaunt",
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "package_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 8589,
+      "serial_offset": "0x7bf5b7",
+      "serial_size": 180,
+      "object_ordinal": 12319,
+      "net_index": 8592,
+      "native_token": 0,
+      "script_offset": 48,
+      "script_size": 117,
+      "function_flags": "0x20802",
+      "uc_path": "research/2026-10-10/evidence/upk/packages/HawkenGame/012319-HawkenGame.R_PawnNative.CheckJumpOrHealOrTaunt.uc",
+      "uc_sha256": "2f2380c71e125b5de475119820563816e22cc09d8a805fe4a1994dd68af7e4ed",
+      "uc_declaration": "event CheckJumpOrHealOrTaunt(bool bPressedJump, bool bHeal, bool bTaunt, bool bUpdating)",
+      "metadata_source": "heavy-native-guard/script-dispatch-metadata.json",
+      "metadata_sha256": "8d1c1fdc3a072a1e6f52bde8ca151f92c13eb10cdfcafa7b67d85f1758a860ff",
+      "status": "Script-bytecode UFunction is evidenced by NativeToken=0 and ScriptSize=117; this does not identify its runtime +0xf0 target."
+    },
+    {
+      "name": "HawkenGame.R_Weap_DualWield.ChangeCanFire",
+      "package": "HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "package_sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0",
+      "export_index": 43626,
+      "serial_offset": "0xc79c9f",
+      "serial_size": 98,
+      "object_ordinal": 47358,
+      "net_index": 43643,
+      "script_size": 35,
+      "function_flags": "0x20902",
+      "uc_path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047358-HawkenGame.R_Weap_DualWield.ChangeCanFire.uc",
+      "uc_sha256": "b55a83ecdb51a5607d3bf93bae2bf42d6539c3a55bc24318560072ae25c2d9fd",
+      "uc_declaration": "simulated event ChangeCanFire(bool bCanFireWeapon)",
+      "status": "Script event with bytecode is evidenced; the retained package map does not expose NativeToken for this record and no runtime +0xf0 target was found."
+    }
+  ],
+  "retained_binding_examples": {
+    "path": "implementation/evidence/complete-artifact-map-20261013/upk/native-binding-examples.json",
+    "sha256": "12c3297be001ba7fee65de7ac1554a257bdeabf74320799b0c8b1b86215c30ab",
+    "use": "Four explicitly non-exhaustive examples of named native exec pairs and conditional vtable bindings. Neither target function appears; not evidence for either callback +0xf0 slot."
+  },
+  "findings": {
+    "confirmed": [
+      "Original ProcessEvent body calls the per-UFunction +0xf0 slot at RVA 0x7be31; exact instruction bytes are retained and verified.",
+      "CheckJumpOrHealOrTaunt is a non-native bytecode function in the retained package manifest record (NativeToken 0, ScriptSize 117).",
+      "ChangeCanFire is declared as a simulated script event; retained package-map entry gives ScriptSize 35 and flags 0x20902.",
+      "The actor wrapper forwards to ProcessEvent under its documented guards; those guards do not reveal the UFunction field value."
+    ],
+    "unresolved": [
+      "No retained constructor, Bind routine, registration record, or load-path body was found that writes the target UFunction objects +0xf0 field.",
+      "The destination address stored in +0xf0 for either named function is not present in the reviewed retained evidence.",
+      "A generic bytecode interpreter thunk is plausible given the non-native bytecode metadata but is unverified and is not reported as fact."
+    ],
+    "next_minimum_discriminator": "A single bounded static caller/dataflow proof from the exact UFunction construction or Bind/load routine to the +0xf0 store and its source value, scoped to these two function objects. If no static object-specific mapping exists, an authorized read-only observation of the exact reflected UFunction slot would be needed. No such collection was performed here."
+  },
+  "limits": [
+    "No Java/Ghidra session, provider, build, runtime, or memory read was started.",
+    "No acceptance, gameplay, or callback-execution claim.",
+    "No persistent helper was created."
+  ]
+}

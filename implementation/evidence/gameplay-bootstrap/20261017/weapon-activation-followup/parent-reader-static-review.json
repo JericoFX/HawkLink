@@ -1,0 +1,63 @@
+{
+  "utc": "2026-10-18T00:56:28.7833359Z",
+  "reviewer": "/root",
+  "scope": "Static review and frozen validation preparation only",
+  "candidatePins": [
+    {
+      "path": "reader-candidate\\tools\\live_player_reader.hpp",
+      "sha256": "3f2b70a8fe414852d080744f2953b8cb35114cdb5f5f4a04ef7d4271b7144fa4"
+    },
+    {
+      "path": "reader-candidate\\tools\\controller_netfields_probe.cpp",
+      "sha256": "aa8057c690e3dc9900df1480d1f87c1714d3fdccc2fd13e5643922ad9f753f28"
+    },
+    {
+      "path": "reader-candidate-review.json",
+      "sha256": "1d60c278afe067c24b9b1d3ea1a2539e1b44fbc1dd060ef1a0d2cb54189faea7"
+    },
+    {
+      "path": "get-state-name-review.json",
+      "sha256": "747f2ef200a4dd44ba93849ed8c2e545b72ae29db4d66f0cf829dc5429fca943"
+    },
+    {
+      "path": "prepare-reader-validation.ps1",
+      "sha256": "d6c081c4ab3370b0ac987247ae6d4325f9a86db0f5f8d5b65c8c5a42c950bb1f"
+    },
+    {
+      "path": "reader-red\\input-freeze.json",
+      "sha256": "1e954c7430a9e3dfc5c81eaae6a5505e2509367b7aaabad11b42acc459ea2720"
+    },
+    {
+      "path": "reader-red\\run-red.cmd",
+      "sha256": "a334d73651d35ae0d8da682cb3d0a25e4a01c0638a3a86e91ee4f236e7423e83"
+    }
+  ],
+  "test": {
+    "path": "tests/live_player_reader_tests.cpp",
+    "sha256": "3763eb35eb461bfd0dc91266bcb72dadec417991ec5e54587fe228451c1fdaab",
+    "baseCasesPreserved": 42,
+    "newCasesPrepared": 8,
+    "executionPending": true
+  },
+  "decisions": [
+    "GetStateName native body reads the node FName regardless of State/Class subtype. Accept only a State owned by actor ancestry or a Class in that ancestry. Named means the observed node name, not proof of an active State or executed event.",
+    "target_in_original_text means RVA in original PE executable interval; it does not attest loaded bytes or execution.",
+    "Header also supplies LiveIdentity to main_menu_sync_reader.hpp: force recompilation of reader test, main-menu reader test and probe after applying the candidate.",
+    "Observed Role2 with shutdown true is evidence against the old role-only explanation. Do not force flags or send the client-to-server ServerRestartWeapons function in the wrong direction."
+  ],
+  "production": {
+    "headerScaffoldSHA256": "7e87547d2c106e7f7a129f9074837049ed041a733514cffcc752e40a0b6344b5",
+    "coreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "candidateApplied": false,
+    "nativeAcceptance": false
+  },
+  "coordination": "JericoEngine exclusive build remains active by owner report; Hawken launches none until new explicit lease",
+  "gatesPending": [
+    "Observed behavioral RED with old42 preserved",
+    "Candidate application and forced recompile",
+    "Reader50 plus full60 suites and probe build",
+    "Real Steam runtime node names/dispatch RVAs and mandatory client log",
+    "Root-cause correction and native fire/jump acceptance"
+  ],
+  "helpersLaunched": 0
+}

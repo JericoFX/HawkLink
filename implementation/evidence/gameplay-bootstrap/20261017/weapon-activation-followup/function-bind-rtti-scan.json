@@ -1,0 +1,68 @@
+{
+  "scope": "Exact ASCII MSVC class RTTI name scan only; no broad reference scan or method disassembly after zero hits.",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "bytes": 31918592,
+  "pe": {
+    "machine": "0x8664",
+    "optional_magic": "0x20b",
+    "image_base": "0x140000000",
+    "sections": [
+      {
+        "name": ".text",
+        "rva": 4096,
+        "virtual_size": 19451769,
+        "raw_offset": 1024,
+        "raw_size": 19451904
+      },
+      {
+        "name": ".rdata",
+        "rva": 19456000,
+        "virtual_size": 8711789,
+        "raw_offset": 19452928,
+        "raw_size": 8712192
+      },
+      {
+        "name": ".data",
+        "rva": 28168192,
+        "virtual_size": 2637048,
+        "raw_offset": 28165120,
+        "raw_size": 889856
+      },
+      {
+        "name": ".pdata",
+        "rva": 30806016,
+        "virtual_size": 982440,
+        "raw_offset": 29054976,
+        "raw_size": 982528
+      },
+      {
+        "name": ".tls",
+        "rva": 31789056,
+        "virtual_size": 61,
+        "raw_offset": 30037504,
+        "raw_size": 512
+      },
+      {
+        "name": ".rsrc",
+        "rva": 31793152,
+        "virtual_size": 1058456,
+        "raw_offset": 30038016,
+        "raw_size": 1058816
+      },
+      {
+        "name": ".reloc",
+        "rva": 32854016,
+        "virtual_size": 821614,
+        "raw_offset": 31096832,
+        "raw_size": 821760
+      }
+    ]
+  },
+  "needle": ".?AVUFunction@@",
+  "matches": [],
+  "match_count": 0,
+  "complete_object_locator_scan_performed": false,
+  "vtable_or_method_candidates_scanned": false,
+  "conclusion": "NO_EXACT_MSVCTYPEDESCRIPTOR_STRING_FOUND"
+}

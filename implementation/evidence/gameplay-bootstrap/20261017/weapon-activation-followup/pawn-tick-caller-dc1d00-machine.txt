@@ -1,0 +1,15 @@
+
+F:\SteamLibrary\steamapps\common\Hawken\Binaries\Win64\HawkenGame-Win64-Shipping.exe:     file format pei-x86-64
+
+
+Disassembly of section .text:
+
+0000000140dc1d00 <.text+0xdc0d00>:
+   140dc1d00:	40 53                	rex push rbx
+   140dc1d02:	48 83 ec 20          	sub    rsp,0x20
+   140dc1d06:	48 8b d9             	mov    rbx,rcx
+   140dc1d09:	e8 12 00 00 00       	call   0x140dc1d20
+   140dc1d0e:	48 8b cb             	mov    rcx,rbx
+   140dc1d11:	48 83 c4 20          	add    rsp,0x20
+   140dc1d15:	5b                   	pop    rbx
+   140dc1d16:	e9 e5 2e 01 00       	jmp    0x140dd4c00

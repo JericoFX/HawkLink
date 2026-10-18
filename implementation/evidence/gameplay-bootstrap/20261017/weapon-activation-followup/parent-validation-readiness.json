@@ -1,0 +1,49 @@
+{
+  "utc": "2026-10-18T01:05:44.8101257Z",
+  "scope": "Parent review of validation preparation, not execution or gameplay acceptance",
+  "pins": [
+    {
+      "path": "reader-validation-runner\\launch-reader-validation-r3.ps1",
+      "sha256": "c8dccf3f9999a18dc9ef8671da2e9fe0b9873dd6f2c55796ed14b7d3ae8b4019"
+    },
+    {
+      "path": "reader-validation-runner\\r3-serialization-check-v2\\serialization-proof.json",
+      "sha256": "7ad2df1318d911b553bcf71804f29fabe971b69b5075c0e12600d17866d6839b"
+    },
+    {
+      "path": "prepare-reader-validation.ps1",
+      "sha256": "d6c081c4ab3370b0ac987247ae6d4325f9a86db0f5f8d5b65c8c5a42c950bb1f"
+    },
+    {
+      "path": "reader-red\\input-freeze.json",
+      "sha256": "1e954c7430a9e3dfc5c81eaae6a5505e2509367b7aaabad11b42acc459ea2720"
+    },
+    {
+      "path": "reader-red\\run-red.cmd",
+      "sha256": "a334d73651d35ae0d8da682cb3d0a25e4a01c0638a3a86e91ee4f236e7423e83"
+    }
+  ],
+  "runnerReview": [
+    "Read all R2 control/ownership/exception paths and exact R3 two-line diff",
+    "R1 rejected: catch had no owned cleanup and assertion regex assumed nonexistent skipped field",
+    "R2 generic List[object] conversion failed in actual PowerShell7.6.5; preserved failure and R3 correction",
+    "Verified R3 AST and zero/one-sample serialization proof; no build or runtime started"
+  ],
+  "pending": [
+    "Engine explicit exclusive lease",
+    "Fresh admission gates and original process-handle monitoring",
+    "Behavioral RED then parent candidate application",
+    "Green affected-target compile/full60 suites",
+    "Native Steam node-name/dispatch observation and client logs",
+    "Actual fire/jump correction and acceptance"
+  ],
+  "productionCoreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+  "readerScaffoldSHA256": "7e87547d2c106e7f7a129f9074837049ed041a733514cffcc752e40a0b6344b5",
+  "testSHA256": "3763eb35eb461bfd0dc91266bcb72dadec417991ec5e54587fe228451c1fdaab",
+  "auxiliaryProcessesCreatedAndRetained": 0,
+  "resourceSnapshot": {
+    "usedPercent": 68.76758080055848,
+    "freeGiB": 9.967033386230469
+  },
+  "codeOrGameplayAccepted": false
+}
