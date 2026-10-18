@@ -1,0 +1,8 @@
+{
+  "purpose": "Task-owned sky trusted worker",
+  "pid": 24896,
+  "parent": 32332,
+  "path": "C:\\Users\\Jerico\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\78fb63cda1a9e2b2\\bin\\node.exe",
+  "creationUtc": "2026-10-18T01:36:46.6799800Z",
+  "disposeBy": "node_repl reset or exact identity closure after final screenshot"
+}

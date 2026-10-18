@@ -1,0 +1,32 @@
+[
+  {
+    "path": "reader-red/build.exit",
+    "sha256": "9aca8dfce962538fb8131d73f84cada05e4dc79f5a0d3612c511b1150f3e33e2",
+    "base64": "MCANCg=="
+  },
+  {
+    "path": "reader-red/focused.exit",
+    "sha256": "2f1c37754e38b4ac70a9559fbfbdbd28feda47f36be9cd9e3ad5bc844ee3feb6",
+    "base64": "MSANCg=="
+  },
+  {
+    "path": "reader-red/old-cases.exit",
+    "sha256": "9aca8dfce962538fb8131d73f84cada05e4dc79f5a0d3612c511b1150f3e33e2",
+    "base64": "MCANCg=="
+  },
+  {
+    "path": "reader-green/build.exit",
+    "sha256": "9aca8dfce962538fb8131d73f84cada05e4dc79f5a0d3612c511b1150f3e33e2",
+    "base64": "MCANCg=="
+  },
+  {
+    "path": "reader-green/focused.exit",
+    "sha256": "9aca8dfce962538fb8131d73f84cada05e4dc79f5a0d3612c511b1150f3e33e2",
+    "base64": "MCANCg=="
+  },
+  {
+    "path": "reader-green/ctest.exit",
+    "sha256": "9aca8dfce962538fb8131d73f84cada05e4dc79f5a0d3612c511b1150f3e33e2",
+    "base64": "MCANCg=="
+  }
+]

@@ -1,0 +1,125 @@
+Test project F:/HawkenServer/build/windows-msvc
+      Start  1: client_steam_identity_transport
+ 1/60 Test  #1: client_steam_identity_transport ...   Passed    2.33 sec
+      Start  2: main_menu_sync_reader
+ 2/60 Test  #2: main_menu_sync_reader .............   Passed    0.24 sec
+      Start  3: live_player_reader
+ 3/60 Test  #3: live_player_reader ................   Passed    0.29 sec
+      Start  4: gri_template_reader
+ 4/60 Test  #4: gri_template_reader ...............   Passed    0.02 sec
+      Start  5: controller_sample_comparison
+ 5/60 Test  #5: controller_sample_comparison ......   Passed    0.01 sec
+      Start  6: mech_setup_reader
+ 6/60 Test  #6: mech_setup_reader .................   Passed    0.02 sec
+      Start  7: connection_cache_reader
+ 7/60 Test  #7: connection_cache_reader ...........   Passed    0.03 sec
+      Start  8: server_listing_http
+ 8/60 Test  #8: server_listing_http ...............   Passed    0.72 sec
+      Start  9: local_tcp_probe
+ 9/60 Test  #9: local_tcp_probe ...................   Passed    0.21 sec
+      Start 10: local_udp_owner
+10/60 Test #10: local_udp_owner ...................   Passed   79.32 sec
+      Start 11: udp_trial_runtime
+11/60 Test #11: udp_trial_runtime .................   Passed   11.57 sec
+      Start 12: server_assignment_http
+12/60 Test #12: server_assignment_http ............   Passed    0.73 sec
+      Start 13: game_connection
+13/60 Test #13: game_connection ...................   Passed    0.03 sec
+      Start 14: session_assignment
+14/60 Test #14: session_assignment ................   Passed    1.08 sec
+      Start 15: sync_service
+15/60 Test #15: sync_service ......................   Passed    0.47 sec
+      Start 16: menu_sync_service
+16/60 Test #16: menu_sync_service .................   Passed    0.67 sec
+      Start 17: server_auth_http
+17/60 Test #17: server_auth_http ..................   Passed    1.07 sec
+      Start 18: server_inventory_http
+18/60 Test #18: server_inventory_http .............   Passed    2.27 sec
+      Start 19: server_menu_http
+19/60 Test #19: server_menu_http ..................   Passed    0.98 sec
+      Start 20: auth_service
+20/60 Test #20: auth_service ......................   Passed    0.44 sec
+      Start 21: steam_auth_callback
+21/60 Test #21: steam_auth_callback ...............   Passed    0.01 sec
+      Start 22: session_wire
+22/60 Test #22: session_wire ......................   Passed    0.01 sec
+      Start 23: control_wire
+23/60 Test #23: control_wire ......................   Passed    0.01 sec
+      Start 24: control_handshake
+24/60 Test #24: control_handshake .................   Passed    0.01 sec
+      Start 25: posthello_control
+25/60 Test #25: posthello_control .................   Passed    0.02 sec
+      Start 26: package_publication
+26/60 Test #26: package_publication ...............   Passed    0.01 sec
+      Start 27: wreckage_trial
+27/60 Test #27: wreckage_trial ....................   Passed    0.08 sec
+      Start 28: server_login_handshake
+28/60 Test #28: server_login_handshake ............   Passed    0.01 sec
+      Start 29: starter_inventory
+29/60 Test #29: starter_inventory .................   Passed    0.01 sec
+      Start 30: starter_catalogue
+30/60 Test #30: starter_catalogue .................   Passed    0.02 sec
+      Start 31: inventory_service
+31/60 Test #31: inventory_service .................   Passed    2.24 sec
+      Start 32: packet_writer
+32/60 Test #32: packet_writer .....................   Passed    0.01 sec
+      Start 33: actor_transform
+33/60 Test #33: actor_transform ...................   Passed    0.01 sec
+      Start 34: pawn_combat
+34/60 Test #34: pawn_combat .......................   Passed    0.01 sec
+      Start 35: movement_rpc
+35/60 Test #35: movement_rpc ......................   Passed    0.01 sec
+      Start 36: weapon_fire_rpc
+36/60 Test #36: weapon_fire_rpc ...................   Passed    0.01 sec
+      Start 37: package_map_ranges
+37/60 Test #37: package_map_ranges ................   Passed    0.01 sec
+      Start 38: object_reference
+38/60 Test #38: object_reference ..................   Passed    0.01 sec
+      Start 39: object_property_wire
+39/60 Test #39: object_property_wire ..............   Passed    0.01 sec
+      Start 40: bool_property_wire
+40/60 Test #40: bool_property_wire ................   Passed    0.01 sec
+      Start 41: int_property_wire
+41/60 Test #41: int_property_wire .................   Passed    0.01 sec
+      Start 42: mech_setup_wire
+42/60 Test #42: mech_setup_wire ...................   Passed    0.01 sec
+      Start 43: starter_mech_setup
+43/60 Test #43: starter_mech_setup ................   Passed    0.02 sec
+      Start 44: start_mech_rpc
+44/60 Test #44: start_mech_rpc ....................   Passed    0.02 sec
+      Start 45: spawn_validation
+45/60 Test #45: spawn_validation ..................   Passed    0.01 sec
+      Start 46: spawn_validation_rpc
+46/60 Test #46: spawn_validation_rpc ..............   Passed    0.01 sec
+      Start 47: controller_admission_rpc
+47/60 Test #47: controller_admission_rpc ..........   Passed    0.01 sec
+      Start 48: match_readiness
+48/60 Test #48: match_readiness ...................   Passed    0.01 sec
+      Start 49: unique_id_wire
+49/60 Test #49: unique_id_wire ....................   Passed    0.01 sec
+      Start 50: inventory_rpc_wire
+50/60 Test #50: inventory_rpc_wire ................   Passed    0.01 sec
+      Start 51: pawn_rpc_wire
+51/60 Test #51: pawn_rpc_wire .....................   Passed    0.01 sec
+      Start 52: reliable_actor_transport
+52/60 Test #52: reliable_actor_transport ..........   Passed    0.01 sec
+      Start 53: initial_controller
+53/60 Test #53: initial_controller ................   Passed    0.01 sec
+      Start 54: initial_pawn
+54/60 Test #54: initial_pawn ......................   Passed    0.01 sec
+      Start 55: reliable_control_transport
+55/60 Test #55: reliable_control_transport ........   Passed    0.01 sec
+      Start 56: foundation
+56/60 Test #56: foundation ........................   Passed    1.00 sec
+      Start 57: master_directory
+57/60 Test #57: master_directory ..................   Passed    0.13 sec
+      Start 58: server_bootstrap
+58/60 Test #58: server_bootstrap ..................   Passed    0.47 sec
+      Start 59: storage
+59/60 Test #59: storage ...........................   Passed   10.13 sec
+      Start 60: client_routing
+60/60 Test #60: client_routing ....................   Passed    0.05 sec
+
+100% tests passed, 0 tests failed out of 60
+
+Total Test time (real) = 117.27 sec

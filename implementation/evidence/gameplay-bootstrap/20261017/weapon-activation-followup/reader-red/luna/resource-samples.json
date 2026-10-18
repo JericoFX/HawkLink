@@ -1,0 +1,36 @@
+[
+  {
+    "utc": "2026-10-18T01:32:46.1080137Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10972086272,
+    "usedPercent": 67.98,
+    "ownedTreeWorkingSetBytes": 235749376,
+    "priorityObservations": [
+      {
+        "pid": 40080,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 25624,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23004,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 38740,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 28484,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  }
+]

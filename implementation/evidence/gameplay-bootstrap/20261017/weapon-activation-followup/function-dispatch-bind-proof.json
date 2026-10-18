@@ -1,0 +1,64 @@
+{
+  "schema": "hawken.function-dispatch-binding-static-proof.v1",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "functions": [
+    {
+      "rva": "0x6e540",
+      "end_rva": "0x6e868",
+      "raw": "0x6d940",
+      "size": 808,
+      "sha256": "342462d66342ad256daf55728b0af3b52cf5b01f1bfde7d670d1f840132a3262"
+    },
+    {
+      "rva": "0x7bf30",
+      "end_rva": "0x7c179",
+      "raw": "0x7b330",
+      "size": 585,
+      "sha256": "3bb9546e3280e906fd18219eaabb31dcfe5841cf94a0a61362a3d594b34d5083"
+    }
+  ],
+  "edges": [
+    {
+      "rva": "0x6e583",
+      "raw": "0x6d983",
+      "bytes": "f786d000000000040000"
+    },
+    {
+      "rva": "0x6e5a3",
+      "raw": "0x6d9a3",
+      "bytes": "0fb786d4000000"
+    },
+    {
+      "rva": "0x6e5b2",
+      "raw": "0x6d9b2",
+      "bytes": "488d0de7c3b601"
+    },
+    {
+      "rva": "0x6e829",
+      "raw": "0x6dc29",
+      "bytes": "48899ef0000000"
+    },
+    {
+      "rva": "0x6e832",
+      "raw": "0x6dc32",
+      "bytes": "488d05f7d60000"
+    },
+    {
+      "rva": "0x6e839",
+      "raw": "0x6dc39",
+      "bytes": "488986f0000000"
+    }
+  ],
+  "native_name_prefix_ascii": "exec",
+  "static_interpretation": [
+    "At6e583 receiver+d0 native bit400 clear selects6e832; RIP-relative LEA resolves7bf30 and stores it in receiver+f0 at6e839.",
+    "Native bit400 set and associated object+124 bit4000 clear: token+d4 nonzero indexes QWORD table1bda9a0; token0 follows name lookup and stores result in+f0.",
+    "CheckJumpOrHealOrTaunt retained flags20802 and ChangeCanFire20902 both have bit400 clear; if this binder processes those descriptors without later mutation, their expected target is7bf30."
+  ],
+  "status": "STATIC_BINDER_BEHAVIOR_CONFIRMED;UFUNCTION_OWNER_AND_RUNTIME_BINDING_NOT_OBSERVED",
+  "limits": [
+    "No vtable/class ownership pin for binder6e540 yet.",
+    "No live+f0 read, callback execution or gameplay repair performed."
+  ]
+}

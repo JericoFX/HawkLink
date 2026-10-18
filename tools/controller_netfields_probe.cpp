@@ -759,6 +759,37 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
             out.metadata["inventory"]["pawn_thruster_energy"]=*inventory_snapshot.pawn_thruster_energy;
         if (inventory_snapshot.pawn_thruster_jump_energy)
             out.metadata["inventory"]["pawn_thruster_jump_energy"]=*inventory_snapshot.pawn_thruster_jump_energy;
+        const auto inventory_state = [&](const char* live_state_label,
+            const std::optional<hawken::probe::LiveScriptStateSnapshot>& live_state_value) {
+            if (!live_state_value) return;
+            const char* live_state_kind = nullptr;
+            switch (live_state_value->kind) {
+            case hawken::probe::LiveScriptStateKind::no_frame: live_state_kind = "no_frame"; break;
+            case hawken::probe::LiveScriptStateKind::no_node: live_state_kind = "no_node"; break;
+            case hawken::probe::LiveScriptStateKind::uninitialized: live_state_kind = "uninitialized"; break;
+            case hawken::probe::LiveScriptStateKind::named: live_state_kind = "named"; break;
+            }
+            if (!live_state_kind) fail("live_identity");
+            out.metadata["inventory"][live_state_label] = {{"kind",live_state_kind}};
+            if (live_state_value->kind == hawken::probe::LiveScriptStateKind::named) {
+                out.metadata["inventory"][live_state_label]["name"] = live_state_value->name;
+                out.metadata["inventory"][live_state_label]["package"] = live_state_value->package;
+            }
+        };
+        inventory_state("pawn_script_state",inventory_snapshot.pawn_script_state);
+        inventory_state("manager_script_state",inventory_snapshot.manager_script_state);
+        inventory_state("dual_script_state",inventory_snapshot.dual_script_state);
+        const auto inventory_dispatch = [&](const char* live_dispatch_label,
+            const std::optional<hawken::probe::LiveFunctionDispatchSnapshot>& live_dispatch_value) {
+            if (!live_dispatch_value) return;
+            out.metadata["inventory"][live_dispatch_label] = {{"flags",live_dispatch_value->flags},
+                {"native_token",live_dispatch_value->native_token},
+                {"target_in_original_text",live_dispatch_value->target_in_original_text}};
+            if (live_dispatch_value->target_in_original_text && live_dispatch_value->target_rva)
+                out.metadata["inventory"][live_dispatch_label]["target_rva"] = *live_dispatch_value->target_rva;
+        };
+        inventory_dispatch("pawn_jump_dispatch",inventory_snapshot.pawn_jump_dispatch);
+        inventory_dispatch("dual_can_fire_dispatch",inventory_snapshot.dual_can_fire_dispatch);
         if (inventory_snapshot.pawn_move_state)
             out.metadata["inventory"]["pawn_move_state"]=*inventory_snapshot.pawn_move_state;
     }

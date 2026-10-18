@@ -1,0 +1,20 @@
+{
+  "target_rva": "0x77df0",
+  "matches": [
+    {
+      "rva": "0x75326",
+      "raw": "0x74726",
+      "bytes": "488d0dc32a0000",
+      "target_rva": "0x77df0",
+      "pdata_chunks": [
+        {
+          "rva": "0x752e0",
+          "end_rva": "0x75387",
+          "size": 167,
+          "raw": "0x746e0"
+        }
+      ]
+    }
+  ],
+  "limit": "Only exact LEA-to-constructor cross references; no full callgraph or body expansion"
+}

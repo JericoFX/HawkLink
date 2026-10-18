@@ -389,6 +389,8 @@ constexpr std::uint64_t jump_z_property = 0x56400, thruster_energy_property = 0x
 constexpr std::uint64_t thruster_jump_property = 0x56c00, move_state_property = 0x57000;
 constexpr std::uint64_t pawn_can_move_property = 0x57800;
 constexpr std::uint64_t pawn_no_fire_property = 0x57c00;
+constexpr std::uint64_t script_function_class = 0x16000, script_state_class = 0x16400;
+constexpr std::uint64_t jump_dispatch_function = 0x58000, fire_dispatch_function = 0x58400;
 struct InventoryFixture : Fixture {
     InventoryFixture() {
         klass(inventory_class,"Inventory","Engine",actor_class);
@@ -495,6 +497,24 @@ struct InventoryFixture : Fixture {
         memory.put(pawn_object+0x3e8,std::uint32_t{0x20000001});
         memory.put(pawn_object+0x360,std::uint8_t{1});
         memory.put(controller_object+0x360,std::uint8_t{3});
+        // Valid absent frames keep old fixtures independent of state execution.
+        for(const auto actor:{pawn_object,manager_object,dual_object})
+            memory.put(actor+0x20,std::uint64_t{0});
+        klass(script_function_class,"Function","Core",object_class);
+        klass(script_state_class,"State","Core",object_class);
+        dispatch_function(jump_dispatch_function,native_pawn_class,"CheckJumpOrHealOrTaunt",
+            0x20802,0,module_base+0x2345);
+        dispatch_function(fire_dispatch_function,dual_class,"ChangeCanFire",
+            0x20802,17,module_base+0x6789);
+        memory.put(pawn_can_move_property+0x60,jump_dispatch_function);
+        memory.put(client_shutdown_property+0x60,fire_dispatch_function);
+    }
+    void dispatch_function(std::uint64_t where,std::uint64_t owner,const char* name,
+                           std::uint32_t flags,std::uint16_t token,std::uint64_t target) {
+        object(where,script_function_class,owner);
+        identities[where]={name,"HawkenGame",0};
+        memory.put(where+0x60,std::uint64_t{0});
+        memory.put(where+0xd0,flags);memory.put(where+0xd4,token);memory.put(where+0xf0,target);
     }
     LivePlayerSnapshot inventory_sample() {
         auto identify=[&](std::uint64_t where) {
@@ -1003,4 +1023,191 @@ TEST_CASE("Live inventory roles and no weapon firing reread reflected metadata b
     CHECK(f.memory.read_counts[role_property+0x8c]==1);
     CHECK(f.memory.read_counts[pawn_class+0x80]==1);
     CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);CHECK(f.memory.budget>0);
+}
+
+namespace {
+constexpr std::uint64_t pawn_state_frame=0x70000, manager_state_frame=0x70100, dual_state_frame=0x70200;
+constexpr std::uint64_t pawn_state_node=0x71000, manager_state_node=0x71400, dual_state_node=0x71800;
+struct ScriptFixture : InventoryFixture {
+    ScriptFixture() {
+        state(pawn_object,pawn_state_frame,pawn_state_node,native_pawn_class,"JumpActive");
+        state(manager_object,manager_state_frame,manager_state_node,hg_manager_class,"InventoryActive");
+        state(dual_object,dual_state_frame,dual_state_node,dual_class,"Active");
+    }
+    void state(std::uint64_t actor,std::uint64_t frame,std::uint64_t node,
+               std::uint64_t owner,const char* name) {
+        memory.put(actor+0x20,frame);memory.put(frame+0x44,node);
+        object(node,script_state_class,owner);
+        identities[node]={name,identities.at(owner).package,0};
+        memory.put(node+0x38,std::int32_t{7});
+    }
+};
+}
+TEST_CASE("Live inventory script observer distinguishes three owned states and exact callback metadata") {
+    ScriptFixture f;const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+    const auto& value=*result.inventory;
+    REQUIRE(value.pawn_script_state.has_value());REQUIRE(value.manager_script_state.has_value());
+    REQUIRE(value.dual_script_state.has_value());
+    CHECK(value.pawn_script_state->kind==hawken::probe::LiveScriptStateKind::named);
+    CHECK(value.pawn_script_state->name=="JumpActive");CHECK(value.pawn_script_state->package=="HawkenGame");
+    CHECK(value.manager_script_state->kind==hawken::probe::LiveScriptStateKind::named);
+    CHECK(value.manager_script_state->name=="InventoryActive");CHECK(value.manager_script_state->package=="HawkenGame");
+    CHECK(value.dual_script_state->kind==hawken::probe::LiveScriptStateKind::named);
+    CHECK(value.dual_script_state->name=="Active");CHECK(value.dual_script_state->package=="HawkenGame");
+    REQUIRE(value.pawn_jump_dispatch.has_value());REQUIRE(value.dual_can_fire_dispatch.has_value());
+    CHECK(value.pawn_jump_dispatch->flags==0x20802);CHECK(value.pawn_jump_dispatch->native_token==0);
+    CHECK(value.pawn_jump_dispatch->target_in_original_text);
+    CHECK(value.pawn_jump_dispatch->target_rva==std::optional<std::uint32_t>{0x2345});
+    CHECK(value.dual_can_fire_dispatch->flags==0x20802);CHECK(value.dual_can_fire_dispatch->native_token==17);
+    CHECK(value.dual_can_fire_dispatch->target_in_original_text);
+    CHECK(value.dual_can_fire_dispatch->target_rva==std::optional<std::uint32_t>{0x6789});
+}
+TEST_CASE("Live inventory script observer preserves absent uninitialized and class node states") {
+    ScriptFixture f;
+    SUBCASE("no frame and no node are different observations") {
+        f.memory.put(pawn_object+0x20,std::uint64_t{0});f.memory.put(manager_state_frame+0x44,std::uint64_t{0});
+        f.identities.erase(pawn_state_node);f.identities.erase(manager_state_node);
+        const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+        REQUIRE(result.inventory->pawn_script_state.has_value());REQUIRE(result.inventory->manager_script_state.has_value());
+        CHECK(result.inventory->pawn_script_state->kind==hawken::probe::LiveScriptStateKind::no_frame);
+        CHECK(result.inventory->manager_script_state->kind==hawken::probe::LiveScriptStateKind::no_node);
+        CHECK(result.inventory->pawn_script_state->name.empty());CHECK(result.inventory->pawn_script_state->package.empty());
+        CHECK(result.inventory->manager_script_state->name.empty());CHECK(result.inventory->manager_script_state->package.empty());
+    }
+    SUBCASE("uninitialized validates node kind and owner without identifying its name") {
+        f.memory.put(pawn_state_node+0x38,std::int32_t{-1});f.identities.erase(pawn_state_node);
+        const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());REQUIRE(result.inventory->pawn_script_state.has_value());
+        CHECK(result.inventory->pawn_script_state->kind==hawken::probe::LiveScriptStateKind::uninitialized);
+        CHECK(result.inventory->pawn_script_state->name.empty());CHECK(result.inventory->pawn_script_state->package.empty());
+        CHECK(f.memory.read_counts[pawn_state_node+0x48]==0);
+    }
+    SUBCASE("class node must be in this actor ancestry") {
+        f.memory.put(dual_state_frame+0x44,weapon_class);f.memory.put(weapon_class+0x38,std::int32_t{0});
+        const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());REQUIRE(result.inventory->dual_script_state.has_value());
+        CHECK(result.inventory->dual_script_state->kind==hawken::probe::LiveScriptStateKind::named);
+        CHECK(result.inventory->dual_script_state->name=="Weapon");CHECK(result.inventory->dual_script_state->package=="Engine");
+    }
+}
+TEST_CASE("Live inventory script observer rejects foreign malformed or numbered state nodes") {
+    ScriptFixture f;
+    SUBCASE("wrong node type") {f.memory.put(pawn_state_node+0x50,property_class);}
+    SUBCASE("wrong State metaclass") {f.memory.put(script_state_class+0x50,object_class);}
+    SUBCASE("foreign owner") {f.memory.put(pawn_state_node+0x40,pc_class);}
+    SUBCASE("self outer is not an owning class") {f.memory.put(pawn_state_node+0x40,pawn_state_node);}
+    SUBCASE("numbered state name") {f.identities[pawn_state_node].instance=1;}
+    SUBCASE("state package differs from owner") {f.identities[pawn_state_node].package="Engine";}
+    SUBCASE("uninitialized cannot bypass owner validation") {
+        f.memory.put(pawn_state_node+0x38,std::int32_t{-1});f.memory.put(pawn_state_node+0x40,pc_class);
+        f.identities.erase(pawn_state_node);
+    }
+    SUBCASE("Class node outside actor ancestry") {
+        f.memory.put(pawn_state_frame+0x44,pc_class);f.memory.put(pc_class+0x38,std::int32_t{0});
+    }
+    SUBCASE("overflowing frame pointer") {f.memory.put(pawn_object+0x20,std::numeric_limits<std::uint64_t>::max()-16);}
+    CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory script observer requires both exact callback descriptors") {
+    for(unsigned callback=0;callback<2;++callback) {
+        for(unsigned invalid=0;invalid<8;++invalid) {
+            CAPTURE(callback);CAPTURE(invalid);ScriptFixture f;
+            const auto descriptor=callback==0?jump_dispatch_function:fire_dispatch_function;
+            const auto predecessor=callback==0?pawn_can_move_property:client_shutdown_property;
+            const auto owner=callback==0?native_pawn_class:dual_class;
+            const auto name=callback==0?"CheckJumpOrHealOrTaunt":"ChangeCanFire";
+            if(invalid==0) f.memory.put(predecessor+0x60,std::uint64_t{0});
+            if(invalid==1) f.memory.put(descriptor+0x50,bool_property_class);
+            if(invalid==2) f.memory.put(descriptor+0x40,pc_class);
+            if(invalid==3) f.identities[descriptor].instance=1;
+            if(invalid==4) f.identities[descriptor].package="Engine";
+            if(invalid==5) {
+                constexpr std::uint64_t duplicate=0x58800;
+                f.dispatch_function(duplicate,owner,name,0x20802,0,module_base+0x1111);
+                f.memory.put(descriptor+0x60,duplicate);
+            }
+            if(invalid==6) f.memory.put(script_function_class+0x50,object_class);
+            if(invalid==7) f.identities[script_function_class].package="Engine";
+            CHECK_THROWS_WITH_AS(f.inventory_sample(),invalid==0?"live_property_missing":"live_property_mismatch",std::runtime_error);
+        }
+    }
+}
+
+TEST_CASE("Live inventory script observer bounds executable targets without reading code") {
+    struct Target {std::uint64_t address;std::optional<std::uint32_t> rva;};
+    const Target targets[]{
+        {0,std::nullopt},{module_base+0xfff,std::nullopt},
+        {module_base+0x1000,0x1000},{module_base+0x128df78,0x128df78},
+        {module_base+0x128df79,std::nullopt},{std::numeric_limits<std::uint64_t>::max(),std::nullopt}};
+    for(const auto& target:targets) {
+        ScriptFixture f;
+        f.memory.put(jump_dispatch_function+0xf0,target.address);f.memory.put(fire_dispatch_function+0xf0,target.address);
+        f.memory.put(jump_dispatch_function+0xd0,std::uint32_t{0xfedcba98});
+        f.memory.put(jump_dispatch_function+0xd4,std::uint16_t{0xbeef});
+        const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());
+        REQUIRE(result.inventory->pawn_jump_dispatch.has_value());REQUIRE(result.inventory->dual_can_fire_dispatch.has_value());
+        CHECK(result.inventory->pawn_jump_dispatch->target_in_original_text==target.rva.has_value());
+        CHECK(result.inventory->pawn_jump_dispatch->target_rva==target.rva);
+        CHECK(result.inventory->dual_can_fire_dispatch->target_in_original_text==target.rva.has_value());
+        CHECK(result.inventory->dual_can_fire_dispatch->target_rva==target.rva);
+        CHECK(result.inventory->pawn_jump_dispatch->flags==0xfedcba98);CHECK(result.inventory->pawn_jump_dispatch->native_token==0xbeef);
+        CHECK(f.memory.read_counts[target.address]==0);
+    }
+}
+TEST_CASE("Live inventory script observer rereads roots and dispatch in independent original size samples") {
+    ScriptFixture f;
+    for(std::size_t i=0;i<live_original_owners.size();++i)
+        pad_live_owner(f,live_original_owners[i],live_original_counts[i],0x80000+i*0x40000);
+    pad_live_owner(f,dual_class,59,0x300000);
+    f.memory.read_counts.clear();
+    const auto first=f.inventory_sample();REQUIRE(first.inventory.has_value());
+    REQUIRE(first.inventory->pawn_script_state.has_value());REQUIRE(first.inventory->pawn_jump_dispatch.has_value());
+    CHECK(f.memory.read_counts[native_pawn_class+0x80]==1);CHECK(f.memory.read_counts[dual_class+0x80]==1);
+    // Equal metadata names at different roots must still change the private trace.
+    constexpr std::uint64_t next_frame=0x72000,next_node=0x72400;
+    f.state(pawn_object,next_frame,next_node,native_pawn_class,"JumpActive");f.memory.read_counts.clear();
+    const auto second=f.inventory_sample();REQUIRE(second.inventory.has_value());REQUIRE(second.inventory->pawn_script_state.has_value());
+    CHECK(*first.inventory->pawn_script_state==*second.inventory->pawn_script_state);
+    CHECK_FALSE(first.trace==second.trace);CHECK_FALSE(first==second);
+    CHECK(f.memory.read_counts[native_pawn_class+0x80]==1);CHECK(f.memory.read_counts[dual_class+0x80]==1);
+    f.identities[next_node].name="ChangedState";
+    f.memory.put(jump_dispatch_function+0xd0,std::uint32_t{0x20002});
+    f.memory.put(jump_dispatch_function+0xd4,std::uint16_t{29});
+    f.memory.put(jump_dispatch_function+0xf0,module_base+0x9876);
+    const auto third=f.inventory_sample();REQUIRE(third.inventory.has_value());
+    REQUIRE(third.inventory->pawn_script_state.has_value());REQUIRE(third.inventory->pawn_jump_dispatch.has_value());
+    CHECK(third.inventory->pawn_script_state->name=="ChangedState");
+    CHECK(third.inventory->pawn_jump_dispatch->flags==0x20002);CHECK(third.inventory->pawn_jump_dispatch->native_token==29);
+    CHECK(third.inventory->pawn_jump_dispatch->target_rva==std::optional<std::uint32_t>{0x9876});
+    CHECK_FALSE(second==third);CHECK_FALSE(second.trace==third.trace);
+    CHECK(f.memory.budget>0);CHECK(f.memory.budget<1024*1024);
+    f.memory.put(next_node+0x40,pc_class);CHECK_THROWS_AS(f.inventory_sample(),std::runtime_error);
+}
+TEST_CASE("Live inventory script observer skips absent actors without manufacturing state or dispatch") {
+    ScriptFixture f;
+    SUBCASE("default mode never follows a frame or callback") {
+        f.memory.bytes.erase(pawn_object+0x20);f.memory.bytes.erase(jump_dispatch_function+0xd0);
+        const auto result=f.sample();CHECK_FALSE(result.inventory.has_value());
+    }
+    SUBCASE("absent Pawn has no script observation") {
+        f.memory.put(controller_object+0x280,std::uint64_t{0});f.memory.bytes.erase(pawn_object+0x20);
+        const auto result=f.inventory_sample();CHECK_FALSE(result.inventory.has_value());
+    }
+    SUBCASE("absent Manager and Dual do not follow stale frames") {
+        f.memory.put(pawn_object+0x300,std::uint64_t{0});f.memory.put(pawn_object+0x310,std::uint64_t{0});
+        f.memory.put(pawn_object+0x320,std::uint64_t{0});
+        f.memory.bytes.erase(manager_object+0x20);f.memory.bytes.erase(dual_object+0x20);
+        f.memory.bytes.erase(fire_dispatch_function+0xd0);
+        const auto result=f.inventory_sample();REQUIRE(result.inventory.has_value());REQUIRE(result.inventory->pawn_script_state.has_value());
+        CHECK_FALSE(result.inventory->manager_script_state.has_value());CHECK_FALSE(result.inventory->dual_script_state.has_value());
+        CHECK_FALSE(result.inventory->dual_can_fire_dispatch.has_value());
+    }
+}
+TEST_CASE("Live inventory script observer keeps child cycle and shared read budget failures") {
+    ScriptFixture f;
+    SUBCASE("cycle after required callback") {
+        f.memory.put(jump_dispatch_function+0x60,jump_dispatch_function);
+        CHECK_THROWS_WITH_AS(f.inventory_sample(),"live_cycle",std::runtime_error);
+    }
+    SUBCASE("same shared read budget") {
+        f.memory.budget=1;CHECK_THROWS_WITH_AS(f.inventory_sample(),"read_limit",std::runtime_error);
+    }
 }

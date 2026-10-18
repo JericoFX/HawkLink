@@ -1,0 +1,17 @@
+{
+  "schema": "hawken.script-dispatch-virtual70-closed.v1",
+  "originalExpectedSHA256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "rva": "0x135b80",
+  "endExclusive": "0x135ba2",
+  "raw": "0x134f80",
+  "size": 34,
+  "sha256": "9355a8bc6292d52dc4838a52c7d1d447b62e99e783dd8d1170d6e56618616177",
+  "hex": "f681e800000008751348b8000000000000002048854110750333c0c3b801000000c3",
+  "semantics": "Returns1 iff actor BYTE+e8 bit8 or QWORD+10 mask2000000000000000 is set; otherwise returns0.",
+  "caller": "Retained7bb50 rejects nonzero virtual70 before+f0 call. No field name or runtime value is inferred.",
+  "limits": [
+    "The earlier32-byte prefix ended mid-instruction. This new34-byte span closes both leaf RET paths.",
+    "Static Pawn vtable entry is confirmed; actual runtime vptr, flags, predicate execution and callback execution remain unobserved."
+  ],
+  "runtimeObserved": false
+}

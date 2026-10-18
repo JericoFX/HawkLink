@@ -1,0 +1,86 @@
+{
+  "schema": "function-bind-owner-corroboration/v1",
+  "status": "CONFIRMED_RDATA_REFERENCE;CANDIDATE_TABLE_SLOT;CORE_FUNCTION_OWNER_NOT_VERIFIED",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "anchors": [
+    {
+      "rva": "0x12bb470",
+      "raw": "0x12ba870",
+      "bytes": "50bb074001000000",
+      "qword": "0x14007bb50",
+      "sha256": "b3830c6d148995540837df38072f1dddb5518a41bd7b3dfa4b80d35579f80b90",
+      "meaning": "Confirmed ScriptStruct table12bb230 +240 points ProcessEvent7bb50"
+    },
+    {
+      "rva": "0x12bb740",
+      "raw": "0x12bab40",
+      "bytes": "50bb074001000000",
+      "qword": "0x14007bb50",
+      "sha256": "b3830c6d148995540837df38072f1dddb5518a41bd7b3dfa4b80d35579f80b90",
+      "meaning": "ProcessEvent7bb50 cell adjacent to binder cell; candidate base12bb500 only if same+240 slot"
+    },
+    {
+      "rva": "0x12bb798",
+      "raw": "0x12bab98",
+      "bytes": "40e5064001000000",
+      "qword": "0x14006e540",
+      "sha256": "c7cdbcb471619d338daca1bc6559c8a2c4c2f5f4e1685a4095b111623dd8d987",
+      "meaning": "Unique exact binder QWORD reference in .rdata"
+    },
+    {
+      "rva": "0x12bb500",
+      "raw": "0x12ba900",
+      "bytes": "60df7f4001000000",
+      "qword": "0x1407fdf60",
+      "sha256": "5ed99a06b4a3fc32e002fb4f163c1b8cfda5a93232c4f09027d3851661cf9c79",
+      "meaning": "Candidate table start, not constructor/class-binding proof"
+    }
+  ],
+  "conditional_table": {
+    "candidate_base_rva": "0x12bb500",
+    "process_event_offset": "0x240",
+    "binder_offset": "0x298",
+    "premise": "Candidate base inferred from common inherited ProcessEvent slot. A contiguous pointer run is not a vtable-boundary identity proof.",
+    "core_function_owner": "NO_VERIFICADO: no retained named factory/constructor installing12bb500 was found in the explicitly reviewed records."
+  },
+  "reviewed_retained_scopes": [
+    "mech-struct-wire/ancestor-binding (positive ScriptStruct only)",
+    "controller-effective-field-cache/property-link-20261013/receiver-bindings.json (ScriptStruct and Property bindings, not this owner)",
+    "controller-netfield-cache and controller-rpc-wire retained constructors",
+    "research/2026-10-10/evidence/game/connection-defaults",
+    "complete-artifact-map parent native-functions index: no positively named UFunction constructor record"
+  ],
+  "next_finite_discriminator": "A positive constructor/factory that installs candidate12bb500 and names Core.Function, or exact reflected UFunction vtable under separate runtime authorization. A bounded static RIP-relative xref to12bb500 could locate that constructor, but was not performed in this scope.",
+  "consequence": "Parent's byte-verified6e540 writes7bf30 for nativebit400clear. Assigning that binder behavior to CheckJumpOrHealOrTaunt/ChangeCanFire remains conditional on actual UFunction binding and absence of later mutation; no runtime target or callback execution is established.",
+  "provenance": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-rdata.json",
+      "sha256": "92ac499d0031a1ccb5c0a977e2d751cf7f2d02f619fbd045bc2c8c65c82f5c79"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-rdata.py",
+      "sha256": "e1491d85e23c8b1739223ea1de0d439adc6d828ef73fea531a7d50ba45dd5adc"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-dispatch-bind-proof.json",
+      "sha256": "08a0fb8cb7d6a16ceeac191cdea4fb5479f3b9c2106e7077ab8674f567883d5e"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\mech-struct-wire\\ancestor-binding\\native\\contract.json",
+      "sha256": "4ba3829f6cb1d36d93251a1b874178814cf45beb75f24f130ae61fa90f4828f0"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\complete-artifact-map-20261013\\parent\\native-functions.json",
+      "sha256": "66a7813d598385c96398701ee721c3e7d7a02180cc52d424cb31aed3083c5b12"
+    }
+  ],
+  "limits": [
+    "No repeated RTTI search (previous zero hits retained)",
+    "No code bodies, disassembly or Ghidra extracted",
+    "No code/config/doc/build/runtime/Git change",
+    "Exact QWORD scan and adjacent retained-owner comparison only",
+    "Tests live_player_reader_tests.cpp remain3763eb35eb461bfd0dc91266bcb72dadec417991ec5e54587fe228451c1fdaab",
+    "Own persistent helpers0"
+  ]
+}

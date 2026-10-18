@@ -1,0 +1,26 @@
+{
+  "status": "READ_ONLY_EVIDENCE_FROZEN;OWNER_UNKNOWN",
+  "pins": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-rdata.py",
+      "sha256": "e1491d85e23c8b1739223ea1de0d439adc6d828ef73fea531a7d50ba45dd5adc"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-rdata.json",
+      "sha256": "92ac499d0031a1ccb5c0a977e2d751cf7f2d02f619fbd045bc2c8c65c82f5c79"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-corroboration.py",
+      "sha256": "da26bdebdb8230170ab952334b6901cfbf331df1b66ec3891756e03c1c148b1f"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-corroboration.json",
+      "sha256": "42f04be8f4018f48c091adf7db52292d052fe3d223c44b85f28fa14e431f6ba9"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\live_player_reader_tests.cpp",
+      "sha256": "3763eb35eb461bfd0dc91266bcb72dadec417991ec5e54587fe228451c1fdaab"
+    }
+  ],
+  "own_persistent_helpers": 0
+}

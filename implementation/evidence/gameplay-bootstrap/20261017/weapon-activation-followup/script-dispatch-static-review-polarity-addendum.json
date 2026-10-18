@@ -1,0 +1,12 @@
+{
+  "schema": "hawken.script-dispatch-static-review-polarity-addendum.v1",
+  "review_path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\script-dispatch-static-review.json",
+  "review_sha256": "a8baf64310d7d4abb3018e0a8bd66f8bdf2b1b245646327bf3e92d60fc8792ee",
+  "clarification": "At dispatch RVA 0x7bf7f, helper result EAX != 0 branches to 0x7c11c and skips the ordinary interpreter body. EAX == 0 falls through to 0x7bf87 and continues interpreter processing (loop/body at 0x7c08e). Therefore the actor helper returning 0 is not an RPC veto; it permits the script path to continue. Prior statements that the helper does not return true for actor+0xc2>1 describe only the helper result, not denial or suppression of the RPC.",
+  "new_virtual_slot_0x70_evidence": "Parent-reported prefix evidence indicates a separate Pawn vtable +0x70 target at RVA 0x135b80 with 32 captured bytes ending mid-instruction; six bytes remain unclosed. This evidence was not independently validated here and is insufficient to claim the complete function predicate or behavior.",
+  "scope": "Read-only correction of interpretation; no source/build/runtime changes.",
+  "skill_hashes_unchanged": {
+    "game_developer": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "cpp_pro": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2"
+  }
+}

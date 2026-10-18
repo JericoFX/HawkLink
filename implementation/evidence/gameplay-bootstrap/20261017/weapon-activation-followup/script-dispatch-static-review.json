@@ -1,0 +1,102 @@
+{
+  "schema": "hawken.script-dispatch-static-review.v1",
+  "scope": "Static review only; no build, runtime, client, server, Ghidra, or source changes.",
+  "original_executable": {
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+  },
+  "skill_coverage": {
+    "cpp_pro_sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer_sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "coverage": "Previously complete readings reused; hashes rechecked unchanged."
+  },
+  "evidence": [
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-dispatch-bind-proof.json",
+      "bytes": 2109,
+      "sha256": "08a0fb8cb7d6a16ceeac191cdea4fb5479f3b9c2106e7077ab8674f567883d5e"
+    },
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-6e540-machine.txt",
+      "bytes": 12262,
+      "sha256": "c44ab13e88f3144b31b32126379234820e8bf2fa88a40049ae41e52257269075"
+    },
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\script-dispatch-7bf30-machine.txt",
+      "bytes": 9871,
+      "sha256": "185de22b337a1072cf501dadc1bba28a2929b940e9879de2b72b155b520f935e"
+    },
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\script-dispatch-actor-gate.json",
+      "bytes": 1415,
+      "sha256": "a9844f15e820411b10f8f7197eb44b4ede18cb5d8ef4e2e93ceafab08c3ff6c3"
+    },
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\actor-script-gate-6902c0-machine.txt",
+      "bytes": 1160,
+      "sha256": "5c434a1b4f250c33ca3169f6520dac0c4adba79814ff6517d122248c17289abb"
+    },
+    {
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\actor-script-gate-690308-continuation.txt",
+      "bytes": 10277,
+      "sha256": "18b767f9a71d67d12a25916a0a40913792c99db7a94839545c43daf1c68241ce"
+    }
+  ],
+  "confirmed_static": {
+    "binding": {
+      "binder_rva": "0x6e540",
+      "binder_body_sha256": "342462d66342ad256daf55728b0af3b52cf5b01f1bfde7d670d1f840132a3262",
+      "test_rva": "0x6e583",
+      "test_bytes": "f786d000000000040000",
+      "interpretation": "The binder tests receiver+0xd0 bit 0x400. When clear, branch reaches LEA RVA 0x7bf30 at 0x6e832 and stores that address at receiver+0xf0 at 0x6e839.",
+      "function_flags": {
+        "CheckJumpOrHealOrTaunt": "0x20802",
+        "ChangeCanFire": "0x20902",
+        "both_bit_0x400_clear": true,
+        "both_bit_0x500_clear": true,
+        "both_bit_0x40_clear": true,
+        "both_bit_0x01000000_clear": true
+      },
+      "qualification": "This describes the static binder path if it processes these UFunction descriptors and their flags are not later changed; no runtime +0xf0 binding was observed."
+    },
+    "dispatch": {
+      "shared_target_rva": "0x7bf30",
+      "target_body_sha256": "3bb9546e3280e906fd18219eaabb31dcfe5841cf94a0a61362a3d594b34d5083",
+      "virtual_slot": "0x258",
+      "call_rva": "0x7bf79",
+      "first_result_test_rva": "0x7bf7f",
+      "branch_nonzero_to": "0x7c11c",
+      "interpretation": "The handler calls receiver vtable slot +0x258 first and branches away when its result is nonzero. The retained Pawn vtable evidence maps slot +0x258 to RVA 0x6902c0; that static vtable sample does not prove the runtime receiver uses it."
+    },
+    "actor_gate": {
+      "entry_rva": "0x6902c0",
+      "ret_rva": "0x690581",
+      "range_note": "The supplied .pdata/body evidence is split: the initial 72-byte range ends at 0x690308 and the retained continuation starts there. The continuation closes this path at ret 0x690581; bytes beginning 0x690590 are the next function and are excluded.",
+      "initial_checks": [
+        "Function flags bit 13 set branches to false return.",
+        "Actor+0xe8 bit 0x08 set branches to false return.",
+        "Actor flags at +0x10 mask 0x2000000000000000 set branches to false return."
+      ],
+      "eligibility_seed": "At 0x690315 actor byte +0xc2 is compared with 1. If <=1, EBP is initialized to 1 only when function flags & 0x500 == 0; if >1, EBP is set to 0.",
+      "relevant_later_conditions": [
+        "For these exact flags, function bit 0x01000000 is clear, so the code branches to the +0x11c/+0x5b0 path at 0x690422, bypassing the earlier equality success route.",
+        "If byte [actor+0x11c]+0x5b0 is zero, return false at 0x690434.",
+        "If that byte is nonzero, function flag 0x40 is checked; for both exact function flags it is clear, so execution returns EBP through 0x69052d. Thus this branch returns 1 only if the earlier EBP seed was 1; for actor+c2>1 it returns 0.",
+        "Other earlier guards can also return false; the later flag-0x40 path is not reached for these two flag words."
+      ]
+    }
+  },
+  "conditional_answer": {
+    "status": "STATIC_CONDITIONAL_ONLY",
+    "role2_to_actor_c2_mapping": "Unknown; no reflection/layout pin was reviewed that maps Role2 to actor byte +0xc2.",
+    "if_actor_c2_is_2": "For the exact UFunction flags above, the static +0x258 handler path seeds EBP=0 and its ordinary branch cannot return true: the +0x01000000 path is disabled; the controller byte +0x5b0 must be nonzero to avoid immediate false, but +0x40 is also clear, so the handler returns EBP=0. Earlier guards can likewise return false.",
+    "if_actor_c2_is_0_or_1": "The handler can seed EBP=1 because these flags clear 0x500; however, earlier function/actor/global checks must pass and [actor+0x11c]+0x5b0 must be nonzero. This is only a conditional static path, not observed behavior."
+  },
+  "unknowns": [
+    "No runtime proof that binder 0x6e540 processes these exact descriptors or that +0xf0 remains bound to 0x7bf30.",
+    "No proven semantic mapping from Role2 to actor byte +0xc2.",
+    "No live actor vtable, class identity, slot +0x258 target, +0xc2 value, actor/controller +0x11c/+0x5b0 value, or callback invocation was observed.",
+    "The static branch conditions establish only the first actor acceptance gate; they do not establish a weapon firing callback or gameplay success."
+  ],
+  "method": "Reused existing original-EXE disassembly and metadata artifacts; checked their hashes and re-hashed the original executable. No new native extraction or execution."
+}

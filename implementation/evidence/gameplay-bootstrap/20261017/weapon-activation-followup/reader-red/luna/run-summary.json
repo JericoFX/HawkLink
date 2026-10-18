@@ -1,0 +1,137 @@
+{
+  "utc": "2026-10-18T01:32:48.9158244Z",
+  "phase": "red",
+  "status": "wrapper-terminal",
+  "launcherTerminal": true,
+  "launcherExit": 1,
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "deadlineSeconds": 120,
+  "launch": {
+    "pid": 25624,
+    "creationUtc": "2026-10-18T01:32:43.4464084Z",
+    "path": "C:\\WINDOWS\\system32\\cmd.exe",
+    "priorityClass": "BelowNormal",
+    "wrapper": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\run-red.cmd",
+    "startedUtc": "2026-10-18T01:32:43.5335063Z"
+  },
+  "wrapperExitFiles": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\build.exit",
+      "value": 0,
+      "raw": "0",
+      "lastWriteUtc": "2026-10-18T01:32:48.0633096Z",
+      "writtenAfterLaunch": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\focused.exit",
+      "value": 1,
+      "raw": "1",
+      "lastWriteUtc": "2026-10-18T01:32:48.5464954Z",
+      "writtenAfterLaunch": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\old-cases.exit",
+      "value": 0,
+      "raw": "0",
+      "lastWriteUtc": "2026-10-18T01:32:48.4987339Z",
+      "writtenAfterLaunch": true
+    }
+  ],
+  "doctestSummaries": [
+    {
+      "file": "focused.log",
+      "caseSummaries": [
+        {
+          "skipped": 42,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        }
+      ],
+      "assertionSummaries": [
+        {
+          "passed": 18,
+          "failed": 30,
+          "total": 48
+        }
+      ]
+    },
+    {
+      "file": "old-cases.log",
+      "caseSummaries": [
+        {
+          "skipped": 8,
+          "passed": 42,
+          "failed": 0,
+          "total": 42
+        }
+      ],
+      "assertionSummaries": [
+        {
+          "passed": 4904,
+          "failed": 0,
+          "total": 4904
+        }
+      ]
+    }
+  ],
+  "ctestSummary": null,
+  "lastTestLogCopy": null,
+  "lastTestLogSha256": null,
+  "lastTestLogWrittenDuringRun": false,
+  "logFiles": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\build.log",
+      "sha256": "7d0859f43f2cda26c7da84c5cb1df97198d0ba887ffe417e1c4b7adaa3e0a4d7",
+      "length": 179
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\environment.log",
+      "sha256": "513c1bd5aff6d1b6b2490f74ccbebbd856b62ef50e1c895a1f305a93b148d95e",
+      "length": 247
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\focused.log",
+      "sha256": "d26326214fff0ce815bceadc6ef6056a1d5013c09f1a49e74c7362ec267939b7",
+      "length": 10750
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\reader-red\\old-cases.log",
+      "sha256": "f857fb8dc636a418428a985273e9375345be9945cc995701570bfcd0b21f84dc",
+      "length": 309
+    }
+  ],
+  "sourceDrift": [],
+  "unexpectedTestExeChanges": [],
+  "protectedCore": {
+    "path": "build/windows-msvc/hawken-server.exe",
+    "expected": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "actual": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "matches": true
+  },
+  "protectedMaster": {
+    "path": "build/windows-msvc/hawken-master.exe",
+    "expected": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "actual": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "matches": true
+  },
+  "probeBefore": {
+    "path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+    "expected": "091e09065e51a5e20a58b1937641c22e0a0fb662fd7bd3577589ab81aeef4bc9",
+    "actual": "091e09065e51a5e20a58b1937641c22e0a0fb662fd7bd3577589ab81aeef4bc9",
+    "matches": true,
+    "expectedToRemainStable": true
+  },
+  "termination": {
+    "stopped": [],
+    "skipped": []
+  },
+  "finalRam": {
+    "utc": "2026-10-18T01:32:48.9898133Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 11077718016,
+    "usedPercent": 67.67
+  },
+  "taskOwnedProcessesRemaining": null
+}

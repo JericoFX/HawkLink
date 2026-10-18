@@ -1,0 +1,2097 @@
+{
+  "schema": "hawken.function-dispatch-store-candidates.v1",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "scope": "Known .text range, REX.W MOV register-to-base+f0 only",
+  "stores_with_pdata": 195,
+  "cooccurrence_candidates": [
+    {
+      "store_rva": "0x6e829",
+      "function_rva": "0x6e540",
+      "function_end": "0x6e868",
+      "function_bytes": 808,
+      "body_sha256": "342462d66342ad256daf55728b0af3b52cf5b01f1bfde7d670d1f840132a3262",
+      "instruction_prefix": "48899ef0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x6e839",
+      "function_rva": "0x6e540",
+      "function_end": "0x6e868",
+      "function_bytes": 808,
+      "body_sha256": "342462d66342ad256daf55728b0af3b52cf5b01f1bfde7d670d1f840132a3262",
+      "instruction_prefix": "488986f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1741f0",
+      "function_rva": "0x174040",
+      "function_end": "0x17428a",
+      "function_bytes": 586,
+      "body_sha256": "f487eebddb49ac97ec13f5c75df25965182e6bb0d4ee128ff9a5718c05678247",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x52809e",
+      "function_rva": "0x527cb0",
+      "function_end": "0x5288cb",
+      "function_bytes": 3099,
+      "body_sha256": "9a281da4ee44c8b23568b754b8958d23f66ac6e58a9e95391cfc7c4b2cf268a3",
+      "instruction_prefix": "488995f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x5b15b9",
+      "function_rva": "0x5b1520",
+      "function_end": "0x5b1e1f",
+      "function_bytes": 2303,
+      "body_sha256": "ecf32894314ef5c2cfec1b9022246b90434768a364e81e941ee4a0c501a1a1c7",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x7aa647",
+      "function_rva": "0x7aa5d0",
+      "function_end": "0x7ab3f7",
+      "function_bytes": 3623,
+      "body_sha256": "2537aa8b6bd9eff2952ed98e408c700953e4e25d70a993a926e87a60a7494c8d",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa48a6d",
+      "function_rva": "0xa489b0",
+      "function_end": "0xa48d84",
+      "function_bytes": 980,
+      "body_sha256": "87ac4647641d425baaeec1e7c97ca17f2dafcaacd5db671a179b6c4f422af59c",
+      "instruction_prefix": "4d89aff0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa48e39",
+      "function_rva": "0xa48d90",
+      "function_end": "0xa48e6f",
+      "function_bytes": 223,
+      "body_sha256": "1c5a6f2cec8280511991ef60941a45d6167c25ee5a780ff107cce30edf6e4663",
+      "instruction_prefix": "4889b7f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe568d8",
+      "function_rva": "0xe567f0",
+      "function_end": "0xe56f95",
+      "function_bytes": 1957,
+      "body_sha256": "c6898acc462e6d6a1873f0e20ef0194d987ce186ba8a3a1e5c5aa52154984e9e",
+      "instruction_prefix": "4c89b3f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe65d47",
+      "function_rva": "0xe65bde",
+      "function_end": "0xe660ce",
+      "function_bytes": 1264,
+      "body_sha256": "9c8b4033b97c33588e8a9614264a1adeda12531375245d3dc67e4ca151355d78",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe65f0f",
+      "function_rva": "0xe65bde",
+      "function_end": "0xe660ce",
+      "function_bytes": 1264,
+      "body_sha256": "9c8b4033b97c33588e8a9614264a1adeda12531375245d3dc67e4ca151355d78",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf08bef",
+      "function_rva": "0xf089b5",
+      "function_end": "0xf09193",
+      "function_bytes": 2014,
+      "body_sha256": "c57f7d8b7f4de8d8826761233a1c55372e49b5f635877b85f74614e861f3a0e3",
+      "instruction_prefix": "49898df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf09103",
+      "function_rva": "0xf089b5",
+      "function_end": "0xf09193",
+      "function_bytes": 2014,
+      "body_sha256": "c57f7d8b7f4de8d8826761233a1c55372e49b5f635877b85f74614e861f3a0e3",
+      "instruction_prefix": "498985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    }
+  ],
+  "all_store_candidates": [
+    {
+      "store_rva": "0x4ab0",
+      "function_rva": "0x4790",
+      "function_end": "0x4f55",
+      "function_bytes": 1989,
+      "body_sha256": "37d16bdf77b3a3ac7eec0d34b17930173a85ed9c24a6a82d92138ddeb4c5d1ef",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x4c27",
+      "function_rva": "0x4790",
+      "function_end": "0x4f55",
+      "function_bytes": 1989,
+      "body_sha256": "37d16bdf77b3a3ac7eec0d34b17930173a85ed9c24a6a82d92138ddeb4c5d1ef",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xfc53",
+      "function_rva": "0xfb70",
+      "function_end": "0xfccd",
+      "function_bytes": 349,
+      "body_sha256": "91abafe5533ec17621fbd60b09ce55abf32128aeab2401f0e8bc572e8238069d",
+      "instruction_prefix": "48898bf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x15d05",
+      "function_rva": "0x15cd0",
+      "function_end": "0x165b0",
+      "function_bytes": 2272,
+      "body_sha256": "bcd3fbcf7e6c81a9fce30abfb46602dec37baabf41509a283b8b810a45da1ccd",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x18595",
+      "function_rva": "0x18570",
+      "function_end": "0x1886e",
+      "function_bytes": 766,
+      "body_sha256": "7e20fbe934d9c20d933c4cbf9aa25910ccdd870ea88637d6d6797c3bd8a1a08f",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x277cf",
+      "function_rva": "0x272a0",
+      "function_end": "0x28362",
+      "function_bytes": 4290,
+      "body_sha256": "8cdf170f33fe1430254410b6b961b9d1beef485782dfe54cf9afa4ca565bfad3",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x38ca9",
+      "function_rva": "0x38b80",
+      "function_end": "0x39490",
+      "function_bytes": 2320,
+      "body_sha256": "5ec02538ae9d232aa078cffc123e58629d3455a57cfca994d2593b908da5a740",
+      "instruction_prefix": "488986f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x39b16",
+      "function_rva": "0x39a00",
+      "function_end": "0x39d92",
+      "function_bytes": 914,
+      "body_sha256": "5c053d03fdfd2ca43e45250a63ec71618b2285e91c77875e1e38709563bdaff9",
+      "instruction_prefix": "4c8989f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x605af",
+      "function_rva": "0x60580",
+      "function_end": "0x60ae3",
+      "function_bytes": 1379,
+      "body_sha256": "778e50f058b90676e3ab9f9b11871e623e6d8e3f8ba7e41b8dc417e19c2166d6",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x695e5",
+      "function_rva": "0x69580",
+      "function_end": "0x69638",
+      "function_bytes": 184,
+      "body_sha256": "82836d6295ec6eb211208f5432c86494ed8081c1ba12b6c541faba82b6ce646e",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x6e829",
+      "function_rva": "0x6e540",
+      "function_end": "0x6e868",
+      "function_bytes": 808,
+      "body_sha256": "342462d66342ad256daf55728b0af3b52cf5b01f1bfde7d670d1f840132a3262",
+      "instruction_prefix": "48899ef0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x6e839",
+      "function_rva": "0x6e540",
+      "function_end": "0x6e868",
+      "function_bytes": 808,
+      "body_sha256": "342462d66342ad256daf55728b0af3b52cf5b01f1bfde7d670d1f840132a3262",
+      "instruction_prefix": "488986f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x85348",
+      "function_rva": "0x842d0",
+      "function_end": "0x85eff",
+      "function_bytes": 7215,
+      "body_sha256": "c012605f9d8c0762f84ad08fbe271714f47875e6d760a131a30539f476faf2ce",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x887ee",
+      "function_rva": "0x887a0",
+      "function_end": "0x888d5",
+      "function_bytes": 309,
+      "body_sha256": "743bd1ceda6c9ae7a8b188b9e3b3636d8324903680bc54ac1961cfebc7acc14c",
+      "instruction_prefix": "4889b7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x88941",
+      "function_rva": "0x888e0",
+      "function_end": "0x88a96",
+      "function_bytes": 438,
+      "body_sha256": "ae46834c616ec384c15b9ed3c65b42ff8492d608b51aff1bf3ef78f416df9ce5",
+      "instruction_prefix": "4889aef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x965d6",
+      "function_rva": "0x95860",
+      "function_end": "0x969ca",
+      "function_bytes": 4458,
+      "body_sha256": "211c099455c1de85969c1a1bb230b67982255698ac0333dad191d94e00299f6a",
+      "instruction_prefix": "4c89bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa3921",
+      "function_rva": "0xa3890",
+      "function_end": "0xa393e",
+      "function_bytes": 174,
+      "body_sha256": "c1e44fea691736a55bca4507253cbc89a7fa9b6c537a89f5b9c4e0e6c9990a08",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xa7e95",
+      "function_rva": "0xa7e70",
+      "function_end": "0xa815d",
+      "function_bytes": 749,
+      "body_sha256": "609a8c8fe0bb9d681db45fdda2ee76e81c31ee73aa393daf7fabfeac31d2dee1",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xb2e51",
+      "function_rva": "0xb2330",
+      "function_end": "0xb2f39",
+      "function_bytes": 3081,
+      "body_sha256": "acbc5c1b59e2a03bef4c5433f19d90474867cfa5e98f0c85d0146486996342e5",
+      "instruction_prefix": "4c89b3f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xdcc75",
+      "function_rva": "0xdcad0",
+      "function_end": "0xe1eee",
+      "function_bytes": 21534,
+      "body_sha256": "e3e13cdac77c33a34ef2ca1a5dc653cc7562c7d0d338a525d3fae9825b1f78bd",
+      "instruction_prefix": "4c89adf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x11246c",
+      "function_rva": "0x111720",
+      "function_end": "0x119358",
+      "function_bytes": 31800,
+      "body_sha256": "62bcf66baec122cc71e32f6b131a707e27f48a94444f69567aa61875b6cc0ca0",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1425ec",
+      "function_rva": "0x142520",
+      "function_end": "0x142688",
+      "function_bytes": 360,
+      "body_sha256": "b06e5a253db677926e86563ba7baa91fb0d10f4f9c50ce87a32867040ca4082b",
+      "instruction_prefix": "4989aef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x142866",
+      "function_rva": "0x142810",
+      "function_end": "0x1428e0",
+      "function_bytes": 208,
+      "body_sha256": "3ec2c2e3a8ee04e0108ca3bbf9f0b7d8ed4e882e775b57ee3633a4af4dc00580",
+      "instruction_prefix": "4889b9f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x142cfa",
+      "function_rva": "0x142c60",
+      "function_end": "0x142d38",
+      "function_bytes": 216,
+      "body_sha256": "8e785bf2d0613dca9e8bb233d79c4ee536ca229fe06bc8d75ff08ebf13de2922",
+      "instruction_prefix": "4c89bef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x15278a",
+      "function_rva": "0x1526f0",
+      "function_end": "0x1527ed",
+      "function_bytes": 253,
+      "body_sha256": "ce22ad1b5a44d83751a3f9a4aff8e8e1e74cb3fa6281caf63515002c941ced9f",
+      "instruction_prefix": "4c89a6f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x161e15",
+      "function_rva": "0x161c80",
+      "function_end": "0x161fe9",
+      "function_bytes": 873,
+      "body_sha256": "636a529f8b872df802ae3925687c6c10205994442185ff351db8c88dc4ead386",
+      "instruction_prefix": "4c89b7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x161fb8",
+      "function_rva": "0x161c80",
+      "function_end": "0x161fe9",
+      "function_bytes": 873,
+      "body_sha256": "636a529f8b872df802ae3925687c6c10205994442185ff351db8c88dc4ead386",
+      "instruction_prefix": "4c89a7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x167e34",
+      "function_rva": "0x167920",
+      "function_end": "0x168313",
+      "function_bytes": 2547,
+      "body_sha256": "c85aebfcaef807abb266dd4ed31921cab1d446d450756f034425308a51f74d19",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1741f0",
+      "function_rva": "0x174040",
+      "function_end": "0x17428a",
+      "function_bytes": 586,
+      "body_sha256": "f487eebddb49ac97ec13f5c75df25965182e6bb0d4ee128ff9a5718c05678247",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1758eb",
+      "function_rva": "0x1757f0",
+      "function_end": "0x175a2b",
+      "function_bytes": 571,
+      "body_sha256": "37e35d3c4c82c0828dd96dfc29143d838cc0a0338f98efa95a4d6152baaac356",
+      "instruction_prefix": "4889abf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x18bce2",
+      "function_rva": "0x18baa0",
+      "function_end": "0x18bd02",
+      "function_bytes": 610,
+      "body_sha256": "35cf8f873c39d88ab4fd080fa1f290d7e8fe1e5a92569b18f5df2a23a6c65ba6",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x19a266",
+      "function_rva": "0x19a250",
+      "function_end": "0x19a997",
+      "function_bytes": 1863,
+      "body_sha256": "191b30837edfdb40e427d8e0133779fbbebcee61b04136a8d05e6a1738b487bc",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x1a9afc",
+      "function_rva": "0x1a9a90",
+      "function_end": "0x1aaa05",
+      "function_bytes": 3957,
+      "body_sha256": "38b86003b819eb87756bfcdaff53e7c9f63c8f3474b6072e65d07f37803ebc1e",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1ad43d",
+      "function_rva": "0x1acb60",
+      "function_end": "0x1ad6f7",
+      "function_bytes": 2967,
+      "body_sha256": "5a2342508c6ced4bbc3bd7467ff784bab3a41094f4e1ab277b8f10ec4d1984e9",
+      "instruction_prefix": "488981f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1e0b07",
+      "function_rva": "0x1e0ae0",
+      "function_end": "0x1e0b24",
+      "function_bytes": 68,
+      "body_sha256": "6f7c7fc7ae2565e039f6fd70e565b5d1220c7d8d58f397fdcfbb92d0cfb6f0f5",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x20742d",
+      "function_rva": "0x207400",
+      "function_end": "0x20749c",
+      "function_bytes": 156,
+      "body_sha256": "750d2a97b5fe52b37e77d013b8936d5208829c18ed14279c1d01f31847ef991a",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x207cc4",
+      "function_rva": "0x207c60",
+      "function_end": "0x207d03",
+      "function_bytes": 163,
+      "body_sha256": "96aa3ec6eaf8abb0b370d9576a2b8c6079419603fe16f3f8d6c5eb17de205838",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x225c95",
+      "function_rva": "0x225c70",
+      "function_end": "0x225ca3",
+      "function_bytes": 51,
+      "body_sha256": "b6b1cf4dcc358eb8ec2488e662f851f5b7ce8a95cbc05311d7ebde92a96c6e59",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x22676e",
+      "function_rva": "0x226750",
+      "function_end": "0x226791",
+      "function_bytes": 65,
+      "body_sha256": "79a9ef96cec7a0462ca237e67f3a39b2dbc45801fb03b1046cd4069bbadec51c",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x2569be",
+      "function_rva": "0x256980",
+      "function_end": "0x2569e5",
+      "function_bytes": 101,
+      "body_sha256": "7c809b96801623776f84651b61f9c4bd2414afc27ea1980b68d19e36d26b6a11",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x2954de",
+      "function_rva": "0x295460",
+      "function_end": "0x295f3e",
+      "function_bytes": 2782,
+      "body_sha256": "c87d6e925a26ba691898448cfb0f051bd2ef1434cffb617dc9b687a5f2025aae",
+      "instruction_prefix": "4c89adf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x2a62d5",
+      "function_rva": "0x2a62b0",
+      "function_end": "0x2a65b7",
+      "function_bytes": 775,
+      "body_sha256": "c095688595e96f9a20e86c326233d90c02ed4ec2e372833ae65d012b7acfd7af",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x2a8d09",
+      "function_rva": "0x2a8280",
+      "function_end": "0x2a8e2a",
+      "function_bytes": 2986,
+      "body_sha256": "981fb39f594e86f1b3da6bded2449c4d533ae48b063d4e872262d94744f03b37",
+      "instruction_prefix": "4c89adf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x2eaabd",
+      "function_rva": "0x2eaa90",
+      "function_end": "0x2eab2d",
+      "function_bytes": 157,
+      "body_sha256": "bf4c7a6e1447708bdf87a955562b4b3880c4562a10b0144563e4614fa85d4d10",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x385869",
+      "function_rva": "0x385830",
+      "function_end": "0x38598e",
+      "function_bytes": 350,
+      "body_sha256": "9a757aebd24fa7c82baa7337dea27f2c08065a86e7fa03b05077061e98a4e9b1",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x386522",
+      "function_rva": "0x3864f0",
+      "function_end": "0x38659e",
+      "function_bytes": 174,
+      "body_sha256": "7680add138ea7f0c47199176d50155ef280f03262139bc5595f80e8d7095e975",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x38acf5",
+      "function_rva": "0x38acd0",
+      "function_end": "0x38afbf",
+      "function_bytes": 751,
+      "body_sha256": "aa40a4ff03b7285b44793e58ace6b9c45e141a93b0067912aa368aab1421f9cd",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x3addb8",
+      "function_rva": "0x3add30",
+      "function_end": "0x3ae514",
+      "function_bytes": 2020,
+      "body_sha256": "62850c2539503f8bd98b288adf002cc96259ae60c3a2e82049480eee466b99da",
+      "instruction_prefix": "4c8981f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x3af2cf",
+      "function_rva": "0x3af180",
+      "function_end": "0x3af331",
+      "function_bytes": 433,
+      "body_sha256": "a15b9e0de7fecd27e86cd24354e308fc0bb9fd8498fa2e621700c9d2776d2395",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3b2ddc",
+      "function_rva": "0x3b2d80",
+      "function_end": "0x3b3502",
+      "function_bytes": 1922,
+      "body_sha256": "77610a4a1cb9038a60ee68446dab905ac2eaca024d1ab63756d6fe8b297c84ca",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x3b831f",
+      "function_rva": "0x3b7a10",
+      "function_end": "0x3b845d",
+      "function_bytes": 2637,
+      "body_sha256": "12b91af8e97bd993b55e5e1842056c94ea4d5c93c6004f3a025a39867e8162aa",
+      "instruction_prefix": "4c89b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3c2695",
+      "function_rva": "0x3c2660",
+      "function_end": "0x3c2fd2",
+      "function_bytes": 2418,
+      "body_sha256": "9ba644424ca19afd80e468adf0091b3e94e64025168edaabf41d27f460b748fc",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3c5a15",
+      "function_rva": "0x3c59e0",
+      "function_end": "0x3c5cef",
+      "function_bytes": 783,
+      "body_sha256": "0a000412dc3a2d37dc498dfbf1dc8394b69062e5d074cd3697c76972a4fe2abe",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3c78ec",
+      "function_rva": "0x3c77f0",
+      "function_end": "0x3c847c",
+      "function_bytes": 3212,
+      "body_sha256": "4c0063d76afa89745854ac972f1279a24555f2fae330c24dade1c44673f308b9",
+      "instruction_prefix": "4c89b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3d8357",
+      "function_rva": "0x3d8248",
+      "function_end": "0x3d8401",
+      "function_bytes": 441,
+      "body_sha256": "33003c6b58362712a9c515bc4d6c603abd071576594e85d1142de9459a13ef4f",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3d8551",
+      "function_rva": "0x3d84d0",
+      "function_end": "0x3d901c",
+      "function_bytes": 2892,
+      "body_sha256": "af4e218c08c5e492469010850bcf47082fc6a1398990e08460f5d243cd271396",
+      "instruction_prefix": "498987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3d8605",
+      "function_rva": "0x3d84d0",
+      "function_end": "0x3d901c",
+      "function_bytes": 2892,
+      "body_sha256": "af4e218c08c5e492469010850bcf47082fc6a1398990e08460f5d243cd271396",
+      "instruction_prefix": "498987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x3dd112",
+      "function_rva": "0x3dc810",
+      "function_end": "0x3ddf18",
+      "function_bytes": 5896,
+      "body_sha256": "44f3077dc3b8ca48bdd986c6763d4b6dcedcfd3e31308c8bb69bd856b9d20de4",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x453c3c",
+      "function_rva": "0x44fa40",
+      "function_end": "0x4587cd",
+      "function_bytes": 36237,
+      "body_sha256": "e3a075517aad1372d3bda7cea569c435d5edaf3f5735b9bafa085493f509a598",
+      "instruction_prefix": "4c89bdf0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x45993f",
+      "function_rva": "0x4587d0",
+      "function_end": "0x45b4d5",
+      "function_bytes": 11525,
+      "body_sha256": "8976a37acd951ea8a5b1257388913e10974495c5d3c8055d9810282289b855c6",
+      "instruction_prefix": "4c89b5f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x477ad8",
+      "function_rva": "0x477ac0",
+      "function_end": "0x477af5",
+      "function_bytes": 53,
+      "body_sha256": "831c146c174fc2d5f9c26ddb7fbfea1e9ee9b5e2035825aaf0227457e0210afd",
+      "instruction_prefix": "488981f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x47a35a",
+      "function_rva": "0x47a290",
+      "function_end": "0x47a40c",
+      "function_bytes": 380,
+      "body_sha256": "2d281119ea3936c1eaeaeb23ba67a72b6b990ed78606a80ebd05bf19415a8879",
+      "instruction_prefix": "488998f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x4ad7fb",
+      "function_rva": "0x4ad7a0",
+      "function_end": "0x4ad833",
+      "function_bytes": 147,
+      "body_sha256": "f5a644dc4191bc93e9f4185129aaa20bf8eb700c81777a4cae2db8dce3edbd37",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x4ad9d3",
+      "function_rva": "0x4ad990",
+      "function_end": "0x4ada30",
+      "function_bytes": 160,
+      "body_sha256": "512e6bf23950e382ba0c43cf090ff10c6fa7a857c63da5c4c9cf0c6897cd7ccc",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x4add73",
+      "function_rva": "0x4add30",
+      "function_end": "0x4adde2",
+      "function_bytes": 178,
+      "body_sha256": "10e2f987cfe1a8b4b7870bd9abb6d427ebab788c1c5cd86dc35f7199ec21833c",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x4b1aab",
+      "function_rva": "0x4b19b0",
+      "function_end": "0x4b1b80",
+      "function_bytes": 464,
+      "body_sha256": "727e0a72e058c833b227203918c777b1ad0ec1ae563e5f17d0e47516bfd7eef4",
+      "instruction_prefix": "488986f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x4e689c",
+      "function_rva": "0x4e6860",
+      "function_end": "0x4e6a65",
+      "function_bytes": 517,
+      "body_sha256": "fe9d504f3ce635cbc98dfcaa1afd457c53702b635d37cf8e36fb5334f8fe506c",
+      "instruction_prefix": "48898bf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x4e6aac",
+      "function_rva": "0x4e6a70",
+      "function_end": "0x4e6c7c",
+      "function_bytes": 524,
+      "body_sha256": "90098f93861f998b09d986dd9e4c2ac7660e3d06eefcf4514c732a9731baa849",
+      "instruction_prefix": "48898bf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x4e742e",
+      "function_rva": "0x4e7220",
+      "function_end": "0x4e74bb",
+      "function_bytes": 667,
+      "body_sha256": "082a0c941077f8cff048047523dc673dc50e0c02b3ab67e51a3b345d1f5a4c06",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x4ed96a",
+      "function_rva": "0x4ed3b0",
+      "function_end": "0x4edfc4",
+      "function_bytes": 3092,
+      "body_sha256": "2cacd54507ac465d00e0f05daf38cbefd17761a2808db4aaa2001ea40bfabef7",
+      "instruction_prefix": "4c89a5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x51b441",
+      "function_rva": "0x51b3a0",
+      "function_end": "0x51b48f",
+      "function_bytes": 239,
+      "body_sha256": "8c3cb0cc3bea5d130adb63e0f3739e109167aff9e05ede1779b0888015e2a322",
+      "instruction_prefix": "4889b7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x51b571",
+      "function_rva": "0x51b490",
+      "function_end": "0x51baad",
+      "function_bytes": 1565,
+      "body_sha256": "983427408aea3dbdfcdac214b6d8a4ec21388ef66bc9870831cf523b1f4a6505",
+      "instruction_prefix": "4989bef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x52809e",
+      "function_rva": "0x527cb0",
+      "function_end": "0x5288cb",
+      "function_bytes": 3099,
+      "body_sha256": "9a281da4ee44c8b23568b754b8958d23f66ac6e58a9e95391cfc7c4b2cf268a3",
+      "instruction_prefix": "488995f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x534a07",
+      "function_rva": "0x5348e0",
+      "function_end": "0x534bd8",
+      "function_bytes": 760,
+      "body_sha256": "989629e33c693b45759e607803bbce3d07915b1c57af94a24b58286339b19e39",
+      "instruction_prefix": "4c89b7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x534cfe",
+      "function_rva": "0x534be0",
+      "function_end": "0x534e96",
+      "function_bytes": 694,
+      "body_sha256": "19fa3a33d87abe9fa0f3f36e70df379e8a770cbb237e55968d0f4a5ec892554f",
+      "instruction_prefix": "4889b7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x5355ad",
+      "function_rva": "0x5354b0",
+      "function_end": "0x535681",
+      "function_bytes": 465,
+      "body_sha256": "93580f44b176b819304238e3955ae4983ecb7a1229fd023171aecd0787ef8366",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x54512a",
+      "function_rva": "0x54503e",
+      "function_end": "0x5451ec",
+      "function_bytes": 430,
+      "body_sha256": "0dc694e7510abcd2b6d39363151c36492b0d1c6a8d05ceadacfdf12b673a6eb6",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x5817f8",
+      "function_rva": "0x581760",
+      "function_end": "0x581a65",
+      "function_bytes": 773,
+      "body_sha256": "554d6b404d3909a80a2c82db5472c85ee61b3e1d2bc19dbd2cd67dce6ee25210",
+      "instruction_prefix": "488993f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x595595",
+      "function_rva": "0x595490",
+      "function_end": "0x595e9c",
+      "function_bytes": 2572,
+      "body_sha256": "a5b485edc54e4b2a4218402b98dca50d3b2cc78f57e8f009e03a5429bafad8b8",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x5b15b9",
+      "function_rva": "0x5b1520",
+      "function_end": "0x5b1e1f",
+      "function_bytes": 2303,
+      "body_sha256": "ecf32894314ef5c2cfec1b9022246b90434768a364e81e941ee4a0c501a1a1c7",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x5dc33f",
+      "function_rva": "0x5dc260",
+      "function_end": "0x5dd341",
+      "function_bytes": 4321,
+      "body_sha256": "0ca33ccaa87c244c1e740a6d0a9dfe8197651b90d7fe684c9195e7532fe18efb",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x609e3b",
+      "function_rva": "0x609d90",
+      "function_end": "0x609f06",
+      "function_bytes": 374,
+      "body_sha256": "c2fad2d7dac8db26fe1eec41b845ea234558278302913733c7139d1835ae7dc1",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x60b63b",
+      "function_rva": "0x60ae50",
+      "function_end": "0x60bcf2",
+      "function_bytes": 3746,
+      "body_sha256": "f5a4619ff2d3d9c088eebdbb2f4d9a0ac67e817626a9a06c0beb29e5e3f16483",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x613149",
+      "function_rva": "0x6110c0",
+      "function_end": "0x613598",
+      "function_bytes": 9432,
+      "body_sha256": "245ced5a6921e5a330919c22755e0c7aa5b71be63470d38728b156b92398dace",
+      "instruction_prefix": "498986f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x637658",
+      "function_rva": "0x6375d0",
+      "function_end": "0x638e2f",
+      "function_bytes": 6239,
+      "body_sha256": "54b4c80524e23f672bc16f082750230a66c217d2c962bb419ac91036336f0e5d",
+      "instruction_prefix": "4c8985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x6f8094",
+      "function_rva": "0x6f74a0",
+      "function_end": "0x6f819a",
+      "function_bytes": 3322,
+      "body_sha256": "a91d2e6f4b7e7e9995e8af12e9ed562248aef28e1e044e0cdeddc91934056138",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x708ddb",
+      "function_rva": "0x708d40",
+      "function_end": "0x708ed2",
+      "function_bytes": 402,
+      "body_sha256": "cee78e6fdb43aa3f9e37bf2e96e14d9f7b7a560a75943765413a241afbb6c195",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x70b1ae",
+      "function_rva": "0x70b170",
+      "function_end": "0x70b284",
+      "function_bytes": 276,
+      "body_sha256": "3d6254bf5d7cd4fc2fe81c2293dcef272f5ac8685fb2d9c7ec8e499c294075cc",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x74b180",
+      "function_rva": "0x74ab70",
+      "function_end": "0x74b595",
+      "function_bytes": 2597,
+      "body_sha256": "cc13dba5c8e07b5b5091e4c391f442f860e623ca6731448f412b41e1721e48de",
+      "instruction_prefix": "4c89bef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x74f8c6",
+      "function_rva": "0x74f820",
+      "function_end": "0x74fe74",
+      "function_bytes": 1620,
+      "body_sha256": "389c991412d597a1144784bdf858007d54b0b3155770b9f9f77086072c8c54fe",
+      "instruction_prefix": "48899ef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x767e68",
+      "function_rva": "0x767c60",
+      "function_end": "0x767fcf",
+      "function_bytes": 879,
+      "body_sha256": "d2dff32e95070f936918c4c7d70c686354d03ef7ace8bd133364e0f6e780f3ff",
+      "instruction_prefix": "4889abf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x771a3f",
+      "function_rva": "0x771220",
+      "function_end": "0x772c0b",
+      "function_bytes": 6635,
+      "body_sha256": "b2cf0128c209f695ce4928affe4bfa9da9d3e6ad3c0706d555d09db8d71e2625",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x783f6d",
+      "function_rva": "0x782660",
+      "function_end": "0x784847",
+      "function_bytes": 8679,
+      "body_sha256": "e19f8da5806ed870fe05153387470327555b862904d4da9c518667e9684f4551",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x784ba8",
+      "function_rva": "0x784850",
+      "function_end": "0x78561c",
+      "function_bytes": 3532,
+      "body_sha256": "362c4e952f3e26aa3328b48a88ea7c53cf7f5a1cd9e6d7bdc9b73114d6ed0fd7",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x793a06",
+      "function_rva": "0x793940",
+      "function_end": "0x793a8f",
+      "function_bytes": 335,
+      "body_sha256": "bb1f9ff7b077ce32819e46c01313a2e53003859dace67cfc78368063143b27db",
+      "instruction_prefix": "48898bf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x793e89",
+      "function_rva": "0x793e30",
+      "function_end": "0x793ef6",
+      "function_bytes": 198,
+      "body_sha256": "18826b7c812693d6e26bc627765d1a7e1af9c78389a45b901bd03bf653032e80",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x7aa647",
+      "function_rva": "0x7aa5d0",
+      "function_end": "0x7ab3f7",
+      "function_bytes": 3623,
+      "body_sha256": "2537aa8b6bd9eff2952ed98e408c700953e4e25d70a993a926e87a60a7494c8d",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x7af26d",
+      "function_rva": "0x7af200",
+      "function_end": "0x7af2f3",
+      "function_bytes": 243,
+      "body_sha256": "c1810d62afb788e1f25ca7614e57b8fdc5a298f32a0eb4a6d312e1a4e98757dd",
+      "instruction_prefix": "488981f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x7dae05",
+      "function_rva": "0x7da4f0",
+      "function_end": "0x7db6d4",
+      "function_bytes": 4580,
+      "body_sha256": "1da876876171713ddeb22125811464708e5762caa976ead5c43dd1bda92e7eff",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x7f9f6a",
+      "function_rva": "0x7f9e70",
+      "function_end": "0x7fab24",
+      "function_bytes": 3252,
+      "body_sha256": "0d167717906df85ee3aa50fe0f0d90d7079c9da6e9f0c9cb231b2dc44b7a022f",
+      "instruction_prefix": "4c89bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x817d06",
+      "function_rva": "0x817c80",
+      "function_end": "0x817dd0",
+      "function_bytes": 336,
+      "body_sha256": "24fdcbd6cf4709694d3e3888a0d4dcd43a36f24fe5cc2d11d9391ef36625bb46",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x818bad",
+      "function_rva": "0x818b80",
+      "function_end": "0x818c4e",
+      "function_bytes": 206,
+      "body_sha256": "e974f9c8ac4243dce5bdd39aa40ec28db0a073dd17809342e35da13c77e4ae3d",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x818dd2",
+      "function_rva": "0x818d30",
+      "function_end": "0x818e50",
+      "function_bytes": 288,
+      "body_sha256": "0f24e720eb63724226053602b9f23fe67667a4bff2fbbe286764a959343e40ef",
+      "instruction_prefix": "4889abf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x8238ba",
+      "function_rva": "0x8230e0",
+      "function_end": "0x8252f1",
+      "function_bytes": 8721,
+      "body_sha256": "fe45e61e9c61626fa99b2dc23bd914b3d01c93c67cd6a690fdb1e79240559e77",
+      "instruction_prefix": "48898df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x86fcd4",
+      "function_rva": "0x86fbf0",
+      "function_end": "0x8702ea",
+      "function_bytes": 1786,
+      "body_sha256": "dc50b75a03cb6a5ab70110ccaa79b98fb0d3c9f0f480c3893508ade2ad40ee88",
+      "instruction_prefix": "4c8985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x8b658b",
+      "function_rva": "0x8b57e0",
+      "function_end": "0x8b67ed",
+      "function_bytes": 4109,
+      "body_sha256": "ad8e9f77672c3503096484dde281a01e25d3bf030bf16e39797517e5202d96ca",
+      "instruction_prefix": "4c89adf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x8e40ac",
+      "function_rva": "0x8e4070",
+      "function_end": "0x8e4151",
+      "function_bytes": 225,
+      "body_sha256": "d9abfc2d05c3b218401580045db309cb36df926b8891ff232b63e884e3d84847",
+      "instruction_prefix": "48898bf0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x8e422c",
+      "function_rva": "0x8e41f0",
+      "function_end": "0x8e42df",
+      "function_bytes": 239,
+      "body_sha256": "09ec9e3bea0052b063d832931067c89f97abd765864f6361727fd0686797d927",
+      "instruction_prefix": "48898bf0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x8e4422",
+      "function_rva": "0x8e4380",
+      "function_end": "0x8e4498",
+      "function_bytes": 280,
+      "body_sha256": "da6165102292f34682f1f5875e20d3cf7b96e9e62612dc3291aaab6d35c7e395",
+      "instruction_prefix": "488981f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x8e53ad",
+      "function_rva": "0x8e5380",
+      "function_end": "0x8e5410",
+      "function_bytes": 144,
+      "body_sha256": "ff7795c2cfe6d4cfea506a44dea460e856ac3b780d3276c45ecb37919183f245",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x8fc02e",
+      "function_rva": "0x8fa820",
+      "function_end": "0x8fc4e4",
+      "function_bytes": 7364,
+      "body_sha256": "0f6dc71e982ba55a265267f55b121c8b25a64276e4d5fdad7e663e3136a3695a",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x90177c",
+      "function_rva": "0x901680",
+      "function_end": "0x9017d8",
+      "function_bytes": 344,
+      "body_sha256": "5345361791dc84a2d6f645d040c8db9ee3b0e9a9dc7ea34e5f8f878afee2db3b",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x928725",
+      "function_rva": "0x928700",
+      "function_end": "0x928a0f",
+      "function_bytes": 783,
+      "body_sha256": "cbb87c20a46e9d1a0e322678daad9906c2e979905d005ad80531b9f0a9560b1b",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x947355",
+      "function_rva": "0x947250",
+      "function_end": "0x94740d",
+      "function_bytes": 445,
+      "body_sha256": "131bdc7de409d225d737f04a484a79004b70534d663190df23835e29b63757be",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x947493",
+      "function_rva": "0x947410",
+      "function_end": "0x947545",
+      "function_bytes": 309,
+      "body_sha256": "3673f626e4875d9c56003ac6533d039304a13636bd0139c127a2de93558dc84c",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x95125a",
+      "function_rva": "0x95096b",
+      "function_end": "0x954b3f",
+      "function_bytes": 16852,
+      "body_sha256": "643c3ac4267e1ee2bd2bd388ef866972a348796dc3bffe2fef683653e921e921",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x9521e1",
+      "function_rva": "0x95096b",
+      "function_end": "0x954b3f",
+      "function_bytes": 16852,
+      "body_sha256": "643c3ac4267e1ee2bd2bd388ef866972a348796dc3bffe2fef683653e921e921",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x953bed",
+      "function_rva": "0x95096b",
+      "function_end": "0x954b3f",
+      "function_bytes": 16852,
+      "body_sha256": "643c3ac4267e1ee2bd2bd388ef866972a348796dc3bffe2fef683653e921e921",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x953fbc",
+      "function_rva": "0x95096b",
+      "function_end": "0x954b3f",
+      "function_bytes": 16852,
+      "body_sha256": "643c3ac4267e1ee2bd2bd388ef866972a348796dc3bffe2fef683653e921e921",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x96b40b",
+      "function_rva": "0x96af30",
+      "function_end": "0x96b7cc",
+      "function_bytes": 2204,
+      "body_sha256": "fdbdeddf40d248efdeaf371fd5e913b9072d199c1d78cd2ea5ac3be1ffbcbc9c",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x96b459",
+      "function_rva": "0x96af30",
+      "function_end": "0x96b7cc",
+      "function_bytes": 2204,
+      "body_sha256": "fdbdeddf40d248efdeaf371fd5e913b9072d199c1d78cd2ea5ac3be1ffbcbc9c",
+      "instruction_prefix": "4889bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x97b253",
+      "function_rva": "0x97b110",
+      "function_end": "0x97b26a",
+      "function_bytes": 346,
+      "body_sha256": "a03aede36dcf1bfb1011466ad8e75c5a07c3287f170f00f742115a517f106ac2",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x97c7ef",
+      "function_rva": "0x97c750",
+      "function_end": "0x97c8b8",
+      "function_bytes": 360,
+      "body_sha256": "39cc8bb7e87896a4f2b083ad463ad3959d5c649cb487a8254c06b4a0f418e0e8",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x99541f",
+      "function_rva": "0x995370",
+      "function_end": "0x9954ea",
+      "function_bytes": 378,
+      "body_sha256": "bf22ef2e0fb47f7ad695ce5f5b275ace4698723b99d1b995eac7ff12bd3d03c5",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x9a39bd",
+      "function_rva": "0x9a3950",
+      "function_end": "0x9a3b2d",
+      "function_bytes": 477,
+      "body_sha256": "f888663df2fbfbebc983c7a5a3f5abb8244ceee94ff97f61c3ad7f3092c10cf8",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x9c8260",
+      "function_rva": "0x9c81f0",
+      "function_end": "0x9c8489",
+      "function_bytes": 665,
+      "body_sha256": "6471cd7d40ccbcfbf6c826045609e9868f6911b3b16a043ab42952b1d9ae6ee0",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x9d309a",
+      "function_rva": "0x9d3029",
+      "function_end": "0x9d3231",
+      "function_bytes": 520,
+      "body_sha256": "cc2e5dfa0eafac0b2a9991ef5de4078abcb391f4bf644ad193547ad6f3967957",
+      "instruction_prefix": "4c89bff0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xa0fd03",
+      "function_rva": "0xa0fb00",
+      "function_end": "0xa0fe4a",
+      "function_bytes": 842,
+      "body_sha256": "7f987a328e9069e4f5dc02ab71ce08761b6abed1c01ed86ed21a6d544877934d",
+      "instruction_prefix": "4c89a7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xa114e3",
+      "function_rva": "0xa113d0",
+      "function_end": "0xa11562",
+      "function_bytes": 402,
+      "body_sha256": "75c9110b4b10ddc72cadb487cf9e9e9b6683c4ea2289ff045281fdf5d8420512",
+      "instruction_prefix": "4889b7f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xa48a6d",
+      "function_rva": "0xa489b0",
+      "function_end": "0xa48d84",
+      "function_bytes": 980,
+      "body_sha256": "87ac4647641d425baaeec1e7c97ca17f2dafcaacd5db671a179b6c4f422af59c",
+      "instruction_prefix": "4d89aff0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa48e39",
+      "function_rva": "0xa48d90",
+      "function_end": "0xa48e6f",
+      "function_bytes": 223,
+      "body_sha256": "1c5a6f2cec8280511991ef60941a45d6167c25ee5a780ff107cce30edf6e4663",
+      "instruction_prefix": "4889b7f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa4a7b4",
+      "function_rva": "0xa4a750",
+      "function_end": "0xa4a825",
+      "function_bytes": 213,
+      "body_sha256": "994357a75235e56bb012cdd95fe0ca9a45a8505435584d3ccd8a5702f7d3ba18",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xa4b2af",
+      "function_rva": "0xa4b260",
+      "function_end": "0xa4b3cd",
+      "function_bytes": 365,
+      "body_sha256": "381a51cc9f31a87da85311d690eba160dc8ad213d518cf9fbe33ea0dd8263da9",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa4b8e0",
+      "function_rva": "0xa4b850",
+      "function_end": "0xa4b9ea",
+      "function_bytes": 410,
+      "body_sha256": "689337cf460b779b21bce5629b06fb63d2429583348e0a41aaa0414014e3d509",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa50a84",
+      "function_rva": "0xa50895",
+      "function_end": "0xa50ae9",
+      "function_bytes": 596,
+      "body_sha256": "0336d7152c9744908424d40284c6cb0cd5395f6e857cf39219ee2716a9632ecb",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xa5593a",
+      "function_rva": "0xa558d0",
+      "function_end": "0xa55964",
+      "function_bytes": 148,
+      "body_sha256": "18bbd1082ff405cc4b505016c346e1ec8206173fce649cfd45ce9a2cd2b72390",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xa654d2",
+      "function_rva": "0xa653d0",
+      "function_end": "0xa655fc",
+      "function_bytes": 556,
+      "body_sha256": "d5868961fa8f19079393cebd8e5389a01d855719bda1fc7b51ed21783537642f",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xa7def9",
+      "function_rva": "0xa7de00",
+      "function_end": "0xa7e0b0",
+      "function_bytes": 688,
+      "body_sha256": "e3a8e1d5a6547fa17470041214432ee038aec2a8b33c71dfe0a7d1fe7669058b",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb59b7b",
+      "function_rva": "0xb59b50",
+      "function_end": "0xb5a022",
+      "function_bytes": 1234,
+      "body_sha256": "0b4c8935a13044c7c6ab5531ea3fcbb389f316d1a5d75e4cac3257e2e1f5b0b4",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb5a05b",
+      "function_rva": "0xb5a030",
+      "function_end": "0xb5a518",
+      "function_bytes": 1256,
+      "body_sha256": "f61718a7b3dfc40f88bbb824ef7af2cecc49f159e2447de6fa0a0a812d1c1ef6",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb5b1ed",
+      "function_rva": "0xb5b180",
+      "function_end": "0xb5b23e",
+      "function_bytes": 190,
+      "body_sha256": "1e5e9f1584cd27e83db0f11b85da7a145ff7928fdf61f381621512b7a49856bb",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb623bb",
+      "function_rva": "0xb62390",
+      "function_end": "0xb62611",
+      "function_bytes": 641,
+      "body_sha256": "14ad0009c718548d043131f018deca30956588970384f357ee011373d22bc3c4",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb6264b",
+      "function_rva": "0xb62620",
+      "function_end": "0xb628b2",
+      "function_bytes": 658,
+      "body_sha256": "4ad214425948d813160347096e7b78a8137d3cc46fed6cfe4257975f2497d15b",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb7c5c7",
+      "function_rva": "0xb7c580",
+      "function_end": "0xb7c617",
+      "function_bytes": 151,
+      "body_sha256": "addf11a98f695e885ebd870418c559d13a435f23c6566543d793555e40ff1fb9",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb7c8fd",
+      "function_rva": "0xb7c8c0",
+      "function_end": "0xb7c97b",
+      "function_bytes": 187,
+      "body_sha256": "6b8243c2b69636ea9a42601ca02867b7360854fcdaa5befffe739f94fc7ff167",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xb7cbdf",
+      "function_rva": "0xb7ca20",
+      "function_end": "0xb7cd03",
+      "function_bytes": 739,
+      "body_sha256": "99332bd6ca803e830d94b91637826ba44511cbe8784490dfc12d02d291150361",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xb7dc7c",
+      "function_rva": "0xb7d8c0",
+      "function_end": "0xb7dd29",
+      "function_bytes": 1129,
+      "body_sha256": "0bd93f4e8da257c2d64b1343229188d1eea376ae6c54bf553cfe304ea513c968",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xbb2494",
+      "function_rva": "0xbafb60",
+      "function_end": "0xbb27a1",
+      "function_bytes": 11329,
+      "body_sha256": "5cbc1555596651bceaa2725380fe6d62a03b557a14cff2975de97a37866d96d0",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xbc8669",
+      "function_rva": "0xbc8630",
+      "function_end": "0xbc8928",
+      "function_bytes": 760,
+      "body_sha256": "35180a33841a95b0bb4b1033dcb0bf6ebe273eb79a70624756442ff571b70bda",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xbda2cf",
+      "function_rva": "0xbda2a0",
+      "function_end": "0xbda8c4",
+      "function_bytes": 1572,
+      "body_sha256": "fa40a2bbedd423b34bea280294a0f3ad7ec62fd62adc88759972b25cd6840ae3",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xc0c844",
+      "function_rva": "0xc0c7d0",
+      "function_end": "0xc0d737",
+      "function_bytes": 3943,
+      "body_sha256": "e96586915787715d58520f88201df21b0d8d607d59fdb8f205bc5f5ad6bdf364",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xc16215",
+      "function_rva": "0xc161f0",
+      "function_end": "0xc1651d",
+      "function_bytes": 813,
+      "body_sha256": "556027d122f9895ea720750d9d381a29bdc99164127cd615c02965c25b4e2198",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xc3f2f5",
+      "function_rva": "0xc3e3a0",
+      "function_end": "0xc4e1e0",
+      "function_bytes": 65088,
+      "body_sha256": "2e891d93e60c8641b13d1a100faa2642197251253f6389db4caf29bb0294ac11",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xc5a7ee",
+      "function_rva": "0xc5a7c0",
+      "function_end": "0xc5ad76",
+      "function_bytes": 1462,
+      "body_sha256": "b0936faa7dffe663692c5e21d9fbe768007ee154a51601885ae2be0327fac8a2",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xc7c0f4",
+      "function_rva": "0xc7c0a0",
+      "function_end": "0xc7c12d",
+      "function_bytes": 141,
+      "body_sha256": "b3d5ccc2b0fec0978e66c2bf8c20d09970afa624471c8678fdb45908a0431e57",
+      "instruction_prefix": "48898bf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xcb6db1",
+      "function_rva": "0xcb6cde",
+      "function_end": "0xcb718a",
+      "function_bytes": 1196,
+      "body_sha256": "b8564492dcaf8829087c1e7fb36ffd4d7a5bc6b41a91c9240883ef31e03e8fcf",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xcb7014",
+      "function_rva": "0xcb6cde",
+      "function_end": "0xcb718a",
+      "function_bytes": 1196,
+      "body_sha256": "b8564492dcaf8829087c1e7fb36ffd4d7a5bc6b41a91c9240883ef31e03e8fcf",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xcce67d",
+      "function_rva": "0xcce610",
+      "function_end": "0xcce69a",
+      "function_bytes": 138,
+      "body_sha256": "fd8b28938064a0655cb5570a9dd2f3032eac1f39989c6b4d9280f195e892c3d4",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xcd0563",
+      "function_rva": "0xcd04b0",
+      "function_end": "0xcd064c",
+      "function_bytes": 412,
+      "body_sha256": "281f5e7283f6f795aecf1e9008784ba40085abfe09fa6819cb5ea50b2f2c7fd1",
+      "instruction_prefix": "4889abf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xd147e1",
+      "function_rva": "0xd1470e",
+      "function_end": "0xd14bba",
+      "function_bytes": 1196,
+      "body_sha256": "9c67f63f6b7e2177982a847b313d698d5303b5d3877385f976b092601e18171b",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xd14a44",
+      "function_rva": "0xd1470e",
+      "function_end": "0xd14bba",
+      "function_bytes": 1196,
+      "body_sha256": "9c67f63f6b7e2177982a847b313d698d5303b5d3877385f976b092601e18171b",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xd3534a",
+      "function_rva": "0xd35290",
+      "function_end": "0xd3539e",
+      "function_bytes": 270,
+      "body_sha256": "23dad589e3509376d7ed242297f77470df0816115a8d61f1a2609915832ee03e",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xd38ec1",
+      "function_rva": "0xd38cf0",
+      "function_end": "0xd39008",
+      "function_bytes": 792,
+      "body_sha256": "55461dfe17617098e4e6448a8a1c2a1e258dee35712709bd61572c079f16ee45",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xd39567",
+      "function_rva": "0xd394b0",
+      "function_end": "0xd396c6",
+      "function_bytes": 534,
+      "body_sha256": "d0e14ffe13effb0c3d99497c8dea7e880757347b0d81934f146923c12c7f29f0",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xd3a1a5",
+      "function_rva": "0xd3a160",
+      "function_end": "0xd3a273",
+      "function_bytes": 275,
+      "body_sha256": "780d38db622c01268c2b44fd5cdb245517e6f9c1b9976fd90ff6ad43ca3e6a4b",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xd3e273",
+      "function_rva": "0xd3e0e0",
+      "function_end": "0xd3e362",
+      "function_bytes": 642,
+      "body_sha256": "d4519bd8c1c2d9173abbbdf0e9e3aba5d4d5814ce9b0bdf1f8812c7bd724fb2c",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xd3e9d5",
+      "function_rva": "0xd3e8d0",
+      "function_end": "0xd3ead1",
+      "function_bytes": 513,
+      "body_sha256": "d1a7f29c27d684a3f8a654c4cea18aa9fc8c426933a0b7dd0a032aca3205375b",
+      "instruction_prefix": "4889bbf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xd552ab",
+      "function_rva": "0xd543a0",
+      "function_end": "0xd5715f",
+      "function_bytes": 11711,
+      "body_sha256": "bc83f4ef7abbc50d42c6569b18dc57d4a424fa5bcae0aaa0d3b3670a0a935932",
+      "instruction_prefix": "48899df0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe3b533",
+      "function_rva": "0xe3b490",
+      "function_end": "0xe3b57b",
+      "function_bytes": 235,
+      "body_sha256": "f385cfe0cd78ed706ea0039da6ea8cca9e0390d0ec8f5efe52accbab584fafa4",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe4c2f7",
+      "function_rva": "0xe4c1a0",
+      "function_end": "0xe4c335",
+      "function_bytes": 405,
+      "body_sha256": "482b2e501f40384ae0b022cf07d921c83607b1afc0674aaad7ee32da2a1cd1ca",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe4cdfa",
+      "function_rva": "0xe4cd5d",
+      "function_end": "0xe4cea8",
+      "function_bytes": 331,
+      "body_sha256": "fcfed962ac32939e5a3a8f561d4371e69fa1244a30ef5fdca8eeb7686f5915b2",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe568d8",
+      "function_rva": "0xe567f0",
+      "function_end": "0xe56f95",
+      "function_bytes": 1957,
+      "body_sha256": "c6898acc462e6d6a1873f0e20ef0194d987ce186ba8a3a1e5c5aa52154984e9e",
+      "instruction_prefix": "4c89b3f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe65d47",
+      "function_rva": "0xe65bde",
+      "function_end": "0xe660ce",
+      "function_bytes": 1264,
+      "body_sha256": "9c8b4033b97c33588e8a9614264a1adeda12531375245d3dc67e4ca151355d78",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xe65f0f",
+      "function_rva": "0xe65bde",
+      "function_end": "0xe660ce",
+      "function_bytes": 1264,
+      "body_sha256": "9c8b4033b97c33588e8a9614264a1adeda12531375245d3dc67e4ca151355d78",
+      "instruction_prefix": "488983f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xea3a0e",
+      "function_rva": "0xea3910",
+      "function_end": "0xea3a3f",
+      "function_bytes": 303,
+      "body_sha256": "1b9bef7a057e5cad1402082b648d2076cceeccbf1499b31aa5c715d3b7707ded",
+      "instruction_prefix": "4c8983f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xec2f01",
+      "function_rva": "0xec2ee0",
+      "function_end": "0xec3169",
+      "function_bytes": 649,
+      "body_sha256": "ddbfc37f948f1a58102820069c940da537dfaf1c4ebf5a24e77c3e4884d61487",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf08956",
+      "function_rva": "0xf08930",
+      "function_end": "0xf089b5",
+      "function_bytes": 133,
+      "body_sha256": "3f1e613b7c5207fd036657838f6ae6eebc192b41343709910e07bcd8ce2f598a",
+      "instruction_prefix": "48899af0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf08bef",
+      "function_rva": "0xf089b5",
+      "function_end": "0xf09193",
+      "function_bytes": 2014,
+      "body_sha256": "c57f7d8b7f4de8d8826761233a1c55372e49b5f635877b85f74614e861f3a0e3",
+      "instruction_prefix": "49898df0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf09103",
+      "function_rva": "0xf089b5",
+      "function_end": "0xf09193",
+      "function_bytes": 2014,
+      "body_sha256": "c57f7d8b7f4de8d8826761233a1c55372e49b5f635877b85f74614e861f3a0e3",
+      "instruction_prefix": "498985f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf141c5",
+      "function_rva": "0xf12a40",
+      "function_end": "0xf148c7",
+      "function_bytes": 7815,
+      "body_sha256": "4a2f628c608e0dfaa33266a892da336f1d4590693e15039908cf952c61585d57",
+      "instruction_prefix": "4889b5f0000000",
+      "has_d4_displacement_bytes": true,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf2a66e",
+      "function_rva": "0xf2a5e0",
+      "function_end": "0xf2aa56",
+      "function_bytes": 1142,
+      "body_sha256": "6f91bdce3f81b06ac8d7d2ef373ed7b4afcc488c13882473c2e0faeb5ee9eeb5",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf2cc41",
+      "function_rva": "0xf2cb9a",
+      "function_end": "0xf2cc51",
+      "function_bytes": 183,
+      "body_sha256": "afa40b305196cb663ea64747f4e8e5cef9b01264125558d61d4314c25af4c556",
+      "instruction_prefix": "48899ef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf2cee5",
+      "function_rva": "0xf2ced4",
+      "function_end": "0xf2cf0c",
+      "function_bytes": 56,
+      "body_sha256": "2b114e82db96eaa073e89137934b242026040b9caf7c2b81c34b3c7600ce006e",
+      "instruction_prefix": "4c89b6f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf307e0",
+      "function_rva": "0xf307ad",
+      "function_end": "0xf309d0",
+      "function_bytes": 547,
+      "body_sha256": "9825370efefcdf8350ae5b767274bab99e57e601f45ec0ba894c1fe49fa713d5",
+      "instruction_prefix": "4889bef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf31e0b",
+      "function_rva": "0xf31d25",
+      "function_end": "0xf32467",
+      "function_bytes": 1858,
+      "body_sha256": "0ba2b933408963af74ecf09439997b32ad8422e45454fb2f930aa0966a14b620",
+      "instruction_prefix": "4c89bdf0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf3200b",
+      "function_rva": "0xf31d25",
+      "function_end": "0xf32467",
+      "function_bytes": 1858,
+      "body_sha256": "0ba2b933408963af74ecf09439997b32ad8422e45454fb2f930aa0966a14b620",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf32065",
+      "function_rva": "0xf31d25",
+      "function_end": "0xf32467",
+      "function_bytes": 1858,
+      "body_sha256": "0ba2b933408963af74ecf09439997b32ad8422e45454fb2f930aa0966a14b620",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xf5eb4f",
+      "function_rva": "0xf5e97c",
+      "function_end": "0xf5ebbf",
+      "function_bytes": 579,
+      "body_sha256": "505e14c8cb893fb884c60526f48ab6cec7dfab4b4df68455723e65be3df05a6d",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf66b4f",
+      "function_rva": "0xf66b30",
+      "function_end": "0xf66b97",
+      "function_bytes": 103,
+      "body_sha256": "efe4abee28a72f924e2d3f89293c3680525ddb6749f63fac7718bf7c8b0dce4d",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xf9361b",
+      "function_rva": "0xf93520",
+      "function_end": "0xf93715",
+      "function_bytes": 501,
+      "body_sha256": "da2037e05557a36a16dc64079882022542aab78efae6cb6020fd44394053a48d",
+      "instruction_prefix": "4c89b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0xffa2bf",
+      "function_rva": "0xffa2a0",
+      "function_end": "0xffa2f1",
+      "function_bytes": 81,
+      "body_sha256": "a2b7f9bb84980b8ad7704c80fa9661059f6de8378ee5ab11d3eae1e24bf2fd4a",
+      "instruction_prefix": "488985f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0xffc6e7",
+      "function_rva": "0xffc600",
+      "function_end": "0xffc728",
+      "function_bytes": 296,
+      "body_sha256": "878ce38cb874df0fb1d3d0e69d1161cc8fdd164a52faf58518b6b8bcbcffe624",
+      "instruction_prefix": "4889aef0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1025ff2",
+      "function_rva": "0x1025730",
+      "function_end": "0x1027014",
+      "function_bytes": 6372,
+      "body_sha256": "4e2d4f31f96b0f08f5473a7bae5e999f07d7e38e5b2aa28977c71a4f9198bb86",
+      "instruction_prefix": "488986f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    },
+    {
+      "store_rva": "0x1028835",
+      "function_rva": "0x1028750",
+      "function_end": "0x1028938",
+      "function_bytes": 488,
+      "body_sha256": "ea48e222989be6b2770d1a524d44204d28b041509a8c76129f373109a9e06d2e",
+      "instruction_prefix": "4889b3f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": true
+    },
+    {
+      "store_rva": "0x1069f4c",
+      "function_rva": "0x1069ed0",
+      "function_end": "0x106a070",
+      "function_bytes": 416,
+      "body_sha256": "1631323b8fb0732a3ea783fce6c39f0d898dcd56dcdd664371c5f713c1551a03",
+      "instruction_prefix": "488987f0000000",
+      "has_d4_displacement_bytes": false,
+      "has_d0_or_d1_displacement_bytes": false
+    }
+  ],
+  "status": "STATIC_BYTE_CANDIDATES_ONLY",
+  "limits": [
+    "Byte cooccurrences do not establish decoded operands, object type or UFunction ownership.",
+    "Excludes SIB, immediate stores, other instructions and functions without pdata.",
+    "No current callback pointer, live call, target execution or gameplay result observed."
+  ]
+}

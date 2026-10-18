@@ -1,0 +1,333 @@
+{
+  "utc": "2026-10-18T01:45:06.3893829Z",
+  "acceptance": "READ_ONLY_OBSERVER_ACCEPTED; CORE_FIRE_JUMP_NOT_ACCEPTED",
+  "sourceInputCount": 219,
+  "independentSourceDrift": [],
+  "expectedChangedTestExecutables": [
+    {
+      "path": "build/windows-msvc/hawken-live-player-reader-tests.exe",
+      "before": "d1cbce8f29fc1ed61a31c37e2e4b98e031d4882d2e0871169d0c9a7dd96cb723",
+      "after": "2fd80372388bf6940140a1abf5a8e132636e4306e0573121316de3e186b5a8ca"
+    },
+    {
+      "path": "build/windows-msvc/hawken-main-menu-sync-reader-tests.exe",
+      "before": "fbab30a7b386a9ee06ad2465b0bc8f9c607ddbdfddba41e42c8000b17b0399ca",
+      "after": "cd17b093317cfc54fbca60dd72f8e8660c8ce9e05d9b723cee873d126eff184d"
+    }
+  ],
+  "red": {
+    "buildExit": 0,
+    "newCasesPassed": 1,
+    "newCasesFailed": 7,
+    "oldCases": 42,
+    "newCases": 8,
+    "assertionFailures": 30
+  },
+  "green": {
+    "skips": 0,
+    "fullAssertions": 93588,
+    "buildExit": 0,
+    "ctestExit": 0,
+    "readerAssertions": 5076,
+    "suites": 60,
+    "rawLastTestSHA256": "67ed3c946b7b9e77ed854409485019a6b11afbe2c36f43229fa3fadaa35b03ae",
+    "focusedExit": 0,
+    "fullCases": 1651,
+    "readerCases": 50
+  },
+  "coreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+  "probeSHA256": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+  "trial": "local-steam-routing-20261018-013824",
+  "runtime": {
+    "classNodeNameIsActiveStateProof": false,
+    "originalSteamAuth": true,
+    "projectileConfirmed": false,
+    "tutorialRepeated": false,
+    "after": {
+      "identity_verified": true,
+      "metadata": {
+        "controller_player_matches": true,
+        "controller_present": true,
+        "first_entry_only": true,
+        "inventory": {
+          "controller_role": 2,
+          "dual_can_fire_dispatch": {
+            "flags": 133378,
+            "native_token": 0,
+            "target_in_original_text": true,
+            "target_rva": 507696
+          },
+          "dual_client_shutdown": {
+            "bit_mask": 16,
+            "metadata_offset": 984,
+            "value": false
+          },
+          "dual_instigator_is_pawn": true,
+          "dual_invmanager_matches": true,
+          "dual_role": 1,
+          "dual_script_state": {
+            "kind": "named",
+            "name": "Active",
+            "package": "HawkenGame"
+          },
+          "dual_server_can_fire": {
+            "bit_mask": 8,
+            "metadata_offset": 984,
+            "value": true
+          },
+          "dual_shutdown": {
+            "bit_mask": 4,
+            "metadata_offset": 984,
+            "value": true
+          },
+          "manager_chain_is_dual": true,
+          "manager_instigator_is_pawn": true,
+          "manager_role": 1,
+          "manager_script_state": {
+            "kind": "named",
+            "name": "R_InventoryManager",
+            "package": "HawkenGame"
+          },
+          "pawn_can_move": {
+            "bit_mask": 256,
+            "metadata_offset": 3104,
+            "value": true
+          },
+          "pawn_dual_weapon_present": true,
+          "pawn_invmanager_present": true,
+          "pawn_jump_capable": {
+            "bit_mask": 512,
+            "metadata_offset": 656,
+            "value": true
+          },
+          "pawn_jump_dispatch": {
+            "flags": 133122,
+            "native_token": 0,
+            "target_in_original_text": true,
+            "target_rva": 507696
+          },
+          "pawn_jump_z": 1250.0,
+          "pawn_move_state": 2,
+          "pawn_no_weapon_firing": {
+            "bit_mask": 4096,
+            "metadata_offset": 660,
+            "value": false
+          },
+          "pawn_physics": 1,
+          "pawn_role": 2,
+          "pawn_script_state": {
+            "kind": "named",
+            "name": "R_PawnContent",
+            "package": "HawkenGameContent"
+          },
+          "pawn_thruster_energy": 9.600000381469727,
+          "pawn_thruster_jump_energy": 0.0,
+          "pawn_weapon_is_dual": true,
+          "pawn_weapon_present": true
+        },
+        "local_player_present": true,
+        "pawn_offset": 592,
+        "pawn_present": true,
+        "pri_offset": 600,
+        "pri_present": true,
+        "world_membership_verified": false
+      },
+      "samples_equal": true,
+      "status": "observed"
+    },
+    "jumpConfirmed": false,
+    "inputs": [
+      "Space press",
+      "right click",
+      "left click"
+    ],
+    "flow": [
+      "main menu",
+      "local listing",
+      "lobby",
+      "Ready countdown",
+      "mech selection",
+      "Restos HUD"
+    ],
+    "before": {
+      "identity_verified": true,
+      "metadata": {
+        "controller_player_matches": true,
+        "controller_present": true,
+        "first_entry_only": true,
+        "inventory": {
+          "controller_role": 2,
+          "dual_can_fire_dispatch": {
+            "flags": 133378,
+            "native_token": 0,
+            "target_in_original_text": true,
+            "target_rva": 507696
+          },
+          "dual_client_shutdown": {
+            "bit_mask": 16,
+            "metadata_offset": 984,
+            "value": false
+          },
+          "dual_instigator_is_pawn": true,
+          "dual_invmanager_matches": true,
+          "dual_role": 1,
+          "dual_script_state": {
+            "kind": "named",
+            "name": "Active",
+            "package": "HawkenGame"
+          },
+          "dual_server_can_fire": {
+            "bit_mask": 8,
+            "metadata_offset": 984,
+            "value": true
+          },
+          "dual_shutdown": {
+            "bit_mask": 4,
+            "metadata_offset": 984,
+            "value": true
+          },
+          "manager_chain_is_dual": true,
+          "manager_instigator_is_pawn": true,
+          "manager_role": 1,
+          "manager_script_state": {
+            "kind": "named",
+            "name": "R_InventoryManager",
+            "package": "HawkenGame"
+          },
+          "pawn_can_move": {
+            "bit_mask": 256,
+            "metadata_offset": 3104,
+            "value": true
+          },
+          "pawn_dual_weapon_present": true,
+          "pawn_invmanager_present": true,
+          "pawn_jump_capable": {
+            "bit_mask": 512,
+            "metadata_offset": 656,
+            "value": true
+          },
+          "pawn_jump_dispatch": {
+            "flags": 133122,
+            "native_token": 0,
+            "target_in_original_text": true,
+            "target_rva": 507696
+          },
+          "pawn_jump_z": 1250.0,
+          "pawn_move_state": 2,
+          "pawn_no_weapon_firing": {
+            "bit_mask": 4096,
+            "metadata_offset": 660,
+            "value": false
+          },
+          "pawn_physics": 1,
+          "pawn_role": 2,
+          "pawn_script_state": {
+            "kind": "named",
+            "name": "R_PawnContent",
+            "package": "HawkenGameContent"
+          },
+          "pawn_thruster_energy": 9.600000381469727,
+          "pawn_thruster_jump_energy": 0.0,
+          "pawn_weapon_is_dual": true,
+          "pawn_weapon_present": true
+        },
+        "local_player_present": true,
+        "pawn_offset": 592,
+        "pawn_present": true,
+        "pri_offset": 600,
+        "pri_present": true,
+        "world_membership_verified": false
+      },
+      "samples_equal": true,
+      "status": "observed"
+    },
+    "sustainedPrimaryWindupTested": false,
+    "loadedCodeBytesAttested": false,
+    "callbackInvocationConfirmed": false
+  },
+  "photos": [
+    {
+      "name": "01-main-menu.png",
+      "sha256": "181f7e5be60027ab5387d239f68b415e2949239501da643975dc9e8fe413eae9",
+      "bytes": 187252
+    },
+    {
+      "name": "02-server-list.png",
+      "sha256": "eee604e90d58b3b490a5acefe48c6233601636aa6402811c4f4058b83e880761",
+      "bytes": 175010
+    },
+    {
+      "name": "03-lobby.png",
+      "sha256": "0e5536c85dac46be26f7200f77df8cc5d13f831a77af274e0e9ec19a1d2898e6",
+      "bytes": 172826
+    },
+    {
+      "name": "04-mech-selection.png",
+      "sha256": "797a5f5c61f931368152a334d3f60f19d2bbbca5c42ff9bb2d6ec1527168fa86",
+      "bytes": 171838
+    },
+    {
+      "name": "05-before-input.png",
+      "sha256": "c29ce8ab8f6b8eb43c52644462aceea6def9ff62b7082667e4660bf6f41b1e1c",
+      "bytes": 137640
+    },
+    {
+      "name": "06-after-jump.png",
+      "sha256": "451a7ef5b74b15859f4ef4c923f73741674ba4657321a88b253dad01f0c04a07",
+      "bytes": 130919
+    },
+    {
+      "name": "07-secondary-fire.png",
+      "sha256": "30cc81e7014862c68481aa55feb44d091173933b42fb36787008cf2a02cd37ee",
+      "bytes": 131185
+    },
+    {
+      "name": "08-primary-click.png",
+      "sha256": "5902f8a55e080f41e82761c5abb2734fd7293e872a0b87b233073f7811d595a3",
+      "bytes": 128511
+    }
+  ],
+  "clientLog": {
+    "lines": 1341,
+    "ClientRestartSS_DONE": true,
+    "rawLogPublished": false,
+    "sha256": "940e9f39fef65d8d7649319a07338406de9f8bb009103a2709220da60eea5c5a",
+    "path": "local-steam-routing-20261018-013824/client-final.log",
+    "PlayerWalking": true,
+    "bytes": 101614,
+    "normalExit": true
+  },
+  "cleanup": {
+    "utc": "2026-10-18T01:43:28.4981183Z",
+    "session": "local-steam-routing-20261018-013824",
+    "checkedPids": [
+      41512,
+      53752,
+      10972,
+      47316,
+      24896,
+      36080
+    ],
+    "remaining": [],
+    "newComputerUseChildren": [],
+    "allOwnedProcessesAbsent": true,
+    "usedPercent": 65.41419326149999,
+    "freeGiB": 11.037181854248047,
+    "borrowedRulePreserved": true,
+    "sourceAcceptance": "Reader RED then GREEN50 cases/5076assertions/CTest60 suites; Core gameplay not accepted",
+    "originalHandles": "Start-Process handles disposed in finally; computer-use kernel reset"
+  },
+  "lease": {
+    "notificationLateSeconds": 13,
+    "deadlineUtc": "2026-10-18T01:43:15Z",
+    "releaseReceiptUtc": "2026-10-18T01:43:28.4981183Z",
+    "allTrialProcessesObservedAbsentUtc": "2026-10-18T01:42:47Z"
+  },
+  "limits": [
+    "No gameplay code changed; Core remains diagnostic-only for fire/jump",
+    "Read-only snapshots are not atomic or World-membership proof",
+    "No full RPC decode or fresh packet capture in this observer trial",
+    "Shutdown remains true; no causal attribution from this observation alone",
+    "Linux and sanitizer gates remain pending"
+  ]
+}

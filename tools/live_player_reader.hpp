@@ -28,6 +28,20 @@ struct LiveBoolSnapshot {
     bool operator==(const LiveBoolSnapshot&) const = default;
 };
 
+enum class LiveScriptStateKind { no_frame, no_node, uninitialized, named };
+struct LiveScriptStateSnapshot {
+    LiveScriptStateKind kind = LiveScriptStateKind::no_frame;
+    std::string name, package;
+    bool operator==(const LiveScriptStateSnapshot&) const = default;
+};
+struct LiveFunctionDispatchSnapshot {
+    std::uint32_t flags = 0;
+    std::uint16_t native_token = 0;
+    bool target_in_original_text = false;
+    std::optional<std::uint32_t> target_rva;
+    bool operator==(const LiveFunctionDispatchSnapshot&) const = default;
+};
+
 struct LiveInventorySnapshot {
     bool pawn_invmanager_present = false;
     bool pawn_dual_weapon_present = false;
@@ -47,6 +61,8 @@ struct LiveInventorySnapshot {
     std::optional<LiveBoolSnapshot> pawn_no_weapon_firing;
     std::optional<float> pawn_jump_z, pawn_thruster_energy, pawn_thruster_jump_energy;
     std::optional<std::uint8_t> pawn_move_state;
+    std::optional<LiveScriptStateSnapshot> pawn_script_state, manager_script_state, dual_script_state;
+    std::optional<LiveFunctionDispatchSnapshot> pawn_jump_dispatch, dual_can_fire_dispatch;
     bool operator==(const LiveInventorySnapshot&) const = default;
 };
 
@@ -278,6 +294,77 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
             std::string(field_package), std::string(expected_package), byte_kind, bool_kind, float_kind, result});
         return result;
     };
+    const auto script_state = [&](std::uint64_t live_script_actor, const auto& live_script_chain) {
+        LiveScriptStateSnapshot live_script_out;
+        const auto live_script_frame = read.template operator()<std::uint64_t>(live_script_actor, 0x20);
+        if (!live_script_frame) return live_script_out;
+        live_script_out.kind = LiveScriptStateKind::no_node;
+        const auto live_script_node = read.template operator()<std::uint64_t>(live_script_frame, 0x44);
+        if (!live_script_node) return live_script_out;
+        const auto live_script_type = read.template operator()<std::uint64_t>(live_script_node, 0x50);
+        if (!live_script_type || read.template operator()<std::uint64_t>(live_script_type, 0x50) != kind)
+            fail("live_identity");
+        auto live_script_owner = live_script_node;
+        if (live_script_type != kind) {
+            const auto live_script_type_id = identify(live_script_type);
+            if (live_script_type_id.name != "State" || live_script_type_id.package != "Core" ||
+                live_script_type_id.instance != 0)
+                fail("live_identity");
+            live_script_owner = read.template operator()<std::uint64_t>(live_script_node, 0x40);
+        }
+        const auto live_script_owner_node = std::find_if(live_script_chain.begin(), live_script_chain.end(),
+            [&](const auto& live_script_item) { return live_script_item.address == live_script_owner; });
+        if (live_script_owner_node == live_script_chain.end()) fail("live_identity");
+        // GetStateName's sentinel precedes Node's FName. Never identify an
+        // uninitialized Node, even though its metadata type/owner must be valid.
+        if (read.template operator()<std::int32_t>(live_script_node, 0x38) == -1) {
+            live_script_out.kind = LiveScriptStateKind::uninitialized;
+            return live_script_out;
+        }
+        const auto live_script_id = identify(live_script_node);
+        if (live_script_id.instance != 0 ||
+            live_script_id.package != live_script_owner_node->identity.package)
+            fail("live_identity");
+        live_script_out.kind = LiveScriptStateKind::named;
+        live_script_out.name = live_script_id.name;
+        live_script_out.package = live_script_id.package;
+        return live_script_out;
+    };
+    const auto function_dispatch = [&](std::uint64_t live_function_owner,
+                                       std::string_view live_function_name,
+                                       std::string_view live_function_package) {
+        LiveFunctionDispatchSnapshot live_function_out;
+        bool live_function_found = false;
+        for (const auto& live_function_field : owner_fields(live_function_owner)) {
+            const auto& live_function_id = live_function_field.identity;
+            if (live_function_id.name != live_function_name) continue;
+            const auto live_function_address = live_function_field.address;
+            if (live_function_found || live_function_id.instance != 0 ||
+                live_function_id.package != live_function_package ||
+                read.template operator()<std::uint64_t>(live_function_address, 0x40) != live_function_owner)
+                fail("live_property_mismatch");
+            const auto live_function_type = read.template operator()<std::uint64_t>(live_function_address, 0x50);
+            if (!live_function_type || read.template operator()<std::uint64_t>(live_function_type, 0x50) != kind)
+                fail("live_property_mismatch");
+            const auto live_function_type_id = identify(live_function_type);
+            if (live_function_type_id.name != "Function" || live_function_type_id.package != "Core" ||
+                live_function_type_id.instance != 0)
+                fail("live_property_mismatch");
+            live_function_out.flags = read.template operator()<std::uint32_t>(live_function_address, 0xd0);
+            live_function_out.native_token = read.template operator()<std::uint16_t>(live_function_address, 0xd4);
+            const auto live_function_target = read.template operator()<std::uint64_t>(live_function_address, 0xf0);
+            if (live_function_target >= module) {
+                const auto live_function_rva = live_function_target - module;
+                if (live_function_rva >= 0x1000 && live_function_rva < 0x128df79) {
+                    live_function_out.target_in_original_text = true;
+                    live_function_out.target_rva = static_cast<std::uint32_t>(live_function_rva);
+                }
+            }
+            live_function_found = true;
+        }
+        if (!live_function_found) fail("live_property_missing");
+        return live_function_out;
+    };
     const auto actor = property(player_type, "Actor", "PlayerController");
     if (actor.offset != 0x68) fail("live_property_mismatch");
     const auto controller = read.template operator()<std::uint64_t>(local, static_cast<std::uint64_t>(actor.offset));
@@ -326,6 +413,9 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         const auto inv_dual = read.template operator()<std::uint64_t>(pawn_value,
             static_cast<std::uint64_t>(inv_dual_property.offset));
         LiveInventorySnapshot inv_out;
+        inv_out.pawn_script_state = script_state(pawn_value, inv_pawn_chain);
+        inv_out.pawn_jump_dispatch = function_dispatch(inv_native_type,
+            "CheckJumpOrHealOrTaunt", "HawkenGame");
         const auto inv_pawn_actor_type = named(inv_pawn_chain, "Actor", "Engine");
         const auto inv_physics_property = property(inv_pawn_actor_type, "Physics", {}, "Engine", "Engine", true);
         inv_out.pawn_physics = read.template operator()<std::uint8_t>(pawn_value,
@@ -376,6 +466,7 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         if (inv_manager) {
             const auto inv_manager_chain = instance(inv_manager);
             if (!contains(inv_manager_chain, inv_manager_property.expected)) fail("live_identity");
+            inv_out.manager_script_state = script_state(inv_manager, inv_manager_chain);
             const auto inv_actor_type = named(inv_manager_chain, "Actor", "Engine");
             const auto inv_manager_type = named(inv_manager_chain, "InventoryManager", "Engine");
             const auto inv_instigator_property = property(inv_actor_type, "Instigator", "Pawn");
@@ -401,6 +492,8 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
             const auto inv_instigator_property = property(inv_actor_type, "Instigator", "Pawn");
             const auto inv_manager_link_property = property(inv_inventory_type, "InvManager", "InventoryManager");
             const auto inv_dual_type = named(inv_dual_chain, "R_Weap_DualWield", "HawkenGame");
+            inv_out.dual_script_state = script_state(inv_dual, inv_dual_chain);
+            inv_out.dual_can_fire_dispatch = function_dispatch(inv_dual_type, "ChangeCanFire", "HawkenGame");
             const auto inv_dual_role_property = property(inv_actor_type, "Role", {}, "Engine", "Engine", true);
             inv_out.dual_role = read.template operator()<std::uint8_t>(inv_dual,
                 static_cast<std::uint64_t>(inv_dual_role_property.offset));

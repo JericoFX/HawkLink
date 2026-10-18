@@ -1,0 +1,157 @@
+{
+  "schema": "function-bind-owner-constructor-proof/v1",
+  "status": "CONFIRMED_NATIVE_FUNCTION_NAMED_FACTORY_CONSTRUCTOR_VTABLE_BINDER;CORE_OUTER_AND_LIVE_BINDING_UNOBSERVED",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "total_new_code_bytes": 317,
+  "authorized_code_cap": 3072,
+  "bodies": [
+    {
+      "rva": "0x6bd50",
+      "end_rva": "0x6bda5",
+      "raw": "0x6b150",
+      "size": 85,
+      "sha256": "d9fad4c0972faa7eeaad1c87291e85ef58013f16f2aa5273db5e82bacb64597f",
+      "machine_file": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-ctor-6bd50-machine.txt",
+      "machine_sha256": "490b8f3bbdee57b5658c115b7ed0f1af2a6db8af4b9ba43fcaf2bcd17cd54d13",
+      "byte_chunks": 24,
+      "full_chunk_bytes_match": true,
+      "gaps": 0
+    },
+    {
+      "rva": "0x77df0",
+      "end_rva": "0x77e31",
+      "raw": "0x771f0",
+      "size": 65,
+      "sha256": "26d6d6657fa8eb3f86523cd4923c9df1bfee6811003f8cee34c4867ce1c6d22f",
+      "machine_file": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-ctor-77df0-machine.txt",
+      "machine_sha256": "ab0b2eef632008f451355aa5e46ac3d97867b631d013febd016a59d7a2da0e3a",
+      "byte_chunks": 16,
+      "full_chunk_bytes_match": true,
+      "gaps": 0
+    },
+    {
+      "rva": "0x752e0",
+      "end_rva": "0x75387",
+      "raw": "0x746e0",
+      "size": 167,
+      "sha256": "a433d57cd41ae9d92ac90727d67bcee78d5431dc17185f9851041306eba155fd",
+      "machine_file": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-ctor-factory-752e0-machine.txt",
+      "machine_sha256": "e9c08ba7fdcf9392ccee7a8364220c9b5792e575e4982e1aa96bff2163c65002",
+      "byte_chunks": 39,
+      "full_chunk_bytes_match": true,
+      "gaps": 0
+    }
+  ],
+  "anchors": [
+    {
+      "rva": "0x6bd6d",
+      "raw": "0x6b16d",
+      "bytes": "488d058cf72401488901",
+      "sha256": "241e4a7ad715c4dd964877c320c5134ad296c7755da04aa73568fa12171fe18a",
+      "meaning": "LEA vtable12bb500 then MOV[RCX],RAX"
+    },
+    {
+      "rva": "0x77e20",
+      "raw": "0x77220",
+      "bytes": "488d05d9362401488903",
+      "sha256": "2bd39ed701311ee7caad034e11cfdcc0dbaee28c5cff4f16d95f8d160f46737e",
+      "meaning": "LEA vtable12bb500 then MOV[RBX],RAX"
+    },
+    {
+      "rva": "0x75326",
+      "raw": "0x74726",
+      "bytes": "488d0dc32a000048894c2448",
+      "sha256": "381ae64ba428b30decab39eb3011e217ed8472a23fca557d63ae6192328faa4c",
+      "meaning": "LEA constructor77df0 then save argument10 stack+48"
+    },
+    {
+      "rva": "0x75352",
+      "raw": "0x74752",
+      "bytes": "488d0d4119240148894c2428",
+      "sha256": "5a01adc1e21ab059f56fa7dbdff575eb1e85a217f8c585d2c0cc2d0d57096e7c",
+      "meaning": "LEA UTF16Function then save argument6 stack+28"
+    },
+    {
+      "rva": "0x7534d",
+      "raw": "0x7474d",
+      "bytes": "48895c2430",
+      "sha256": "7a6a2e3334f4db4e26881323c7a1254f292de3151b8821864bc552c416d57f51",
+      "meaning": "Factory incoming RBX passed as argument7 stack+30: outer not named here"
+    },
+    {
+      "rva": "0x75377",
+      "raw": "0x74777",
+      "bytes": "e8143fffff",
+      "sha256": "1702ed7e33f4fec4725573a4b7d50029f1529af7f000fba0db072258e3745c64",
+      "meaning": "Call retained UClass constructor69290"
+    }
+  ],
+  "literals": [
+    {
+      "rva": "0x12b6c9a",
+      "raw": "0x12b609a",
+      "text": "Function",
+      "bytes": "460075006e006300740069006f006e000000",
+      "sha256": "d4ae8d285ed979b40f2f7615c1953d2080511b548fd7d4a7b0dad52b867cad01"
+    },
+    {
+      "rva": "0x12a59f0",
+      "raw": "0x12a4df0",
+      "text": "Engine",
+      "bytes": "45006e00670069006e0065000000",
+      "sha256": "767ea3ee5fb2f830881daa31407f5f483e5ee7a027483fde596077b8f9ebfd6f"
+    }
+  ],
+  "chain": [
+    "Only two RIP-relative LEA xrefs to12bb500 in.text:6bd6d and77e20. Both install it at receiver+0.",
+    "77df0..77e31 is an initialization body with c60e0 base call, zero initialization and final vtable install.6bd50..6bda5 is a cleanup/deallocation-style path, not named as a constructor.",
+    "Only one exact LEA-to77df0 found:75326 in752e0..75387. This factory passes exact UTF16Function at argument6, caller-supplied outer argument7, and constructor77df0 at argument10 to69290.",
+    "Retained69290 stores argument10 inUClass+1dc. Existing ScriptStruct factory proof establishes the same named factory/constructor convention.",
+    "Installed table12bb500 plus298 gives12bb798, originalQWORD14006e540. Base+240 gives ProcessEvent7bb50. Candidate table/slot is now constructor-bound for the native class namedFunction."
+  ],
+  "package_limit": "The factory outer is incoming RBX, not an original Core literal here. The separate Engine string is argument8, stored by retained69290 in+138; it must NOT be used as a package claim. Native Function naming is positively bound; exact Core outer caller is not independently closed in this slice.",
+  "binder_consequence": "Together with parent function-dispatch-bind-proof.json, native Function table slot298 selects6e540. Non-native bit400clear selects7bf30 in that body. Actual CheckJumpOrHealOrTaunt/ChangeCanFire runtime vtable, invocation of Bind and later+f0 mutation are not observed; no callback execution/gameplay claim follows.",
+  "branches_outside_reviewed_chunks": [],
+  "external_calls_not_expanded": [
+    "6bd77->c8c30",
+    "6bd80->6a430",
+    "6bd92->c66c0",
+    "77dfd->c60e0",
+    "752fc->4ea00",
+    "75377->69290 (retained pseudocode reused only)"
+  ],
+  "retained_pins": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-dispatch-bind-proof.json",
+      "sha256": "08a0fb8cb7d6a16ceeac191cdea4fb5479f3b9c2106e7077ab8674f567883d5e"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-rdata.json",
+      "sha256": "92ac499d0031a1ccb5c0a977e2d751cf7f2d02f619fbd045bc2c8c65c82f5c79"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-ctor-xrefs.json",
+      "sha256": "13890f648102ad3a6fb7f247901ecee6042f61a721f8c0669ff17761f93ed5fb"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-bind-owner-ctor-factory-xrefs.json",
+      "sha256": "fec59aa32bcb24b03f519a9d898be176907e6ce4832331be89b0f09d7eb185e6"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\connection-defaults\\class-link-functions.jsonl",
+      "sha256": "fff102a74828ed80bfc937757f1d8c9c19631fd8aaaa42175dee1084631ba453"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\mech-struct-wire\\ancestor-binding\\native\\contract.json",
+      "sha256": "4ba3829f6cb1d36d93251a1b874178814cf45beb75f24f130ae61fa90f4828f0"
+    }
+  ],
+  "limits": [
+    "No RTTI repeated",
+    "No Ghidra/newprovider/build/runtime/source/config/doc/Git edits",
+    "Only317B new code, two initialization/table xrefs and one directly bound named factory",
+    "Current tests3763eb35eb461bfd0dc91266bcb72dadec417991ec5e54587fe228451c1fdaab preserved",
+    "Own persistent helpers0"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "hawken.script-dispatch-virtual70-static-prefix.v1",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "originalExpectedSHA256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "scope": "Previously pinned retained Pawn-native vtable; bounded32-byte target prefix",
+  "vtableEntryRVA": "0x17de130",
+  "entryRaw": "0x17dd530",
+  "entryBytes": "805b134001000000",
+  "targetRVA": "0x135b80",
+  "prefixBytes": "f681e800000008751348b8000000000000002048854110750333c0c3b8010000",
+  "limits": [
+    "Original hash reused from immediately preceding full-file hash; no claim of current runtime vptr/value or function execution.",
+    "Prefix is not an asserted full function boundary."
+  ]
+}

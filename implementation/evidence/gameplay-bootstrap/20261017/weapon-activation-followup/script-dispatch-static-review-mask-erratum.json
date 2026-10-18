@@ -1,0 +1,79 @@
+{
+  "schema": "hawken.script-dispatch-static-review-mask-erratum.v1",
+  "supersedes_interpretation_in": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\script-dispatch-static-review.json",
+  "superseded_review_sha256": "a8baf64310d7d4abb3018e0a8bd66f8bdf2b1b245646327bf3e92d60fc8792ee",
+  "polarity_reference": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\script-dispatch-static-review-polarity-addendum.json",
+  "polarity_reference_sha256": "473340f99ae8d7904c8deca96173b9f743586bae55a396053a0fa3b381fd940d",
+  "evidence": [
+    {
+      "sha256": "18b767f9a71d67d12a25916a0a40913792c99db7a94839545c43daf1c68241ce",
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\actor-script-gate-690308-continuation.txt"
+    },
+    {
+      "sha256": "08a0fb8cb7d6a16ceeac191cdea4fb5479f3b9c2106e7077ab8674f567883d5e",
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\function-dispatch-bind-proof.json"
+    },
+    {
+      "sha256": "185de22b337a1072cf501dadc1bba28a2929b940e9879de2b72b155b520f935e",
+      "path": "implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-activation-followup\\script-dispatch-7bf30-machine.txt"
+    }
+  ],
+  "mask_calculation": {
+    "mask": "0x500",
+    "values": [
+      {
+        "function": "CheckJumpOrHealOrTaunt",
+        "flags": "0x20802",
+        "flags_band_mask": "0x0",
+        "bit_0x40": false,
+        "bit_0x01000000": false
+      },
+      {
+        "function": "ChangeCanFire",
+        "flags": "0x20902",
+        "flags_band_mask": "0x100",
+        "bit_0x40": false,
+        "bit_0x01000000": false
+      }
+    ]
+  },
+  "control_flow": {
+    "entry": "0x690315",
+    "instructions": [
+      "cmp byte [actor+0xc2],1; if <=1, seed EBP=1 before testing flags & 0x500.",
+      "test flags,0x500; if zero, keep EBP=1; otherwise flow to 0x690329 which sets EBP=0. If actor+0xc2>1, branch directly to 0x690329 and set EBP=0.",
+      "Both named functions have bit 0x01000000 clear and bit 0x40 clear. The former goes to the shared +0x11c/+0x5b0 route; a zero byte returns helper result 0, and a nonzero byte reaches 0x69052d and returns EBP."
+    ],
+    "function_outcomes": [
+      {
+        "function": "CheckJumpOrHealOrTaunt",
+        "if_actor_c2": "<=1",
+        "helper_result": "1 only if execution reaches the common return-EBP path with controller byte nonzero; earlier guards can return 0."
+      },
+      {
+        "function": "CheckJumpOrHealOrTaunt",
+        "if_actor_c2": ">1",
+        "helper_result": "0 on the ordinary path; earlier guards can also return 0."
+      },
+      {
+        "function": "ChangeCanFire",
+        "if_actor_c2": "<=1",
+        "helper_result": "0: flags & 0x500 is 0x100, so the <=1 seed is reset to EBP=0."
+      },
+      {
+        "function": "ChangeCanFire",
+        "if_actor_c2": ">1",
+        "helper_result": "0: the >1 branch sets EBP=0."
+      }
+    ]
+  },
+  "dispatch_polarity": "At 0x7bf7f, helper EAX!=0 branches to 0x7c11c and skips the ordinary interpreter body; EAX==0 falls through and continues interpreter processing. Thus helper-result-0 outcomes permit that script path; they do not veto the RPC.",
+  "interpretation_limits": [
+    "No proven mapping from semantic Role2 to actor byte +0xc2.",
+    "No evidence here that these exact descriptors are bound at runtime or that actor/controller fields have any particular live values.",
+    "Earlier actor/function/global gates may return helper 0. The static helper result is not evidence that the RPC body executes or that firing/gameplay succeeds.",
+    "No conclusions are drawn from the separately reported +0x70 virtual target; its captured prefix is incomplete."
+  ],
+  "calculation": "Computed with PowerShell bitwise AND: 0x20802 -band 0x500 = 0; 0x20902 -band 0x500 = 0x100.",
+  "scope": "Read-only correction; no source, build, runtime, or product changes."
+}

@@ -1,0 +1,122 @@
+{
+  "schema": "function-bind-owner-rdata/v1",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "image_base": "0x140000000",
+  "scanned_section": {
+    "name": ".rdata",
+    "rva": 19456000,
+    "virtual_size": 8711789,
+    "size": 8712192,
+    "raw": 19452928
+  },
+  "target_va": "0x14006e540",
+  "matches": [
+    {
+      "cell_rva": "0x12bb798",
+      "cell_raw": "0x12bab98",
+      "aligned8": true,
+      "cell_bytes": "40e5064001000000",
+      "neighborhood_raw": "0x12bab58",
+      "neighborhood_bytes": "209e374001000000b0f00c4001000000c05c074001000000505e074001000000508c0d4001000000209e37400100000060cb064001000000209e37400100000040e5064001000000209e37400100000060900740010000009001084001000000100d08400100000060c3074001000000b04e07400100000060df7f4001000000e065074001000000",
+      "neighborhood_sha256": "0a9f51bda7b4af5397700f3d9e08980728219f04d705644ce80f72bdf18cd314",
+      "neighborhood_qwords": [
+        {
+          "rva": "0x12bb758",
+          "raw": "0x12bab58",
+          "qword": "0x140379e20"
+        },
+        {
+          "rva": "0x12bb760",
+          "raw": "0x12bab60",
+          "qword": "0x1400cf0b0"
+        },
+        {
+          "rva": "0x12bb768",
+          "raw": "0x12bab68",
+          "qword": "0x140075cc0"
+        },
+        {
+          "rva": "0x12bb770",
+          "raw": "0x12bab70",
+          "qword": "0x140075e50"
+        },
+        {
+          "rva": "0x12bb778",
+          "raw": "0x12bab78",
+          "qword": "0x1400d8c50"
+        },
+        {
+          "rva": "0x12bb780",
+          "raw": "0x12bab80",
+          "qword": "0x140379e20"
+        },
+        {
+          "rva": "0x12bb788",
+          "raw": "0x12bab88",
+          "qword": "0x14006cb60"
+        },
+        {
+          "rva": "0x12bb790",
+          "raw": "0x12bab90",
+          "qword": "0x140379e20"
+        },
+        {
+          "rva": "0x12bb798",
+          "raw": "0x12bab98",
+          "qword": "0x14006e540"
+        },
+        {
+          "rva": "0x12bb7a0",
+          "raw": "0x12baba0",
+          "qword": "0x140379e20"
+        },
+        {
+          "rva": "0x12bb7a8",
+          "raw": "0x12baba8",
+          "qword": "0x140079060"
+        },
+        {
+          "rva": "0x12bb7b0",
+          "raw": "0x12babb0",
+          "qword": "0x140080190"
+        },
+        {
+          "rva": "0x12bb7b8",
+          "raw": "0x12babb8",
+          "qword": "0x140080d10"
+        },
+        {
+          "rva": "0x12bb7c0",
+          "raw": "0x12babc0",
+          "qword": "0x14007c360"
+        },
+        {
+          "rva": "0x12bb7c8",
+          "raw": "0x12babc8",
+          "qword": "0x140074eb0"
+        },
+        {
+          "rva": "0x12bb7d0",
+          "raw": "0x12babd0",
+          "qword": "0x1407fdf60"
+        },
+        {
+          "rva": "0x12bb7d8",
+          "raw": "0x12babd8",
+          "qword": "0x1400765e0"
+        }
+      ],
+      "contiguous_text_pointer_run": {
+        "rva": "0x12bb230",
+        "end_rva": "0x12bc010",
+        "count": 444,
+        "candidate_offset": "0x568",
+        "preceding_qword": "0x0",
+        "status": "Run boundary only; not a class/vtable-start identity proof"
+      }
+    }
+  ],
+  "scope": "Only exact QWORD references in original .rdata plus adjacent pointer-run metadata. No RTTI scan, code execution or new Ghidra.",
+  "owner_status": "UNVERIFIED_PENDING_RETAINED_CONSTRUCTOR_BINDING"
+}

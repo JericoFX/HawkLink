@@ -1,0 +1,40 @@
+{
+  "schema": "hawken.script-dispatch-actor-vtable-gate.v1",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "vtable_rva": "0x17de0c0",
+  "entries": [
+    {
+      "slot": "0x240",
+      "entry_rva": "0x17de300",
+      "entry_raw": "0x17dd700",
+      "entry_bytes": "d0d7324001000000",
+      "target_rva": "0x32d7d0",
+      "end_rva": "0x32d83e",
+      "size": 110,
+      "body_sha256": "cd902d166326a7cafacb7a416970b06357176247150e0f0277a1f4f8ec672195"
+    },
+    {
+      "slot": "0x258",
+      "entry_rva": "0x17de318",
+      "entry_raw": "0x17dd718",
+      "entry_bytes": "c002694001000000",
+      "target_rva": "0x6902c0",
+      "end_rva": "0x690308",
+      "size": 72,
+      "body_sha256": "d08ccf4169b1d28df4daecbc942743c66b4e4c3b78c520a778725223c11ef188"
+    },
+    {
+      "slot": "0x408",
+      "entry_rva": "0x17de4c8",
+      "entry_raw": "0x17dd8c8",
+      "entry_bytes": "201ddc4001000000",
+      "target_rva": "0xdc1d20",
+      "end_rva": "0xdc28ee",
+      "size": 3022,
+      "body_sha256": "d52419337b7d1a6a42fa4a23227712372065b3afda8cb238976b3354e90ab4ee"
+    }
+  ],
+  "scope": "Retained Pawn-native vtable seed; exact static entries only",
+  "status": "CONFIRMED_ENTRY_BYTES;RUNTIME_VTABLE_AND_GATES_NOT_OBSERVED"
+}

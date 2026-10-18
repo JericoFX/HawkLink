@@ -1,0 +1,78 @@
+{
+  "utc": "2026-10-18T01:28:40.068255Z",
+  "scope": "Parent reviewed native static dispatch and corrected independent-review interpretation; no native gameplay acceptance",
+  "originalSHA256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "pins": [
+    {
+      "path": "function-bind-store-scan.py",
+      "sha256": "79a7c7afd71a15e3f78f4da06bb6ce34ed3adf3104abc655d374ff200b599466"
+    },
+    {
+      "path": "function-bind-store-scan.json",
+      "sha256": "b407f0ef81cf799ac805c51d2febf5acbd4fedbc09d59085f688880d14b862cd"
+    },
+    {
+      "path": "function-dispatch-bind-proof.py",
+      "sha256": "dd39d2d6f115e4af2c7f1740fb32bbc1468f8ef9aefacfee99317437fb86c85e"
+    },
+    {
+      "path": "function-dispatch-bind-proof.json",
+      "sha256": "08a0fb8cb7d6a16ceeac191cdea4fb5479f3b9c2106e7077ab8674f567883d5e"
+    },
+    {
+      "path": "function-bind-owner-ctor-proof.json",
+      "sha256": "4aecfe7d465480c2a0b58fc8dfd864100fe956409f8ceaf154b49b6d62ae0e43"
+    },
+    {
+      "path": "function-bind-owner-ctor-freeze.json",
+      "sha256": "07aecc57508dc0f6128720844446cf06194eaeac3e38bffaa89d6ffcda05dbfc"
+    },
+    {
+      "path": "script-dispatch-static-review.json",
+      "sha256": "a8baf64310d7d4abb3018e0a8bd66f8bdf2b1b245646327bf3e92d60fc8792ee"
+    },
+    {
+      "path": "script-dispatch-static-review-polarity-addendum.json",
+      "sha256": "473340f99ae8d7904c8deca96173b9f743586bae55a396053a0fa3b381fd940d"
+    },
+    {
+      "path": "script-dispatch-static-review-mask-erratum.json",
+      "sha256": "d102abb70e0a49dfcaf5dd0d912610c2472a2a4390e2a1091e61542be176fb55"
+    },
+    {
+      "path": "script-dispatch-actor-gate.json",
+      "sha256": "a9844f15e820411b10f8f7197eb44b4ede18cb5d8ef4e2e93ceafab08c3ff6c3"
+    },
+    {
+      "path": "script-dispatch-virtual70-closed.json",
+      "sha256": "2d098b161c51e265ab998627856dc733132f56373740b79ecf83dc819a7f819c"
+    }
+  ],
+  "childFreezePins": 10,
+  "childFreezeDrift": [],
+  "confirmed": [
+    "Factory752e0 passes Function literal and constructor77df0 to retained69290; constructor installs12bb500; table+298 selects6e540. Core Outer is not named in this factory.",
+    "In binder6e540, function nativebit400 clear selects7bf30 and writes+f0. Both retained callback flags20802/20902 clear400.",
+    "Script target7bf30 first calls receiver virtual258 and omits ordinary bytecode processing on a nonzero return; zero continues. Retained Pawn vtable+258 points6902c0.",
+    "For ordinary branch withoutNet40/bit01000000, CheckJump20802 has flags&500=0, while ChangeCanFire20902 has100. Thus ChangeCanFire seeds0 regardless of actor+c2; CheckJump seeds0 with+c2>1. Indirect-byte-zero/prechecks can also return0. These are callback-eligibility conditions, not observed callbacks.",
+    "Pawn virtual70 points135b80: complete34-byte leaf returns1 if byte+e8 mask8 or flags+10 mask2000000000000000 is set. Retained7bb50 exits on that nonzero result."
+  ],
+  "corrections": [
+    "Original independent review incorrectly said both callback flags clear500. Read mask-erratum and polarity-addendum; preserve original evidence as superseded.",
+    "Entry6902c0 has a72-byte primary pdata chunk, not a complete function. Followed explicit branches/fallthrough through RET690581; bytes beginning690590 are excluded.",
+    "Earlier virtual70 prefix was32bytes and truncated the finalMOV. New34-byte closed evidence contains both return paths."
+  ],
+  "limits": [
+    "Native class Function named binding is confirmed; the outer package Core is not pinned by this particular factory.",
+    "Live callback+f0, runtime vptr, +c2 mapping to reflected Role and native gate values remain unobserved.",
+    "No flags forced, client memory writes, original binary modification, build, client/server start or new Ghidra process.",
+    "The219-source observer validation remains frozen and unexecuted; native states and fire/jump still pending."
+  ],
+  "production": {
+    "coreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "readerSHA256": "7e87547d2c106e7f7a129f9074837049ed041a733514cffcc752e40a0b6344b5",
+    "testSHA256": "3763eb35eb461bfd0dc91266bcb72dadec417991ec5e54587fe228451c1fdaab",
+    "candidateApplied": false
+  },
+  "acceptance": "Static evidence slice only; no fire, jump or GameServer compatibility acceptance"
+}

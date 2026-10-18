@@ -1,0 +1,192 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1046):
+TEST CASE:  Live inventory script observer distinguishes three owned states and exact callback metadata
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1049): FATAL ERROR: REQUIRE( value.pawn_script_state.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1065):
+TEST CASE:  Live inventory script observer preserves absent uninitialized and class node states
+  no frame and no node are different observations
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1071): FATAL ERROR: REQUIRE( result.inventory->pawn_script_state.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong node type
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  wrong State metaclass
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  foreign owner
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  self outer is not an owning class
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  numbered state name
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  state package differs from owner
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  uninitialized cannot bypass owner validation
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  Class node outside actor ancestry
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1091):
+TEST CASE:  Live inventory script observer rejects foreign malformed or numbered state nodes
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  overflowing frame pointer
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1107): ERROR: CHECK_THROWS_AS( f.inventory_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1109):
+TEST CASE:  Live inventory script observer requires both exact callback descriptors
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_missing", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 0
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 1
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 2
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 3
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 4
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 5
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 6
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 0
+          invalid := 7
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_missing", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 0
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 1
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 2
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 3
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 4
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 5
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 6
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1129): ERROR: CHECK_THROWS_WITH_AS( f.inventory_sample(), "live_property_mismatch", std::runtime_error ) did NOT throw at all!
+  logged: callback := 1
+          invalid := 7
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1134):
+TEST CASE:  Live inventory script observer bounds executable targets without reading code
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1146): FATAL ERROR: REQUIRE( result.inventory->pawn_jump_dispatch.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1155):
+TEST CASE:  Live inventory script observer rereads roots and dispatch in independent original size samples
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1162): FATAL ERROR: REQUIRE( first.inventory->pawn_script_state.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1184):
+TEST CASE:  Live inventory script observer skips absent actors without manufacturing state or dispatch
+  absent Manager and Dual do not follow stale frames
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1199): FATAL ERROR: REQUIRE( result.inventory->pawn_script_state.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+[doctest] test cases:  8 |  1 passed |  7 failed | 42 skipped
+[doctest] assertions: 48 | 18 passed | 30 failed |
+[doctest] Status: FAILURE!

@@ -1,0 +1,42 @@
+{
+  "schema": "function-bind-owner-ctor-rip-xrefs/v1",
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "scan": "Only REX.W LEA RIP-relative instructions targeting exact candidate12bb500 in .text. No indirect references or generic names searched.",
+  "matches": [
+    {
+      "rva": "0x6bd6d",
+      "raw": "0x6b16d",
+      "bytes": "488d058cf72401",
+      "target_rva": "0x12bb500",
+      "pdata_chunks": [
+        {
+          "rva": "0x6bd50",
+          "end_rva": "0x6bda5",
+          "size": 85,
+          "unwind_rva": "0x1832390",
+          "raw": "0x6b150",
+          "sha256": "d9fad4c0972faa7eeaad1c87291e85ef58013f16f2aa5273db5e82bacb64597f"
+        }
+      ]
+    },
+    {
+      "rva": "0x77e20",
+      "raw": "0x77220",
+      "bytes": "488d05d9362401",
+      "target_rva": "0x12bb500",
+      "pdata_chunks": [
+        {
+          "rva": "0x77df0",
+          "end_rva": "0x77e31",
+          "size": 65,
+          "unwind_rva": "0x1878f18",
+          "raw": "0x771f0",
+          "sha256": "26d6d6657fa8eb3f86523cd4923c9df1bfee6811003f8cee34c4867ce1c6d22f"
+        }
+      ]
+    }
+  ],
+  "chunk_limit_total": 3072,
+  "limit": ".pdata denotes recorded chunks only, not proof of full enclosing function or complete callers."
+}

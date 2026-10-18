@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-18T01:43:28.4981183Z",
+  "session": "local-steam-routing-20261018-013824",
+  "checkedPids": [
+    41512,
+    53752,
+    10972,
+    47316,
+    24896,
+    36080
+  ],
+  "remaining": [],
+  "newComputerUseChildren": [],
+  "allOwnedProcessesAbsent": true,
+  "usedPercent": 65.41419326149999,
+  "freeGiB": 11.037181854248047,
+  "borrowedRulePreserved": true,
+  "sourceAcceptance": "Reader RED then GREEN50 cases/5076assertions/CTest60 suites; Core gameplay not accepted",
+  "originalHandles": "Start-Process handles disposed in finally; computer-use kernel reset"
+}
