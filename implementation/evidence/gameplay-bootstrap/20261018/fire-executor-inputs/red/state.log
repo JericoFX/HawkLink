@@ -1,0 +1,156 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(63):
+TEST CASE:  Weapon fire state keeps blocked intent and resumes pending hands on permission recovery
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(76): ERROR: CHECK( shutdown.action_count==3 ) is NOT correct!
+  values: CHECK( 2 == 3 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(26): ERROR: CHECK( value.actions[index].kind==kind ) is NOT correct!
+  values: CHECK( 1 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 1 == 0 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(25): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 2 >  2 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(86):
+TEST CASE:  Weapon fire state stop clears pending even after combat permission is lost
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(91): ERROR: CHECK( result.action_count==4 ) is NOT correct!
+  values: CHECK( 3 == 4 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(26): ERROR: CHECK( value.actions[index].kind==kind ) is NOT correct!
+  values: CHECK( 1 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 1 == 0 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(25): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 3 >  3 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(180):
+TEST CASE:  Weapon fire state fixed action buffer preserves shutdown plus both expired timer calls
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(187): ERROR: CHECK( result.action_count==10 ) is NOT correct!
+  values: CHECK( 6 == 10 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(26): ERROR: CHECK( value.actions[index].kind==kind ) is NOT correct!
+  values: CHECK( 1 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 1 == 0 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 2 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(26): ERROR: CHECK( value.actions[index].kind==kind ) is NOT correct!
+  values: CHECK( 1 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 3 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 0 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(26): ERROR: CHECK( value.actions[index].kind==kind ) is NOT correct!
+  values: CHECK( 1 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 1 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(25): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 6 >  6 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(215):
+TEST CASE:  Weapon fire state dead or inactive start is rejected but an owned stop can clear intent
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(223): ERROR: CHECK( stopped.action_count==4 ) is NOT correct!
+  values: CHECK( 3 == 4 )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(26): ERROR: CHECK( value.actions[index].kind==kind ) is NOT correct!
+  values: CHECK( 1 == 2 )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 1 == 0 )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 0 == 1 )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(25): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 3 >  3 )
+  logged: inactive := false
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(290):
+TEST CASE:  Weapon fire state shutdown preserves per-hand forced end and pending-only stop refire callbacks
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(296): ERROR: CHECK( shutdown.action_count==6 ) is NOT correct!
+  values: CHECK( 4 == 6 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(26): ERROR: CHECK( value.actions[index].kind==kind ) is NOT correct!
+  values: CHECK( 1 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 1 == 0 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 2 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(27): ERROR: CHECK( value.actions[index].hand==hand ) is NOT correct!
+  values: CHECK( 3 == 2 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(28): ERROR: CHECK( value.actions[index].force_end==force_end ) is NOT correct!
+  values: CHECK( false == true )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(25): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 4 >  4 )
+
+===============================================================================
+[doctest] test cases:  18 |  13 passed |  5 failed | 0 skipped
+[doctest] assertions: 412 | 371 passed | 41 failed |
+[doctest] Status: FAILURE!

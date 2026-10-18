@@ -1,0 +1,23 @@
+[1/23] Building CXX object CMakeFiles\hawken_weapon_fire_state.dir\src\weapon_fire_state.cpp.obj
+[2/23] Linking CXX static library hawken_weapon_fire_state.lib
+[3/23] Building CXX object CMakeFiles\hawken_local_udp.dir\src\local_udp_owner.cpp.obj
+[4/23] Building CXX object CMakeFiles\hawken_weapon_refire.dir\src\weapon_refire.cpp.obj
+[5/23] Linking CXX static library hawken_local_udp.lib
+[6/23] Building CXX object CMakeFiles\hawken_udp_trial_runtime.dir\src\udp_trial_runtime.cpp.obj
+[7/23] Building CXX object CMakeFiles\hawken_wreckage_trial.dir\src\wreckage_trial.cpp.obj
+[8/23] Linking CXX static library hawken_weapon_refire.lib
+[9/23] Linking CXX static library hawken_udp_trial_runtime.lib
+[10/23] Linking CXX static library hawken_wreckage_trial.lib
+[11/23] Building CXX object CMakeFiles\hawken-wreckage-trial-probe.dir\tools\wreckage_trial_probe.cpp.obj
+[12/23] Building CXX object CMakeFiles\hawken-server-listing-tests.dir\tests\server_listing_http_tests.cpp.obj
+[13/23] Building CXX object CMakeFiles\hawken-local-udp-tests.dir\tests\local_udp_owner_tests.cpp.obj
+[14/23] Building CXX object CMakeFiles\hawken-udp-trial-runtime-tests.dir\tests\udp_trial_runtime_tests.cpp.obj
+[15/23] Building CXX object CMakeFiles\hawken-wreckage-trial-tests.dir\tests\wreckage_trial_tests.cpp.obj
+[16/23] Linking CXX executable hawken-wreckage-trial-probe.exe
+[17/23] Building CXX object CMakeFiles\hawken-server.dir\src\server_main.cpp.obj
+[18/23] Linking CXX executable hawken-server-listing-tests.exe
+[19/23] Linking CXX executable hawken-local-udp-tests.exe
+[20/23] Linking CXX executable hawken-udp-trial-runtime-tests.exe
+[21/23] Linking CXX executable hawken-wreckage-trial-tests.exe
+[22/23] Linking CXX executable hawken-weapon-fire-state-tests.exe
+[23/23] Linking CXX executable hawken-weapon-refire-tests.exe

@@ -1,0 +1,109 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35228.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file F:\SteamLibrary\steamapps\common\Hawken\Binaries\Win64\HawkenGame-Win64-Shipping.exe
+
+File Type: EXECUTABLE IMAGE
+
+  0000000140D6B690: 48 89 5C 24 08     mov         qword ptr [rsp+8],rbx
+  0000000140D6B695: 48 89 74 24 10     mov         qword ptr [rsp+10h],rsi
+  0000000140D6B69A: 57                 push        rdi
+  0000000140D6B69B: 48 83 EC 20        sub         rsp,20h
+  0000000140D6B69F: 48 8B D9           mov         rbx,rcx
+  0000000140D6B6A2: 48 8B 89 C8 00 00  mov         rcx,qword ptr [rcx+00000000000000C8h]
+                    00
+  0000000140D6B6A9: 0F B6 FA           movzx       edi,dl
+  0000000140D6B6AC: E8 CF 61 FC FF     call        0000000140D31880
+  0000000140D6B6B1: 40 0F B6 FF        movzx       edi,dil
+  0000000140D6B6B5: 48 8B F0           mov         rsi,rax
+  0000000140D6B6B8: 48 85 C0           test        rax,rax
+  0000000140D6B6BB: 75 52              jne         0000000140D6B70F
+  0000000140D6B6BD: 85 FF              test        edi,edi
+  0000000140D6B6BF: 78 12              js          0000000140D6B6D3
+  0000000140D6B6C1: 8B 83 F8 02 00 00  mov         eax,dword ptr [rbx+00000000000002F8h]
+  0000000140D6B6C7: 3B F8              cmp         edi,eax
+  0000000140D6B6C9: 7C 28              jl          0000000140D6B6F3
+  0000000140D6B6CB: 85 FF              test        edi,edi
+  0000000140D6B6CD: 75 04              jne         0000000140D6B6D3
+  0000000140D6B6CF: 85 C0              test        eax,eax
+  0000000140D6B6D1: 74 20              je          0000000140D6B6F3
+  0000000140D6B6D3: 4C 8D 0D F6 A2 53  lea         r9,[00000001412A59D0h]
+                    00
+  0000000140D6B6DA: 48 8D 15 FF AC 53  lea         rdx,[00000001412A63E0h]
+                    00
+  0000000140D6B6E1: 48 8D 0D 48 AD 53  lea         rcx,[00000001412A6430h]
+                    00
+  0000000140D6B6E8: 41 B8 3F 02 00 00  mov         r8d,23Fh
+  0000000140D6B6EE: E8 9D 1D 35 FF     call        00000001400BD490
+  0000000140D6B6F3: 48 8B 83 F0 02 00  mov         rax,qword ptr [rbx+00000000000002F0h]
+                    00
+  0000000140D6B6FA: F3 0F 10 04 B8     movss       xmm0,dword ptr [rax+rdi*4]
+  0000000140D6B6FF: 48 8B 5C 24 30     mov         rbx,qword ptr [rsp+30h]
+  0000000140D6B704: 48 8B 74 24 38     mov         rsi,qword ptr [rsp+38h]
+  0000000140D6B709: 48 83 C4 20        add         rsp,20h
+  0000000140D6B70D: 5F                 pop         rdi
+  0000000140D6B70E: C3                 ret
+  0000000140D6B70F: 83 BB 6C 04 00 00  cmp         dword ptr [rbx+000000000000046Ch],0
+                    00
+  0000000140D6B716: 75 4C              jne         0000000140D6B764
+  0000000140D6B718: 85 FF              test        edi,edi
+  0000000140D6B71A: 78 12              js          0000000140D6B72E
+  0000000140D6B71C: 8B 83 F8 02 00 00  mov         eax,dword ptr [rbx+00000000000002F8h]
+  0000000140D6B722: 3B F8              cmp         edi,eax
+  0000000140D6B724: 7C 28              jl          0000000140D6B74E
+  0000000140D6B726: 85 FF              test        edi,edi
+  0000000140D6B728: 75 04              jne         0000000140D6B72E
+  0000000140D6B72A: 85 C0              test        eax,eax
+  0000000140D6B72C: 74 20              je          0000000140D6B74E
+  0000000140D6B72E: 4C 8D 0D 9B A2 53  lea         r9,[00000001412A59D0h]
+                    00
+  0000000140D6B735: 48 8D 15 A4 AC 53  lea         rdx,[00000001412A63E0h]
+                    00
+  0000000140D6B73C: 48 8D 0D ED AC 53  lea         rcx,[00000001412A6430h]
+                    00
+  0000000140D6B743: 41 B8 3F 02 00 00  mov         r8d,23Fh
+  0000000140D6B749: E8 42 1D 35 FF     call        00000001400BD490
+  0000000140D6B74E: 48 8B 83 F0 02 00  mov         rax,qword ptr [rbx+00000000000002F0h]
+                    00
+  0000000140D6B755: F3 0F 10 04 B8     movss       xmm0,dword ptr [rax+rdi*4]
+  0000000140D6B75A: F3 0F 59 86 6C 12  mulss       xmm0,dword ptr [rsi+000000000000126Ch]
+                    00 00
+  0000000140D6B762: EB 4A              jmp         0000000140D6B7AE
+  0000000140D6B764: 85 FF              test        edi,edi
+  0000000140D6B766: 78 12              js          0000000140D6B77A
+  0000000140D6B768: 8B 83 F8 02 00 00  mov         eax,dword ptr [rbx+00000000000002F8h]
+  0000000140D6B76E: 3B F8              cmp         edi,eax
+  0000000140D6B770: 7C 28              jl          0000000140D6B79A
+  0000000140D6B772: 85 FF              test        edi,edi
+  0000000140D6B774: 75 04              jne         0000000140D6B77A
+  0000000140D6B776: 85 C0              test        eax,eax
+  0000000140D6B778: 74 20              je          0000000140D6B79A
+  0000000140D6B77A: 4C 8D 0D 4F A2 53  lea         r9,[00000001412A59D0h]
+                    00
+  0000000140D6B781: 48 8D 15 58 AC 53  lea         rdx,[00000001412A63E0h]
+                    00
+  0000000140D6B788: 48 8D 0D A1 AC 53  lea         rcx,[00000001412A6430h]
+                    00
+  0000000140D6B78F: 41 B8 3F 02 00 00  mov         r8d,23Fh
+  0000000140D6B795: E8 F6 1C 35 FF     call        00000001400BD490
+  0000000140D6B79A: 48 8B 83 F0 02 00  mov         rax,qword ptr [rbx+00000000000002F0h]
+                    00
+  0000000140D6B7A1: F3 0F 10 04 B8     movss       xmm0,dword ptr [rax+rdi*4]
+  0000000140D6B7A6: F3 0F 59 86 70 12  mulss       xmm0,dword ptr [rsi+0000000000001270h]
+                    00 00
+  0000000140D6B7AE: F3 0F 10 0D 6A B1  movss       xmm1,dword ptr [00000001412A6920h]
+                    53 00
+  0000000140D6B7B6: 0F 2F C1           comiss      xmm0,xmm1
+  0000000140D6B7B9: 73 03              jae         0000000140D6B7BE
+  0000000140D6B7BB: 0F 28 C1           movaps      xmm0,xmm1
+  0000000140D6B7BE: 48 8B 5C 24 30     mov         rbx,qword ptr [rsp+30h]
+  0000000140D6B7C3: 48 8B 74 24 38     mov         rsi,qword ptr [rsp+38h]
+  0000000140D6B7C8: 48 83 C4 20        add         rsp,20h
+  0000000140D6B7CC: 5F                 pop         rdi
+  0000000140D6B7CD: C3                 ret
+  0000000140D6B7CE: CC                 int         3
+
+  Summary
+
+     128D000 .text

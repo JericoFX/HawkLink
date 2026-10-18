@@ -1,5 +1,19 @@
 # Hawken: protocolo de reserva y conexión al servidor de partida
 
+**Cadencia de armas — 2026-10-18: CONFIRMADO estático para los cuerpos y tablas indicados; disparo en Core NO VERIFICADO.** Archivo original `Binaries/Win64/HawkenGame-Win64-Shipping.exe`, SHA-256 `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`, base `0x140000000`. Se reutilizó la base Ghidra existente, en lectura y sin análisis global, para sólo dos funciones.
+
+| RVA / offset físico | Evidencia observada e interpretación | Estado |
+| --- | --- | --- |
+| `1bada50 / 1bace50` | Par de punteros `489b794101000000409bd24001000000`: literal ASCII `AR_Weap_BaseexecGetFireInterval` y thunk `d29b40`. El consumidor del registro no se cerró en esta pasada. | CONFIRMADO para bytes; asociación de registro PROBABLE |
+| `d29b40 / d28f40` | Decodifica modo byte, invoca el virtual `+788` del receptor y devuelve float. | CONFIRMADO estático |
+| `17e4748 / 17e3b48` y `17e56a8 / 17e4aa8` | Slots `+788` de las tablas Machine/MissileLauncher observadas en los CDO retenidos; ambos contienen `90b6d64001000000`, destino `d6b690`. No demuestra el vptr de cada arma de partida. | CONFIRMADO para tablas y observación retenida; instancia actual NO VERIFICADA |
+| `d6b690 / d6aa90` | Cuerpo completo hasta `d6b7cd`: sin owner del cast, retorna el float seleccionado de `this+2f0` sin mínimo. Con owner, multiplica en float32 por `owner+126c` cuando `this+46c==0`, o `owner+1270` en los demás casos. `COMISS/JAE` conserva productos mayores/iguales al mínimo y sustituye también NaN, a diferencia de una comparación simple `<`. | CONFIRMADO estático; nombres tipados de los campos del owner NO VERIFICADOS |
+| `12a6920 / 12a5d20` | Bytes `0ad7233c`: mínimo IEEE754 `0x3c23d70a`, aproximadamente `0.01F`; no es una cadencia comercial por defecto. | CONFIRMADO |
+
+La implementación C++ separada conserva esa fórmula y añade rechazo seguro de un modo fuera del span; no reproduce el acceso inválido original. No define estadísticas nuevas ni está conectada todavía a un ejecutor de disparos. [Datos PE y tablas](../../implementation/evidence/gameplay-bootstrap/20261018/fire-executor-inputs/find-refire-binding.json), [dos cuerpos Ghidra](../../implementation/evidence/gameplay-bootstrap/20261018/fire-executor-inputs/cadence-functions.jsonl), [instrucciones originales del cálculo](../../implementation/evidence/gameplay-bootstrap/20261018/fire-executor-inputs/refire-implementation.txt).
+
+**Detención de armas — CONFIRMADO en el script retenido.** `HawkenGame.upk`, SHA-256 `d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0`: `R_Weap_DualWield.Active.ShutdownWeapons` (`047405…ShutdownWeapons.uc`, SHA-256 `3c5ca4c9b20a951b1fd3b8e130971f991f5c079f12b3e9143d53ca93db0aae9b`) llama por cada mano presente a `DoEndFire(true)` y después, si `ShouldRefireHand` devuelve PendingFire, a `OnStopRefire`, antes de visitar la siguiente mano. El modelo C++ conserva ahora esas acciones y su orden. Esto no ejecuta aún los efectos, impactos o daño del arma; las acciones de Core siguen pendientes del ejecutor.
+
 **Ejecución local de callbacks — 2026-10-17: CONFIRMADO estático; ejecución NO VERIFICADA.** Archivo: `Binaries/Win64/HawkenGame-Win64-Shipping.exe` original, SHA-256 `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`. Estos cuerpos explican condiciones de ejecución del cliente; no son formatos nuevos de mensajes ni prueban que una solicitud haya ejecutado su efecto.
 
 | RVA / offset físico | Evidencia observada e interpretación | Estado |

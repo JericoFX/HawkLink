@@ -29,10 +29,11 @@ struct Authority {
     // Server-handled shutdown request, never an unchecked peer snapshot bool.
     bool client_shutdown;
 };
-enum class ActionKind { begin_fire, end_fire };
+enum class ActionKind { begin_fire, end_fire, stop_refire };
 struct Action {
     ActionKind kind = ActionKind::begin_fire;
     std::uint8_t hand = 0;
+    bool force_end = false; // Relevant only to end_fire.
     bool operator==(const Action&) const = default;
 };
 struct Snapshot {
@@ -44,7 +45,7 @@ struct Snapshot {
 };
 struct Step {
     bool accepted = false;
-    std::array<Action,8> actions{};
+    std::array<Action,10> actions{};
     std::size_t action_count = 0;
 };
 
@@ -52,7 +53,9 @@ struct Step {
 // shot simulation, damage or projectile is implied by a semantic action.
 // Original retained UC: Engine.Weapon BeginFire032173 sets PendingFire and
 // EndFire032179 clears it; Manager017572/575 write1/0, without action dedupe.
-// Dual.Active ShutdownWeapons047405 ends each present hand but keeps intent;
+// Dual.Active ShutdownWeapons047405 ends each present hand with force_end=true;
+// immediately afterward it calls stop_refire for that hand if PendingFire.
+// ShouldRefireHand047343 returns PendingFire; shutdown keeps that intention.
 // RestartWeapons047407 resumes each pending hand. Valid repeated requests
 // retain their Begin/End invocations; reliable packet duplicate filtering is
 // the transport's responsibility, not a new deduplication rule here.
@@ -67,16 +70,18 @@ struct Step {
 // clears another weapon. Invalid inputs are rejected transactionally.
 //
 // Caller supplies finite, nonnegative, monotonic double time (equality valid).
-// Permission transitions run first: shutdown emits End for all supported
-// hands; restart emits Begin for each pending hand, in ascending hand order.
+// Permission transitions run first: shutdown emits forced End and conditional
+// stop_refire per supported hand; restart emits Begin for each pending hand.
+// The order is ascending hand, with its stop_refire before the next hand.
 // apply then executes ONE RPC, with no hidden timer expiry. tick then expires
 // due timers in0/1 order; caller explicitly schedules tick in its worker loop.
 // Extended stop047349 recent=true for0/1 arms now+double(0.2F); other stops end
 // immediately. New start047346 cancels its own0/1 timer. Missing/inconsistent
 // recent_fire or unknown Kind/unsupported modes are invalid typed requests.
 // No unproven timestamp/bTempRestart latency bypass is implemented.
-// Eight actions structurally cover four permission actions plus two timers
-// (tick), or one RPC (apply); overflow must never silently discard an action.
+// Ten actions cover four forced Ends plus four stop_refire callbacks and two
+// timers. Normal RPC/timer End actions have force_end=false; overflow must
+// never silently discard an action.
 class FireState {
 public:
     explicit FireState(Config config);

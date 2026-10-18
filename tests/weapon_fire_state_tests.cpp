@@ -20,10 +20,12 @@ fire::Authority authority() {
 fire::Result start(std::uint8_t mode=0) { return {fire::Kind::start_fire,mode,std::nullopt,14}; }
 fire::Result stop(std::uint8_t mode=0) { return {fire::Kind::stop_fire,mode,std::nullopt,14}; }
 fire::Result extended(std::uint8_t mode,bool recent) { return {fire::Kind::stop_fire_extended,mode,recent,16}; }
-void action(const fire::Step& value,std::size_t index,fire::ActionKind kind,std::uint8_t hand) {
+void action(const fire::Step& value,std::size_t index,fire::ActionKind kind,std::uint8_t hand,
+            bool force_end=false) {
     REQUIRE(value.action_count>index);
     CHECK(value.actions[index].kind==kind);
     CHECK(value.actions[index].hand==hand);
+    CHECK(value.actions[index].force_end==force_end);
 }
 }
 
@@ -71,8 +73,10 @@ TEST_CASE("Weapon fire state keeps blocked intent and resumes pending hands on p
     CHECK(state.snapshot().firing[0]);CHECK(state.snapshot().enabled);
     context.client_shutdown=true;
     const auto shutdown=state.tick(context,1.2);
-    CHECK(shutdown.accepted);CHECK(shutdown.action_count==2);
-    action(shutdown,0,fire::ActionKind::end_fire,0);action(shutdown,1,fire::ActionKind::end_fire,1);
+    CHECK(shutdown.accepted);CHECK(shutdown.action_count==3);
+    action(shutdown,0,fire::ActionKind::end_fire,0,true);
+    action(shutdown,1,fire::ActionKind::stop_refire,0);
+    action(shutdown,2,fire::ActionKind::end_fire,1,true);
     CHECK(state.snapshot().pending_fire[0]);CHECK_FALSE(state.snapshot().firing[0]);
     context.client_shutdown=false;
     const auto restarted=state.tick(context,1.3);
@@ -84,9 +88,11 @@ TEST_CASE("Weapon fire state stop clears pending even after combat permission is
     CHECK(state.apply(start(),context,10.0).accepted);
     context.pawn.weapons_down=true;
     const auto result=state.apply(stop(),context,10.1);
-    CHECK(result.accepted);CHECK(result.action_count==3);
-    action(result,0,fire::ActionKind::end_fire,0);action(result,1,fire::ActionKind::end_fire,1);
-    action(result,2,fire::ActionKind::end_fire,0);
+    CHECK(result.accepted);CHECK(result.action_count==4);
+    action(result,0,fire::ActionKind::end_fire,0,true);
+    action(result,1,fire::ActionKind::stop_refire,0);
+    action(result,2,fire::ActionKind::end_fire,1,true);
+    action(result,3,fire::ActionKind::end_fire,0);
     CHECK_FALSE(state.snapshot().pending_fire[0]);CHECK_FALSE(state.snapshot().firing[0]);
     CHECK_FALSE(state.snapshot().enabled);
 }
@@ -178,9 +184,12 @@ TEST_CASE("Weapon fire state fixed action buffer preserves shutdown plus both ex
     CHECK(state.apply(extended(1,true),context,2.0).accepted);
     context.pawn.overheated=true;
     const auto result=state.tick(context,2.0+static_cast<double>(0.2F));
-    CHECK(result.accepted);CHECK(result.action_count==6);
-    for (std::uint8_t hand=0;hand<4;++hand) action(result,hand,fire::ActionKind::end_fire,hand);
-    action(result,4,fire::ActionKind::end_fire,0);action(result,5,fire::ActionKind::end_fire,1);
+    CHECK(result.accepted);CHECK(result.action_count==10);
+    for (std::uint8_t hand=0;hand<4;++hand) {
+        action(result,2*hand,fire::ActionKind::end_fire,hand,true);
+        action(result,2*hand+1,fire::ActionKind::stop_refire,hand);
+    }
+    action(result,8,fire::ActionKind::end_fire,0);action(result,9,fire::ActionKind::end_fire,1);
     CHECK((state.snapshot().pending_fire==std::array<bool,4>{false,false,true,true}));
     CHECK((state.snapshot().firing==std::array<bool,4>{false,false,false,false}));
 }
@@ -211,7 +220,11 @@ TEST_CASE("Weapon fire state dead or inactive start is rejected but an owned sto
         const auto before=state.snapshot();
         CHECK_FALSE(state.apply(start(1),context,2.0).accepted);CHECK(state.snapshot()==before);
         const auto stopped=state.apply(stop(),context,2.0);
-        CHECK(stopped.accepted);CHECK(stopped.action_count==3);
+        CHECK(stopped.accepted);CHECK(stopped.action_count==4);
+        action(stopped,0,fire::ActionKind::end_fire,0,true);
+        action(stopped,1,fire::ActionKind::stop_refire,0);
+        action(stopped,2,fire::ActionKind::end_fire,1,true);
+        action(stopped,3,fire::ActionKind::end_fire,0);
         CHECK_FALSE(state.snapshot().pending_fire[0]);CHECK_FALSE(state.snapshot().firing[0]);
     }
 }
@@ -272,4 +285,30 @@ TEST_CASE("Weapon fire state invalid configured scope never grants intent or fir
         CHECK_FALSE(state.apply(start(),context,0.0).accepted);CHECK(state.snapshot()==before);
         CHECK_FALSE(state.tick(context,0.0).accepted);CHECK(state.snapshot()==before);
     }
+}
+
+TEST_CASE("Weapon fire state shutdown preserves per-hand forced end and pending-only stop refire callbacks") {
+    fire::FireState state(four_hands());auto context=authority();
+    CHECK(state.apply(start(0),context,1.0).accepted);
+    CHECK(state.apply(start(2),context,1.0).accepted);
+    context.pawn.overheated=true;
+    const auto shutdown=state.tick(context,2.0);
+    CHECK(shutdown.accepted);CHECK(shutdown.action_count==6);
+    // Original047405: DoEndFire(true), then OnStopRefire only when the
+    // same hand's ShouldRefireHand047343/PendingFire is true.
+    action(shutdown,0,fire::ActionKind::end_fire,0,true);
+    action(shutdown,1,fire::ActionKind::stop_refire,0);
+    action(shutdown,2,fire::ActionKind::end_fire,1,true);
+    action(shutdown,3,fire::ActionKind::end_fire,2,true);
+    action(shutdown,4,fire::ActionKind::stop_refire,2);
+    action(shutdown,5,fire::ActionKind::end_fire,3,true);
+    CHECK((state.snapshot().pending_fire==std::array<bool,4>{true,false,true,false}));
+    CHECK((state.snapshot().firing==std::array<bool,4>{false,false,false,false}));
+    const auto still_blocked=state.tick(context,2.1);
+    CHECK(still_blocked.accepted);CHECK(still_blocked.action_count==0);
+    context.pawn.overheated=false;
+    const auto resumed=state.tick(context,2.2);
+    CHECK(resumed.accepted);CHECK(resumed.action_count==2);
+    action(resumed,0,fire::ActionKind::begin_fire,0);
+    action(resumed,1,fire::ActionKind::begin_fire,2);
 }

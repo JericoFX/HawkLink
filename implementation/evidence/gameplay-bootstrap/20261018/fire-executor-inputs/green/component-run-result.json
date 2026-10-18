@@ -1,0 +1,427 @@
+{
+  "utc": "2026-10-18T03:31:25.2496987Z",
+  "admission": {
+    "utc": "2026-10-18T03:29:21.8947441Z",
+    "usedPercent": 73.54937924802107,
+    "freeBytes": 9063501824
+  },
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "processes": [
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-storage-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 33896,
+      "creationUtc": "2026-10-18T03:31:15.2165893Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-menu-sync-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 59616,
+      "creationUtc": "2026-10-18T03:31:02.3645034Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server-inventory-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 54600,
+      "creationUtc": "2026-10-18T03:31:04.6239335Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-inventory-service-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 56976,
+      "creationUtc": "2026-10-18T03:31:10.7936399Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-udp-trial-runtime-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 69708,
+      "creationUtc": "2026-10-18T03:30:47.8317128Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-local-udp-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 35688,
+      "creationUtc": "2026-10-18T03:29:26.1512526Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server-menu-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 39852,
+      "creationUtc": "2026-10-18T03:31:08.2323305Z"
+    },
+    {
+      "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-foundation-tests.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 55492,
+      "creationUtc": "2026-10-18T03:31:13.4283995Z"
+    },
+    {
+      "path": "C:\\WINDOWS\\system32\\conhost.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 35100,
+      "creationUtc": "2026-10-18T03:29:22.0950587Z"
+    },
+    {
+      "path": "C:\\Program Files\\CMake\\bin\\ctest.exe",
+      "terminal": true,
+      "exit": null,
+      "pid": 72576,
+      "creationUtc": "2026-10-18T03:29:22.1265188Z"
+    },
+    {
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
+      "terminal": true,
+      "exit": 0,
+      "pid": 11736,
+      "creationUtc": "2026-10-18T03:29:22.0846508Z"
+    }
+  ],
+  "samples": [
+    {
+      "utc": "2026-10-18T03:29:22.3953572Z",
+      "usedPercent": 73.53876442504237,
+      "freeBytes": 9067139072,
+      "ownedWorkingSet": 36626432.0
+    },
+    {
+      "utc": "2026-10-18T03:29:24.7190467Z",
+      "usedPercent": 73.56638926277186,
+      "freeBytes": 9057673216,
+      "ownedWorkingSet": 36786176.0
+    },
+    {
+      "utc": "2026-10-18T03:29:26.9818299Z",
+      "usedPercent": 73.5698558153212,
+      "freeBytes": 9056485376,
+      "ownedWorkingSet": 44494848.0
+    },
+    {
+      "utc": "2026-10-18T03:29:29.2255022Z",
+      "usedPercent": 73.7997241102316,
+      "freeBytes": 8977719296,
+      "ownedWorkingSet": 44580864.0
+    },
+    {
+      "utc": "2026-10-18T03:29:31.4734584Z",
+      "usedPercent": 73.77312728463743,
+      "freeBytes": 8986832896,
+      "ownedWorkingSet": 44662784.0
+    },
+    {
+      "utc": "2026-10-18T03:29:33.7323822Z",
+      "usedPercent": 73.95569506769341,
+      "freeBytes": 8924274688,
+      "ownedWorkingSet": 46403584.0
+    },
+    {
+      "utc": "2026-10-18T03:29:35.9851152Z",
+      "usedPercent": 73.80854588878822,
+      "freeBytes": 8974696448,
+      "ownedWorkingSet": 46477312.0
+    },
+    {
+      "utc": "2026-10-18T03:29:38.2200232Z",
+      "usedPercent": 73.8266556374512,
+      "freeBytes": 8968491008,
+      "ownedWorkingSet": 46526464.0
+    },
+    {
+      "utc": "2026-10-18T03:29:40.4666611Z",
+      "usedPercent": 73.74011136001224,
+      "freeBytes": 8998146048,
+      "ownedWorkingSet": 46387200.0
+    },
+    {
+      "utc": "2026-10-18T03:29:42.7208236Z",
+      "usedPercent": 73.80625079192795,
+      "freeBytes": 8975482880,
+      "ownedWorkingSet": 46579712.0
+    },
+    {
+      "utc": "2026-10-18T03:29:44.9546965Z",
+      "usedPercent": 73.75384608028536,
+      "freeBytes": 8993439744,
+      "ownedWorkingSet": 46616576.0
+    },
+    {
+      "utc": "2026-10-18T03:29:47.2247916Z",
+      "usedPercent": 73.78402899472367,
+      "freeBytes": 8983097344,
+      "ownedWorkingSet": 46665728.0
+    },
+    {
+      "utc": "2026-10-18T03:29:49.4681436Z",
+      "usedPercent": 73.77978545625808,
+      "freeBytes": 8984551424,
+      "ownedWorkingSet": 46690304.0
+    },
+    {
+      "utc": "2026-10-18T03:29:51.7161663Z",
+      "usedPercent": 73.93199102043353,
+      "freeBytes": 8932397056,
+      "ownedWorkingSet": 46731264.0
+    },
+    {
+      "utc": "2026-10-18T03:29:53.9620418Z",
+      "usedPercent": 73.86365212069342,
+      "freeBytes": 8955813888,
+      "ownedWorkingSet": 46690304.0
+    },
+    {
+      "utc": "2026-10-18T03:29:56.2059333Z",
+      "usedPercent": 73.78025164780783,
+      "freeBytes": 8984391680,
+      "ownedWorkingSet": 46575616.0
+    },
+    {
+      "utc": "2026-10-18T03:29:58.4408432Z",
+      "usedPercent": 73.0963366907094,
+      "freeBytes": 9218740224,
+      "ownedWorkingSet": 46694400.0
+    },
+    {
+      "utc": "2026-10-18T03:30:00.6635558Z",
+      "usedPercent": 73.07833452471174,
+      "freeBytes": 9224908800,
+      "ownedWorkingSet": 46645248.0
+    },
+    {
+      "utc": "2026-10-18T03:30:02.8956318Z",
+      "usedPercent": 72.9805538355611,
+      "freeBytes": 9258414080,
+      "ownedWorkingSet": 46833664.0
+    },
+    {
+      "utc": "2026-10-18T03:30:05.1232547Z",
+      "usedPercent": 73.0034330823868,
+      "freeBytes": 9250574336,
+      "ownedWorkingSet": 46841856.0
+    },
+    {
+      "utc": "2026-10-18T03:30:07.3517079Z",
+      "usedPercent": 73.17544581061148,
+      "freeBytes": 9191632896,
+      "ownedWorkingSet": 46936064.0
+    },
+    {
+      "utc": "2026-10-18T03:30:09.5858668Z",
+      "usedPercent": 73.11638292734824,
+      "freeBytes": 9211871232,
+      "ownedWorkingSet": 47026176.0
+    },
+    {
+      "utc": "2026-10-18T03:30:11.8070665Z",
+      "usedPercent": 73.02310875651175,
+      "freeBytes": 9243832320,
+      "ownedWorkingSet": 47083520.0
+    },
+    {
+      "utc": "2026-10-18T03:30:14.0349634Z",
+      "usedPercent": 73.02881063777396,
+      "freeBytes": 9241878528,
+      "ownedWorkingSet": 47124480.0
+    },
+    {
+      "utc": "2026-10-18T03:30:16.2686971Z",
+      "usedPercent": 73.04078817451342,
+      "freeBytes": 9237774336,
+      "ownedWorkingSet": 47149056.0
+    },
+    {
+      "utc": "2026-10-18T03:30:18.4995535Z",
+      "usedPercent": 72.9901167391455,
+      "freeBytes": 9255137280,
+      "ownedWorkingSet": 47190016.0
+    },
+    {
+      "utc": "2026-10-18T03:30:20.7322615Z",
+      "usedPercent": 73.02404113961121,
+      "freeBytes": 9243512832,
+      "ownedWorkingSet": 47259648.0
+    },
+    {
+      "utc": "2026-10-18T03:30:22.9766981Z",
+      "usedPercent": 73.11896491131603,
+      "freeBytes": 9210986496,
+      "ownedWorkingSet": 47263744.0
+    },
+    {
+      "utc": "2026-10-18T03:30:25.2001919Z",
+      "usedPercent": 73.10401092083589,
+      "freeBytes": 9216110592,
+      "ownedWorkingSet": 47308800.0
+    },
+    {
+      "utc": "2026-10-18T03:30:27.4394555Z",
+      "usedPercent": 73.01053353829823,
+      "freeBytes": 9248141312,
+      "ownedWorkingSet": 47321088.0
+    },
+    {
+      "utc": "2026-10-18T03:30:29.6826275Z",
+      "usedPercent": 73.19937697683147,
+      "freeBytes": 9183432704,
+      "ownedWorkingSet": 47403008.0
+    },
+    {
+      "utc": "2026-10-18T03:30:31.9062031Z",
+      "usedPercent": 73.08299644020914,
+      "freeBytes": 9223311360,
+      "ownedWorkingSet": 47423488.0
+    },
+    {
+      "utc": "2026-10-18T03:30:34.1440497Z",
+      "usedPercent": 73.00389927393654,
+      "freeBytes": 9250414592,
+      "ownedWorkingSet": 47501312.0
+    },
+    {
+      "utc": "2026-10-18T03:30:36.3727090Z",
+      "usedPercent": 72.95967084485862,
+      "freeBytes": 9265569792,
+      "ownedWorkingSet": 47603712.0
+    },
+    {
+      "utc": "2026-10-18T03:30:38.6042724Z",
+      "usedPercent": 72.96799057097707,
+      "freeBytes": 9262718976,
+      "ownedWorkingSet": 47669248.0
+    },
+    {
+      "utc": "2026-10-18T03:30:40.8317369Z",
+      "usedPercent": 72.96696255884174,
+      "freeBytes": 9263071232,
+      "ownedWorkingSet": 47742976.0
+    },
+    {
+      "utc": "2026-10-18T03:30:43.0668378Z",
+      "usedPercent": 72.9531800240507,
+      "freeBytes": 9267793920,
+      "ownedWorkingSet": 47828992.0
+    },
+    {
+      "utc": "2026-10-18T03:30:45.3009658Z",
+      "usedPercent": 72.94819536055732,
+      "freeBytes": 9269501952,
+      "ownedWorkingSet": 47849472.0
+    },
+    {
+      "utc": "2026-10-18T03:30:47.5392240Z",
+      "usedPercent": 72.96903053674187,
+      "freeBytes": 9262362624,
+      "ownedWorkingSet": 47874048.0
+    },
+    {
+      "utc": "2026-10-18T03:30:49.7625050Z",
+      "usedPercent": 73.01153764317459,
+      "freeBytes": 9247797248,
+      "ownedWorkingSet": 46006272.0
+    },
+    {
+      "utc": "2026-10-18T03:30:51.9910403Z",
+      "usedPercent": 72.98987766655588,
+      "freeBytes": 9255219200,
+      "ownedWorkingSet": 46120960.0
+    },
+    {
+      "utc": "2026-10-18T03:30:54.2228368Z",
+      "usedPercent": 72.97823483144187,
+      "freeBytes": 9259208704,
+      "ownedWorkingSet": 46247936.0
+    },
+    {
+      "utc": "2026-10-18T03:30:56.4544535Z",
+      "usedPercent": 72.90562848597719,
+      "freeBytes": 9284087808,
+      "ownedWorkingSet": 46407680.0
+    },
+    {
+      "utc": "2026-10-18T03:30:58.6925202Z",
+      "usedPercent": 72.9131712261794,
+      "freeBytes": 9281503232,
+      "ownedWorkingSet": 46604288.0
+    },
+    {
+      "utc": "2026-10-18T03:31:00.9217307Z",
+      "usedPercent": 72.93909864852264,
+      "freeBytes": 9272619008,
+      "ownedWorkingSet": 36732928.0
+    },
+    {
+      "utc": "2026-10-18T03:31:03.1617605Z",
+      "usedPercent": 72.91736695012708,
+      "freeBytes": 9280065536,
+      "ownedWorkingSet": 36745216.0
+    },
+    {
+      "utc": "2026-10-18T03:31:05.3999025Z",
+      "usedPercent": 72.93882371504459,
+      "freeBytes": 9272713216,
+      "ownedWorkingSet": 47140864.0
+    },
+    {
+      "utc": "2026-10-18T03:31:07.6288371Z",
+      "usedPercent": 72.90586755856681,
+      "freeBytes": 9284005888,
+      "ownedWorkingSet": 48373760.0
+    },
+    {
+      "utc": "2026-10-18T03:31:09.8577556Z",
+      "usedPercent": 72.90819851631551,
+      "freeBytes": 9283207168,
+      "ownedWorkingSet": 47476736.0
+    },
+    {
+      "utc": "2026-10-18T03:31:12.0975028Z",
+      "usedPercent": 72.92990630745213,
+      "freeBytes": 9275768832,
+      "ownedWorkingSet": 45273088.0
+    },
+    {
+      "utc": "2026-10-18T03:31:14.3357026Z",
+      "usedPercent": 73.5903562898803,
+      "freeBytes": 9049460736,
+      "ownedWorkingSet": 50143232.0
+    },
+    {
+      "utc": "2026-10-18T03:31:16.5701760Z",
+      "usedPercent": 73.97281266510952,
+      "freeBytes": 8918409216,
+      "ownedWorkingSet": 44089344.0
+    },
+    {
+      "utc": "2026-10-18T03:31:18.8028839Z",
+      "usedPercent": 73.01777743776343,
+      "freeBytes": 9245659136,
+      "ownedWorkingSet": 44711936.0
+    },
+    {
+      "utc": "2026-10-18T03:31:21.0263675Z",
+      "usedPercent": 73.0076048990755,
+      "freeBytes": 9249144832,
+      "ownedWorkingSet": 45621248.0
+    },
+    {
+      "utc": "2026-10-18T03:31:23.2612836Z",
+      "usedPercent": 72.94001907799266,
+      "freeBytes": 9272303616,
+      "ownedWorkingSet": 46014464.0
+    }
+  ],
+  "launcherExit": 0,
+  "finalRam": {
+    "utc": "2026-10-18T03:31:25.3293164Z",
+    "usedPercent": 72.88423148920707,
+    "freeBytes": 9291419648
+  }
+}

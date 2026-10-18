@@ -1,0 +1,87 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35228.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file F:\SteamLibrary\steamapps\common\Hawken\Binaries\Win64\HawkenGame-Win64-Shipping.exe
+
+File Type: EXECUTABLE IMAGE
+
+  0000000140D29B40: 48 89 5C 24 10     mov         qword ptr [rsp+10h],rbx
+  0000000140D29B45: 48 89 74 24 18     mov         qword ptr [rsp+18h],rsi
+  0000000140D29B4A: 57                 push        rdi
+  0000000140D29B4B: 48 83 EC 20        sub         rsp,20h
+  0000000140D29B4F: 48 8B 42 24        mov         rax,qword ptr [rdx+24h]
+  0000000140D29B53: C6 44 24 30 00     mov         byte ptr [rsp+30h],0
+  0000000140D29B58: 48 8B F9           mov         rdi,rcx
+  0000000140D29B5B: 44 0F B6 08        movzx       r9d,byte ptr [rax]
+  0000000140D29B5F: 48 8B 4A 1C        mov         rcx,qword ptr [rdx+1Ch]
+  0000000140D29B63: 48 FF C0           inc         rax
+  0000000140D29B66: 48 89 42 24        mov         qword ptr [rdx+24h],rax
+  0000000140D29B6A: 41 8B C1           mov         eax,r9d
+  0000000140D29B6D: 49 8B F0           mov         rsi,r8
+  0000000140D29B70: 4C 8D 0D 29 0E EB  lea         r9,[0000000141BDA9A0h]
+                    00
+  0000000140D29B77: 4C 8D 44 24 30     lea         r8,[rsp+30h]
+  0000000140D29B7C: 48 8B DA           mov         rbx,rdx
+  0000000140D29B7F: 41 FF 14 C1        call        qword ptr [r9+rax*8]
+  0000000140D29B83: 48 FF 43 24        inc         qword ptr [rbx+24h]
+  0000000140D29B87: 48 8B 43 24        mov         rax,qword ptr [rbx+24h]
+  0000000140D29B8B: 80 38 41           cmp         byte ptr [rax],41h
+  0000000140D29B8E: 75 17              jne         0000000140D29BA7
+  0000000140D29B90: 48 8B 4B 1C        mov         rcx,qword ptr [rbx+1Ch]
+  0000000140D29B94: 48 FF C0           inc         rax
+  0000000140D29B97: 45 33 C0           xor         r8d,r8d
+  0000000140D29B9A: 48 8B D3           mov         rdx,rbx
+  0000000140D29B9D: 48 89 43 24        mov         qword ptr [rbx+24h],rax
+  0000000140D29BA1: FF 15 01 10 EB 00  call        qword ptr [0000000141BDABA8h]
+  0000000140D29BA7: 48 8B 07           mov         rax,qword ptr [rdi]
+  0000000140D29BAA: 0F B6 54 24 30     movzx       edx,byte ptr [rsp+30h]
+  0000000140D29BAF: 48 8B CF           mov         rcx,rdi
+  0000000140D29BB2: FF 90 88 07 00 00  call        qword ptr [rax+0000000000000788h]
+  0000000140D29BB8: 48 8B 5C 24 38     mov         rbx,qword ptr [rsp+38h]
+  0000000140D29BBD: F3 0F 11 06        movss       dword ptr [rsi],xmm0
+  0000000140D29BC1: 48 8B 74 24 40     mov         rsi,qword ptr [rsp+40h]
+  0000000140D29BC6: 48 83 C4 20        add         rsp,20h
+  0000000140D29BCA: 5F                 pop         rdi
+  0000000140D29BCB: C3                 ret
+  0000000140D29BCC: CC                 int         3
+  0000000140D29BCD: CC                 int         3
+  0000000140D29BCE: CC                 int         3
+  0000000140D29BCF: CC                 int         3
+  0000000140D29BD0: 48 89 5C 24 08     mov         qword ptr [rsp+8],rbx
+  0000000140D29BD5: 56                 push        rsi
+  0000000140D29BD6: 57                 push        rdi
+  0000000140D29BD7: 41 56              push        r14
+  0000000140D29BD9: 48 83 EC 40        sub         rsp,40h
+  0000000140D29BDD: 48 8B 42 24        mov         rax,qword ptr [rdx+24h]
+  0000000140D29BE1: C7 44 24 30 00 00  mov         dword ptr [rsp+30h],0
+                    00 00
+  0000000140D29BE9: 48 8B F1           mov         rsi,rcx
+  0000000140D29BEC: 44 0F B6 08        movzx       r9d,byte ptr [rax]
+  0000000140D29BF0: 48 8B 4A 1C        mov         rcx,qword ptr [rdx+1Ch]
+  0000000140D29BF4: 49 8B F8           mov         rdi,r8
+  0000000140D29BF7: 48 FF C0           inc         rax
+  0000000140D29BFA: 4C 8D 35 9F 0D EB  lea         r14,[0000000141BDA9A0h]
+                    00
+  0000000140D29C01: 4C 8D 44 24 30     lea         r8,[rsp+30h]
+  0000000140D29C06: 48 8B DA           mov         rbx,rdx
+  0000000140D29C09: 48 89 42 24        mov         qword ptr [rdx+24h],rax
+  0000000140D29C0D: 43 FF 14 CE        call        qword ptr [r14+r9*8]
+  0000000140D29C11: 48 8B 43 24        mov         rax,qword ptr [rbx+24h]
+  0000000140D29C15: C7 44 24 78 00 00  mov         dword ptr [rsp+78h],0
+                    00 00
+  0000000140D29C1D: 4C 8D 44 24 78     lea         r8,[rsp+78h]
+  0000000140D29C22: 0F B6 08           movzx       ecx,byte ptr [rax]
+  0000000140D29C25: 48 FF C0           inc         rax
+  0000000140D29C28: 48 8B D3           mov         rdx,rbx
+  0000000140D29C2B: 48 89 43 24        mov         qword ptr [rbx+24h],rax
+  0000000140D29C2F: 8B C1              mov         eax,ecx
+  0000000140D29C31: 48 8B 4B 1C        mov         rcx,qword ptr [rbx+1Ch]
+  0000000140D29C35: 41 FF 14 C6        call        qword ptr [r14+rax*8]
+  0000000140D29C39: 48 8B 43 24        mov         rax,qword ptr [rbx+24h]
+  0000000140D29C3D: C7
+  0000000140D29C3E: 44 24 70           and         al,70h
+
+  Summary
+
+     128D000 .text

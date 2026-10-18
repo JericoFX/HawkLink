@@ -1,0 +1,102 @@
+{
+  "schema": "hawken-native-refire-component-review/v1",
+  "utc": "2026-10-18T03:32:36.6800260Z",
+  "parent_reviewed_actual_diffs": true,
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "acceptance": "WINDOWS_COMPONENTS_ONLY",
+  "red": {
+    "state_cases": 18,
+    "refire_failed": 6,
+    "refire_cases": 6,
+    "state_failed": 5,
+    "compile_exit": 0
+  },
+  "green": {
+    "source_inputs": 228,
+    "suites": 63,
+    "refire_cases": 6,
+    "source_drift": 0,
+    "state_assertions": 494,
+    "refire_assertions": 76,
+    "state_cases": 18,
+    "failed": 0,
+    "build_exit": 0,
+    "seconds": 123.07,
+    "ctest_exit": 0
+  },
+  "incidents": [
+    "Initial new test target lacked third_party include; compiler failure preserved, corrected before behavioral RED.",
+    "First full gate hit combined build/test100s deadline and is invalid; all recorded handles terminal. Fresh unchanged-input test-only gate completed123.07s with exit0."
+  ],
+  "limits": [
+    "Native name/pointer registration consumer remains unverified; exact thunk and observed-CDO virtual bodies recovered.",
+    "Refire library is not yet called by a Core weapon executor.",
+    "Core semantic Begin/End/StopRefire actions still have no shot executor.",
+    "No new Steam runtime trial or claim of fire, jump, impact, damage or sync repair.",
+    "Linux and sanitizers pending; Windows component acceptance only."
+  ],
+  "protected_binaries": {
+    "core": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "master": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+  },
+  "process_cleanup": {
+    "final_ram": {
+      "utc": "2026-10-18T03:31:25.3293164Z",
+      "usedPercent": 72.88423148920707,
+      "freeBytes": 9291419648
+    },
+    "release_utc": "2026-10-18T03:31:42Z",
+    "native_census": 0,
+    "all_recorded_terminal": true
+  },
+  "evidence": [
+    {
+      "path": "find-refire-binding.json",
+      "sha256": "c819dd869027cfc999217f9cc14e3cfc902cd74bf56e83290a7482617cecf8b9"
+    },
+    {
+      "path": "cadence-functions.jsonl",
+      "sha256": "7cbbd411283633a536bfc79e9b428a4833882b66d0d08b3e5dee55abb2038803"
+    },
+    {
+      "path": "refire-exec-fragment.txt",
+      "sha256": "7abf89626397e7e413046982e7b4abc9eafb6fca2916317c51238a108680c611"
+    },
+    {
+      "path": "refire-implementation.txt",
+      "sha256": "ff42923a8a8567c31c6153fe302aa9207f5b9bc9ab25d89d6f1435a831abd292"
+    },
+    {
+      "path": "red\\refire.log",
+      "sha256": "35c544c725093e924af4a103c10b9e9b9d9e370022144be6959fc2e5a0ffe7c0"
+    },
+    {
+      "path": "red\\state.log",
+      "sha256": "a8502d1203191b2cd0f86536228e43e4357c7da2d4d8bfbbfe64b5dfe97e2446"
+    },
+    {
+      "path": "green\\refire.log",
+      "sha256": "c3cdd66db282fd863c027c6d339f7aca31c09e05f27360ec3b0857f2eb9df698"
+    },
+    {
+      "path": "green\\state.log",
+      "sha256": "d8083ef8feffa1a0aaf4ac79afc4983d96a186b0c321b2aee055401b673f03d4"
+    },
+    {
+      "path": "green\\ctest.log",
+      "sha256": "c05cab109c8d924b3b1f2be3711e580e37c249d4ba33fff46e3007b7fda76e42"
+    },
+    {
+      "path": "green\\source-freeze.json",
+      "sha256": "332947b8d231e21f774d421209f426a8e2f897ad9a3f5f28128cbf3df5410bd7"
+    },
+    {
+      "path": "green\\component-run-result.json",
+      "sha256": "1216b8e5cbdba7dc5e566f363f15cc5fe8aa54cf50f84af4916b0d18e7cb563f"
+    },
+    {
+      "path": "green\\deadline-032724\\build.log",
+      "sha256": "3a4c54b317d1672939fb383700b085eb2c2c3e09fd81fe3de661651e3a0b86ba"
+    }
+  ]
+}

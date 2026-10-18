@@ -1,0 +1,80 @@
+{
+  "schema": "refire-native-binding/v1",
+  "original_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "image_base": "0x140000000",
+  "exact_utf16_name": "GetFireInterval",
+  "strings": [
+    {
+      "raw": "0x1413c98",
+      "rva": "0x1414898",
+      "references": []
+    },
+    {
+      "encoding": "ascii",
+      "name": "AR_Weap_BaseexecGetFireInterval",
+      "raw": "0x1798f48",
+      "rva": "0x1799b48",
+      "references": [
+        {
+          "cell_raw": "0x1bace50",
+          "cell_rva": "0x1bada50",
+          "next_va": "0x140d29b40",
+          "next_section": ".text",
+          "pair_bytes": "489b794101000000409bd24001000000",
+          "pair_sha256": "768716d886839900cea35b435aa349b5e2c7d8b9d51491a4a5c406a126527dac"
+        }
+      ]
+    }
+  ],
+  "status": "OBSERVED_PE_DATA;REGISTRATION_CONSUMER_AND_BODY_PENDING",
+  "candidate_lea_references": [
+    {
+      "raw": "0x439240",
+      "rva": "0x439e40",
+      "bytes": "488d1551aafd00",
+      "target_rva": "0x1414898",
+      "enclosing_runtime_functions": [
+        {
+          "begin_rva": "0x438570",
+          "end_rva": "0x43e23d",
+          "unwind_rva": "0x18d6aa4"
+        }
+      ]
+    }
+  ],
+  "limits": "LEA byte candidates require instruction-boundary and consumer verification; no function binding inferred yet",
+  "observed_receiver_slot_788": [
+    {
+      "receiver": "R_Weap_Machine",
+      "vtable_rva": "0x17e3fc0",
+      "cell_rva": "0x17e4748",
+      "cell_raw": "0x17e3b48",
+      "bytes": "90b6d64001000000",
+      "target_va": "0x140d6b690",
+      "target_section": ".text",
+      "enclosing_runtime_functions": [
+        {
+          "begin_rva": "0xd6b690",
+          "end_rva": "0xd6b7ce",
+          "unwind_rva": "0x1aa16e8"
+        }
+      ]
+    },
+    {
+      "receiver": "R_Weap_MissileLauncher",
+      "vtable_rva": "0x17e4f20",
+      "cell_rva": "0x17e56a8",
+      "cell_raw": "0x17e4aa8",
+      "bytes": "90b6d64001000000",
+      "target_va": "0x140d6b690",
+      "target_section": ".text",
+      "enclosing_runtime_functions": [
+        {
+          "begin_rva": "0xd6b690",
+          "end_rva": "0xd6b7ce",
+          "unwind_rva": "0x1aa16e8"
+        }
+      ]
+    }
+  ]
+}

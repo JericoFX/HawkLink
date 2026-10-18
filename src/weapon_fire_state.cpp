@@ -17,9 +17,9 @@ bool valid_authority(const Config& config,const Snapshot& state,
         authority.pawn.spawn_revision==config.scope.spawn_revision &&
         std::isfinite(now) && now>=0.0 && (!state.last_time || now>=*state.last_time);
 }
-bool append(Step& step,ActionKind kind,std::size_t hand) {
+bool append(Step& step,ActionKind kind,std::size_t hand,bool force_end=false) {
     if (step.action_count>=step.actions.size()) return false;
-    step.actions[step.action_count++]={kind,static_cast<std::uint8_t>(hand)};
+    step.actions[step.action_count++]={kind,static_cast<std::uint8_t>(hand),force_end};
     return true;
 }
 bool update_permission(const Config& config,const Authority& authority,
@@ -34,10 +34,12 @@ bool update_permission(const Config& config,const Authority& authority,
             if (!append(step,ActionKind::begin_fire,hand)) return false;
             next.firing[hand]=true;
         } else {
-            // Active.ShutdownWeapons ends every present hand, without clearing
-            // PendingFire. A later restart can resume the retained intention.
-            if (!append(step,ActionKind::end_fire,hand)) return false;
+            // Active.ShutdownWeapons forces End, then stops refire for this
+            // pending hand before visiting the next. Preserve PendingFire.
+            if (!append(step,ActionKind::end_fire,hand,true)) return false;
             next.firing[hand]=false;
+            if (next.pending_fire[hand] &&
+                !append(step,ActionKind::stop_refire,hand)) return false;
         }
     }
     next.enabled=enabled;

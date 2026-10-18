@@ -1,0 +1,54 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\weapon_refire_tests.cpp(22):
+TEST CASE:  Weapon refire without a cast owner preserves the selected raw float
+
+F:\HawkenServer\tests\weapon_refire_tests.cpp(15): FATAL ERROR: REQUIRE( result.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+  logged: word := 0
+
+===============================================================================
+F:\HawkenServer\tests\weapon_refire_tests.cpp(35):
+TEST CASE:  Weapon refire selects the byte mode and treats every nonzero hand alike
+
+F:\HawkenServer\tests\weapon_refire_tests.cpp(15): FATAL ERROR: REQUIRE( result.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_refire_tests.cpp(49):
+TEST CASE:  Weapon refire owner path applies the exact ordered minimum boundary
+
+F:\HawkenServer\tests\weapon_refire_tests.cpp(15): FATAL ERROR: REQUIRE( result.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+  logged: example.input := 0
+
+===============================================================================
+F:\HawkenServer\tests\weapon_refire_tests.cpp(65):
+TEST CASE:  Weapon refire unordered products clamp while positive infinity survives
+
+F:\HawkenServer\tests\weapon_refire_tests.cpp(15): FATAL ERROR: REQUIRE( result.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+  logged: example.base := 2143363909
+          example.scale := 1065353216
+
+===============================================================================
+F:\HawkenServer\tests\weapon_refire_tests.cpp(84):
+TEST CASE:  Weapon refire uses a single precision product before its minimum
+
+F:\HawkenServer\tests\weapon_refire_tests.cpp(15): FATAL ERROR: REQUIRE( result.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+  logged: example.base := 1065353217
+          example.scale := 1065353217
+
+===============================================================================
+F:\HawkenServer\tests\weapon_refire_tests.cpp(104):
+TEST CASE:  Weapon refire rejects only modes outside the supplied interval span
+
+F:\HawkenServer\tests\weapon_refire_tests.cpp(15): FATAL ERROR: REQUIRE( result.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+[doctest] test cases: 6 | 0 passed | 6 failed | 0 skipped
+[doctest] assertions: 9 | 3 passed | 6 failed |
+[doctest] Status: FAILURE!
