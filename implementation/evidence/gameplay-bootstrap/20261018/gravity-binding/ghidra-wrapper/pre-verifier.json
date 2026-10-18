@@ -1,0 +1,36 @@
+{
+  "utc": "2026-10-18T17:50:34.1680149Z",
+  "freezeSha256": "d61b7386aac2592d666c3db6ba2cdd878d95034a9967ea1e6e2d7cb715ef4067",
+  "instructionSha256": "adc18a5edc13f8c820d4fec5ce3fbea192bc3a9414f222506d7dff4dab773642",
+  "verifierSha256": "4d69492fb8752209451b2e6164994a5ef4290e2a0fe14f7ed3c72d9630857392",
+  "guardSha256": "26eb1d11807d8c6829af117e4b2a6ec74778a408ec7206530f24fbc0353831cf",
+  "headlessExit": "0",
+  "freezeInputCount": 16,
+  "freezeDrift": [],
+  "existingOutputHashes": [
+    {
+      "path": "guard-result.json",
+      "sha256": "d4cbb160964b2dc367e9d6f0f797574a0a63d37d519fd99b8bc4c0965b7363ad"
+    },
+    {
+      "path": "stdout.log",
+      "sha256": "59b1b637210c27a8557fe8e8ac87d5bd8f1e09413dd3acb1a6b36b2393d9eafc"
+    },
+    {
+      "path": "stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "functions.jsonl",
+      "sha256": "2b8604b9227055e524715ef176f3a643bbe180e1704da7559c79ab7f8d950a15"
+    },
+    {
+      "path": "ghidra.log",
+      "sha256": "12a35d13fbb029604af77d87171175894591b8ed284f75d5d05aec3067dde7e1"
+    },
+    {
+      "path": "original-range-baseline.json",
+      "sha256": "b8dd4d35aeda86a5ea46b60d757d10483ddde5ec793f70048a8e790e3c9c4b94"
+    }
+  ]
+}

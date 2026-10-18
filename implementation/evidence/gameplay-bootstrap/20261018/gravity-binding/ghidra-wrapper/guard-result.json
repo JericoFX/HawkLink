@@ -1,0 +1,87 @@
+{
+  "phase": "gravity-binding-single-function",
+  "utc": "2026-10-18T17:47:52.9321425Z",
+  "freezeSha256": "d61b7386aac2592d666c3db6ba2cdd878d95034a9967ea1e6e2d7cb715ef4067",
+  "admission": {
+    "utc": "2026-10-18T17:47:39.3044585Z",
+    "usedPercent": 59.76343767258052,
+    "freeBytes": 13787357184
+  },
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "startedUtc": "2026-10-18T17:47:39.4562881Z",
+  "processes": [
+    {
+      "creationUtc": "2026-10-18T17:47:39.4669161Z",
+      "path": "C:\\WINDOWS\\system32\\conhost.exe",
+      "pid": 52804,
+      "exitCode": null,
+      "terminal": true
+    },
+    {
+      "creationUtc": "2026-10-18T17:47:40.2631891Z",
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\tools\\jdk-21.0.12.1+1\\bin\\java.exe",
+      "pid": 53804,
+      "exitCode": null,
+      "terminal": true
+    },
+    {
+      "creationUtc": "2026-10-18T17:47:39.4562881Z",
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
+      "pid": 34000,
+      "exitCode": 0,
+      "terminal": true
+    }
+  ],
+  "samples": [
+    {
+      "utc": "2026-10-18T17:47:39.7165473Z",
+      "usedPercent": 59.88383462870832,
+      "freeBytes": 13746102272,
+      "ownedWorkingSetBytes": 21663744
+    },
+    {
+      "utc": "2026-10-18T17:47:41.9591621Z",
+      "usedPercent": 59.93528304999247,
+      "freeBytes": 13728473088,
+      "ownedWorkingSetBytes": 101392384
+    },
+    {
+      "utc": "2026-10-18T17:47:44.1738804Z",
+      "usedPercent": 60.02376381540727,
+      "freeBytes": 13698154496,
+      "ownedWorkingSetBytes": 105148416
+    },
+    {
+      "utc": "2026-10-18T17:47:46.3708912Z",
+      "usedPercent": 60.390357724315834,
+      "freeBytes": 13572538368,
+      "ownedWorkingSetBytes": 228569088
+    },
+    {
+      "utc": "2026-10-18T17:47:48.5649395Z",
+      "usedPercent": 62.13512143692189,
+      "freeBytes": 12974682112,
+      "ownedWorkingSetBytes": 404426752
+    },
+    {
+      "utc": "2026-10-18T17:47:50.7457320Z",
+      "usedPercent": 61.014970725561405,
+      "freeBytes": 13358510080,
+      "ownedWorkingSetBytes": 379392000
+    },
+    {
+      "utc": "2026-10-18T17:47:52.9230823Z",
+      "usedPercent": 59.785707284302724,
+      "freeBytes": 13779726336,
+      "ownedWorkingSetBytes": 0
+    }
+  ],
+  "launcherExit": 0,
+  "finalRam": {
+    "utc": "2026-10-18T17:47:52.9891182Z",
+    "usedPercent": 59.78864787715494,
+    "freeBytes": 13778718720
+  },
+  "failure": null
+}

@@ -1,0 +1,51 @@
+{
+  "reviewedUtc": "2026-10-18T18:05:35.6501843Z",
+  "status": "ACCEPTED_STATIC_WRAPPER_ONLY",
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "rva": "0x3fd720",
+  "rawOffset": "0x3fcb20",
+  "length": 76,
+  "rangeSha256": "8de0260a143d59f4d2dc5f82d3bd78c99ed6f4a178bc3b4021ba3a5b13f6838b",
+  "instructionCount": 22,
+  "byteComparison": "contiguous and identical; zero mismatches",
+  "observations": [
+    "RVA0x3fd751 loads this.vptr at offset0",
+    "RVA0x3fd757 calls vtable byte offset0x2e0 (zero-based slot92)",
+    "RVA0x3fd762 stores XMM0 using MOVSS: float32 result"
+  ],
+  "unknowns": [
+    "Concrete selected Pawn virtual target",
+    "Gravity implementation and effective gravity value",
+    "Runtime execution of wrapper or virtual target",
+    "Authoritative collision world and physics execution"
+  ],
+  "headlessExit": 0,
+  "inputPins": 16,
+  "inputDriftCount": 0,
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "ownedChildrenTerminal": true,
+  "timingIncident": "Guard launch was reported at17:47:38.758Z, after latestStart17:47:30Z. Finished naturally; this is not window-compliant execution.",
+  "evidence": [
+    {
+      "path": "functions.jsonl",
+      "sha256": "2b8604b9227055e524715ef176f3a643bbe180e1704da7559c79ab7f8d950a15"
+    },
+    {
+      "path": "instructions.json",
+      "sha256": "adc18a5edc13f8c820d4fec5ce3fbea192bc3a9414f222506d7dff4dab773642"
+    },
+    {
+      "path": "instruction-byte-review.json",
+      "sha256": "273e2834fdede0eceeca228a792f584191c3bea302e0c184997446eb7208aa15"
+    },
+    {
+      "path": "guard-result.json",
+      "sha256": "d4cbb160964b2dc367e9d6f0f797574a0a63d37d519fd99b8bc4c0965b7363ad"
+    },
+    {
+      "path": "pre-verifier.json",
+      "sha256": "fa5038aa6c5dca8bd24ad8f16796fc3617ef2b7e330b8c144ed95cdaa4972076"
+    }
+  ]
+}

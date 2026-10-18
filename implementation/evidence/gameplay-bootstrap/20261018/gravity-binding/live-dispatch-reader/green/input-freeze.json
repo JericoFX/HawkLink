@@ -1,0 +1,274 @@
+{
+  "createdUtc": "2026-10-18T18:10:43.4869469Z",
+  "phase": "GREEN-prepared-awaiting-GO",
+  "targets": [
+    "hawken-live-player-reader-tests",
+    "hawken-controller-netfields-probe"
+  ],
+  "readerSuiteExpectedCases": 73,
+  "cliCases": 7,
+  "inputs": [
+    {
+      "path": "CMakeLists.txt",
+      "class": "build-definition",
+      "sha256": "1F67490D488A658EDE64A31295B858286CA38459734F539C29CB69608186FFAA"
+    },
+    {
+      "path": "CMakePresets.json",
+      "class": "build-definition",
+      "sha256": "8B3777A2864598843FDAF1A6CFDABD3850731EC0B17F49B15C99ED7C20EDBBF3"
+    },
+    {
+      "path": "build/windows-msvc/CMakeCache.txt",
+      "class": "configured-build-input",
+      "sha256": "686564E64F3E69281BA3E640626D7419CF504D409DB9090561263D266E37A831"
+    },
+    {
+      "path": "build/windows-msvc/build.ninja",
+      "class": "configured-build-input",
+      "sha256": "A0C40A5677058AC76AC6534E860E189EFB462C321C4E90214F33339D18703BEC"
+    },
+    {
+      "path": "build/windows-msvc/CMakeFiles/rules.ninja",
+      "class": "configured-build-input",
+      "sha256": "D3CD1C68A4A1A28352E497B67A443BEF2FD9203896EA61E5E410D2B8AE9F007A"
+    },
+    {
+      "path": "tests/test_main.cpp",
+      "class": "source-dependency",
+      "sha256": "010CC5D71FA312CC2AEF083C5A8ECBCFA076DB95FD50A3761DF2D3E5B29B12A5"
+    },
+    {
+      "path": "third_party/doctest/doctest.h",
+      "class": "source-dependency",
+      "sha256": "94029A7D32DA24A56249658147DBD2B33FF0B9ED665295CBBAF19AAFFF5B0CED"
+    },
+    {
+      "path": "tools/live_player_reader.hpp",
+      "class": "source-dependency",
+      "sha256": "E573BE878306DB4591C268D674E033041743C35544F3C1FCC4879A84B8A34B7B"
+    },
+    {
+      "path": "tests/live_player_reader_tests.cpp",
+      "class": "source-dependency",
+      "sha256": "88A537B1A14A309BCCEFD44266610201B7553A336195DE71FCC6010341A6A6E4"
+    },
+    {
+      "path": "tools/controller_netfields_probe.cpp",
+      "class": "source-dependency",
+      "sha256": "A70BFA0CFDEC7B17BEE53CA7A401CAC66C0766F09CEF4C449B76DA0D24077D59"
+    },
+    {
+      "path": "include/hawken/sha256.hpp",
+      "class": "source-dependency",
+      "sha256": "FD34C81B048BEEE4799C1D566DF1AA233EFDE21E89C71F0BB242B37D364D40AE"
+    },
+    {
+      "path": "third_party/nlohmann/json.hpp",
+      "class": "source-dependency",
+      "sha256": "AAF127C04CB31C406E5B04A63F1AE89369FCCDE6D8FA7CDDA1ED4F32DFC5DE63"
+    },
+    {
+      "path": "tools/connection_cache_reader.hpp",
+      "class": "source-dependency",
+      "sha256": "2120971E3438305DBEC13DD30745BE6C111307F9D400876A3AE4DEBC0E0B141C"
+    },
+    {
+      "path": "tools/controller_sample_comparison.hpp",
+      "class": "source-dependency",
+      "sha256": "B46C764D83267B011D49CBB22E145BD0A162AFDFB27DE53527F29CF9A17084E7"
+    },
+    {
+      "path": "tools/fname_hash_lookup.hpp",
+      "class": "source-dependency",
+      "sha256": "C262931221F051AE2C74C9A7626C1B0CE8D2288053D806E008FCB1AE3118575B"
+    },
+    {
+      "path": "tools/gri_template_reader.hpp",
+      "class": "source-dependency",
+      "sha256": "67F7CA763C7BA29FFE14AFC99132FAFA88BF3467CD62305F3CAF8DBE32FC1944"
+    },
+    {
+      "path": "tools/main_menu_sync_reader.hpp",
+      "class": "source-dependency",
+      "sha256": "85EEF1273650B5854510459B298307F6D80C805A36E066F98C939EE4F3BD6131"
+    },
+    {
+      "path": "tools/mech_setup_reader.hpp",
+      "class": "source-dependency",
+      "sha256": "294E39AA1DFFB42D741D5D4E45BCAE36795BEC530B5011B90B0DBF66B65082F7"
+    },
+    {
+      "path": "src/sha256.cpp",
+      "class": "source-dependency",
+      "sha256": "33483F9F83E94A1EED1FD128661D67FCE6C7F3257F977D6B996602BBCA1DBC1B"
+    },
+    {
+      "path": "src/package_integrity.cpp",
+      "class": "source-dependency",
+      "sha256": "8A53BB0144842B1AB44E9EC31067CF517280C9E3CCE0DE5616F4C477109597E3"
+    },
+    {
+      "path": "src/meteor_ini.cpp",
+      "class": "source-dependency",
+      "sha256": "E4D13F0B8DA322FB46BA95563EDE20B84A0FB19BB1A27EF4E1DA40C92AC59970"
+    },
+    {
+      "path": "src/meteor_compat.cpp",
+      "class": "source-dependency",
+      "sha256": "10D57E4D270A3FB84809D5AC0C719514ED6944D0819BE8DAA1E35C7333C58A15"
+    },
+    {
+      "path": "src/http_diagnostics.cpp",
+      "class": "source-dependency",
+      "sha256": "DD9233D25626DC93F1B0A6D75575AD77335B5BEFB9348342ACFC56488BA16FE0"
+    },
+    {
+      "path": "src/game_wire.cpp",
+      "class": "source-dependency",
+      "sha256": "F5A919ED338583DB0E3243142FA7491FB67D6C28D20870275B4D442D98309D6A"
+    },
+    {
+      "path": "src/cli.cpp",
+      "class": "source-dependency",
+      "sha256": "81C67EF460F1E48E8AF8E2E17DECB9BD5E9D26EC8162F4808DF8280894BEBF53"
+    },
+    {
+      "path": "include/hawken/package_integrity.hpp",
+      "class": "source-dependency",
+      "sha256": "4D421B1B736106BEA09CEF3BCA623946D600F81D02F12FE2F8522035C1D05CD3"
+    },
+    {
+      "path": "include/hawken/meteor_ini.hpp",
+      "class": "source-dependency",
+      "sha256": "502DA75B2B9E62DD67FF8EC93F100030B508EA58B7F2FE04847BA03C814EE680"
+    },
+    {
+      "path": "include/hawken/meteor_compat.hpp",
+      "class": "source-dependency",
+      "sha256": "B534523FB4C1380EE6070E557B19015D2E1502DFD0D3851A0D04770FAC8BF2E8"
+    },
+    {
+      "path": "include/hawken/http_diagnostics.hpp",
+      "class": "source-dependency",
+      "sha256": "BC806A777961325E17F10DC2F0A5D5FD1523F483D8B442BAB9AD5B8041A90458"
+    },
+    {
+      "path": "include/hawken/game_wire.hpp",
+      "class": "source-dependency",
+      "sha256": "13EAFFA8B22802E2674353BF095B60ECE4B978F0F718DBD4A09D102D1C67D4B2"
+    },
+    {
+      "path": "include/hawken/cli.hpp",
+      "class": "source-dependency",
+      "sha256": "EEB6F84D02A5B1C8DB0FEF5F8C79E1E6F92DD69C2835786D873CA1EB63EE8794"
+    },
+    {
+      "path": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+      "class": "toolchain",
+      "sha256": "1AA884BF1F4949327FFFCC8EE4A97C2D684BDC1D0A64B71F01DC16321C7FBC64"
+    },
+    {
+      "path": "C:\\Users\\Jerico\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\ninja.exe",
+      "class": "toolchain",
+      "sha256": "6BA95F699DC25CC88259766C50A980242B51C34F1A4D9FEAADC048CC9959E9F9"
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat",
+      "class": "toolchain",
+      "sha256": "C004278E64444BF3524360F960511B5CE7B1D0306910F08A4EBCF1C42FF9BD6D"
+    },
+    {
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "class": "toolchain",
+      "sha256": "88C8344236A27A6E727E0A8EDC49AAA2690BDC7A9464B9D18CC7ABE70A9F1C0D"
+    },
+    {
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\link.exe",
+      "class": "toolchain",
+      "sha256": "CA11E6C45DEBD34BF652DFE984C5360A531A005ED78BF72852330C9C2590CF0D"
+    },
+    {
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\lib.exe",
+      "class": "toolchain",
+      "sha256": "3D694C782F93E998FEC5DB0C2DF78153565DA23A028EE4618561FA0C33408489"
+    },
+    {
+      "path": "C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\rc.exe",
+      "class": "toolchain",
+      "sha256": "43DA1503C262C30894C851589BF0155F8365D77E63A5F7BC13982320E3A6B42D"
+    },
+    {
+      "path": "C:\\PROGRA~2\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\mt.exe",
+      "class": "toolchain",
+      "sha256": "1B8A272D586A9AB53AC2CCD457A88BD0210D7D7AC3DAEA5B34743CC2AFE73B26"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\live-dispatch-reader\\green\\run-guard.ps1",
+      "class": "validation-script",
+      "sha256": "09FB96F00726ED1C8255368AA7CE0FE1973489D8CAC8DAC72731F9F0703FDA78"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\live-dispatch-reader\\green\\run-green.cmd",
+      "class": "validation-script",
+      "sha256": "16EC4F8342F56EB885C5365BD284EF9D7A3839ECD483189F8A764B4C346DA194"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\live-dispatch-reader\\green\\check-cli.ps1",
+      "class": "validation-script",
+      "sha256": "C10A4767E3E02319416C9C28A17CDEE08F05BF72F057AB5450A7059C74A797D9"
+    },
+    {
+      "sha256": "60C9B29843624DD8AF6B6A7B26147753BE6AEEF65098B9A503CC50850AFE410F",
+      "class": "runtime",
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    },
+    {
+      "sha256": "362A356CE7F0940EC74F73A8FC2C990A2CC24A38A11C90BBD8ECA947110AD139",
+      "class": "runtime",
+      "path": "C:\\Users\\Jerico\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe"
+    }
+  ],
+  "ninjaDependencies": {
+    "probeObject": {
+      "count": 9,
+      "status": "VALID",
+      "paths": [
+        "include/hawken/sha256.hpp",
+        "third_party/nlohmann/json.hpp",
+        "tools/connection_cache_reader.hpp",
+        "tools/controller_sample_comparison.hpp",
+        "tools/fname_hash_lookup.hpp",
+        "tools/gri_template_reader.hpp",
+        "tools/live_player_reader.hpp",
+        "tools/main_menu_sync_reader.hpp",
+        "tools/mech_setup_reader.hpp"
+      ]
+    },
+    "testMainObject": {
+      "count": 1,
+      "status": "VALID",
+      "paths": [
+        "third_party/doctest/doctest.h"
+      ]
+    },
+    "probeLinkCommand": "links hawken_foundation.lib and Windows system libraries; no hawken_core dependency observed",
+    "readerTestObject": {
+      "count": 2,
+      "status": "VALID",
+      "paths": [
+        "third_party/doctest/doctest.h",
+        "tools/live_player_reader.hpp"
+      ]
+    },
+    "foundationObjects": [
+      "src/sha256.cpp",
+      "src/package_integrity.cpp",
+      "src/meteor_ini.cpp",
+      "src/meteor_compat.cpp",
+      "src/http_diagnostics.cpp",
+      "src/game_wire.cpp",
+      "src/cli.cpp"
+    ]
+  }
+}

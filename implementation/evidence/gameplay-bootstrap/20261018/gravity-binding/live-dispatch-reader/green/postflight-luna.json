@@ -1,0 +1,158 @@
+{
+  "phase": "GREEN",
+  "status": "validation-complete",
+  "startUtc": "2026-10-18T18:12:00.106833Z",
+  "endUtc": "2026-10-18T18:12:15.2893267Z",
+  "inputFreezeSha256": "0A906BEF4B2B072DFAEBE8743843BE041558431DFD3A919C5DF6F3D5B5032C5A",
+  "inputCount": 44,
+  "postflightDriftCount": 0,
+  "buildExit": 0,
+  "readerExit": 0,
+  "readerCases": {
+    "total": 73,
+    "passed": 73,
+    "failed": 0,
+    "skipped": 0,
+    "assertions": 5470,
+    "assertionsPassed": 5470,
+    "assertionsFailed": 0
+  },
+  "probeHelpExit": 0,
+  "probeHelpListsLiveGravity": true,
+  "cliExit": 0,
+  "cliChecks": [
+    {
+      "passed": true,
+      "containsLiveGravity": true,
+      "name": "help-lists-live-gravity",
+      "exit": 0
+    },
+    {
+      "passed": true,
+      "error": "process_unavailable",
+      "name": "live-gravity-unavailable",
+      "exit": 1
+    },
+    {
+      "passed": true,
+      "error": "process_unavailable",
+      "name": "live-player-unavailable",
+      "exit": 1
+    },
+    {
+      "passed": true,
+      "error": "process_unavailable",
+      "name": "live-fire-timing-unavailable",
+      "exit": 1
+    },
+    {
+      "passed": true,
+      "error": "invalid_arguments",
+      "name": "live-gravity-invalid-pid",
+      "exit": 2
+    },
+    {
+      "passed": true,
+      "error": "invalid_arguments",
+      "name": "unknown-mode",
+      "exit": 2
+    },
+    {
+      "passed": true,
+      "error": "invalid_arguments",
+      "name": "gravity-mixed-with-fire-timing",
+      "exit": 2
+    },
+    {
+      "passed": true,
+      "error": "invalid_arguments",
+      "name": "gravity-mixed-with-player",
+      "exit": 2
+    }
+  ],
+  "testExecutableSha256": "D6944F47E012CDE1A0BF5A7D0800A6F3A96C0769C044DCD86BD455D5C720F2E1",
+  "probeExecutableSha256": "2F59775DABD5C87417354055966CFA13AB04D63ACEAEDEE3B4F378280691D6E8",
+  "admission": {
+    "utc": "2026-10-18T18:12:00.106833Z",
+    "usedPercent": 60.04745590903766,
+    "freeBytes": 13690036224
+  },
+  "sampleCount": 7,
+  "peakUsedPercent": 61.31126533949502,
+  "peakFreeBytes": 13256982528.0,
+  "peakOwnedWorkingSetBytes": 475860992.0,
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "allOwnedProcessesTerminal": true,
+  "ownedProcesses": [
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:05.3864915Z",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\VCTIP.EXE",
+      "pid": 34260,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:08.3464809Z",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "pid": 72252,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.96527Z",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "pid": 62772,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.9412386Z",
+      "path": "C:\\Users\\Jerico\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\ninja.exe",
+      "pid": 19216,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.9151925Z",
+      "path": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+      "pid": 66528,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:00.2710627Z",
+      "path": "C:\\WINDOWS\\system32\\conhost.exe",
+      "pid": 43016,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:13.3975415Z",
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "pid": 72968,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.879574Z",
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "pid": 72732,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:00.2607448Z",
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
+      "pid": 37892,
+      "exit": 0
+    }
+  ],
+  "finalRam": {
+    "utc": "2026-10-18T18:12:15.3489377Z",
+    "usedPercent": 60.217795129135055,
+    "freeBytes": 13631668224
+  },
+  "postflightBuildProcessCensus": "empty"
+}

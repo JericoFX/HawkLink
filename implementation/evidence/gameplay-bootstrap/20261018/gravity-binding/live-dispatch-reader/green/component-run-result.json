@@ -1,0 +1,125 @@
+{
+  "utc": "2026-10-18T18:12:15.2893267Z",
+  "admission": {
+    "utc": "2026-10-18T18:12:00.1068330Z",
+    "usedPercent": 60.04745590903766,
+    "freeBytes": 13690036224
+  },
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "processes": [
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:05.3864915Z",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\VCTIP.EXE",
+      "pid": 34260,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:08.3464809Z",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "pid": 72252,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.9652700Z",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "pid": 62772,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.9412386Z",
+      "path": "C:\\Users\\Jerico\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\ninja.exe",
+      "pid": 19216,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.9151925Z",
+      "path": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+      "pid": 66528,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:00.2710627Z",
+      "path": "C:\\WINDOWS\\system32\\conhost.exe",
+      "pid": 43016,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:13.3975415Z",
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "pid": 72968,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:01.8795740Z",
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "pid": 72732,
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:12:00.2607448Z",
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
+      "pid": 37892,
+      "exit": 0
+    }
+  ],
+  "samples": [
+    {
+      "utc": "2026-10-18T18:12:00.4923488Z",
+      "usedPercent": 60.119345036733506,
+      "freeBytes": 13665402880,
+      "ownedWorkingSet": 22282240.0
+    },
+    {
+      "utc": "2026-10-18T18:12:02.7300885Z",
+      "usedPercent": 60.671805930434665,
+      "freeBytes": 13476098048,
+      "ownedWorkingSet": 228712448.0
+    },
+    {
+      "utc": "2026-10-18T18:12:04.9299050Z",
+      "usedPercent": 61.03329563955504,
+      "freeBytes": 13352230912,
+      "ownedWorkingSet": 331399168.0
+    },
+    {
+      "utc": "2026-10-18T18:12:07.1597475Z",
+      "usedPercent": 60.84904239474231,
+      "freeBytes": 13415366656,
+      "ownedWorkingSet": 308637696.0
+    },
+    {
+      "utc": "2026-10-18T18:12:09.3525303Z",
+      "usedPercent": 60.613269006868556,
+      "freeBytes": 13496156160,
+      "ownedWorkingSet": 238706688.0
+    },
+    {
+      "utc": "2026-10-18T18:12:11.5617325Z",
+      "usedPercent": 61.31126533949502,
+      "freeBytes": 13256982528,
+      "ownedWorkingSet": 475860992.0
+    },
+    {
+      "utc": "2026-10-18T18:12:13.7473739Z",
+      "usedPercent": 60.34496979317831,
+      "freeBytes": 13588090880,
+      "ownedWorkingSet": 136687616.0
+    }
+  ],
+  "launcherExit": 0,
+  "finalRam": {
+    "utc": "2026-10-18T18:12:15.3489377Z",
+    "usedPercent": 60.217795129135055,
+    "freeBytes": 13631668224
+  }
+}

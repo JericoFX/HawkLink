@@ -1,0 +1,35 @@
+{
+  "executable": "C:\\tools\\ghidra_12.1.4_PUBLIC\\support\\analyzeHeadless.bat",
+  "arguments": [
+    "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ghidra-projects",
+    "HawkenMain",
+    "-process",
+    "HawkenGame-Win64-Shipping.exe",
+    "-readOnly",
+    "-noanalysis",
+    "-max-cpu",
+    "1",
+    "-scriptPath",
+    "F:\\HawkenServer\\implementation\\evidence\\fire-gates-20261017",
+    "-preScript",
+    "EnsureFocusedFunction.java",
+    "0x1403fd720",
+    "-postScript",
+    "ExtractNetworkFunctions.java",
+    "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\addresses.txt",
+    "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\functions.jsonl",
+    "-postScript",
+    "DumpFocusedInstructions.java",
+    "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\instructions.json",
+    "0x1403fd720",
+    "-log",
+    "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\ghidra.log"
+  ],
+  "environment": {
+    "JAVA_HOME": "F:\\HawkenServer\\research\\2026-10-10\\tools\\jdk-21.0.12.1+1",
+    "GHIDRA_HEADLESS_MAXMEM": "768m",
+    "APPDATA": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ghidra-private-appdata",
+    "LOCALAPPDATA": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ghidra-private-localappdata"
+  },
+  "scope": "Single static function at VA 0x1403fd720; read-only/noanalysis; no target execution; project database and original PE unchanged"
+}

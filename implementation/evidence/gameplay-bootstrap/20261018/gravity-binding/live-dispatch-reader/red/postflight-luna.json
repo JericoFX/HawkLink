@@ -1,0 +1,83 @@
+{
+  "phase": "RED",
+  "status": "semantic-red-observed",
+  "freezeSha256": "29F45BEEB32691F15AE55C9A5A31920FA43D8BCC9B3D61299E436F5C8C1AFA2F",
+  "freezeInputCount": 17,
+  "postflightDriftCount": 0,
+  "admission": {
+    "utc": "2026-10-18T18:07:34.8517061Z",
+    "usedPercent": 60.10404439099843,
+    "freeBytes": 13670645760
+  },
+  "buildExit": 0,
+  "focusedTestExit": 1,
+  "focusedSummary": {
+    "cases": 5,
+    "passed": 1,
+    "failed": 4,
+    "skipped": 68,
+    "assertions": 29,
+    "assertionsPassed": 11,
+    "assertionsFailed": 18
+  },
+  "testExecutableSha256": "BC9A5B0A2FBA0DD4AB93C39FEB4299CBE4650A6D550DA6B1439A18A541A13731",
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "sampleCount": 4,
+  "peakUsedPercent": 60.66281680106531,
+  "peakOwnedWorkingSetBytes": 245161984.0,
+  "allOwnedProcessesTerminal": true,
+  "ownedProcesses": [
+    {
+      "terminal": true,
+      "pid": 44748,
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\VCTIP.EXE",
+      "creationUtc": "2026-10-18T18:07:38.5034436Z",
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "pid": 25424,
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "creationUtc": "2026-10-18T18:07:36.8962784Z",
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "pid": 55328,
+      "path": "C:\\Users\\Jerico\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\ninja.exe",
+      "creationUtc": "2026-10-18T18:07:36.8740496Z",
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "pid": 63852,
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "creationUtc": "2026-10-18T18:07:36.8087531Z",
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "pid": 53868,
+      "path": "C:\\Program Files\\CMake\\bin\\cmake.exe",
+      "creationUtc": "2026-10-18T18:07:36.848855Z",
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "pid": 12648,
+      "path": "C:\\WINDOWS\\system32\\conhost.exe",
+      "creationUtc": "2026-10-18T18:07:35.0196142Z",
+      "exit": null
+    },
+    {
+      "terminal": true,
+      "pid": 66776,
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
+      "creationUtc": "2026-10-18T18:07:35.0090886Z",
+      "exit": 1
+    }
+  ],
+  "postflightUtc": "2026-10-18T18:08:02.5563869Z",
+  "relevantBuildProcessCensus": "empty"
+}

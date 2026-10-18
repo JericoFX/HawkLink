@@ -109,6 +109,13 @@ struct LivePawnPhysicsSnapshot {
     bool operator==(const LivePawnPhysicsSnapshot&) const = default;
 };
 
+struct LivePawnGravityDispatchSnapshot {
+    std::uint32_t vtable_rva = 0;
+    std::uint32_t slot_offset = 0;
+    std::uint32_t target_rva = 0;
+    bool operator==(const LivePawnGravityDispatchSnapshot&) const = default;
+};
+
 struct LivePlayerSnapshot {
     std::int32_t local_player_count = 0;
     bool local_player_present = false;
@@ -123,6 +130,7 @@ struct LivePlayerSnapshot {
     std::optional<LiveInventorySnapshot> inventory;
     std::optional<LiveFireTimingSnapshot> fire_timing;
     std::optional<LivePawnPhysicsSnapshot> physics;
+    std::optional<LivePawnGravityDispatchSnapshot> gravity;
     bool operator==(const LivePlayerSnapshot&) const = default;
 };
 
@@ -150,10 +158,11 @@ struct LivePlayerSnapshot {
 template<class Reader, class Identify>
 LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identify& source_identify,
                                    bool inspect_inventory = false, bool inspect_fire_timing = false,
-                                   bool inspect_physics = false) {
+                                   bool inspect_physics = false, bool inspect_gravity = false) {
     const auto fail = [](const char* code) { throw std::runtime_error(code); };
     if (inspect_fire_timing && !inspect_inventory) fail("live_invalid");
     if (inspect_physics && !inspect_inventory) fail("live_invalid");
+    if (inspect_gravity && !inspect_inventory) fail("live_invalid");
     const auto checked = [&](std::uint64_t base, std::uint64_t offset, std::size_t size) {
         const auto maximum = std::numeric_limits<std::uint64_t>::max();
         if (!base || offset > maximum - base || size - 1 > maximum - (base + offset))
@@ -463,6 +472,21 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         const auto inv_pawn_chain = instance(pawn_value);
         const auto inv_pawn_type = named(inv_pawn_chain, "Pawn", "Engine");
         const auto inv_native_type = named(inv_pawn_chain, "R_PawnNative", "HawkenGame");
+        if (inspect_gravity) {
+            constexpr std::uint64_t gravity_image_size = 0x201e000;
+            constexpr std::uint64_t gravity_slot = 0x2e0;
+            checked(module, gravity_image_size, 1);
+            const auto gravity_image_end = module + gravity_image_size;
+            const auto gravity_vtable = read.template operator()<std::uint64_t>(pawn_value);
+            if (gravity_vtable < module || gravity_vtable > gravity_image_end - (gravity_slot + sizeof(std::uint64_t)))
+                fail("live_invalid");
+            const auto gravity_target = read.template operator()<std::uint64_t>(gravity_vtable, gravity_slot);
+            if (gravity_target < module) fail("live_invalid");
+            const auto gravity_target_rva = gravity_target - module;
+            if (gravity_target_rva < 0x1000 || gravity_target_rva >= 0x128df79) fail("live_invalid");
+            out.gravity = LivePawnGravityDispatchSnapshot{static_cast<std::uint32_t>(gravity_vtable - module),
+                static_cast<std::uint32_t>(gravity_slot), static_cast<std::uint32_t>(gravity_target_rva)};
+        }
         if (inspect_physics) {
             const auto physics_actor_type = named(inv_pawn_chain, "Actor", "Engine");
             const auto physics_collision_metadata = property(physics_actor_type, "CollisionComponent", "PrimitiveComponent",

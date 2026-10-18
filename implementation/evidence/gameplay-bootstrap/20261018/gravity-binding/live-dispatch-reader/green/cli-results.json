@@ -1,0 +1,50 @@
+﻿[
+    {
+        "passed":  true,
+        "containsLiveGravity":  true,
+        "name":  "help-lists-live-gravity",
+        "exit":  0
+    },
+    {
+        "passed":  true,
+        "error":  "process_unavailable",
+        "name":  "live-gravity-unavailable",
+        "exit":  1
+    },
+    {
+        "passed":  true,
+        "error":  "process_unavailable",
+        "name":  "live-player-unavailable",
+        "exit":  1
+    },
+    {
+        "passed":  true,
+        "error":  "process_unavailable",
+        "name":  "live-fire-timing-unavailable",
+        "exit":  1
+    },
+    {
+        "passed":  true,
+        "error":  "invalid_arguments",
+        "name":  "live-gravity-invalid-pid",
+        "exit":  2
+    },
+    {
+        "passed":  true,
+        "error":  "invalid_arguments",
+        "name":  "unknown-mode",
+        "exit":  2
+    },
+    {
+        "passed":  true,
+        "error":  "invalid_arguments",
+        "name":  "gravity-mixed-with-fire-timing",
+        "exit":  2
+    },
+    {
+        "passed":  true,
+        "error":  "invalid_arguments",
+        "name":  "gravity-mixed-with-player",
+        "exit":  2
+    }
+]

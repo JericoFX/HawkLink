@@ -1,0 +1,2 @@
+Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--live-fire-timing|--live-physics|--live-gravity|--gri-template|--menu-sync]
+Read-only bounded original NetFields metadata or menu sync flags; no process creation.

@@ -1,0 +1,98 @@
+{
+  "createdUtc": "2026-10-18T17:41:42.8089000Z",
+  "scope": "Prepared-only single-function static Ghidra run; execution awaits parent lease/GO",
+  "originalProgramSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "entryVA": "0x1403fd720",
+  "expectedRangeRva": [
+    "0x3fd720",
+    "0x3fd76c"
+  ],
+  "expectedRawOffset": "0x3fcb20",
+  "expectedLengthBytes": 76,
+  "priorFreeze": {
+    "path": "input-freeze-pre-parent-hardening.json",
+    "sha256": "4303bbfc25132ded818d1458f003a561d672c60043589b3953201e3e60e7a702"
+  },
+  "inputs": [
+    {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+      "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "length": 31918592
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\tools\\jdk-21.0.12.1+1\\bin\\java.exe",
+      "sha256": "82051fdab26319d77d20cc0065045d05ec00b3e3d05f44935d7c06b96b621d55",
+      "length": 50304
+    },
+    {
+      "path": "C:\\tools\\ghidra_12.1.4_PUBLIC\\support\\analyzeHeadless.bat",
+      "sha256": "dd7b9d17d32ed70a71df82a43a21cdaed6c4ce67064e30f8642c149f81c2ae07",
+      "length": 2930
+    },
+    {
+      "path": "C:\\tools\\ghidra_12.1.4_PUBLIC\\support\\launch.bat",
+      "sha256": "4b3c3a6a9b0301752e9911ec3baa616b4ca8ad20361f9e0e07f57684ceb89434",
+      "length": 8794
+    },
+    {
+      "path": "C:\\tools\\ghidra_12.1.4_PUBLIC\\support\\launch.properties",
+      "sha256": "5a0fa4849ee760fa36fda8183be56c008bfb73199b9dc21359125e47abd6ae83",
+      "length": 8654
+    },
+    {
+      "path": "C:\\tools\\ghidra_12.1.4_PUBLIC\\Ghidra\\application.properties",
+      "sha256": "e84c26b08545eee63d24a1a8a4dd7905e4209538e2e7192093877c435c64eb67",
+      "length": 659
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\analysis\\ghidra-projects\\HawkenMain.gpr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "length": 0
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\fire-gates-20261017\\EnsureFocusedFunction.java",
+      "sha256": "61f73e83a7023174de440ebdc2f06815e6c9e339cf49c45fdd19feee8478ad78",
+      "length": 797
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\fire-gates-20261017\\ExtractNetworkFunctions.java",
+      "sha256": "761a5ffa33baf0ae25367df81fc0cafe598ddcd77384f956d9bad17b8282e081",
+      "length": 5034
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\fire-gates-20261017\\DumpFocusedInstructions.java",
+      "sha256": "7bafd2c2921c5bab5c8a35fc86b4b4e4dd586250bfcabf020dbbed2cc54539d9",
+      "length": 1836
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\addresses.txt",
+      "sha256": "cd447c6990b028c262449cc6adb136252019c3c895c58800a8da76d1e17ffe86",
+      "length": 13
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\run-ghidra.cmd",
+      "sha256": "3b801893f451d08d60700682d6ca6b717779f5c9e406310510806e87249475d0",
+      "length": 1586
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\run-guard.ps1",
+      "sha256": "26eb1d11807d8c6829af117e4b2a6ec74778a408ec7206530f24fbc0353831cf",
+      "length": 6488
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\verify-instructions.ps1",
+      "sha256": "4d69492fb8752209451b2e6164994a5ef4290e2a0fe14f7ed3c72d9630857392",
+      "length": 4042
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\command.json",
+      "sha256": "a6d4d088b04fdacabc982708163ec74c1288dd30e5ba226f504c1249e3f519a2",
+      "length": 1640
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\ghidra-wrapper\\original-range-baseline.json",
+      "sha256": "b8dd4d35aeda86a5ea46b60d757d10483ddde5ec793f70048a8e790e3c9c4b94",
+      "length": 673
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "reviewedUtc": "2026-10-18T18:14:10.6153048Z",
+  "status": "ACCEPTED_READ_ONLY_OBSERVER_COMPONENT",
+  "actualDiff": "178 insertions/13 deletions across tools/live_player_reader.hpp, tools/controller_netfields_probe.cpp, tests/live_player_reader_tests.cpp",
+  "scope": "Only opt-in --live-gravity; two budgeted uint64 reads of validated selected Pawn vptr and slot0x2e0; RVA-only DTO, exact original image size and text bounds; no writes/calls/ACKs",
+  "red": {
+    "assertionsFailed": 18,
+    "failed": 4,
+    "buildExit": 0,
+    "filteredLegacyCases": 68,
+    "cases": 5,
+    "assertions": 29,
+    "passed": 1,
+    "inputDrift": 0,
+    "sourceScaffoldSha256": "0f7e61f2dd789988b44390c7b9685f8911561926dcfa0c2b50229d6913b23678",
+    "inputPins": 17,
+    "testExit": 1
+  },
+  "green": {
+    "ownedLiveOnParentRecheck": 0,
+    "buildExit": 0,
+    "cliHelpAndRejectionChecks": 8,
+    "cases": 73,
+    "assertions": 5470,
+    "parentReverifiedPinCount": 44,
+    "inputDrift": 0,
+    "skipped": 0,
+    "inputPins": 44,
+    "testExit": 0
+  },
+  "sources": {
+    "tests": "88a537b1a14a309bccefd44266610201b7553a336195de71fcc6010341a6a6e4",
+    "header": "e573be878306db4591c268d674e033041743c35544f3c1fcc4879a84b8a34b7b",
+    "probe": "a70bfa0cfdec7b17bee53ca7a401cac66c0766f09cef4c449b76da0d24077d59"
+  },
+  "outputs": {
+    "readerTests": "d6944f47e012cde1a0bf5a7d0800a6f3a96c0769c044dcd86bd455d5c720f2e1",
+    "probe": "2f59775dabd5c87417354055966cfa13ab04d63aceaedee3b4f378280691d6e8"
+  },
+  "redPostflightSha256": "ab70a34fdb2b604e6f7825c3d4d9da10c540d1e167029b6a7bb8ecd5b3a0bdc1",
+  "greenPostflightSha256": "d9c52a650e488c087fdd7a9bf4f017da4bfc5fc2877b9015f2b1a6490a09b3aa",
+  "resourceWindows": "RED18:07:35-18:07:42Z andGREEN18:12:00-18:12:15Z within granted starts/deadlines; guards not triggered; all tracked owned processes terminal",
+  "graph": "Existing264-file reader graph reused; current exact working-tree diff read directly while owner holds newGraftCLI forSDK102. No claim of refreshed affected graph.",
+  "limitations": [
+    "No original Hawken process or new runtime gravity target measured",
+    "No Core/Nexus/gameplay changes or acceptance",
+    "Linux and sanitizers not renewed in this focal Windows gate",
+    "Complete Hawken services and authoritative simulation remain pending"
+  ]
+}

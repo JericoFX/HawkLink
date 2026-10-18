@@ -1698,3 +1698,136 @@ TEST_CASE("Live Pawn physics includes reflected offsets and dimensions in indepe
     const auto next=f.physics_sample();REQUIRE(next.physics.has_value());REQUIRE(next.physics->cylinder.has_value());
     CHECK_FALSE(*first.physics==*next.physics);CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
 }
+
+namespace {
+constexpr std::uint64_t gravity_fixture_table_rva=0x1900000;
+constexpr std::uint64_t gravity_fixture_image_size=0x201e000;
+struct PawnGravityFixture : InventoryFixture {
+    PawnGravityFixture() {
+        // Synthetic pointers inside the original image extent, not a claim
+        // about any live Pawn vtable or a callable getter implementation.
+        memory.put(pawn_object,module_base+gravity_fixture_table_rva);
+        memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base+0x3456);
+    }
+    LivePlayerSnapshot gravity_sample(bool inventory=true,bool gravity=true) {
+        auto identify=[&](std::uint64_t where) {
+            const auto found=identities.find(where);
+            if(found==identities.end()) throw std::runtime_error("identity_unavailable");
+            return found->second;
+        };
+        return read_live_player(memory,module_base,identify,inventory,false,false,gravity);
+    }
+};
+}
+TEST_CASE("live player gravity observes only bounded vtable and target RVAs") {
+    PawnGravityFixture f;
+    std::uint32_t expected_table_rva=0x1900000,expected_target_rva=0x3456;
+    SUBCASE("interior target") {}
+    SUBCASE("first text byte is included") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base+0x1000);
+        expected_target_rva=0x1000;
+    }
+    SUBCASE("last text byte is included") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base+0x128df78);
+        expected_target_rva=0x128df78;
+    }
+    SUBCASE("last complete slot fits the image") {
+        // image size201e000 - slot2e0 - pointer8 = vtable RVA201dd18.
+        f.memory.put(pawn_object,module_base+0x201dd18);
+        f.memory.put(module_base+0x201dff8,module_base+0x3456);
+        expected_table_rva=0x201dd18;
+    }
+    const auto sampled=f.gravity_sample();REQUIRE(sampled.gravity.has_value());
+    CHECK(sampled.gravity->slot_offset==0x2e0);
+    CHECK(sampled.gravity->vtable_rva==expected_table_rva);
+    CHECK(sampled.gravity->target_rva==expected_target_rva);
+    CHECK(f.memory.read_counts[pawn_object]==1);
+    CHECK(f.memory.read_counts[module_base+sampled.gravity->vtable_rva+0x2e0]==1);
+    // No bytes of the function body are supplied or read by this observer.
+    CHECK(f.memory.read_counts[module_base+sampled.gravity->target_rva]==0);
+    CHECK(f.memory.budget>0);
+}
+TEST_CASE("live player gravity rejects null and out of range vptr slots and targets") {
+    PawnGravityFixture f;
+    SUBCASE("null vptr") {f.memory.put(pawn_object,std::uint64_t{0});}
+    SUBCASE("vptr precedes module") {
+        f.memory.put(pawn_object,module_base-8);
+        f.memory.put(module_base-8+0x2e0,module_base+0x3456);
+    }
+    SUBCASE("vptr starts at image end") {
+        f.memory.put(pawn_object,module_base+gravity_fixture_image_size);
+        f.memory.put(module_base+gravity_fixture_image_size+0x2e0,module_base+0x3456);
+    }
+    SUBCASE("slot starts at image end despite valid target bytes") {
+        f.memory.put(pawn_object,module_base+gravity_fixture_image_size-0x2e0);
+        f.memory.put(module_base+gravity_fixture_image_size,module_base+0x3456);
+    }
+    SUBCASE("slot crosses image end by one byte") {
+        f.memory.put(pawn_object,module_base+gravity_fixture_image_size-0x2e0-7);
+        f.memory.put(module_base+gravity_fixture_image_size-7,module_base+0x3456);
+    }
+    SUBCASE("vptr arithmetic would overflow") {
+        f.memory.put(pawn_object,std::numeric_limits<std::uint64_t>::max()-8);
+    }
+    SUBCASE("null target") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,std::uint64_t{0});
+    }
+    SUBCASE("target precedes module") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base-1);
+    }
+    SUBCASE("target precedes text") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base+0xfff);
+    }
+    SUBCASE("text end is excluded") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base+0x128df79);
+    }
+    SUBCASE("target at image end") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base+gravity_fixture_image_size);
+    }
+    CHECK_THROWS_AS(f.gravity_sample(),std::runtime_error);
+}
+TEST_CASE("live player gravity propagates failed pointer reads without returning a snapshot") {
+    PawnGravityFixture f;
+    SUBCASE("vptr bytes unavailable") {f.memory.bytes.erase(pawn_object);}
+    SUBCASE("slot bytes unavailable") {f.memory.bytes.erase(module_base+gravity_fixture_table_rva+0x2e0);}
+    CHECK_THROWS_WITH_AS(f.gravity_sample(),"reader_error",std::runtime_error);
+}
+TEST_CASE("live player gravity is opt in and leaves absent Pawn and default reads unchanged") {
+    PawnGravityFixture f;
+    SUBCASE("default and explicit false ignore missing vptr bytes") {
+        const auto previous=f.inventory_sample();const auto previous_reads=f.memory.read_counts;
+        f.memory.read_counts.clear();f.memory.bytes.erase(pawn_object);
+        f.memory.bytes.erase(module_base+gravity_fixture_table_rva+0x2e0);
+        const auto disabled=f.gravity_sample(true,false);
+        CHECK(previous==disabled);CHECK(previous.trace==disabled.trace);
+        CHECK(previous_reads==f.memory.read_counts);CHECK_FALSE(disabled.gravity.has_value());
+        CHECK(f.memory.read_counts[pawn_object]==0);
+        CHECK(f.memory.read_counts[module_base+gravity_fixture_table_rva+0x2e0]==0);
+    }
+    SUBCASE("requires inventory inspection") {
+        CHECK_THROWS_WITH_AS(f.gravity_sample(false,true),"live_invalid",std::runtime_error);
+    }
+    SUBCASE("no Pawn is explicitly unobserved") {
+        f.memory.put(controller_object+0x280,std::uint64_t{0});f.memory.bytes.erase(pawn_object);
+        const auto sampled=f.gravity_sample();CHECK_FALSE(sampled.pawn_present);
+        CHECK_FALSE(sampled.gravity.has_value());CHECK(f.memory.read_counts[pawn_object]==0);
+        CHECK(f.memory.read_counts[module_base+gravity_fixture_table_rva+0x2e0]==0);
+    }
+}
+TEST_CASE("live player gravity includes vtable and dispatch changes in independent sample equality") {
+    PawnGravityFixture f;const auto first=f.gravity_sample();REQUIRE(first.gravity.has_value());
+    CHECK(first.gravity->vtable_rva==0x1900000);CHECK(first.gravity->target_rva==0x3456);
+    SUBCASE("different vtable retains the same target") {
+        f.memory.put(pawn_object,module_base+0x1910000);
+        f.memory.put(module_base+0x19102e0,module_base+0x3456);
+        const auto next=f.gravity_sample();REQUIRE(next.gravity.has_value());
+        CHECK(next.gravity->vtable_rva==0x1910000);CHECK(next.gravity->target_rva==0x3456);
+        CHECK_FALSE(*first.gravity==*next.gravity);CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
+    }
+    SUBCASE("same vtable changes its target") {
+        f.memory.put(module_base+gravity_fixture_table_rva+0x2e0,module_base+0x5678);
+        const auto next=f.gravity_sample();REQUIRE(next.gravity.has_value());
+        CHECK(next.gravity->vtable_rva==0x1900000);CHECK(next.gravity->target_rva==0x5678);
+        CHECK_FALSE(*first.gravity==*next.gravity);CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
+    }
+}

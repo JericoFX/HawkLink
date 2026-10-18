@@ -1,0 +1,110 @@
+{
+  "createdUtc": "2026-10-18T18:06:50.8423067Z",
+  "phase": "red-prepared-awaiting-go",
+  "target": "hawken-live-player-reader-tests",
+  "filter": "Live player gravity*",
+  "inputs": [
+    {
+      "class": "source-or-build-definition",
+      "sha256": "1F67490D488A658EDE64A31295B858286CA38459734F539C29CB69608186FFAA",
+      "path": "CMakeLists.txt"
+    },
+    {
+      "class": "source-or-build-definition",
+      "sha256": "8B3777A2864598843FDAF1A6CFDABD3850731EC0B17F49B15C99ED7C20EDBBF3",
+      "path": "CMakePresets.json"
+    },
+    {
+      "class": "configured-build-input",
+      "sha256": "686564E64F3E69281BA3E640626D7419CF504D409DB9090561263D266E37A831",
+      "path": "build/windows-msvc/CMakeCache.txt"
+    },
+    {
+      "class": "configured-build-input",
+      "sha256": "A0C40A5677058AC76AC6534E860E189EFB462C321C4E90214F33339D18703BEC",
+      "path": "build/windows-msvc/build.ninja"
+    },
+    {
+      "class": "configured-build-input",
+      "sha256": "D3CD1C68A4A1A28352E497B67A443BEF2FD9203896EA61E5E410D2B8AE9F007A",
+      "path": "build/windows-msvc/CMakeFiles/rules.ninja"
+    },
+    {
+      "class": "source-or-build-definition",
+      "sha256": "010CC5D71FA312CC2AEF083C5A8ECBCFA076DB95FD50A3761DF2D3E5B29B12A5",
+      "path": "tests/test_main.cpp"
+    },
+    {
+      "class": "source-or-build-definition",
+      "sha256": "94029A7D32DA24A56249658147DBD2B33FF0B9ED665295CBBAF19AAFFF5B0CED",
+      "path": "third_party/doctest/doctest.h"
+    },
+    {
+      "class": "source-or-build-definition",
+      "sha256": "0F7E61F2DD789988B44390C7B9685F8911561926DCFA0C2B50229D6913B23678",
+      "path": "tools/live_player_reader.hpp"
+    },
+    {
+      "class": "source-or-build-definition",
+      "sha256": "88A537B1A14A309BCCEFD44266610201B7553A336195DE71FCC6010341A6A6E4",
+      "path": "tests/live_player_reader_tests.cpp"
+    },
+    {
+      "class": "source-or-build-definition",
+      "sha256": "9841500D9388AB24CD55F0E5003222F15F64E29CA6EF4ACBB4A792109BD48A21",
+      "path": "tools/controller_netfields_probe.cpp"
+    },
+    {
+      "class": "toolchain",
+      "sha256": "1AA884BF1F4949327FFFCC8EE4A97C2D684BDC1D0A64B71F01DC16321C7FBC64",
+      "path": "C:\\Program Files\\CMake\\bin\\cmake.exe"
+    },
+    {
+      "class": "toolchain",
+      "sha256": "6BA95F699DC25CC88259766C50A980242B51C34F1A4D9FEAADC048CC9959E9F9",
+      "path": "C:\\Users\\Jerico\\AppData\\Local\\Microsoft\\WinGet\\Packages\\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\\mingw64\\bin\\ninja.exe"
+    },
+    {
+      "class": "toolchain",
+      "sha256": "C004278E64444BF3524360F960511B5CE7B1D0306910F08A4EBCF1C42FF9BD6D",
+      "path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"
+    },
+    {
+      "class": "toolchain",
+      "sha256": "88C8344236A27A6E727E0A8EDC49AAA2690BDC7A9464B9D18CC7ABE70A9F1C0D",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe"
+    },
+    {
+      "class": "toolchain",
+      "sha256": "CA11E6C45DEBD34BF652DFE984C5360A531A005ED78BF72852330C9C2590CF0D",
+      "path": "C:\\PROGRA~2\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\link.exe"
+    },
+    {
+      "class": "validation-script",
+      "sha256": "6F88C4D0942A605A995F5838C75A6F338CF0F73CFF16FDB173F71F7B3EF32AE6",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\live-dispatch-reader\\red\\run-guard.ps1"
+    },
+    {
+      "class": "validation-script",
+      "sha256": "501C273A16276AA8A8EC7438ACC4390360B47928DA5A8130A1CB3AF46A3F4F30",
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\live-dispatch-reader\\red\\run-red.cmd"
+    }
+  ],
+  "ninjaDependencyEvidence": {
+    "dependencyCount": 2,
+    "object": "CMakeFiles/hawken-live-player-reader-tests.dir/tests/live_player_reader_tests.cpp.obj",
+    "status": "VALID",
+    "dependencies": [
+      "third_party/doctest/doctest.h",
+      "tools/live_player_reader.hpp"
+    ]
+  },
+  "testMainDependencyEvidence": {
+    "dependencyCount": 1,
+    "object": "CMakeFiles/hawken-live-player-reader-tests.dir/tests/test_main.cpp.obj",
+    "status": "VALID",
+    "dependencies": [
+      "third_party/doctest/doctest.h"
+    ]
+  }
+}

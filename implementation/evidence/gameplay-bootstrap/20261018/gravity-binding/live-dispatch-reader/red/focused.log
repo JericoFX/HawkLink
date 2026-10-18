@@ -1,0 +1,170 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1722):
+TEST CASE:  live player gravity observes only bounded vtable and target RVAs
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  interior target
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1740): FATAL ERROR: REQUIRE( sampled.gravity.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1722):
+TEST CASE:  live player gravity observes only bounded vtable and target RVAs
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  first text byte is included
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1740): FATAL ERROR: REQUIRE( sampled.gravity.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1722):
+TEST CASE:  live player gravity observes only bounded vtable and target RVAs
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  last text byte is included
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1740): FATAL ERROR: REQUIRE( sampled.gravity.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1722):
+TEST CASE:  live player gravity observes only bounded vtable and target RVAs
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  last complete slot fits the image
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1740): FATAL ERROR: REQUIRE( sampled.gravity.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  null vptr
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  vptr precedes module
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  vptr starts at image end
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  slot starts at image end despite valid target bytes
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  slot crosses image end by one byte
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  vptr arithmetic would overflow
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  null target
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  target precedes module
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  target precedes text
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  text end is excluded
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1750):
+TEST CASE:  live player gravity rejects null and out of range vptr slots and targets
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  target at image end
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1787): ERROR: CHECK_THROWS_AS( f.gravity_sample(), std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1789):
+TEST CASE:  live player gravity propagates failed pointer reads without returning a snapshot
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  vptr bytes unavailable
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1793): ERROR: CHECK_THROWS_WITH_AS( f.gravity_sample(), "reader_error", std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1789):
+TEST CASE:  live player gravity propagates failed pointer reads without returning a snapshot
+
+DEEPEST SUBCASE STACK REACHED (DIFFERENT FROM THE CURRENT ONE):
+  slot bytes unavailable
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1793): ERROR: CHECK_THROWS_WITH_AS( f.gravity_sample(), "reader_error", std::runtime_error ) did NOT throw at all!
+
+===============================================================================
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1817):
+TEST CASE:  live player gravity includes vtable and dispatch changes in independent sample equality
+
+F:\HawkenServer\tests\live_player_reader_tests.cpp(1818): FATAL ERROR: REQUIRE( first.gravity.has_value() ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+[doctest] test cases:  5 |  1 passed |  4 failed | 68 skipped
+[doctest] assertions: 29 | 11 passed | 18 failed |
+[doctest] Status: FAILURE!

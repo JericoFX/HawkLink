@@ -1,0 +1,22 @@
+{
+  "reason": "Validated scripts retain frozen bytes, including trailing blank lines. Preserve exact copies in ZIP rather than normalize accepted inputs.",
+  "archive": "validation-scripts.zip",
+  "sha256": "a8604851d0c90fa2754f518952538fdc4585dc377fccf2f3f669242577c189b4",
+  "entries": [
+    {
+      "path": "red/run-guard.ps1",
+      "bytes": 4395,
+      "sha256": "6f88c4d0942a605a995f5838c75a6f338cf0f73cff16fdb173f71f7b3ef32ae6"
+    },
+    {
+      "path": "green/run-guard.ps1",
+      "bytes": 4399,
+      "sha256": "09fb96f00726ed1c8255368aa7ce0fe1973489d8cac8dac72731f9f0703fda78"
+    },
+    {
+      "path": "green/check-cli.ps1",
+      "bytes": 2034,
+      "sha256": "c10a4767e3e02319416c9c28a17cdee08f05bf72f057ab5450a7059c74a797d9"
+    }
+  ]
+}

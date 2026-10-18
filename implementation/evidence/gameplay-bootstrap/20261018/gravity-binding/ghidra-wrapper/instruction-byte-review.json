@@ -1,0 +1,16 @@
+{
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "entry": "0x1403fd720",
+  "rangeEnd": "0x1403fd76c",
+  "expectedFunctionBytes": 76,
+  "instructionCount": 22,
+  "instructionBytesSha256": "8de0260a143d59f4d2dc5f82d3bd78c99ed6f4a178bc3b4021ba3a5b13f6838b",
+  "originalBytesSha256": "8de0260a143d59f4d2dc5f82d3bd78c99ed6f4a178bc3b4021ba3a5b13f6838b",
+  "baselineBytesAgree": true,
+  "addressDiscontinuities": [],
+  "byteMismatches": [],
+  "contiguous": true,
+  "bytesMatch": true,
+  "rawOffset": "0x3fcb20",
+  "verifiedUtc": "2026-10-18T17:50:34.7115748Z"
+}
