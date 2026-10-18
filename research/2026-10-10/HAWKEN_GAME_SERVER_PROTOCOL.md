@@ -1,5 +1,8 @@
 # Hawken: protocolo de reserva y conexión al servidor de partida
 
+Validación del lector de disparo — 2026-10-17 local: biblioteca pura y8 casos pasan en Windows Release; gate completo60 suites/1.643 casos/93.414 aserciones, sin fallos/skips,207 inputs y59 ejecutables base sin drift. El decoder consume sólo un prefijo bajo schema explícito; no está conectado a Core ni aplica fuego/daño. [Gate del padre](../../implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/green/parent-acceptance.json). La prueba nativa del Core sin ese enlace llegó a Restos desde Steam sin tutorial y confirmó Pawn.Role2, pero shutdown sigue verdadero; disparo y salto permanecen abiertos. [Prueba y fotografías](../../implementation/evidence/gameplay-bootstrap/20261017/core-owning-role-retry/parent-native-result.json).
+
+
 **Parámetros de disparo — 2026-10-17: CONFIRMADO estático; invocación nativa pendiente.** El padre cotejó cuatro registros directamente desde dos bloques zlib de los UPK originales, sin descomprimir paquetes completos. `Engine.upk` SHA-256 `8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c`; `HawkenGame.upk` SHA-256 `d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0`. Los offsets siguientes son virtuales del contenido descomprimido; los exports son índices de tabla base1, no tags de red.
 
 | RPC / parámetro | Paquete, export del parámetro, offset | Tipo y metadatos observados |

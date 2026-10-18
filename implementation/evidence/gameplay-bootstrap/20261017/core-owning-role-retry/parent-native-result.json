@@ -1,0 +1,225 @@
+{
+  "utc": "2026-10-18T00:19:04.9119671Z",
+  "status": "NATIVE_ROLE2_CONFIRMED;FIRE_JUMP_NOT_ACCEPTED",
+  "trial": "local-steam-routing-20261018-001048",
+  "coreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+  "originalEXESHA256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "steamLaunch": "Official Library Play, original AppID271290; no direct EXE or emulator",
+  "authenticationVerified": true,
+  "flow": [
+    "main menu",
+    "regional local listing",
+    "lobby",
+    "ready countdown",
+    "mech selection",
+    "Restos deployed with HUD"
+  ],
+  "tutorialRepeated": false,
+  "before": {
+    "controller_role": 2,
+    "dual_client_shutdown": {
+      "bit_mask": 16,
+      "metadata_offset": 984,
+      "value": false
+    },
+    "dual_instigator_is_pawn": true,
+    "dual_invmanager_matches": true,
+    "dual_role": 1,
+    "dual_server_can_fire": {
+      "bit_mask": 8,
+      "metadata_offset": 984,
+      "value": true
+    },
+    "dual_shutdown": {
+      "bit_mask": 4,
+      "metadata_offset": 984,
+      "value": true
+    },
+    "manager_chain_is_dual": true,
+    "manager_instigator_is_pawn": true,
+    "manager_role": 1,
+    "pawn_can_move": {
+      "bit_mask": 256,
+      "metadata_offset": 3104,
+      "value": true
+    },
+    "pawn_dual_weapon_present": true,
+    "pawn_invmanager_present": true,
+    "pawn_jump_capable": {
+      "bit_mask": 512,
+      "metadata_offset": 656,
+      "value": true
+    },
+    "pawn_jump_z": 1250.0,
+    "pawn_move_state": 2,
+    "pawn_no_weapon_firing": {
+      "bit_mask": 4096,
+      "metadata_offset": 660,
+      "value": false
+    },
+    "pawn_physics": 1,
+    "pawn_role": 2,
+    "pawn_thruster_energy": 9.600000381469727,
+    "pawn_thruster_jump_energy": 0.0,
+    "pawn_weapon_is_dual": true,
+    "pawn_weapon_present": true
+  },
+  "after": {
+    "controller_role": 2,
+    "dual_client_shutdown": {
+      "bit_mask": 16,
+      "metadata_offset": 984,
+      "value": false
+    },
+    "dual_instigator_is_pawn": true,
+    "dual_invmanager_matches": true,
+    "dual_role": 1,
+    "dual_server_can_fire": {
+      "bit_mask": 8,
+      "metadata_offset": 984,
+      "value": true
+    },
+    "dual_shutdown": {
+      "bit_mask": 4,
+      "metadata_offset": 984,
+      "value": true
+    },
+    "manager_chain_is_dual": true,
+    "manager_instigator_is_pawn": true,
+    "manager_role": 1,
+    "pawn_can_move": {
+      "bit_mask": 256,
+      "metadata_offset": 3104,
+      "value": true
+    },
+    "pawn_dual_weapon_present": true,
+    "pawn_invmanager_present": true,
+    "pawn_jump_capable": {
+      "bit_mask": 512,
+      "metadata_offset": 656,
+      "value": true
+    },
+    "pawn_jump_z": 1250.0,
+    "pawn_move_state": 2,
+    "pawn_no_weapon_firing": {
+      "bit_mask": 4096,
+      "metadata_offset": 660,
+      "value": false
+    },
+    "pawn_physics": 1,
+    "pawn_role": 2,
+    "pawn_thruster_energy": 9.600000381469727,
+    "pawn_thruster_jump_energy": 0.0,
+    "pawn_weapon_is_dual": true,
+    "pawn_weapon_present": true
+  },
+  "probeSamplesEqual": [
+    true,
+    true
+  ],
+  "inputObservations": [
+    "One Space key and immediate photograph; no visible jump established",
+    "One right click and one left click, each followed by photograph; no projectile established",
+    "Short clicks do not prove sustained primary windup behavior"
+  ],
+  "photos": [
+    {
+      "file": "01-steam-start.png",
+      "sha256": "ce06de518c1ac0f3062d413ece1c0fae17657dceafe4991ae5dab0bca7da3ee8",
+      "bytes": 72967
+    },
+    {
+      "file": "02-main-menu.png",
+      "sha256": "2914d724e3093fb5625208548663f14ca5451ae75bb9cbbb85f84fc63827cc09",
+      "bytes": 172251
+    },
+    {
+      "file": "03-local-server.png",
+      "sha256": "8037521bd835d8075141e3267a84f90bccc669c1c9d6b9a1034cd8a8f2d25efc",
+      "bytes": 168083
+    },
+    {
+      "file": "04-lobby.png",
+      "sha256": "58e03dd63f2cca3abd78a5ae81bed69144717617b4a0f81ff60d753892120c68",
+      "bytes": 171882
+    },
+    {
+      "file": "05-mech-selection.png",
+      "sha256": "1d78d462e54518507e1742f4d2fb9e879489b25fbf7816a5ef32194d2f7e842c",
+      "bytes": 172697
+    },
+    {
+      "file": "06-core-before-input.png",
+      "sha256": "57fec5bb65de981d1d67be883b8e260ad1ec8fd889dfe5c88d9cc543ad790ef0",
+      "bytes": 134942
+    },
+    {
+      "file": "07-after-jump-input.png",
+      "sha256": "f51fae77e2aa2971154985c44576b759e61cbe1800c3bc9f97ff7f0af0e0933f",
+      "bytes": 135197
+    },
+    {
+      "file": "08-after-secondary-fire.png",
+      "sha256": "506fc82b16023d06194cb84850f37c665614ce4ff31f87457cb32bbd8f239fdb",
+      "bytes": 131720
+    },
+    {
+      "file": "09-after-primary-fire.png",
+      "sha256": "a1dad76f7784d3236b979d00d4f0c511162098b67ca247cafc800cbcdaf83f50",
+      "bytes": 131987
+    }
+  ],
+  "clientLog": {
+    "read": "Entire final available file read after close; ClientRestart/SS_DONE/PlayerWalking and normal engine exit observed",
+    "sha256": "c02d5e3539beeecfe3236a90b41a001f0c7ebc080fbf1b9267f993a052c03673",
+    "bytes": 113227,
+    "lines": 1521,
+    "initialReadError": "Live ReadAllText failed due sharing; empty pre-deploy artifact excluded. Shared FileStream snapshot and byte-copy after close retained locally."
+  },
+  "capture": {
+    "firstLastPacketSeconds": 130.4958408,
+    "filter": "udp port7777 on NPF_Loopback",
+    "packets": 11353,
+    "bytes": 1449588,
+    "dropped": 0,
+    "capinfosExit": 0,
+    "limitations": "Bounded UDP capture; no HTTP/credentials, no full RPC decryption or fire-event attribution from PCAP",
+    "sha256": "bf22daf3bb47ef774ecb2e098b8c467a11c44489d7b09a3337d374d5842609ea"
+  },
+  "resource": {
+    "sampledPeakPercent": 77.73000576164941,
+    "guardLimitPercent": 80,
+    "release": {
+      "coreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+      "utc": "2026-10-18T00:17:14.3015855Z",
+      "borrowedRulePreserved": "True",
+      "guardSession61027Exit": 0,
+      "freeGiB": 10.831607818603516,
+      "usedPercent": 66.05837435420516,
+      "allIdentifiedTrialProcessesAbsent": true,
+      "checkedPids": [
+        49776,
+        40956,
+        54008,
+        41236,
+        11884,
+        51072,
+        60348
+      ]
+    }
+  },
+  "cleanup": {
+    "originalsUnchanged": true,
+    "borrowedRuleOwned": false,
+    "computerUse": "Supported js_reset; two identified workers verified absent",
+    "gameClosure": "CloseMainWindow requested by own resource guard; final log has normal Exiting",
+    "complete": true,
+    "serverExit": 0
+  },
+  "limits": [
+    "Role2 alone did not establish fire/jump correction",
+    "bShutdown remains true; no native state/lifecycle cause proven",
+    "Pure decoder GREEN was separate and not linked into this Core",
+    "No authoritative Core fire/movement/damage acceptance"
+  ]
+}

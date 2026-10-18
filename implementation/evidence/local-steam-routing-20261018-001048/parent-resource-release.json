@@ -1,0 +1,18 @@
+{
+  "coreSHA256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+  "utc": "2026-10-18T00:17:14.3015855Z",
+  "borrowedRulePreserved": "True",
+  "guardSession61027Exit": 0,
+  "freeGiB": 10.831607818603516,
+  "usedPercent": 66.05837435420516,
+  "allIdentifiedTrialProcessesAbsent": true,
+  "checkedPids": [
+    49776,
+    40956,
+    54008,
+    41236,
+    11884,
+    51072,
+    60348
+  ]
+}

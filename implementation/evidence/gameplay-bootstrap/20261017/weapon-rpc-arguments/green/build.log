@@ -1,0 +1,9 @@
+[0/1] Re-running CMake...
+-- Configuring done (0.2s)
+-- Generating done (0.2s)
+-- Build files have been written to: F:/HawkenServer/build/windows-msvc
+[1/6] Building CXX object CMakeFiles\hawken_weapon_fire_rpc.dir\src\weapon_fire_rpc.cpp.obj
+[2/6] Linking CXX static library hawken_weapon_fire_rpc.lib
+[3/6] Building CXX object CMakeFiles\hawken-weapon-fire-rpc-tests.dir\tests\test_main.cpp.obj
+[4/6] Building CXX object CMakeFiles\hawken-weapon-fire-rpc-tests.dir\tests\weapon_fire_rpc_tests.cpp.obj
+[5/6] Linking CXX executable hawken-weapon-fire-rpc-tests.exe

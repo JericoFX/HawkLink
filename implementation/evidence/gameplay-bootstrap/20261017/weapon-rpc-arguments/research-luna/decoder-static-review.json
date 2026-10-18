@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-17T23:52:28.9057055Z",
+  "scope": "Independent static review of the frozen weapon_fire_rpc decoder and its tests against retained static serializer evidence. No build/test/runtime or source modification.",
+  "skill_coverage": {
+    "cpp_pro": {
+      "path": "C:/Users/Jerico/.codex/skills/cpp-pro/SKILL.md",
+      "sha256": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+      "complete_prior_read_reused": true
+    },
+    "game_developer": {
+      "path": "C:/Users/Jerico/.codex/skills/game-developer/SKILL.md",
+      "sha256": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+      "complete_prior_read_reused": true
+    }
+  },
+  "graft": {
+    "checkout": "F:\\HawkenServer",
+    "check": "OK, graph in sync",
+    "questions": [
+      "weapon_fire_rpc decode encode validate consumed bit cursor schema suffix budget transactional",
+      "BitReader read_bounded read_bit position rollback bounded tag bit order"
+    ],
+    "tokens_saved_this_turn_approx": 3.357,
+    "source_fallback": "Graft located decoder and BitReader semantics. Exact source/test files were read directly to compare implementation and assertions."
+  },
+  "reviewed_inputs": [
+    {
+      "path": "include/hawken/weapon_fire_rpc.hpp",
+      "sha256": "ff2f4d63ae2f8d2228001b69b46c6c31c4265ded7ea64d2ff29dd16f555a0301"
+    },
+    {
+      "path": "src/weapon_fire_rpc.cpp",
+      "sha256": "98896cf1de2bd6fb2f3917a1ef5ad8f670c27c1e2317dd22f3208c9dea124772"
+    },
+    {
+      "path": "tests/weapon_fire_rpc_tests.cpp",
+      "sha256": "ea834aa2352c95ad0c1a37c3e7decc7531b8faf02419de2488f13ef58b436ba7"
+    },
+    {
+      "path": "include/hawken/game_wire.hpp",
+      "sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2"
+    },
+    {
+      "path": "src/game_wire.cpp",
+      "sha256": "f5a919ed338583db0e3243142fa7491fb67d6c28d20870275b4d442d98309d6a"
+    }
+  ],
+  "retained_static_evidence": [
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/parameter-serial-records.json",
+      "sha256": "066bc14307bd3ae411958cb25d6eedef41704fcd5e13ab86f4322ae552679788",
+      "basis": "Four targeted original parameter records from two zlib blocks; original Engine.upk and HawkenGame.upk before/after hashes in record agree."
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/rpc-static-conditional-framing.erratum-v2.json",
+      "sha256": "e87e5522d5ced4c42d95d01f059e29bef926116a09c8ab496a04c00f55cc9564",
+      "basis": "Corrected property-record offsets/flags/Enum and explicit caveat that UFunction parameter traversal order is a caller premise, not proven by the property Next chain."
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/research-luna/function-children-buildtarget-supplement-v2.json",
+      "sha256": "98320fae9975b4c216c68f912819f9c5296ec311862b9c8fa5437b2a350dbf6e",
+      "basis": "Confirms retained HawkenGame export parser selection; does not add runtime wire evidence."
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/native-members/contract.json",
+      "sha256": "3ec06be6abc2b6cf07c6c9899c5089b18b237ff34748a303e0c78770c79a973f",
+      "relevant_anchor": "Retained Byte serializer: null Enum uses 8 logical bits."
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/native-members/byte-serializer-machine.txt",
+      "sha256": "e2c3329325d27e274f82d44956726f0265c9f025a0dc420abfa6488c6b10e18f"
+    },
+    {
+      "path": "implementation/evidence/mech-struct-wire/native/bool-serializer-machine.txt",
+      "sha256": "c5fecb733d30f4f7f4ad3cf8670e9b0c035feaf63f8188ccec2daae5d6af572f",
+      "relevant_anchor": "Eligible Bool uses one data bit without non-Bool presence."
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-sender/contract.json",
+      "sha256": "8c329ca1ede2c3ea1f4b07dcf6b6f3283b44c581032b33abcbc3c7e6e7c5bc51"
+    },
+    {
+      "path": "implementation/evidence/controller-rpc-wire/contract.json",
+      "sha256": "38c87d879c96e144a22684a9dc1f0ecba419953f03be7b14bf85e1544bd04f45"
+    },
+    {
+      "path": "implementation/evidence/match-readiness-protocol/20261014/owner-research/contract.json",
+      "sha256": "33483fdc2c6cf5a3261f23545deb9b70995c49790d6ceb3aed008e8e5d15d265"
+    }
+  ],
+  "findings": {
+    "implementation": [
+      "Schema validation rejects zero bound/budget; caller-premise flags false; out-of-range IDs; and collisions among configured IDs before reading input.",
+      "Decoder works on a copied BitReader and commits the caller reader only after successful tag and argument parsing. Invalid tags, budget failures, and physical truncation therefore preserve the original cursor.",
+      "Budget accounting uses actual read_bounded tag width plus BYTE presence/data bits and the extended Bool bit. It checks post-tag usage before accepting; a successful result reports consumed_bits relative to the starting cursor.",
+      "BYTE absence maps to zero; present BYTE reads eight LSB-first bits. Extended stop adds one raw Bool bit with no second presence flag. The optional extended field ID means schema-selected meanings; a secondary schema with no extended ID rejects tag 32 as unknown.",
+      "The decoder returns after exactly one known RPC prefix and does not require end-of-input, so an unaligned opaque suffix is retained for the next protocol layer."
+    ],
+    "static_contract": [
+      "Retained Engine records: ServerStartFire FireModeNum export 31981 and ServerStopFire FireModeNum export 31987; both ByteProperty, ArrayDim 1, flags 0x80, Enum FPackageIndex 0.",
+      "Retained HawkenGame extended-stop records: FireModeNum export 43617 ByteProperty (ArrayDim 1, flags 0x80, Enum 0) and bRecentFire export 43616 BoolProperty (ArrayDim 1, flags 0x80). The property Next link 43617 -> 43616 is not treated as proof of wire traversal order.",
+      "Static serializer evidence supports a conditional non-Bool presence bit and 8 logical Byte data bits for null Enum, plus one Bool data bit without non-Bool presence. The decoder requires caller assertions for primary PackageMap, correct weapon cache, correct parameter order, and all parameter eligibility.",
+      "The extended decode order BYTE then Bool matches the retained UC signature premise, but parameter-order proof remains external and is represented by schema.parameter_order_correct; no packet invocation/cursor was observed."
+    ],
+    "tests": [
+      "Eight doctest cases cover independent literal frames, all 256 BYTE values, Bool false/true, unaligned prefixes, opaque suffixes, caller schemas and secondary-tag distinction, schema/tag rejection, per-prefix bit budgets, physical truncation and rollback.",
+      "Fixtures use a test-local bit copier and literal byte arrays rather than a production encoder. Source inspection only; tests were not executed under this review."
+    ]
+  },
+  "issues_found": [],
+  "cautions": [
+    "The bool fields in Schema are trusted caller premises, not facts verified by this decoder. Integration must continue to derive them from the relevant PackageMap/cache/eligibility and order evidence.",
+    "The decoder does not establish effective field-ID selection, live sender/receiver invocation, handler semantics, fire-mode policy, authority, gameplay, or transport acceptance.",
+    "The generated test fixtures cover budget exhaustion with complete literals and physical truncation separately; precedence when an input is both over-budget and physically truncated is not specified or tested. The implementation remains transactional and rejects both conditions, but error-code precedence for that overlap is unverified."
+  ],
+  "verification": {
+    "build_or_tests_run": false,
+    "runtime_or_game_launched": false,
+    "source_modified": false,
+    "acceptance_decided": false,
+    "conclusion": "No concrete decoder defect found in this static review. This is a bounded code/contract review, not build validation or runtime/gameplay acceptance."
+  }
+}

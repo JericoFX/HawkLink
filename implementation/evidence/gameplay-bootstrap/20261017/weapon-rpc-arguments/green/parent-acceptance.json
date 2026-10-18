@@ -1,0 +1,23 @@
+{
+  "freezeSHA": "b49142b01e1c38dd8364358b8ae7e150f938337c8dc80bf09c2105c31ac4ef77",
+  "failures": 0,
+  "limits": [
+    "Not linked into Core; no weapon event handler or damage implementation",
+    "No live fire RPC decoded by this module during the native trial",
+    "Sanitizer/Linux and production integration acceptance remain pending"
+  ],
+  "lastTestSHA": "46ea30234f50f61595db1c927b459e84ec2d4a3f341c937aceb739ebab2bb87e",
+  "review": "Parent read actual CMake diff, previously read full pinned header/CPP/tests, full independent static review and RED; independently verified GREEN summaries and all source/baseline pins.",
+  "skips": 0,
+  "cases": 1643,
+  "parentBaselinePins": 59,
+  "suites": 60,
+  "postflightSHA": "ac12504682ea6671c48ed666b857f6ea268ce3b3ed441133aad4dbfbf2f887a4",
+  "coreSHA": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+  "parentSourcePins": 207,
+  "cppSHA": "98896cf1de2bd6fb2f3917a1ef5ad8f670c27c1e2317dd22f3208c9dea124772",
+  "status": "ACCEPTED_PURE_DECODER_WINDOWS_RELEASE_ONLY",
+  "testSHA": "ea834aa2352c95ad0c1a37c3e7decc7531b8faf02419de2488f13ef58b436ba7",
+  "assertions": 93414,
+  "utc": "2026-10-18T00:18:11.5472059Z"
+}

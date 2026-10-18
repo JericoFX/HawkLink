@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-17T22:41:27.6637603Z",
+  "scope": "Isolated red scaffold for missing pure decoder behavior; NOT production source and NOT existing Core gameplay regression",
+  "inputs": [
+    {
+      "path": "include/hawken/weapon_fire_rpc.hpp",
+      "sha256": "ff2f4d63ae2f8d2228001b69b46c6c31c4265ded7ea64d2ff29dd16f555a0301"
+    },
+    {
+      "path": "tests/weapon_fire_rpc_tests.cpp",
+      "sha256": "ea834aa2352c95ad0c1a37c3e7decc7531b8faf02419de2488f13ef58b436ba7"
+    },
+    {
+      "path": "include/hawken/game_wire.hpp",
+      "sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2"
+    },
+    {
+      "path": "third_party/doctest/doctest.h",
+      "sha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced"
+    },
+    {
+      "path": "build/windows-msvc/CMakeFiles/hawken-movement-rpc-tests.dir/tests/test_main.cpp.obj",
+      "sha256": "9ae2a308b77b3f52eb0e8eb41d03661647047031b63a70e0ae6dd187073f1d64"
+    },
+    {
+      "path": "build/windows-msvc/hawken_foundation.lib",
+      "sha256": "a72b89690f93aec680415653dbd71946cffe16f8e7bfc00a054e6b6c400db7fc"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/red-scaffold.cpp",
+      "sha256": "8d419226846b8106674f5895628abb42b1c25b432499e085f04adc7f5dc8bcaf"
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/run-red.cmd",
+      "sha256": "22c5038c8c067bb6f690b32af30199286c8911833ded65771113814c09fdc8b9"
+    }
+  ],
+  "coreUnchanged": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a"
+}

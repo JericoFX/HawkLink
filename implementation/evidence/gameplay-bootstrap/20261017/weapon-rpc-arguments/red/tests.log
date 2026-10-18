@@ -1,0 +1,818 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(86):
+TEST CASE:  Weapon fire RPC decodes independent literal BYTE and raw Bool forms
+
+tests\weapon_fire_rpc_tests.cpp(86): ERROR: test case THREW exception: Game wire data could not be read or validated.
+  logged: literal.bits := 6
+          literal.mode := 0
+
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(96):
+TEST CASE:  Weapon fire RPC preserves all BYTE modes and both extended Bool values
+
+tests\weapon_fire_rpc_tests.cpp(96): ERROR: test case THREW exception: Game wire data could not be read or validated.
+  logged: mode := 0
+          variant := 0
+
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(119):
+TEST CASE:  Weapon fire RPC accepts unaligned prefixes and leaves opaque suffix bits intact
+
+tests\weapon_fire_rpc_tests.cpp(119): ERROR: test case THREW exception: Game wire data could not be read or validated.
+  logged: offset := 0
+
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(138):
+TEST CASE:  Weapon fire RPC uses caller schemas instead of global extended field assumptions
+
+tests\weapon_fire_rpc_tests.cpp(138): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(168):
+TEST CASE:  Weapon fire RPC rejects invalid schemas and unknown tags without advancing
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865D88 )
+
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(203):
+TEST CASE:  Weapon fire RPC enforces the entire tag and argument budget transactionally
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865D88 )
+  logged: budget := 0
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865DD8 )
+  logged: budget := 1
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865DD8 )
+  logged: budget := 2
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865DD8 )
+  logged: budget := 3
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865DD8 )
+  logged: budget := 4
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865DD8 )
+  logged: budget := 5
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(203): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(218):
+TEST CASE:  Weapon fire RPC rolls back every physical truncation including unaligned input
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 6
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 14
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 8
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 14
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 15
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 14
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 15
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 0
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 1
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 2
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 3
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 4
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 5
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 6
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 7
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 8
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 9
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 10
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 11
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 12
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 13
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 14
+          literal.bits := 16
+
+tests\weapon_fire_rpc_tests.cpp(73): ERROR: CHECK( error.code==code ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF6A5865E20 )
+  logged: cut := 15
+          literal.bits := 16
+
+===============================================================================
+tests\weapon_fire_rpc_tests.cpp(231):
+TEST CASE:  Weapon fire RPC consumes one prefix rather than searching an opaque suffix
+
+tests\weapon_fire_rpc_tests.cpp(231): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+[doctest] test cases:   8 |   0 passed |   8 failed | 0 skipped
+[doctest] assertions: 794 | 641 passed | 153 failed |
+[doctest] Status: FAILURE!

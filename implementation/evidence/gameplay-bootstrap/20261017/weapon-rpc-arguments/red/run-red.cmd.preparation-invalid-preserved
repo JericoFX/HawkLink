@@ -1,0 +1,31 @@
+@echo off
+set MSBUILDDISABLENODEREUSE=1
+call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64 > "
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\environment.log" 2>&1
+if errorlevel 1 exit /b %errorlevel%
+cd /d "F:\HawkenServer"
+cl.exe /nologo /std:c++20 /EHsc /O2 /DNDEBUG /MT /W4 /WX /permissive- /utf-8 /DNOMINMAX /DWIN32_LEAN_AND_MEAN /Iinclude /external:Ithird_party /external:W0 /Fo"
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\\" /Fe"
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\weapon-fire-red.exe" "tests\weapon_fire_rpc_tests.cpp" "
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\red-scaffold.cpp" "build\windows-msvc\CMakeFiles\hawken-movement-rpc-tests.dir\tests\test_main.cpp.obj" "build\windows-msvc\hawken_foundation.lib" /link bcrypt.lib ws2_32.lib > "
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\build.log" 2>&1
+set "buildExit=%errorlevel%"
+echo %buildExit% > "
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\build.exit"
+if not "%buildExit%"=="0" exit /b %buildExit%
+"
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\weapon-fire-red.exe" "--test-case=Weapon fire RPC*" --no-colors=1 > "
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\tests.log" 2>&1
+set "testExit=%errorlevel%"
+echo %testExit% > "
+F:\HawkenServer\implementation\evidence\gameplay-bootstrap\20261017\weapon-rpc-arguments\red
+\tests.exit"
+exit /b %testExit%

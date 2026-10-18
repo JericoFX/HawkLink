@@ -1,0 +1,26 @@
+[
+  {
+    "parent": 8576,
+    "creationUtc": "2026-10-18T00:11:32.7260670Z",
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+    "pid": 49776
+  },
+  {
+    "parent": 64068,
+    "creationUtc": "2026-10-18T00:10:53.5623400Z",
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-server.exe",
+    "pid": 40956
+  },
+  {
+    "parent": 64068,
+    "creationUtc": "2026-10-18T00:10:52.1317760Z",
+    "path": "F:\\HawkenServer\\build\\windows-msvc\\hawken-master.exe",
+    "pid": 54008
+  },
+  {
+    "parent": 11372,
+    "creationUtc": "2026-10-18T00:11:10.8324420Z",
+    "path": "C:\\Users\\Jerico\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "pid": 41236
+  }
+]

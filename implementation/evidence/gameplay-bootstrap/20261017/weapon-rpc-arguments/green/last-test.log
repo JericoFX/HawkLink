@@ -1,0 +1,1263 @@
+Start testing: Oct 17 21:07 Hora estándar de Montevideo
+----------------------------------------------------------
+1/60 Testing: client_steam_identity_transport
+1/60 Test: client_steam_identity_transport
+Command: "F:/HawkenServer/build/windows-msvc/hawken-client-steam-identity-transport-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"client_steam_identity_transport" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   22 |   22 passed | 0 failed | 0 skipped
+[doctest] assertions: 1590 | 1590 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   2.39 sec
+----------------------------------------------------------
+Test Passed.
+"client_steam_identity_transport" end time: Oct 17 21:07 Hora estándar de Montevideo
+"client_steam_identity_transport" time elapsed: 00:00:02
+----------------------------------------------------------
+
+2/60 Testing: main_menu_sync_reader
+2/60 Test: main_menu_sync_reader
+Command: "F:/HawkenServer/build/windows-msvc/hawken-main-menu-sync-reader-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"main_menu_sync_reader" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  11 |  11 passed | 0 failed | 0 skipped
+[doctest] assertions: 366 | 366 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.24 sec
+----------------------------------------------------------
+Test Passed.
+"main_menu_sync_reader" end time: Oct 17 21:07 Hora estándar de Montevideo
+"main_menu_sync_reader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/60 Testing: live_player_reader
+3/60 Test: live_player_reader
+Command: "F:/HawkenServer/build/windows-msvc/hawken-live-player-reader-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"live_player_reader" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   42 |   42 passed | 0 failed | 0 skipped
+[doctest] assertions: 4902 | 4902 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.42 sec
+----------------------------------------------------------
+Test Passed.
+"live_player_reader" end time: Oct 17 21:07 Hora estándar de Montevideo
+"live_player_reader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/60 Testing: gri_template_reader
+4/60 Test: gri_template_reader
+Command: "F:/HawkenServer/build/windows-msvc/hawken-gri-template-reader-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"gri_template_reader" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 10 | 10 passed | 0 failed | 0 skipped
+[doctest] assertions: 92 | 92 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"gri_template_reader" end time: Oct 17 21:07 Hora estándar de Montevideo
+"gri_template_reader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/60 Testing: controller_sample_comparison
+5/60 Test: controller_sample_comparison
+Command: "F:/HawkenServer/build/windows-msvc/hawken-controller-sample-comparison-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"controller_sample_comparison" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 12 | 12 passed | 0 failed | 0 skipped
+[doctest] assertions: 56 | 56 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"controller_sample_comparison" end time: Oct 17 21:07 Hora estándar de Montevideo
+"controller_sample_comparison" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/60 Testing: mech_setup_reader
+6/60 Test: mech_setup_reader
+Command: "F:/HawkenServer/build/windows-msvc/hawken-mech-setup-reader-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"mech_setup_reader" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  18 |  18 passed | 0 failed | 0 skipped
+[doctest] assertions: 138 | 138 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"mech_setup_reader" end time: Oct 17 21:07 Hora estándar de Montevideo
+"mech_setup_reader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/60 Testing: connection_cache_reader
+7/60 Test: connection_cache_reader
+Command: "F:/HawkenServer/build/windows-msvc/hawken-connection-cache-reader-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"connection_cache_reader" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+[doctest] assertions: 201 | 201 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"connection_cache_reader" end time: Oct 17 21:07 Hora estándar de Montevideo
+"connection_cache_reader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/60 Testing: server_listing_http
+8/60 Test: server_listing_http
+Command: "F:/HawkenServer/build/windows-msvc/hawken-server-listing-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"server_listing_http" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   8 |   8 passed | 0 failed | 0 skipped
+[doctest] assertions: 365 | 365 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.67 sec
+----------------------------------------------------------
+Test Passed.
+"server_listing_http" end time: Oct 17 21:07 Hora estándar de Montevideo
+"server_listing_http" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/60 Testing: local_tcp_probe
+9/60 Test: local_tcp_probe
+Command: "F:/HawkenServer/build/windows-msvc/hawken-local-tcp-probe-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"local_tcp_probe" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  9 |  9 passed | 0 failed | 0 skipped
+[doctest] assertions: 49 | 49 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.26 sec
+----------------------------------------------------------
+Test Passed.
+"local_tcp_probe" end time: Oct 17 21:07 Hora estándar de Montevideo
+"local_tcp_probe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/60 Testing: local_udp_owner
+10/60 Test: local_udp_owner
+Command: "F:/HawkenServer/build/windows-msvc/hawken-local-udp-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"local_udp_owner" start time: Oct 17 21:07 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   154 |   154 passed | 0 failed | 0 skipped
+[doctest] assertions: 14710 | 14710 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =  79.40 sec
+----------------------------------------------------------
+Test Passed.
+"local_udp_owner" end time: Oct 17 21:09 Hora estándar de Montevideo
+"local_udp_owner" time elapsed: 00:01:19
+----------------------------------------------------------
+
+11/60 Testing: udp_trial_runtime
+11/60 Test: udp_trial_runtime
+Command: "F:/HawkenServer/build/windows-msvc/hawken-udp-trial-runtime-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"udp_trial_runtime" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   42 |   42 passed | 0 failed | 0 skipped
+[doctest] assertions: 3954 | 3954 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =  11.85 sec
+----------------------------------------------------------
+Test Passed.
+"udp_trial_runtime" end time: Oct 17 21:09 Hora estándar de Montevideo
+"udp_trial_runtime" time elapsed: 00:00:11
+----------------------------------------------------------
+
+12/60 Testing: server_assignment_http
+12/60 Test: server_assignment_http
+Command: "F:/HawkenServer/build/windows-msvc/hawken-server-assignment-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"server_assignment_http" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+[doctest] assertions: 474 | 474 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   1.24 sec
+----------------------------------------------------------
+Test Passed.
+"server_assignment_http" end time: Oct 17 21:09 Hora estándar de Montevideo
+"server_assignment_http" time elapsed: 00:00:01
+----------------------------------------------------------
+
+13/60 Testing: game_connection
+13/60 Test: game_connection
+Command: "F:/HawkenServer/build/windows-msvc/hawken-game-connection-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"game_connection" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  116 |  116 passed | 0 failed | 0 skipped
+[doctest] assertions: 4213 | 4213 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"game_connection" end time: Oct 17 21:09 Hora estándar de Montevideo
+"game_connection" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/60 Testing: session_assignment
+14/60 Test: session_assignment
+Command: "F:/HawkenServer/build/windows-msvc/hawken-session-assignment-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"session_assignment" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   41 |   41 passed | 0 failed | 0 skipped
+[doctest] assertions: 1731 | 1731 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   1.26 sec
+----------------------------------------------------------
+Test Passed.
+"session_assignment" end time: Oct 17 21:09 Hora estándar de Montevideo
+"session_assignment" time elapsed: 00:00:01
+----------------------------------------------------------
+
+15/60 Testing: sync_service
+15/60 Test: sync_service
+Command: "F:/HawkenServer/build/windows-msvc/hawken-sync-service-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"sync_service" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  16 |  16 passed | 0 failed | 0 skipped
+[doctest] assertions: 815 | 815 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.57 sec
+----------------------------------------------------------
+Test Passed.
+"sync_service" end time: Oct 17 21:09 Hora estándar de Montevideo
+"sync_service" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/60 Testing: menu_sync_service
+16/60 Test: menu_sync_service
+Command: "F:/HawkenServer/build/windows-msvc/hawken-menu-sync-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"menu_sync_service" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:    25 |    25 passed | 0 failed | 0 skipped
+[doctest] assertions: 10427 | 10427 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.75 sec
+----------------------------------------------------------
+Test Passed.
+"menu_sync_service" end time: Oct 17 21:09 Hora estándar de Montevideo
+"menu_sync_service" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/60 Testing: server_auth_http
+17/60 Test: server_auth_http
+Command: "F:/HawkenServer/build/windows-msvc/hawken-server-auth-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"server_auth_http" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+[doctest] assertions: 276 | 276 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   1.61 sec
+----------------------------------------------------------
+Test Passed.
+"server_auth_http" end time: Oct 17 21:09 Hora estándar de Montevideo
+"server_auth_http" time elapsed: 00:00:01
+----------------------------------------------------------
+
+18/60 Testing: server_inventory_http
+18/60 Test: server_inventory_http
+Command: "F:/HawkenServer/build/windows-msvc/hawken-server-inventory-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"server_inventory_http" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   25 |   25 passed | 0 failed | 0 skipped
+[doctest] assertions: 1373 | 1373 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   3.42 sec
+----------------------------------------------------------
+Test Passed.
+"server_inventory_http" end time: Oct 17 21:09 Hora estándar de Montevideo
+"server_inventory_http" time elapsed: 00:00:03
+----------------------------------------------------------
+
+19/60 Testing: server_menu_http
+19/60 Test: server_menu_http
+Command: "F:/HawkenServer/build/windows-msvc/hawken-server-menu-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"server_menu_http" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  13 |  13 passed | 0 failed | 0 skipped
+[doctest] assertions: 780 | 780 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   1.91 sec
+----------------------------------------------------------
+Test Passed.
+"server_menu_http" end time: Oct 17 21:09 Hora estándar de Montevideo
+"server_menu_http" time elapsed: 00:00:01
+----------------------------------------------------------
+
+20/60 Testing: auth_service
+20/60 Test: auth_service
+Command: "F:/HawkenServer/build/windows-msvc/hawken-auth-service-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"auth_service" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+[doctest] assertions: 570 | 570 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.53 sec
+----------------------------------------------------------
+Test Passed.
+"auth_service" end time: Oct 17 21:09 Hora estándar de Montevideo
+"auth_service" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/60 Testing: steam_auth_callback
+21/60 Test: steam_auth_callback
+Command: "F:/HawkenServer/build/windows-msvc/hawken-steam-auth-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"steam_auth_callback" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  7 |  7 passed | 0 failed | 0 skipped
+[doctest] assertions: 42 | 42 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"steam_auth_callback" end time: Oct 17 21:09 Hora estándar de Montevideo
+"steam_auth_callback" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/60 Testing: session_wire
+22/60 Test: session_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-session-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"session_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  14 |  14 passed | 0 failed | 0 skipped
+[doctest] assertions: 424 | 424 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"session_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"session_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/60 Testing: control_wire
+23/60 Test: control_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-control-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"control_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  21 |  21 passed | 0 failed | 0 skipped
+[doctest] assertions: 227 | 227 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"control_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"control_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/60 Testing: control_handshake
+24/60 Test: control_handshake
+Command: "F:/HawkenServer/build/windows-msvc/hawken-control-handshake-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"control_handshake" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+[doctest] assertions: 330 | 330 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"control_handshake" end time: Oct 17 21:09 Hora estándar de Montevideo
+"control_handshake" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/60 Testing: posthello_control
+25/60 Test: posthello_control
+Command: "F:/HawkenServer/build/windows-msvc/hawken-posthello-control-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"posthello_control" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   54 |   54 passed | 0 failed | 0 skipped
+[doctest] assertions: 5014 | 5014 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"posthello_control" end time: Oct 17 21:09 Hora estándar de Montevideo
+"posthello_control" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/60 Testing: package_publication
+26/60 Test: package_publication
+Command: "F:/HawkenServer/build/windows-msvc/hawken-package-publication-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"package_publication" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  38 |  38 passed | 0 failed | 0 skipped
+[doctest] assertions: 183 | 183 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"package_publication" end time: Oct 17 21:09 Hora estándar de Montevideo
+"package_publication" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/60 Testing: wreckage_trial
+27/60 Test: wreckage_trial
+Command: "F:/HawkenServer/build/windows-msvc/hawken-wreckage-trial-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"wreckage_trial" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  11 |  11 passed | 0 failed | 0 skipped
+[doctest] assertions: 228 | 228 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"wreckage_trial" end time: Oct 17 21:09 Hora estándar de Montevideo
+"wreckage_trial" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/60 Testing: server_login_handshake
+28/60 Test: server_login_handshake
+Command: "F:/HawkenServer/build/windows-msvc/hawken-server-login-handshake-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"server_login_handshake" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  35 |  35 passed | 0 failed | 0 skipped
+[doctest] assertions: 382 | 382 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"server_login_handshake" end time: Oct 17 21:09 Hora estándar de Montevideo
+"server_login_handshake" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/60 Testing: starter_inventory
+29/60 Test: starter_inventory
+Command: "F:/HawkenServer/build/windows-msvc/hawken-starter-inventory-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"starter_inventory" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  15 |  15 passed | 0 failed | 0 skipped
+[doctest] assertions: 393 | 393 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.23 sec
+----------------------------------------------------------
+Test Passed.
+"starter_inventory" end time: Oct 17 21:09 Hora estándar de Montevideo
+"starter_inventory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/60 Testing: starter_catalogue
+30/60 Test: starter_catalogue
+Command: "F:/HawkenServer/build/windows-msvc/hawken-starter-catalogue-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"starter_catalogue" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   29 |   29 passed | 0 failed | 0 skipped
+[doctest] assertions: 1859 | 1859 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"starter_catalogue" end time: Oct 17 21:09 Hora estándar de Montevideo
+"starter_catalogue" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/60 Testing: inventory_service
+31/60 Test: inventory_service
+Command: "F:/HawkenServer/build/windows-msvc/hawken-inventory-service-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"inventory_service" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   56 |   56 passed | 0 failed | 0 skipped
+[doctest] assertions: 5348 | 5348 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   2.31 sec
+----------------------------------------------------------
+Test Passed.
+"inventory_service" end time: Oct 17 21:09 Hora estándar de Montevideo
+"inventory_service" time elapsed: 00:00:02
+----------------------------------------------------------
+
+32/60 Testing: packet_writer
+32/60 Test: packet_writer
+Command: "F:/HawkenServer/build/windows-msvc/hawken-packet-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"packet_writer" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  24 |  24 passed | 0 failed | 0 skipped
+[doctest] assertions: 118 | 118 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"packet_writer" end time: Oct 17 21:09 Hora estándar de Montevideo
+"packet_writer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/60 Testing: actor_transform
+33/60 Test: actor_transform
+Command: "F:/HawkenServer/build/windows-msvc/hawken-actor-transform-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"actor_transform" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  36 |  36 passed | 0 failed | 0 skipped
+[doctest] assertions: 397 | 397 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"actor_transform" end time: Oct 17 21:09 Hora estándar de Montevideo
+"actor_transform" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/60 Testing: pawn_combat
+34/60 Test: pawn_combat
+Command: "F:/HawkenServer/build/windows-msvc/hawken-pawn-combat-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"pawn_combat" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  15 |  15 passed | 0 failed | 0 skipped
+[doctest] assertions: 252 | 252 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"pawn_combat" end time: Oct 17 21:09 Hora estándar de Montevideo
+"pawn_combat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/60 Testing: movement_rpc
+35/60 Test: movement_rpc
+Command: "F:/HawkenServer/build/windows-msvc/hawken-movement-rpc-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"movement_rpc" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   6 |   6 passed | 0 failed | 0 skipped
+[doctest] assertions: 834 | 834 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"movement_rpc" end time: Oct 17 21:09 Hora estándar de Montevideo
+"movement_rpc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/60 Testing: weapon_fire_rpc
+36/60 Test: weapon_fire_rpc
+Command: "F:/HawkenServer/build/windows-msvc/hawken-weapon-fire-rpc-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"weapon_fire_rpc" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:    8 |    8 passed | 0 failed | 0 skipped
+[doctest] assertions: 7873 | 7873 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"weapon_fire_rpc" end time: Oct 17 21:09 Hora estándar de Montevideo
+"weapon_fire_rpc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/60 Testing: package_map_ranges
+37/60 Test: package_map_ranges
+Command: "F:/HawkenServer/build/windows-msvc/hawken-package-map-ranges-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"package_map_ranges" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  26 |  26 passed | 0 failed | 0 skipped
+[doctest] assertions: 111 | 111 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"package_map_ranges" end time: Oct 17 21:09 Hora estándar de Montevideo
+"package_map_ranges" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/60 Testing: object_reference
+38/60 Test: object_reference
+Command: "F:/HawkenServer/build/windows-msvc/hawken-object-reference-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"object_reference" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  28 |  28 passed | 0 failed | 0 skipped
+[doctest] assertions: 820 | 820 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"object_reference" end time: Oct 17 21:09 Hora estándar de Montevideo
+"object_reference" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/60 Testing: object_property_wire
+39/60 Test: object_property_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-object-property-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"object_property_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  24 |  24 passed | 0 failed | 0 skipped
+[doctest] assertions: 130 | 130 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"object_property_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"object_property_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/60 Testing: bool_property_wire
+40/60 Test: bool_property_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-bool-property-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"bool_property_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 11 | 11 passed | 0 failed | 0 skipped
+[doctest] assertions: 87 | 87 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"bool_property_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"bool_property_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/60 Testing: int_property_wire
+41/60 Test: int_property_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-int-property-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"int_property_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   9 |   9 passed | 0 failed | 0 skipped
+[doctest] assertions: 119 | 119 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"int_property_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"int_property_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/60 Testing: mech_setup_wire
+42/60 Test: mech_setup_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-mech-setup-wire-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"mech_setup_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 19 | 19 passed | 0 failed | 0 skipped
+[doctest] assertions: 65 | 65 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"mech_setup_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"mech_setup_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/60 Testing: starter_mech_setup
+43/60 Test: starter_mech_setup
+Command: "F:/HawkenServer/build/windows-msvc/hawken-starter-mech-setup-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"starter_mech_setup" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  16 |  16 passed | 0 failed | 0 skipped
+[doctest] assertions: 362 | 362 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"starter_mech_setup" end time: Oct 17 21:09 Hora estándar de Montevideo
+"starter_mech_setup" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/60 Testing: start_mech_rpc
+44/60 Test: start_mech_rpc
+Command: "F:/HawkenServer/build/windows-msvc/hawken-start-mech-rpc-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"start_mech_rpc" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   10 |   10 passed | 0 failed | 0 skipped
+[doctest] assertions: 2958 | 2958 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"start_mech_rpc" end time: Oct 17 21:09 Hora estándar de Montevideo
+"start_mech_rpc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/60 Testing: spawn_validation
+45/60 Test: spawn_validation
+Command: "F:/HawkenServer/build/windows-msvc/hawken-spawn-validation-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"spawn_validation" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:    4 |    4 passed | 0 failed | 0 skipped
+[doctest] assertions: 4854 | 4854 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"spawn_validation" end time: Oct 17 21:09 Hora estándar de Montevideo
+"spawn_validation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/60 Testing: spawn_validation_rpc
+46/60 Test: spawn_validation_rpc
+Command: "F:/HawkenServer/build/windows-msvc/hawken-spawn-validation-rpc-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"spawn_validation_rpc" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   7 |   7 passed | 0 failed | 0 skipped
+[doctest] assertions: 963 | 963 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"spawn_validation_rpc" end time: Oct 17 21:09 Hora estándar de Montevideo
+"spawn_validation_rpc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/60 Testing: controller_admission_rpc
+47/60 Test: controller_admission_rpc
+Command: "F:/HawkenServer/build/windows-msvc/hawken-controller-admission-rpc-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"controller_admission_rpc" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  12 |  12 passed | 0 failed | 0 skipped
+[doctest] assertions: 605 | 605 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"controller_admission_rpc" end time: Oct 17 21:09 Hora estándar de Montevideo
+"controller_admission_rpc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/60 Testing: match_readiness
+48/60 Test: match_readiness
+Command: "F:/HawkenServer/build/windows-msvc/hawken-match-readiness-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"match_readiness" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  19 |  19 passed | 0 failed | 0 skipped
+[doctest] assertions: 155 | 155 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"match_readiness" end time: Oct 17 21:09 Hora estándar de Montevideo
+"match_readiness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/60 Testing: unique_id_wire
+49/60 Test: unique_id_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-unique-id-wire-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"unique_id_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   7 |   7 passed | 0 failed | 0 skipped
+[doctest] assertions: 364 | 364 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"unique_id_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"unique_id_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/60 Testing: inventory_rpc_wire
+50/60 Test: inventory_rpc_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-inventory-rpc-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"inventory_rpc_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  18 |  18 passed | 0 failed | 0 skipped
+[doctest] assertions: 553 | 553 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"inventory_rpc_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"inventory_rpc_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/60 Testing: pawn_rpc_wire
+51/60 Test: pawn_rpc_wire
+Command: "F:/HawkenServer/build/windows-msvc/hawken-pawn-rpc-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"pawn_rpc_wire" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  20 |  20 passed | 0 failed | 0 skipped
+[doctest] assertions: 286 | 286 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"pawn_rpc_wire" end time: Oct 17 21:09 Hora estándar de Montevideo
+"pawn_rpc_wire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/60 Testing: reliable_actor_transport
+52/60 Test: reliable_actor_transport
+Command: "F:/HawkenServer/build/windows-msvc/hawken-reliable-actor-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"reliable_actor_transport" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  29 |  29 passed | 0 failed | 0 skipped
+[doctest] assertions: 568 | 568 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"reliable_actor_transport" end time: Oct 17 21:09 Hora estándar de Montevideo
+"reliable_actor_transport" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/60 Testing: initial_controller
+53/60 Test: initial_controller
+Command: "F:/HawkenServer/build/windows-msvc/hawken-initial-controller-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"initial_controller" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  8 |  8 passed | 0 failed | 0 skipped
+[doctest] assertions: 82 | 82 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"initial_controller" end time: Oct 17 21:09 Hora estándar de Montevideo
+"initial_controller" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/60 Testing: initial_pawn
+54/60 Test: initial_pawn
+Command: "F:/HawkenServer/build/windows-msvc/hawken-initial-pawn-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"initial_pawn" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  8 |  8 passed | 0 failed | 0 skipped
+[doctest] assertions: 75 | 75 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"initial_pawn" end time: Oct 17 21:09 Hora estándar de Montevideo
+"initial_pawn" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/60 Testing: reliable_control_transport
+55/60 Test: reliable_control_transport
+Command: "F:/HawkenServer/build/windows-msvc/hawken-reliable-control-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"reliable_control_transport" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  47 |  47 passed | 0 failed | 0 skipped
+[doctest] assertions: 400 | 400 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"reliable_control_transport" end time: Oct 17 21:09 Hora estándar de Montevideo
+"reliable_control_transport" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/60 Testing: foundation
+56/60 Test: foundation
+Command: "F:/HawkenServer/build/windows-msvc/hawken-foundation-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"foundation" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   90 |   90 passed | 0 failed | 0 skipped
+[doctest] assertions: 4945 | 4945 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   1.17 sec
+----------------------------------------------------------
+Test Passed.
+"foundation" end time: Oct 17 21:09 Hora estándar de Montevideo
+"foundation" time elapsed: 00:00:01
+----------------------------------------------------------
+
+57/60 Testing: master_directory
+57/60 Test: master_directory
+Command: "F:/HawkenServer/build/windows-msvc/hawken-master-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"master_directory" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+[doctest] assertions: 475 | 475 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.29 sec
+----------------------------------------------------------
+Test Passed.
+"master_directory" end time: Oct 17 21:09 Hora estándar de Montevideo
+"master_directory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/60 Testing: server_bootstrap
+58/60 Test: server_bootstrap
+Command: "F:/HawkenServer/build/windows-msvc/hawken-server-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"server_bootstrap" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:   8 |   8 passed | 0 failed | 0 skipped
+[doctest] assertions: 430 | 430 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.62 sec
+----------------------------------------------------------
+Test Passed.
+"server_bootstrap" end time: Oct 17 21:09 Hora estándar de Montevideo
+"server_bootstrap" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/60 Testing: storage
+59/60 Test: storage
+Command: "F:/HawkenServer/build/windows-msvc/hawken-storage-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"storage" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  130 |  130 passed | 0 failed | 0 skipped
+[doctest] assertions: 2773 | 2773 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   9.83 sec
+----------------------------------------------------------
+Test Passed.
+"storage" end time: Oct 17 21:09 Hora estándar de Montevideo
+"storage" time elapsed: 00:00:09
+----------------------------------------------------------
+
+60/60 Testing: client_routing
+60/60 Test: client_routing
+Command: "F:/HawkenServer/build/windows-msvc/hawken-client-routing-tests.exe"
+Directory: F:/HawkenServer/build/windows-msvc
+"client_routing" start time: Oct 17 21:09 Hora estándar de Montevideo
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  27 |  27 passed | 0 failed | 0 skipped
+[doctest] assertions: 248 | 248 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"client_routing" end time: Oct 17 21:09 Hora estándar de Montevideo
+"client_routing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 17 21:09 Hora estándar de Montevideo

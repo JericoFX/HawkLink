@@ -1,0 +1,143 @@
+{
+  "task": "Weapon fire RPC RED diagnostic",
+  "scope": "One standalone wrapper run; no Core/client/service launch",
+  "wrapper": {
+    "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/run-red.cmd",
+    "sha256": "cfa30a7e4bf75ed564a53feef473a24a4bbffd3f31780f3d0d68d674893ef0ee",
+    "freeze_path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/input-freeze.json",
+    "freeze_sha256": "c7a3aa3a91ccd2a0f7042a290a098f707e9f1657c6d44ebe01a331b528f0b9cf"
+  },
+  "process": {
+    "pid": 41820,
+    "executable": "C:\\WINDOWS\\system32\\cmd.exe",
+    "creation_time_local": "2026-10-17T19:42:56.511686-03:00",
+    "creation_time_utc": "2026-10-17T22:42:56.511686Z",
+    "launch_observed_utc": "2026-10-17T22:42:56.8008009Z",
+    "command": "cmd.exe /d /c \"F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261017\\weapon-rpc-arguments\\red\\run-red.cmd\"",
+    "priority": "BelowNormal",
+    "terminal_check_utc": "2026-10-17T22:43:02.5056564Z",
+    "present_at_terminal_check": false,
+    "elapsed_wall": "approximately 5.7 seconds between launch observation and first absent-process check; exact runtime not measured"
+  },
+  "exits": {
+    "build": 0,
+    "tests": 1,
+    "wrapper": 1
+  },
+  "tests": {
+    "cases": 8,
+    "passed": 0,
+    "failed": 8,
+    "skipped": 0,
+    "assertions": 794,
+    "assertions_passed": 641,
+    "assertions_failed": 153,
+    "interpretation": "Expected semantic RED: scaffold does not implement requested decoder behavior. Raw log includes code-mismatch failures for truncation cases and an exception in opaque-suffix case."
+  },
+  "inputs": {
+    "expected_count": 8,
+    "actual_count": 8,
+    "all_match": true,
+    "entries": [
+      {
+        "path": "include/hawken/weapon_fire_rpc.hpp",
+        "expected_sha256": "ff2f4d63ae2f8d2228001b69b46c6c31c4265ded7ea64d2ff29dd16f555a0301",
+        "actual_sha256": "ff2f4d63ae2f8d2228001b69b46c6c31c4265ded7ea64d2ff29dd16f555a0301",
+        "match": true
+      },
+      {
+        "path": "tests/weapon_fire_rpc_tests.cpp",
+        "expected_sha256": "ea834aa2352c95ad0c1a37c3e7decc7531b8faf02419de2488f13ef58b436ba7",
+        "actual_sha256": "ea834aa2352c95ad0c1a37c3e7decc7531b8faf02419de2488f13ef58b436ba7",
+        "match": true
+      },
+      {
+        "path": "include/hawken/game_wire.hpp",
+        "expected_sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2",
+        "actual_sha256": "13eaffa8b22802e2674353bf095b60ece4b978f0f718dbd4a09d102d1c67d4b2",
+        "match": true
+      },
+      {
+        "path": "third_party/doctest/doctest.h",
+        "expected_sha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+        "actual_sha256": "94029a7d32da24a56249658147dbd2b33ff0b9ed665295cbbaf19aafff5b0ced",
+        "match": true
+      },
+      {
+        "path": "build/windows-msvc/CMakeFiles/hawken-movement-rpc-tests.dir/tests/test_main.cpp.obj",
+        "expected_sha256": "9ae2a308b77b3f52eb0e8eb41d03661647047031b63a70e0ae6dd187073f1d64",
+        "actual_sha256": "9ae2a308b77b3f52eb0e8eb41d03661647047031b63a70e0ae6dd187073f1d64",
+        "match": true
+      },
+      {
+        "path": "build/windows-msvc/hawken_foundation.lib",
+        "expected_sha256": "a72b89690f93aec680415653dbd71946cffe16f8e7bfc00a054e6b6c400db7fc",
+        "actual_sha256": "a72b89690f93aec680415653dbd71946cffe16f8e7bfc00a054e6b6c400db7fc",
+        "match": true
+      },
+      {
+        "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/red-scaffold.cpp",
+        "expected_sha256": "8d419226846b8106674f5895628abb42b1c25b432499e085f04adc7f5dc8bcaf",
+        "actual_sha256": "8d419226846b8106674f5895628abb42b1c25b432499e085f04adc7f5dc8bcaf",
+        "match": true
+      },
+      {
+        "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/run-red.cmd",
+        "expected_sha256": "cfa30a7e4bf75ed564a53feef473a24a4bbffd3f31780f3d0d68d674893ef0ee",
+        "actual_sha256": "cfa30a7e4bf75ed564a53feef473a24a4bbffd3f31780f3d0d68d674893ef0ee",
+        "match": true
+      }
+    ]
+  },
+  "protected_core": {
+    "expected_sha256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "actual_sha256": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "match": true
+  },
+  "resources": {
+    "admission_sample": {
+      "utc": "2026-10-17T22:42:56Z",
+      "ram_used_percent": 66.18,
+      "free_gib": 10.79
+    },
+    "post_sample": {
+      "utc": "2026-10-17T22:43:02Z",
+      "ram_used_percent": 66.48,
+      "free_gib": 10.7
+    },
+    "peak_observed_percent": 66.48,
+    "guard_percent": 80,
+    "sampling": "Discrete before/after samples only; not a continuous peak measurement"
+  },
+  "compiler_census": {
+    "post_utc": "2026-10-17T22:43:02Z",
+    "matching_processes": []
+  },
+  "retained_artifacts": [
+    {
+      "path": "environment.log",
+      "bytes": 247,
+      "sha256": "513c1bd5aff6d1b6b2490f74ccbebbd856b62ef50e1c895a1f305a93b148d95e"
+    },
+    {
+      "path": "build.log",
+      "bytes": 66,
+      "sha256": "801f9fbd5d568503fd1f3e7557e0b1116c9fb65831123a55a38a038308b69ec5"
+    },
+    {
+      "path": "build.exit",
+      "bytes": 4,
+      "sha256": "9aca8dfce962538fb8131d73f84cada05e4dc79f5a0d3612c511b1150f3e33e2"
+    },
+    {
+      "path": "tests.log",
+      "bytes": 32349,
+      "sha256": "76e33e990438e994a27e3645dcb0f6cf8122299dda817774249763df8b4c7efe"
+    },
+    {
+      "path": "tests.exit",
+      "bytes": 4,
+      "sha256": "2f1c37754e38b4ac70a9559fbfbdbd28feda47f36be9cd9e3ad5bc844ee3feb6"
+    }
+  ]
+}

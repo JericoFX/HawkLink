@@ -1,0 +1,71 @@
+{
+  "utc": "2026-10-17T22:44:07.6204280Z",
+  "status": "RED_CONFIRMED_MISSING_DECODER_BEHAVIOR",
+  "method": "Isolated new API scaffold, no existing Core production behavior under test",
+  "buildExit": 0,
+  "testExit": 1,
+  "cases": 8,
+  "passed": 0,
+  "failed": 8,
+  "skipped": 0,
+  "assertions": 794,
+  "assertionsPassed": 641,
+  "assertionsFailed": 153,
+  "sourceFreezeSHA256": "c7a3aa3a91ccd2a0f7042a290a098f707e9f1657c6d44ebe01a331b528f0b9cf",
+  "inputChecks": [
+    {
+      "path": "include/hawken/weapon_fire_rpc.hpp",
+      "match": true
+    },
+    {
+      "path": "tests/weapon_fire_rpc_tests.cpp",
+      "match": true
+    },
+    {
+      "path": "include/hawken/game_wire.hpp",
+      "match": true
+    },
+    {
+      "path": "third_party/doctest/doctest.h",
+      "match": true
+    },
+    {
+      "path": "build/windows-msvc/CMakeFiles/hawken-movement-rpc-tests.dir/tests/test_main.cpp.obj",
+      "match": true
+    },
+    {
+      "path": "build/windows-msvc/hawken_foundation.lib",
+      "match": true
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/red-scaffold.cpp",
+      "match": true
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261017/weapon-rpc-arguments/red/run-red.cmd",
+      "match": true
+    }
+  ],
+  "review": "Parent read build and test log. Positive fixtures throw due missing decoder; zero-limit/budget/truncation codes intentionally differ from invalid_value scaffold. WireError.code is std::string, so comparison against const char* uses value equality; doctest address output does not demonstrate pointer comparison.",
+  "wrapperPreparationError": "Original PowerShell array concatenation split command lines. Invalid wrapper was preserved and never launched. Corrected static here-string wrapper ran once.",
+  "process": {
+    "pid": 41820,
+    "creationUtc": "2026-10-17T22:42:56.511686Z",
+    "terminalObservedUtc": "2026-10-17T22:43:02.5Z",
+    "wallApproxSeconds": 6,
+    "wrapperAbsentAtParentCheck": true
+  },
+  "resource": {
+    "admissionUsedPercent": 66.18,
+    "admissionFreeGiB": 10.79,
+    "postUsedPercent": 65.99,
+    "postFreeGiB": 10.85,
+    "parentCensusUtc": "2026-10-17T22:43:38.6981635Z",
+    "compilers": 0
+  },
+  "limits": [
+    "No GREEN implementation or compilation yet",
+    "No native fire, jump, damage or gameplay acceptance",
+    "Existing Core SHA and54 inputs unchanged; no CMake mutation"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "completedUtc": "2026-10-18T00:10:09.9206521Z",
+  "wrapperSha256": "ddf076241f0f27b83fcb93fb462d850cee1177b0e70b6ea546135232110d9b23",
+  "freezeSha256": "b49142b01e1c38dd8364358b8ae7e150f938337c8dc80bf09c2105c31ac4ef77",
+  "nativeExits": {
+    "build": "0",
+    "focused": "0",
+    "ctest": "0"
+  },
+  "focused": {
+    "cases": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "assertions": 7873,
+    "failedAssertions": 0
+  },
+  "ctest": {
+    "registered": 60,
+    "passed": 60,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 124.24
+  },
+  "sourcePins": {
+    "count": 207,
+    "matches": 207,
+    "drift": []
+  },
+  "baselineTestExecutables": {
+    "count": 59,
+    "matches": 59,
+    "drift": []
+  },
+  "newTestExecutableSha256": "0a08bfd79dce3a2e5e2d2917b41815bdb0141baa9d86f20ed5d43a9682b2bf85",
+  "protectedCore": {
+    "expected": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "actual": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "match": true
+  },
+  "launcher": {
+    "pid": 27548,
+    "creationLocal": "2026-10-17 21:07:44",
+    "exit": 0,
+    "absent": true
+  },
+  "resource": {
+    "peakRamPct": 67.18,
+    "sampleFile": "resource-samples.jsonl",
+    "finalRamPct": 66.42,
+    "finalFreeGiB": 10.72
+  }
+}
