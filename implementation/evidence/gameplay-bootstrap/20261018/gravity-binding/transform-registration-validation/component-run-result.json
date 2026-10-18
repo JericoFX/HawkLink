@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-18T18:38:45.3628196Z",
+  "admission": {
+    "utc": "2026-10-18T18:38:44.5196312Z",
+    "usedPercent": 58.86395096143042,
+    "freeBytes": 14095572992
+  },
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "processes": [
+    {
+      "path": "C:\\WINDOWS\\system32\\conhost.exe",
+      "exit": null,
+      "pid": 60460,
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:38:44.6947965Z"
+    },
+    {
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
+      "exit": 0,
+      "pid": 62580,
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:38:44.6835432Z"
+    }
+  ],
+  "samples": [
+    {
+      "utc": "2026-10-18T18:38:44.9112685Z",
+      "usedPercent": 59.07712003595651,
+      "freeBytes": 14022529024,
+      "ownedWorkingSet": 20963328.0
+    }
+  ],
+  "launcherExit": 0,
+  "finalRam": {
+    "utc": "2026-10-18T18:38:45.4206832Z",
+    "usedPercent": 58.93809932509808,
+    "freeBytes": 14070165504
+  }
+}

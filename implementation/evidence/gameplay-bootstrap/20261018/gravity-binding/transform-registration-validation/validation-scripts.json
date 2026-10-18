@@ -1,0 +1,17 @@
+{
+  "entries": [
+    {
+      "path": "run-green.cmd",
+      "sha256": "60f5d53178cfaa53522eaeff09ff06d0285dd274b221303e664b27286c6a99f4",
+      "bytes": 843
+    },
+    {
+      "path": "run-guard.ps1",
+      "sha256": "edd0cd181cb45333f80ca8d05723dbcc9ab202a8e3fe3c1a17b30a930e338956",
+      "bytes": 4404
+    }
+  ],
+  "archive": "validation-scripts.zip",
+  "sha256": "1a905ffbebf3c6156c3f33943027e4fe4697418d6c5d9d3dbd8eacf598b188da",
+  "reason": "Preserve exact frozen validation scripts including whitespace; no accepted source normalized"
+}

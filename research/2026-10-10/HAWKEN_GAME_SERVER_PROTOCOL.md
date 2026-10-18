@@ -1152,3 +1152,15 @@ Respuestas de movimiento y reloj del cliente — **CONFIRMADO estáticamente en 
 `HawkenGame.upk` SHA-256 `d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0`: `R_PlayerController.R_LongClientAdjustPosition` (export16701, serial0x88efe3+568) delega en LongClientAdjustPosition y trata energía/estado del Pawn; UC020418 SHA-256 `48cae98c24c920dcc7c5edfaae41e5c6000c03e445359d5c27668e8776996a88`. Metadata original retenida: `evidence/game/Engine.upk.json` SHA-256 `bcdadd85fc42b5a6532e787e788d718ca939c330125a991520ecb2419fd717db`, y `evidence/game/HawkenGame.upk.json` SHA-256 `1eff14a8f5886933ea83a7c3a732c8ffc5ff1193a33ff1f31c0c5e768013a1e7`. La búsqueda previa acotada de UC de PlayerController/R_PlayerController no encontró override Hawken de ClientAckGoodMove; eso no demuestra ausencia universal.
 
 Interpretación **PROBABLE**: el CurrentTimeStamp0 observado es compatible con la falta de respuestas de movimiento; no debe describirse como un valor que necesariamente deba permanecer cero en el cliente. El veto temporal nativo observado continúa requiriendo prueba de ejecución de su ruta. No se enviarán ACK positivos de movimientos que Core aún no haya simulado y validado.
+
+Transformación nativa de colisión — candidatos 2026-10-18, **PROBABLE como binding de wrappers; semántica NO VERIFICADA**. EXE original SHA-256 `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`. El [lookup focal](../../implementation/evidence/gameplay-bootstrap/20261018/controller-possession/world-collision-readiness/export-closure/property-refs/transform-collision-context/find-transform-registrations.json), SHA-256 `1803f8762319aa0138d6bfb8c8c5c81aa4f0a7e61fe1bacab1f774647dea4d18`, reprodujo GetStateName RVA5fde0 y sus pares de tabla; cinco pins permanecieron estables. [Revisión del padre](../../implementation/evidence/gameplay-bootstrap/20261018/gravity-binding/transform-registration-validation/parent-result-review.json).
+
+| Literal UPrimitiveComponentexec | RVA candidato | Raw | Final .pdata exclusivo | Bytes .pdata |
+|---|---|---|---|---|
+| SetAbsolute | 0x274560 | 0x273960 | 0x2746ad | 333 |
+| SetTranslation | 0x2741f0 | 0x2735f0 | 0x2742a2 | 178 |
+| SetRotation | 0x2742b0 | 0x2736b0 | 0x274353 | 163 |
+| SetScale | 0x274360 | 0x273760 | 0x2743ee | 142 |
+| SetScale3D | 0x2743f0 | 0x2737f0 | 0x274559 | 361 |
+
+Estos rangos suman1.177bytes. También hubo tres candidatos de PointLight/SpotLight/Actor que no pertenecen al scope seleccionado; no se sustituyen por PrimitiveComponent. No se ejecutaron setters, Ghidra, juego ni física. La siguiente lectura está acotada a estos cinco cuerpos, con cotejo independiente de sus instrucciones frente al PE; el lookup no cierra por sí solo inicialización, matrices mundiales ni filtros de colisión.

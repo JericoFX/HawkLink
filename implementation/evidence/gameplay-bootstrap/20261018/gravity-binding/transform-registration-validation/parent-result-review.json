@@ -1,0 +1,167 @@
+{
+  "reviewedUtc": "2026-10-18T18:44:00.6807399Z",
+  "status": "ACCEPTED_STATIC_CANDIDATE_ANCHORS_ONLY",
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "resultSha256": "1803f8762319aa0138d6bfb8c8c5c81aa4f0a7e61fe1bacab1f774647dea4d18",
+  "sourceSha256": "8d9847a35f4a5058ae4c6fcbbd2a66a7a5f65eb378270d39368501235edbd13e",
+  "controlReproducedAndCompared": true,
+  "selected": [
+    {
+      "purpose": "transform",
+      "requested_suffix": "SetAbsolute",
+      "name": "UPrimitiveComponentexecSetAbsolute",
+      "encoding": "ascii",
+      "name_raw": "0x1427a78",
+      "name_rva": "0x1428678",
+      "name_sha256": "abe8010b4a8c53aa774cb992148ebb6df8b82c2bfd5f21dee7211fd7e9434562",
+      "suffix_hit_raw": "0x1427a8f",
+      "table_raw": "0x1b007e0",
+      "table_rva": "0x1b013e0",
+      "table_bytes": "78864241010000006045274001000000",
+      "table_sha256": "97edc88329a86fdd1f2708a4f41011c316a3f3d91be84431168ae563571ae5de",
+      "candidate_exec_rva": "0x274560",
+      "candidate_exec_raw": "0x273960",
+      "pdata": [
+        {
+          "begin_rva": "0x274560",
+          "end_rva": "0x2746ad",
+          "begin_raw": "0x273960",
+          "size": 333,
+          "unwind_rva": "0x1a7cd08",
+          "pdata_raw": "0x1bd0cb0",
+          "pdata_bytes": "60452700ad46270008cda701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "requested_suffix": "SetTranslation",
+      "name": "UPrimitiveComponentexecSetTranslation",
+      "encoding": "ascii",
+      "name_raw": "0x1427f28",
+      "name_rva": "0x1428b28",
+      "name_sha256": "bd6c0bd0fbc935c0b8ae703ee879db90a0e3c90e8aaeb9147b33cfc89a6a1955",
+      "suffix_hit_raw": "0x1427f3f",
+      "table_raw": "0x1b00820",
+      "table_rva": "0x1b01420",
+      "table_bytes": "288b424101000000f041274001000000",
+      "table_sha256": "bc501366638afa44fb75ad6fec7fd52d95a1c9b5625fb6c5ebe8491b47cc5b53",
+      "candidate_exec_rva": "0x2741f0",
+      "candidate_exec_raw": "0x2735f0",
+      "pdata": [
+        {
+          "begin_rva": "0x2741f0",
+          "end_rva": "0x2742a2",
+          "begin_raw": "0x2735f0",
+          "size": 178,
+          "unwind_rva": "0x18d577c",
+          "pdata_raw": "0x1bd0c80",
+          "pdata_bytes": "f0412700a24227007c578d01",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "requested_suffix": "SetRotation",
+      "name": "UPrimitiveComponentexecSetRotation",
+      "encoding": "ascii",
+      "name_raw": "0x1427e00",
+      "name_rva": "0x1428a00",
+      "name_sha256": "87e660020a585daa8e17dba7a7debb0590af48679602e06b23ac479cbac92fe8",
+      "suffix_hit_raw": "0x1427e17",
+      "table_raw": "0x1b00810",
+      "table_rva": "0x1b01410",
+      "table_bytes": "008a424101000000b042274001000000",
+      "table_sha256": "ae666da758e305a50eb98f3f7532534593b901c4ccc662e0884550f58c42d6e2",
+      "candidate_exec_rva": "0x2742b0",
+      "candidate_exec_raw": "0x2736b0",
+      "pdata": [
+        {
+          "begin_rva": "0x2742b0",
+          "end_rva": "0x274353",
+          "begin_raw": "0x2736b0",
+          "size": 163,
+          "unwind_rva": "0x18d577c",
+          "pdata_raw": "0x1bd0c8c",
+          "pdata_bytes": "b0422700534327007c578d01",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "requested_suffix": "SetScale",
+      "name": "UPrimitiveComponentexecSetScale",
+      "encoding": "ascii",
+      "name_raw": "0x1427d20",
+      "name_rva": "0x1428920",
+      "name_sha256": "4c76e4a6d08bd38754e959f817c2f4452a53bf8b5af882b814c99e41e03dbc80",
+      "suffix_hit_raw": "0x1427d37",
+      "table_raw": "0x1b00800",
+      "table_rva": "0x1b01400",
+      "table_bytes": "20894241010000006043274001000000",
+      "table_sha256": "5e590b45ae1db63a7ea3527c8f56b97c662913a2e4dee0e6b0ddd84b2b12f412",
+      "candidate_exec_rva": "0x274360",
+      "candidate_exec_raw": "0x273760",
+      "pdata": [
+        {
+          "begin_rva": "0x274360",
+          "end_rva": "0x2743ee",
+          "begin_raw": "0x273760",
+          "size": 142,
+          "unwind_rva": "0x193d718",
+          "pdata_raw": "0x1bd0c98",
+          "pdata_bytes": "60432700ee43270018d79301",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "requested_suffix": "SetScale3D",
+      "name": "UPrimitiveComponentexecSetScale3D",
+      "encoding": "ascii",
+      "name_raw": "0x1427b90",
+      "name_rva": "0x1428790",
+      "name_sha256": "f73bb891ad4e3414617c3a0e8ba18c6d26d11cca44c6846fce72bb7d99d3ca57",
+      "suffix_hit_raw": "0x1427ba7",
+      "table_raw": "0x1b007f0",
+      "table_rva": "0x1b013f0",
+      "table_bytes": "9087424101000000f043274001000000",
+      "table_sha256": "d2625fcefb49722632c85d5584febff3be22125c581d684b0d8ceeb8c598833f",
+      "candidate_exec_rva": "0x2743f0",
+      "candidate_exec_raw": "0x2737f0",
+      "pdata": [
+        {
+          "begin_rva": "0x2743f0",
+          "end_rva": "0x274559",
+          "begin_raw": "0x2737f0",
+          "size": 361,
+          "unwind_rva": "0x188c424",
+          "pdata_raw": "0x1bd0ca4",
+          "pdata_bytes": "f04327005945270024c48801",
+          "function_is_range_entry": true
+        }
+      ]
+    }
+  ],
+  "selectedCount": 5,
+  "selectedPdataBytes": 1177,
+  "otherCandidates": 3,
+  "staticBindingStatus": "PROBABLE",
+  "confirmed": "Literal names, original-file pointer pair records, executable section bounds and pdata containing ranges are observed by pinned parser",
+  "notVerified": [
+    "Function bodies and setter semantics",
+    "Effective omitted defaults/attachment transforms/query filters",
+    "Runtime invocation and authoritative physics",
+    "Selected Pawn gravity target"
+  ],
+  "processes": "Synchronous Python exit0; CMD62580@18:38:44.6835432Z andconhost60460 terminal by18:38:45.3628196Z; no matching Python after parent recheck",
+  "memoryLimitation": "Python completed between census samples.59.08% is only a sampled total RAM maximum;20,963,328 bytes is only the observed tracked working set, not proof of Python peak.",
+  "inputPins": 5,
+  "inputDrift": 0,
+  "guardTriggered": false,
+  "deadlineTriggered": false
+}

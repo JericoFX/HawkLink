@@ -1,0 +1,216 @@
+{
+  "status": "completed-static-registration-candidate-scan",
+  "startUtc": "2026-10-18T18:38:44.5196312Z",
+  "endUtc": "2026-10-18T18:38:45.3628196Z",
+  "launcherExit": 0,
+  "registrationExit": 0,
+  "originalExeSha256": "4A861ECB4AC7ADD9554F8DAF8F98AD2C12B9CB6C1865A83E8BE808BEB46EA8A2",
+  "scriptSha256": "8D9847A35F4A5058AE4C6FCBBD2A66A7A5F65EB378270D39368501235EDBD13E",
+  "pythonSha256": "03168C01B7B7491423350E82C26FEE71F35B43694D1319D3C668BDA6903A0C38",
+  "resultPath": "implementation\\evidence\\gameplay-bootstrap\\20261018\\controller-possession\\world-collision-readiness\\export-closure\\property-refs\\transform-collision-context\\find-transform-registrations.json",
+  "resultSha256": "1803F8762319AA0138D6BFB8C8C5C81AA4F0A7E61FE1BACAB1F774647DEA4D18",
+  "resultStatus": "STATIC_REGISTRATION_CANDIDATES_ONLY",
+  "controlReproduced": true,
+  "literalMatches": 10,
+  "candidateCount": 9,
+  "candidates": [
+    {
+      "purpose": "transform",
+      "name": "UPrimitiveComponentexecSetAbsolute",
+      "candidateExecRva": "0x274560",
+      "candidateExecRaw": "0x273960",
+      "pdata": [
+        {
+          "begin_rva": "0x274560",
+          "end_rva": "0x2746ad",
+          "begin_raw": "0x273960",
+          "size": 333,
+          "unwind_rva": "0x1a7cd08",
+          "pdata_raw": "0x1bd0cb0",
+          "pdata_bytes": "60452700ad46270008cda701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "name": "UPointLightComponentexecSetTranslation",
+      "candidateExecRva": "0x4300d0",
+      "candidateExecRaw": "0x42f4d0",
+      "pdata": [
+        {
+          "begin_rva": "0x4300d0",
+          "end_rva": "0x430154",
+          "begin_raw": "0x42f4d0",
+          "size": 132,
+          "unwind_rva": "0x18cd9b4",
+          "pdata_raw": "0x1be7234",
+          "pdata_bytes": "d000430054014300b4d98c01",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "name": "UPrimitiveComponentexecSetTranslation",
+      "candidateExecRva": "0x2741f0",
+      "candidateExecRaw": "0x2735f0",
+      "pdata": [
+        {
+          "begin_rva": "0x2741f0",
+          "end_rva": "0x2742a2",
+          "begin_raw": "0x2735f0",
+          "size": 178,
+          "unwind_rva": "0x18d577c",
+          "pdata_raw": "0x1bd0c80",
+          "pdata_bytes": "f0412700a24227007c578d01",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "name": "AActorexecSetRotation",
+      "candidateExecRva": "0x40b7c0",
+      "candidateExecRaw": "0x40abc0",
+      "pdata": [
+        {
+          "begin_rva": "0x40b7c0",
+          "end_rva": "0x40b853",
+          "begin_raw": "0x40abc0",
+          "size": 147,
+          "unwind_rva": "0x18d1bec",
+          "pdata_raw": "0x1be4f0c",
+          "pdata_bytes": "c0b7400053b84000ec1b8d01",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "name": "USpotLightComponentexecSetRotation",
+      "candidateExecRva": "0x3fdf50",
+      "candidateExecRaw": "0x3fd350",
+      "pdata": [
+        {
+          "begin_rva": "0x3fdf50",
+          "end_rva": "0x3fdfd4",
+          "begin_raw": "0x3fd350",
+          "size": 132,
+          "unwind_rva": "0x18cd9b4",
+          "pdata_raw": "0x1be418c",
+          "pdata_bytes": "50df3f00d4df3f00b4d98c01",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "name": "UPrimitiveComponentexecSetRotation",
+      "candidateExecRva": "0x2742b0",
+      "candidateExecRaw": "0x2736b0",
+      "pdata": [
+        {
+          "begin_rva": "0x2742b0",
+          "end_rva": "0x274353",
+          "begin_raw": "0x2736b0",
+          "size": 163,
+          "unwind_rva": "0x18d577c",
+          "pdata_raw": "0x1bd0c8c",
+          "pdata_bytes": "b0422700534327007c578d01",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "name": "UPrimitiveComponentexecSetScale",
+      "candidateExecRva": "0x274360",
+      "candidateExecRaw": "0x273760",
+      "pdata": [
+        {
+          "begin_rva": "0x274360",
+          "end_rva": "0x2743ee",
+          "begin_raw": "0x273760",
+          "size": 142,
+          "unwind_rva": "0x193d718",
+          "pdata_raw": "0x1bd0c98",
+          "pdata_bytes": "60432700ee43270018d79301",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "transform",
+      "name": "UPrimitiveComponentexecSetScale3D",
+      "candidateExecRva": "0x2743f0",
+      "candidateExecRaw": "0x2737f0",
+      "pdata": [
+        {
+          "begin_rva": "0x2743f0",
+          "end_rva": "0x274559",
+          "begin_raw": "0x2737f0",
+          "size": 361,
+          "unwind_rva": "0x188c424",
+          "pdata_raw": "0x1bd0ca4",
+          "pdata_bytes": "f04327005945270024c48801",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "control",
+      "name": "UObjectexecGetStateName",
+      "candidateExecRva": "0x5fde0",
+      "candidateExecRaw": "0x5f1e0",
+      "pdata": [
+        {
+          "begin_rva": "0x5fde0",
+          "end_rva": "0x5fe78",
+          "begin_raw": "0x5f1e0",
+          "size": 152,
+          "unwind_rva": "0x193d718",
+          "pdata_raw": "0x1bb96b8",
+          "pdata_bytes": "e0fd050078fe050018d79301",
+          "function_is_range_entry": true
+        }
+      ]
+    }
+  ],
+  "pinCount": 5,
+  "pinDriftCount": 0,
+  "pinDrift": [],
+  "admission": {
+    "utc": "2026-10-18T18:38:44.5196312Z",
+    "usedPercent": 58.86395096143042,
+    "freeBytes": 14095572992
+  },
+  "peakUsedPercent": 59.07712003595651,
+  "peakOwnedWorkingSetBytes": 20963328.0,
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "allOwnedProcessesTerminal": true,
+  "ownedProcesses": [
+    {
+      "path": "C:\\WINDOWS\\system32\\conhost.exe",
+      "exit": null,
+      "pid": 60460,
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:38:44.6947965Z"
+    },
+    {
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
+      "exit": 0,
+      "pid": 62580,
+      "terminal": true,
+      "creationUtc": "2026-10-18T18:38:44.6835432Z"
+    }
+  ],
+  "finalRam": {
+    "utc": "2026-10-18T18:38:45.4206832Z",
+    "usedPercent": 58.93809932509808,
+    "freeBytes": 14070165504
+  },
+  "postBusy": "empty",
+  "limitation": "The scan reports static registration candidates only; it does not prove runtime invocation, dispatch binding, or transform semantics."
+}

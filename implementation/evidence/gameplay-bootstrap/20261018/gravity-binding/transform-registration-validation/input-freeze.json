@@ -1,0 +1,50 @@
+{
+  "createdUtc": "2026-10-18T18:29:40.3525267Z",
+  "phase": "prepared-awaiting-lease",
+  "pins": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\controller-possession\\world-collision-readiness\\export-closure\\property-refs\\transform-collision-context\\find-transform-registrations.py",
+      "sha256": "8D9847A35F4A5058AE4C6FCBBD2A66A7A5F65EB378270D39368501235EDBD13E",
+      "role": "python-script"
+    },
+    {
+      "path": "C:\\Users\\Jerico\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+      "sha256": "03168C01B7B7491423350E82C26FEE71F35B43694D1319D3C668BDA6903A0C38",
+      "role": "python-runtime"
+    },
+    {
+      "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+      "sha256": "4A861ECB4AC7ADD9554F8DAF8F98AD2C12B9CB6C1865A83E8BE808BEB46EA8A2",
+      "role": "original-executable"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\transform-registration-validation\\run-green.cmd",
+      "sha256": "60F5D53178CFAA53522EAEFF09FF06D0285DD274B221303E664B27286C6A99F4",
+      "role": "wrapper"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\transform-registration-validation\\run-guard.ps1",
+      "sha256": "EDD0CD181CB45333F80CA8D05723DBCC9AB202A8E3FE3C1A17B30A930E338956",
+      "role": "guard"
+    }
+  ],
+  "expectedOutputPath": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\controller-possession\\world-collision-readiness\\export-closure\\property-refs\\transform-collision-context\\find-transform-registrations.json",
+  "expectedOutputMustBeAbsent": true,
+  "command": [
+    "C:\\Users\\Jerico\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+    "-B",
+    "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\controller-possession\\world-collision-readiness\\export-closure\\property-refs\\transform-collision-context\\find-transform-registrations.py"
+  ],
+  "guardPolicy": {
+    "admissionUsedRamBelowPercent": 70,
+    "maximumUsedRamPercentDuringRun": 80,
+    "minimumFreeBytes": 10737418240,
+    "maximumOwnedWorkingSetBytes": 2147483648,
+    "deadlineSeconds": 30,
+    "serial": 1
+  },
+  "skills": {
+    "cpp": "53017F862C526DF6080210A1A00E6678C2CD5382B5D1A51026BF3B0BDE7F7ED2",
+    "game": "4578FACCE19AC99396E5FE904EAC173066FA517AF16AE0F49B03F9082A1057EC"
+  }
+}
