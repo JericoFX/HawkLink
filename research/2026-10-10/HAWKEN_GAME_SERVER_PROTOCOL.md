@@ -1,5 +1,15 @@
 # Hawken: protocolo de reserva y conexión al servidor de partida
 
+**Geometría necesaria para movimiento e impactos — 2026-10-18: datos locales recuperados; colisión mundial NO VERIFICADA.** Paquete original `HawkenGame/CookedPCConsole/Wreckage_Collision.upk`, SHA-256 `1afc72d3cc07f1ac75fdd9b291d825d728143d9e4d40748ec5c37dde04a20162`, revalidado por el padre. Las coordenadas siguientes son offsets virtuales del paquete descomprimido.
+
+| Export / rango | Evidencia e interpretación | Estado |
+| --- | --- | --- |
+| StaticMesh31, `0x40580+1496`; tail `0x4060f+1353` | El lector secuencial, contrastado con UEViewer commit `a0bfb468d42be831b126632fd8a0ae6b3614f981`, interpreta1273 bytes: Bounds, índice BodySetup0 en `0x4062b`, cuatro nodos kDOP, doce registros de triángulos y un LOD de30 posiciones/36 índices. Los tripletes kDOP coinciden con el index buffer. No se deduce BodySetup nulo por la ausencia de un tag. Quedan80 bytes desde `0x40b08` sin semántica recuperada. | CONFIRMADO para bytes y coincidencias; PROBABLE para el layout nativo compatible; efecto en el motor NO VERIFICADO |
+| BodySetup19, `0x38f11+849`; AggGeom `0x38f51+773` | Un convex serializado con ocho vértices y doce triángulos. Revisión independiente: aristas cerradas, índices válidos y planos físicos W,X,Y,Z; cada plano satisface `dot(normal,vertex)-W<=0`. Los normales calculados de los triángulos son opuestos a los planos: no asumir culling por winding. Esta geometría corresponde a mesh28, no a mesh31. | CONFIRMADO para los datos locales y sus comprobaciones matemáticas |
+| Componentes235/236/238/239, colección61 | Sus tags StaticMesh referencian28, cuyo BodySetup referencia19. La colección61 los incluye explícitamente en posiciones83/81/80/82 de su array, respectivamente; elementos en `0x7a06c/0x7a064/0x7a060/0x7a068`. | CONFIRMADO para referencias serializadas; transformaciones mundiales y máscaras efectivas NO VERIFICADAS |
+
+[Layout nativo y límites](../../implementation/evidence/gameplay-bootstrap/20261018/controller-possession/world-collision-readiness/export-closure/property-refs/native-mesh31/contract.json), [colocaciones revisadas](../../implementation/evidence/gameplay-bootstrap/20261018/controller-possession/world-collision-readiness/export-closure/property-refs/body19-placements/parent-review.json), [convex revisado](../../implementation/evidence/gameplay-bootstrap/20261018/controller-possession/world-collision-readiness/export-closure/property-refs/body19-placements/local-hull-review.json). Todavía no hay consultas de colisión, física o daño ejecutadas con estos datos en Core; faltan los transforms y filtros efectivos antes de utilizarlos como mundo autoritativo.
+
 **Cadencia de armas — 2026-10-18: CONFIRMADO estático para los cuerpos y tablas indicados; disparo en Core NO VERIFICADO.** Archivo original `Binaries/Win64/HawkenGame-Win64-Shipping.exe`, SHA-256 `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`, base `0x140000000`. Se reutilizó la base Ghidra existente, en lectura y sin análisis global, para sólo dos funciones.
 
 | RVA / offset físico | Evidencia observada e interpretación | Estado |
