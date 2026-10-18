@@ -1,5 +1,15 @@
 # Hawken: protocolo de reserva y conexión al servidor de partida
 
+**Posesión y bloqueo de disparo — observación original 2026-10-18 14:45Z.** EXE Steam `Binaries/Win64/HawkenGame-Win64-Shipping.exe`, SHA-256 `4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2`; Core `cecafa9e9131d625c857165b2a1acd017a6d64e2ad09511c3c854d88f9d9209d`. [Muestra posterior al despliegue](../../implementation/evidence/local-steam-routing-20261018-144200/timing-after-spawn.json), SHA-256 `43909270bda45f8e806c73f5695c02c3d2c9f8144c5413cf49c593c8c722dce3`, obtenida con el observador de sólo lectura `a51421c4e543d5a81bb26d81ed81218475cb12acf0e7901aa0adce9049ac2515` y dos muestras iguales.
+
+| Offset de instancia / evidencia | Interpretación | Estado |
+| --- | --- | --- |
+| PlayerController.CurrentTimeStamp `0x4ec`, float0; Pawn.Controller `0x26c`, referencia coincidente; PlayerController.AcknowledgedPawn `0x45c`, referencia coincidente | Se resolvieron metadatos reflejados y referencias tipadas en la instancia seleccionada. No demuestra todavía toda la cadena nativa de LocalCanFire. | CONFIRMADO para esta observación |
+| Dual `0x3d8`, máscaras8/16/4: bServerCanFire=true, bClientShutdown=false, bShutdown=true; estado Active e inventario enlazado | La autorización replicada y el inventario están presentes mientras persiste el apagado local del arma. | CONFIRMADO para esta observación |
+| Veto LocalCanFire RVA `0xd9a180`, comparación de `this+0x3dc` con el reloj | Todavía falta observar el operando `this+0x3dc` y cerrar la identidad de la cadena completa; reloj0 no basta para atribuir el veto. | NO VERIFICADO como causa del fallo |
+
+La entrada fue por listado/LISTO/selección, sin tutorial. Owner observó acknowledged_pawn_revision=1 y217 primeros RPC de movimiento decodificados, sin ejecutar movimiento autoritativo. El guard de tiempo cerró el cliente antes de ensayar disparo/salto: no existe aceptación de combate en esta prueba. [Foto real y revisión de límites](../../implementation/evidence/local-steam-routing-20261018-144200/parent-runtime-review.json).
+
 **Geometría necesaria para movimiento e impactos — 2026-10-18: datos locales recuperados; colisión mundial NO VERIFICADA.** Paquete original `HawkenGame/CookedPCConsole/Wreckage_Collision.upk`, SHA-256 `1afc72d3cc07f1ac75fdd9b291d825d728143d9e4d40748ec5c37dde04a20162`, revalidado por el padre. Las coordenadas siguientes son offsets virtuales del paquete descomprimido.
 
 | Export / rango | Evidencia e interpretación | Estado |
