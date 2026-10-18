@@ -1,0 +1,85 @@
+{
+  "errors": [
+    {
+      "line": 36,
+      "level": "error",
+      "text": "[0: 008.832] Error: Error, ImportText (IntroAgentDialogs): Missing closing parenthesis: (dialogText=\"La siguiente pantalla que está a punto de presenciar se denomina pantalla \"Rewards diarios\". Esta pantalla aparece cuando se registra por primera vez en Hawken. A las empresas les encanta ver a los pilotos que vuelven a luchar por ellos y pueden otorgarles recompensas como HAWKEN CREDITS, que son vitales para la economía de Illal.\")"
+    },
+    {
+      "line": 37,
+      "level": "error",
+      "text": "[0: 009.518] Error: Error, ImportText (IntroAgentDialogs): Missing closing parenthesis: (dialogText=\"La siguiente pantalla que está a punto de presenciar se denomina pantalla \"Rewards diarios\". Esta pantalla aparece cuando se registra por primera vez en Hawken. A las empresas les encanta ver a los pilotos que vuelven a luchar por ellos y pueden otorgarles recompensas como HAWKEN CREDITS, que son vitales para la economía de Illal.\")"
+    },
+    {
+      "line": 38,
+      "level": "error",
+      "text": "[0: 010.774] Error: Error, ImportText (IntroAgentDialogs): Missing closing parenthesis: (dialogText=\"La siguiente pantalla que está a punto de presenciar se denomina pantalla \"Rewards diarios\". Esta pantalla aparece cuando se registra por primera vez en Hawken. A las empresas les encanta ver a los pilotos que vuelven a luchar por ellos y pueden otorgarles recompensas como HAWKEN CREDITS, que son vitales para la economía de Illal.\")"
+    },
+    {
+      "line": 40,
+      "level": "error",
+      "text": "[0: 012.852] Error: Error, ImportText (PilotEmblems): Property import failed for UnlockedToolText in: (DisplayName=\"Bombas fuera\",LockedToolText=\"Se concede al desbloquear el premio de servicio de emblema 'Armadura magnética'\",UnlockedToolText=\"Se concede al desbloquear el premio de servicio de emblema 'Armadura magnética')"
+    },
+    {
+      "line": 64,
+      "level": "error",
+      "text": "[0: 017.426] Error: Error, ImportText (IntroAgentDialogs): Missing closing parenthesis: (dialogText=\"La siguiente pantalla que está a punto de presenciar se denomina pantalla \"Rewards diarios\". Esta pantalla aparece cuando se registra por primera vez en Hawken. A las empresas les encanta ver a los pilotos que vuelven a luchar por ellos y pueden otorgarles recompensas como HAWKEN CREDITS, que son vitales para la economía de Illal.\")"
+    },
+    {
+      "line": 65,
+      "level": "error",
+      "text": "[0: 018.017] Error: Error, ImportText (IntroAgentDialogs): Missing closing parenthesis: (dialogText=\"La siguiente pantalla que está a punto de presenciar se denomina pantalla \"Rewards diarios\". Esta pantalla aparece cuando se registra por primera vez en Hawken. A las empresas les encanta ver a los pilotos que vuelven a luchar por ellos y pueden otorgarles recompensas como HAWKEN CREDITS, que son vitales para la economía de Illal.\")"
+    }
+  ],
+  "warningGroups": [
+    {
+      "Count": 192,
+      "Name": "ScriptWarning: Accessed None 'Ability'"
+    },
+    {
+      "Count": 22,
+      "Name": "Warning: Warning, Failed to load 'Texture None.undefined': Failed to find object 'Texture None.undefined'"
+    },
+    {
+      "Count": 17,
+      "Name": "ScriptWarning: Accessed None 'Result'"
+    },
+    {
+      "Count": 13,
+      "Name": "ScriptWarning: Accessed None 'Temp'"
+    },
+    {
+      "Count": 6,
+      "Name": "ScriptWarning: Accessed None"
+    },
+    {
+      "Count": 6,
+      "Name": "ScriptWarning: Accessed array 'Default__R_MechInfo_Base.ThrusterTypes' out of bounds (255/23)"
+    },
+    {
+      "Count": 4,
+      "Name": "ScriptWarning: Accessed None 'HawkenHUD'"
+    },
+    {
+      "Count": 4,
+      "Name": "ScriptWarning: Accessed None 'pattern'"
+    },
+    {
+      "Count": 3,
+      "Name": "ScriptWarning: Accessed None 'ConsumableArrayGfx'"
+    },
+    {
+      "Count": 2,
+      "Name": "ScriptWarning: Accessed None 'RPRI'"
+    },
+    {
+      "Count": 2,
+      "Name": "ScriptWarning: Accessed None 'Profile'"
+    },
+    {
+      "Count": 1,
+      "Name": "ScriptWarning: Accessed array 'R_Gfx_MechSelect_0.Unlock_Description_TechUnlock' out of bounds (24/21)"
+    }
+  ],
+  "encoding": "Windows1252 after strict UTF8 rejection"
+}

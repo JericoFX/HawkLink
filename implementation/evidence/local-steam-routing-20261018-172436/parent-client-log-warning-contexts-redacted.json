@@ -1,0 +1,137 @@
+{
+  "encoding": "windows-1252-fallback-after-invalid-utf8",
+  "contexts": [
+    {
+      "marker": "Accessed None 'Ability'",
+      "context": [
+        {
+          "line": 646,
+          "text": "[10478: 120.014] Log: WARNING: Cooking Convex For Actor: wreckage_destructibles.TheWorld:PersistentLevel.R_DamageableActor_1 Component: StaticMeshComponent_29 StaticMesh: BLD_CrashCanyon_Wesley.Mesh.BLD_CrashCanyon_Prop_08 (Scale: 1.000000 1.000000 1.000000) Please go and set PreCachedPhysScale on the mesh to have this scale for RunTime spawned objects. [InstanceNovodexGeom]"
+        },
+        {
+          "line": 647,
+          "text": "[10521: 120.496] ScriptWarning: Accessed None 'Ability'"
+        },
+        {
+          "line": 648,
+          "text": "\tR_HUD_Protips VS-Wreckage.TheWorld:PersistentLevel.R_HUD_DM_0.R_HUD_Protips_0"
+        },
+        {
+          "line": 649,
+          "text": "\tFunction HawkenGame.R_HUD_Protips:TickCriteria_UC:00E6"
+        },
+        {
+          "line": 650,
+          "text": "[10521: 120.496] ScriptWarning: Accessed None 'Ability'"
+        },
+        {
+          "line": 651,
+          "text": "\tR_HUD_Protips VS-Wreckage.TheWorld:PersistentLevel.R_HUD_DM_0.R_HUD_Protips_0"
+        },
+        {
+          "line": 652,
+          "text": "\tFunction HawkenGame.R_HUD_Protips:TickCriteria_UC:013D"
+        }
+      ]
+    },
+    {
+      "marker": "ThrusterTypes",
+      "context": [
+        {
+          "line": 281,
+          "text": "[231: 033.351] ScriptLog: MECH BAY ARRAY LENGTH = 1"
+        },
+        {
+          "line": 282,
+          "text": "[231: 033.352] ScriptWarning: Accessed array 'Default__R_MechInfo_Base.ThrusterTypes' out of bounds (255/23)"
+        },
+        {
+          "line": 283,
+          "text": "\tR_MechInfo_Base HawkenGame.Default__R_MechInfo_Base"
+        },
+        {
+          "line": 284,
+          "text": "\tFunction HawkenGame.R_MechInfo_Base:AttachThrusterModelsAndEffects:0043"
+        },
+        {
+          "line": 285,
+          "text": "[231: 033.352] ScriptWarning: Accessed array 'Default__R_MechInfo_Base.ThrusterTypes' out of bounds (255/23)"
+        },
+        {
+          "line": 286,
+          "text": "\tR_MechInfo_Base HawkenGame.Default__R_MechInfo_Base"
+        },
+        {
+          "line": 287,
+          "text": "\tFunction HawkenGame.R_MechInfo_Base:AttachThrusterModelsAndEffects:0086"
+        }
+      ]
+    },
+    {
+      "marker": "Accessed None 'HawkenHUD'",
+      "context": [
+        {
+          "line": 510,
+          "text": "[10471: 118.270] ScriptLog: === RECIEVED GAME CLASS HawkenDM ==="
+        },
+        {
+          "line": 511,
+          "text": "[10471: 118.273] ScriptWarning: Accessed None 'HawkenHUD'"
+        },
+        {
+          "line": 512,
+          "text": "\tR_PlayerController VS-Wreckage.TheWorld:PersistentLevel.R_PlayerController_0"
+        },
+        {
+          "line": 513,
+          "text": "\tFunction HawkenGame.R_PlayerController:DeadWaitingStuff:0252"
+        },
+        {
+          "line": 514,
+          "text": "[10472: 118.300] ScriptWarning: Accessed None 'HawkenHUD'"
+        },
+        {
+          "line": 515,
+          "text": "\tR_PlayerController VS-Wreckage.TheWorld:PersistentLevel.R_PlayerController_0"
+        },
+        {
+          "line": 516,
+          "text": "\tFunction HawkenGame.R_PlayerController:DeadWaitingStuff:0252"
+        }
+      ]
+    },
+    {
+      "marker": "Accessed None 'RPRI'",
+      "context": [
+        {
+          "line": 473,
+          "text": "[10469: 117.417] VoiceChat: JoinBestVoiceChannel: IsInVoiceTestChannel():'False' IsInPartyVoiceChannel():'False' DesiredGameplayVoiceChannelUri:''"
+        },
+        {
+          "line": 474,
+          "text": "[10469: 117.417] ScriptWarning: Accessed None 'RPRI'"
+        },
+        {
+          "line": 475,
+          "text": "\tR_GameReplicationInfo RobotsMainMenu.TheWorld:PersistentLevel.R_GameReplicationInfo_0"
+        },
+        {
+          "line": 476,
+          "text": "\tFunction HawkenGame.R_GameReplicationInfo:RemovePRI:0111"
+        },
+        {
+          "line": 477,
+          "text": "[10469: 117.417] ScriptWarning: Accessed None 'RPRI'"
+        },
+        {
+          "line": 478,
+          "text": "\tR_GameReplicationInfo RobotsMainMenu.TheWorld:PersistentLevel.R_GameReplicationInfo_0"
+        },
+        {
+          "line": 479,
+          "text": "\tFunction HawkenGame.R_GameReplicationInfo:RemovePRI:0111"
+        }
+      ]
+    }
+  ]
+}

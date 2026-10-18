@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-18T17:20:53.3652011Z",
+  "status": "NEGATIVE_METHOD_RESULT_NOT_GRAVITY_ABSENCE",
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "v1ScriptSha256": "515f9d82ad955abbf35122c7f9700e5a739ba87a5d2159ed1a199c673445c494",
+  "v1ResultSha256": "5b54f1a5caf4cd279f78bdccaa641a112ba2123d9f5a57a670073bada0213f09",
+  "v1CandidateCount": 0,
+  "interpretation": "The four requested literal names produced no accepted name-pointer/executable-pointer pair; no conclusion about absence of gravity code",
+  "hypothesis": "The complete registration literal may have a different class prefix; not yet proven",
+  "positiveControlBaseline": {
+    "nameRaw": "0x12b3420",
+    "execRva": "0x5fde0",
+    "rangeEnd": "0x5fe78",
+    "name": "UObjectexecGetStateName",
+    "file": "../../20261017/weapon-activation-followup/get-state-name-registration.json",
+    "tableRaw": "0x1add5a0"
+  },
+  "v2Source": {
+    "boundPrefixUnits": 128,
+    "nativeExecuted": false,
+    "exclusiveNewOutput": true,
+    "targetReadsOnly": true,
+    "parentReadComplete": true,
+    "path": "get-gravity-registration-v2.py",
+    "sha256": "9d8fc5fa169480f0bfd4a8fb8486f3913c9d6731541b86282161843022fde280"
+  },
+  "nextCheck": "Recover bounded full names from GetGravityZ suffix and reproduce baseline control from the same actual scan",
+  "gameplayAccepted": false
+}

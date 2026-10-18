@@ -1,0 +1,187 @@
+{
+  "utc": "2026-10-18T17:24:00.7093179Z",
+  "phase": "microPE-v2",
+  "freezePath": "gravity-binding/validation-v2/input-freeze.json",
+  "freezeSha256": "DE4687D6ED48A4617B08383B3DA61830CAD763234FBF4EBE6833CA12589B08A4",
+  "pinCount": 5,
+  "driftCount": 0,
+  "pins": [
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261018/gravity-binding/get-gravity-registration-v2.py",
+      "expected": "9D8FC5FA169480F0BFD4A8FB8486F3913C9D6731541B86282161843022FDE280",
+      "actual": "9D8FC5FA169480F0BFD4A8FB8486F3913C9D6731541B86282161843022FDE280",
+      "match": true
+    },
+    {
+      "path": "C:/Users/Jerico/AppData/Local/Programs/Python/Python314/python.exe",
+      "expected": "03168C01B7B7491423350E82C26FEE71F35B43694D1319D3C668BDA6903A0C38",
+      "actual": "03168C01B7B7491423350E82C26FEE71F35B43694D1319D3C668BDA6903A0C38",
+      "match": true
+    },
+    {
+      "path": "F:/SteamLibrary/steamapps/common/Hawken/Binaries/Win64/HawkenGame-Win64-Shipping.exe",
+      "expected": "4A861ECB4AC7ADD9554F8DAF8F98AD2C12B9CB6C1865A83E8BE808BEB46EA8A2",
+      "actual": "4A861ECB4AC7ADD9554F8DAF8F98AD2C12B9CB6C1865A83E8BE808BEB46EA8A2",
+      "match": true
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261018/gravity-binding/validation-v2/run-green.cmd",
+      "expected": "D02D7B1B61A394BE3A07B9B65F12D7C8FF070A1B44634CC88614E84956116D6C",
+      "actual": "D02D7B1B61A394BE3A07B9B65F12D7C8FF070A1B44634CC88614E84956116D6C",
+      "match": true
+    },
+    {
+      "path": "implementation/evidence/gameplay-bootstrap/20261018/gravity-binding/validation-v2/run-guard.ps1",
+      "expected": "4EB6D156A6942AAED4EF638F286F19571CD3DCB077830CB29AA5D3844764C718",
+      "actual": "4EB6D156A6942AAED4EF638F286F19571CD3DCB077830CB29AA5D3844764C718",
+      "match": true
+    }
+  ],
+  "run": {
+    "guardPid": 9396,
+    "guardCreationUtc": "2026-10-18T17:23:43.5213857Z",
+    "guardTerminalUtc": "2026-10-18T17:23:44.5921076Z",
+    "guardExit": 0,
+    "wrapper": "run-green.cmd",
+    "scriptPath": "gravity-binding/get-gravity-registration-v2.py",
+    "scriptExit": 0,
+    "stdout": "registration.stdout.log",
+    "stderr": "registration.stderr.log",
+    "registrationOutput": "gravity-binding/get-gravity-registration-v2.json",
+    "registrationSha256": "FE8EC0A805FA1DD399CA68A2CAA5F6958E3E4D352768125EFDA8D814B878CF29",
+    "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+    "registrationStatus": "STATIC_REGISTRATION_CANDIDATES_ONLY",
+    "controlReproduced": true,
+    "matchCount": 5,
+    "controlCandidateCount": 1,
+    "gravityCandidateCount": 4,
+    "gravityCandidates": [
+      {
+        "name": "AActorexecGetGravityZ",
+        "nameRva": "0x140b260",
+        "candidateExecRva": "0x3fd720",
+        "candidateExecRaw": "0x3fcb20",
+        "pdata": [
+          {
+            "begin_rva": "0x3fd720",
+            "end_rva": "0x3fd76c",
+            "begin_raw": "0x3fcb20",
+            "size": 76,
+            "unwind_rva": "0x197d7c0",
+            "pdata_raw": "0x1be40a8",
+            "pdata_bytes": "20d73f006cd73f00c0d79701",
+            "function_is_range_entry": true
+          }
+        ]
+      },
+      {
+        "name": "APhysicsVolumeexecGetGravityZ",
+        "nameRva": "0x1411e58",
+        "candidateExecRva": "0x3fd720",
+        "candidateExecRaw": "0x3fcb20",
+        "pdata": [
+          {
+            "begin_rva": "0x3fd720",
+            "end_rva": "0x3fd76c",
+            "begin_raw": "0x3fcb20",
+            "size": 76,
+            "unwind_rva": "0x197d7c0",
+            "pdata_raw": "0x1be40a8",
+            "pdata_bytes": "20d73f006cd73f00c0d79701",
+            "function_is_range_entry": true
+          }
+        ]
+      },
+      {
+        "name": "AWorldInfoexecGetGravityZ",
+        "nameRva": "0x14244c8",
+        "candidateExecRva": "0x3fd720",
+        "candidateExecRaw": "0x3fcb20",
+        "pdata": [
+          {
+            "begin_rva": "0x3fd720",
+            "end_rva": "0x3fd76c",
+            "begin_raw": "0x3fcb20",
+            "size": 76,
+            "unwind_rva": "0x197d7c0",
+            "pdata_raw": "0x1be40a8",
+            "pdata_bytes": "20d73f006cd73f00c0d79701",
+            "function_is_range_entry": true
+          }
+        ]
+      },
+      {
+        "name": "AUDKVehicleexecGetGravityZ",
+        "nameRva": "0x17141d8",
+        "candidateExecRva": "0x3fd720",
+        "candidateExecRaw": "0x3fcb20",
+        "pdata": [
+          {
+            "begin_rva": "0x3fd720",
+            "end_rva": "0x3fd76c",
+            "begin_raw": "0x3fcb20",
+            "size": 76,
+            "unwind_rva": "0x197d7c0",
+            "pdata_raw": "0x1be40a8",
+            "pdata_bytes": "20d73f006cd73f00c0d79701",
+            "function_is_range_entry": true
+          }
+        ]
+      }
+    ],
+    "controlCandidates": [
+      {
+        "name": "UObjectexecGetStateName",
+        "nameRva": "0x12b4020",
+        "nameRaw": "0x12b3420",
+        "tableRaw": "0x1add5a0",
+        "tableRva": "0x1ade1a0",
+        "candidateExecRva": "0x5fde0",
+        "pdata": [
+          {
+            "begin_rva": "0x5fde0",
+            "end_rva": "0x5fe78",
+            "begin_raw": "0x5f1e0",
+            "size": 152,
+            "unwind_rva": "0x193d718",
+            "pdata_raw": "0x1bb96b8",
+            "pdata_bytes": "e0fd050078fe050018d79301",
+            "function_is_range_entry": true
+          }
+        ]
+      }
+    ],
+    "admissionUsedPercent": 59.94534800601507,
+    "admissionFreeGiB": 12.782424926757812,
+    "peakObservedUsedPercent": 60.364800864486476,
+    "peakOwnedWorkingSetBytes": 71872512,
+    "guardTriggered": false,
+    "deadlineTriggered": false,
+    "processes": [
+      {
+        "path": "C:\\WINDOWS\\system32\\conhost.exe",
+        "creationUtc": "2026-10-18T17:23:44.0858618Z",
+        "pid": 14988,
+        "exit": null,
+        "terminal": true
+      },
+      {
+        "path": "C:\\Users\\Jerico\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "creationUtc": "2026-10-18T17:23:44.1209747Z",
+        "pid": 43596,
+        "exit": null,
+        "terminal": true
+      },
+      {
+        "path": "C:\\WINDOWS\\system32\\cmd.exe",
+        "creationUtc": "2026-10-18T17:23:44.0751158Z",
+        "pid": 51748,
+        "exit": 0,
+        "terminal": true
+      }
+    ],
+    "noTargetExecution": true
+  },
+  "preservedSharedMcpCount": 10,
+  "semanticLimit": "Control candidate reproduced, but gravity rows remain static registration candidates; this does not prove wrapper binding, body semantics, runtime execution, or gravity behavior."
+}

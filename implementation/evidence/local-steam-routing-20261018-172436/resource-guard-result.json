@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-18T17:28:48.3758601Z",
+  "reason": "slot-deadline",
+  "game": {
+    "creationUtc": "2026-10-18T17:25:01.8594950Z",
+    "pid": 42952,
+    "path": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe"
+  },
+  "gameTerminal": true
+}

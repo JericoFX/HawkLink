@@ -1,0 +1,25 @@
+{
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "image_base": "0x140000000",
+  "script": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\get-gravity-registration.py",
+  "script_sha256": "515f9d82ad955abbf35122c7f9700e5a739ba87a5d2159ed1a199c673445c494",
+  "executable_sections": [
+    {
+      "begin_rva": "0x1000",
+      "end_rva": "0x128df79"
+    }
+  ],
+  "exception_directory": {
+    "rva": "0x1d61000",
+    "raw": "0x1bb5800",
+    "size": 982440
+  },
+  "candidates": [],
+  "status": "STATIC_REGISTRATION_CANDIDATES_ONLY",
+  "limitations": [
+    "No function-body decompilation or target execution.",
+    "A pointer pair and containing pdata range do not prove a wrapper or virtual callee.",
+    "No gravity formula, virtual slot or Pawn target is inferred."
+  ]
+}

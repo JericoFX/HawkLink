@@ -1,0 +1,99 @@
+{
+  "utc": "2026-10-18T17:39:09.8122434Z",
+  "status": "STATIC_REGISTRATION_ANCHORS_ACCEPTED_BODY_UNVERIFIED",
+  "originalSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "scriptSha256": "9d8fc5fa169480f0bfd4a8fb8486f3913c9d6731541b86282161843022fde280",
+  "resultSha256": "fe8ec0a805fa1dd399ca68a2caa5f6958e3e4d352768125efda8d814b878cf29",
+  "scriptExit": 0,
+  "controlReproduced": true,
+  "gravityCandidateCount": 4,
+  "gravityCandidates": [
+    {
+      "name": "AActorexecGetGravityZ",
+      "table_rva": "0x1af78d0",
+      "table_raw": "0x1af6cd0",
+      "table_sha256": "dca4866366e33c232534d1c3cf4670be95ac90717d2f9e79b32e75090380a301",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "name": "APhysicsVolumeexecGetGravityZ",
+      "table_rva": "0x1afa1f0",
+      "table_raw": "0x1af95f0",
+      "table_sha256": "d002f9d143ec9570f4e47aba5ad269853b980adb77f99874a8a4acb81603a5e5",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "name": "AWorldInfoexecGetGravityZ",
+      "table_rva": "0x1afef20",
+      "table_raw": "0x1afe320",
+      "table_sha256": "067576b55c3a45a0585bebebe53601e5e5d3fa0db24a437e7a34255511a3137c",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "name": "AUDKVehicleexecGetGravityZ",
+      "table_rva": "0x1b97020",
+      "table_raw": "0x1b96420",
+      "table_sha256": "7842f254fe24a56c1a0322316e7389277991395c1f2b1a8ea236f08c1afac27f",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    }
+  ],
+  "postflightPinCount": 5,
+  "postflightDriftCount": 0,
+  "parentReadCompleteScript": true,
+  "parentReviewedActualOutput": true,
+  "firstSearchMiss": "V1 requested UActor-prefixed names or suffix-pointer addresses; actual registration literals begin with AActor/APhysicsVolume/AWorldInfo/AUDKVehicle. Complete literal recovery located actual name pointer pairs.",
+  "interpretation": "Concrete anchor for next focused Ghidra extraction of 76 bytes; no body semantics, virtual slot, selected Pawn target, gravity formula or runtime call accepted",
+  "gameplayAccepted": false
+}

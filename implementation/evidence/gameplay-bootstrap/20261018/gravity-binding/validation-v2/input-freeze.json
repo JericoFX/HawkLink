@@ -1,0 +1,22 @@
+[
+  {
+    "path": "implementation/evidence/gameplay-bootstrap/20261018/gravity-binding/get-gravity-registration-v2.py",
+    "sha256": "9D8FC5FA169480F0BFD4A8FB8486F3913C9D6731541B86282161843022FDE280"
+  },
+  {
+    "path": "C:/Users/Jerico/AppData/Local/Programs/Python/Python314/python.exe",
+    "sha256": "03168C01B7B7491423350E82C26FEE71F35B43694D1319D3C668BDA6903A0C38"
+  },
+  {
+    "path": "F:/SteamLibrary/steamapps/common/Hawken/Binaries/Win64/HawkenGame-Win64-Shipping.exe",
+    "sha256": "4A861ECB4AC7ADD9554F8DAF8F98AD2C12B9CB6C1865A83E8BE808BEB46EA8A2"
+  },
+  {
+    "path": "implementation/evidence/gameplay-bootstrap/20261018/gravity-binding/validation-v2/run-green.cmd",
+    "sha256": "D02D7B1B61A394BE3A07B9B65F12D7C8FF070A1B44634CC88614E84956116D6C"
+  },
+  {
+    "path": "implementation/evidence/gameplay-bootstrap/20261018/gravity-binding/validation-v2/run-guard.ps1",
+    "sha256": "4EB6D156A6942AAED4EF638F286F19571CD3DCB077830CB29AA5D3844764C718"
+  }
+]

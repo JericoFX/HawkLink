@@ -1,0 +1,81 @@
+{
+  "utc": "2026-10-18T17:35:50.4621180Z",
+  "status": "LIVE_PAWN_COLLIDER_OBSERVED_GAMEPLAY_PENDING",
+  "trial": "local-steam-routing-20261018-172436",
+  "sourceCommit": "c8fcb5d49134f228f08948ea381a006dff66ffd2",
+  "originalExeSha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "probeSha256": "d36ae2afef1537d95759cad93460b0a5a7f0c4437bccb0054d462890b003baf7",
+  "sampleFileSha256": "f5a3a0650b87a6df3a58709c1be6c743942fa8200b9a1e522ab83485c6167eca",
+  "probeExit": 0,
+  "identityVerified": true,
+  "twoSamplesEqual": true,
+  "observations": {
+    "collisionComponentOffset": "0x1e8",
+    "sameComponent": true,
+    "radiusOffset": "0x22c",
+    "collisionRadius": 125.0,
+    "cylinderComponentPresent": true,
+    "pawnRole": 2,
+    "collisionHeight": 170.0,
+    "controllerRole": 2,
+    "worldMembershipVerified": false,
+    "collisionComponentPresent": true,
+    "cylinderComponentOffset": "0x45c",
+    "pawnPhysics": 1,
+    "heightOffset": "0x228"
+  },
+  "photo": {
+    "sha256": "82c1e23be99590bb327a7f15af584010a1db60e41113abbbad01b322226ab1b3",
+    "file": "collider-deployment.jpg",
+    "secondCapture": "Unavailable: guard had already closed game; not retried",
+    "height": 752,
+    "width": 1282,
+    "unaltered": true
+  },
+  "uiPath": [
+    "Steam AppID271290 windowed",
+    "Jugar",
+    "Navegador del servidor",
+    "HawkLink Local Wreckage Trial",
+    "Listo/countdown",
+    "CR-T Iniciar",
+    "Restos view"
+  ],
+  "tutorialRepeated": false,
+  "cleanup": {
+    "helperResultLastWriteUtc": "2026-10-18T17:28:50.3428005Z",
+    "borrowedFirewallRulePreserved": true,
+    "allFiveAbsentAtUtc": "2026-10-18T17:29:13.2029775Z",
+    "guardPid": 55756,
+    "coreExit": 0,
+    "originalsUnchanged": true,
+    "gameTerminalObservedByGuardUtc": "2026-10-18T17:28:48.3758601Z",
+    "resourceGuardReason": "slot-deadline",
+    "cleanupComplete": true,
+    "corePid": 21736,
+    "gamePid": 42952,
+    "helperPid": 23136,
+    "exactAllFiveExitTimesCaptured": false,
+    "nexusPid": 23516,
+    "skyKernelReset": true,
+    "configuredGuardSeconds": 225
+  },
+  "clientLog": {
+    "sha256": "0a07a9707af8aae4b8328cb76496d20372e924aab6b41ef2dfbf9688ad232bf2",
+    "entireFileRead": true,
+    "credentialsCopied": false,
+    "encoding": "Windows1252 fallback after strict UTF8 rejection",
+    "review": "parent-client-log-review.json",
+    "bytes": 98304,
+    "lines": 1294
+  },
+  "limits": [
+    "One selected CR-T Pawn observation only; not all mechs or maps",
+    "No world-membership proof; no half-height or unit-conversion assumption",
+    "No firing/jump attempt or gameplay acceptance in this measurement trial",
+    "Client was terminated by resource guard, not a graceful game exit",
+    "Warning Ability occurs in HUD protips; ThrusterTypes255/23 in attachment; neither proven causal for jump/fire",
+    "Exact exit times for all five processes not captured; cleanup receipt and subsequent absence are retained"
+  ],
+  "gameplayAccepted": false
+}

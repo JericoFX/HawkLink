@@ -1,0 +1,278 @@
+{
+  "original": "F:\\SteamLibrary\\steamapps\\common\\Hawken\\Binaries\\Win64\\HawkenGame-Win64-Shipping.exe",
+  "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "image_base": "0x140000000",
+  "script": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\gravity-binding\\get-gravity-registration-v2.py",
+  "script_sha256": "9d8fc5fa169480f0bfd4a8fb8486f3913c9d6731541b86282161843022fde280",
+  "literal_limit_units": 128,
+  "matches": [
+    {
+      "purpose": "gravity",
+      "encoding": "ascii",
+      "suffix_hit_raw": "0x140a66a",
+      "refs64": [
+        {
+          "raw": "0x1af6cd0",
+          "rva": "0x1af78d0",
+          "bytes": "60b240410100000020d73f4001000000",
+          "sha256": "dca4866366e33c232534d1c3cf4670be95ac90717d2f9e79b32e75090380a301",
+          "following_target_rva": "0x3fd720",
+          "candidate_index": 0
+        }
+      ],
+      "suffix_hit_rva": "0x140b26a",
+      "name_raw": "0x140a660",
+      "name_rva": "0x140b260",
+      "name_size": 22,
+      "name_sha256": "955bd322bf37675dd385ee935ab0677d06b72fc88954d60949a172e956a0a27a",
+      "suffix_offset_bytes": 10,
+      "literal_boundary": "nul",
+      "name": "AActorexecGetGravityZ",
+      "explicit_variant": false
+    },
+    {
+      "purpose": "gravity",
+      "encoding": "ascii",
+      "suffix_hit_raw": "0x141126a",
+      "refs64": [
+        {
+          "raw": "0x1af95f0",
+          "rva": "0x1afa1f0",
+          "bytes": "581e41410100000020d73f4001000000",
+          "sha256": "d002f9d143ec9570f4e47aba5ad269853b980adb77f99874a8a4acb81603a5e5",
+          "following_target_rva": "0x3fd720",
+          "candidate_index": 1
+        }
+      ],
+      "suffix_hit_rva": "0x1411e6a",
+      "name_raw": "0x1411258",
+      "name_rva": "0x1411e58",
+      "name_size": 30,
+      "name_sha256": "12d8d7c841458cba6e742b5ae2e37117708e082c86d852c29424ac3ec5fde58d",
+      "suffix_offset_bytes": 18,
+      "literal_boundary": "nul",
+      "name": "APhysicsVolumeexecGetGravityZ",
+      "explicit_variant": false
+    },
+    {
+      "purpose": "gravity",
+      "encoding": "ascii",
+      "suffix_hit_raw": "0x14238d6",
+      "refs64": [
+        {
+          "raw": "0x1afe320",
+          "rva": "0x1afef20",
+          "bytes": "c84442410100000020d73f4001000000",
+          "sha256": "067576b55c3a45a0585bebebe53601e5e5d3fa0db24a437e7a34255511a3137c",
+          "following_target_rva": "0x3fd720",
+          "candidate_index": 2
+        }
+      ],
+      "suffix_hit_rva": "0x14244d6",
+      "name_raw": "0x14238c8",
+      "name_rva": "0x14244c8",
+      "name_size": 26,
+      "name_sha256": "35995256976c4a58f0ff04d503ab2d0734cb1c8cf0e73b08d875ab8463e6a95c",
+      "suffix_offset_bytes": 14,
+      "literal_boundary": "nul",
+      "name": "AWorldInfoexecGetGravityZ",
+      "explicit_variant": false
+    },
+    {
+      "purpose": "gravity",
+      "encoding": "ascii",
+      "suffix_hit_raw": "0x17135e7",
+      "refs64": [
+        {
+          "raw": "0x1b96420",
+          "rva": "0x1b97020",
+          "bytes": "d84171410100000020d73f4001000000",
+          "sha256": "7842f254fe24a56c1a0322316e7389277991395c1f2b1a8ea236f08c1afac27f",
+          "following_target_rva": "0x3fd720",
+          "candidate_index": 3
+        }
+      ],
+      "suffix_hit_rva": "0x17141e7",
+      "name_raw": "0x17135d8",
+      "name_rva": "0x17141d8",
+      "name_size": 27,
+      "name_sha256": "ff3d59812b9cfd7deaa8984b9bdb5ed62b4ed6f628a818b1fcaab31f8c30a920",
+      "suffix_offset_bytes": 15,
+      "literal_boundary": "nul",
+      "name": "AUDKVehicleexecGetGravityZ",
+      "explicit_variant": false
+    },
+    {
+      "purpose": "control",
+      "encoding": "ascii",
+      "suffix_hit_raw": "0x12b3420",
+      "refs64": [
+        {
+          "raw": "0x1add5a0",
+          "rva": "0x1ade1a0",
+          "bytes": "20402b4101000000e0fd054001000000",
+          "sha256": "70e43288644f67e5018040f13758ce22363ebdeaca197abf93407f36b239e7e6",
+          "following_target_rva": "0x5fde0",
+          "candidate_index": 4
+        }
+      ],
+      "suffix_hit_rva": "0x12b4020",
+      "name_raw": "0x12b3420",
+      "name_rva": "0x12b4020",
+      "name_size": 24,
+      "name_sha256": "c7708299c79ce87eb63f3b539288efd7a3a0cd3842c939c336f399c09134fc5a",
+      "suffix_offset_bytes": 0,
+      "literal_boundary": "nul",
+      "name": "UObjectexecGetStateName",
+      "explicit_variant": false
+    }
+  ],
+  "candidates": [
+    {
+      "purpose": "gravity",
+      "name": "AActorexecGetGravityZ",
+      "encoding": "ascii",
+      "name_raw": "0x140a660",
+      "name_rva": "0x140b260",
+      "name_sha256": "955bd322bf37675dd385ee935ab0677d06b72fc88954d60949a172e956a0a27a",
+      "suffix_hit_raw": "0x140a66a",
+      "table_raw": "0x1af6cd0",
+      "table_rva": "0x1af78d0",
+      "table_bytes": "60b240410100000020d73f4001000000",
+      "table_sha256": "dca4866366e33c232534d1c3cf4670be95ac90717d2f9e79b32e75090380a301",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "gravity",
+      "name": "APhysicsVolumeexecGetGravityZ",
+      "encoding": "ascii",
+      "name_raw": "0x1411258",
+      "name_rva": "0x1411e58",
+      "name_sha256": "12d8d7c841458cba6e742b5ae2e37117708e082c86d852c29424ac3ec5fde58d",
+      "suffix_hit_raw": "0x141126a",
+      "table_raw": "0x1af95f0",
+      "table_rva": "0x1afa1f0",
+      "table_bytes": "581e41410100000020d73f4001000000",
+      "table_sha256": "d002f9d143ec9570f4e47aba5ad269853b980adb77f99874a8a4acb81603a5e5",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "gravity",
+      "name": "AWorldInfoexecGetGravityZ",
+      "encoding": "ascii",
+      "name_raw": "0x14238c8",
+      "name_rva": "0x14244c8",
+      "name_sha256": "35995256976c4a58f0ff04d503ab2d0734cb1c8cf0e73b08d875ab8463e6a95c",
+      "suffix_hit_raw": "0x14238d6",
+      "table_raw": "0x1afe320",
+      "table_rva": "0x1afef20",
+      "table_bytes": "c84442410100000020d73f4001000000",
+      "table_sha256": "067576b55c3a45a0585bebebe53601e5e5d3fa0db24a437e7a34255511a3137c",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "gravity",
+      "name": "AUDKVehicleexecGetGravityZ",
+      "encoding": "ascii",
+      "name_raw": "0x17135d8",
+      "name_rva": "0x17141d8",
+      "name_sha256": "ff3d59812b9cfd7deaa8984b9bdb5ed62b4ed6f628a818b1fcaab31f8c30a920",
+      "suffix_hit_raw": "0x17135e7",
+      "table_raw": "0x1b96420",
+      "table_rva": "0x1b97020",
+      "table_bytes": "d84171410100000020d73f4001000000",
+      "table_sha256": "7842f254fe24a56c1a0322316e7389277991395c1f2b1a8ea236f08c1afac27f",
+      "candidate_exec_rva": "0x3fd720",
+      "candidate_exec_raw": "0x3fcb20",
+      "pdata": [
+        {
+          "begin_rva": "0x3fd720",
+          "end_rva": "0x3fd76c",
+          "begin_raw": "0x3fcb20",
+          "size": 76,
+          "unwind_rva": "0x197d7c0",
+          "pdata_raw": "0x1be40a8",
+          "pdata_bytes": "20d73f006cd73f00c0d79701",
+          "function_is_range_entry": true
+        }
+      ]
+    },
+    {
+      "purpose": "control",
+      "name": "UObjectexecGetStateName",
+      "encoding": "ascii",
+      "name_raw": "0x12b3420",
+      "name_rva": "0x12b4020",
+      "name_sha256": "c7708299c79ce87eb63f3b539288efd7a3a0cd3842c939c336f399c09134fc5a",
+      "suffix_hit_raw": "0x12b3420",
+      "table_raw": "0x1add5a0",
+      "table_rva": "0x1ade1a0",
+      "table_bytes": "20402b4101000000e0fd054001000000",
+      "table_sha256": "70e43288644f67e5018040f13758ce22363ebdeaca197abf93407f36b239e7e6",
+      "candidate_exec_rva": "0x5fde0",
+      "candidate_exec_raw": "0x5f1e0",
+      "pdata": [
+        {
+          "begin_rva": "0x5fde0",
+          "end_rva": "0x5fe78",
+          "begin_raw": "0x5f1e0",
+          "size": 152,
+          "unwind_rva": "0x193d718",
+          "pdata_raw": "0x1bb96b8",
+          "pdata_bytes": "e0fd050078fe050018d79301",
+          "function_is_range_entry": true
+        }
+      ]
+    }
+  ],
+  "control_reproduced": true,
+  "status": "STATIC_REGISTRATION_CANDIDATES_ONLY",
+  "exception_directory": {
+    "rva": "0x1d61000",
+    "raw": "0x1bb5800",
+    "size": 982440
+  },
+  "limitations": [
+    "No target execution, body decompilation, gravity formula or virtual-slot inference.",
+    "Pointer pairs and containing pdata ranges are candidates, not complete wrapper bindings."
+  ]
+}
