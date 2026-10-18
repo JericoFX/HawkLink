@@ -66,6 +66,20 @@ struct LiveInventorySnapshot {
     bool operator==(const LiveInventorySnapshot&) const = default;
 };
 
+// Optional reflected observations only, not a network possession or timestamp
+// acceptance decision. No identity value or address is exposed by this DTO.
+struct LiveFireTimingSnapshot {
+    float controller_current_timestamp = 0.0F;
+    std::int32_t controller_current_timestamp_offset = 0;
+    std::int32_t pawn_controller_offset = 0;
+    std::int32_t acknowledged_pawn_offset = 0;
+    bool pawn_controller_present = false;
+    bool pawn_controller_matches = false;
+    bool acknowledged_pawn_present = false;
+    bool acknowledged_pawn_matches = false;
+    bool operator==(const LiveFireTimingSnapshot&) const = default;
+};
+
 struct LivePlayerSnapshot {
     std::int32_t local_player_count = 0;
     bool local_player_present = false;
@@ -78,6 +92,7 @@ struct LivePlayerSnapshot {
     // Internal equality trace only; never serialize addresses/raw FNames.
     std::vector<std::uint64_t> trace;
     std::optional<LiveInventorySnapshot> inventory;
+    std::optional<LiveFireTimingSnapshot> fire_timing;
     bool operator==(const LivePlayerSnapshot&) const = default;
 };
 
@@ -96,13 +111,16 @@ struct LivePlayerSnapshot {
 // Only null/reference/type state is observed. No current-World membership,
 // actor channel, possession, admission or universal absence is established.
 // Caller must compare two complete snapshots (including trace) before output.
+// inspect_fire_timing requires inspect_inventory. It observes finite reflected
+// timestamps and typed reference relationships, not accepted network possession.
 // Fixed errors: live_invalid, live_engine_absent, live_array_invalid,
 // live_limit, live_identity, live_cycle, live_property_missing,
 // live_property_mismatch, live_backlink_mismatch; Reader errors propagate.
 template<class Reader, class Identify>
 LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identify& source_identify,
-                                   bool inspect_inventory = false) {
+                                   bool inspect_inventory = false, bool inspect_fire_timing = false) {
     const auto fail = [](const char* code) { throw std::runtime_error(code); };
+    if (inspect_fire_timing && !inspect_inventory) fail("live_invalid");
     const auto checked = [&](std::uint64_t base, std::uint64_t offset, std::size_t size) {
         const auto maximum = std::numeric_limits<std::uint64_t>::max();
         if (!base || offset > maximum - base || size - 1 > maximum - (base + offset))
@@ -402,6 +420,36 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         const auto inv_pawn_chain = instance(pawn_value);
         const auto inv_pawn_type = named(inv_pawn_chain, "Pawn", "Engine");
         const auto inv_native_type = named(inv_pawn_chain, "R_PawnNative", "HawkenGame");
+        if (inspect_fire_timing) {
+            const auto fire_stamp_metadata = property(pc_type, "CurrentTimeStamp", {},
+                "Engine", "Engine", false, false, true);
+            const auto fire_controller_metadata = property(inv_pawn_type, "Controller", "Controller");
+            const auto fire_acknowledged_metadata = property(pc_type, "AcknowledgedPawn", "Pawn");
+            const auto fire_stamp_bits = read.template operator()<std::uint32_t>(controller,
+                static_cast<std::uint64_t>(fire_stamp_metadata.offset));
+            const auto fire_stamp_value = std::bit_cast<float>(fire_stamp_bits);
+            if (!std::isfinite(fire_stamp_value)) fail("live_invalid");
+            const auto fire_controller_value = read.template operator()<std::uint64_t>(pawn_value,
+                static_cast<std::uint64_t>(fire_controller_metadata.offset));
+            const auto fire_acknowledged_value = read.template operator()<std::uint64_t>(controller,
+                static_cast<std::uint64_t>(fire_acknowledged_metadata.offset));
+            if (fire_controller_value &&
+                !contains(instance(fire_controller_value), fire_controller_metadata.expected))
+                fail("live_identity");
+            if (fire_acknowledged_value &&
+                !contains(instance(fire_acknowledged_value), fire_acknowledged_metadata.expected))
+                fail("live_identity");
+            LiveFireTimingSnapshot fire_timing_out;
+            fire_timing_out.controller_current_timestamp = fire_stamp_value;
+            fire_timing_out.controller_current_timestamp_offset = fire_stamp_metadata.offset;
+            fire_timing_out.pawn_controller_offset = fire_controller_metadata.offset;
+            fire_timing_out.acknowledged_pawn_offset = fire_acknowledged_metadata.offset;
+            fire_timing_out.pawn_controller_present = fire_controller_value != 0;
+            fire_timing_out.pawn_controller_matches = fire_controller_value && fire_controller_value == controller;
+            fire_timing_out.acknowledged_pawn_present = fire_acknowledged_value != 0;
+            fire_timing_out.acknowledged_pawn_matches = fire_acknowledged_value && fire_acknowledged_value == pawn_value;
+            out.fire_timing = fire_timing_out;
+        }
         const auto inv_manager_property = property(inv_pawn_type, "InvManager", "InventoryManager");
         const auto inv_weapon_property = property(inv_pawn_type, "Weapon", "Weapon");
         const auto inv_dual_property = property(inv_native_type, "DualWeapon", "R_Weap_DualWield",

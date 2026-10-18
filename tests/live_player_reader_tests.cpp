@@ -1211,3 +1211,147 @@ TEST_CASE("Live inventory script observer keeps child cycle and shared read budg
         f.memory.budget=1;CHECK_THROWS_WITH_AS(f.inventory_sample(),"read_limit",std::runtime_error);
     }
 }
+
+
+namespace {
+constexpr std::uint64_t timing_timestamp_property=0x59000;
+constexpr std::uint64_t timing_controller_property=0x59400;
+constexpr std::uint64_t timing_acknowledged_property=0x59800;
+struct FireTimingFixture : InventoryFixture {
+    FireTimingFixture() {
+        // Deliberately distinct from candidate native offsets4ec/26c. Only the
+        // reflected descriptors may select these synthetic instance locations.
+        property(timing_timestamp_property,pc_class,"CurrentTimeStamp",0x610,0);
+        memory.put(timing_timestamp_property+0x50,float_property_class);
+        memory.put(timing_timestamp_property+0x6c,std::int32_t{4});
+        property(timing_controller_property,pawn_class,"Controller",0x618,controller_class);
+        property(timing_acknowledged_property,pc_class,"AcknowledgedPawn",0x620,pawn_class);
+        memory.put(player_property+0x60,timing_timestamp_property);
+        memory.put(timing_timestamp_property+0x60,timing_acknowledged_property);
+        memory.put(pawn_no_fire_property+0x60,timing_controller_property);
+        memory.put(controller_object+0x610,12.5F);
+        memory.put(pawn_object+0x618,controller_object);
+        memory.put(controller_object+0x620,pawn_object);
+    }
+    LivePlayerSnapshot timing_sample(bool inventory=true,bool timing=true) {
+        auto identify=[&](std::uint64_t where) {
+            const auto found=identities.find(where);
+            if(found==identities.end()) throw std::runtime_error("identity_unavailable");
+            return found->second;
+        };
+        return read_live_player(memory,module_base,identify,inventory,timing);
+    }
+};
+}
+
+TEST_CASE("Live fire timing reads finite timestamp and typed mutual links at reflected fixture offsets") {
+    FireTimingFixture f;const auto sampled=f.timing_sample();
+    REQUIRE(sampled.fire_timing.has_value());const auto& value=*sampled.fire_timing;
+    CHECK(value.controller_current_timestamp==12.5F);
+    CHECK(value.controller_current_timestamp_offset==0x610);
+    CHECK(value.pawn_controller_offset==0x618);CHECK(value.acknowledged_pawn_offset==0x620);
+    CHECK(value.pawn_controller_present);CHECK(value.pawn_controller_matches);
+    CHECK(value.acknowledged_pawn_present);CHECK(value.acknowledged_pawn_matches);
+    CHECK(f.memory.read_counts[controller_object+0x610]==1);
+    CHECK(f.memory.read_counts[pawn_object+0x618]==1);
+    CHECK(f.memory.read_counts[controller_object+0x620]==1);
+    CHECK(f.memory.read_counts[controller_object+0x4ec]==0);
+    CHECK(f.memory.read_counts[pawn_object+0x26c]==0);
+    REQUIRE(sampled.inventory.has_value());CHECK(sampled.inventory->pawn_weapon_is_dual);
+}
+TEST_CASE("Live fire timing distinguishes null from valid different Controller and Pawn references") {
+    FireTimingFixture f;
+    SUBCASE("both null") {
+        f.memory.put(pawn_object+0x618,std::uint64_t{0});
+        f.memory.put(controller_object+0x620,std::uint64_t{0});
+        const auto sampled=f.timing_sample();REQUIRE(sampled.fire_timing.has_value());
+        CHECK_FALSE(sampled.fire_timing->pawn_controller_present);
+        CHECK_FALSE(sampled.fire_timing->pawn_controller_matches);
+        CHECK_FALSE(sampled.fire_timing->acknowledged_pawn_present);
+        CHECK_FALSE(sampled.fire_timing->acknowledged_pawn_matches);
+    }
+    SUBCASE("other live instances of the declared expected classes") {
+        constexpr std::uint64_t other_controller=0x70000,other_pawn=0x74000;
+        f.object(other_controller,hawken_pc_class,0);f.object(other_pawn,content_pawn_class,0);
+        f.memory.put(pawn_object+0x618,other_controller);
+        f.memory.put(controller_object+0x620,other_pawn);
+        const auto sampled=f.timing_sample();REQUIRE(sampled.fire_timing.has_value());
+        CHECK(sampled.fire_timing->pawn_controller_present);
+        CHECK_FALSE(sampled.fire_timing->pawn_controller_matches);
+        CHECK(sampled.fire_timing->acknowledged_pawn_present);
+        CHECK_FALSE(sampled.fire_timing->acknowledged_pawn_matches);
+    }
+}
+TEST_CASE("Live fire timing rejects wrong referenced type invalid live flags or class default objects") {
+    FireTimingFixture f;
+    SUBCASE("Pawn Controller is a PRI") {f.memory.put(pawn_object+0x618,pri_object);}
+    SUBCASE("AcknowledgedPawn is a Controller") {f.memory.put(controller_object+0x620,controller_object);}
+    SUBCASE("Controller reference has invalid instance flags") {
+        constexpr std::uint64_t other=0x70000;f.object(other,hawken_pc_class,0);
+        f.memory.put(other+0x10,std::uint64_t{0x200});f.memory.put(pawn_object+0x618,other);
+    }
+    SUBCASE("Pawn reference is its class CDO") {
+        constexpr std::uint64_t other=0x74000;f.object(other,content_pawn_class,0);
+        f.memory.put(content_pawn_class+0x1d4,other);f.memory.put(controller_object+0x620,other);
+    }
+    CHECK_THROWS_WITH_AS(f.timing_sample(),"live_identity",std::runtime_error);
+}
+TEST_CASE("Live fire timing requires exact scalar descriptor owner type and bounded reflected offsets") {
+    FireTimingFixture f;
+    SUBCASE("missing timestamp") {f.memory.put(player_property+0x60,timing_acknowledged_property);}
+    SUBCASE("missing Pawn Controller") {f.memory.put(pawn_no_fire_property+0x60,std::uint64_t{0});}
+    SUBCASE("missing AcknowledgedPawn") {f.memory.put(timing_timestamp_property+0x60,std::uint64_t{0});}
+    SUBCASE("timestamp is not a FloatProperty") {f.memory.put(timing_timestamp_property+0x50,byte_property_class);}
+    SUBCASE("timestamp FloatProperty lacks cast flag") {f.memory.put(float_property_class+0x128,std::uint32_t{0});}
+    SUBCASE("timestamp ArrayDim") {f.memory.put(timing_timestamp_property+0x68,std::int32_t{2});}
+    SUBCASE("timestamp element width") {f.memory.put(timing_timestamp_property+0x6c,std::int32_t{8});}
+    SUBCASE("wrong timestamp descriptor owner") {f.memory.put(timing_timestamp_property+0x40,controller_class);}
+    SUBCASE("wrong Pawn Controller expected class") {f.memory.put(timing_controller_property+0xa8,pc_class);}
+    SUBCASE("wrong AcknowledgedPawn expected class") {f.memory.put(timing_acknowledged_property+0xa8,actor_class);}
+    SUBCASE("negative timestamp offset") {f.memory.put(timing_timestamp_property+0x8c,std::int32_t{-1});}
+    SUBCASE("Controller offset above existing guard") {f.memory.put(timing_controller_property+0x8c,std::int32_t{65537});}
+    SUBCASE("duplicate timestamp") {
+        constexpr std::uint64_t extra=0x59c00;
+        f.property(extra,pc_class,"CurrentTimeStamp",0x610,0);
+        f.memory.put(extra+0x50,float_property_class);f.memory.put(extra+0x6c,std::int32_t{4});
+        f.memory.put(timing_timestamp_property+0x60,extra);f.memory.put(extra+0x60,timing_acknowledged_property);
+    }
+    CHECK_THROWS_AS(f.timing_sample(),std::runtime_error);
+}
+TEST_CASE("Live fire timing rejects nonfinite timestamps without clamping finite values") {
+    for(const float bad:{std::numeric_limits<float>::infinity(),
+                        -std::numeric_limits<float>::infinity(),std::numeric_limits<float>::quiet_NaN()}) {
+        FireTimingFixture f;f.memory.put(controller_object+0x610,bad);
+        CHECK_THROWS_WITH_AS(f.timing_sample(),"live_invalid",std::runtime_error);
+    }
+    FireTimingFixture f;f.memory.put(controller_object+0x610,-3.25F);
+    const auto sampled=f.timing_sample();REQUIRE(sampled.fire_timing.has_value());
+    CHECK(sampled.fire_timing->controller_current_timestamp==-3.25F);
+}
+TEST_CASE("Live fire timing is opt in and requires inventory inspection without changing disabled reads") {
+    FireTimingFixture f;
+    // Disabled observation must not read live timing values or validate their
+    // unused descriptors. Existing inventory samples remain byte for byte equal.
+    f.memory.bytes.erase(controller_object+0x610);f.memory.bytes.erase(pawn_object+0x618);
+    f.memory.bytes.erase(controller_object+0x620);
+    f.memory.put(timing_timestamp_property+0x50,byte_property_class);
+    const auto previous=f.inventory_sample();f.memory.read_counts.clear();
+    const auto disabled=f.timing_sample(true,false);
+    CHECK(previous==disabled);CHECK_FALSE(disabled.fire_timing.has_value());
+    CHECK(f.memory.read_counts[controller_object+0x610]==0);
+    CHECK(f.memory.read_counts[pawn_object+0x618]==0);CHECK(f.memory.read_counts[controller_object+0x620]==0);
+    CHECK_THROWS_WITH_AS(f.timing_sample(false,true),"live_invalid",std::runtime_error);
+}
+TEST_CASE("Live fire timing includes metadata and live values in independent sample equality") {
+    FireTimingFixture f;const auto first=f.timing_sample();REQUIRE(first.fire_timing.has_value());
+    f.memory.put(timing_timestamp_property+0x8c,std::int32_t{0x640});
+    f.memory.put(controller_object+0x640,12.5F);
+    const auto second=f.timing_sample();REQUIRE(second.fire_timing.has_value());
+    CHECK(first.fire_timing->controller_current_timestamp==second.fire_timing->controller_current_timestamp);
+    CHECK(second.fire_timing->controller_current_timestamp_offset==0x640);
+    CHECK_FALSE(first==second);CHECK_FALSE(first.trace==second.trace);
+    f.memory.put(controller_object+0x640,13.0F);
+    const auto third=f.timing_sample();REQUIRE(third.fire_timing.has_value());
+    CHECK(third.fire_timing->controller_current_timestamp==13.0F);
+    CHECK_FALSE(second==third);CHECK_FALSE(second.trace==third.trace);
+}

@@ -672,7 +672,7 @@ Sample player_links_sample(Reader& reader,std::uint64_t module,PlayerLocator& lo
     return out;
 }
 
-Sample live_player_sample(Reader& reader,std::uint64_t module) {
+Sample live_player_sample(Reader& reader,std::uint64_t module,bool fire_timing=false) {
     Sample out;
     // Successful reads only, without additional remote reads. The shared 1MiB
     // read budget bounds this internal trace; no addresses/bytes are serialized.
@@ -713,7 +713,7 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
         }
         fail("live_identity");
     };
-    const auto value=hawken::probe::read_live_player(reader,module,identify,true);
+    const auto value=hawken::probe::read_live_player(reader,module,identify,true,fire_timing);
     out.pointers.insert(out.pointers.end(),value.trace.begin(),value.trace.end());
     // Replace Names metadata: neither raw FNames nor metadata names escape this mode.
     out.metadata={{"local_player_present",value.local_player_present},
@@ -722,6 +722,19 @@ Sample live_player_sample(Reader& reader,std::uint64_t module) {
         {"first_entry_only",true},{"world_membership_verified",false}};
     if (value.pawn_offset) out.metadata["pawn_offset"]=*value.pawn_offset;
     if (value.pri_offset) out.metadata["pri_offset"]=*value.pri_offset;
+    if (value.fire_timing) {
+        const auto& timing=*value.fire_timing;
+        out.metadata["fire_timing"]={
+            {"controller_current_timestamp",timing.controller_current_timestamp},
+            {"controller_current_timestamp_offset",timing.controller_current_timestamp_offset},
+            {"pawn_controller_offset",timing.pawn_controller_offset},
+            {"acknowledged_pawn_offset",timing.acknowledged_pawn_offset},
+            {"pawn_controller_present",timing.pawn_controller_present},
+            {"pawn_controller_matches",timing.pawn_controller_matches},
+            {"acknowledged_pawn_present",timing.acknowledged_pawn_present},
+            {"acknowledged_pawn_matches",timing.acknowledged_pawn_matches},
+            {"network_possession_verified",false}};
+    }
     if (value.inventory) {
         const auto& inventory_snapshot=*value.inventory;
         out.metadata["inventory"]={
@@ -937,7 +950,7 @@ Sample gri_template_sample(Reader& reader,std::uint64_t module,PlayerLocator& lo
         {"unique_id_type","Engine.OnlineSubsystem.UniqueNetId"},{"unique_id_offset",result.unique_id_offset}};
     return out;
 }
-int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player,bool gri_template,bool menu_sync) {
+int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player,bool gri_template,bool menu_sync,bool fire_timing) {
     const Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if (!process) fail("process_unavailable");
     if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -953,10 +966,10 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
     Sample first,second;
     unsigned live_sample_phase=1;
     try {
-        first=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+        first=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base,fire_timing) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
         live_sample_phase=2;
-        second=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base) : player_links ? player_links_sample(reader,base,locator) :
+        second=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base,fire_timing) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
     } catch (const std::runtime_error& error) {
         if (live_player && std::string_view(error.what())=="read_limit") {
@@ -991,11 +1004,13 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
             fail("original_identity_mismatch");
         const bool local=second.metadata["local_player_present"].get<bool>();
         const bool controller=second.metadata["controller_present"].get<bool>();
-        Json report={{"status",controller ? "observed" : "inconclusive"},
+        const bool timing_observed=!fire_timing || second.metadata.contains("fire_timing");
+        Json report={{"status",controller && timing_observed ? "observed" : "inconclusive"},
             {"identity_verified",true},{"samples_equal",true},{"metadata",second.metadata}};
         if (!controller) report["error"]=local ? "live_controller_absent" : "live_local_player_absent";
+        else if (!timing_observed) report["error"]="live_fire_timing_absent";
         std::cout<<report.dump()<<'\n';
-        return controller ? 0 : 1;
+        return controller && timing_observed ? 0 : 1;
     }
     if (!comparison.inspected_metadata_equal) {
         const auto section_equal=[&](const char* key) {
@@ -1037,7 +1052,7 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--gri-template|--menu-sync]\n"
+        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--live-fire-timing|--gri-template|--menu-sync]\n"
             "Read-only bounded original NetFields metadata or menu sync flags; no process creation.\n";
         return 0;
     }
@@ -1045,14 +1060,15 @@ int main(int argc,char** argv) {
     const bool connection_cache=argc==3 && std::string_view(argv[2])=="--connection-cache";
     const bool mech_setup=argc==3 && std::string_view(argv[2])=="--mech-setup";
     const bool player_links=argc==3 && std::string_view(argv[2])=="--player-links";
-    const bool live_player=argc==3 && std::string_view(argv[2])=="--live-player";
+    const bool fire_timing=argc==3 && std::string_view(argv[2])=="--live-fire-timing";
+    const bool live_player=fire_timing || (argc==3 && std::string_view(argv[2])=="--live-player");
     const bool gri_template=argc==3 && std::string_view(argv[2])=="--gri-template";
     const bool menu_sync=argc==3 && std::string_view(argv[2])=="--menu-sync";
     if ((argc!=2 && !connection_cache && !mech_setup && !player_links && !live_player && !gri_template && !menu_sync) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid,connection_cache,mech_setup,player_links,live_player,gri_template,menu_sync); }
+    try { return observe(pid,connection_cache,mech_setup,player_links,live_player,gri_template,menu_sync,fire_timing); }
     catch (const NameInstanceError& error) {
         Json report={{"status","inconclusive"},{"error","nonoriginal_name_instance"},{"identity_verified",false}};
         if (!live_player && !gri_template && !menu_sync) report["rejected_fname_raw"]=error.raw();
