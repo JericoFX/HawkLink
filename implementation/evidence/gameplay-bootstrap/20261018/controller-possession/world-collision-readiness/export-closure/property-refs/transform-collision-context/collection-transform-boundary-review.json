@@ -1,0 +1,233 @@
+{
+  "reviewedUtc": "2026-10-18T18:26:42.5821307Z",
+  "status": "RETAINED_SERIALIZED_BOUNDARY_VERIFIED__EFFECTIVE_WORLD_TRANSFORM_OPEN",
+  "originalPackage": "Wreckage_Collision.upk",
+  "originalSha256": "1afc72d3cc07f1ac75fdd9b291d825d728143d9e4d40748ec5c37dde04a20162",
+  "evidence": [
+    {
+      "path": "properties.json",
+      "sha256": "ccb9abf96e28b2effe193c9ba33493cbb3bd6ba065570babe2fcdf379c264d7d"
+    },
+    {
+      "path": "body19-placements/properties.json",
+      "sha256": "67ed13774e496af7c4ed37c81ae3b86c02ed31413e7da132bb4ac962b9e1eb5e"
+    },
+    {
+      "path": "body19-placements/actor61/properties.json",
+      "sha256": "6030b2630b58404be2ac165ef5acdbf761b1d318d76f1f9a3d86cb095c7a065f"
+    }
+  ],
+  "actors": [
+    {
+      "serial": "0x79b32",
+      "tail": {
+        "relative_offset": 472,
+        "virtual_offset": "0x79d0a",
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "status": "OPAQUE_NOT_GEOMETRY_DECODED"
+      },
+      "class": "Engine.StaticMeshCollectionActor",
+      "serialSha256": "316449ebb1738e150b3821f9c67557fa77bbba1ece551e3b81c033c892803502",
+      "export": 58,
+      "tagNames": [
+        "StaticMeshComponents",
+        "Tag"
+      ],
+      "size": 472
+    },
+    {
+      "serial": "0x79f00",
+      "tail": {
+        "relative_offset": 456,
+        "virtual_offset": "0x7a0c8",
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "status": "OPAQUE_NOT_GEOMETRY_DECODED"
+      },
+      "class": "Engine.StaticMeshCollectionActor",
+      "serialSha256": "af5468f6d32c65a6ed15e668e601e6e535c48536d31f64e98e839967e3c8280f",
+      "export": 61,
+      "tagNames": [
+        "StaticMeshComponents",
+        "Tag"
+      ],
+      "size": 456
+    }
+  ],
+  "components": [
+    {
+      "tagNames": [
+        "StaticMesh",
+        "VertexPositionVersionNumber",
+        "Materials",
+        "ReplacementPrimitive",
+        "PreviewEnvironmentShadowing",
+        "HiddenGame",
+        "CastShadow",
+        "bCastDynamicShadow",
+        "bCastStaticShadow",
+        "bAcceptsDynamicDominantLightShadows",
+        "bAcceptsLights",
+        "bAcceptsDynamicLights",
+        "bUsePrecomputedShadows",
+        "bBlockWeapons",
+        "LightingChannels",
+        "Translation",
+        "Rotation",
+        "Scale3D"
+      ],
+      "export": 62,
+      "class": "Engine.StaticMeshComponent",
+      "tail": {
+        "relative_offset": 612,
+        "virtual_offset": "0x7a32c",
+        "size": 21,
+        "sha256": "10c7b76c881edd80616f48eefded8b9e7fe0f4ad52df3128647365be7e21b4e0",
+        "status": "OPAQUE_NOT_GEOMETRY_DECODED"
+      }
+    },
+    {
+      "tagNames": [
+        "StaticMesh",
+        "Materials",
+        "ReplacementPrimitive",
+        "HiddenGame",
+        "CastShadow",
+        "bCastDynamicShadow",
+        "bCastStaticShadow",
+        "bAcceptsDynamicDominantLightShadows",
+        "bAcceptsLights",
+        "bAcceptsDynamicLights",
+        "LightingChannels",
+        "Translation",
+        "Scale3D"
+      ],
+      "export": 235,
+      "class": "Engine.StaticMeshComponent",
+      "tail": {
+        "relative_offset": 432,
+        "virtual_offset": "0x94eac",
+        "size": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "status": "OPAQUE_NOT_GEOMETRY_DECODED"
+      }
+    },
+    {
+      "tagNames": [
+        "StaticMesh",
+        "Materials",
+        "ReplacementPrimitive",
+        "HiddenGame",
+        "CastShadow",
+        "bCastDynamicShadow",
+        "bCastStaticShadow",
+        "bAcceptsDynamicDominantLightShadows",
+        "bAcceptsLights",
+        "bAcceptsDynamicLights",
+        "bUsePrecomputedShadows",
+        "LightingChannels",
+        "Translation",
+        "Rotation",
+        "Scale3D"
+      ],
+      "export": 236,
+      "class": "Engine.StaticMeshComponent",
+      "tail": {
+        "relative_offset": 501,
+        "virtual_offset": "0x950a5",
+        "size": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "status": "OPAQUE_NOT_GEOMETRY_DECODED"
+      }
+    },
+    {
+      "tagNames": [
+        "StaticMesh",
+        "Materials",
+        "ReplacementPrimitive",
+        "HiddenGame",
+        "CastShadow",
+        "bCastDynamicShadow",
+        "bCastStaticShadow",
+        "bAcceptsDynamicDominantLightShadows",
+        "bAcceptsLights",
+        "bAcceptsDynamicLights",
+        "bUsePrecomputedShadows",
+        "LightingChannels",
+        "Translation",
+        "Rotation",
+        "Scale3D"
+      ],
+      "export": 238,
+      "class": "Engine.StaticMeshComponent",
+      "tail": {
+        "relative_offset": 501,
+        "virtual_offset": "0x954ed",
+        "size": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "status": "OPAQUE_NOT_GEOMETRY_DECODED"
+      }
+    },
+    {
+      "tagNames": [
+        "StaticMesh",
+        "Materials",
+        "ReplacementPrimitive",
+        "HiddenGame",
+        "CastShadow",
+        "bCastDynamicShadow",
+        "bCastStaticShadow",
+        "bAcceptsDynamicDominantLightShadows",
+        "bAcceptsLights",
+        "bAcceptsDynamicLights",
+        "LightingChannels",
+        "Translation",
+        "Scale3D"
+      ],
+      "export": 239,
+      "class": "Engine.StaticMeshComponent",
+      "tail": {
+        "relative_offset": 432,
+        "virtual_offset": "0x956a1",
+        "size": 4,
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "status": "OPAQUE_NOT_GEOMETRY_DECODED"
+      }
+    }
+  ],
+  "declarations": {
+    "sha256": "07dd879dcc9b85a7897d8486852a7f55ebcdc04fee02b74ad3193b797c2f45c6",
+    "file": "research/2026-10-10/evidence/upk/packages/Engine/001718-Engine.PrimitiveComponent.uc",
+    "localToWorldLine": 116,
+    "qualifiers": "native const transient Matrix",
+    "cachedParentToWorldLine": 210
+  },
+  "conclusions": [
+    "Selected Actor58/61 have no native tail beyond tagged properties in retained verified extraction",
+    "No direct matrix identified in their tags or selected component tags; 21B/4B tails remain opaque",
+    "Transient declarations are not evidence that all possible native serializers omit matrices",
+    "Do not infer world matrices from absent actor Location/Rotation or Absolute* fields"
+  ],
+  "nextNativeSeeds": [
+    "UPrimitiveComponentexecSetAbsolute",
+    "UPrimitiveComponentexecSetTranslation",
+    "UPrimitiveComponentexecSetRotation",
+    "UPrimitiveComponentexecSetScale",
+    "UPrimitiveComponentexecSetScale3D"
+  ],
+  "nextSeedStatus": "Original UC export declarations only; no bound RVA/body or runtime invocation yet",
+  "limits": [
+    "No package re-extraction, new native analysis, game run, collision-query execution or physics acceptance",
+    "GetGravityZ actual Pawn target remains separate pending runtime input",
+    "Existing body19/component62 mesh distinction retained; not the full map world"
+  ],
+  "preparedLookup": {
+    "changes": "11 additions/7 deletions limited to method names, output path, requested-suffix metadata and explicit executable-section report",
+    "sha256": "8d9847a35f4a5058ae4c6fcbbd2a66a7a5f65eb378270d39368501235edbd13e",
+    "file": "find-transform-registrations.py",
+    "state": "SOURCE_DIFF_REVIEWED_NOT_EXECUTED",
+    "baseline": "get-gravity-registration-v2.py SHA9d8fc5fa169480f0bfd4a8fb8486f3913c9d6731541b86282161843022fde280",
+    "positiveControl": "UObjectexecGetStateName must be found through same scan; no injected result"
+  }
+}
