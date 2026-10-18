@@ -658,7 +658,7 @@ if(BUILD_TESTING)
             target_compile_options(hawken-native-host-runtime-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
         endif()
         foreach(scenario disabled invalidmodule duplicateflag quotedvalue-not-flag
-                positiveANSI positiveUTF16 readonly-slot bad-native-target bad-token)
+                positiveANSI positiveUTF16 readonly-slot bad-native-target bad-token direct-child-blocked)
             add_test(NAME native_host_runtime_${scenario}
                 COMMAND hawken-native-host-runtime-tests ${scenario})
             set_tests_properties(native_host_runtime_${scenario} PROPERTIES TIMEOUT 10)

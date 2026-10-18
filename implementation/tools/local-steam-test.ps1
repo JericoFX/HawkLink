@@ -22,7 +22,10 @@ param(
     [ValidatePattern('^HawkenLocalOnly-[0-9a-f]{32}$')]
     [string]$ExistingIsolationRuleName = '',
     [ValidatePattern('^[0-9a-f]{64}$')]
-    [string]$ServerExecutableHash = 'b078e13373c98a524908186986314c9fecd3e1fc13bc5b3e086c5967aa8df9b8'
+    [string]$ServerExecutableHash = 'b078e13373c98a524908186986314c9fecd3e1fc13bc5b3e086c5967aa8df9b8',
+    [switch]$NativeHostResearch,
+    [ValidatePattern('^[0-9a-f]{64}$')]
+    [string]$BridgeExecutableHash = '433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -36,6 +39,9 @@ $gameExecutable = Join-Path $gameDirectory 'HawkenGame-Win64-Shipping.exe'
 $masterExecutable = Join-Path $workspace 'build\windows-msvc\hawken-master.exe'
 $serverExecutable = Join-Path $workspace 'build\windows-msvc\hawken-server.exe'
 $bridgeSource = Join-Path $workspace 'build\windows-msvc\client-bridge\dinput8.dll'
+if ($NativeHostResearch) {
+    $bridgeSource = Join-Path $workspace 'build\windows-msvc\native-host-research\dinput8.dll'
+}
 $configSource = Join-Path $workspace 'profiles\hawken-client.toml'
 $starterProfileSource = Join-Path $workspace 'profiles\local-starter-catalogue.json'
 $starterProfileHash = '528c9a7685ff6686a23c07cb4e62bb4cc7389ae2bd64a8ea1bf5dcd945e996fe'
@@ -61,6 +67,7 @@ $result = [ordered]@{
     status = 'NOT_STARTED'
     servicesOwned = $ownsServices
     isolationRuleOwned = $ownsRule
+    nativeHostResearchRequested = $NativeHostResearch.IsPresent
     steamStartedByHelper = $false
     gameStartedByHelper = $false
     gameObserved = $false
@@ -174,6 +181,9 @@ function Add-TestFile([string]$Source, [string]$Name, [string]$Expected) {
 }
 
 try {
+    if ($NativeHostResearch -and -not $PSBoundParameters.ContainsKey('BridgeExecutableHash')) {
+        throw 'Native hosting research requires an explicit verified bridge hash.'
+    }
     Assert-ServiceMode ([bool]$AttachExistingServices) $ServerPid $MasterPid $PSBoundParameters
     if ($WreckageTrial -and -not $UdpTrial) {
         throw 'Wreckage trial requires UdpTrial.'
@@ -243,7 +253,7 @@ try {
     Write-Evidence 'guard-active.json' @{ verified = $true; ruleName = $ruleName; program = $gameExecutable; owned = $ownsRule }
 
     $phase = 'temporary-files'
-    Add-TestFile $bridgeSource 'dinput8.dll' '433f1a7ea0d639be6c41a81ffba0e40b233a6a2be8d74b54d067daa0b447081a'
+    Add-TestFile $bridgeSource 'dinput8.dll' $BridgeExecutableHash
     Add-TestFile $configSource 'hawken-client.toml' '7f476d02e9c93627b43c5dde3bed7f12646252e71333944a66869498ddb4e4c3'
 
     if ($ownsServices) {

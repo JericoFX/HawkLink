@@ -17,6 +17,7 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 #include <thread>
 #include <type_traits>
@@ -155,6 +156,53 @@ void unchanged(const Fixture& fixture,host::NativeExec expected,DWORD slot_prote
     require(fixture.protection(fixture.target+0xf0)==slot_protection,"runtime changed slot protection");
     require(fixture.protection(fixture.base+0x400560)==PAGE_EXECUTE_READ,"runtime changed code protection");
 }
+void direct_child_blocked() {
+    require(host::runtime_status()==host::RuntimeStatus::idle,"process did not start idle");
+    Fixture fixture;
+    verify_call(fixture.original,7,1);
+    require(host::start_runtime(fixture.module(),kEnabled),"valid explicit request did not start worker");
+    require(wait_terminal()==host::RuntimeStatus::installed,"valid fixture was not installed");
+    std::array<wchar_t,32768> path{};
+    const auto length=GetModuleFileNameW(nullptr,path.data(),static_cast<DWORD>(path.size()));
+    require(length!=0 && length<path.size(),"own executable path unavailable");
+    const std::wstring executable(path.data(),length);
+    auto command=L"\""+executable+L"\" --owned-leaf";
+    struct Child {
+        PROCESS_INFORMATION info{};
+        bool created=false,waited=false;
+        ~Child() {
+            if (!created) return;
+            if (!waited) {
+                TerminateProcess(info.hProcess,0xe0000001U);
+                WaitForSingleObject(info.hProcess,INFINITE);
+            }
+            CloseHandle(info.hThread);
+            CloseHandle(info.hProcess);
+        }
+    } child;
+    STARTUPINFOW startup{};startup.cb=sizeof(startup);
+    // The same executable and exact leaf mode; no handle inheritance,
+    // BREAKAWAY flag, broker, network operation or arbitrary command.
+    if (!CreateProcessW(executable.c_str(),command.data(),nullptr,nullptr,FALSE,
+            CREATE_NO_WINDOW,nullptr,nullptr,&startup,&child.info)) {
+        const auto error=GetLastError();
+        require(error==ERROR_ACCESS_DENIED || error==ERROR_NOT_ENOUGH_QUOTA,
+            "child creation failed for an unexpected reason");
+        fixture.verify_native_code();
+        return;
+    }
+    child.created=true;
+    const auto wait=WaitForSingleObject(child.info.hProcess,5000);
+    if (wait!=WAIT_OBJECT_0) {
+        require(TerminateProcess(child.info.hProcess,0xe0000001U)!=0,
+            "owned leaf termination failed");
+        require(WaitForSingleObject(child.info.hProcess,INFINITE)==WAIT_OBJECT_0,
+            "owned leaf cleanup wait failed");
+    }
+    child.waited=true;
+    // RED must fail for an actually permitted child, not missing job metadata.
+    require(false,"installed runtime allowed direct owned leaf creation");
+}
 void run_case(std::string_view name) {
     require(host::runtime_status()==host::RuntimeStatus::idle,"process did not start idle");
     Fixture fixture(name=="positiveUTF16");
@@ -213,8 +261,12 @@ void run_case(std::string_view name) {
 
 int main(int argc,char** argv) {
     if (argc!=2) { std::cerr<<"expected one isolated runtime fixture case\n";return 2; }
+    // This internal child exits before allocating the synthetic module or
+    // enabling the runtime; process lifetime and handles remain parent-owned.
+    if (std::string_view(argv[1])=="--owned-leaf") return 0;
     try {
-        run_case(argv[1]);
+        if (std::string_view(argv[1])=="direct-child-blocked") direct_child_blocked();
+        else run_case(argv[1]);
         std::cout<<"native host runtime fixture PASS: "<<argv[1]<<'\n';
         return 0;
     } catch (const std::exception& error) {

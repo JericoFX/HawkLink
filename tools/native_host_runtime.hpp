@@ -13,6 +13,10 @@ enum class RuntimeStatus : std::uint32_t {
 // loaded until process exit; there is no dynamic unload/reset contract.
 // Only one exact -HawkLinkNativeHostGate argument enables a one-shot worker.
 // Null input, invalid original module, absent/duplicate flag do not start it.
+// Before the worker, an enabled request must assign this process to an anonymous
+// job with KILL_ON_JOB_CLOSE and ACTIVE_PROCESS limit 1. Its HANDLE is retained
+// until process exit, including failures after assignment; no close/reset API.
+// Job setup failure returns false with status failed. Disabled input creates no job.
 // Worker limits: 30 seconds, 60 attempts, 250ms retry sleep, 16MiB total
 // attempted self-process reads. Independent matching samples, writable-slot
 // validation and a final matching lookup precede CAS; no VirtualProtect,

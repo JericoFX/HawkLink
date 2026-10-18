@@ -417,11 +417,13 @@ void initialize() {
     // Opt-in worker starts after normal initialization, outside loader lock.
     // This separate research build retains the original EXE/SDK/Steam checks.
     Image original_image{};
-    if (image_of(GetModuleHandleW(nullptr), original_image)) {
-        (void)hawken::probe::native_host::start_runtime(
-            {reinterpret_cast<std::uint64_t>(original_image.base), original_image.size},
-            original_command_line());
-    }
+    if (!image_of(GetModuleHandleW(nullptr), original_image)) stop_this_process(86);
+    const bool research_started = hawken::probe::native_host::start_runtime(
+        {reinterpret_cast<std::uint64_t>(original_image.base), original_image.size},
+        original_command_line());
+    if (!research_started && hawken::probe::native_host::runtime_status()
+            == hawken::probe::native_host::RuntimeStatus::failed)
+        stop_this_process(86); // An enabled research request must be contained.
 #endif
 }
 
@@ -482,6 +484,13 @@ extern "C" HRESULT WINAPI DirectInput8Create(HINSTANCE instance, DWORD version,
     }
     return real_create(instance, version, iid, result, outer);
 }
+
+#if defined(HAWKEN_NATIVE_HOST_RESEARCH)
+// Read-only observation of our worker; never an entry point into game code.
+extern "C" __declspec(dllexport) std::uint32_t HawkLinkNativeHostState() noexcept {
+    return static_cast<std::uint32_t>(hawken::probe::native_host::runtime_status());
+}
+#endif
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID) {
     if (reason == DLL_PROCESS_ATTACH) return attach(module) ? TRUE : FALSE;

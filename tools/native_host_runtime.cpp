@@ -22,6 +22,7 @@ namespace {
 constinit std::atomic<bool> started{false};
 constinit std::atomic<RuntimeStatus> status{RuntimeStatus::idle};
 constinit OriginalModule original_module{};
+constinit HANDLE process_job = nullptr;
 
 bool explicit_request(const wchar_t* command_line) noexcept {
     if (!command_line) return false;
@@ -149,6 +150,26 @@ bool start_runtime(OriginalModule module, const wchar_t* original_command_line) 
     bool expected = false;
     if (!started.compare_exchange_strong(expected, true,
             std::memory_order_acq_rel, std::memory_order_acquire)) return false;
+
+    const auto job = CreateJobObjectW(nullptr, nullptr);
+    if (!job) {
+        status.store(RuntimeStatus::failed, std::memory_order_release);
+        return false;
+    }
+    JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};
+    limits.BasicLimitInformation.LimitFlags =
+        JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_ACTIVE_PROCESS;
+    limits.BasicLimitInformation.ActiveProcessLimit = 1;
+    if (!SetInformationJobObject(job, JobObjectExtendedLimitInformation,
+            &limits, static_cast<DWORD>(sizeof(limits))) ||
+        !AssignProcessToJobObject(job, GetCurrentProcess())) {
+        CloseHandle(job); // Assignment did not succeed: this job has no process.
+        status.store(RuntimeStatus::failed, std::memory_order_release);
+        return false;
+    }
+    // Never close after assignment, including a later CreateThread failure:
+    // KILL_ON_JOB_CLOSE would terminate our process. No unload/reset path.
+    process_job = job;
 
     original_module = module;
     status.store(RuntimeStatus::pending, std::memory_order_release);
