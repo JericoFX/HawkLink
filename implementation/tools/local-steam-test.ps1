@@ -184,6 +184,7 @@ try {
     if ($NativeHostResearch -and -not $PSBoundParameters.ContainsKey('BridgeExecutableHash')) {
         throw 'Native hosting research requires an explicit verified bridge hash.'
     }
+    $phase = 'preflight-mode'
     Assert-ServiceMode ([bool]$AttachExistingServices) $ServerPid $MasterPid $PSBoundParameters
     if ($WreckageTrial -and -not $UdpTrial) {
         throw 'Wreckage trial requires UdpTrial.'
@@ -198,31 +199,39 @@ try {
     if ($StarterInventory -and -not $SteamLocalAuth) {
         throw 'Starter inventory requires local Steam authentication.'
     }
+    $phase = 'preflight-administrator'
     $principal = [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent())
     if ($ownsRule -and -not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         throw 'Administrator token required.'
     }
+    $phase = 'preflight-session'
     if (@(Get-GameProcesses).Count -ne 0 -or (Test-Path -LiteralPath $sessionDirectory)) {
         throw 'Session precondition failed.'
     }
+    $phase = 'preflight-original-files'
     foreach ($original in $originals) {
         Assert-Hash (Join-Path $gameDirectory $original.name) $original.hash
     }
+    $phase = 'preflight-service-files'
     if ($ownsServices) {
         Assert-Hash $masterExecutable 'd9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df'
         Assert-Hash $serverExecutable $ServerExecutableHash
     }
+    $phase = 'preflight-starter-profile'
     if ($StarterInventory) {
         Assert-Hash $starterProfileSource $starterProfileHash
     }
+    $phase = 'preflight-addon-files'
     foreach ($name in @('dinput8.dll', 'hawken-client.toml')) {
         if (Test-Path -LiteralPath (Join-Path $gameDirectory $name)) { throw 'Destination already exists.' }
     }
+    $phase = 'preflight-firewall'
     $profiles = @(Get-NetFirewallProfile -PolicyStore ActiveStore)
     if ($profiles.Count -ne 3 -or @($profiles | Where-Object { $_.Enabled -ne 'True' }).Count -ne 0 -or
         (Get-Service -Name MpsSvc).Status -ne 'Running') {
         throw 'Active firewall precondition failed.'
     }
+    $phase = 'preflight-listeners'
     if ($ownsServices) {
         if (@(Get-NetTCPConnection -State Listen -LocalPort 80,18080 -ErrorAction SilentlyContinue).Count -ne 0) {
             throw 'A local test port is already in use.'
@@ -391,6 +400,9 @@ try {
     $result.failureId = $_.FullyQualifiedErrorId
     $result.failureHResult = $_.Exception.HResult
     $result.ruleCreatedBeforeFailure = $ruleCreated
+    if (-not $sessionCreated) {
+        [Console]::Error.WriteLine('HawkLink local test failed phase={0} type={1}', $phase, $result.failureType)
+    }
     # These operations receive only the fixed local rule, never account data.
     if ($phase -like 'firewall-*') { $result.firewallDiagnostic = $_.Exception.Message }
 } finally {
