@@ -90,6 +90,25 @@ struct LiveFireTimingSnapshot {
     bool operator==(const LiveFireTimingSnapshot&) const = default;
 };
 
+// Reflected component observations only; finite dimensions are not accepted
+// as authoritative collision shapes or proof of a simulated movement world.
+struct LiveCylinderSnapshot {
+    float radius = 0.0F;
+    float height = 0.0F;
+    std::int32_t radius_offset = 0;
+    std::int32_t height_offset = 0;
+    bool operator==(const LiveCylinderSnapshot&) const = default;
+};
+struct LivePawnPhysicsSnapshot {
+    std::int32_t collision_component_offset = 0;
+    std::int32_t cylinder_component_offset = 0;
+    bool collision_component_present = false;
+    bool cylinder_component_present = false;
+    bool collision_component_matches_cylinder = false;
+    std::optional<LiveCylinderSnapshot> cylinder;
+    bool operator==(const LivePawnPhysicsSnapshot&) const = default;
+};
+
 struct LivePlayerSnapshot {
     std::int32_t local_player_count = 0;
     bool local_player_present = false;
@@ -103,13 +122,15 @@ struct LivePlayerSnapshot {
     std::vector<std::uint64_t> trace;
     std::optional<LiveInventorySnapshot> inventory;
     std::optional<LiveFireTimingSnapshot> fire_timing;
+    std::optional<LivePawnPhysicsSnapshot> physics;
     bool operator==(const LivePlayerSnapshot&) const = default;
 };
 
 // Select the first Engine.GamePlayers entry, not every player/actor in a world.
 // Reader policy: count/cap<=4, class chain<=16, Offset<=65536. Own Children
 // caps match the nine shipped metadata owners below. Retained route caps are
-// default977/inventory3729; sample-local owner reuse reduces actual visits.
+// default977/inventory3729/physics3736; the opt-in Cylinder owner adds seven.
+// Sample-local owner reuse reduces actual visits.
 // These are observer policies, not UE3 or allocation-size limits.
 // Engine global1cfb860 -> array700/count708/cap70c; typed LocalPlayer outer must
 // equal Engine. Exact Player.Actor ObjectProperty Offset8c must equal68.
@@ -128,9 +149,11 @@ struct LivePlayerSnapshot {
 // live_property_mismatch, live_backlink_mismatch; Reader errors propagate.
 template<class Reader, class Identify>
 LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identify& source_identify,
-                                   bool inspect_inventory = false, bool inspect_fire_timing = false) {
+                                   bool inspect_inventory = false, bool inspect_fire_timing = false,
+                                   bool inspect_physics = false) {
     const auto fail = [](const char* code) { throw std::runtime_error(code); };
     if (inspect_fire_timing && !inspect_inventory) fail("live_invalid");
+    if (inspect_physics && !inspect_inventory) fail("live_invalid");
     const auto checked = [&](std::uint64_t base, std::uint64_t offset, std::size_t size) {
         const auto maximum = std::numeric_limits<std::uint64_t>::max();
         if (!base || offset > maximum - base || size - 1 > maximum - (base + offset))
@@ -242,6 +265,7 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
                 else if (inv_owner_id.name == "Actor") inv_owner_limit = 449;
                 else if (inv_owner_id.name == "InventoryManager") inv_owner_limit = 36;
                 else if (inv_owner_id.name == "Inventory") inv_owner_limit = 27;
+                else if (inspect_physics && inv_owner_id.name == "CylinderComponent") inv_owner_limit = 7;
             } else if (inv_owner_id.package == "HawkenGame") {
                 if (inv_owner_id.name == "R_PawnNative") inv_owner_limit = 496;
                 else if (inv_owner_id.name == "R_Weap_DualWield") inv_owner_limit = 59;
@@ -249,7 +273,7 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         }
         if (!inv_owner_limit) fail("live_identity");
         // Preserve prior route caps; caching each owner does not raise any limit.
-        const std::size_t inv_total_limit = inspect_inventory ? 3729 : 977;
+        const std::size_t inv_total_limit = inspect_physics ? 3736 : inspect_inventory ? 3729 : 977;
         std::vector<MetadataField> fields;
         auto child = read.template operator()<std::uint64_t>(owner, 0x80);
         while (child) {
@@ -266,18 +290,19 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
     struct MetadataProperty {
         std::uint64_t owner;
         std::string field, expected_name, field_package, expected_package;
-        bool byte_kind, bool_kind, float_kind;
+        bool byte_kind, bool_kind, float_kind, component_kind;
         Property value;
     };
     std::vector<MetadataProperty> metadata_properties;
     const auto property = [&](std::uint64_t owner, std::string_view field, std::string_view expected_name,
                               std::string_view field_package = "Engine",
                               std::string_view expected_package = "Engine", bool byte_kind = false,
-                              bool bool_kind = false, bool float_kind = false) {
+                              bool bool_kind = false, bool float_kind = false, bool component_kind = false) {
         for (const auto& cached : metadata_properties) if (cached.owner == owner && cached.field == field) {
             if (cached.expected_name != expected_name || cached.field_package != field_package ||
                 cached.expected_package != expected_package || cached.byte_kind != byte_kind ||
-                cached.bool_kind != bool_kind || cached.float_kind != float_kind)
+                cached.bool_kind != bool_kind || cached.float_kind != float_kind ||
+                cached.component_kind != component_kind)
                 fail("live_property_mismatch");
             return cached.value;
         }
@@ -294,12 +319,20 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
                 if (!type || read.template operator()<std::uint64_t>(type, 0x50) != kind)
                     fail("live_property_mismatch");
                 const auto type_id = identify(type);
-                if (type_id.name != (bool_kind ? "BoolProperty" : byte_kind ? "ByteProperty" : float_kind ? "FloatProperty" : "ObjectProperty") ||
+                if (type_id.name != (component_kind ? "ComponentProperty" : bool_kind ? "BoolProperty" : byte_kind ? "ByteProperty" : float_kind ? "FloatProperty" : "ObjectProperty") ||
                     type_id.package != "Core" || type_id.instance != 0 ||
-                    (read.template operator()<std::uint32_t>(type, 0x128) & (bool_kind ? 0x20000U : byte_kind ? 0x8000U : float_kind ? 0x100U : 0x10000U)) == 0 ||
+                    (!component_kind && (read.template operator()<std::uint32_t>(type, 0x128) &
+                        (bool_kind ? 0x20000U : byte_kind ? 0x8000U : float_kind ? 0x100U : 0x10000U)) == 0) ||
                     read.template operator()<std::int32_t>(child, 0x68) != 1 ||
                     read.template operator()<std::int32_t>(child, 0x6c) != (bool_kind || float_kind ? 4 : byte_kind ? 1 : 8))
                     fail("live_property_mismatch");
+                if (component_kind) {
+                    // Validate the sampled base, not an assumed derived cast flag.
+                    const auto physics_property_chain = chain(type);
+                    const auto physics_object_base = named(physics_property_chain, "ObjectProperty", "Core");
+                    if ((read.template operator()<std::uint32_t>(physics_object_base, 0x128) & 0x10000U) == 0)
+                        fail("live_property_mismatch");
+                }
                 result.offset = read.template operator()<std::int32_t>(child, 0x8c);
                 if (result.offset < 0) fail("live_property_mismatch");
                 if (result.offset > 65536) fail("live_limit");
@@ -319,7 +352,7 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         }
         if (!found) fail("live_property_missing");
         metadata_properties.push_back({owner, std::string(field), std::string(expected_name),
-            std::string(field_package), std::string(expected_package), byte_kind, bool_kind, float_kind, result});
+            std::string(field_package), std::string(expected_package), byte_kind, bool_kind, float_kind, component_kind, result});
         return result;
     };
     const auto script_state = [&](std::uint64_t live_script_actor, const auto& live_script_chain) {
@@ -430,6 +463,48 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
         const auto inv_pawn_chain = instance(pawn_value);
         const auto inv_pawn_type = named(inv_pawn_chain, "Pawn", "Engine");
         const auto inv_native_type = named(inv_pawn_chain, "R_PawnNative", "HawkenGame");
+        if (inspect_physics) {
+            const auto physics_actor_type = named(inv_pawn_chain, "Actor", "Engine");
+            const auto physics_collision_metadata = property(physics_actor_type, "CollisionComponent", "PrimitiveComponent",
+                "Engine", "Engine", false, false, false, true);
+            const auto physics_cylinder_metadata = property(inv_pawn_type, "CylinderComponent", "CylinderComponent",
+                "Engine", "Engine", false, false, false, true);
+            const auto physics_collision_value = read.template operator()<std::uint64_t>(pawn_value,
+                static_cast<std::uint64_t>(physics_collision_metadata.offset));
+            const auto physics_cylinder_value = read.template operator()<std::uint64_t>(pawn_value,
+                static_cast<std::uint64_t>(physics_cylinder_metadata.offset));
+            if (physics_collision_value) {
+                if (!contains(instance(physics_collision_value), physics_collision_metadata.expected))
+                    fail("live_identity");
+                if (read.template operator()<std::uint64_t>(physics_collision_value, 0x40) != pawn_value)
+                    fail("live_backlink_mismatch");
+            }
+            LivePawnPhysicsSnapshot physics_out;
+            physics_out.collision_component_offset = physics_collision_metadata.offset;
+            physics_out.cylinder_component_offset = physics_cylinder_metadata.offset;
+            physics_out.collision_component_present = physics_collision_value != 0;
+            physics_out.cylinder_component_present = physics_cylinder_value != 0;
+            physics_out.collision_component_matches_cylinder = physics_collision_value && physics_collision_value == physics_cylinder_value;
+            if (physics_cylinder_value) {
+                const auto physics_cylinder_chain = instance(physics_cylinder_value);
+                if (!contains(physics_cylinder_chain, physics_cylinder_metadata.expected)) fail("live_identity");
+                if (read.template operator()<std::uint64_t>(physics_cylinder_value, 0x40) != pawn_value)
+                    fail("live_backlink_mismatch");
+                const auto physics_cylinder_type = named(physics_cylinder_chain, "CylinderComponent", "Engine");
+                const auto physics_radius_metadata = property(physics_cylinder_type, "CollisionRadius", {},
+                    "Engine", "Engine", false, false, true);
+                const auto physics_height_metadata = property(physics_cylinder_type, "CollisionHeight", {},
+                    "Engine", "Engine", false, false, true);
+                const auto physics_radius = std::bit_cast<float>(read.template operator()<std::uint32_t>(physics_cylinder_value,
+                    static_cast<std::uint64_t>(physics_radius_metadata.offset)));
+                const auto physics_height = std::bit_cast<float>(read.template operator()<std::uint32_t>(physics_cylinder_value,
+                    static_cast<std::uint64_t>(physics_height_metadata.offset)));
+                if (!std::isfinite(physics_radius) || !std::isfinite(physics_height)) fail("live_invalid");
+                physics_out.cylinder = LiveCylinderSnapshot{physics_radius, physics_height,
+                    physics_radius_metadata.offset, physics_height_metadata.offset};
+            }
+            out.physics = physics_out;
+        }
         if (inspect_fire_timing) {
             const auto fire_stamp_metadata = property(pc_type, "CurrentTimeStamp", {},
                 "Engine", "Engine", false, false, true);

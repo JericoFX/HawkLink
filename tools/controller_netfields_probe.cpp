@@ -672,7 +672,7 @@ Sample player_links_sample(Reader& reader,std::uint64_t module,PlayerLocator& lo
     return out;
 }
 
-Sample live_player_sample(Reader& reader,std::uint64_t module,bool fire_timing=false) {
+Sample live_player_sample(Reader& reader,std::uint64_t module,bool fire_timing=false,bool physics=false) {
     Sample out;
     // Successful reads only, without additional remote reads. The shared 1MiB
     // read budget bounds this internal trace; no addresses/bytes are serialized.
@@ -713,7 +713,7 @@ Sample live_player_sample(Reader& reader,std::uint64_t module,bool fire_timing=f
         }
         fail("live_identity");
     };
-    const auto value=hawken::probe::read_live_player(reader,module,identify,true,fire_timing);
+    const auto value=hawken::probe::read_live_player(reader,module,identify,true,fire_timing,physics);
     out.pointers.insert(out.pointers.end(),value.trace.begin(),value.trace.end());
     // Replace Names metadata: neither raw FNames nor metadata names escape this mode.
     out.metadata={{"local_player_present",value.local_player_present},
@@ -743,6 +743,21 @@ Sample live_player_sample(Reader& reader,std::uint64_t module,bool fire_timing=f
                 {"client_can_fire_timestamp_offset",dual_timing.client_can_fire_timestamp_offset},
                 {"server_can_fire_timestamp_offset",dual_timing.server_can_fire_timestamp_offset},
                 {"instigator_offset",dual_timing.instigator_offset}};
+        }
+    }
+    if (value.physics) {
+        const auto& physics_snapshot=*value.physics;
+        out.metadata["physics"]={
+            {"collision_component_offset",physics_snapshot.collision_component_offset},
+            {"cylinder_component_offset",physics_snapshot.cylinder_component_offset},
+            {"collision_component_present",physics_snapshot.collision_component_present},
+            {"cylinder_component_present",physics_snapshot.cylinder_component_present},
+            {"collision_component_matches_cylinder",physics_snapshot.collision_component_matches_cylinder}};
+        if (physics_snapshot.cylinder) {
+            const auto& physics_cylinder=*physics_snapshot.cylinder;
+            out.metadata["physics"]["cylinder"]={
+                {"radius",physics_cylinder.radius},{"height",physics_cylinder.height},
+                {"radius_offset",physics_cylinder.radius_offset},{"height_offset",physics_cylinder.height_offset}};
         }
     }
     if (value.inventory) {
@@ -960,7 +975,7 @@ Sample gri_template_sample(Reader& reader,std::uint64_t module,PlayerLocator& lo
         {"unique_id_type","Engine.OnlineSubsystem.UniqueNetId"},{"unique_id_offset",result.unique_id_offset}};
     return out;
 }
-int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player,bool gri_template,bool menu_sync,bool fire_timing) {
+int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bool live_player,bool gri_template,bool menu_sync,bool fire_timing,bool physics) {
     const Handle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_VM_READ,FALSE,pid));
     if (!process) fail("process_unavailable");
     if (!process_verified(process.get()) || hawken::sha256_file(std::filesystem::path(original_path))!=original_sha)
@@ -976,10 +991,10 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
     Sample first,second;
     unsigned live_sample_phase=1;
     try {
-        first=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base,fire_timing) : player_links ? player_links_sample(reader,base,locator) :
+        first=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base,fire_timing,physics) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
         live_sample_phase=2;
-        second=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base,fire_timing) : player_links ? player_links_sample(reader,base,locator) :
+        second=menu_sync ? main_menu_sync_sample(reader,base) : gri_template ? gri_template_sample(reader,base,locator) : live_player ? live_player_sample(reader,base,fire_timing,physics) : player_links ? player_links_sample(reader,base,locator) :
             mech_setup ? mech_sample(reader,base) : sample(reader,base,connection_cache);
     } catch (const std::runtime_error& error) {
         if (live_player && std::string_view(error.what())=="read_limit") {
@@ -1015,12 +1030,14 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
         const bool local=second.metadata["local_player_present"].get<bool>();
         const bool controller=second.metadata["controller_present"].get<bool>();
         const bool timing_observed=!fire_timing || second.metadata.contains("fire_timing");
-        Json report={{"status",controller && timing_observed ? "observed" : "inconclusive"},
+        const bool physics_observed=!physics || second.metadata.contains("physics");
+        Json report={{"status",controller && timing_observed && physics_observed ? "observed" : "inconclusive"},
             {"identity_verified",true},{"samples_equal",true},{"metadata",second.metadata}};
         if (!controller) report["error"]=local ? "live_controller_absent" : "live_local_player_absent";
         else if (!timing_observed) report["error"]="live_fire_timing_absent";
+        else if (!physics_observed) report["error"]="live_physics_absent";
         std::cout<<report.dump()<<'\n';
-        return controller && timing_observed ? 0 : 1;
+        return controller && timing_observed && physics_observed ? 0 : 1;
     }
     if (!comparison.inspected_metadata_equal) {
         const auto section_equal=[&](const char* key) {
@@ -1062,7 +1079,7 @@ int observe(DWORD pid,bool connection_cache,bool mech_setup,bool player_links,bo
 }
 int main(int argc,char** argv) {
     if (argc==2 && std::string_view(argv[1])=="--help") {
-        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--live-fire-timing|--gri-template|--menu-sync]\n"
+        std::cout<<"Usage: hawken-controller-netfields-probe PID [--connection-cache|--mech-setup|--player-links|--live-player|--live-fire-timing|--live-physics|--gri-template|--menu-sync]\n"
             "Read-only bounded original NetFields metadata or menu sync flags; no process creation.\n";
         return 0;
     }
@@ -1071,14 +1088,15 @@ int main(int argc,char** argv) {
     const bool mech_setup=argc==3 && std::string_view(argv[2])=="--mech-setup";
     const bool player_links=argc==3 && std::string_view(argv[2])=="--player-links";
     const bool fire_timing=argc==3 && std::string_view(argv[2])=="--live-fire-timing";
-    const bool live_player=fire_timing || (argc==3 && std::string_view(argv[2])=="--live-player");
+    const bool physics=argc==3 && std::string_view(argv[2])=="--live-physics";
+    const bool live_player=physics || fire_timing || (argc==3 && std::string_view(argv[2])=="--live-player");
     const bool gri_template=argc==3 && std::string_view(argv[2])=="--gri-template";
     const bool menu_sync=argc==3 && std::string_view(argv[2])=="--menu-sync";
     if ((argc!=2 && !connection_cache && !mech_setup && !player_links && !live_player && !gri_template && !menu_sync) || !parse_pid(argv[1],pid)) {
         std::cout<<"{\"status\":\"inconclusive\",\"error\":\"invalid_arguments\",\"identity_verified\":false}\n";
         return 2;
     }
-    try { return observe(pid,connection_cache,mech_setup,player_links,live_player,gri_template,menu_sync,fire_timing); }
+    try { return observe(pid,connection_cache,mech_setup,player_links,live_player,gri_template,menu_sync,fire_timing,physics); }
     catch (const NameInstanceError& error) {
         Json report={{"status","inconclusive"},{"error","nonoriginal_name_instance"},{"identity_verified",false}};
         if (!live_player && !gri_template && !menu_sync) report["rejected_fname_raw"]=error.raw();
@@ -1087,7 +1105,7 @@ int main(int argc,char** argv) {
     }
     catch (const std::runtime_error& error) {
         // Only locally fixed codes are allowed to escape: file hashing may throw its own errors.
-        constexpr std::array<std::string_view,78> codes={"invalid_address","read_limit","read_unavailable",
+        constexpr std::array<std::string_view,79> codes={"invalid_address","read_limit","read_unavailable",
             "names_unavailable","invalid_name_index","invalid_name","nonoriginal_name_instance",
             "cdo_unavailable_or_mismatch","class_chain_mismatch","class_cycle","field_array_limit",
             "field_identity_mismatch","field_cycle","field_type_mismatch","process_unavailable","unstable_sample",
@@ -1103,7 +1121,7 @@ int main(int argc,char** argv) {
             "player_map_unsupported","player_cache_absent","player_names_uninitialized",
             "player_name_invalid","player_name_limit","player_name_cycle",
             "live_invalid","live_engine_absent","live_array_invalid","live_limit","live_identity",
-            "live_cycle","live_property_missing","live_property_mismatch","live_backlink_mismatch",
+            "live_cycle","live_property_missing","live_property_mismatch","live_backlink_mismatch","live_physics_absent",
             "gri_identity","gri_property_mismatch","gri_property_missing","gri_cycle","gri_limit","gri_invalid",
             "menu_invalid","menu_engine_absent","menu_array_invalid","menu_limit","menu_identity",
             "menu_cycle","menu_property_missing","menu_property_mismatch","menu_backlink_mismatch"};

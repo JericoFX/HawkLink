@@ -1494,3 +1494,207 @@ TEST_CASE("Live dual fire timing includes both operand offsets and values in sam
         CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
     }
 }
+
+namespace {
+constexpr std::uint64_t fixture_primitive_class=0x16c00,fixture_cylinder_class=0x17000;
+constexpr std::uint64_t fixture_component_property_class=0x17400;
+constexpr std::uint64_t fixture_component_base_class=0x17c00;
+constexpr std::uint64_t fixture_cylinder_object=0x78000,fixture_other_component=0x7c000;
+constexpr std::uint64_t fixture_collision_property=0x5b000,fixture_cylinder_property=0x5b400;
+constexpr std::uint64_t fixture_radius_property=0x5b800,fixture_height_property=0x5bc00;
+struct PawnPhysicsFixture : InventoryFixture {
+    PawnPhysicsFixture() {
+        klass(fixture_primitive_class,"PrimitiveComponent","Engine",object_class);
+        klass(fixture_cylinder_class,"CylinderComponent","Engine",fixture_primitive_class);
+        // Observer condition: validate the sampled ComponentProperty ancestry
+        // and the known ObjectProperty BASE cast; no derived cast is assumed.
+        // This synthetic chain does not prove the original native inheritance.
+        klass(fixture_component_base_class,"ObjectProperty","Core",object_class);
+        memory.put(fixture_component_base_class+0x128,std::uint32_t{0x10000});
+        klass(fixture_component_property_class,"ComponentProperty","Core",fixture_component_base_class);
+        object(fixture_cylinder_object,fixture_cylinder_class,pawn_object);
+        object(fixture_other_component,fixture_primitive_class,pawn_object);
+        property(fixture_collision_property,actor_class,"CollisionComponent",0x710,fixture_primitive_class);
+        property(fixture_cylinder_property,pawn_class,"CylinderComponent",0x728,fixture_cylinder_class);
+        for(const auto descriptor:{fixture_collision_property,fixture_cylinder_property})
+            memory.put(descriptor+0x50,fixture_component_property_class);
+        memory.put(physics_property+0x60,fixture_collision_property);
+        memory.put(pawn_no_fire_property+0x60,fixture_cylinder_property);
+        property(fixture_radius_property,fixture_cylinder_class,"CollisionRadius",0x150,0);
+        property(fixture_height_property,fixture_cylinder_class,"CollisionHeight",0x16c,0);
+        for(const auto descriptor:{fixture_radius_property,fixture_height_property}) {
+            memory.put(descriptor+0x50,float_property_class);
+            memory.put(descriptor+0x6c,std::int32_t{4});
+        }
+        memory.put(fixture_cylinder_class+0x80,fixture_radius_property);
+        memory.put(fixture_radius_property+0x60,fixture_height_property);
+        memory.put(pawn_object+0x710,fixture_cylinder_object);
+        memory.put(pawn_object+0x728,fixture_cylinder_object);
+        memory.put(fixture_cylinder_object+0x150,34.5F);
+        memory.put(fixture_cylinder_object+0x16c,79.25F);
+    }
+    LivePlayerSnapshot physics_sample(bool inventory=true,bool physics=true) {
+        auto identify=[&](std::uint64_t where) {
+            const auto found=identities.find(where);
+            if(found==identities.end()) throw std::runtime_error("identity_unavailable");
+            return found->second;
+        };
+        return read_live_player(memory,module_base,identify,inventory,false,physics);
+    }
+};
+}
+TEST_CASE("Live Pawn physics resolves ComponentProperty links and finite cylinder dimensions") {
+    struct Dimensions {float radius;float height;std::uint32_t radius_bits;std::uint32_t height_bits;};
+    for(const auto dimensions:std::array<Dimensions,3>{{
+            {34.5F,79.25F,0x420a0000U,0x429e8000U},
+            {-1.5F,-2.75F,0xbfc00000U,0xc0300000U},
+            {-0.0F,0.0F,0x80000000U,0x00000000U}}}) {
+        PawnPhysicsFixture f;
+        f.memory.put(fixture_cylinder_object+0x150,dimensions.radius);
+        f.memory.put(fixture_cylinder_object+0x16c,dimensions.height);
+        // Engine class2568's seven own Children are a measured reader cap,
+        // not permission to traverse unbounded component metadata.
+        pad_live_owner(f,fixture_cylinder_class,7,0x80000);
+        const auto sampled=f.physics_sample();REQUIRE(sampled.physics.has_value());
+        const auto& observed=*sampled.physics;
+        CHECK(observed.collision_component_offset==0x710);CHECK(observed.cylinder_component_offset==0x728);
+        CHECK(observed.collision_component_present);CHECK(observed.cylinder_component_present);
+        CHECK(observed.collision_component_matches_cylinder);REQUIRE(observed.cylinder.has_value());
+        CHECK(std::bit_cast<std::uint32_t>(observed.cylinder->radius)==dimensions.radius_bits);
+        CHECK(std::bit_cast<std::uint32_t>(observed.cylinder->height)==dimensions.height_bits);
+        CHECK(observed.cylinder->radius_offset==0x150);CHECK(observed.cylinder->height_offset==0x16c);
+        CHECK(f.memory.read_counts[fixture_cylinder_object+0x150]==1);
+        CHECK(f.memory.read_counts[fixture_cylinder_object+0x16c]==1);CHECK(f.memory.budget>0);
+    }
+}
+TEST_CASE("Live Pawn physics distinguishes absent links from a different valid collision component") {
+    PawnPhysicsFixture f;
+    SUBCASE("both null") {
+        f.memory.put(pawn_object+0x710,std::uint64_t{0});f.memory.put(pawn_object+0x728,std::uint64_t{0});
+        f.memory.bytes.erase(fixture_cylinder_object+0x150);
+        const auto sampled=f.physics_sample();REQUIRE(sampled.physics.has_value());
+        CHECK_FALSE(sampled.physics->collision_component_present);CHECK_FALSE(sampled.physics->cylinder_component_present);
+        CHECK_FALSE(sampled.physics->collision_component_matches_cylinder);CHECK_FALSE(sampled.physics->cylinder.has_value());
+    }
+    SUBCASE("CollisionComponent alone is absent") {
+        f.memory.put(pawn_object+0x710,std::uint64_t{0});
+        const auto sampled=f.physics_sample();REQUIRE(sampled.physics.has_value());
+        CHECK_FALSE(sampled.physics->collision_component_present);CHECK(sampled.physics->cylinder_component_present);
+        CHECK_FALSE(sampled.physics->collision_component_matches_cylinder);REQUIRE(sampled.physics->cylinder.has_value());
+        CHECK(sampled.physics->cylinder->radius==34.5F);
+    }
+    SUBCASE("CylinderComponent alone is absent") {
+        f.memory.put(pawn_object+0x728,std::uint64_t{0});f.memory.bytes.erase(fixture_cylinder_object+0x150);
+        const auto sampled=f.physics_sample();REQUIRE(sampled.physics.has_value());
+        CHECK(sampled.physics->collision_component_present);CHECK_FALSE(sampled.physics->cylinder_component_present);
+        CHECK_FALSE(sampled.physics->collision_component_matches_cylinder);CHECK_FALSE(sampled.physics->cylinder.has_value());
+        CHECK(f.memory.read_counts[fixture_cylinder_object+0x150]==0);
+    }
+    SUBCASE("CollisionComponent is a distinct PrimitiveComponent") {
+        f.memory.put(pawn_object+0x710,fixture_other_component);
+        const auto sampled=f.physics_sample();REQUIRE(sampled.physics.has_value());
+        CHECK(sampled.physics->collision_component_present);CHECK(sampled.physics->cylinder_component_present);
+        CHECK_FALSE(sampled.physics->collision_component_matches_cylinder);REQUIRE(sampled.physics->cylinder.has_value());
+        CHECK(sampled.physics->cylinder->height==79.25F);
+    }
+    SUBCASE("distinct CylinderComponent instances do not imply matching references") {
+        f.object(fixture_other_component,fixture_cylinder_class,pawn_object);
+        f.memory.put(pawn_object+0x710,fixture_other_component);
+        const auto sampled=f.physics_sample();REQUIRE(sampled.physics.has_value());
+        CHECK(sampled.physics->collision_component_present);CHECK(sampled.physics->cylinder_component_present);
+        CHECK_FALSE(sampled.physics->collision_component_matches_cylinder);REQUIRE(sampled.physics->cylinder.has_value());
+    }
+}
+TEST_CASE("Live Pawn physics rejects malformed component descriptors and wrongly typed targets") {
+    PawnPhysicsFixture f;
+    SUBCASE("missing CollisionComponent") {f.identities[fixture_collision_property].name="OtherComponent";}
+    SUBCASE("missing CylinderComponent") {f.identities[fixture_cylinder_property].name="OtherCylinder";}
+    SUBCASE("ObjectProperty does not substitute for ComponentProperty") {
+        f.memory.put(fixture_collision_property+0x50,property_class);
+    }
+    SUBCASE("component property wrong package") {f.identities[fixture_component_property_class].package="Engine";}
+    SUBCASE("component property wrong metaclass") {f.memory.put(fixture_component_property_class+0x50,object_class);}
+    SUBCASE("component property lacks ObjectProperty ancestry") {f.memory.put(fixture_component_property_class+0x78,object_class);}
+    SUBCASE("ObjectProperty base lacks its validated cast") {f.memory.put(fixture_component_base_class+0x128,std::uint32_t{0});}
+    SUBCASE("component descriptor wrong owner") {f.memory.put(fixture_cylinder_property+0x40,actor_class);}
+    SUBCASE("component descriptor array dimension") {f.memory.put(fixture_collision_property+0x68,std::int32_t{2});}
+    SUBCASE("component descriptor element size") {f.memory.put(fixture_cylinder_property+0x6c,std::int32_t{4});}
+    SUBCASE("wrong CollisionComponent PropertyClass") {f.memory.put(fixture_collision_property+0xa8,pawn_class);}
+    SUBCASE("wrong CylinderComponent PropertyClass") {f.memory.put(fixture_cylinder_property+0xa8,fixture_primitive_class);}
+    SUBCASE("CollisionComponent references a Pawn") {f.memory.put(pawn_object+0x710,pawn_object);}
+    SUBCASE("CylinderComponent references only a PrimitiveComponent") {f.memory.put(pawn_object+0x728,fixture_other_component);}
+    SUBCASE("component target is a class default object") {
+        f.memory.put(fixture_cylinder_class+0x1d4,fixture_cylinder_object);
+    }
+    CHECK_THROWS_AS(f.physics_sample(),std::runtime_error);
+}
+TEST_CASE("Live Pawn physics rejects malformed or nonfinite dimensions and enforces the Cylinder owner cap") {
+    for(const auto descriptor:{fixture_radius_property,fixture_height_property}) {
+        for(int bad=0;bad<7;++bad) {
+            PawnPhysicsFixture f;CAPTURE(descriptor);CAPTURE(bad);
+            switch(bad) {
+            case 0:f.identities[descriptor].name="OtherDimension";break;
+            case 1:f.memory.put(descriptor+0x50,byte_property_class);break;
+            case 2:f.memory.put(descriptor+0x40,fixture_primitive_class);break;
+            case 3:f.memory.put(descriptor+0x68,std::int32_t{2});break;
+            case 4:f.memory.put(descriptor+0x6c,std::int32_t{8});break;
+            case 5: {
+                constexpr std::uint64_t other_float_type=0x17800;
+                f.klass(other_float_type,"FloatProperty","Core",object_class);
+                f.memory.put(other_float_type+0x128,std::uint32_t{0});
+                f.memory.put(descriptor+0x50,other_float_type);break;
+            }
+            case 6: {
+                constexpr std::uint64_t extra=0x5c000;
+                f.property(extra,fixture_cylinder_class,descriptor==fixture_radius_property?"CollisionRadius":"CollisionHeight",0x180,0);
+                f.memory.put(extra+0x50,float_property_class);f.memory.put(extra+0x6c,std::int32_t{4});
+                f.memory.put(fixture_cylinder_object+0x180,1.0F);f.memory.put(fixture_height_property+0x60,extra);break;
+            }
+            }
+            CHECK_THROWS_AS(f.physics_sample(),std::runtime_error);
+        }
+    }
+    for(const auto offset:{0x150U,0x16cU}) {
+        for(const auto bits:{0x7f800000U,0xff800000U,0x7fc00001U}) {
+            PawnPhysicsFixture f;CAPTURE(offset);CAPTURE(bits);f.memory.put(fixture_cylinder_object+offset,bits);
+            CHECK_THROWS_WITH_AS(f.physics_sample(),"live_invalid",std::runtime_error);
+        }
+    }
+    PawnPhysicsFixture f;pad_live_owner(f,fixture_cylinder_class,8,0x80000);
+    CHECK_THROWS_WITH_AS(f.physics_sample(),"live_limit",std::runtime_error);
+}
+TEST_CASE("Live Pawn physics is opt in and preserves default snapshots traces and reads") {
+    PawnPhysicsFixture f;
+    SUBCASE("default and false never validate component metadata or read values") {
+        const auto previous=f.inventory_sample();const auto previous_reads=f.memory.read_counts;f.memory.read_counts.clear();
+        f.memory.put(fixture_collision_property+0x50,byte_property_class);
+        f.memory.bytes.erase(pawn_object+0x710);f.memory.bytes.erase(fixture_cylinder_object+0x150);
+        const auto disabled=f.physics_sample(true,false);
+        CHECK(previous==disabled);CHECK(previous.trace==disabled.trace);CHECK(previous_reads==f.memory.read_counts);
+        CHECK_FALSE(disabled.physics.has_value());CHECK(f.memory.read_counts[pawn_object+0x710]==0);
+    }
+    SUBCASE("physics without inventory fails closed") {
+        CHECK_THROWS_WITH_AS(f.physics_sample(false,true),"live_invalid",std::runtime_error);
+    }
+    SUBCASE("absent Pawn does not manufacture a physics snapshot") {
+        f.memory.put(controller_object+0x280,std::uint64_t{0});
+        const auto sampled=f.physics_sample();CHECK_FALSE(sampled.physics.has_value());
+    }
+}
+TEST_CASE("Live Pawn physics includes reflected offsets and dimensions in independent sample equality") {
+    PawnPhysicsFixture f;const auto first=f.physics_sample();REQUIRE(first.physics.has_value());
+    REQUIRE(first.physics->cylinder.has_value());
+    SUBCASE("radius offset changes but value is unchanged") {
+        f.memory.put(fixture_radius_property+0x8c,std::int32_t{0x180});f.memory.put(fixture_cylinder_object+0x180,34.5F);
+    }
+    SUBCASE("height offset changes but value is unchanged") {
+        f.memory.put(fixture_height_property+0x8c,std::int32_t{0x184});f.memory.put(fixture_cylinder_object+0x184,79.25F);
+    }
+    SUBCASE("radius value changes") {f.memory.put(fixture_cylinder_object+0x150,-3.0F);}
+    SUBCASE("height value changes") {f.memory.put(fixture_cylinder_object+0x16c,-5.0F);}
+    SUBCASE("component link offset changes with the same object") {
+        f.memory.put(fixture_cylinder_property+0x8c,std::int32_t{0x740});f.memory.put(pawn_object+0x740,fixture_cylinder_object);
+    }
+    const auto next=f.physics_sample();REQUIRE(next.physics.has_value());REQUIRE(next.physics->cylinder.has_value());
+    CHECK_FALSE(*first.physics==*next.physics);CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
+}
