@@ -135,6 +135,11 @@ struct LocalUdpDiagnostics {
     // weapon fired. No projectile/hit/damage executor is implied.
     std::optional<WeaponFireSnapshot> weapon_fire;
 
+    // Server revision current when an authenticated, configured Controller RPC
+    // acknowledged this session's existing Pawn. The wire carries no revision;
+    // this is not proof of client application, movement, or jump execution.
+    std::optional<std::uint64_t> acknowledged_pawn_revision = std::nullopt;
+
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
 
@@ -242,11 +247,21 @@ struct SpawnAdmissionEligibility {
     bool client_restart_rpc_eligible;
     bool pawn_reference_eligible;
 };
+struct PossessionAcknowledgementPlan {
+    std::uint32_t rpc_field_id;
+    bool rpc_eligible;
+    bool pawn_parameter_eligible;
+};
 struct SpawnAdmissionDispatchPlan {
     std::uint32_t stage_rpc_field_id;
     std::uint32_t client_restart_rpc_field_id;
     std::uint32_t controller_exclusive_bound;
     SpawnAdmissionEligibility eligibility;
+    // Optional exact ServerAcknowledgePossession(Pawn) schema, reliable server
+    // with one eligible ObjectProperty80/ArrayDim1, PRIMARY map. Caller proves
+    // this function/parameter as well as the inherited Controller cache; IDs
+    // are not inferred from ClientRestart or from a transport packet ACK.
+    std::optional<PossessionAcknowledgementPlan> possession_acknowledgement = std::nullopt;
 };
 
 struct PriIdentityEligibility {

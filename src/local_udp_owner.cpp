@@ -223,6 +223,7 @@ struct Entry {
     std::optional<std::array<std::int32_t,3>> ready_counters_sent;
     bool ready_begun_sent=false;
     std::optional<std::uint64_t> admission_request_revision,admitted_revision;
+    std::optional<std::uint64_t> acknowledged_pawn_revision; // Protected by Registry mutex.
 
     Entry(const session::SessionId& value,std::unique_ptr<game::GameConnection> conn,
           std::uint8_t initial_setup_id,std::optional<wire::identity::UniqueId> identity_value)
@@ -363,6 +364,7 @@ struct Registry {
             target->pri_identity.reset();
             target->validation_pending=false;
             target->admission_request_revision.reset();
+            target->acknowledged_pawn_revision.reset();
             erase(target->id);
         } catch (...) {
             // Retained shared ownership also keeps the Context alive through
@@ -1089,6 +1091,8 @@ struct LocalUdpOwner::Impl {
         const auto bound=ready_plan ? ready_plan->controller_exclusive_bound
                                     : start_mech_plan->controller_exclusive_bound;
         const bool active_item_index=start_mech_plan && start_mech_plan->active_item_index.has_value();
+        const auto* possession_ack=admission_plan && admission_plan->possession_acknowledgement
+            ? &*admission_plan->possession_acknowledgement : nullptr;
         const auto request_validation=[&] {
             registry->spawn_validation_requested=true;
             if (!entry.validation_responded || entry.pending_mech) {
@@ -1104,15 +1108,44 @@ struct LocalUdpOwner::Impl {
             // Known schemas advance by their exact argument boundary. An unknown
             // or truncated tag ends parsing; never search an opaque suffix.
             while (reader.position()<bunch.payload_bits) {
+                auto rpc_reader=reader; // PawnRpc includes the field tag in its exact prefix.
                 std::uint32_t field;
                 try { field=reader.read_bounded(bound); }
                 catch (const wire::WireError&) { break; }
-                if (ready_plan && field==ready_plan->ready_rpc_field_id) {
+                if (possession_ack && field==possession_ack->rpc_field_id) {
+                    const auto decoded=wire::rpc::decode_rpc(rpc_reader,bound,true,
+                        bunch.payload_bits-rpc_reader.position());
+                    reader=rpc_reader;
+                    if (!bunch.reliable) continue;
+                    std::lock_guard lock(registry->mutex);
+                    if (stopping.load() || !running.load() || !registry->accepting ||
+                        registry->entry.get()!=&entry || !entry.active ||
+                        entry.admitted_revision!=entry.mech_revision || !entry.accepted_mech ||
+                        entry.pending_mech || !entry.validation_succeeded || !entry.validation_responded ||
+                        !entry.links_sent || entry.connection->snapshot().closed) continue;
+                    bool openings_acked=true;
+                    const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
+                        pawn_plan->channel.channel};
+                    for (const auto channel:channels) {
+                        const auto actor=entry.connection->channel_snapshot(channel);
+                        if (!actor || actor->closed || !actor->opening_packet_id || !actor->outgoing_open_acked)
+                            openings_acked=false;
+                    }
+                    if (!openings_acked) continue;
+                    // Absence/null clears only this server observation; it does not
+                    // claim native parameter-buffer initialization or possession.
+                    if (!decoded.value) entry.acknowledged_pawn_revision.reset();
+                    else if (const auto* actor=std::get_if<wire::object::ActorChannelReference>(&*decoded.value)) {
+                        if (actor->channel==0) entry.acknowledged_pawn_revision.reset();
+                        else if (actor->channel==pawn_plan->channel.channel)
+                            entry.acknowledged_pawn_revision=entry.mech_revision;
+                    } // Foreign actors and package references grant no acknowledgement.
+                } else if (ready_plan && field==ready_plan->ready_rpc_field_id) {
                     const auto decoded=wire::rpc::read_ready_arguments(reader,1);
                     record_ready(entry,decoded.ready);
                 } else if (validation_plan && field==validation_plan->validate_rpc_field_id) {
                     request_validation();
-                    if (!admission_plan && !ready_plan && !active_item_index) break;
+                    if (!admission_plan && !ready_plan && !active_item_index && !possession_ack) break;
                 } else if (admission_plan && field==admission_plan->stage_rpc_field_id) {
                     const auto decoded=wire::rpc::read_selection_stage_arguments(reader,skeleton.endian,
                         bunch.payload_bits-reader.position());
@@ -1145,7 +1178,8 @@ struct LocalUdpOwner::Impl {
                     // A newly requested preset cannot borrow the old validation.
                     entry.validation_succeeded=false;
                     entry.admission_request_revision.reset();
-                    if (!admission_plan && !ready_plan && !active_item_index) {
+                    {std::lock_guard lock(registry->mutex);entry.acknowledged_pawn_revision.reset();}
+                    if (!admission_plan && !ready_plan && !active_item_index && !possession_ack) {
                         if (validation_plan && reader.position()<bunch.payload_bits) {
                             try {
                                 if (reader.read_bounded(validation_plan->controller_exclusive_bound)==
@@ -1229,6 +1263,7 @@ struct LocalUdpOwner::Impl {
                         entry.validation_succeeded=false;
                         entry.admission_request_revision.reset();
                         entry.admitted_revision.reset();
+                        {std::lock_guard lock(registry->mutex);entry.acknowledged_pawn_revision.reset();}
                         if (!entry.validation_waits_for_mech) entry.validation_pending=false;
                         entry.validation_waits_for_mech=false;
                     }
@@ -1943,6 +1978,29 @@ struct LocalUdpOwner::Impl {
             if (ready_match && collision(ready_match->ready_rpc_field_id))
                 fail(LocalUdpErrorCode::invalid_configuration);
         }
+        if (spawn_admission && spawn_admission->possession_acknowledgement) {
+            const auto& plan=*spawn_admission->possession_acknowledgement;
+            const auto collision=[&](std::uint32_t id) {return plan.rpc_field_id==id;};
+            if (!plan.rpc_eligible || !plan.pawn_parameter_eligible ||
+                plan.rpc_field_id>=spawn_admission->controller_exclusive_bound ||
+                collision(spawn_admission->stage_rpc_field_id) ||
+                collision(spawn_admission->client_restart_rpc_field_id) ||
+                collision(links->controller_pri_field_id) || collision(links->controller_pawn_field_id) ||
+                collision(start_mech->controller_rpc_field_id) ||
+                collision(spawn_validation->validate_rpc_field_id) ||
+                collision(spawn_validation->validated_rpc_field_id) ||
+                collision(spawn_validation->failed_rpc_field_id) ||
+                (selection_bootstrap && collision(selection_bootstrap->client_set_hud_field_id)) ||
+                (ready_match && collision(ready_match->ready_rpc_field_id)) ||
+                (start_mech->active_item_index && collision(start_mech->active_item_index->field_id)))
+                fail(LocalUdpErrorCode::invalid_configuration);
+            try {
+                static_cast<void>(wire::rpc::encode_rpc({plan.rpc_field_id,
+                    wire::object::ActorChannelReference{pawn->channel.channel}},
+                    spawn_admission->controller_exclusive_bound,true,
+                    static_cast<std::size_t>(skeleton.transport.max_packet_bytes)*8));
+            } catch (...) {fail(LocalUdpErrorCode::invalid_configuration);}
+        }
         if (inventory_bootstrap) {
             const auto& plan=*inventory_bootstrap;const auto& eligible=plan.eligibility;
             if (!validator || !publication || !controller || !pri || !pawn || !links || !start_mech || !provider ||
@@ -2156,7 +2214,12 @@ LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
     for (std::size_t i=0;i<result.actor_bunches.size();++i)
         result.actor_bunches[i]=impl_->registry->actor_bunches[i].snapshot();
     result.movement=impl_->registry->movement.snapshot();
-    {std::lock_guard lock(impl_->registry->mutex);result.weapon_fire=impl_->registry->weapon_fire;}
+    {
+        std::lock_guard lock(impl_->registry->mutex);
+        result.weapon_fire=impl_->registry->weapon_fire;
+        if (impl_->registry->entry)
+            result.acknowledged_pawn_revision=impl_->registry->entry->acknowledged_pawn_revision;
+    }
     return result;
 }
 bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {

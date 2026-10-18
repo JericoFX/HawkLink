@@ -9,6 +9,7 @@
 #endif
 #include "hawken/local_udp_owner.hpp"
 #include "hawken/packet_writer.hpp"
+#include "hawken/pawn_rpc_wire.hpp"
 #include "test_support.hpp"
 #include <doctest/doctest.h>
 #include <algorithm>
@@ -4367,10 +4368,11 @@ auto combat_validator() {
     };
 }
 struct CombatFixture : LoginAuthorityFixture {
-    explicit CombatFixture(udp::InventoryBootstrapPlan plan=combat_inventory_plan())
+    explicit CombatFixture(udp::InventoryBootstrapPlan plan=combat_inventory_plan(),
+                           udp::SpawnAdmissionDispatchPlan admission=combat_admission())
         : LoginAuthorityFixture({},true,bootstrap_publisher(),public_controller_plan(),{},
             public_pawn_plan(),public_pri_plan(),combat_links(),ready_start_plan(),inventory_provider(),
-            combat_validation(),combat_validator(),combat_admission(),ready_identity_plan(),
+            combat_validation(),combat_validator(),std::move(admission),ready_identity_plan(),
             public_bootstrap_plan(),ready_match_plan(),
             [](const session::SessionId&){return std::optional{loaded_ready_facts()};},100.0,std::move(plan)) {}
 };
@@ -4723,4 +4725,193 @@ TEST_CASE("UDP weapon fire state expires recent stop through worker tick and cle
     CHECK(combat_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.owner.diagnostics().weapon_fire.has_value());
     CHECK_FALSE(f.owner.diagnostics().closed);
     f.owner.stop();CHECK_FALSE(f.owner.diagnostics().weapon_fire.has_value());
+}
+
+
+namespace {
+udp::SpawnAdmissionDispatchPlan possession_admission() {
+    auto plan=combat_admission();
+    plan.possession_acknowledgement=udp::PossessionAcknowledgementPlan{41,true,true};
+    return plan;
+}
+wire::rpc::RpcPayload possession_rpc(std::optional<wire::object::Reference> pawn) {
+    return wire::rpc::encode_rpc({41,std::move(pawn)},294,true,128);
+}
+Bytes possession_request(session::Context& client,CombatFlow& flow,const wire::rpc::RpcPayload& value,
+                         std::uint16_t channel=7,bool reliable=true) {
+    wire::Bunch bunch;bunch.channel=channel;bunch.channel_type=reliable ? 2 : 0;bunch.reliable=reliable;
+    bunch.sequence=reliable ? (channel==7 ? flow.next_sequence++ : 1) : 0;
+    bunch.payload=value.payload;bunch.payload_bits=value.logical_bits;
+    wire::Packet packet;packet.packet_id=flow.ready.next_packet++;
+    wire::PacketRecord record;record.bunch=std::move(bunch);packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,256));
+}
+void possession_receive(CombatFixture& f,Peer& peer,session::Context& client,CombatFlow& flow,
+                        const wire::rpc::RpcPayload& value,std::uint16_t channel=7,bool reliable=true) {
+    const auto received=f.owner.diagnostics().authenticated_datagrams;
+    peer.send(f.owner.port(),possession_request(client,flow,value,channel,reliable));
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().authenticated_datagrams>received;}));
+    // Packet ACKs are consumed by this collector; they are not possession replies.
+    CHECK(combat_output(peer,client,1,100ms).bunches.empty());
+}
+void possession_start(udp::LocalUdpOwner& owner,const udp::SpawnAdmissionDispatchPlan& admission) {
+    auto start=ready_start_plan();start.active_item_index=udp::ActiveItemIndexRpcPlan{214,true,true};
+    owner.start([](const session::SessionId&){return true;},
+        [](const session::SessionId&,const control::posthello::RawString&){return true;},
+        [](const session::SessionId&,const control::posthello::Login&){return std::optional{bootstrap_world()};},
+        public_controller_plan(),public_pawn_plan(),public_pri_plan(),combat_links(),start,
+        inventory_provider(),combat_validation(),combat_validator(),admission,ready_identity_plan(),
+        public_bootstrap_plan(),ready_match_plan(),
+        [](const session::SessionId&){return std::optional{loaded_ready_facts()};},combat_inventory_plan());
+}
+}
+
+TEST_CASE("UDP possession acknowledgement accepts only its admitted Pawn and continues exact known Controller prefixes") {
+    CombatFixture f(combat_inventory_plan(),possession_admission());Peer peer;
+    session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    const auto pawn=possession_rpc(wire::object::ActorChannelReference{8});
+    // Independent field41/294 uses8 bits, presence1, selector1, channel8/2048.
+    CHECK(pawn.logical_bits==21);CHECK(pawn.payload==hex("292300"));
+    wire::BitReader inspect(pawn.payload,pawn.logical_bits);
+    const auto decoded=wire::rpc::decode_rpc(inspect,294,true,128);
+    CHECK(decoded.field_id==41);CHECK(decoded.consumed_bits==21);
+    REQUIRE(decoded.value.has_value());CHECK(*decoded.value==wire::object::Reference{wire::object::ActorChannelReference{8}});
+    possession_receive(f,peer,client,flow,pawn);
+    CHECK_FALSE(f.owner.diagnostics().acknowledged_pawn_revision.has_value()); // GivenTo/ACK is not admission.
+    combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+    CHECK_FALSE(f.owner.diagnostics().acknowledged_pawn_revision.has_value()); // ClientRestart send alone is not its RPC response.
+
+    wire::BitWriter coalesced;
+    coalesced.write_bits(hex("190f00000000"),42); // Known stage3/294 with present raw int3.
+    coalesced.write_bits(pawn.payload,pawn.logical_bits);
+    possession_receive(f,peer,client,flow,{coalesced.payload_bytes(),coalesced.bit_count()});
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().acknowledged_pawn_revision==std::optional<std::uint64_t>{1};}));
+    CHECK_FALSE(f.owner.diagnostics().closed);
+    possession_receive(f,peer,client,flow,pawn); // A second valid invocation is idempotent for the current server revision.
+    CHECK(f.owner.diagnostics().acknowledged_pawn_revision==std::optional<std::uint64_t>{1});
+
+    // Once a known acknowledgement commits, an unknown suffix stops parsing;
+    // the physically following null cannot be scanned and clear possession.
+    wire::BitWriter opaque;opaque.write_bits(pawn.payload,pawn.logical_bits);opaque.write_bounded(0,294);
+    const auto null_pawn=possession_rpc(wire::object::ActorChannelReference{0});
+    opaque.write_bits(null_pawn.payload,null_pawn.logical_bits);
+    possession_receive(f,peer,client,flow,{opaque.payload_bytes(),opaque.bit_count()});
+    CHECK(f.owner.diagnostics().acknowledged_pawn_revision==std::optional<std::uint64_t>{1});
+    f.owner.stop();CHECK_FALSE(f.owner.diagnostics().acknowledged_pawn_revision.has_value());
+}
+
+TEST_CASE("UDP possession acknowledgement clears on explicit null absent parameter and a newly selected revision") {
+    CombatFixture f(combat_inventory_plan(),possession_admission());Peer peer;
+    session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+    const auto pawn=possession_rpc(wire::object::ActorChannelReference{8});
+    const auto present_null=possession_rpc(wire::object::ActorChannelReference{0});
+    const auto absent=possession_rpc(std::nullopt);
+    CHECK(present_null.logical_bits==21);CHECK(present_null.payload==hex("290300"));
+    CHECK(absent.logical_bits==9);CHECK(absent.payload==hex("2900"));
+    // Absent clears by explicit server fail-closed policy, not an assertion about
+    // initialization of the original native RPC parameter buffer.
+    for(const auto& clear:{present_null,absent}) {
+        possession_receive(f,peer,client,flow,pawn);
+        REQUIRE(wait_until([&]{return f.owner.diagnostics().acknowledged_pawn_revision==std::optional<std::uint64_t>{1};}));
+        possession_receive(f,peer,client,flow,clear);
+        REQUIRE(wait_until([&]{return !f.owner.diagnostics().acknowledged_pawn_revision.has_value();}));
+        CHECK_FALSE(f.owner.diagnostics().closed);
+    }
+    possession_receive(f,peer,client,flow,pawn);
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().acknowledged_pawn_revision.has_value();}));
+    peer.send(f.owner.port(),ready_start_request(client,flow.ready.next_packet++,flow.next_sequence++,false));
+    const auto changed=combat_output(peer,client,2);REQUIRE(changed.bunches.size()==2);
+    bool selected=false,revoked=false;
+    for(const auto& bunch:changed.bunches) {
+        if(bunch.channel==9) {CHECK(bunch.payload_bits==551);selected=true;}
+        else {CHECK(combat_is_permission(bunch,false));revoked=true;}
+    }
+    CHECK(selected);CHECK(revoked);combat_ack(f,peer,client,flow,changed);
+    REQUIRE(wait_until([&]{return !f.owner.diagnostics().acknowledged_pawn_revision.has_value();}));
+    possession_receive(f,peer,client,flow,pawn); // No fresh admission for this new accepted selection.
+    CHECK_FALSE(f.owner.diagnostics().acknowledged_pawn_revision.has_value());
+    // The wire contains no revision. This test does not claim that a delayed old
+    // RPC naming a reused Pawn channel can be distinguished after readmission.
+}
+
+TEST_CASE("UDP possession acknowledgement does not authorize disabled unreliable foreign or opaque requests") {
+    for(unsigned mode=0;mode<6;++mode) {
+        CAPTURE(mode);auto admission=mode==0 ? combat_admission() : possession_admission();
+        CombatFixture f(combat_inventory_plan(),admission);Peer peer;
+        session::Context client(session::Role::client,public_id,public_key);
+        auto flow=combat_inventory_delivered(f,peer,client);
+        combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+        auto request=possession_rpc(wire::object::ActorChannelReference{8});
+        if(mode==3) request=possession_rpc(wire::object::PackageExportReference{9});
+        if(mode==4) request=possession_rpc(wire::object::ActorChannelReference{7}); // Own Controller is not the expected Pawn.
+        if(mode==5) {
+            wire::BitWriter bits;bits.write_bounded(0,294);bits.write_bits(request.payload,request.logical_bits);
+            request={bits.payload_bytes(),bits.bit_count()};
+        }
+        possession_receive(f,peer,client,flow,request,mode==2 ? 8 : 7,mode!=1);
+        CHECK_FALSE(f.owner.diagnostics().acknowledged_pawn_revision.has_value());
+        CHECK_FALSE(f.owner.diagnostics().closed);
+    }
+}
+
+TEST_CASE("UDP possession acknowledgement retires malformed known parameters instead of scanning beyond them") {
+    for(const bool missing_presence:{true,false}) {
+        CAPTURE(missing_presence);CombatFixture f(combat_inventory_plan(),possession_admission());Peer peer;
+        session::Context client(session::Role::client,public_id,public_key);
+        auto flow=combat_inventory_delivered(f,peer,client);
+        combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+        // The second form contains tag41, presence1 and selector1, but no channel.
+        // High unused bits are zero, so packet encoding itself remains valid.
+        const wire::rpc::RpcPayload truncated{hex(missing_presence ? "29" : "2903"),missing_presence ? 8U : 10U};
+        peer.send(f.owner.port(),possession_request(client,flow,truncated));
+        REQUIRE(wait_until([&]{return f.owner.diagnostics().closed;}));
+        CHECK_FALSE(f.owner.diagnostics().acknowledged_pawn_revision.has_value());
+        CHECK_FALSE(f.service->authorize_udp(public_id));
+    }
+}
+
+TEST_CASE("UDP possession acknowledgement cannot survive or release revoked authorization") {
+    CombatFixture f(combat_inventory_plan(),possession_admission());Peer peer;
+    session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+    const auto pawn=possession_rpc(wire::object::ActorChannelReference{8});
+    possession_receive(f,peer,client,flow,pawn);
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().acknowledged_pawn_revision.has_value();}));
+    f.verifier.active=false;
+    peer.send(f.owner.port(),possession_request(client,flow,pawn));
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK_FALSE(f.owner.diagnostics().acknowledged_pawn_revision.has_value());
+    CHECK_FALSE(f.service->authorize_udp(public_id));
+}
+
+TEST_CASE("UDP possession acknowledgement preflight rejects eligibility bounds and every configured Controller collision") {
+    for(unsigned invalid=0;invalid<15;++invalid) {
+        CAPTURE(invalid);auto admission=possession_admission();auto& ack=*admission.possession_acknowledgement;
+        switch(invalid) {
+        case 0:ack.rpc_eligible=false;break;
+        case 1:ack.pawn_parameter_eligible=false;break;
+        case 2:ack.rpc_field_id=294;break;
+        case 3:ack.rpc_field_id=281;break; // SelectionStage.
+        case 4:ack.rpc_field_id=83;break; // ClientRestart.
+        case 5:ack.rpc_field_id=3;break; // Controller.PRI.
+        case 6:ack.rpc_field_id=5;break; // Controller.Pawn.
+        case 7:ack.rpc_field_id=ready_start_plan().controller_rpc_field_id;break; // Synthetic fixture StartMech.
+        case 8:ack.rpc_field_id=249;break;
+        case 9:ack.rpc_field_id=250;break;
+        case 10:ack.rpc_field_id=251;break;
+        case 11:ack.rpc_field_id=42;break; // ClientSetHUD.
+        case 12:ack.rpc_field_id=280;break; // Ready.
+        case 13:ack.rpc_field_id=214;break; // ActiveItemIndex is explicitly configured below.
+        case 14:admission.controller_exclusive_bound=0;break;
+        }
+        udp::LocalUdpOwner owner(0,authority_skeleton(),[]{return 100.0;},5ms);
+        error([&]{possession_start(owner,admission);},udp::LocalUdpErrorCode::invalid_configuration);
+        CHECK_FALSE(owner.running());
+        if(owner.running()) {owner.stop();continue;} // Preserve remaining RED variants when the plan is ignored.
+        CHECK_NOTHROW(possession_start(owner,possession_admission()));CHECK(owner.running());owner.stop();
+    }
 }

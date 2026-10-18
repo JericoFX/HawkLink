@@ -372,6 +372,7 @@ public:
             << " inventory_links_acked=" << observation.inventory_links_acked
             << " inventory_given_to_sent=" << observation.inventory_given_to_sent
             << " inventory_current_weapon_received=" << observation.inventory_current_weapon_received
+            << " acknowledged_pawn_revision=" << observation.acknowledged_pawn_revision.value_or(0)
             << " closed=" << observation.closed << " gameplay=0\n" << std::flush;
         constexpr std::array roles{"controller","pawn","pri","gri","manager",
             "dual_weapon","primary_weapon","secondary_weapon"};
@@ -661,6 +662,10 @@ int serve(const Options& options, const std::optional<StarterPolicy>& policy) {
                     },true};
                 trial_config.spawn_admission = hawken::udp::SpawnAdmissionDispatchPlan{
                     281,83,294,{true,true,true,true,true,true}};
+                // ServerAcknowledgePossession(Pawn), conditional Link0 PRIMARY cache.
+                // Both eligibility premises are the pinned trial schema, not live proof.
+                trial_config.spawn_admission->possession_acknowledgement =
+                    hawken::udp::PossessionAcknowledgementPlan{41,true,true};
                 // Conditional Link0 PRIMARY PRI cache41/87 and explicit Windows
                 // little-endian archive trial. The observed UniqueId offset2d4
                 // names the property; it does not prove this live field cache or
