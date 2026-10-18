@@ -1,0 +1,20 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4635):
+TEST CASE:  UDP weapon fire state requires real admission and dispatches only owned supported reliable requests
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4649): FATAL ERROR: REQUIRE( wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.firing[0];}) ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4691):
+TEST CASE:  UDP weapon fire state expires recent stop through worker tick and clears stale selected revision
+
+F:\HawkenServer\tests\local_udp_owner_tests.cpp(4697): FATAL ERROR: REQUIRE( wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.firing[0];}) ) is NOT correct!
+  values: REQUIRE( false )
+
+===============================================================================
+[doctest] test cases:   2 |   0 passed | 2 failed | 154 skipped
+[doctest] assertions: 552 | 550 passed | 2 failed |
+[doctest] Status: FAILURE!

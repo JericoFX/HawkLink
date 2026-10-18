@@ -1,0 +1,2123 @@
+[
+  {
+    "utc": "2026-10-18T02:44:52.2296107Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9862070272,
+    "usedPercent": 71.22,
+    "ownedTreeWorkingSetBytes": 173613056,
+    "priorityObservations": [
+      {
+        "pid": 66056,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:44:55.3972580Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9822347264,
+    "usedPercent": 71.33,
+    "ownedTreeWorkingSetBytes": 189702144,
+    "priorityObservations": [
+      {
+        "pid": 33256,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:44:58.4726369Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9786339328,
+    "usedPercent": 71.44,
+    "ownedTreeWorkingSetBytes": 183721984,
+    "priorityObservations": [
+      {
+        "pid": 47308,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:01.5637561Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9754071040,
+    "usedPercent": 71.53,
+    "ownedTreeWorkingSetBytes": 254193664,
+    "priorityObservations": [
+      {
+        "pid": 51628,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:04.6103666Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9866637312,
+    "usedPercent": 71.21,
+    "ownedTreeWorkingSetBytes": 195661824,
+    "priorityObservations": [
+      {
+        "pid": 72016,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:07.6602975Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9889103872,
+    "usedPercent": 71.14,
+    "ownedTreeWorkingSetBytes": 178262016,
+    "priorityObservations": [
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 11432,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:10.7169858Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9841700864,
+    "usedPercent": 71.28,
+    "ownedTreeWorkingSetBytes": 251662336,
+    "priorityObservations": [
+      {
+        "pid": 70312,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:13.7953867Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9860599808,
+    "usedPercent": 71.22,
+    "ownedTreeWorkingSetBytes": 221843456,
+    "priorityObservations": [
+      {
+        "pid": 41788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:16.8804119Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9850613760,
+    "usedPercent": 71.25,
+    "ownedTreeWorkingSetBytes": 272175104,
+    "priorityObservations": [
+      {
+        "pid": 34920,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:19.9624706Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10020417536,
+    "usedPercent": 70.76,
+    "ownedTreeWorkingSetBytes": 106397696,
+    "priorityObservations": [
+      {
+        "pid": 63896,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:23.0221231Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10314723328,
+    "usedPercent": 69.9,
+    "ownedTreeWorkingSetBytes": 96944128,
+    "priorityObservations": [
+      {
+        "pid": 35836,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:25.9958847Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10072174592,
+    "usedPercent": 70.61,
+    "ownedTreeWorkingSetBytes": 372383744,
+    "priorityObservations": [
+      {
+        "pid": 35836,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:28.9558233Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10267611136,
+    "usedPercent": 70.04,
+    "ownedTreeWorkingSetBytes": 182132736,
+    "priorityObservations": [
+      {
+        "pid": 38692,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:31.9152304Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10245758976,
+    "usedPercent": 70.1,
+    "ownedTreeWorkingSetBytes": 190189568,
+    "priorityObservations": [
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 2688,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:34.8695863Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10246385664,
+    "usedPercent": 70.1,
+    "ownedTreeWorkingSetBytes": 179937280,
+    "priorityObservations": [
+      {
+        "pid": 18976,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:37.9469510Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10127429632,
+    "usedPercent": 70.44,
+    "ownedTreeWorkingSetBytes": 307228672,
+    "priorityObservations": [
+      {
+        "pid": 71328,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:40.9173537Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9966575616,
+    "usedPercent": 70.91,
+    "ownedTreeWorkingSetBytes": 489164800,
+    "priorityObservations": [
+      {
+        "pid": 71328,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:43.9638575Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10156883968,
+    "usedPercent": 70.36,
+    "ownedTreeWorkingSetBytes": 305491968,
+    "priorityObservations": [
+      {
+        "pid": 71328,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:46.9440687Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10369540096,
+    "usedPercent": 69.74,
+    "ownedTreeWorkingSetBytes": 83243008,
+    "priorityObservations": [
+      {
+        "pid": 31420,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:49.9174227Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10092306432,
+    "usedPercent": 70.55,
+    "ownedTreeWorkingSetBytes": 362201088,
+    "priorityObservations": [
+      {
+        "pid": 31420,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:52.8983001Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10112942080,
+    "usedPercent": 70.49,
+    "ownedTreeWorkingSetBytes": 285601792,
+    "priorityObservations": [
+      {
+        "pid": 45548,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:55.8588220Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10266390528,
+    "usedPercent": 70.04,
+    "ownedTreeWorkingSetBytes": 149430272,
+    "priorityObservations": [
+      {
+        "pid": 7612,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:45:58.8216095Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10327617536,
+    "usedPercent": 69.86,
+    "ownedTreeWorkingSetBytes": 94175232,
+    "priorityObservations": [
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 39348,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:01.7717334Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10006933504,
+    "usedPercent": 70.8,
+    "ownedTreeWorkingSetBytes": 377335808,
+    "priorityObservations": [
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 39348,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:04.7365989Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10165977088,
+    "usedPercent": 70.33,
+    "ownedTreeWorkingSetBytes": 224927744,
+    "priorityObservations": [
+      {
+        "pid": 70584,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 23284,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 39348,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:07.9319717Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10381713408,
+    "usedPercent": 69.7,
+    "ownedTreeWorkingSetBytes": 30113792,
+    "priorityObservations": [
+      {
+        "pid": 60576,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:10.5931063Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10379927552,
+    "usedPercent": 69.71,
+    "ownedTreeWorkingSetBytes": 49627136,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 38312,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:13.3816556Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10380214272,
+    "usedPercent": 69.71,
+    "ownedTreeWorkingSetBytes": 44077056,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:16.1775565Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10321170432,
+    "usedPercent": 69.88,
+    "ownedTreeWorkingSetBytes": 45268992,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:19.0143414Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10332344320,
+    "usedPercent": 69.85,
+    "ownedTreeWorkingSetBytes": 45367296,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:21.8207506Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10354380800,
+    "usedPercent": 69.78,
+    "ownedTreeWorkingSetBytes": 47149056,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:24.6073270Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10378973184,
+    "usedPercent": 69.71,
+    "ownedTreeWorkingSetBytes": 47271936,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:27.4049555Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10340405248,
+    "usedPercent": 69.82,
+    "ownedTreeWorkingSetBytes": 47312896,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:30.2075651Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10119020544,
+    "usedPercent": 70.47,
+    "ownedTreeWorkingSetBytes": 47329280,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:33.0015367Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10119442432,
+    "usedPercent": 70.47,
+    "ownedTreeWorkingSetBytes": 47382528,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:35.7908768Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10046091264,
+    "usedPercent": 70.68,
+    "ownedTreeWorkingSetBytes": 47456256,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:38.6070942Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10030551040,
+    "usedPercent": 70.73,
+    "ownedTreeWorkingSetBytes": 47464448,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:41.3703627Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10116554752,
+    "usedPercent": 70.48,
+    "ownedTreeWorkingSetBytes": 47513600,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:44.1382295Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10138320896,
+    "usedPercent": 70.41,
+    "ownedTreeWorkingSetBytes": 47513600,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:46.9183976Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10195775488,
+    "usedPercent": 70.24,
+    "ownedTreeWorkingSetBytes": 47550464,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:49.7274311Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10188582912,
+    "usedPercent": 70.27,
+    "ownedTreeWorkingSetBytes": 47640576,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:52.5415037Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10195132416,
+    "usedPercent": 70.25,
+    "ownedTreeWorkingSetBytes": 47693824,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:55.3284833Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10162315264,
+    "usedPercent": 70.34,
+    "ownedTreeWorkingSetBytes": 47915008,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:46:58.1211857Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10171314176,
+    "usedPercent": 70.32,
+    "ownedTreeWorkingSetBytes": 47923200,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:00.9159471Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10166161408,
+    "usedPercent": 70.33,
+    "ownedTreeWorkingSetBytes": 47996928,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:03.7080452Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10168066048,
+    "usedPercent": 70.33,
+    "ownedTreeWorkingSetBytes": 48005120,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:06.5349903Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10137575424,
+    "usedPercent": 70.41,
+    "ownedTreeWorkingSetBytes": 48119808,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:09.3182783Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10147926016,
+    "usedPercent": 70.38,
+    "ownedTreeWorkingSetBytes": 48082944,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:12.1300482Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10050519040,
+    "usedPercent": 70.67,
+    "ownedTreeWorkingSetBytes": 48259072,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:14.9213087Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10121195520,
+    "usedPercent": 70.46,
+    "ownedTreeWorkingSetBytes": 48259072,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:17.7161722Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10151424000,
+    "usedPercent": 70.37,
+    "ownedTreeWorkingSetBytes": 48349184,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:20.5208441Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10152714240,
+    "usedPercent": 70.37,
+    "ownedTreeWorkingSetBytes": 48447488,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:23.3168366Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10157932544,
+    "usedPercent": 70.36,
+    "ownedTreeWorkingSetBytes": 48492544,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:26.1124692Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10155728896,
+    "usedPercent": 70.36,
+    "ownedTreeWorkingSetBytes": 48586752,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:28.9134174Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10143232000,
+    "usedPercent": 70.4,
+    "ownedTreeWorkingSetBytes": 48787456,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:31.8043978Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10163515392,
+    "usedPercent": 70.34,
+    "ownedTreeWorkingSetBytes": 48803840,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 51788,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:34.5950923Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10156019712,
+    "usedPercent": 70.36,
+    "ownedTreeWorkingSetBytes": 46661632,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 47792,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:37.3936310Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10160242688,
+    "usedPercent": 70.35,
+    "ownedTreeWorkingSetBytes": 46903296,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 47792,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:40.1852680Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10162495488,
+    "usedPercent": 70.34,
+    "ownedTreeWorkingSetBytes": 47079424,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 47792,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:42.9700250Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10175148032,
+    "usedPercent": 70.31,
+    "ownedTreeWorkingSetBytes": 47247360,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 47792,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:45.7480241Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10166042624,
+    "usedPercent": 70.33,
+    "ownedTreeWorkingSetBytes": 47468544,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 47792,
+        "applied": false,
+        "reason": "Process absent"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:48.5034352Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10152636416,
+    "usedPercent": 70.37,
+    "ownedTreeWorkingSetBytes": 45232128,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 27632,
+        "applied": false,
+        "reason": "Process absent"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:51.2599583Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10157338624,
+    "usedPercent": 70.36,
+    "ownedTreeWorkingSetBytes": 47996928,
+    "priorityObservations": [
+      {
+        "pid": 46260,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:54.0583527Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10128175104,
+    "usedPercent": 70.44,
+    "ownedTreeWorkingSetBytes": 48123904,
+    "priorityObservations": [
+      {
+        "pid": 53308,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:56.8596231Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10113368064,
+    "usedPercent": 70.49,
+    "ownedTreeWorkingSetBytes": 45846528,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 8232,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:47:59.6837161Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10101239808,
+    "usedPercent": 70.52,
+    "ownedTreeWorkingSetBytes": 45096960,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 30472,
+        "applied": false,
+        "reason": "Process absent"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:48:02.4150642Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10085511168,
+    "usedPercent": 70.57,
+    "ownedTreeWorkingSetBytes": 44888064,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 42924,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:48:05.2290793Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10082189312,
+    "usedPercent": 70.58,
+    "ownedTreeWorkingSetBytes": 46133248,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 42924,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:48:08.0360295Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10108002304,
+    "usedPercent": 70.5,
+    "ownedTreeWorkingSetBytes": 46592000,
+    "priorityObservations": [
+      {
+        "pid": 26660,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 29956,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 42924,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 36204,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  }
+]

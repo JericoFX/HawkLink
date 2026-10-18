@@ -1,0 +1,12 @@
+{
+  "groups": 62,
+  "cases": 1676,
+  "passedCases": 1676,
+  "failedCases": 0,
+  "skipped": 0,
+  "assertions": 94979,
+  "failedAssertions": 0,
+  "testPassedLines": 62,
+  "testFailedLines": 0,
+  "independentSourceDrift": 0
+}

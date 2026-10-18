@@ -1,0 +1,160 @@
+{
+  "utc": "2026-10-18T02:48:11.0313627Z",
+  "phase": "green",
+  "status": "wrapper-terminal",
+  "launcherTerminal": true,
+  "launcherExit": 0,
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "deadlineSeconds": 360,
+  "launch": {
+    "pid": 29956,
+    "creationUtc": "2026-10-18T02:44:49.5640117Z",
+    "path": "C:\\WINDOWS\\system32\\cmd.exe",
+    "priorityClass": "BelowNormal",
+    "wrapper": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\run-green.cmd",
+    "startedUtc": "2026-10-18T02:44:49.6654882Z"
+  },
+  "wrapperExitFiles": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\build.exit",
+      "value": 0,
+      "raw": "0",
+      "lastWriteUtc": "2026-10-18T02:46:07.7120133Z",
+      "writtenAfterLaunch": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\ctest.exit",
+      "value": 0,
+      "raw": "0",
+      "lastWriteUtc": "2026-10-18T02:48:10.6680086Z",
+      "writtenAfterLaunch": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\fire.exit",
+      "value": 0,
+      "raw": "0",
+      "lastWriteUtc": "2026-10-18T02:46:09.0975396Z",
+      "writtenAfterLaunch": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\policy.exit",
+      "value": 0,
+      "raw": "0",
+      "lastWriteUtc": "2026-10-18T02:46:09.4243212Z",
+      "writtenAfterLaunch": true
+    }
+  ],
+  "doctestSummaries": [
+    {
+      "file": "fire.log",
+      "caseSummaries": [
+        {
+          "passed": 2,
+          "skipped": 154,
+          "total": 2,
+          "failed": 0
+        }
+      ],
+      "assertionSummaries": [
+        {
+          "passed": 624,
+          "total": 624,
+          "failed": 0
+        }
+      ]
+    }
+  ],
+  "ctestSummary": {
+    "passedTestLines": 0,
+    "failedTestLines": 0,
+    "summaryLine": "\n100% tests passed, 0 tests failed out of 62"
+  },
+  "lastTestLogCopy": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green\\LastTest.log.raw",
+  "lastTestLogSha256": "1792f4e613ab96e1795429b68816051c96382b8bfdd2b555c12485d9294f131d",
+  "lastTestLogWrittenDuringRun": true,
+  "logFiles": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\build.log",
+      "sha256": "0d75e3204c63858711f7cb78f7659808ffe1efbfc9055ceeade9c80efde1377f",
+      "length": 2901
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\ctest.log",
+      "sha256": "a8d9dca4286426a4e20bca6fe0a660d7551e4911be965c399fa8ca4c2268ccaa",
+      "length": 6761
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\environment.log",
+      "sha256": "513c1bd5aff6d1b6b2490f74ccbebbd856b62ef50e1c895a1f305a93b148d95e",
+      "length": 247
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\fire.log",
+      "sha256": "4470b1a26908578ee3ccfd00a2abb64e6a5736bc27036597bd1ab8456f2029d3",
+      "length": 307
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\policy.log",
+      "sha256": "5e0444bfcf6fcec3ced2ddeaa11505bdbef5813f1b766a8a49a5e4a84e86cf9f",
+      "length": 328
+    }
+  ],
+  "sourceDrift": [],
+  "unexpectedTestExeChanges": [
+    {
+      "path": "build/windows-msvc/hawken-local-udp-tests.exe",
+      "expected": "1903aaf60498a05641103d156f71428fecefb3114c61e62473849d868e7ee6b4",
+      "actual": "d48071778e827cc634fa9f5009ec9b72b22f70cec7afefe7c35a500a93ef1886",
+      "matches": false
+    },
+    {
+      "path": "build/windows-msvc/hawken-server-listing-tests.exe",
+      "expected": "7528f64547e946e58b506971ca9ee43cd0729d2ad2b8e31f0845513ac0205b46",
+      "actual": "c4722e63fd56b7717dbda33a050cc7aa9d017e3dcf44234eec4a5e9e3724a04f",
+      "matches": false
+    },
+    {
+      "path": "build/windows-msvc/hawken-udp-trial-runtime-tests.exe",
+      "expected": "1ad789034bc1ced924937eb9bd2c3867b1935d9f01b23cc31ca25c06e45e8066",
+      "actual": "79d37d3476cf278e6149a42bceb876456d42acf55c14096097e3810a1de2f8b6",
+      "matches": false
+    },
+    {
+      "path": "build/windows-msvc/hawken-wreckage-trial-tests.exe",
+      "expected": "e5669d991495ae97b6c558c64b412476735a5666c4cc421f9ee653f0e1436c86",
+      "actual": "4657dda8dce4ee413daf33ae4ac27ce2b54a0b3cee3dc83360755691ef2b7249",
+      "matches": false
+    }
+  ],
+  "protectedCore": {
+    "path": "build/windows-msvc/hawken-server.exe",
+    "expected": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "actual": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "matches": true
+  },
+  "protectedMaster": {
+    "path": "build/windows-msvc/hawken-master.exe",
+    "expected": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "actual": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "matches": true
+  },
+  "probeBefore": {
+    "path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+    "expected": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+    "actual": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+    "matches": true,
+    "expectedToRemainStable": false
+  },
+  "termination": {
+    "stopped": [],
+    "skipped": []
+  },
+  "finalRam": {
+    "utc": "2026-10-18T02:48:11.1048068Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10065260544,
+    "usedPercent": 70.63
+  },
+  "taskOwnedProcessesRemaining": null
+}

@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-18T02:44:49.5125740Z",
+  "phase": "green",
+  "freezePath": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\input-freeze.json",
+  "freezeSha256": "b882d86d0f111650e743ba5583bbf18da48ff435c04ad58e3428330d15983dee",
+  "wrapperPath": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\fire-dispatch\\green-input\\run-green.cmd",
+  "wrapperSha256": "3911f32ac2807d4db256b6cd4f5eb3129154e9d7e06af883a6f48333a28931d1",
+  "admission": true,
+  "ram": {
+    "utc": "2026-10-18T02:44:49.3864032Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 10013081600,
+    "usedPercent": 70.78
+  },
+  "incompatibleBuildProcesses": null,
+  "sourcePinCount": 225,
+  "sourcePinDrift": [],
+  "testExecutableCount": 62,
+  "testExecutableDrift": [],
+  "protectedCore": {
+    "path": "build/windows-msvc/hawken-server.exe",
+    "expected": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "actual": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "matches": true
+  },
+  "protectedMaster": {
+    "path": "build/windows-msvc/hawken-master.exe",
+    "expected": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "actual": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "matches": true
+  },
+  "probeBefore": {
+    "path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+    "expected": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+    "actual": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+    "matches": true,
+    "requiredStable": false
+  }
+}

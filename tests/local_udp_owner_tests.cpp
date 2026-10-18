@@ -4616,3 +4616,111 @@ TEST_CASE("UDP owning Pawn role preflight rejects ineligible out of bound and li
         CHECK_NOTHROW(start(coherent));CHECK(owner.running());owner.stop();
     }
 }
+
+namespace {
+udp::InventoryBootstrapPlan fire_inventory_plan() {
+    auto plan=combat_inventory_plan();
+    plan.fire=udp::WeaponFireDispatchPlan{{35,26,27,32,true,true,true,true},{true,true,false,false}};
+    return plan;
+}
+Bytes fire_request(session::Context& client,CombatFlow& flow,std::uint16_t sequence,
+                   std::string_view literal,std::size_t bits,std::uint16_t channel=12) {
+    wire::Bunch bunch;bunch.reliable=true;bunch.channel_type=2;bunch.channel=channel;
+    bunch.sequence=sequence;bunch.payload=hex(literal);bunch.payload_bits=bits;
+    wire::Packet packet;packet.packet_id=flow.ready.next_packet++;
+    wire::PacketRecord record;record.bunch=std::move(bunch);packet.records.push_back(std::move(record));
+    return client.encode(wire::encode_packet(packet,256));
+}
+}
+TEST_CASE("UDP weapon fire state requires real admission and dispatches only owned supported reliable requests") {
+    CombatFixture f(fire_inventory_plan());Peer peer;
+    session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    CHECK_FALSE(f.owner.diagnostics().weapon_fire.has_value());
+    const auto dual_slot=static_cast<std::size_t>(udp::ActorDiagnosticSlot::dual_weapon);
+    const auto before=f.owner.diagnostics().actor_bunches[dual_slot].delivered_bunches;
+    // Independent Dual26/b35 tag5 + BYTE presence1 + eight zero mode bits.
+    peer.send(f.owner.port(),fire_request(client,flow,1,"3a00",14));
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().actor_bunches[dual_slot].delivered_bunches==before+1;}));
+    CHECK(combat_output(peer,client,1,100ms).bunches.empty());
+    CHECK_FALSE(f.owner.diagnostics().weapon_fire.has_value()); // GivenTo/ACK is not admission.
+    combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+    peer.send(f.owner.port(),fire_request(client,flow,2,"3a00",14));
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.firing[0];}));
+    const auto started=f.owner.diagnostics().weapon_fire;REQUIRE(started.has_value());
+    CHECK(started->spawn_revision==1);CHECK(started->actor_channel==12);CHECK(started->state.enabled);
+    CHECK(started->state.pending_fire==std::array<bool,4>{true,false,false,false});
+    CHECK(started->state.firing==std::array<bool,4>{true,false,false,false});
+
+    // Tag27/b35 + absent BYTE means StopFire mode0, not an RPC Bool.
+    peer.send(f.owner.port(),fire_request(client,flow,3,"1b",6));
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && !v->state.pending_fire[0] && !v->state.firing[0];}));
+    const auto stopped=f.owner.diagnostics().weapon_fire;REQUIRE(stopped.has_value());
+    const auto delivered=f.owner.diagnostics().actor_bunches[dual_slot].delivered_bunches;
+    const auto authenticated=f.owner.diagnostics().authenticated_datagrams;
+    // Same old reliable Start sequence2 with a fresh actual packet/cipher counter:
+    // redispatch would reopen fire after Stop sequence3, unlike pure snapshot dedupe.
+    peer.send(f.owner.port(),fire_request(client,flow,2,"3a00",14));
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().authenticated_datagrams>authenticated;}));
+    CHECK(combat_output(peer,client,1,100ms).bunches.empty());
+    CHECK(f.owner.diagnostics().actor_bunches[dual_slot].delivered_bunches==delivered);
+    CHECK(f.owner.diagnostics().weapon_fire==stopped);
+
+    // A hand actor's same numeric tag is not this Dual actor's fire dispatch.
+    const auto primary_slot=static_cast<std::size_t>(udp::ActorDiagnosticSlot::primary_weapon);
+    const auto primary_before=f.owner.diagnostics().actor_bunches[primary_slot].delivered_bunches;
+    peer.send(f.owner.port(),fire_request(client,flow,1,"3a00",14,13));
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().actor_bunches[primary_slot].delivered_bunches==primary_before+1;}));
+    CHECK(combat_output(peer,client,1,100ms).bunches.empty());
+    CHECK(f.owner.diagnostics().weapon_fire==stopped);
+    // Mode2 is syntactically BYTE-valid but unsupported by this owned profile.
+    peer.send(f.owner.port(),fire_request(client,flow,4,"ba00",14));
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().actor_bunches[dual_slot].delivered_bunches==delivered+1;}));
+    CHECK(combat_output(peer,client,1,100ms).bunches.empty());CHECK(f.owner.diagnostics().weapon_fire==stopped);
+
+    peer.send(f.owner.port(),fire_request(client,flow,5,"7a00",14)); // Start mode1.
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.firing[1];}));
+    CHECK(f.owner.diagnostics().weapon_fire->state.pending_fire==std::array<bool,4>{false,true,false,false});
+    peer.send(f.owner.port(),fire_request(client,flow,6,"7b00",14)); // Stop mode1.
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && !v->state.firing[1] && !v->state.pending_fire[1];}));
+    f.verifier.active=false;
+    peer.send(f.owner.port(),fire_request(client,flow,7,"3a00",14));
+    REQUIRE(wait_until([&]{return f.owner.diagnostics().closed;}));
+    CHECK_FALSE(f.owner.diagnostics().weapon_fire.has_value());
+}
+TEST_CASE("UDP weapon fire state expires recent stop through worker tick and clears stale selected revision") {
+    CombatFixture f(fire_inventory_plan());Peer peer;
+    session::Context client(session::Role::client,public_id,public_key);
+    auto flow=combat_inventory_delivered(f,peer,client);
+    combat_validation_and_stage(f,peer,client,flow);combat_match_admission(f,peer,client,flow,true);
+    peer.send(f.owner.port(),fire_request(client,flow,1,"3a00",14));
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.firing[0];}));
+    // Tag32 takes6bits, absent mode BYTE takes1, recent Bool is one raw bit.
+    peer.send(f.owner.port(),fire_request(client,flow,2,"a0",8));
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.stop_deadlines[0].has_value();}));
+    const double deadline=110.0+static_cast<double>(0.2F); // Original timer's float duration widened to clock.
+    auto current=f.owner.diagnostics().weapon_fire;REQUIRE(current.has_value());
+    CHECK(current->state.stop_deadlines[0]==std::optional<double>{deadline});
+    CHECK(current->state.pending_fire[0]);CHECK(current->state.firing[0]);
+    f.udp_now=110.1;
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.last_time==std::optional<double>{110.1};}));
+    current=f.owner.diagnostics().weapon_fire;REQUIRE(current.has_value());
+    CHECK(current->state.firing[0]);CHECK(current->state.stop_deadlines[0].has_value());
+    f.udp_now=deadline;
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && !v->state.stop_deadlines[0] && !v->state.firing[0] && !v->state.pending_fire[0];}));
+    peer.send(f.owner.port(),fire_request(client,flow,3,"3a00",14));
+    REQUIRE(wait_until([&]{const auto v=f.owner.diagnostics().weapon_fire;return v && v->state.firing[0];}));
+    peer.send(f.owner.port(),ready_start_request(client,flow.ready.next_packet++,flow.next_sequence++,false));
+    const auto revision=combat_output(peer,client,2);
+    REQUIRE(revision.bunches.size()==2);bool selected=false,revoked=false;
+    for(const auto& bunch:revision.bunches) {
+        if(bunch.channel==9) {CHECK(bunch.payload_bits==551);selected=true;}
+        else {CHECK(combat_is_permission(bunch,false));revoked=true;}
+    }
+    CHECK(selected);CHECK(revoked);combat_ack(f,peer,client,flow,revision);
+    REQUIRE(wait_until([&]{return !f.owner.diagnostics().weapon_fire.has_value();}));
+    peer.send(f.owner.port(),fire_request(client,flow,4,"3a00",14));
+    CHECK(combat_output(peer,client,1,100ms).bunches.empty());CHECK_FALSE(f.owner.diagnostics().weapon_fire.has_value());
+    CHECK_FALSE(f.owner.diagnostics().closed);
+    f.owner.stop();CHECK_FALSE(f.owner.diagnostics().weapon_fire.has_value());
+}

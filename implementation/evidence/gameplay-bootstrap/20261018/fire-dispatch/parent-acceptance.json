@@ -1,0 +1,134 @@
+{
+  "utc": "2026-10-18T02:50:35.4682235Z",
+  "owner": "parent",
+  "status": "WINDOWS_AUTHENTICATED_UDP_FIRE_STATE_INTEGRATION_VERIFIED;NATIVE_GAMEPLAY_NOT_ACCEPTED",
+  "sourcePins": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "a0fb3bbc7580803d795f1c60c1193756f2cf6425e6a9dc8b1b9bbfefbed95dc6"
+    },
+    {
+      "path": "include/hawken/local_udp_owner.hpp",
+      "sha256": "b4f51dcf345a1b5e974bdaebec2db55eb5ec734c553ca000bf2c7c5dd945be9f"
+    },
+    {
+      "path": "src/local_udp_owner.cpp",
+      "sha256": "c72efe5047cdaf5285b91091d297ff6a44ce7a1f5cb2df228a890d017d21adfb"
+    },
+    {
+      "path": "src/wreckage_trial.cpp",
+      "sha256": "c96a4ef2a8eaaf6e288e2f875467c6ac1aecf27a82a4587a3ea2fcbac08c3a01"
+    },
+    {
+      "path": "tests/local_udp_owner_tests.cpp",
+      "sha256": "7723e289ce518b2c04eb40cb26cad516dd924e5fff840ab38edbe3f6056d5faa"
+    },
+    {
+      "path": "tools/wreckage_trial_probe.cpp",
+      "sha256": "d67ad4503ba27fd75e06fb9b2488c14093f4a0d3622ef621e4170e3148721496"
+    }
+  ],
+  "red": {
+    "focusedExit": 1,
+    "cases": 2,
+    "passed": 0,
+    "failed": 2,
+    "skippedExisting": 154,
+    "assertions": 552,
+    "failedAssertions": 2,
+    "rawLog": "red-focal.log",
+    "fullPriorCasesPassed": 154,
+    "fullPriorCasesEvidence": "red2-input/udp.log",
+    "fullWrapperExitInvalid": true
+  },
+  "green": {
+    "launcherExit": 0,
+    "buildExit": 0,
+    "focusedExit": 0,
+    "policyProbeExit": 0,
+    "ctestExit": 0,
+    "focusedCasesPassed": 2,
+    "focusedAssertions": 624,
+    "totals": {
+      "groups": 62,
+      "cases": 1676,
+      "passedCases": 1676,
+      "failedCases": 0,
+      "skipped": 0,
+      "assertions": 94979,
+      "failedAssertions": 0,
+      "testPassedLines": 62,
+      "testFailedLines": 0,
+      "independentSourceDrift": 0
+    },
+    "sourcePinsVerified": 225,
+    "sourceDrift": 0,
+    "changedTestExecutables": [
+      "hawken-local-udp-tests.exe",
+      "hawken-server-listing-tests.exe",
+      "hawken-udp-trial-runtime-tests.exe",
+      "hawken-wreckage-trial-tests.exe"
+    ],
+    "unchangedTestExecutables": 58,
+    "mainObjectCompiled": true,
+    "coreExecutableLinked": false,
+    "coreMasterUnchanged": true,
+    "originalPackagePolicyVerified": true,
+    "peakRamPercent": 71.53,
+    "peakOwnedMiB": 466.5,
+    "guard80Triggered": false,
+    "deadlineTriggered": false
+  },
+  "implemented": [
+    "Qualified Dual RPC prefix dispatch from authenticated delivered actor bunches",
+    "Session/spawn/owned actor admission gates; no peer supplied authority",
+    "Worker tick for stop timers and coherent secret-free state snapshot",
+    "Clear state on new selected revision, retirement and stop"
+  ],
+  "notAccepted": [
+    "Begin/End actions have no weapon executor; no cadence/ammo/hit/projectile/damage implementation",
+    "Client bShutdown remains unmodified; no native weapon effects or jump test this phase",
+    "Movement ACK is still a pure encoder without authoritative movement/collision consumer",
+    "Linux and sanitizer integration remain pending",
+    "Generic model end actions do not preserve forced DoEndFire(true)/OnStopRefire callback detail; extend before actual weapon executor acceptance."
+  ],
+  "review": {
+    "parentReviewedActualDiff": true,
+    "lunaReadOnlyReview": true,
+    "graftRefreshedAffectedFiles": 4,
+    "confirmedLifecycleDefect": false,
+    "openQuestions": [
+      "Current inventory selector is not a fire gate; unsupported switch requests currently no-op. Native required semantics not established; resolve before weapon executor acceptance.",
+      "Collector accepts reliable and unreliable delivered bunches; native RPC reliability enforcement has not been established."
+    ],
+    "noShotsClaim": true
+  },
+  "verificationIncidents": [
+    "Initial RED invalid: new test/header linked against stale owner OBJ; 51 old cases failed. One owned OBJ rebuilt, original CPP unchanged.",
+    "Diagnostic query used VS bundled Ninja instead of configured Ninja and emitted build-log-version warning; subsequent build rebuilt82steps. Contribution to log invalidation is probable, not proven. Configured Ninja used thereafter.",
+    "RED3 wrapper deadline reached; wrapper exit capture failed with log still held by child. Final full log154pass2fail; focused direct native rerun independently captured exit1. All known processes subsequently absent. Do not reuse wrapper timeout cleanup path without repair.",
+    "Runner CTest passed-line counter returned0; parent independently parsed62 Test Passed lines, raw62doctest summaries and actual CTest summary."
+  ],
+  "resources": {
+    "releasedUtc": "2026-10-18T02:49:07.4893625Z",
+    "nativeJobCount": 0,
+    "oldPidsPresent": [],
+    "greenLauncherPid": 29956,
+    "greenLauncherCreationUtc": "2026-10-18T02:44:49.5640117Z",
+    "greenUnifiedExecHandle": 68324,
+    "greenHandleTerminalExit": 0,
+    "redUnifiedHandle": 82047,
+    "redHandleTerminalExit": 1,
+    "redWrapperDeadlineInvalid": true,
+    "focusedRedNativeExit": 1,
+    "usedPercent": 69.72,
+    "freeGiB": 9.66
+  },
+  "clientLog": {
+    "path": "C:/Users/Jerico/Documents/My Games/Hawken/HawkenGame/Logs/Launch.log",
+    "readCompleteLines": 1341,
+    "sha256": "940e9f39fef65d8d7649319a07338406de9f8bb009103a2709220da60eea5c5a",
+    "newClientTrial": false
+  },
+  "rawLastTestSha256": "1792f4e613ab96e1795429b68816051c96382b8bfdd2b555c12485d9294f131d"
+}

@@ -172,12 +172,21 @@ int run(const std::filesystem::path& game_root) {
             seed.heavy_mode_time!=0.0F || seed.heavy_mode_start_time!=1.5F ||
             seed.heavy_mode_transform_time_multiplier!=1.0F || seed.weapon_disabled)
             throw std::runtime_error("trial combat policy mismatch");
+        if (!inventory.fire) throw std::runtime_error("trial fire dispatch policy missing");
+        const auto& fire=*inventory.fire;
+        if (fire.schema.exclusive_bound!=35 || fire.schema.start_field_id!=26 ||
+            fire.schema.stop_field_id!=27 || fire.schema.extended_stop_field_id!=32 ||
+            !fire.schema.primary_package_map || !fire.schema.weapon_cache_correct ||
+            !fire.schema.parameter_order_correct || !fire.schema.all_parameters_eligible ||
+            fire.supported_hands!=std::array<bool,4>{true,true,false,false})
+            throw std::runtime_error("trial fire dispatch policy mismatch");
         std::cout<<"{\"plan_verified\":true,\"root_packages\":7,"
             "\"contained_packages\":1,\"contained_archive_bytes\":73,"
             "\"welcome_archive_bytes\":48,\"actor_links_policy_verified\":true,"
             "\"owning_pawn_role_policy_verified\":true,"
             "\"inventory_policy_verified\":true,"
             "\"combat_policy_verified\":true,"
+            "\"fire_dispatch_policy_verified\":true,"
             "\"client_runtime_verified\":false}\n";
         return 0;
     } catch (...) {

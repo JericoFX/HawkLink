@@ -1,0 +1,36 @@
+[1/36] Building CXX object CMakeFiles\hawken_starter_inventory.dir\src\starter_inventory.cpp.obj
+[2/36] Building CXX object CMakeFiles\hawken_starter_catalogue.dir\src\starter_catalogue.cpp.obj
+[3/36] Building CXX object CMakeFiles\hawken_sync_service.dir\src\sync_service.cpp.obj
+[4/36] Building CXX object CMakeFiles\hawken_local_udp.dir\src\local_udp_owner.cpp.obj
+[5/36] Building CXX object CMakeFiles\hawken_menu_sync.dir\src\menu_sync_service.cpp.obj
+[6/36] Linking CXX static library hawken_starter_inventory.lib
+[7/36] Linking CXX static library hawken_starter_catalogue.lib
+[8/36] Building CXX object CMakeFiles\hawken_starter_mech_setup.dir\src\starter_mech_setup.cpp.obj
+[9/36] Building CXX object CMakeFiles\hawken_inventory_service.dir\src\inventory_service.cpp.obj
+[10/36] Building CXX object CMakeFiles\hawken_master.dir\src\master_directory.cpp.obj
+[11/36] Building CXX object CMakeFiles\hawken_master.dir\src\master_http.cpp.obj
+[12/36] Linking CXX static library hawken_sync_service.lib
+[13/36] Linking CXX static library hawken_local_udp.lib
+[14/36] Building CXX object CMakeFiles\hawken_udp_trial_runtime.dir\src\udp_trial_runtime.cpp.obj
+[15/36] Linking CXX static library hawken_menu_sync.lib
+[16/36] Linking CXX static library hawken_starter_mech_setup.lib
+[17/36] Linking CXX static library hawken_inventory_service.lib
+[18/36] Linking CXX static library hawken_master.lib
+[19/36] Building CXX object CMakeFiles\hawken_server.dir\src\server_http.cpp.obj
+[20/36] Building CXX object CMakeFiles\hawken_wreckage_trial.dir\src\wreckage_trial.cpp.obj
+[21/36] Linking CXX static library hawken_udp_trial_runtime.lib
+[22/36] Linking CXX static library hawken_server.lib
+[23/36] Linking CXX static library hawken_wreckage_trial.lib
+[24/36] Building CXX object CMakeFiles\hawken-wreckage-trial-probe.dir\tools\wreckage_trial_probe.cpp.obj
+[25/36] Building CXX object CMakeFiles\hawken-server-listing-tests.dir\tests\test_main.cpp.obj
+[26/36] Building CXX object CMakeFiles\hawken-server-listing-tests.dir\tests\server_listing_http_tests.cpp.obj
+[27/36] Building CXX object CMakeFiles\hawken-udp-trial-runtime-tests.dir\tests\test_main.cpp.obj
+[28/36] Building CXX object CMakeFiles\hawken-udp-trial-runtime-tests.dir\tests\udp_trial_runtime_tests.cpp.obj
+[29/36] Building CXX object CMakeFiles\hawken-wreckage-trial-tests.dir\tests\test_main.cpp.obj
+[30/36] Building CXX object CMakeFiles\hawken-wreckage-trial-tests.dir\tests\wreckage_trial_tests.cpp.obj
+[31/36] Linking CXX executable hawken-wreckage-trial-probe.exe
+[32/36] Building CXX object CMakeFiles\hawken-server.dir\src\server_main.cpp.obj
+[33/36] Linking CXX executable hawken-server-listing-tests.exe
+[34/36] Linking CXX executable hawken-local-udp-tests.exe
+[35/36] Linking CXX executable hawken-udp-trial-runtime-tests.exe
+[36/36] Linking CXX executable hawken-wreckage-trial-tests.exe

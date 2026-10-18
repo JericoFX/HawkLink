@@ -7,6 +7,7 @@
 #include "hawken/spawn_validation.hpp"
 #include "hawken/match_readiness.hpp"
 #include "hawken/pawn_combat_state.hpp"
+#include "hawken/weapon_fire_state.hpp"
 #include <array>
 #include <chrono>
 #include <cstddef>
@@ -60,7 +61,13 @@ struct MovementBunchDiagnostics {
     std::optional<std::uint8_t> last_move_flags;
     bool operator==(const MovementBunchDiagnostics&) const = default;
 };
-// Thread-safe scalar observations only; no ID/key/account/peer or raw payload.
+struct WeaponFireSnapshot {
+    std::uint64_t spawn_revision = 0;
+    std::uint16_t actor_channel = 0;
+    game::weapon_fire::Snapshot state;
+    bool operator==(const WeaponFireSnapshot&) const = default;
+};
+// Thread-safe observations only; no session ID/key/account/peer or raw payload.
 // Successful authenticated receive is NOT game admission. Fields are monotonic
 // aggregate observations, not a transaction spanning all counters/flags.
 struct LocalUdpDiagnostics {
@@ -124,6 +131,9 @@ struct LocalUdpDiagnostics {
     // Last-header scalars are observations, not an atomic multi-field snapshot.
     std::array<ActorBunchDiagnostics,static_cast<std::size_t>(ActorDiagnosticSlot::count)> actor_bunches{};
     MovementBunchDiagnostics movement;
+    // Coherent model state under the Registry mutex, not proof that a native
+    // weapon fired. No projectile/hit/damage executor is implied.
+    std::optional<WeaponFireSnapshot> weapon_fire;
 
     bool operator==(const LocalUdpDiagnostics&) const = default;
 };
@@ -343,6 +353,10 @@ struct PawnCombatBootstrapPlan {
     bool server_can_fire_property_correct;
     game::PawnCombatState initial_state;
 };
+struct WeaponFireDispatchPlan {
+    game::weapon_fire::Schema schema;
+    std::array<bool,4> supported_hands;
+};
 struct InventoryBootstrapPlan {
     InitialPawnPlan manager,dual_weapon,primary_weapon,secondary_weapon;
     std::uint32_t pawn_inv_manager_field_id,pawn_dual_weapon_field_id,pawn_exclusive_bound;
@@ -352,6 +366,7 @@ struct InventoryBootstrapPlan {
     std::uint32_t hand_dual_weapon_field_id,primary_exclusive_bound,secondary_exclusive_bound;
     InventoryBootstrapEligibility eligibility;
     std::optional<PawnCombatBootstrapPlan> combat = std::nullopt;
+    std::optional<WeaponFireDispatchPlan> fire = std::nullopt;
 };
 // Optional finite Starter profile1/15/0/101 only, checked on REAL materialized
 // data before publishing its PRI property. Four actors live for the Entry and

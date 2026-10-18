@@ -1,0 +1,7 @@
+{
+  "exit": 1,
+  "utc": "2026-10-18T02:40:45.6639813Z",
+  "scope": "focused behavioral RED; complete log red2-input/udp.log separately ended154pass2fail; CMD deadline invalidates wrapper exit capture",
+  "sourceCppSha": "50130b4ba7615e10b936c05680f6b57dc08fe634212b1fd17ba8bd2a0bfb9234",
+  "testSha": "7723e289ce518b2c04eb40cb26cad516dd924e5fff840ab38edbe3f6056d5faa"
+}

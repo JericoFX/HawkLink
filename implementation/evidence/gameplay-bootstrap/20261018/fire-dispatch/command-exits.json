@@ -1,0 +1,22 @@
+[
+  {
+    "path": "build.exit",
+    "exit": 0,
+    "rawBase64": "MCANCg=="
+  },
+  {
+    "path": "ctest.exit",
+    "exit": 0,
+    "rawBase64": "MCANCg=="
+  },
+  {
+    "path": "fire.exit",
+    "exit": 0,
+    "rawBase64": "MCANCg=="
+  },
+  {
+    "path": "policy.exit",
+    "exit": 0,
+    "rawBase64": "MCANCg=="
+  }
+]

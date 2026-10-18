@@ -204,6 +204,7 @@ struct Entry {
     bool inventory_profile_current=false,inventory_opened=false,inventory_links_sent=false,inventory_given=false;
     std::optional<std::uint16_t> current_inventory_weapon; // Own current Dual, not a replicated Pawn.Weapon tag.
     std::optional<game::PawnCombatState> combat_state;
+    std::optional<game::weapon_fire::FireState> weapon_fire;
     std::optional<bool> combat_permission_sent;
     std::optional<wire::identity::UniqueId> pri_identity;
     bool pri_identity_sent=false;
@@ -341,13 +342,14 @@ struct Registry {
     std::atomic<bool> inventory_current_weapon_received{false};
     std::array<AtomicActorBunchDiagnostics,static_cast<std::size_t>(ActorDiagnosticSlot::count)> actor_bunches{};
     AtomicMovementDiagnostics movement;
+    std::optional<WeaponFireSnapshot> weapon_fire; // Protected by mutex, never a dispatch gate.
 
     void retire(const std::shared_ptr<Entry>& target) noexcept {
         if (!target) return;
         try {
             std::unique_lock lock(mutex);
             target->active=false;
-            if (entry==target) entry.reset();
+            if (entry==target) { entry.reset(); weapon_fire.reset(); }
             if (target->published) closed=true;
             // Users acquired their ownership AFTER authorization. None can
             // re-enter Service/Auth while pinned; no worker join here.
@@ -356,6 +358,7 @@ struct Registry {
             target->pending_mech.reset();
             target->accepted_mech.reset();
             target->inventory_profile_current=false;target->current_inventory_weapon.reset();
+            target->weapon_fire.reset();
             if (target->pri_identity) target->pri_identity->words.fill(0);
             target->pri_identity.reset();
             target->validation_pending=false;
@@ -379,7 +382,7 @@ struct Registry {
         std::shared_ptr<Entry> target;
         {
             std::lock_guard lock(mutex);
-            accepting=false; target=entry;
+            accepting=false; target=entry; weapon_fire.reset();
         }
         closed=true; retire(target);
     }
@@ -796,6 +799,98 @@ struct LocalUdpOwner::Impl {
             observe(ActorDiagnosticSlot::secondary_weapon,plan.secondary_weapon.channel.channel,plan.secondary_exclusive_bound);
         }
     }
+    void reset_weapon_fire(Entry& entry) {
+        entry.weapon_fire.reset();
+        std::lock_guard lock(registry->mutex);
+        if (registry->entry.get()==&entry) registry->weapon_fire.reset();
+    }
+    bool weapon_fire_ready(const Entry& entry) const {
+        if (!inventory_plan || !inventory_plan->fire || !inventory_plan->combat ||
+            !entry.inventory_given || !entry.inventory_links_sent || !entry.links_sent ||
+            !entry.inventory_profile_current || !entry.accepted_mech || entry.pending_mech ||
+            !entry.validation_succeeded || !entry.validation_responded ||
+            entry.admitted_revision!=entry.mech_revision || !entry.combat_state ||
+            entry.combat_state->spawn_revision!=entry.mech_revision ||
+            (ready_plan && !world_start_committed) || entry.connection->snapshot().closed) return false;
+        const auto& plan=*inventory_plan;
+        const std::array channels{controller_plan->channel.channel,pri_plan->channel.channel,
+            pawn_plan->channel.channel,plan.manager.channel.channel,plan.dual_weapon.channel.channel,
+            plan.primary_weapon.channel.channel,plan.secondary_weapon.channel.channel};
+        for (const auto channel:channels) {
+            const auto state=entry.connection->channel_snapshot(channel);
+            if (!state || state->closed || !state->opening_packet_id || !state->outgoing_open_acked)
+                return false;
+        }
+        return true;
+    }
+    game::weapon_fire::Authority weapon_fire_authority(const Entry& entry) const {
+        // Called only under an authorized exact Entry Use. Typed references and
+        // own spawn state establish these facts, never a peer-supplied bool.
+        // No shutdown-request handler is introduced by this slice. The false
+        // request state is own server policy, not the client's bShutdown value.
+        return {{entry.id,entry.mech_revision,inventory_plan->dual_weapon.channel.channel},
+            true,entry.inventory_profile_current && entry.inventory_given,
+            entry.inventory_links_sent && entry.links_sent,*entry.combat_state,false};
+    }
+    void publish_weapon_fire(const Entry& entry) {
+        // Caller holds Registry::mutex; no SessionId is copied into diagnostics.
+        registry->weapon_fire=WeaponFireSnapshot{entry.mech_revision,
+            inventory_plan->dual_weapon.channel.channel,entry.weapon_fire->snapshot()};
+    }
+    bool collect_weapon_fire(Entry& entry,const std::vector<wire::Bunch>& bunches,double now) {
+        if (!inventory_plan || !inventory_plan->fire) return true;
+        const auto& plan=*inventory_plan;const auto& fire=*plan.fire;
+        for (const auto& bunch:bunches) {
+            if (bunch.channel!=plan.dual_weapon.channel.channel || bunch.open || !bunch.payload_bits) continue;
+            wire::BitReader reader(bunch.payload,bunch.payload_bits);
+            while (reader.position()<bunch.payload_bits) {
+                auto tag_reader=reader;
+                std::uint32_t field;
+                try {field=tag_reader.read_bounded(fire.schema.exclusive_bound);}
+                catch (const wire::WireError&) {break;}
+                if (field!=fire.schema.start_field_id && field!=fire.schema.stop_field_id &&
+                    (!fire.schema.extended_stop_field_id || field!=*fire.schema.extended_stop_field_id))
+                    break; // No scanning or skipping an opaque property/RPC suffix.
+                const auto request=game::weapon_fire::read_rpc(reader,fire.schema,
+                    bunch.payload_bits-reader.position()); // Known truncation propagates fail-closed.
+                std::lock_guard lock(registry->mutex);
+                if (stopping.load() || !running.load() || !registry->accepting ||
+                    registry->entry.get()!=&entry || !entry.active) return true;
+                if (!weapon_fire_ready(entry) || request.fire_mode>=fire.supported_hands.size() ||
+                    !fire.supported_hands[request.fire_mode]) continue;
+                if (!entry.weapon_fire) entry.weapon_fire.emplace(game::weapon_fire::Config{
+                    {entry.id,entry.mech_revision,plan.dual_weapon.channel.channel},fire.supported_hands});
+                const auto step=entry.weapon_fire->apply(request,weapon_fire_authority(entry),now);
+                if (step.accepted) publish_weapon_fire(entry);
+                // Begin/End actions are produced by the authoritative model.
+                // No executor exists here yet: no projectile, hit, damage or
+                // client Shutdown/state transition is invented by this snapshot.
+            }
+        }
+        return true;
+    }
+    void apply_weapon_fire(const session::SessionId& id,const std::shared_ptr<Entry>& target) {
+        if (!inventory_plan || !inventory_plan->fire || !target || stopping.load() || !authorize(id)) return;
+        const auto now=time();if (!now) {fail_closed();return;}
+        bool terminal=false;
+        {
+            auto use=pin(id,target);if (!use) return;
+            auto& entry=use->entry();
+            try {
+                std::lock_guard lock(registry->mutex);
+                if (stopping.load() || !running.load() || !registry->accepting ||
+                    registry->entry!=target || !entry.active || !entry.weapon_fire) return;
+                if (!weapon_fire_ready(entry)) {
+                    entry.weapon_fire.reset();registry->weapon_fire.reset();return;
+                }
+                const auto step=entry.weapon_fire->tick(weapon_fire_authority(entry),*now);
+                if (!step.accepted) terminal=true;
+                else publish_weapon_fire(entry);
+                // Tick's semantic actions also await the same combat executor.
+            } catch (...) {terminal=true;}
+        }
+        if (terminal) registry->retire(target); // Never retire while holding Use.
+    }
     bool collect_inventory_manager(Entry& entry,const std::vector<wire::Bunch>& bunches) {
         if (!inventory_plan) return true;
         const auto& plan=*inventory_plan;
@@ -1046,6 +1141,7 @@ struct LocalUdpOwner::Impl {
                             prior.holo_taunt_type!=decoded.value.holo_taunt_type) return false;
                     } else entry.pending_mech=std::move(decoded.value);
                     if (inventory_plan) entry.inventory_profile_current=false;
+                    reset_weapon_fire(entry);
                     // A newly requested preset cannot borrow the old validation.
                     entry.validation_succeeded=false;
                     entry.admission_request_revision.reset();
@@ -1442,6 +1538,7 @@ struct LocalUdpOwner::Impl {
                 if (!terminal && !send_bootstrap(entry,now)) terminal=true;
                 if (!terminal && !collect_start_mech(entry,step.actor_bunches)) terminal=true;
                 if (!terminal && !collect_inventory_manager(entry,step.actor_bunches)) terminal=true;
+                if (!terminal && !collect_weapon_fire(entry,step.actor_bunches,now)) terminal=true;
                 if (!terminal && !take_start_mech(*use,mech)) terminal=true;
             } catch (const game::ConnectionError&) {
                 terminal=entry.connection->snapshot().closed;
@@ -1455,6 +1552,7 @@ struct LocalUdpOwner::Impl {
             apply_validation(id,target);
             apply_readiness(id,target);
             apply_admission(id,target);
+            apply_weapon_fire(id,target);
         }
         erase(id);
     }
@@ -1490,6 +1588,7 @@ struct LocalUdpOwner::Impl {
             apply_validation(id,target);
             apply_readiness(id,target);
             apply_admission(id,target);
+            apply_weapon_fire(id,target);
         }
         erase(id);
     }
@@ -1881,6 +1980,24 @@ struct LocalUdpOwner::Impl {
                     plan.dual_hand_weap_field_id,plan.dual_client_given_to_field_id,combat.server_can_fire_field_id},
                     plan.dual_exclusive_bound);
             }
+            if (plan.fire) {
+                const auto& fire=*plan.fire;const auto& schema=fire.schema;
+                // This inventory route owns only Recruit hands0/1. The model
+                // itself supports four slots; do not grant unpopulated hands.
+                if (!plan.combat || !spawn_admission ||
+                    schema.exclusive_bound!=plan.dual_exclusive_bound ||
+                    !schema.primary_package_map || !schema.weapon_cache_correct ||
+                    !schema.parameter_order_correct || !schema.all_parameters_eligible ||
+                    (!fire.supported_hands[0] && !fire.supported_hands[1]) ||
+                    fire.supported_hands[2] || fire.supported_hands[3])
+                    fail(LocalUdpErrorCode::invalid_configuration);
+                std::vector<std::uint32_t> fire_fields{plan.owner_field_id,plan.instigator_field_id,
+                    plan.inventory_manager_field_id,plan.dual_hand_weap_field_id,
+                    plan.dual_client_given_to_field_id,plan.combat->server_can_fire_field_id,
+                    schema.start_field_id,schema.stop_field_id};
+                if (schema.extended_stop_field_id) fire_fields.push_back(*schema.extended_stop_field_id);
+                fields(fire_fields,plan.dual_exclusive_bound);
+            }
             for (const auto bound:{plan.primary_exclusive_bound,plan.secondary_exclusive_bound})
                 fields(std::array{plan.owner_field_id,plan.instigator_field_id,plan.inventory_manager_field_id,
                     plan.hand_dual_weapon_field_id},bound);
@@ -2039,6 +2156,7 @@ LocalUdpDiagnostics LocalUdpOwner::diagnostics() const noexcept {
     for (std::size_t i=0;i<result.actor_bunches.size();++i)
         result.actor_bunches[i]=impl_->registry->actor_bunches[i].snapshot();
     result.movement=impl_->registry->movement.snapshot();
+    {std::lock_guard lock(impl_->registry->mutex);result.weapon_fire=impl_->registry->weapon_fire;}
     return result;
 }
 bool LocalUdpOwner::destination_bound(const assignment::Destination& destination) const noexcept {

@@ -105,6 +105,11 @@ void configure_wreckage_trial(udp::UdpTrialConfig& config,
     // inventory ACKs do not authorize combat. This is not full Pawn simulation.
     prepared.inventory_bootstrap->combat=udp::PawnCombatBootstrapPlan{
         30,true,{0,false,false,0,false,0,false,false,false,0,0,1.5F,1,false}};
+    // The same qualified Dual cache as the inventory plan. Recruit has only
+    // hands0/1. Dispatch maintains server fire intent; shot execution remains
+    // pending and these transitions do not demonstrate native weapon effects.
+    prepared.inventory_bootstrap->fire=udp::WeaponFireDispatchPlan{
+        {35,26,27,32,true,true,true,true},{true,true,false,false}};
     static_assert(std::is_nothrow_move_assignable_v<udp::UdpTrialConfig>);
     config=std::move(prepared);
 }

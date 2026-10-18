@@ -1,0 +1,26 @@
+[
+  {
+    "path": "CMakeLists.txt",
+    "sha256": "a0fb3bbc7580803d795f1c60c1193756f2cf6425e6a9dc8b1b9bbfefbed95dc6"
+  },
+  {
+    "path": "include/hawken/local_udp_owner.hpp",
+    "sha256": "b4f51dcf345a1b5e974bdaebec2db55eb5ec734c553ca000bf2c7c5dd945be9f"
+  },
+  {
+    "path": "src/local_udp_owner.cpp",
+    "sha256": "c72efe5047cdaf5285b91091d297ff6a44ce7a1f5cb2df228a890d017d21adfb"
+  },
+  {
+    "path": "src/wreckage_trial.cpp",
+    "sha256": "c96a4ef2a8eaaf6e288e2f875467c6ac1aecf27a82a4587a3ea2fcbac08c3a01"
+  },
+  {
+    "path": "tests/local_udp_owner_tests.cpp",
+    "sha256": "7723e289ce518b2c04eb40cb26cad516dd924e5fff840ab38edbe3f6056d5faa"
+  },
+  {
+    "path": "tools/wreckage_trial_probe.cpp",
+    "sha256": "d67ad4503ba27fd75e06fb9b2488c14093f4a0d3622ef621e4170e3148721496"
+  }
+]

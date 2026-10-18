@@ -1,0 +1,15 @@
+{
+  "releasedUtc": "2026-10-18T02:49:07.4893625Z",
+  "nativeJobCount": 0,
+  "oldPidsPresent": [],
+  "greenLauncherPid": 29956,
+  "greenLauncherCreationUtc": "2026-10-18T02:44:49.5640117Z",
+  "greenUnifiedExecHandle": 68324,
+  "greenHandleTerminalExit": 0,
+  "redUnifiedHandle": 82047,
+  "redHandleTerminalExit": 1,
+  "redWrapperDeadlineInvalid": true,
+  "focusedRedNativeExit": 1,
+  "usedPercent": 69.72,
+  "freeGiB": 9.66
+}
