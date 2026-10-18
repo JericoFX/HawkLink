@@ -733,7 +733,17 @@ Sample live_player_sample(Reader& reader,std::uint64_t module,bool fire_timing=f
             {"pawn_controller_matches",timing.pawn_controller_matches},
             {"acknowledged_pawn_present",timing.acknowledged_pawn_present},
             {"acknowledged_pawn_matches",timing.acknowledged_pawn_matches},
-            {"network_possession_verified",false}};
+            {"network_possession_verified",false},
+            {"dual_weapon_present",timing.dual_weapon.has_value()}};
+        if (timing.dual_weapon) {
+            const auto& dual_timing=*timing.dual_weapon;
+            out.metadata["fire_timing"]["dual_weapon"]={
+                {"client_can_fire_timestamp",dual_timing.client_can_fire_timestamp},
+                {"server_can_fire_timestamp",dual_timing.server_can_fire_timestamp},
+                {"client_can_fire_timestamp_offset",dual_timing.client_can_fire_timestamp_offset},
+                {"server_can_fire_timestamp_offset",dual_timing.server_can_fire_timestamp_offset},
+                {"instigator_offset",dual_timing.instigator_offset}};
+        }
     }
     if (value.inventory) {
         const auto& inventory_snapshot=*value.inventory;

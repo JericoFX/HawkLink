@@ -1,6 +1,7 @@
 #include "live_player_reader.hpp"
 #include <doctest/doctest.h>
 #include <array>
+#include <bit>
 #include <cstring>
 #include <limits>
 #include <map>
@@ -1217,6 +1218,8 @@ namespace {
 constexpr std::uint64_t timing_timestamp_property=0x59000;
 constexpr std::uint64_t timing_controller_property=0x59400;
 constexpr std::uint64_t timing_acknowledged_property=0x59800;
+constexpr std::uint64_t timing_dual_client_property=0x5a000;
+constexpr std::uint64_t timing_dual_server_property=0x5a400;
 struct FireTimingFixture : InventoryFixture {
     FireTimingFixture() {
         // Deliberately distinct from candidate native offsets4ec/26c. Only the
@@ -1232,6 +1235,19 @@ struct FireTimingFixture : InventoryFixture {
         memory.put(controller_object+0x610,12.5F);
         memory.put(pawn_object+0x618,controller_object);
         memory.put(controller_object+0x620,pawn_object);
+        // Neither native candidate3dc/3e0 may substitute for these reflected
+        // Dual offsets. Keep pre-existing timing tests supplied with valid data.
+        property(timing_dual_client_property,dual_class,"ClientCanFireTimeStamp",0x650,0);
+        property(timing_dual_server_property,dual_class,"ServerCanFireTimeStamp",0x674,0);
+        for(const auto descriptor:{timing_dual_client_property,timing_dual_server_property}) {
+            identities[descriptor].package="HawkenGame";
+            memory.put(descriptor+0x50,float_property_class);
+            memory.put(descriptor+0x6c,std::int32_t{4});
+        }
+        memory.put(fire_dispatch_function+0x60,timing_dual_client_property);
+        memory.put(timing_dual_client_property+0x60,timing_dual_server_property);
+        memory.put(dual_object+0x650,1.5F);
+        memory.put(dual_object+0x674,2.75F);
     }
     LivePlayerSnapshot timing_sample(bool inventory=true,bool timing=true) {
         auto identify=[&](std::uint64_t where) {
@@ -1354,4 +1370,127 @@ TEST_CASE("Live fire timing includes metadata and live values in independent sam
     const auto third=f.timing_sample();REQUIRE(third.fire_timing.has_value());
     CHECK(third.fire_timing->controller_current_timestamp==13.0F);
     CHECK_FALSE(second==third);CHECK_FALSE(second.trace==third.trace);
+}
+
+TEST_CASE("Live dual fire timing reads reflected finite operands and reuses Instigator observation") {
+    struct Values {float client;float server;std::uint32_t client_bits;std::uint32_t server_bits;};
+    // Hand-derived IEEE754 literals catch clamping, swapped operands and loss
+    // of the signed-zero bits without relying on the reader to build an oracle.
+    for(const auto values:std::array<Values,3>{{
+            {1.5F,2.75F,0x3fc00000U,0x40300000U},
+            {-3.25F,-7.5F,0xc0500000U,0xc0f00000U},
+            {-0.0F,0.0F,0x80000000U,0x00000000U}}}) {
+        FireTimingFixture f;
+        f.memory.put(dual_object+0x650,values.client);f.memory.put(dual_object+0x674,values.server);
+        const auto sampled=f.timing_sample();REQUIRE(sampled.fire_timing.has_value());
+        REQUIRE(sampled.fire_timing->dual_weapon.has_value());const auto& dual_timing=*sampled.fire_timing->dual_weapon;
+        CHECK(std::bit_cast<std::uint32_t>(dual_timing.client_can_fire_timestamp)==values.client_bits);
+        CHECK(std::bit_cast<std::uint32_t>(dual_timing.server_can_fire_timestamp)==values.server_bits);
+        CHECK(dual_timing.client_can_fire_timestamp_offset==0x650);
+        CHECK(dual_timing.server_can_fire_timestamp_offset==0x674);
+        CHECK(dual_timing.instigator_offset==0x330);
+        CHECK(f.memory.read_counts[dual_object+0x650]==1);CHECK(f.memory.read_counts[dual_object+0x674]==1);
+        CHECK(f.memory.read_counts[dual_object+0x330]==1);
+        CHECK(f.memory.read_counts[instigator_property+0x8c]==1);
+        CHECK(f.memory.read_counts[dual_object+0x3dc]==0);CHECK(f.memory.read_counts[dual_object+0x3e0]==0);
+        CHECK(f.memory.budget>0);
+    }
+}
+TEST_CASE("Live dual fire timing rejects missing malformed or duplicate scalar descriptors") {
+    enum class Malformation {missing,type,owner,dimension,width,cast,duplicate};
+    for(const auto descriptor:{timing_dual_client_property,timing_dual_server_property}) {
+        for(const auto bad:{Malformation::missing,Malformation::type,Malformation::owner,
+                           Malformation::dimension,Malformation::width,Malformation::cast,Malformation::duplicate}) {
+            FireTimingFixture f;CAPTURE(descriptor);CAPTURE(static_cast<int>(bad));
+            switch(bad) {
+            case Malformation::missing:f.identities[descriptor].name="OtherTimestamp";break;
+            case Malformation::type:f.memory.put(descriptor+0x50,byte_property_class);break;
+            case Malformation::owner:f.memory.put(descriptor+0x40,weapon_class);break;
+            case Malformation::dimension:f.memory.put(descriptor+0x68,std::int32_t{2});break;
+            case Malformation::width:f.memory.put(descriptor+0x6c,std::int32_t{8});break;
+            case Malformation::cast: {
+                // Isolate this property's cast validation from the Controller
+                // timestamp, whose already-valid FloatProperty must stay valid.
+                constexpr std::uint64_t other_float_type=0x16800;
+                f.klass(other_float_type,"FloatProperty","Core",object_class);
+                f.memory.put(other_float_type+0x128,std::uint32_t{0});
+                f.memory.put(descriptor+0x50,other_float_type);break;
+            }
+            case Malformation::duplicate: {
+                constexpr std::uint64_t extra=0x5a800;
+                const auto* field=descriptor==timing_dual_client_property?"ClientCanFireTimeStamp":"ServerCanFireTimeStamp";
+                f.property(extra,dual_class,field,0x6a0,0);f.identities[extra].package="HawkenGame";
+                f.memory.put(extra+0x50,float_property_class);f.memory.put(extra+0x6c,std::int32_t{4});
+                f.memory.put(dual_object+0x6a0,5.0F);
+                f.memory.put(timing_dual_server_property+0x60,extra);break;
+            }
+            }
+            if(bad==Malformation::missing)
+                CHECK_THROWS_WITH_AS(f.timing_sample(),"live_property_missing",std::runtime_error);
+            else CHECK_THROWS_WITH_AS(f.timing_sample(),"live_property_mismatch",std::runtime_error);
+        }
+    }
+}
+TEST_CASE("Live dual fire timing rejects nonfinite values in either operand") {
+    for(const auto offset:{0x650U,0x674U}) {
+        for(const auto bits:{0x7f800000U,0xff800000U,0x7fc00001U}) {
+            FireTimingFixture f;CAPTURE(offset);CAPTURE(bits);
+            f.memory.put(dual_object+offset,bits);
+            CHECK_THROWS_WITH_AS(f.timing_sample(),"live_invalid",std::runtime_error);
+        }
+    }
+}
+TEST_CASE("Live dual fire timing skips absent Dual and preserves disabled snapshots traces and reads") {
+    SUBCASE("absent Dual does not inspect stale operands or descriptors") {
+        FireTimingFixture f;
+        f.memory.put(pawn_object+0x310,std::uint64_t{0});f.memory.put(pawn_object+0x320,std::uint64_t{0});
+        f.memory.put(timing_dual_client_property+0x50,byte_property_class);
+        f.memory.bytes.erase(dual_object+0x650);f.memory.bytes.erase(dual_object+0x674);
+        const auto sampled=f.timing_sample();REQUIRE(sampled.fire_timing.has_value());
+        CHECK_FALSE(sampled.fire_timing->dual_weapon.has_value());
+        CHECK(f.memory.read_counts[dual_object+0x650]==0);CHECK(f.memory.read_counts[dual_object+0x674]==0);
+    }
+    SUBCASE("disabled timing has exactly the existing inventory observations") {
+        FireTimingFixture f;const auto previous=f.inventory_sample();const auto previous_reads=f.memory.read_counts;
+        f.memory.read_counts.clear();
+        f.memory.put(timing_dual_client_property+0x50,byte_property_class);
+        f.memory.bytes.erase(dual_object+0x650);f.memory.bytes.erase(dual_object+0x674);
+        const auto disabled=f.timing_sample(true,false);
+        CHECK(previous==disabled);CHECK(previous.trace==disabled.trace);
+        CHECK(previous_reads==f.memory.read_counts);CHECK_FALSE(disabled.fire_timing.has_value());
+    }
+}
+TEST_CASE("Live dual fire timing includes both operand offsets and values in sample equality") {
+    FireTimingFixture f;const auto first=f.timing_sample();REQUIRE(first.fire_timing.has_value());
+    REQUIRE(first.fire_timing->dual_weapon.has_value());
+    SUBCASE("client reflected offset changes with the same value") {
+        f.memory.put(timing_dual_client_property+0x8c,std::int32_t{0x690});f.memory.put(dual_object+0x690,1.5F);
+        const auto next=f.timing_sample();REQUIRE(next.fire_timing.has_value());REQUIRE(next.fire_timing->dual_weapon.has_value());
+        CHECK(next.fire_timing->dual_weapon->client_can_fire_timestamp==1.5F);
+        CHECK(next.fire_timing->dual_weapon->client_can_fire_timestamp_offset==0x690);
+        CHECK_FALSE(*first.fire_timing->dual_weapon==*next.fire_timing->dual_weapon);
+        CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
+    }
+    SUBCASE("server reflected offset changes with the same value") {
+        f.memory.put(timing_dual_server_property+0x8c,std::int32_t{0x694});f.memory.put(dual_object+0x694,2.75F);
+        const auto next=f.timing_sample();REQUIRE(next.fire_timing.has_value());REQUIRE(next.fire_timing->dual_weapon.has_value());
+        CHECK(next.fire_timing->dual_weapon->server_can_fire_timestamp==2.75F);
+        CHECK(next.fire_timing->dual_weapon->server_can_fire_timestamp_offset==0x694);
+        CHECK_FALSE(*first.fire_timing->dual_weapon==*next.fire_timing->dual_weapon);
+        CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
+    }
+    SUBCASE("client live value changes") {
+        f.memory.put(dual_object+0x650,-2.0F);
+        const auto next=f.timing_sample();REQUIRE(next.fire_timing.has_value());REQUIRE(next.fire_timing->dual_weapon.has_value());
+        CHECK(next.fire_timing->dual_weapon->client_can_fire_timestamp==-2.0F);
+        CHECK_FALSE(*first.fire_timing->dual_weapon==*next.fire_timing->dual_weapon);
+        CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
+    }
+    SUBCASE("server live value changes") {
+        f.memory.put(dual_object+0x674,-4.0F);
+        const auto next=f.timing_sample();REQUIRE(next.fire_timing.has_value());REQUIRE(next.fire_timing->dual_weapon.has_value());
+        CHECK(next.fire_timing->dual_weapon->server_can_fire_timestamp==-4.0F);
+        CHECK_FALSE(*first.fire_timing->dual_weapon==*next.fire_timing->dual_weapon);
+        CHECK_FALSE(first==next);CHECK_FALSE(first.trace==next.trace);
+    }
 }

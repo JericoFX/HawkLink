@@ -68,6 +68,15 @@ struct LiveInventorySnapshot {
 
 // Optional reflected observations only, not a network possession or timestamp
 // acceptance decision. No identity value or address is exposed by this DTO.
+struct LiveDualFireTimingSnapshot {
+    float client_can_fire_timestamp = 0.0F;
+    float server_can_fire_timestamp = 0.0F;
+    std::int32_t client_can_fire_timestamp_offset = 0;
+    std::int32_t server_can_fire_timestamp_offset = 0;
+    std::int32_t instigator_offset = 0;
+    bool operator==(const LiveDualFireTimingSnapshot&) const = default;
+};
+
 struct LiveFireTimingSnapshot {
     float controller_current_timestamp = 0.0F;
     std::int32_t controller_current_timestamp_offset = 0;
@@ -77,6 +86,7 @@ struct LiveFireTimingSnapshot {
     bool pawn_controller_matches = false;
     bool acknowledged_pawn_present = false;
     bool acknowledged_pawn_matches = false;
+    std::optional<LiveDualFireTimingSnapshot> dual_weapon;
     bool operator==(const LiveFireTimingSnapshot&) const = default;
 };
 
@@ -540,6 +550,24 @@ LivePlayerSnapshot read_live_player(Reader& reader, std::uint64_t module, Identi
             const auto inv_instigator_property = property(inv_actor_type, "Instigator", "Pawn");
             const auto inv_manager_link_property = property(inv_inventory_type, "InvManager", "InventoryManager");
             const auto inv_dual_type = named(inv_dual_chain, "R_Weap_DualWield", "HawkenGame");
+            if (inspect_fire_timing) {
+                const auto fire_dual_client_metadata = property(inv_dual_type, "ClientCanFireTimeStamp", {},
+                    "HawkenGame", "Engine", false, false, true);
+                const auto fire_dual_server_metadata = property(inv_dual_type, "ServerCanFireTimeStamp", {},
+                    "HawkenGame", "Engine", false, false, true);
+                const auto fire_dual_client_bits = read.template operator()<std::uint32_t>(inv_dual,
+                    static_cast<std::uint64_t>(fire_dual_client_metadata.offset));
+                const auto fire_dual_server_bits = read.template operator()<std::uint32_t>(inv_dual,
+                    static_cast<std::uint64_t>(fire_dual_server_metadata.offset));
+                const auto fire_dual_client_value = std::bit_cast<float>(fire_dual_client_bits);
+                const auto fire_dual_server_value = std::bit_cast<float>(fire_dual_server_bits);
+                if (!std::isfinite(fire_dual_client_value) || !std::isfinite(fire_dual_server_value))
+                    fail("live_invalid");
+                out.fire_timing->dual_weapon = LiveDualFireTimingSnapshot{
+                    fire_dual_client_value, fire_dual_server_value,
+                    fire_dual_client_metadata.offset, fire_dual_server_metadata.offset,
+                    inv_instigator_property.offset};
+            }
             inv_out.dual_script_state = script_state(inv_dual, inv_dual_chain);
             inv_out.dual_can_fire_dispatch = function_dispatch(inv_dual_type, "ChangeCanFire", "HawkenGame");
             const auto inv_dual_role_property = property(inv_actor_type, "Role", {}, "Engine", "Engine", true);
