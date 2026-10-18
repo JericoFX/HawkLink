@@ -1,0 +1,90 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\movement_reply_tests.cpp(44):
+TEST CASE:  Movement reply ACK matches independent finite scalar endian goldens
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(44): ERROR: test case THREW exception: Game wire data could not be read or validated.
+  logged: golden.ieee_bits := 1065353216
+
+===============================================================================
+F:\HawkenServer\tests\movement_reply_tests.cpp(57):
+TEST CASE:  Movement reply ACK omits both signed zero timestamp values
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(57): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+F:\HawkenServer\tests\movement_reply_tests.cpp(65):
+TEST CASE:  Movement reply ACK uses actual value dependent bounded tag widths
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(65): ERROR: test case THREW exception: Game wire data could not be read or validated.
+  logged: field.id := 0
+
+===============================================================================
+F:\HawkenServer\tests\movement_reply_tests.cpp(78):
+TEST CASE:  Movement reply ACK rejects every insufficient aggregate output budget
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776980 )
+  logged: budget := 0
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 1
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 2
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 3
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 4
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 5
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 6
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 7
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776990 )
+  logged: budget := 8
+          required := 9
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(78): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+F:\HawkenServer\tests\movement_reply_tests.cpp(93):
+TEST CASE:  Movement reply ACK rejects invalid limits fields endian and nonfinite scalars
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(37): ERROR: CHECK( error.code==expected ) is NOT correct!
+  values: CHECK( invalid_value == 00007FF722776980 )
+
+===============================================================================
+F:\HawkenServer\tests\movement_reply_tests.cpp(107):
+TEST CASE:  Movement reply ACK fragments compose unaligned without a terminator or suffix consumption
+
+F:\HawkenServer\tests\movement_reply_tests.cpp(107): ERROR: test case THREW exception: Game wire data could not be read or validated.
+
+===============================================================================
+[doctest] test cases:  6 |  0 passed |  6 failed | 0 skipped
+[doctest] assertions: 54 | 44 passed | 10 failed |
+[doctest] Status: FAILURE!

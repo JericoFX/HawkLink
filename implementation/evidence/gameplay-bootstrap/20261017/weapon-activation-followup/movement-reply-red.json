@@ -1,0 +1,128 @@
+{
+  "status": "RED_READY_NOT_BUILT_OR_EXECUTED;SCAFFOLD_ONLY",
+  "api": "hawken::wire::movement::MovementReplyPayload encode_client_ack_good_move(float,uint32_t,uint32_t,control::Endian,size_t)",
+  "original_exe_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+  "original_engine_upk_sha256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+  "function": {
+    "path": "Engine.PlayerController.ClientAckGoodMove",
+    "direction": "unreliable client simulated",
+    "flags": "0x1020142",
+    "physical_export": 4314,
+    "serial_virtual_offset": "0x344e3a",
+    "serial_size": 100,
+    "serial_sha256": "15443bd0cda03d7b31087e94ce656fb1984f00dc8a4f7269bc7e6f2a66cbeb7f",
+    "children_export": 4313,
+    "conditional_field_id": 66,
+    "conditional_exclusive_bound": 294
+  },
+  "sole_parameter": {
+    "name": "TimeStamp",
+    "physical_export": 4313,
+    "class_import": -27,
+    "type": "Core.FloatProperty",
+    "outer_export": 4314,
+    "serial_virtual_offset": "0x344e12",
+    "serial_size": 40,
+    "serial_bytes": "05110000a03700000000000000000000010000008000000000000000a03700000000000000000000",
+    "serial_sha256": "70abacdd41a425a946397b2f48023468671d08acc4fa6a6ae641eba7e3767b56",
+    "next_at_serial_0c": 0,
+    "array_dim_at_serial_10": 1,
+    "property_flags_at_serial_14": "0x80",
+    "source": "Existing retained decompressed Engine.upk cache and original-bounded function metadata; no new package extraction."
+  },
+  "native_wire": {
+    "sender": "687c10: cache fieldtag via87200; Children80/Next60, flags70&480==80 and Map298; nonBool presence then Property2c8",
+    "receiver": "9ec370 parameter buffer zeroed by9dc9e0; absent nonBool remains zero",
+    "float_factory": "f24b0 ->f8260 installs12c70e0",
+    "float_identical": "slot2b8 ->f3400; finite signed zeros compare to default+0",
+    "float_serializer": "slot2c8 ->f8fb0 ->3a30 withcount4",
+    "scalar_byteorder": "Archive4c fromConn164, little storage or reversed4bytes; explicit Endian at codec call",
+    "framing": "bounded field + presence + optional raw32. No alignment, terminator or sentinel. Transport packet suffix remains external."
+  },
+  "policy": {
+    "finite_values": "All finite floats, including negatives; no temporal validity claim",
+    "signed_zero": "Both omitted",
+    "NaN_Inf": "Rejected as local codec policy; not an original universal wire-invalid claim",
+    "MXCSR": "Native comparator exceptional/subnormal environment is not measured. Codec preserves finite IEEE storage under its explicit policy.",
+    "caller_prerequisites": "Pinned effective Controller cache, matching eligible soleFloat parameter and actual scalar order; no invented booleans hide encoding gaps.",
+    "authority": "No caller may treat arbitrary ServerMove reception as accepted movement. No automatic ACK, physics, corrections or transport integration in this component."
+  },
+  "tests": {
+    "filter": "Movement reply ACK*",
+    "cases": 6,
+    "literal_finite_patterns": [
+      "+1",
+      "-1",
+      "1.5",
+      "maxfinite",
+      "minimum positive subnormal",
+      "minimum negative subnormal"
+    ],
+    "coverage": [
+      "Both endian branches",
+      "Both signed zeros absent",
+      "Value-dependent tags anduint32 bound",
+      "Outputcap every insufficientbudget",
+      "Badlimit/field/endian/NaN/Inf",
+      "Unaligned fragment composition and opaque suffix"
+    ],
+    "physical_truncation": "No input reader in API. Relevant failure is outputcap; no unrelated BitReader-only truncation test added."
+  },
+  "source_pins": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\movement_reply.hpp",
+      "sha256": "6fb452d3452abc1b46dc1122d6106939b6270d7cceb8e25992bffc4cf9887959"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\movement_reply.cpp",
+      "sha256": "0ad259251ec021fcc45d0fb13fdd2e9de2901f59959aee1f36a6cc8c54b1b80c"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\movement_reply_tests.cpp",
+      "sha256": "3ad038e130c5141b5f77bda0ea81672143e3179d2f18c1061c383a87e0135731"
+    }
+  ],
+  "proof_pins": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\movement-wire-native-20261012\\contract.json",
+      "sha256": "126ff33b68cfe097779b6f183127a1c38075073239529b926e2c21fbdf7afba1"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\movement-wire-native-20261012\\slot-bindings.json",
+      "sha256": "19b41c961854c0615aaa9cd33b4214830c76923635d2ce8aa01f6f260fcc5db1"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\movement-wire-native-20261012\\original-native-byte-verification.json",
+      "sha256": "57473aa38b3133c9fecab2e079db6daeac166ec12b4cb8f2a6462bb48adfed40"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\movement-upk-contract-20261012\\functions.json",
+      "sha256": "4d6bb9ebec9afb53f2622602965fb1f9da6ea7027d617c43b882dc31f4d83401"
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\controller-effective-field-cache\\conditional-all-mapped-cache.json",
+      "sha256": "b118fff2c7bb7806fe8616e2097ce81fcf549de8c532218763320138d3d65258"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\game\\Engine.upk.json",
+      "sha256": "bcdadd85fc42b5a6532e787e788d718ca939c330125a991520ecb2419fd717db"
+    },
+    {
+      "path": "F:\\HawkenServer\\research\\2026-10-10\\evidence\\upk\\packages\\Engine\\004509-Engine.PlayerController.ClientAckGoodMove.uc",
+      "sha256": "26dc01ea41f4ac3e684b974841517054d585d5506d6aadff51d4d8768e76384f"
+    }
+  ],
+  "skill_coverage": {
+    "cpp_pro": "53017f862c526df6080210a1a00e6678c2cd5382b5d1a51026bf3b0bde7f7ed2",
+    "game_developer": "4578facce19ac99396e5fe904eac173066fa517af16ae0f49b03f9082a1057ec",
+    "full_readings": "Unchanged full coverage reused; TDD/writing-good-tests full current coverage retained."
+  },
+  "execution": {
+    "builds": 0,
+    "tests": 0,
+    "runtime": 0,
+    "git": 0,
+    "own_persistent_helpers": 0
+  },
+  "client_adjust_position": "Deferred: original Hawken SendClientAdjustment chooses ACK only for bAckGoodMove; corrections need real base/state/physics/velocity/energy/move state, not synthetic success."
+}

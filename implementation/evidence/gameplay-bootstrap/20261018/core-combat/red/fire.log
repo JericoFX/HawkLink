@@ -1,0 +1,393 @@
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(30):
+TEST CASE:  Weapon fire state consumes a real decoded start into pending intent and a begin action
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(37): ERROR: CHECK( result.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(37): ERROR: CHECK( result.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(44):
+TEST CASE:  Weapon fire state preserves native actions for repeated valid start and stop invocations
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(48): ERROR: CHECK( result.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(48): ERROR: CHECK( result.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(61):
+TEST CASE:  Weapon fire state keeps blocked intent and resumes pending hands on permission recovery
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(64): ERROR: CHECK( blocked.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(65): ERROR: CHECK( state.snapshot().pending_fire[0] ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(69): ERROR: CHECK( resumed.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(69): ERROR: CHECK( resumed.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(82):
+TEST CASE:  Weapon fire state stop clears pending even after combat permission is lost
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(84): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(87): ERROR: CHECK( result.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(87): ERROR: CHECK( result.action_count==3 ) is NOT correct!
+  values: CHECK( 0 == 3 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(94):
+TEST CASE:  Weapon fire state recent extended stop waits exactly the original float timer delay
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(96): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(98): ERROR: CHECK( requested.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(99): ERROR: CHECK( state.snapshot().pending_fire[0] ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(99): ERROR: CHECK( state.snapshot().firing[0] ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(101): ERROR: CHECK( state.snapshot().stop_deadlines[0]==std::optional<double>{deadline} ) is NOT correct!
+  values: CHECK( {?} == {?} )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(103): ERROR: CHECK( before.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(103): ERROR: CHECK( state.snapshot().pending_fire[0] ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(105): ERROR: CHECK( at.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(105): ERROR: CHECK( at.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(112):
+TEST CASE:  Weapon fire state extended false and hands two and three end immediately
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(116): ERROR: CHECK( state.apply(start(hand),context,begin_time).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(118): ERROR: CHECK( result.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(118): ERROR: CHECK( result.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(125):
+TEST CASE:  Weapon fire state start cancels only its own delayed stop
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(127): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(127): ERROR: CHECK( state.apply(start(1),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(128): ERROR: CHECK( state.apply(extended(0,true),context,2.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(129): ERROR: CHECK( state.apply(extended(1,true),context,2.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(131): ERROR: CHECK( renewed.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(131): ERROR: CHECK( renewed.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(133): ERROR: CHECK( state.snapshot().stop_deadlines[1]==std::optional<double>{2.0+static_cast<double>(0.2F)} ) is NOT correct!
+  values: CHECK( {?} == {?} )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(135): ERROR: CHECK( due.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(139):
+TEST CASE:  Weapon fire state repeated recent stops rearm the same one-shot timer
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(141): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(142): ERROR: CHECK( state.apply(extended(0,true),context,2.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(143): ERROR: CHECK( state.apply(extended(0,true),context,2.1).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(145): ERROR: CHECK( old_deadline.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(145): ERROR: CHECK( state.snapshot().pending_fire[0] ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(147): ERROR: CHECK( renewed.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(150):
+TEST CASE:  Weapon fire state has no hidden timer expiry during RPC application
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(152): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(153): ERROR: CHECK( state.apply(extended(0,true),context,2.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(155): ERROR: CHECK( other_hand.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(155): ERROR: CHECK( other_hand.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(163):
+TEST CASE:  Weapon fire state retains all four-hand restart and explicit start actions
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(165): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(165): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(165): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(165): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(168): ERROR: CHECK( restarted.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(168): ERROR: CHECK( restarted.action_count==5 ) is NOT correct!
+  values: CHECK( 0 == 5 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(174):
+TEST CASE:  Weapon fire state fixed action buffer preserves shutdown plus both expired timer calls
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(176): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(176): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(176): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(176): ERROR: CHECK( state.apply(start(hand),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(177): ERROR: CHECK( state.apply(extended(0,true),context,2.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(178): ERROR: CHECK( state.apply(extended(1,true),context,2.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(181): ERROR: CHECK( result.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(181): ERROR: CHECK( result.action_count==6 ) is NOT correct!
+  values: CHECK( 0 == 6 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(188):
+TEST CASE:  Weapon fire state rejects stale foreign unauthenticated and unowned authority without mutation
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(191): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 0
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(191): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 1
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(191): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 2
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(191): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 3
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(191): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 4
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(191): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 5
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(191): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 6
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(206):
+TEST CASE:  Weapon fire state dead or inactive start is rejected but an owned stop can clear intent
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(209): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(214): ERROR: CHECK( stopped.accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(214): ERROR: CHECK( stopped.action_count==3 ) is NOT correct!
+  values: CHECK( 0 == 3 )
+  logged: inactive := false
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(209): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: inactive := true
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(214): ERROR: CHECK( stopped.accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: inactive := true
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(214): ERROR: CHECK( stopped.action_count==3 ) is NOT correct!
+  values: CHECK( 0 == 3 )
+  logged: inactive := true
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(219):
+TEST CASE:  Weapon fire state rejects unsupported hands and inconsistent typed RPC records
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(222): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 0
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(222): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 1
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(222): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 2
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(222): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 3
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(222): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 4
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(222): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 5
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(222): ERROR: CHECK( state.apply(start(),context,1.0).accepted ) is NOT correct!
+  values: CHECK( false )
+  logged: invalid := 6
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(235):
+TEST CASE:  Weapon fire state invalid time does not commit a clock state or pending change
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(240): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(243): ERROR: CHECK( state.apply(stop(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(240): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(243): ERROR: CHECK( state.apply(stop(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(240): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(243): ERROR: CHECK( state.apply(stop(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(240): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(243): ERROR: CHECK( state.apply(stop(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(240): ERROR: CHECK( state.apply(start(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(243): ERROR: CHECK( state.apply(stop(),context,10.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(247):
+TEST CASE:  Weapon fire state copies immutable binding and separates replacement spawns
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(250): ERROR: CHECK( old_spawn.apply(start(),context,0.0).accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(251): ERROR: CHECK( old_spawn.snapshot().pending_fire[0] ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(257): ERROR: CHECK( result.accepted ) is NOT correct!
+  values: CHECK( false )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(257): ERROR: CHECK( result.action_count==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+F:\HawkenServer\tests\weapon_fire_state_tests.cpp(24): FATAL ERROR: REQUIRE( value.action_count>index ) is NOT correct!
+  values: REQUIRE( 0 >  0 )
+
+===============================================================================
+[doctest] test cases:  17 |   1 passed |  16 failed | 0 skipped
+[doctest] assertions: 220 | 119 passed | 101 failed |
+[doctest] Status: FAILURE!

@@ -1,0 +1,22 @@
+[
+  {
+    "pid": 64084,
+    "applied": true,
+    "priorityClass": "BelowNormal"
+  },
+  {
+    "pid": 51552,
+    "applied": false,
+    "reason": "Process absent"
+  },
+  {
+    "pid": 2104,
+    "applied": true,
+    "priorityClass": "BelowNormal"
+  },
+  {
+    "pid": 71788,
+    "applied": false,
+    "reason": "Process absent"
+  }
+]

@@ -1,0 +1,374 @@
+[
+  {
+    "path": "build/windows-msvc/hawken-actor-transform-tests.exe",
+    "expected": "d3b7d337d0141bc69f55fbb6519a6033d5872b0afadaa6516e9c33d70f4fd96b",
+    "actual": "d3b7d337d0141bc69f55fbb6519a6033d5872b0afadaa6516e9c33d70f4fd96b",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-auth-service-tests.exe",
+    "expected": "feb1bff572359a814a9c534d7711fab1ca13bd7aaa2d1618a1daa9cef797711a",
+    "actual": "feb1bff572359a814a9c534d7711fab1ca13bd7aaa2d1618a1daa9cef797711a",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-bool-property-tests.exe",
+    "expected": "f44d178d53689070d73f5c621baba2230db827986533d0269c3603b119ca2804",
+    "actual": "f44d178d53689070d73f5c621baba2230db827986533d0269c3603b119ca2804",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-client-routing-tests.exe",
+    "expected": "360a28faa504d8e1e4548cf8467f2690b85e9583177ca8f4bc084a39881563ce",
+    "actual": "360a28faa504d8e1e4548cf8467f2690b85e9583177ca8f4bc084a39881563ce",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-client-steam-identity-transport-tests.exe",
+    "expected": "9dca896559258067d52bbed4b47659cce697a33c1eeb1c5987c6d6d421924a20",
+    "actual": "9dca896559258067d52bbed4b47659cce697a33c1eeb1c5987c6d6d421924a20",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-connection-cache-reader-tests.exe",
+    "expected": "2c540271d5fbf4a9c979c8991e7904261710c88b18e65354f29f817448476fbf",
+    "actual": "2c540271d5fbf4a9c979c8991e7904261710c88b18e65354f29f817448476fbf",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-control-handshake-tests.exe",
+    "expected": "820619b85189b182816fe8881ed6c9c0628bdc8879980bfa17def66cdb15f314",
+    "actual": "820619b85189b182816fe8881ed6c9c0628bdc8879980bfa17def66cdb15f314",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-control-tests.exe",
+    "expected": "01488f3d6b85d007909952da727d962e6821d7724beb22db7a55f2761f6b3d50",
+    "actual": "01488f3d6b85d007909952da727d962e6821d7724beb22db7a55f2761f6b3d50",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-controller-admission-rpc-tests.exe",
+    "expected": "97de2431b4a970beac8b11dcc1b5d31570707eaab0ae29db5ce7558a3ffff6fb",
+    "actual": "97de2431b4a970beac8b11dcc1b5d31570707eaab0ae29db5ce7558a3ffff6fb",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-controller-sample-comparison-tests.exe",
+    "expected": "e92ecb69553d0866db23a07974cc347f3ec56fda1c414dbe2763d2ff07acbdfc",
+    "actual": "e92ecb69553d0866db23a07974cc347f3ec56fda1c414dbe2763d2ff07acbdfc",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-foundation-tests.exe",
+    "expected": "7ad762d02675ef7e422b3892033f4ab0e2df1a8567fc525b1daacbb4d0f66ea4",
+    "actual": "7ad762d02675ef7e422b3892033f4ab0e2df1a8567fc525b1daacbb4d0f66ea4",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-game-connection-tests.exe",
+    "expected": "8a8fd670511975d7717ca50f4e50d6960c264f7cfd0dce1134e6bb744436f483",
+    "actual": "8a8fd670511975d7717ca50f4e50d6960c264f7cfd0dce1134e6bb744436f483",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-gri-template-reader-tests.exe",
+    "expected": "b0f250afaba8f53d63fc8338aa68ae4dfdc1e4f40afa2cfa4552e2a7967159ef",
+    "actual": "b0f250afaba8f53d63fc8338aa68ae4dfdc1e4f40afa2cfa4552e2a7967159ef",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-initial-controller-tests.exe",
+    "expected": "a5a701b442de1012aea53fde4b9b9a87e32ede21485d97995afd62c88a456638",
+    "actual": "a5a701b442de1012aea53fde4b9b9a87e32ede21485d97995afd62c88a456638",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-initial-pawn-tests.exe",
+    "expected": "bfa4513bec3adc1666b47516c256ee37539fc941a5b0294de6c62c4200fecaef",
+    "actual": "bfa4513bec3adc1666b47516c256ee37539fc941a5b0294de6c62c4200fecaef",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-int-property-tests.exe",
+    "expected": "31bfdb3dfc4d61fde4de0a8740138e384e726d82c51e42ae084cbf74fd584321",
+    "actual": "31bfdb3dfc4d61fde4de0a8740138e384e726d82c51e42ae084cbf74fd584321",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-inventory-rpc-tests.exe",
+    "expected": "1d2f6edf5ceec4f76715e09db55892605099b91bb9f3a4ea6ae678b38500f79e",
+    "actual": "1d2f6edf5ceec4f76715e09db55892605099b91bb9f3a4ea6ae678b38500f79e",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-inventory-service-tests.exe",
+    "expected": "bbd14b8d7c75c6e55e2d8cc8cf0702d29fe097766fb30b1d234223cc187d58f8",
+    "actual": "bbd14b8d7c75c6e55e2d8cc8cf0702d29fe097766fb30b1d234223cc187d58f8",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-live-player-reader-tests.exe",
+    "expected": "2fd80372388bf6940140a1abf5a8e132636e4306e0573121316de3e186b5a8ca",
+    "actual": "2fd80372388bf6940140a1abf5a8e132636e4306e0573121316de3e186b5a8ca",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-local-tcp-probe-tests.exe",
+    "expected": "95ffd0337efe4dcbbe34cae110b5a9f5921e7e624cde41798c76dd96897460e9",
+    "actual": "95ffd0337efe4dcbbe34cae110b5a9f5921e7e624cde41798c76dd96897460e9",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-local-udp-tests.exe",
+    "expected": "4feb9dfde7acc545ab51fd648fd9661fa48007d1125691b43d53f42444a9c23e",
+    "actual": "4feb9dfde7acc545ab51fd648fd9661fa48007d1125691b43d53f42444a9c23e",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-main-menu-sync-reader-tests.exe",
+    "expected": "cd17b093317cfc54fbca60dd72f8e8660c8ce9e05d9b723cee873d126eff184d",
+    "actual": "cd17b093317cfc54fbca60dd72f8e8660c8ce9e05d9b723cee873d126eff184d",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-master-tests.exe",
+    "expected": "18d0baae4993f479ee4c75470a76e20c054e881654e1809cef11ea52a9de74ff",
+    "actual": "18d0baae4993f479ee4c75470a76e20c054e881654e1809cef11ea52a9de74ff",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-match-readiness-tests.exe",
+    "expected": "1aff26f928dac00ab939dc552d02781b88d056e0719c905435b675d3828dcdb7",
+    "actual": "1aff26f928dac00ab939dc552d02781b88d056e0719c905435b675d3828dcdb7",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-mech-setup-reader-tests.exe",
+    "expected": "3c6481739785a83e8290c06f3b147cf28609ed6db97b603955c5b9ed5f549e62",
+    "actual": "3c6481739785a83e8290c06f3b147cf28609ed6db97b603955c5b9ed5f549e62",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-mech-setup-wire-tests.exe",
+    "expected": "8836b748894ad62a13d11dba620ca75789e06ef4c73c7be590a91fd512e7ea15",
+    "actual": "8836b748894ad62a13d11dba620ca75789e06ef4c73c7be590a91fd512e7ea15",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-menu-sync-tests.exe",
+    "expected": "ca7720412e33dd77c9dbebf743075e8730f0d086a4223ad1e09eda40cb333a23",
+    "actual": "ca7720412e33dd77c9dbebf743075e8730f0d086a4223ad1e09eda40cb333a23",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-movement-rpc-tests.exe",
+    "expected": "b08bc39ba6529616c54be0353c45e29dd1e67ff8a19b59374dcd1bea6a36d409",
+    "actual": "b08bc39ba6529616c54be0353c45e29dd1e67ff8a19b59374dcd1bea6a36d409",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-object-property-tests.exe",
+    "expected": "213e2650187e985acb244122073ee834a1af2e0fcf0be657df10008f2099a7e2",
+    "actual": "213e2650187e985acb244122073ee834a1af2e0fcf0be657df10008f2099a7e2",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-object-reference-tests.exe",
+    "expected": "1eacee381b5b06a51fcc511394984f58cd83292b2ed70fdbbb82b814d1c4ae52",
+    "actual": "1eacee381b5b06a51fcc511394984f58cd83292b2ed70fdbbb82b814d1c4ae52",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-package-map-ranges-tests.exe",
+    "expected": "5b13bcd55c1c9ba6c45e83430ad42f49d241e6edc6f36a35c5a11d4e91611be0",
+    "actual": "5b13bcd55c1c9ba6c45e83430ad42f49d241e6edc6f36a35c5a11d4e91611be0",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-package-publication-tests.exe",
+    "expected": "d41759f1206e4157f1d23d80eb9de1d6f71964ab627996c049965b89ffc26653",
+    "actual": "d41759f1206e4157f1d23d80eb9de1d6f71964ab627996c049965b89ffc26653",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-packet-tests.exe",
+    "expected": "108c0f730e6db28064962796d9a23897562ba6210bdb465380ac700f4f804ece",
+    "actual": "108c0f730e6db28064962796d9a23897562ba6210bdb465380ac700f4f804ece",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-pawn-combat-tests.exe",
+    "expected": "4ddfc3681238cc58cbc4b5668fb248503c2c2f4e157d51d614d38e02d3586ed4",
+    "actual": "4ddfc3681238cc58cbc4b5668fb248503c2c2f4e157d51d614d38e02d3586ed4",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-pawn-rpc-tests.exe",
+    "expected": "edffe7d3315738ea35bb691b7806a1748bdf971e050e54043f47c36893f290ea",
+    "actual": "edffe7d3315738ea35bb691b7806a1748bdf971e050e54043f47c36893f290ea",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-posthello-control-tests.exe",
+    "expected": "ab4d8a55cd756e5a90250b952061d6051c04e9b1c08be0bb4366962749acd921",
+    "actual": "ab4d8a55cd756e5a90250b952061d6051c04e9b1c08be0bb4366962749acd921",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-reliable-actor-tests.exe",
+    "expected": "b45e5b4176e96c3596080723d83ef33bd53746838a7bbbce6e0b31e9e982a932",
+    "actual": "b45e5b4176e96c3596080723d83ef33bd53746838a7bbbce6e0b31e9e982a932",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-reliable-control-tests.exe",
+    "expected": "83a8a1d83211f945001b7039446bc4a7bd656e9afc84fbcaa747a2ffda8f694b",
+    "actual": "83a8a1d83211f945001b7039446bc4a7bd656e9afc84fbcaa747a2ffda8f694b",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-server-assignment-tests.exe",
+    "expected": "e1ad610cca34e0c9cef51fa7125efe6c9cb085282428c2551b9eaa69ee1ff765",
+    "actual": "e1ad610cca34e0c9cef51fa7125efe6c9cb085282428c2551b9eaa69ee1ff765",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-server-auth-tests.exe",
+    "expected": "1ef0fccad5b8afda9f7adbc3bbe794b4cec96c14f7e516188b5375f2cd6be18c",
+    "actual": "1ef0fccad5b8afda9f7adbc3bbe794b4cec96c14f7e516188b5375f2cd6be18c",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-server-inventory-tests.exe",
+    "expected": "21d2bcaf37b67ac67066893f06f7635d645687b22689c9ddc168be832f09ca44",
+    "actual": "21d2bcaf37b67ac67066893f06f7635d645687b22689c9ddc168be832f09ca44",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-server-listing-tests.exe",
+    "expected": "7528f64547e946e58b506971ca9ee43cd0729d2ad2b8e31f0845513ac0205b46",
+    "actual": "7528f64547e946e58b506971ca9ee43cd0729d2ad2b8e31f0845513ac0205b46",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-server-login-handshake-tests.exe",
+    "expected": "beeb52b1dfa0703e2f3ac4ac5a511a329343827e87875644e3e007d7f68571ab",
+    "actual": "beeb52b1dfa0703e2f3ac4ac5a511a329343827e87875644e3e007d7f68571ab",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-server-menu-tests.exe",
+    "expected": "ef55afc71ef0c82a75dd7e5284c3adc37a7f7efdfe8eec35991d5051ea5407d3",
+    "actual": "ef55afc71ef0c82a75dd7e5284c3adc37a7f7efdfe8eec35991d5051ea5407d3",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-server-tests.exe",
+    "expected": "f1c8086d273fd95043e82cb1907d448b3cfd2eec8482ebeaecbbeb94d092fad7",
+    "actual": "f1c8086d273fd95043e82cb1907d448b3cfd2eec8482ebeaecbbeb94d092fad7",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-session-assignment-tests.exe",
+    "expected": "90a642a03faf5995eb7c3320fb70042edf39e1ad0590eb8519bd42cc5bc15ec2",
+    "actual": "90a642a03faf5995eb7c3320fb70042edf39e1ad0590eb8519bd42cc5bc15ec2",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-session-tests.exe",
+    "expected": "7aa58e3b4f1755439eedf67ba4eb4175e5816a5038c9b84214f551f16eba9976",
+    "actual": "7aa58e3b4f1755439eedf67ba4eb4175e5816a5038c9b84214f551f16eba9976",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-spawn-validation-rpc-tests.exe",
+    "expected": "a8c2f87e872570569ba9265d95ff97dd8ced00623280c574d6d338ad68884758",
+    "actual": "a8c2f87e872570569ba9265d95ff97dd8ced00623280c574d6d338ad68884758",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-spawn-validation-tests.exe",
+    "expected": "273b76e868521dacbf1a671b6e3d4943b895f105c6beedec979b7bec83942b1c",
+    "actual": "273b76e868521dacbf1a671b6e3d4943b895f105c6beedec979b7bec83942b1c",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-start-mech-rpc-tests.exe",
+    "expected": "a8bfd75fad5269540489079b4dfa1256d5d2d6ea0bf4552245c8111fb0f4430a",
+    "actual": "a8bfd75fad5269540489079b4dfa1256d5d2d6ea0bf4552245c8111fb0f4430a",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-starter-catalogue-tests.exe",
+    "expected": "c066202ecaf2d6668a61fd1727c7d96e8fb2fb0aa74bf16d3665ac9ebbd61a6f",
+    "actual": "c066202ecaf2d6668a61fd1727c7d96e8fb2fb0aa74bf16d3665ac9ebbd61a6f",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-starter-inventory-tests.exe",
+    "expected": "21ebed36bddfb09881edef4bd032ed9c9b91e7d2e20fedb7b83a4d29af82bfb2",
+    "actual": "21ebed36bddfb09881edef4bd032ed9c9b91e7d2e20fedb7b83a4d29af82bfb2",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-starter-mech-setup-tests.exe",
+    "expected": "40c1eb40585b00b7316846ac7f83c9fc0061e2a27db569f456a7e8e1c1f577c5",
+    "actual": "40c1eb40585b00b7316846ac7f83c9fc0061e2a27db569f456a7e8e1c1f577c5",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-steam-auth-tests.exe",
+    "expected": "bdfd77b99c193b9ffb95d6687cb9d86ddcad29337510d5c3d8d71efa7223a9d0",
+    "actual": "bdfd77b99c193b9ffb95d6687cb9d86ddcad29337510d5c3d8d71efa7223a9d0",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-storage-tests.exe",
+    "expected": "497a9cee167aa99d3e0f2fcc7fc25008370abc9ac7c08c2cd3f05445f17cf219",
+    "actual": "497a9cee167aa99d3e0f2fcc7fc25008370abc9ac7c08c2cd3f05445f17cf219",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-sync-service-tests.exe",
+    "expected": "3ea02189bd589f97d2281dd21bb17b6e9c0f59e65f9b368ab32df2d1af1bb564",
+    "actual": "3ea02189bd589f97d2281dd21bb17b6e9c0f59e65f9b368ab32df2d1af1bb564",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-udp-trial-runtime-tests.exe",
+    "expected": "1ad789034bc1ced924937eb9bd2c3867b1935d9f01b23cc31ca25c06e45e8066",
+    "actual": "1ad789034bc1ced924937eb9bd2c3867b1935d9f01b23cc31ca25c06e45e8066",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-unique-id-wire-tests.exe",
+    "expected": "8968bb09c16f6f3529a36657f32430443334c2453f7e4ffbf318285598c95082",
+    "actual": "8968bb09c16f6f3529a36657f32430443334c2453f7e4ffbf318285598c95082",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-wreckage-trial-tests.exe",
+    "expected": "e5669d991495ae97b6c558c64b412476735a5666c4cc421f9ee653f0e1436c86",
+    "actual": "e5669d991495ae97b6c558c64b412476735a5666c4cc421f9ee653f0e1436c86",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-weapon-fire-rpc-tests.exe",
+    "expected": "0a08bfd79dce3a2e5e2d2917b41815bdb0141baa9d86f20ed5d43a9682b2bf85",
+    "actual": "0a08bfd79dce3a2e5e2d2917b41815bdb0141baa9d86f20ed5d43a9682b2bf85",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-movement-reply-tests.exe",
+    "expected": "28f5dbe014b7cecb05fb9a73bc609ec51a999fd2bf751662a34074f494ddf7ca",
+    "actual": "28f5dbe014b7cecb05fb9a73bc609ec51a999fd2bf751662a34074f494ddf7ca",
+    "matches": true
+  },
+  {
+    "path": "build/windows-msvc/hawken-weapon-fire-state-tests.exe",
+    "expected": "1b184b87631ccb650717149e2d26267bb69adbec23f285cd593a0efc2cc6f2f5",
+    "actual": "1b184b87631ccb650717149e2d26267bb69adbec23f285cd593a0efc2cc6f2f5",
+    "matches": true
+  }
+]

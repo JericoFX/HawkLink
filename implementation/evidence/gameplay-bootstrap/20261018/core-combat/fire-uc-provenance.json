@@ -1,0 +1,47 @@
+{
+  "originalPackages": {
+    "EngineUpkSHA256": "8fff59b404ea4f9dd41330da618432fe50e4a26ce7487379efeb76ce0c4e859c",
+    "HawkenGameUpkSHA256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0"
+  },
+  "retainedUcFiles": [
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/032173-Engine.Weapon.BeginFire.uc",
+      "sha256": "fdb19bf617367c746c2ef4ab05486b5cca0e4a2fd8a7ec8d6aaf3657c8174b04"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/Engine/032179-Engine.Weapon.EndFire.uc",
+      "sha256": "87a18d2c70a9d5ecdcc55b8b52b370b6cfb85efe776ab8d6da0103557b58074a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047405-HawkenGame.R_Weap_DualWield.Active.ShutdownWeapons.uc",
+      "sha256": "3c5ca4c9b20a951b1fd3b8e130971f991f5c079f12b3e9143d53ca93db0aae9b"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047407-HawkenGame.R_Weap_DualWield.Active.RestartWeapons.uc",
+      "sha256": "108a5e3cf805395429d3587c13c5a60622aa3700d52bec457a06bbbb170e65de"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047346-HawkenGame.R_Weap_DualWield.ServerStartFire.uc",
+      "sha256": "313c8cdb26b6463457b658fa7a2a95924490ce4790078977a7c4414768c11f47"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047349-HawkenGame.R_Weap_DualWield.ServerStopFireExtended.uc",
+      "sha256": "c50648407d3f2cdc43397f33c14cd4686cea5bb7fbfd8ddf1829aec778d1e5a4"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047352-HawkenGame.R_Weap_DualWield.EndFireTimer0.uc",
+      "sha256": "04b1a73c7904162605a3c857896c0c78abcd90c565d1536e49f9e9ef4cbbff3a"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047353-HawkenGame.R_Weap_DualWield.EndFireTimer1.uc",
+      "sha256": "98a771f523b79289d09424437a16f3f2e1441b28ecbf240499ac324bb0361f2f"
+    },
+    {
+      "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047402-HawkenGame.R_Weap_DualWield.Active.EndFire.uc",
+      "sha256": "0dc63398e8d9400e7a63ffb3e93c4567361422996270fe94454358630af34926"
+    }
+  ],
+  "status": "CONFIRMED_RETAINED_SCRIPT_CONTRACT;RUNTIME_NOT_VERIFIED",
+  "localPolicy": "Scope/auth/owned/live/revision and supported_hands come from authoritative caller; not copied from client",
+  "limits": "No proof of action invocation or client firing; no bTempRestart latency bypass; no shots/damage/cadence simulation"
+}

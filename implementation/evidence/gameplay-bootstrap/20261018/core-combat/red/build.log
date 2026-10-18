@@ -1,0 +1,14 @@
+[0/1] Re-running CMake...
+-- Configuring done (0.1s)
+-- Generating done (0.2s)
+-- Build files have been written to: F:/HawkenServer/build/windows-msvc
+[1/11] Building CXX object CMakeFiles\hawken_movement_reply.dir\src\movement_reply.cpp.obj
+[2/11] Building CXX object CMakeFiles\hawken_weapon_fire_state.dir\src\weapon_fire_state.cpp.obj
+[3/11] Linking CXX static library hawken_movement_reply.lib
+[4/11] Linking CXX static library hawken_weapon_fire_state.lib
+[5/11] Building CXX object CMakeFiles\hawken-movement-reply-tests.dir\tests\test_main.cpp.obj
+[6/11] Building CXX object CMakeFiles\hawken-movement-reply-tests.dir\tests\movement_reply_tests.cpp.obj
+[7/11] Building CXX object CMakeFiles\hawken-weapon-fire-state-tests.dir\tests\test_main.cpp.obj
+[8/11] Building CXX object CMakeFiles\hawken-weapon-fire-state-tests.dir\tests\weapon_fire_state_tests.cpp.obj
+[9/11] Linking CXX executable hawken-movement-reply-tests.exe
+[10/11] Linking CXX executable hawken-weapon-fire-state-tests.exe

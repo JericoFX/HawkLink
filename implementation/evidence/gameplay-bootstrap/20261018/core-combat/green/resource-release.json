@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-18T02:14:14.3546202Z",
+  "launcherPid": 17124,
+  "launcherCreationUtc": "2026-10-18T02:11:45.0223623Z",
+  "launcherPath": "C:\\WINDOWS\\system32\\cmd.exe",
+  "launcherPresent": false,
+  "nativeJobs": 0,
+  "remaining": [],
+  "toolHandle57498Terminal": true,
+  "nativeExit": 0,
+  "handlesDisposed": "R3finally",
+  "freeGiB": 8.277084350585938,
+  "usedPercent": 74.06315819672326,
+  "peakSampledUsed": 75.82,
+  "maxOwnedTreeMiB": 84.59765625,
+  "noServerOrGameStarted": true
+}

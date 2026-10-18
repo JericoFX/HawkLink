@@ -1,0 +1,8 @@
+{
+  "source": "implementation/evidence/gameplay-bootstrap/20261017/weapon-activation-followup/reader-validation-runner/launch-reader-validation-r3.ps1",
+  "sourceSHA256": "c8dccf3f9999a18dc9ef8671da2e9fe0b9873dd6f2c55796ed14b7d3ae8b4019",
+  "destination": "implementation/evidence/gameplay-bootstrap/20261018/core-combat/run-combat-validation.ps1",
+  "destinationSHA256": "a3556c3478c7a1bb6a588699cd5fa84fc2df3edba306aaaf5be7e83b4eb96113",
+  "difference": "One expected input-count line changed from219 to225 to cover six new product/test files; baseline60, memory admission/guard, process cleanup and hash validation unchanged",
+  "launched": false
+}

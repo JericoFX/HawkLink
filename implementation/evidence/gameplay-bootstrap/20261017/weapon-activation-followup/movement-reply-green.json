@@ -1,0 +1,33 @@
+{
+  "status": "GREEN_PREPARED_NOT_BUILT_OR_TESTED",
+  "changed_source": "F:\\HawkenServer\\src\\movement_reply.cpp",
+  "red_sha256": "0ad259251ec021fcc45d0fb13fdd2e9de2901f59959aee1f36a6cc8c54b1b80c",
+  "green_sha256": "abf440debac24781e104458173f3e021473f686037f6a8e19e27d4ef0ef48d62",
+  "red_source": "#include \"hawken/movement_reply.hpp\"\n\nnamespace hawken::wire::movement {\nMovementReplyPayload encode_client_ack_good_move(float,\n    std::uint32_t,std::uint32_t,control::Endian,std::size_t) {\n    // Temporary fail-closed RED scaffold; replace only after observed RED.\n    throw WireError(\"invalid_value\");\n}\n}\n",
+  "source_pins": [
+    {
+      "path": "F:\\HawkenServer\\include\\hawken\\movement_reply.hpp",
+      "sha256": "6fb452d3452abc1b46dc1122d6106939b6270d7cceb8e25992bffc4cf9887959"
+    },
+    {
+      "path": "F:\\HawkenServer\\src\\movement_reply.cpp",
+      "sha256": "abf440debac24781e104458173f3e021473f686037f6a8e19e27d4ef0ef48d62"
+    },
+    {
+      "path": "F:\\HawkenServer\\tests\\movement_reply_tests.cpp",
+      "sha256": "3ad038e130c5141b5f77bda0ea81672143e3179d2f18c1061c383a87e0135731"
+    }
+  ],
+  "diff_sha256": "dd4a000418219ac334457d2d52f55c2bfeed43a2b05e4a641d9220fb4ea6f98b",
+  "semantics": [
+    "Use existing BitWriter bounded tag and zero-high-bit owned payload",
+    "FiniteIEEE32 raw bit check; all finite signs accepted",
+    "Signed zero omitted; finite subnormal storage preserved without host FP comparison",
+    "Explicit little/big scalar byte order",
+    "Aggregate tag+argument budget checked by safe subtraction; no overflow",
+    "No ACK send, transport, simulation, admission or reply acceptance decision"
+  ],
+  "scope": "Only src/movement_reply.cpp changed. Header and tests exactly RED-frozen. Graft API coverage reused at parent direction, no query/refresh/helper.",
+  "validation": "Parent accepted actual RED build0/6failed cases. GREEN build/test reserved for parent/Luna; not executed by writer.",
+  "own_persistent_helpers": 0
+}

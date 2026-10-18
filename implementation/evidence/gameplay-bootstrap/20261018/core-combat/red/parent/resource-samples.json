@@ -1,0 +1,104 @@
+[
+  {
+    "utc": "2026-10-18T02:02:19.2758005Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9822203904,
+    "usedPercent": 71.34,
+    "ownedTreeWorkingSetBytes": 164909056,
+    "priorityObservations": [
+      {
+        "pid": 64084,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 2104,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 69724,
+        "applied": false,
+        "reason": "Process absent"
+      },
+      {
+        "pid": 43460,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 67536,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:02:22.4534669Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9839566848,
+    "usedPercent": 71.28,
+    "ownedTreeWorkingSetBytes": 85204992,
+    "priorityObservations": [
+      {
+        "pid": 64084,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 2104,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 59440,
+        "applied": false,
+        "reason": "Cannot find a process with the process identifier 59440."
+      },
+      {
+        "pid": 43460,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 67536,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-18T02:02:25.6729383Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9767555072,
+    "usedPercent": 71.49,
+    "ownedTreeWorkingSetBytes": 106991616,
+    "priorityObservations": [
+      {
+        "pid": 64084,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 2104,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 61904,
+        "applied": false,
+        "reason": "Process absent"
+      },
+      {
+        "pid": 43460,
+        "applied": true,
+        "priorityClass": "BelowNormal"
+      },
+      {
+        "pid": 67536,
+        "applied": false,
+        "reason": "Cannot find a process with the process identifier 67536."
+      }
+    ]
+  }
+]

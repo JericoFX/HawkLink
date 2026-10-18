@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-18T02:02:15.6178717Z",
+  "owner": "parent",
+  "purpose": "Two new small serial RED targets only; no Core/game/fullCTest",
+  "contract": "AGENTS forbids heavy work at80%; this limited build uses measured9.28GiB headroom, singlecl/link, BelowNormal,60s deadline",
+  "profile": "Fresh<75%,>=8GiB,0nativejobs; unchanged stopguard80%/2s and verified-process cleanup",
+  "previousProfile": "70%/10GiB reader+runtime reservation, not a user-imposed global threshold",
+  "sourceRunnerSHA256": "a3556c3478c7a1bb6a588699cd5fa84fc2df3edba306aaaf5be7e83b4eb96113",
+  "lightRunnerSHA256": "6bbc8228a0dc8eaa83dd56ea369c4c32067e0a0632d959a74d6b78862ec58d83"
+}

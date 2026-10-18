@@ -1,0 +1,47 @@
+{
+  "utc": "2026-10-18T01:59:01.9175943Z",
+  "previousGoalTurn": "NO_PROGRESS_REVALIDATED; selected code implementation gap after repeated observers",
+  "currentTurn": "PROGRESS: six new typed interfaces/scaffolds and23behavioral tests, CMake targets; algorithms deliberately pending observed RED",
+  "sourceBytes": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 61949,
+      "sha256": "634c9a5f6af0c83eb9945cd2e480711e7fa201bf43dde3746d41361f1d4d4653"
+    },
+    {
+      "path": "include/hawken/movement_reply.hpp",
+      "bytes": 1348,
+      "sha256": "6fb452d3452abc1b46dc1122d6106939b6270d7cceb8e25992bffc4cf9887959"
+    },
+    {
+      "path": "src/movement_reply.cpp",
+      "bytes": 310,
+      "sha256": "0ad259251ec021fcc45d0fb13fdd2e9de2901f59959aee1f36a6cc8c54b1b80c"
+    },
+    {
+      "path": "tests/movement_reply_tests.cpp",
+      "bytes": 6013,
+      "sha256": "3ad038e130c5141b5f77bda0ea81672143e3179d2f18c1061c383a87e0135731"
+    },
+    {
+      "path": "include/hawken/weapon_fire_state.hpp",
+      "bytes": 3818,
+      "sha256": "83dda79d23c373d1104153a6b2b46c6a20f766ee846d23042fcf3fa6db376df5"
+    },
+    {
+      "path": "src/weapon_fire_state.cpp",
+      "bytes": 612,
+      "sha256": "58a8fcf6b7e75de2787fd60478fe810d028e1064b801243a9b8f297bdce60b22"
+    },
+    {
+      "path": "tests/weapon_fire_state_tests.cpp",
+      "bytes": 15715,
+      "sha256": "11722709acddd2badaf6a07041ce39e11e20042ffa39fcd7d769ccd4ccba3db1"
+    }
+  ],
+  "coreChanged": false,
+  "testsRun": false,
+  "runtimeRun": false,
+  "requiredNext": "Resource lease and observed RED, then implementations, GREEN and actual Core integration; no gameplay claim",
+  "scope": "Full goal intact; fire/jump current priority; no SQL/Creator diversion"
+}

@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-18T02:09:47.4057017Z",
+  "sourceCount": 225,
+  "sourceDrift": [],
+  "parentReviewedActualCpp": true,
+  "reviewedBehavior": [
+    "ACK literalbytes and both endian branches, finite storage and signedzero omission, cap subtraction",
+    "Fire admission before mutation, fixed action buffer and copy-then-commit",
+    "PendingFire survives permission veto and recovers on enabled transition",
+    "All4 slots and original0.2F delayed stop, rearm, own timer cancellation",
+    "No auto ACK of unvalidated move, no caller authority from network bytes, no projectile/damage implied"
+  ],
+  "greenRun": false,
+  "coreIntegrated": false,
+  "readerRepeatOrGameLaunch": false
+}

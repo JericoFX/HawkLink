@@ -1,0 +1,6 @@
+[1/6] Building CXX object CMakeFiles\hawken_movement_reply.dir\src\movement_reply.cpp.obj
+[2/6] Building CXX object CMakeFiles\hawken_weapon_fire_state.dir\src\weapon_fire_state.cpp.obj
+[3/6] Linking CXX static library hawken_movement_reply.lib
+[4/6] Linking CXX static library hawken_weapon_fire_state.lib
+[5/6] Linking CXX executable hawken-movement-reply-tests.exe
+[6/6] Linking CXX executable hawken-weapon-fire-state-tests.exe

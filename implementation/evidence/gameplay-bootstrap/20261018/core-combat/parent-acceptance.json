@@ -1,0 +1,111 @@
+{
+  "utc": "2026-10-18T02:15:04.8833293Z",
+  "status": "WINDOWS_COMPONENTS_ACCEPTED;CORE_INTEGRATION_AND_GAMEPLAY_NOT_ACCEPTED",
+  "red": {
+    "buildExit": 0,
+    "fire": {
+      "cases": 17,
+      "failed": 16,
+      "passed": 1
+    },
+    "raw": "red/parent/run-summary.json",
+    "movement": {
+      "cases": 6,
+      "failed": 6,
+      "passed": 0
+    }
+  },
+  "green": {
+    "independentPassedTestLines": 62,
+    "suites": 62,
+    "rawFailedSuites": 0,
+    "skips": 0,
+    "buildExit": 0,
+    "fire": {
+      "assertions": 363,
+      "cases": 17
+    },
+    "rawPassedSuites": 62,
+    "movement": {
+      "assertions": 403,
+      "cases": 6
+    },
+    "rawLastTestSHA256": "4b53dc9c20033d5dcbd1d082f0f9748855b339da5a7e13a9d21f536fd46f2a4e",
+    "ctestExit": 0,
+    "assertions": 94354,
+    "cases": 1674
+  },
+  "inputs": {
+    "independentDrift": [],
+    "expectedChanged": [
+      {
+        "path": "build/windows-msvc/hawken-movement-reply-tests.exe",
+        "before": "28f5dbe014b7cecb05fb9a73bc609ec51a999fd2bf751662a34074f494ddf7ca",
+        "after": "da02204ca4eecace31118fb2c7f9d00ee158aaf080a1aba00c7e73df8ee6a2c1"
+      },
+      {
+        "path": "build/windows-msvc/hawken-weapon-fire-state-tests.exe",
+        "before": "1b184b87631ccb650717149e2d26267bb69adbec23f285cd593a0efc2cc6f2f5",
+        "after": "d655ff6c045c05ef877ef787cfca3a70b597d290ed327c052b84e64e3e8d573f"
+      }
+    ],
+    "count": 225,
+    "baselineExecutables": 62
+  },
+  "protected": [
+    {
+      "path": "build/windows-msvc/hawken-server.exe",
+      "expected": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+      "actual": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a"
+    },
+    {
+      "path": "build/windows-msvc/hawken-master.exe",
+      "expected": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+      "actual": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df"
+    },
+    {
+      "path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+      "expected": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+      "actual": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704"
+    }
+  ],
+  "reviewedActualDiffs": [
+    "CMakeLists.txt",
+    "include/hawken/movement_reply.hpp",
+    "src/movement_reply.cpp",
+    "tests/movement_reply_tests.cpp",
+    "include/hawken/weapon_fire_state.hpp",
+    "src/weapon_fire_state.cpp",
+    "tests/weapon_fire_state_tests.cpp"
+  ],
+  "release": {
+    "utc": "2026-10-18T02:14:14.3546202Z",
+    "launcherPid": 17124,
+    "launcherCreationUtc": "2026-10-18T02:11:45.0223623Z",
+    "launcherPath": "C:\\WINDOWS\\system32\\cmd.exe",
+    "launcherPresent": false,
+    "nativeJobs": 0,
+    "remaining": [],
+    "toolHandle57498Terminal": true,
+    "nativeExit": 0,
+    "handlesDisposed": "R3finally",
+    "freeGiB": 8.277084350585938,
+    "usedPercent": 74.06315819672326,
+    "peakSampledUsed": 75.82,
+    "maxOwnedTreeMiB": 84.59765625,
+    "noServerOrGameStarted": true
+  },
+  "limits": [
+    "Not linked to Core or socket dispatch yet",
+    "ClientAckGoodMove must only follow real authoritative movement acceptance; no automatic acknowledge-on-receive",
+    "Fire actions do not simulate projectiles/hits/damage and do not force client Shutdown",
+    "No native fire/jump correction or new client trial claimed",
+    "Linux and sanitizers pending; prior sanitizer toolchain blocker not resolved in this component gate"
+  ],
+  "nextIntegrationRequirements": [
+    "Consume model from authenticated actor/spawn dispatch and server-owned world state",
+    "Weapon executor must retain forced DoEndFire(true) and OnStopRefire semantics of Active.ShutdownWeapons; current generic actions are not full weapon callback parity",
+    "Implement cadence/ammunition/weapon data, shots, collision, impacts and damage before combat acceptance",
+    "Movement encoder must follow real simulation/acceptance and corrections; do not ACK every decoded request"
+  ]
+}

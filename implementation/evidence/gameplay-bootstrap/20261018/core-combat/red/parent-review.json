@@ -1,0 +1,11 @@
+{
+  "redBuilt": true,
+  "redBehaviorFailures": {
+    "fire": 16,
+    "movement": 6
+  },
+  "guardTriggered": false,
+  "peakSampledUsedPercent": 71.49,
+  "inputDrift": [],
+  "runtimeStarted": false
+}

@@ -1,0 +1,137 @@
+{
+  "utc": "2026-10-18T02:02:27.0848582Z",
+  "phase": "red",
+  "status": "wrapper-terminal",
+  "launcherTerminal": true,
+  "launcherExit": 1,
+  "guardTriggered": false,
+  "deadlineTriggered": false,
+  "deadlineSeconds": 50,
+  "launch": {
+    "pid": 2104,
+    "creationUtc": "2026-10-18T02:02:16.3794656Z",
+    "path": "C:\\WINDOWS\\system32\\cmd.exe",
+    "priorityClass": "BelowNormal",
+    "wrapper": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\run-red.cmd",
+    "startedUtc": "2026-10-18T02:02:16.4859526Z"
+  },
+  "wrapperExitFiles": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\build.exit",
+      "value": 0,
+      "raw": "0",
+      "lastWriteUtc": "2026-10-18T02:02:26.6114466Z",
+      "writtenAfterLaunch": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\fire.exit",
+      "value": 1,
+      "raw": "1",
+      "lastWriteUtc": "2026-10-18T02:02:26.7428961Z",
+      "writtenAfterLaunch": true
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\movement.exit",
+      "value": 1,
+      "raw": "1",
+      "lastWriteUtc": "2026-10-18T02:02:26.6732141Z",
+      "writtenAfterLaunch": true
+    }
+  ],
+  "doctestSummaries": [
+    {
+      "file": "fire.log",
+      "caseSummaries": [
+        {
+          "failed": 16,
+          "total": 17,
+          "skipped": 0,
+          "passed": 1
+        }
+      ],
+      "assertionSummaries": [
+        {
+          "failed": 101,
+          "total": 220,
+          "passed": 119
+        }
+      ]
+    },
+    {
+      "file": "movement.log",
+      "caseSummaries": [
+        {
+          "failed": 6,
+          "total": 6,
+          "skipped": 0,
+          "passed": 0
+        }
+      ],
+      "assertionSummaries": [
+        {
+          "failed": 10,
+          "total": 54,
+          "passed": 44
+        }
+      ]
+    }
+  ],
+  "ctestSummary": null,
+  "lastTestLogCopy": null,
+  "lastTestLogSha256": null,
+  "lastTestLogWrittenDuringRun": false,
+  "logFiles": [
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\build.log",
+      "sha256": "bc2efff3a4dd097fdd120a7e6fda85d1518976bac0086ec86a29d85168c7b100",
+      "length": 1008
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\environment.log",
+      "sha256": "513c1bd5aff6d1b6b2490f74ccbebbd856b62ef50e1c895a1f305a93b148d95e",
+      "length": 247
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\fire.log",
+      "sha256": "e0c72a014113f56ef1fb44d4108bc4497ad34384116317db8258e5fce5d024da",
+      "length": 19952
+    },
+    {
+      "path": "F:\\HawkenServer\\implementation\\evidence\\gameplay-bootstrap\\20261018\\core-combat\\red\\movement.log",
+      "sha256": "a57a478e6a1158a4ba3d1a140a5ff7c1749394da5e6576897fc666ee1075673e",
+      "length": 4429
+    }
+  ],
+  "sourceDrift": [],
+  "unexpectedTestExeChanges": [],
+  "protectedCore": {
+    "path": "build/windows-msvc/hawken-server.exe",
+    "expected": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "actual": "1bc7e8f48d77517064dfdce2edae9b2b2988dede60df2ad78467e75c979fe21a",
+    "matches": true
+  },
+  "protectedMaster": {
+    "path": "build/windows-msvc/hawken-master.exe",
+    "expected": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "actual": "d9ab639aaf5f128239809b64fb4d3f8dcc4dc88fb30c1af200f55d8fed2590df",
+    "matches": true
+  },
+  "probeBefore": {
+    "path": "build/windows-msvc/hawken-controller-netfields-probe.exe",
+    "expected": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+    "actual": "890b51c7fa841fd1ec0565a2f877d1ccaf739b28b9f9bb427d47466521a46704",
+    "matches": true,
+    "expectedToRemainStable": true
+  },
+  "termination": {
+    "stopped": [],
+    "skipped": []
+  },
+  "finalRam": {
+    "utc": "2026-10-18T02:02:27.1727953Z",
+    "totalBytes": 34265743360,
+    "freeBytes": 9761849344,
+    "usedPercent": 71.51
+  },
+  "taskOwnedProcessesRemaining": null
+}

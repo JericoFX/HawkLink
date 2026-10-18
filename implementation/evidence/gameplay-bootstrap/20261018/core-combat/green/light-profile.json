@@ -1,0 +1,11 @@
+{
+  "owner": "parent",
+  "leaseStartUtc": "2026-10-18T02:10:54Z",
+  "leaseEndUtc": "2026-10-18T02:14:24Z",
+  "scope": "Two targets and62serialCTest; no Core link/game/index/helpers",
+  "admission": "Fresh<75%,>=8GiB,zero incompatible jobs",
+  "basis": "Measured priorfull60suite maxowned166.47MiB and newRED157.27MiB; globaluserAGENTS80% maintained",
+  "guard80Unchanged": true,
+  "runnerSHA256": "5f4bb40d95290ac035138ef8e3d35961fe1b81140d5bf1def8f69a2e4c057608",
+  "deadlineSeconds": 160
+}
