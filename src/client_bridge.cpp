@@ -5,6 +5,12 @@
 #include "hawken/client_routing.hpp"
 #include "hawken/client_steam_identity_transport.hpp"
 #include "hawken/sha256.hpp"
+#if defined(HAWKEN_NATIVE_HOST_RESEARCH)
+#include "native_host_runtime.hpp"
+#if defined(HAWKEN_CLIENT_BRIDGE_HARNESS)
+#error Native hosting research requires the verified original client.
+#endif
+#endif
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
@@ -407,6 +413,16 @@ void initialize() {
     install_identity_transport(config);
     // Interlocked publish occurs after all data; exports never read partial state.
     InterlockedExchange(&initialization, 2);
+#if defined(HAWKEN_NATIVE_HOST_RESEARCH)
+    // Opt-in worker starts after normal initialization, outside loader lock.
+    // This separate research build retains the original EXE/SDK/Steam checks.
+    Image original_image{};
+    if (image_of(GetModuleHandleW(nullptr), original_image)) {
+        (void)hawken::probe::native_host::start_runtime(
+            {reinterpret_cast<std::uint64_t>(original_image.base), original_image.size},
+            original_command_line());
+    }
+#endif
 }
 
 __declspec(noinline) LPWSTR WINAPI hooked_command_line() noexcept {

@@ -14,6 +14,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
+option(HAWKEN_BUILD_NATIVE_HOST_RESEARCH
+    "Build the separate opt-in native hosting research DLL" OFF)
+
 add_library(hawken_foundation STATIC
     src/sha256.cpp
     src/package_integrity.cpp
@@ -588,10 +591,80 @@ if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/client-bridge")
     configure_file(profiles/hawken-client.toml
         "${CMAKE_CURRENT_BINARY_DIR}/client-bridge/hawken-client.toml" COPYONLY)
+
+    if(HAWKEN_BUILD_NATIVE_HOST_RESEARCH)
+        add_library(hawken-native-host-research SHARED EXCLUDE_FROM_ALL
+            src/client_bridge.cpp src/client_bridge.def
+            tools/native_host_runtime.cpp tools/native_host_lookup.cpp tools/native_host_gate.cpp)
+        target_include_directories(hawken-native-host-research PRIVATE tools)
+        target_compile_definitions(hawken-native-host-research PRIVATE HAWKEN_NATIVE_HOST_RESEARCH)
+        target_link_libraries(hawken-native-host-research PRIVATE
+            hawken_client_routing hawken_foundation hawken_client_steam_identity_transport shell32)
+        set_target_properties(hawken-native-host-research PROPERTIES
+            OUTPUT_NAME dinput8
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/native-host-research"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/native-host-research"
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/native-host-research")
+        if(MSVC)
+            target_compile_options(hawken-native-host-research PRIVATE /W4 /WX /permissive- /utf-8)
+        else()
+            target_compile_options(hawken-native-host-research PRIVATE -Wall -Wextra -Wpedantic -Werror)
+        endif()
+        file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/native-host-research")
+        configure_file(profiles/hawken-client.toml
+            "${CMAKE_CURRENT_BINARY_DIR}/native-host-research/hawken-client.toml" COPYONLY)
+    endif()
 endif()
 
 include(CTest)
 if(BUILD_TESTING)
+    # Isolated native-host research components; no production bridge consumer.
+    add_executable(hawken-native-host-gate-tests
+        tests/test_main.cpp tests/native_host_gate_tests.cpp tools/native_host_gate.cpp)
+    target_include_directories(hawken-native-host-gate-tests SYSTEM PRIVATE third_party)
+    if(MSVC)
+        target_compile_options(hawken-native-host-gate-tests PRIVATE /W4 /WX /permissive- /utf-8)
+    else()
+        target_compile_options(hawken-native-host-gate-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+    add_test(NAME native_host_gate COMMAND hawken-native-host-gate-tests)
+
+    add_executable(hawken-native-host-lookup-tests
+        tests/test_main.cpp tests/native_host_lookup_tests.cpp tools/native_host_lookup.cpp)
+    target_include_directories(hawken-native-host-lookup-tests PRIVATE tools)
+    target_include_directories(hawken-native-host-lookup-tests SYSTEM PRIVATE third_party)
+    if(MSVC)
+        target_compile_options(hawken-native-host-lookup-tests PRIVATE /W4 /WX /permissive- /utf-8)
+    else()
+        target_compile_options(hawken-native-host-lookup-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+    add_test(NAME native_host_lookup COMMAND hawken-native-host-lookup-tests)
+
+    if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+        add_executable(hawken-local-process-probe EXCLUDE_FROM_ALL tools/local_process_probe.cpp)
+        target_link_libraries(hawken-local-process-probe PRIVATE hawken_foundation)
+        if(MSVC)
+            target_compile_options(hawken-local-process-probe PRIVATE /W4 /WX /permissive- /utf-8)
+        endif()
+        add_executable(hawken-native-host-runtime-tests
+            tests/native_host_runtime_tests.cpp tools/native_host_runtime.cpp
+            tools/native_host_lookup.cpp tools/native_host_gate.cpp)
+        target_include_directories(hawken-native-host-runtime-tests PRIVATE tools)
+        target_link_libraries(hawken-native-host-runtime-tests PRIVATE shell32)
+        target_compile_definitions(hawken-native-host-runtime-tests PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+        if(MSVC)
+            target_compile_options(hawken-native-host-runtime-tests PRIVATE /W4 /WX /permissive- /utf-8)
+        else()
+            target_compile_options(hawken-native-host-runtime-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+        endif()
+        foreach(scenario disabled invalidmodule duplicateflag quotedvalue-not-flag
+                positiveANSI positiveUTF16 readonly-slot bad-native-target bad-token)
+            add_test(NAME native_host_runtime_${scenario}
+                COMMAND hawken-native-host-runtime-tests ${scenario})
+            set_tests_properties(native_host_runtime_${scenario} PROPERTIES TIMEOUT 10)
+        endforeach()
+    endif()
+
     add_executable(hawken-main-menu-sync-reader-tests
         tests/test_main.cpp tests/main_menu_sync_reader_tests.cpp)
     target_include_directories(hawken-main-menu-sync-reader-tests PRIVATE tools)
