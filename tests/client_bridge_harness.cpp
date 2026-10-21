@@ -105,6 +105,59 @@ int early_export() {
     return 0;
 }
 
+int rpc_gate_trace() {
+    using Formatter = BOOL (WINAPI*)(void*, void*, void*, int*, char*, DWORD);
+    const HMODULE bridge = GetModuleHandleW(L"dinput8.dll");
+    if (bridge == nullptr) return failure();
+    const auto format = reinterpret_cast<Formatter>(
+        GetProcAddress(bridge, "HawkLinkHarnessFormatRpcGateTrace"));
+    if (format == nullptr) return failure();
+    std::array<unsigned char, 16> function{};
+    std::array<unsigned char, 0x48> map{};
+    std::array<unsigned char, 0x18> entry{};
+    std::array<unsigned char, 0x80> channel{};
+    const std::int32_t field = 26, channel_index = 6;
+    std::int32_t opening_id = -1;
+    int index = -1;
+    void* entries = entry.data();
+    void* channel_pointer = nullptr;
+    std::memcpy(function.data() + 8, &field, sizeof(field));
+    std::memcpy(map.data(), &entries, sizeof(entries));
+    std::memcpy(channel.data() + 0x6c, &channel_index, sizeof(channel_index));
+    std::memcpy(channel.data() + 0x74, &opening_id, sizeof(opening_id));
+    char line[192]{};
+    const auto check = [&](void* cache, void* function_cache, void* actor_map,
+                           const char* expected) {
+        return format(cache, function_cache, actor_map, &index, line, sizeof(line))
+            && std::string_view(line) == expected;
+    };
+    if (!check(nullptr, nullptr, map.data(),
+        "1,2,3,0,-1,0,-1,-1,-1,class_cache_miss\r\n")) return failure();
+    if (!check(map.data(), nullptr, map.data(),
+        "1,2,3,1,0,0,-1,-1,-1,function_cache_miss\r\n")) return failure();
+    if (!check(map.data(), function.data(), map.data(),
+        "1,2,3,1,1,2,-1,-1,26,actor_channel_miss\r\n")) return failure();
+    index = 0;
+    if (!check(map.data(), function.data(), map.data(),
+        "1,2,3,1,1,2,-1,-1,26,actor_channel_miss\r\n")) return failure();
+    channel_pointer = channel.data();
+    std::memcpy(entry.data() + 8, &channel_pointer, sizeof(channel_pointer));
+    if (!check(map.data(), function.data(), map.data(),
+        "1,2,3,1,1,3,6,-1,26,channel_open_id_minus_one\r\n")) return failure();
+    opening_id = 123;
+    std::memcpy(channel.data() + 0x74, &opening_id, sizeof(opening_id));
+    if (!check(map.data(), function.data(), map.data(),
+        "1,2,3,1,1,3,6,123,26,gates_passed\r\n")) return failure();
+    if (!check(map.data(), function.data(), nullptr,
+        "1,2,3,1,1,1,-1,-1,26,unreadable\r\n")) return failure();
+    index = -2;
+    if (!check(map.data(), function.data(), map.data(),
+        "1,2,3,1,1,1,-1,-1,26,unreadable\r\n")) return failure();
+    if (format(map.data(), function.data(), map.data(), &index, line, 1)) return failure();
+    std::cout << "RPC sender gate trace fixture format passed.\n";
+    return 0;
+}
+
 int send_bunch_trace() {
     using Formatter = BOOL (WINAPI*)(void*, void*, DWORD, char*, DWORD);
     const HMODULE bridge = GetModuleHandleW(L"dinput8.dll");
@@ -142,7 +195,7 @@ int send_bunch_trace() {
     if (!format(channel.data(), bunch.data(), 7, line, sizeof(line))
         || std::string_view(line) != expected) return failure();
     std::cout << "channel-2+ SendBunch fixture format passed.\n";
-    return 0;
+    return rpc_gate_trace();
 }
 
 struct InternetHandle {

@@ -32,6 +32,9 @@ namespace {
 using CommandLine = LPWSTR (WINAPI*)();
 using InputCreate = HRESULT (WINAPI*)(HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN);
 using SendRawBunch = int(__fastcall*)(void*, void*, std::uint32_t);
+using RpcSender = void(__fastcall*)(void*, void*, void*, void*, void*, std::int32_t);
+using RpcCacheLookup = void*(__fastcall*)(void*, void*);
+using RpcActorLookup = int*(__fastcall*)(void*, int*, void*);
 
 // Constant-initialized POD only: no C++ construction, IO, hashing or DLL loading
 // in DllMain. The DLL and initialized buffers remain loaded until process exit.
@@ -50,6 +53,16 @@ constinit HANDLE send_bunch_trace_file = nullptr;
 constinit volatile LONG send_bunch_trace_sequence = 0;
 constinit volatile LONG send_bunch_trace_enabled = 0;
 SRWLOCK send_bunch_trace_lock = SRWLOCK_INIT;
+constinit hawken::client::diagnostics::RelativeCallHook rpc_sender_hook{};
+constinit hawken::client::diagnostics::RelativeCallHook rpc_class_cache_hook{};
+constinit hawken::client::diagnostics::RelativeCallHook rpc_function_cache_hook{};
+constinit hawken::client::diagnostics::RelativeCallHook rpc_actor_lookup_hook{};
+constinit RpcSender original_rpc_sender = nullptr;
+constinit RpcCacheLookup original_rpc_class_cache = nullptr, original_rpc_function_cache = nullptr;
+constinit RpcActorLookup original_rpc_actor_lookup = nullptr;
+constinit HANDLE rpc_gate_trace_file = nullptr;
+constinit volatile LONG rpc_gate_sequence = 0, rpc_gate_enabled = 0;
+SRWLOCK rpc_gate_lock = SRWLOCK_INIT;
 
 constexpr std::size_t send_bunch_sample_limit = 64;
 constexpr LONG send_bunch_record_limit = 4096;
@@ -69,6 +82,27 @@ struct SendBunchTraceRecord {
     std::uint32_t num_bits = 0;
     std::array<unsigned char, send_bunch_sample_limit> sample{};
     std::uint32_t sample_size = 0;
+};
+
+struct RpcGateTraceRecord {
+    std::uint32_t sequence = 0;
+    std::uint64_t qpc = 0;
+    DWORD thread_id = 0;
+    std::int32_t class_cache = -1, function_cache = -1;
+    // 0 not observed, 1 unreadable, 2 missing, 3 found.
+    std::int32_t actor_lookup = 0;
+    std::int32_t channel_index = -1, opening_packet_id = -1, field_id = -1;
+};
+struct RpcGateFrame;
+constinit thread_local RpcGateFrame* rpc_gate_frame = nullptr;
+struct RpcGateFrame {
+    RpcGateFrame* previous = rpc_gate_frame;
+    RpcGateTraceRecord record;
+    void* actor = nullptr;
+    void* function = nullptr;
+    bool observe = false;
+    RpcGateFrame() noexcept { rpc_gate_frame = this; }
+    ~RpcGateFrame() { rpc_gate_frame = previous; }
 };
 
 struct Image {
@@ -447,6 +481,196 @@ bool install_local_send_bunch_trace(Image& image) noexcept {
     return true;
 }
 
+// The exact 0x687c91 callee returns a field-cache entry whose +8 value is
+// consumed by the native bounded-field writer. No function name is inferred.
+void capture_rpc_function_cache(void* result, RpcGateTraceRecord& record) noexcept {
+    record.function_cache = result != nullptr ? 1 : 0;
+    std::int32_t field = -1;
+    if (result != nullptr && read_send_bunch_field(result, 8, &field, sizeof(field)))
+        record.field_id = field;
+}
+
+void capture_rpc_actor_lookup(void* map, int* index, RpcGateTraceRecord& record) noexcept {
+    record.actor_lookup = 1;
+    std::int32_t slot = -1;
+    if (!read_send_bunch_field(index, 0, &slot, sizeof(slot))) return;
+    if (slot == -1) { record.actor_lookup = 2; return; }
+    if (slot < 0) return;
+    void* entries = nullptr;
+    if (!read_send_bunch_field(map, 0, &entries, sizeof(entries))) return;
+    if (entries == nullptr && slot == 0) { record.actor_lookup = 2; return; }
+    void* channel = nullptr;
+    // Exact native map stride and value offset at 0x687ccf..0x687cdc.
+    const auto offset = static_cast<std::uintptr_t>(slot) * 0x18 + 8;
+    if (!read_send_bunch_field(entries, offset, &channel, sizeof(channel))) return;
+    if (channel == nullptr) { record.actor_lookup = 2; return; }
+    std::int32_t channel_index = -1, opening_packet_id = -1;
+    if (!read_send_bunch_field(channel, 0x6c, &channel_index, sizeof(channel_index))
+        || !read_send_bunch_field(channel, 0x74, &opening_packet_id, sizeof(opening_packet_id)))
+        return;
+    record.channel_index = channel_index;
+    record.opening_packet_id = opening_packet_id;
+    record.actor_lookup = 3;
+}
+
+bool format_rpc_gate_record(const RpcGateTraceRecord& record, char* output,
+    std::size_t capacity) noexcept {
+    if (output == nullptr || capacity == 0) return false;
+    const char* result = "not_observed";
+    if (record.class_cache == 0) result = "class_cache_miss";
+    else if (record.function_cache == 0) result = "function_cache_miss";
+    else if (record.actor_lookup == 1) result = "unreadable";
+    else if (record.actor_lookup == 2) result = "actor_channel_miss";
+    else if (record.actor_lookup == 3)
+        result = record.opening_packet_id == -1 ? "channel_open_id_minus_one" : "gates_passed";
+    const int length = std::snprintf(output, capacity,
+        "%u,%llu,%lu,%d,%d,%d,%d,%d,%d,%s\r\n",
+        static_cast<unsigned>(record.sequence), static_cast<unsigned long long>(record.qpc),
+        static_cast<unsigned long>(record.thread_id), record.class_cache, record.function_cache,
+        record.actor_lookup, record.channel_index, record.opening_packet_id, record.field_id, result);
+    return length >= 0 && static_cast<std::size_t>(length) < capacity;
+}
+
+void disable_rpc_gate_trace() noexcept {
+    AcquireSRWLockExclusive(&rpc_gate_lock);
+    InterlockedExchange(&rpc_gate_enabled, 0);
+    if (rpc_gate_trace_file != nullptr) {
+        CloseHandle(rpc_gate_trace_file);
+        rpc_gate_trace_file = nullptr;
+    }
+    ReleaseSRWLockExclusive(&rpc_gate_lock);
+}
+
+void write_rpc_gate_trace(const RpcGateTraceRecord& record) noexcept {
+    char line[192]{};
+    if (!format_rpc_gate_record(record, line, sizeof(line))) return;
+    AcquireSRWLockExclusive(&rpc_gate_lock);
+    if (rpc_gate_trace_file != nullptr && InterlockedCompareExchange(&rpc_gate_enabled, 0, 0) != 0) {
+        const auto size = static_cast<DWORD>(std::strlen(line));
+        DWORD written = 0;
+        if (!WriteFile(rpc_gate_trace_file, line, size, &written, nullptr) || written != size) {
+            CloseHandle(rpc_gate_trace_file);
+            rpc_gate_trace_file = nullptr;
+            InterlockedExchange(&rpc_gate_enabled, 0);
+        }
+    }
+    ReleaseSRWLockExclusive(&rpc_gate_lock);
+}
+
+void* __fastcall observed_rpc_class_cache(void* map, void* actor_class) {
+    auto* frame = rpc_gate_frame;
+    void* result = original_rpc_class_cache(map, actor_class);
+    if (frame != nullptr && frame->observe) frame->record.class_cache = result != nullptr ? 1 : 0;
+    return result;
+}
+
+void* __fastcall observed_rpc_function_cache(void* cache, void* function) {
+    auto* frame = rpc_gate_frame;
+    void* result = original_rpc_function_cache(cache, function);
+    const DWORD error = GetLastError();
+    if (frame != nullptr && frame->observe && frame->function == function)
+        capture_rpc_function_cache(result, frame->record);
+    SetLastError(error);
+    return result;
+}
+
+int* __fastcall observed_rpc_actor_lookup(void* map, int* index, void* actor) {
+    auto* frame = rpc_gate_frame;
+    int* result = original_rpc_actor_lookup(map, index, actor);
+    const DWORD error = GetLastError();
+    if (frame != nullptr && frame->observe && frame->actor == actor)
+        capture_rpc_actor_lookup(map, index, frame->record);
+    SetLastError(error);
+    return result;
+}
+
+// Six Win64 arguments, including the untouched stack arguments at the caller's
+// +20/+28. Exceptions propagate; the frame only restores our TLS observation.
+void __fastcall observed_rpc_sender(void* actor, void* connection, void* function,
+    void* arguments, void* script_frame, std::int32_t server_side) {
+    const DWORD incoming_error = GetLastError();
+    RpcGateFrame frame;
+    frame.actor = actor;
+    frame.function = function;
+    if (server_side == 0 && InterlockedCompareExchange(&rpc_gate_enabled, 0, 0) != 0) {
+        const LONG sequence = InterlockedIncrement(&rpc_gate_sequence);
+        if (sequence > 0 && sequence <= send_bunch_record_limit) {
+            frame.observe = true;
+            frame.record.sequence = static_cast<std::uint32_t>(sequence);
+            LARGE_INTEGER qpc{};
+            (void)QueryPerformanceCounter(&qpc);
+            frame.record.qpc = static_cast<std::uint64_t>(qpc.QuadPart);
+            frame.record.thread_id = GetCurrentThreadId();
+        } else disable_rpc_gate_trace();
+    }
+    SetLastError(incoming_error);
+    original_rpc_sender(actor, connection, function, arguments, script_frame, server_side);
+    const DWORD outgoing_error = GetLastError();
+    if (frame.observe) write_rpc_gate_trace(frame.record);
+    SetLastError(outgoing_error);
+}
+
+bool open_rpc_gate_trace() noexcept {
+    wchar_t root[32768]{}, directory[32768]{}, path[32768]{};
+    const DWORD length = GetEnvironmentVariableW(L"LOCALAPPDATA", root, static_cast<DWORD>(std::size(root)));
+    if (length == 0 || length >= std::size(root)) return false;
+    const int directory_length = std::swprintf(directory, std::size(directory), L"%ls\\HawkLink", root);
+    if (directory_length < 0 || static_cast<std::size_t>(directory_length) >= std::size(directory)) return false;
+    if (!CreateDirectoryW(directory, nullptr) && GetLastError() != ERROR_ALREADY_EXISTS) return false;
+    FILETIME now{};
+    GetSystemTimeAsFileTime(&now);
+    const ULONGLONG stamp = (static_cast<ULONGLONG>(now.dwHighDateTime) << 32) | now.dwLowDateTime;
+    const int path_length = std::swprintf(path, std::size(path), L"%ls\\rpc-gates-%lu-%llu.csv", directory,
+        static_cast<unsigned long>(GetCurrentProcessId()), static_cast<unsigned long long>(stamp));
+    if (path_length < 0 || static_cast<std::size_t>(path_length) >= std::size(path)) return false;
+    HANDLE file = CreateFileW(path, FILE_APPEND_DATA, FILE_SHARE_READ, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file == INVALID_HANDLE_VALUE) return false;
+    constexpr char header[] = "sequence,qpc,thread_id,class_cache,function_cache,actor_lookup,"
+        "channel_index,opening_packet_id,field_id,result\r\n";
+    DWORD written = 0;
+    if (!WriteFile(file, header, static_cast<DWORD>(sizeof(header) - 1), &written, nullptr)
+        || written != sizeof(header) - 1) { CloseHandle(file); return false; }
+    rpc_gate_trace_file = file;
+    return true;
+}
+
+bool install_local_rpc_gate_trace(Image& image) noexcept {
+    // Exact SHA is checked by initialize(). These four complete CALL rel32
+    // instructions are independently verified against that same original EXE.
+    struct Site { DWORD call, target; std::array<unsigned char, 5> bytes; };
+    constexpr std::array<Site, 4> sites{{
+        {0x687c7a,0x72c50,{0xe8,0xd1,0xaf,0x9e,0xff}},
+        {0x687c91,0x739e0,{0xe8,0x4a,0xbd,0x9e,0xff}},
+        {0x687cb2,0x430d0,{0xe8,0x19,0xb4,0x9b,0xff}},
+        {0x690566,0x687c10,{0xe8,0xa5,0x76,0xff,0xff}}}};
+    for (const auto& site : sites)
+        if (!image.contains(site.call, site.bytes.size()) || !image.contains(site.target, 1)
+            || std::memcmp(image.base + site.call, site.bytes.data(), site.bytes.size()) != 0)
+            return false;
+    if (!open_rpc_gate_trace()) return false;
+    original_rpc_class_cache = reinterpret_cast<RpcCacheLookup>(image.base + sites[0].target);
+    original_rpc_function_cache = reinterpret_cast<RpcCacheLookup>(image.base + sites[1].target);
+    original_rpc_actor_lookup = reinterpret_cast<RpcActorLookup>(image.base + sites[2].target);
+    original_rpc_sender = reinterpret_cast<RpcSender>(image.base + sites[3].target);
+    const std::array hooks{&rpc_class_cache_hook,&rpc_function_cache_hook,&rpc_actor_lookup_hook,&rpc_sender_hook};
+    const std::array replacements{reinterpret_cast<void*>(&observed_rpc_class_cache),
+        reinterpret_cast<void*>(&observed_rpc_function_cache), reinterpret_cast<void*>(&observed_rpc_actor_lookup),
+        reinterpret_cast<void*>(&observed_rpc_sender)};
+    for (std::size_t i = 0; i < sites.size(); ++i) {
+        void* original = nullptr;
+        if (!hooks[i]->install(image.base + sites[i].call, image.base + sites[i].target, replacements[i], &original)
+            || original != image.base + sites[i].target) {
+            // Any hook whose restoration fails remains a silent passthrough:
+            // original targets remain valid for the process-lifetime DLL.
+            for (auto* hook : hooks) if (hook->installed()) (void)hook->restore();
+            disable_rpc_gate_trace();
+            return false;
+        }
+    }
+    InterlockedExchange(&rpc_gate_enabled, 1);
+    return true;
+}
+
 __declspec(noinline) HINTERNET WINAPI identity_connect(HINTERNET session, LPCWSTR host,
     INTERNET_PORT port, DWORD reserved) noexcept {
     if (reinterpret_cast<std::uintptr_t>(_ReturnAddress()) != connect_return)
@@ -639,6 +863,8 @@ void initialize() {
         if (!image_of(GetModuleHandleW(nullptr), game_image)
             || !install_local_send_bunch_trace(game_image))
             OutputDebugStringA("HawkLink SendBunch trace was not installed; startup continues.\r\n");
+        if (game_image.base != nullptr && !install_local_rpc_gate_trace(game_image))
+            OutputDebugStringA("HawkLink RPC gate trace was not installed; startup continues.\r\n");
     }
 #endif
     // Interlocked publish occurs after all data; exports never read partial state.
@@ -716,6 +942,21 @@ extern "C" HRESULT WINAPI DirectInput8Create(HINSTANCE instance, DWORD version,
 }
 
 #if defined(HAWKEN_CLIENT_BRIDGE_HARNESS)
+extern "C" __declspec(dllexport) BOOL WINAPI HawkLinkHarnessFormatRpcGateTrace(
+    void* class_cache, void* function_cache, void* actor_map, int* index,
+    char* output, DWORD capacity) noexcept {
+    RpcGateTraceRecord record{};
+    record.sequence = 1;
+    record.qpc = 2;
+    record.thread_id = 3;
+    record.class_cache = class_cache != nullptr ? 1 : 0;
+    if (class_cache != nullptr) {
+        capture_rpc_function_cache(function_cache, record);
+        if (function_cache != nullptr) capture_rpc_actor_lookup(actor_map, index, record);
+    }
+    return format_rpc_gate_record(record, output, capacity) ? TRUE : FALSE;
+}
+
 extern "C" __declspec(dllexport) BOOL WINAPI HawkLinkHarnessFormatBunchTrace(
     void* channel, void* bunch, DWORD send_flags, char* output, DWORD capacity) noexcept {
     SendBunchTraceRecord record{};
