@@ -82,12 +82,24 @@
     },
     {
       "id": "ghidra-send-bunch-callgraph",
-      "status": "CONFIRMADO_METADATA_ESTÁTICO; SEMANTICA_PROBABLE",
+      "status": "CONFIRMADO_METADATA_Y_CALLSITE; SEMANTICA_PROBABLE",
       "file": "implementation/evidence/complete-artifact-map-20261013/ghidra/main-functions.jsonl",
       "sha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
-      "evidence": "For the client EXE SHA-256 above and image base 0x140000000, Ghidra metadata records FUN_1409f2840 (RVA 0x9f2840; body 0x1409f2840-0x1409f2caf) calling FUN_1409f3410 (RVA 0x9f3410).",
+      "evidence": "For the client EXE SHA-256 above and image base 0x140000000, Ghidra metadata records FUN_1409f2840 (RVA 0x9f2840; body 0x1409f2840-0x1409f2caf) calling FUN_1409f3410 (RVA 0x9f3410). GNU objdump 2.46 independently confirms a direct call at VA 0x1409f2b77: caller passes RCX=[RDI+0x60], RDX=RBX, R8D=R15D, then stores EAX. The callee reads bunch-like flags and bit-count/data fields before serializing them.",
       "interpretation": "These remain candidate UChannel::SendBunch and UNetConnection::SendRawBunch functions for a local observation hook; the caller is the higher-value first observation point if its semantic identification is confirmed.",
       "limitation": "The retained Ghidra export covers 131,954 known functions and 241,766 call edges but explicitly contains function metadata, not exhaustive machine-code recovery or decompilation. A fresh focused export did not run: java.exe was absent from PATH, JAVA_HOME, JavaSoft registry keys, and the common install roots checked. The function names remain probable, not recovered symbols."
+    },
+    {
+      "id": "send-bunch-pe-disassembly",
+      "status": "CONFIRMADO_CALLSITE; SIMBOLOGIA_PROBABLE",
+      "file": "implementation/evidence/gameplay-bootstrap/20261021/fire-send-bunch/send-bunch-disassembly.txt",
+      "sha256": "f5c007e00fd0df58c081868cbbd88dc1df8e9ed0444cf8adf232e6bc91233095",
+      "target_file": "F:/SteamLibrary/steamapps/common/Hawken/Binaries/Win64/HawkenGame-Win64-Shipping.exe",
+      "target_sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2",
+      "locations": "caller VA 0x1409f2840 / RVA 0x9f2840; direct call VA 0x1409f2b77; target VA 0x1409f3410 / RVA 0x9f3410",
+      "evidence": "The archived disassembly includes both complete function bodies from the exact client hash. At the callsite the first function loads a connection pointer from [RDI+0x60], passes the bunch pointer in RDX and flags in R8D, calls the target, then consumes the returned packet identifier. The target prologue preserves the Windows x64 register convention and its body serializes the bunch flags, payload bit count, and data.",
+      "interpretation": "The code structure strongly supports FUN_1409f2840 as the channel-level SendBunch and FUN_1409f3410 as the connection-level SendRawBunch. A hook can now target the build-specific call boundary with the observed argument registers; these names are still inferred from structure and call flow.",
+      "limitation": "This is static disassembly only. No runtime invocation, RPC field value, packet payload, or hook behavior has been observed."
     },
     {
       "id": "upk-dual-wield-fire-control-path",
@@ -158,6 +170,6 @@
       "limitation": "No current outgoing UE3 bunch has been observed. The extracted UPK proves RPC names and reliability, not their runtime per-class cache-field ordinals or the mapping from manifest NetIndex to the trial field IDs."
     }
   ],
-  "next_diagnostic": "Observe outgoing UChannel::SendBunch/UNetConnection::SendRawBunch from the existing local client DLL, recording only channel, reliability/open flags, and bounded bunch data; correlate with one fire input. This distinguishes client role/ownership suppression from a server channel or parser mismatch.",
+  "next_diagnostic": "Hook the build-pinned channel or connection function and record the channel, bunch flags, payload bit count, and bounded pre-transport bits for one R_Weap_DualWield fire input; decode the function field offline and compare it with the server's configured map. This distinguishes client role/ownership suppression from a server field-map mismatch.",
   "authorization_blocker": "Adding MinHook is pending explicit user approval because project AGENTS.md forbids unapproved dependencies. No DLL source change or dependency has been added."
 }
