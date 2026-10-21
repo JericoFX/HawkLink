@@ -6,8 +6,10 @@
 #include <windows.h>
 #include <dinput.h>
 #include <winhttp.h>
+#include <array>
 #include <atomic>
 #include <cstdint>
+#include <cstring>
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -100,6 +102,46 @@ int early_export() {
         DIRECTINPUT_VERSION, IID_IDirectInput8W, &result, nullptr);
     if (status != DIERR_NOTINITIALIZED || result != nullptr) return failure();
     std::cout << "early-export rejected without initialization.\n";
+    return 0;
+}
+
+int send_bunch_trace() {
+    using Formatter = BOOL (WINAPI*)(void*, void*, DWORD, char*, DWORD);
+    const HMODULE bridge = GetModuleHandleW(L"dinput8.dll");
+    if (bridge == nullptr) return failure();
+    const auto format = reinterpret_cast<Formatter>(
+        GetProcAddress(bridge, "HawkLinkHarnessFormatBunchTrace"));
+    if (format == nullptr) return failure();
+
+    std::array<unsigned char, 0x80> channel{};
+    std::array<unsigned char, 0xd0> bunch{};
+    constexpr unsigned char payload[]{0xab,0xcd};
+    const unsigned char* data = payload;
+    constexpr std::int32_t channel_index = 2;
+    constexpr DWORD bit_count = 16;
+    constexpr DWORD field_bc = 4;
+    constexpr DWORD field_c0 = 5;
+    constexpr DWORD field_c4 = 6;
+    std::memcpy(channel.data() + 0x6c, &channel_index, sizeof(channel_index));
+    std::memcpy(bunch.data() + 0x88, &data, sizeof(data));
+    std::memcpy(bunch.data() + 0x98, &bit_count, sizeof(bit_count));
+    std::memcpy(bunch.data() + 0xbc, &field_bc, sizeof(field_bc));
+    std::memcpy(bunch.data() + 0xc0, &field_c0, sizeof(field_c0));
+    std::memcpy(bunch.data() + 0xc4, &field_c4, sizeof(field_c4));
+    bunch[0xcc] = 1;
+    bunch[0xcd] = 2;
+    bunch[0xce] = 3;
+
+    char line[128]{};
+    for (std::int32_t restricted_index = 0; restricted_index < 2; ++restricted_index) {
+        std::memcpy(channel.data() + 0x6c, &restricted_index, sizeof(restricted_index));
+        if (format(channel.data(), bunch.data(), 7, line, sizeof(line))) return failure();
+    }
+    std::memcpy(channel.data() + 0x6c, &channel_index, sizeof(channel_index));
+    constexpr char expected[] = "1,2,3,2,7,1,2,3,4,5,6,16,abcd\r\n";
+    if (!format(channel.data(), bunch.data(), 7, line, sizeof(line))
+        || std::string_view(line) != expected) return failure();
+    std::cout << "channel-2+ SendBunch fixture format passed.\n";
     return 0;
 }
 
@@ -208,6 +250,8 @@ int wmain(int argc, wchar_t* argv[]) {
             return identity_http(true);
         if (argc == 2 && std::wstring_view(argv[1]) == L"--early-export")
             return early_export();
+        if (argc == 2 && std::wstring_view(argv[1]) == L"--send-bunch-trace")
+            return send_bunch_trace();
         if (argc == 2 && std::wstring_view(argv[1]) == L"--passthrough") {
             const LPWSTR actual = actual_command_line();
             if (actual == nullptr) return failure();

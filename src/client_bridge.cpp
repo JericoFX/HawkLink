@@ -5,6 +5,7 @@
 #include "hawken/client_routing.hpp"
 #include "hawken/client_steam_identity_transport.hpp"
 #include "hawken/sha256.hpp"
+#include "hawken/win_callsite_hook.hpp"
 #if defined(HAWKEN_NATIVE_HOST_RESEARCH)
 #include "native_host_runtime.hpp"
 #if defined(HAWKEN_CLIENT_BRIDGE_HARNESS)
@@ -13,7 +14,12 @@
 #endif
 #include <cstddef>
 #include <cstdint>
+#include <array>
+#include <cstdio>
+#include <cstring>
+#include <cwchar>
 #include <filesystem>
+#include <iterator>
 #include <limits>
 #include <stdexcept>
 #include <string>
@@ -25,6 +31,7 @@
 namespace {
 using CommandLine = LPWSTR (WINAPI*)();
 using InputCreate = HRESULT (WINAPI*)(HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN);
+using SendRawBunch = int(__fastcall*)(void*, void*, std::uint32_t);
 
 // Constant-initialized POD only: no C++ construction, IO, hashing or DLL loading
 // in DllMain. The DLL and initialized buffers remain loaded until process exit.
@@ -37,6 +44,32 @@ constinit InputCreate real_create = nullptr;
 constinit void* volatile identity_transport = nullptr;
 constinit hawken::client::identity::WinHttpApi http_api{};
 constinit std::uintptr_t connect_return = 0, request_return = 0;
+constinit hawken::client::diagnostics::RelativeCallHook send_bunch_hook{};
+constinit SendRawBunch original_send_raw_bunch = nullptr;
+constinit HANDLE send_bunch_trace_file = nullptr;
+constinit volatile LONG send_bunch_trace_sequence = 0;
+constinit volatile LONG send_bunch_trace_enabled = 0;
+SRWLOCK send_bunch_trace_lock = SRWLOCK_INIT;
+
+constexpr std::size_t send_bunch_sample_limit = 64;
+constexpr LONG send_bunch_record_limit = 4096;
+
+struct SendBunchTraceRecord {
+    std::uint32_t sequence = 0;
+    std::uint64_t qpc = 0;
+    DWORD thread_id = 0;
+    std::int32_t channel_index = -1;
+    std::uint32_t send_flags = 0;
+    unsigned char bunch_cc = 0;
+    unsigned char bunch_cd = 0;
+    unsigned char bunch_ce = 0;
+    std::uint32_t bunch_bc = 0;
+    std::uint32_t bunch_c0 = 0;
+    std::uint32_t bunch_c4 = 0;
+    std::uint32_t num_bits = 0;
+    std::array<unsigned char, send_bunch_sample_limit> sample{};
+    std::uint32_t sample_size = 0;
+};
 
 struct Image {
     unsigned char* base;
@@ -225,6 +258,195 @@ hawken::client::identity::Transport* transport() noexcept {
         InterlockedCompareExchangePointer(&identity_transport, nullptr, nullptr));
 }
 
+bool read_current_process_memory(const void* address, void* destination, SIZE_T bytes,
+    SIZE_T* bytes_read = nullptr) noexcept {
+    SIZE_T copied = 0;
+    const bool complete = address != nullptr && destination != nullptr
+        && ReadProcessMemory(GetCurrentProcess(), address, destination, bytes, &copied)
+        && copied == bytes;
+    if (bytes_read != nullptr) *bytes_read = copied;
+    return complete;
+}
+
+bool read_send_bunch_field(const void* base, std::uintptr_t offset, void* destination,
+    SIZE_T bytes) noexcept {
+    if (base == nullptr || destination == nullptr) return false;
+    const auto address = reinterpret_cast<std::uintptr_t>(base);
+    if (offset > std::numeric_limits<std::uintptr_t>::max() - address) return false;
+    return read_current_process_memory(reinterpret_cast<const void*>(address + offset),
+        destination, bytes);
+}
+
+bool capture_send_bunch_fields(void* channel, void* bunch, std::uint32_t send_flags,
+    SendBunchTraceRecord& record) noexcept {
+    if (!read_send_bunch_field(channel, 0x6c, &record.channel_index,
+            sizeof(record.channel_index))
+        || record.channel_index < 2)
+        return false;
+    record.send_flags = send_flags;
+    unsigned char bunch_flags[3]{};
+    if (!read_send_bunch_field(bunch, 0xcc, bunch_flags, sizeof(bunch_flags))
+        || !read_send_bunch_field(bunch, 0xbc, &record.bunch_bc, sizeof(record.bunch_bc))
+        || !read_send_bunch_field(bunch, 0xc0, &record.bunch_c0, sizeof(record.bunch_c0))
+        || !read_send_bunch_field(bunch, 0xc4, &record.bunch_c4, sizeof(record.bunch_c4))
+        || !read_send_bunch_field(bunch, 0x98, &record.num_bits, sizeof(record.num_bits)))
+        return false;
+    record.bunch_cc = bunch_flags[0];
+    record.bunch_cd = bunch_flags[1];
+    record.bunch_ce = bunch_flags[2];
+
+    const unsigned char* payload = nullptr;
+    if (!read_send_bunch_field(bunch, 0x88, &payload, sizeof(payload))) return false;
+    const std::uint32_t payload_bytes = record.num_bits / 8
+        + (record.num_bits % 8 == 0 ? 0u : 1u);
+    const SIZE_T requested = payload_bytes < send_bunch_sample_limit
+        ? static_cast<SIZE_T>(payload_bytes) : static_cast<SIZE_T>(send_bunch_sample_limit);
+    if (payload != nullptr && requested != 0) {
+        SIZE_T copied = 0;
+        (void)read_current_process_memory(payload, record.sample.data(), requested, &copied);
+        record.sample_size = copied <= send_bunch_sample_limit
+            ? static_cast<std::uint32_t>(copied)
+            : static_cast<std::uint32_t>(send_bunch_sample_limit);
+    }
+    return true;
+}
+
+bool format_send_bunch_record(const SendBunchTraceRecord& record, char* output,
+    std::size_t capacity) noexcept {
+    if (output == nullptr || capacity == 0 || record.sample_size > record.sample.size())
+        return false;
+    const int prefix = std::snprintf(output, capacity,
+        "%u,%llu,%lu,%d,%u,%u,%u,%u,%u,%u,%u,%u,",
+        static_cast<unsigned>(record.sequence), static_cast<unsigned long long>(record.qpc),
+        static_cast<unsigned long>(record.thread_id), static_cast<int>(record.channel_index),
+        static_cast<unsigned>(record.send_flags), static_cast<unsigned>(record.bunch_cc),
+        static_cast<unsigned>(record.bunch_cd), static_cast<unsigned>(record.bunch_ce),
+        static_cast<unsigned>(record.bunch_bc), static_cast<unsigned>(record.bunch_c0),
+        static_cast<unsigned>(record.bunch_c4), static_cast<unsigned>(record.num_bits));
+    if (prefix < 0 || static_cast<std::size_t>(prefix) >= capacity) return false;
+    std::size_t offset = static_cast<std::size_t>(prefix);
+    constexpr char digits[] = "0123456789abcdef";
+    for (std::uint32_t i = 0; i < record.sample_size; ++i) {
+        if (offset + 2 >= capacity) return false;
+        const unsigned char byte = record.sample[i];
+        output[offset++] = digits[byte >> 4];
+        output[offset++] = digits[byte & 0x0f];
+    }
+    if (offset + 2 >= capacity) return false;
+    output[offset++] = '\r';
+    output[offset++] = '\n';
+    output[offset] = '\0';
+    return true;
+}
+
+bool open_send_bunch_trace() noexcept {
+    wchar_t local_app_data[32768]{};
+    const DWORD local_length = GetEnvironmentVariableW(
+        L"LOCALAPPDATA", local_app_data, static_cast<DWORD>(std::size(local_app_data)));
+    if (local_length == 0 || local_length >= std::size(local_app_data)) return false;
+
+    wchar_t directory[32768]{};
+    const int directory_length = std::swprintf(directory, std::size(directory),
+        L"%ls\\HawkLink", local_app_data);
+    if (directory_length < 0 || static_cast<std::size_t>(directory_length) >= std::size(directory))
+        return false;
+    if (!CreateDirectoryW(directory, nullptr) && GetLastError() != ERROR_ALREADY_EXISTS)
+        return false;
+
+    FILETIME now{};
+    GetSystemTimeAsFileTime(&now);
+    const ULONGLONG stamp = (static_cast<ULONGLONG>(now.dwHighDateTime) << 32)
+        | static_cast<ULONGLONG>(now.dwLowDateTime);
+    wchar_t path[32768]{};
+    const int path_length = std::swprintf(path, std::size(path),
+        L"%ls\\send-bunch-%lu-%llu.csv", directory,
+        static_cast<unsigned long>(GetCurrentProcessId()), static_cast<unsigned long long>(stamp));
+    if (path_length < 0 || static_cast<std::size_t>(path_length) >= std::size(path)) return false;
+
+    HANDLE file = CreateFileW(path, FILE_APPEND_DATA, FILE_SHARE_READ, nullptr,
+        CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file == INVALID_HANDLE_VALUE) return false;
+    constexpr char header[] =
+        "sequence,qpc,thread_id,channel_index,send_flags,bunch_cc,bunch_cd,bunch_ce,"
+        "bunch_bc,bunch_c0,bunch_c4,num_bits,sample_hex\r\n";
+    DWORD written = 0;
+    if (!WriteFile(file, header, static_cast<DWORD>(sizeof(header) - 1), &written, nullptr)
+        || written != sizeof(header) - 1) {
+        CloseHandle(file);
+        return false;
+    }
+    send_bunch_trace_file = file;
+    InterlockedExchange(&send_bunch_trace_sequence, 0);
+    InterlockedExchange(&send_bunch_trace_enabled, 1);
+    return true;
+}
+
+void write_send_bunch_trace(const SendBunchTraceRecord& record) noexcept {
+    if (InterlockedCompareExchange(&send_bunch_trace_enabled, 0, 0) == 0) return;
+    char line[256]{};
+    if (!format_send_bunch_record(record, line, sizeof(line))) return;
+    const DWORD line_size = static_cast<DWORD>(std::strlen(line));
+    AcquireSRWLockExclusive(&send_bunch_trace_lock);
+    DWORD written = 0;
+    const bool complete = send_bunch_trace_file != nullptr
+        && WriteFile(send_bunch_trace_file, line, line_size, &written, nullptr)
+        && written == line_size;
+    if (!complete && send_bunch_trace_file != nullptr) {
+        CloseHandle(send_bunch_trace_file);
+        send_bunch_trace_file = nullptr;
+        InterlockedExchange(&send_bunch_trace_enabled, 0);
+    }
+    ReleaseSRWLockExclusive(&send_bunch_trace_lock);
+}
+
+int __fastcall observed_send_raw_bunch(void* channel, void* connection,
+    void* bunch, std::uint32_t send_flags) noexcept {
+    const auto original = original_send_raw_bunch;
+    if (original == nullptr) return 0;
+    if (InterlockedCompareExchange(&send_bunch_trace_enabled, 0, 0) != 0) {
+        SendBunchTraceRecord record{};
+        if (capture_send_bunch_fields(channel, bunch, send_flags, record)) {
+            const LONG sequence = InterlockedIncrement(&send_bunch_trace_sequence);
+            if (sequence > 0 && sequence <= send_bunch_record_limit) {
+                LARGE_INTEGER qpc{};
+                (void)QueryPerformanceCounter(&qpc);
+                record.sequence = static_cast<std::uint32_t>(sequence);
+                record.qpc = static_cast<std::uint64_t>(qpc.QuadPart);
+                record.thread_id = GetCurrentThreadId();
+                write_send_bunch_trace(record);
+            } else if (sequence > send_bunch_record_limit) {
+                InterlockedExchange(&send_bunch_trace_enabled, 0);
+            }
+        }
+    }
+    return original(connection, bunch, send_flags);
+}
+
+bool install_local_send_bunch_trace(Image& image) noexcept {
+    constexpr DWORD call_rva = 0x9f2b77;
+    constexpr DWORD target_rva = 0x9f3410;
+    constexpr unsigned char expected_call[] = {0xe8,0x94,0x08,0x00,0x00};
+    if (!image.contains(call_rva, sizeof(expected_call)) || !image.contains(target_rva, 1)
+        || std::memcmp(image.base + call_rva, expected_call, sizeof(expected_call)) != 0)
+        return false;
+    if (!open_send_bunch_trace()) return false;
+
+    void* expected_target = image.base + target_rva;
+    original_send_raw_bunch = reinterpret_cast<SendRawBunch>(expected_target);
+    void* original = nullptr;
+    if (!send_bunch_hook.install(image.base + call_rva, expected_target,
+            reinterpret_cast<void*>(&observed_send_raw_bunch), &original,
+            hawken::client::diagnostics::CallArgumentMode::prepend_rdi)
+        || original != expected_target) {
+        original_send_raw_bunch = nullptr;
+        CloseHandle(send_bunch_trace_file);
+        send_bunch_trace_file = nullptr;
+        InterlockedExchange(&send_bunch_trace_enabled, 0);
+        return false;
+    }
+    return true;
+}
+
 __declspec(noinline) HINTERNET WINAPI identity_connect(HINTERNET session, LPCWSTR host,
     INTERNET_PORT port, DWORD reserved) noexcept {
     if (reinterpret_cast<std::uintptr_t>(_ReturnAddress()) != connect_return)
@@ -411,6 +633,14 @@ void initialize() {
     altered_command_line = buffer;
     real_create = create;
     install_identity_transport(config);
+#if !defined(HAWKEN_CLIENT_BRIDGE_HARNESS)
+    if (config.meteor_uri == "http://127.0.0.1") {
+        Image game_image{};
+        if (!image_of(GetModuleHandleW(nullptr), game_image)
+            || !install_local_send_bunch_trace(game_image))
+            OutputDebugStringA("HawkLink SendBunch trace was not installed; startup continues.\r\n");
+    }
+#endif
     // Interlocked publish occurs after all data; exports never read partial state.
     InterlockedExchange(&initialization, 2);
 #if defined(HAWKEN_NATIVE_HOST_RESEARCH)
@@ -484,6 +714,18 @@ extern "C" HRESULT WINAPI DirectInput8Create(HINSTANCE instance, DWORD version,
     }
     return real_create(instance, version, iid, result, outer);
 }
+
+#if defined(HAWKEN_CLIENT_BRIDGE_HARNESS)
+extern "C" __declspec(dllexport) BOOL WINAPI HawkLinkHarnessFormatBunchTrace(
+    void* channel, void* bunch, DWORD send_flags, char* output, DWORD capacity) noexcept {
+    SendBunchTraceRecord record{};
+    record.sequence = 1;
+    record.qpc = 2;
+    record.thread_id = 3;
+    return capture_send_bunch_fields(channel, bunch, send_flags, record)
+        && format_send_bunch_record(record, output, capacity) ? TRUE : FALSE;
+}
+#endif
 
 #if defined(HAWKEN_NATIVE_HOST_RESEARCH)
 // Read-only observation of our worker; never an entry point into game code.

@@ -576,7 +576,9 @@ if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
         endif()
         add_test(NAME client_steam_identity_transport COMMAND hawken-client-steam-identity-transport-tests)
     endif()
-    add_library(hawken-client-bridge SHARED src/client_bridge.cpp src/client_bridge.def)
+    add_library(hawken-client-bridge SHARED
+        src/client_bridge.cpp src/client_bridge.def src/win_callsite_hook.cpp)
+    target_include_directories(hawken-client-bridge PRIVATE include)
     target_link_libraries(hawken-client-bridge PRIVATE hawken_client_routing hawken_foundation hawken_client_steam_identity_transport)
     set_target_properties(hawken-client-bridge PROPERTIES
         OUTPUT_NAME dinput8
@@ -1290,7 +1292,9 @@ if(BUILD_TESTING)
     add_test(NAME client_routing COMMAND hawken-client-routing-tests)
 
     if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-        add_library(hawken-client-bridge-fixture SHARED src/client_bridge.cpp src/client_bridge.def)
+        add_library(hawken-client-bridge-fixture SHARED
+            src/client_bridge.cpp src/client_bridge.def src/win_callsite_hook.cpp)
+        target_include_directories(hawken-client-bridge-fixture PRIVATE include)
         target_compile_definitions(hawken-client-bridge-fixture PRIVATE HAWKEN_CLIENT_BRIDGE_HARNESS)
         target_link_libraries(hawken-client-bridge-fixture PRIVATE hawken_client_routing hawken_foundation hawken_client_steam_identity_transport)
         set_target_properties(hawken-client-bridge-fixture PROPERTIES
@@ -1301,10 +1305,23 @@ if(BUILD_TESTING)
         add_executable(hawken-client-bridge-harness tests/client_bridge_harness.cpp)
         target_link_libraries(hawken-client-bridge-harness PRIVATE dinput8 dxguid winhttp ws2_32)
         target_include_directories(hawken-client-bridge-harness SYSTEM PRIVATE third_party)
+        target_include_directories(hawken-client-bridge-harness PRIVATE include)
         target_compile_definitions(hawken-client-bridge-harness PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
         set_target_properties(hawken-client-bridge-harness PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/client-bridge-fixture")
         add_dependencies(hawken-client-bridge-harness hawken-client-bridge-fixture)
+        add_test(NAME client_bridge_send_bunch_trace
+            COMMAND hawken-client-bridge-harness --send-bunch-trace)
+        add_executable(hawken-win-callsite-hook-tests
+            tests/win_callsite_hook_tests.cpp src/win_callsite_hook.cpp)
+        target_include_directories(hawken-win-callsite-hook-tests PRIVATE include)
+        target_compile_definitions(hawken-win-callsite-hook-tests PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+        if(MSVC)
+            target_compile_options(hawken-win-callsite-hook-tests PRIVATE /W4 /WX /permissive- /utf-8)
+        else()
+            target_compile_options(hawken-win-callsite-hook-tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+        endif()
+        add_test(NAME win_callsite_hook COMMAND hawken-win-callsite-hook-tests)
         if(MSVC)
             target_compile_options(hawken-client-bridge-fixture PRIVATE /W4 /WX /permissive- /utf-8)
             target_compile_options(hawken-client-bridge-harness PRIVATE /W4 /WX /permissive- /utf-8)
