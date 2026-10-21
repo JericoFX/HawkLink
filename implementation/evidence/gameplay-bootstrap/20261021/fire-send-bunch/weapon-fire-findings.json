@@ -1,0 +1,163 @@
+{
+  "recordedUtc": "2026-10-21",
+  "scope": "Read-only local Hawken firing diagnosis; no game binary modified or executed during this analysis.",
+  "artifacts": {
+    "clientExe": {
+      "path": "F:/SteamLibrary/steamapps/common/Hawken/Binaries/Win64/HawkenGame-Win64-Shipping.exe",
+      "sha256": "4a861ecb4ac7add9554f8daf8f98ad2c12b9cb6c1865a83e8be808beb46ea8a2"
+    },
+    "hawkenGameUpk": {
+      "path": "F:/SteamLibrary/steamapps/common/Hawken/HawkenGame/CookedPCConsole/HawkenGame.upk",
+      "sha256": "d1a33a064de4451e5a39e13a28e4a8f2913ce6d9b54ca65bae47118d32849ed0"
+    }
+  },
+  "findings": [
+    {
+      "id": "udp-capture",
+      "status": "CONFIRMADO_OBSERVACION",
+      "file": "implementation/evidence/local-steam-routing-20261021-024001/fire-input-test.pcapng",
+      "sha256": "3f6b57f1828df52eca1877717d855becaf64f901eeabedbccd3f3b4f631b1c84",
+      "evidence": "Wireshark metadata: capture filter udp port 7777; 4,950 frames, 40.397 seconds. Field analysis found 1,650 client-to-server and 3,300 server-to-client datagrams. Across 129,491 client payload bytes after candidate offset 16, Shannon byte entropy was 7.999 bits/byte.",
+      "interpretation": "The captured body is opaque and consistent with encryption or compression; this measurement does not prove encryption and cannot identify a fire RPC.",
+      "limitation": "No per-click timestamps were preserved to correlate a particular shot with an individual datagram."
+    },
+    {
+      "id": "client-fire-counter",
+      "status": "CONFIRMADO_OBSERVACION",
+      "file": "C:/Users/Jerico/Documents/My Games/Hawken/HawkenGame/Logs/Launch.log",
+      "sha256": "00d9a842d90adf96427cd9632e831ec8fd918189bf1cd816fc6a3d00e86dba7d",
+      "evidence": "15 log entries say Client Extra Fire, Server fire count 0, Client fire count 1.",
+      "interpretation": "The client-side fire counter advanced while its observed ServerFireCount remained zero.",
+      "limitation": "This log does not establish whether ServerStartFire was emitted, transported, or accepted."
+    },
+    {
+      "id": "server-fire-observation",
+      "status": "CONFIRMADO_BUSQUEDA_ACOTADA",
+      "file": "implementation/evidence/local-steam-routing-20261021-024001/server.diagnostics.log",
+      "sha256": "5426214d24becfd4f6e0ed870f043cfb8230ef955cb5ef615dd805af19c81817",
+      "evidence": "A case-insensitive search for weapon_fire, fire_request, ServerStartFire, and last_weapon_fire_request returned zero matches in this diagnostic file.",
+      "interpretation": "That run did not record a weapon-fire request under the server's known diagnostic names.",
+      "limitation": "This is a bounded literal search over that run's log, not proof that no UDP packet carried a fire request."
+    },
+    {
+      "id": "upk-fire-and-owner-contract",
+      "status": "CONFIRMADO_ESTATICO",
+      "files": [
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047276-HawkenGame.R_Weap_DualWield.uc",
+          "sha256": "c0ae29b3053e64594b2ee460222dd6964149dcfed89f8ce0c00541a7699fb1ec",
+          "location": "SpawnHandWeapons, lines 114-137"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047346-HawkenGame.R_Weap_DualWield.ServerStartFire.uc",
+          "sha256": "313c8cdb26b6463457b658fa7a2a95924490ce4790078977a7c4414768c11f47"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047309-HawkenGame.R_Weap_DualWield.StartFire.uc",
+          "sha256": "98f342b7b4fbaa371c5e8ae7b9ac8a09469e1cdd9bb14ddd697987f0d8d34cf4"
+        }
+      ],
+      "evidence": "The UPK extraction shows Spawn(GetWeaponClass(WeapIdx), RPawn), StartFire delegates to Weapon.StartFire, and ServerStartFire is declared reliable server.",
+      "interpretation": "The intended weapon actor is owned by its RPawn, and fire uses a reliable server RPC.",
+      "limitation": "The extracted UnrealScript/native Weapon.StartFire body is not available in these text exports."
+    },
+    {
+      "id": "current-server-owner-chain-and-dual-role",
+      "status": "CONFIRMADO_CODIGO_MAS_PROBABLE_CAUSA",
+      "files": [
+        {
+          "path": "src/local_udp_owner.cpp",
+          "sha256": "ce2561a7a0913561ae524a5db530e7be3c949600b6705b5731a42df69bdae775",
+          "locations": "151-185, 187-218, 767-779"
+        },
+        {
+          "path": "src/wreckage_trial.cpp",
+          "sha256": "f41559c113bc8b696b6d52d2cf72ad3449646711c3fe681a9f1103a4e229db4b",
+          "locations": "117-139"
+        }
+      ],
+      "evidence": "The trial serializes the owning Pawn as bNetOwner with Owner=Controller; the Dual's initial Owner and Instigator reference the Pawn, and these reliable property bunches are sent on the Dual actor channel after opening acknowledgements. The trial leaves Dual.Role unset. The source comment records a previous Dual.Role=1/Pawn.Role=2 snapshot and says forcing Dual.Role=2 coincided with client Active.ShutdownWeapons recursion; causality was not isolated.",
+      "interpretation": "A completely absent Owner chain is not supported by current serialized server code. The unassigned Dual network role is a stronger hypothesis for the missing fire RPC, but it remains unverified at runtime.",
+      "limitation": "The historical role snapshot and recursion are cited from the existing source comment and were not independently reproduced in this pass."
+    },
+    {
+      "id": "ghidra-send-bunch-callgraph",
+      "status": "CONFIRMADO_METADATA_ESTÁTICO; SEMANTICA_PROBABLE",
+      "file": "implementation/evidence/complete-artifact-map-20261013/ghidra/main-functions.jsonl",
+      "sha256": "ce7c3ccab87f63a9ac3dc60970d1a4b8713b6711624af343d07e73f657f329d1",
+      "evidence": "For the client EXE SHA-256 above and image base 0x140000000, Ghidra metadata records FUN_1409f2840 (RVA 0x9f2840; body 0x1409f2840-0x1409f2caf) calling FUN_1409f3410 (RVA 0x9f3410).",
+      "interpretation": "These remain candidate UChannel::SendBunch and UNetConnection::SendRawBunch functions for a local observation hook; the caller is the higher-value first observation point if its semantic identification is confirmed.",
+      "limitation": "The retained Ghidra export covers 131,954 known functions and 241,766 call edges but explicitly contains function metadata, not exhaustive machine-code recovery or decompilation. A fresh focused export did not run: java.exe was absent from PATH, JAVA_HOME, JavaSoft registry keys, and the common install roots checked. The function names remain probable, not recovered symbols."
+    },
+    {
+      "id": "upk-dual-wield-fire-control-path",
+      "status": "CONFIRMADO_ESTATICO",
+      "files": [
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047276-HawkenGame.R_Weap_DualWield.uc",
+          "sha256": "c0ae29b3053e64594b2ee460222dd6964149dcfed89f8ce0c00541a7699fb1ec",
+          "locations": "StartFire lines 151-153; ServerStartFire lines 370-395; ChangeCanFire and weapon shutdown/restart RPCs lines 441-485"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047360-HawkenGame.R_Weap_DualWield.ShutdownWeapons.uc",
+          "sha256": "2647c0dbac6dd50b76edd42309873ea1ae84fee459ca1f1dc60e4531d8443186"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047362-HawkenGame.R_Weap_DualWield.ServerShutdownWeapons.uc",
+          "sha256": "a024b63491f7c0a16b2559e719a35da78c49b957c1260c3b0536ebd3b20624ba"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047363-HawkenGame.R_Weap_DualWield.ServerRestartWeapons.uc",
+          "sha256": "082192f9561eb0d7bd840cdac8da1bc376c376c09492c3012f368952585534fc"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047405-HawkenGame.R_Weap_DualWield.Active.ShutdownWeapons.uc",
+          "sha256": "3c5ca4c9b20a951b1fd3b8e130971f991f5c079f12b3e9143d53ca93db0aae9b"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/047407-HawkenGame.R_Weap_DualWield.Active.RestartWeapons.uc",
+          "sha256": "108a5e3cf805395429d3587c13c5a60622aa3700d52bec457a06bbbb170e65de"
+        }
+      ],
+      "evidence": "The exported StartFire delegates to Weapon.StartFire and ServerStartFire is a reliable server RPC. ServerStartFire conditionally wraps Weapon.ServerStartFire with ChangeCanFire calls. ShutdownWeapons routes through the Active state, which globally shuts down weapons, sets bShutdown, and calls DoEndFire for each hand. ServerShutdownWeapons sets bClientShutdown and invokes native UpdateCanFire; ServerRestartWeapons clears bClientShutdown and invokes the same native function.",
+      "interpretation": "The firing request and weapon-control transitions depend on client/server role and RPC ordering. The earlier Role=2 recursion is consistent with this control path being activated, but this static evidence does not establish its runtime cause.",
+      "limitation": "UpdateCanFire is native and its body is not in these UnrealScript exports. No outgoing client bunch has yet been observed before transport encoding."
+    },
+    {
+      "id": "client-bridge-hook-surface",
+      "status": "CONFIRMADO_ESTATICO",
+      "file": "src/client_bridge.cpp",
+      "sha256": "6a9d8dac6a7a711349d1f1c9cb0db7b178d02ba552d6ac25b59e8454a1066b4f",
+      "locations": "import_slot line 88; replace_http_slot lines 308-315; install_identity_transport lines 317-372; hooked_command_line lines 430-442; attach lines 444-476",
+      "evidence": "The existing bridge redirects PE import slots for GetCommandLineW and selected WinHTTP functions. It does not contain an internal x64 function detour/trampoline for the candidate UE3 networking functions.",
+      "interpretation": "The Gemini-recommended SendBunch observation needs a new internal-hook mechanism in the existing DLL bridge; the current IAT hook code is not that mechanism.",
+      "limitation": "Static source inspection only; no new dependency or hook implementation was added pending explicit user authorization."
+    },
+    {
+      "id": "fire-rpc-schema-client-verification",
+      "status": "CONFIRMADO_CODIGO; RPC_FIELD_IDS_NO_VERIFICADOS_EN_CLIENTE",
+      "files": [
+        {
+          "path": "src/wreckage_trial.cpp",
+          "sha256": "f41559c113bc8b696b6d52d2cf72ad3449646711c3fe681a9f1103a4e229db4b",
+          "location": "configure_wreckage_trial, line 148"
+        },
+        {
+          "path": "tools/wreckage_trial_probe.cpp",
+          "sha256": "0467bbcd52b21c761ba9b3f2d62a71692fec003c3011762aad777ae57108998",
+          "location": "fire-dispatch profile assertion, lines 179-186"
+        },
+        {
+          "path": "research/2026-10-10/evidence/upk/packages/HawkenGame/manifest.json",
+          "sha256": "3db61ae49086526d8f5b881d5da7d89feb7aa4502a9217d91da0b5647b45fb00",
+          "location": "HawkenGame.R_Weap_DualWield.ServerStartFire manifest record"
+        }
+      ],
+      "evidence": "The trial config hard-codes exclusive_bound=35, start/stop IDs 26/27, extended-stop ID 32, shutdown/restart IDs 33/34. Its probe asserts that the same constants are present. No captured client bunch or live RPC observation is used by that assertion. The static UPK manifest separately lists ServerStartFire as UFunction object_ordinal 47346 with NetIndex 43632; it does not establish a mapping from that manifest field to the trial's class-cache field_id 26.",
+      "interpretation": "This proves the server trial and probe agree with each other, but it does not prove that the Steam client serializes those IDs for R_Weap_DualWield. The candidate field map remains an independent possible reason for the missing server fire count.",
+      "limitation": "No current outgoing UE3 bunch has been observed. The extracted UPK proves RPC names and reliability, not their runtime per-class cache-field ordinals or the mapping from manifest NetIndex to the trial field IDs."
+    }
+  ],
+  "next_diagnostic": "Observe outgoing UChannel::SendBunch/UNetConnection::SendRawBunch from the existing local client DLL, recording only channel, reliability/open flags, and bounded bunch data; correlate with one fire input. This distinguishes client role/ownership suppression from a server channel or parser mismatch.",
+  "authorization_blocker": "Adding MinHook is pending explicit user approval because project AGENTS.md forbids unapproved dependencies. No DLL source change or dependency has been added."
+}
